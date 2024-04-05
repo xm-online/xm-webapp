@@ -16,13 +16,13 @@ import { getBrowserOtp } from '@xm-ngx/operators';
     template: `
         @for (i of config.mask.split(''); track $index) {
             <input
+                [type]="config?.type || 'number'"
+                autocomplete="one-time-code"
                 #letter
                 maxlength="1"
-                autocomplete="one-time-code"
-                [type]="config?.type||'number'"
                 (input)="inputOTP($event.data,letter)"
                 (paste)="onPaste($event, letter)"
-                (keyup)="onKeyUp($event, letter)" />
+                (keyup)="onKeyUp($event, letter)"/>
         }
     `,
     styles: [`
@@ -68,7 +68,15 @@ export class LettersControl implements AfterViewInit {
     @ViewChildren('letter') public components: QueryList<ElementRef<HTMLInputElement>>;
 
     public ngAfterViewInit(): void {
-        this.listenForOtp();
+        getBrowserOtp()
+            .then((otp) => {
+                if (otp?.code) {
+                    this.fillByValues(otp.code, 0);
+                }
+            })
+            .catch((err) => {
+                console.warn(err);
+            });
     }
 
     public inputOTP(data: string, letter: HTMLInputElement): void {
@@ -85,19 +93,6 @@ export class LettersControl implements AfterViewInit {
                 this.fillByValues(testcomp[0].nativeElement.value, 0);
             }
         }, 100);
-    }
-
-    private listenForOtp(): void {
-        getBrowserOtp()
-            .then((otp) => {
-                if (otp?.code) {
-                    this.fillByValues(otp.code, 0);
-                }
-            })
-            .catch((err) => {
-                console.warn(err);
-                return;
-            });
     }
 
     public onKeyUp(e: KeyboardEvent, letter: HTMLInputElement): void {
