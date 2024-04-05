@@ -93,8 +93,10 @@ export class ErrorComponent implements OnInit {
     private handleDynamicErrorComponent(errorConfig: PublicUiErrorConfig) {
         if (errorConfig?.title) {
             const title = this.xmTranslateService.translate(errorConfig.title);
-            this.titleService.set(title);
-            this.route.snapshot.data.pageTitle = title;
+            if (title) {
+                this.titleService.set(title);
+                this.route.snapshot.data.pageTitle = title;
+            }
         }
         if (errorConfig?.componentSelector) {
             this.dynamicErrorComponent = errorConfig.componentSelector;
