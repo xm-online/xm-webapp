@@ -202,8 +202,12 @@ export class LettersControl extends NgModelWrapper<string> implements OnInit, On
         return Math.min(Math.max(index, 0), this.inputs.length);
     }
 
-    private inputSync(text: string): void {
-        this.boxes.patchValue(Array.from(text), { emitEvent: true });
+    private toArray(text?: string): string[] {
+        return Array.from(text ?? '');
+    }
+
+    private inputSync(value?: string): void {
+        this.boxes.patchValue(this.toArray(value), { emitEvent: true });
     }
 
     public ngOnInit(): void {
@@ -257,8 +261,8 @@ export class LettersControl extends NgModelWrapper<string> implements OnInit, On
         return this.boxes.errors;
     }
 
-    public writeValue(value: string): void {
-        this.boxes.patchValue(Array.from(value), { emitEvent: false });
+    public writeValue(value?: string): void {
+        this.boxes.patchValue(this.toArray(value), { emitEvent: false });
     }
 
     public setDisabledState(isDisabled: boolean): void {
