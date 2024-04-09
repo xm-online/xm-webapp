@@ -11,6 +11,7 @@ import { XmDatePipe } from '@xm-ngx/translation';
 
 export interface XmDateRangeConfig extends XmDateConfig {
     separator: string;
+    splitSeparator?: string;
 }
 
 export type XmDateRangeValue = { from: XmDateValue, to: XmDateValue };
@@ -18,6 +19,7 @@ export type XmDateRangeValue = { from: XmDateValue, to: XmDateValue };
 export const XM_DATE_RANGE_CONFIG_DEFAULT: XmDateRangeConfig = {
     ...XM_DATE_CONFIG_DEFAULT,
     separator: '-',
+    splitSeparator: 'TO'
 };
 
 @Component({
@@ -42,7 +44,7 @@ export class XmDateRangeComponent implements XmDynamicPresentation<XmDateRangeVa
             return;
         }
         const str = String(value)?.replace(/\[|\]/g, '');
-        const [from, to] = str?.split('TO');
+        const [from, to] = str?.split(this.config.splitSeparator);
         this.date = {
             from,
             to

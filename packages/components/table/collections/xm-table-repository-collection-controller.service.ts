@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash';
 import { XmTableRepositoryResolver, } from '../repositories/xm-table-repository-resolver.service';
 import { NotSupportedException } from '@xm-ngx/exceptions';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
-import { finalize, take, tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 import { XmDynamicInstanceService, XmDynamicService, XmDynamicWithSelector } from '@xm-ngx/dynamic';
@@ -126,11 +126,9 @@ export class XmTableRepositoryCollectionController<T = unknown>
         params?: QueryParams,
         headers?: HttpHeaders
     ): Observable<T> {
-        this.changePartial({loading: true});
         return this.repository.update(payload, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
-                finalize(() => this.changePartial({loading: false}))
             );
     }
 
@@ -139,11 +137,9 @@ export class XmTableRepositoryCollectionController<T = unknown>
         params?: QueryParams,
         headers?: HttpHeaders
     ): Observable<T> {
-        this.changePartial({loading: true});
         return this.repository.create(payload, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
-                finalize(() => this.changePartial({loading: false}))
             );
     }
 
@@ -152,11 +148,9 @@ export class XmTableRepositoryCollectionController<T = unknown>
         params?: QueryParams,
         headers?: HttpHeaders
     ): Observable<T> {
-        this.changePartial({loading: true});
         return this.repository.delete(id, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
-                finalize(() => this.changePartial({loading: false}))
             );
     }
 
@@ -165,11 +159,9 @@ export class XmTableRepositoryCollectionController<T = unknown>
         params?: QueryParams,
         headers?: HttpHeaders
     ): Observable<T> {
-        this.changePartial({loading: true});
         return this.repository.patch(payload, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
-                finalize(() => this.changePartial({loading: false}))
             );
     }
 }
