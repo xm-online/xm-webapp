@@ -11,6 +11,7 @@ export interface XmEnumViewOptions extends XmEnumOptions {
     style?: 'inline';
     labelStyleInline?: string;
     valueStyleInline?: string;
+    clearButton?: boolean;
 }
 
 @Component({
