@@ -12,6 +12,7 @@ export class HelpCommand implements Command {
         { name: 'ext-themes', message: 'Builds extension themes.' },
         { name: 'ext-routing', message: 'Combines extension routing.ts in the routing.ts.' },
         { name: 'ext-theming', message: 'Combines extension theming.scss in the theming.scss.' },
+        { name: 'ext-config', message: 'Merge "xm.config.json" files into one file.' },
         { name: 'help', message: 'Lists available commands and their short descriptions.' },
     ];
 
