@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "6.0.90",
+  "version": "6.0.91",
   "release": "6.0.0",
   "private": true,
   "description": "Xm-webapp",
@@ -25,7 +25,7 @@
     "xm-ngx": "xm-ngx",
     "postinstall": "npm run build:packages",
     "build:packages": "node ./scripts/build-packages_copy-dist-package.js && npm install --ignore-scripts && node ./scripts/build-packages.js && npm i --ignore-scripts",
-    "prebuild": "xm-ngx ext-lazy-module && xm-ngx ext-assets && xm-ngx ext-i18n && xm-ngx ext-theming && xm-ngx ext-themes && xm-ngx dynamic-specification && npm run import-jsf-exts",
+    "prebuild": "xm-ngx ext-lazy-module && xm-ngx ext-assets && xm-ngx ext-i18n && xm-ngx ext-theming && xm-ngx ext-themes && xm-ngx dynamic-specification && npm run import-jsf-exts && xm-ngx ext-config",
     "start": "npm run prebuild && ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0",
     "start:minimal": "ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0",
     "start:prod": "npm run prebuild && ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0 --configuration serve-production",

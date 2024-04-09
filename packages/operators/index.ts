@@ -1,4 +1,5 @@
 export * from './src/clipboard-helper';
+export * from './src/otp-helper';
 export * from './src/custom-uri-encoder';
 export { Defaults, defaults } from './src/defaults';
 export { download } from './src/download';
