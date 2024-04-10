@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
+import { MatButtonModule } from '@angular/material/button';
 
 export interface XmMultipleEnumControlOptions extends XmEnumViewOptions, DataQa {
     id?: string;
@@ -53,6 +54,12 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
                         )
                         </span>
                 </mat-select-trigger>
+                <div class="empty-option" *ngIf="config?.clearButton" [hidden]="!control.value" (click)="deselect()">
+                    <mat-icon>close</mat-icon>
+                    <div>
+                        {{'ext-entity.common.cancel' | translate}}
+                    </div>
+                </div>
 
                 <ng-template ngFor [ngForOf]="itemsList" let-item>
                     <mat-option [value]="item.value" *xmPermission="item.permissions || []">
@@ -67,6 +74,17 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
+    styles: [`
+        .empty-option {
+            cursor: pointer;
+            padding: 9px 13px;
+            align-items: center;
+            display: flex;
+        }
+        .empty-option:hover {
+            background: rgba(0, 0, 0, 0.04);
+        }
+    `],
     imports: [
         XmTranslationModule,
         MatFormFieldModule,
@@ -78,6 +96,7 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
         ReactiveFormsModule,
         XmPermissionModule,
         HintModule,
+        MatButtonModule,
     ],
     standalone: true,
     encapsulation: ViewEncapsulation.None,
@@ -122,5 +141,9 @@ export class XmMultipleEnumControl
         if (res.value?.length === 0) {
             this.control.patchValue(null);
         }
+    }
+
+    public deselect(): void {
+        this.control.patchValue(null);
     }
 }
