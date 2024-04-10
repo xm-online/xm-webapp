@@ -52,8 +52,8 @@ export class XmTableRepositoryCollectionController<T = unknown>
         super();
     }
 
-    private getRepositoryController(): IEntityCollectionPageable<T, PageableAndSortable> {
-        return this.xmDynamicInstanceService.getControllerByKey(
+    private get repositoryController(): IEntityCollectionPageable<T, PageableAndSortable> {
+        return this.repository || this.xmDynamicInstanceService.getControllerByKey(
             'repository',
             this.injector
         );
@@ -64,7 +64,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
             request.pageableAndSortable = PAGEABLE_AND_SORTABLE_DEFAULT;
         }
 
-        this.repository = this.getRepositoryController() || await this.repositoryResolver.get(this.config.repository);
+        this.repository = this.repositoryController || await this.repositoryResolver.get(this.config.repository);
 
         this.changePartial({loading: true, pageableAndSortable: request.pageableAndSortable});
 
@@ -126,6 +126,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
         params?: QueryParams,
         headers?: HttpHeaders
     ): Observable<T> {
+        this.repository = this.repositoryController;
         return this.repository.update(payload, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
@@ -137,6 +138,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
         params?: QueryParams,
         headers?: HttpHeaders
     ): Observable<T> {
+        this.repository = this.repositoryController;
         return this.repository.create(payload, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
@@ -148,6 +150,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
         params?: QueryParams,
         headers?: HttpHeaders
     ): Observable<T> {
+        this.repository = this.repositoryController;
         return this.repository.delete(id, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
@@ -159,6 +162,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
         params?: QueryParams,
         headers?: HttpHeaders
     ): Observable<T> {
+        this.repository = this.repositoryController;
         return this.repository.patch(payload, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
