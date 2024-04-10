@@ -23,6 +23,7 @@ export class MenuService {
     public initialSidenavOpenedState: boolean;
     public isCategoriesHidden$: Observable<boolean>;
     public mobileMenuPositioning: MenuPositionEnum;
+    public categories: Record<string, MenuCategory>;
 
     constructor(
         private breakpointObserver: BreakpointObserver,
@@ -147,13 +148,12 @@ export class MenuService {
     public mapMenuCategories(menu: MenuItem[]): MenuItem[] {
         return menu.map((menuItem: MenuItem) => {
             const { children, url } = menuItem || {};
-            if (!menuItem.category) {
-                menuItem.category = this.otherCategory;
-            }
+            const category: MenuCategory = menuItem.category || (menuItem.categoryKey ?
+                JSON.parse(JSON.stringify(this.categories[(menuItem.categoryKey)])) : this.otherCategory) as MenuCategory;
             menuItem.category = {
-                ...menuItem.category,
+                ...category,
                 hasChildren: !!children?.length,
-                url: menuItem.category?.isLinkWithoutSubcategories ? url : null,
+                url: category?.isLinkWithoutSubcategories ? url : null,
             };
             return menuItem;
         });
