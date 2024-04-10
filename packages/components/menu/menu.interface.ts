@@ -19,6 +19,10 @@ export interface MenuOptions {
      * Applicable only for M3 menu configuration
      */
     logo: BrandLogo;
+    /**
+     * Detailed information about categories that will be shown in menu
+     */
+    categories: Record<string, MenuCategory>;
 }
 
 export interface MenuItem extends DataQa {
@@ -35,6 +39,10 @@ export interface MenuItem extends DataQa {
     icon: string;
     title: Translate;
     parent: MenuItem,
+    /**
+     * The object key of MenuOptions categories
+     */
+    categoryKey?: string;
     category?: MenuCategory;
     /**
      * @deprecated
