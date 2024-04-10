@@ -3,28 +3,51 @@ import {
     Component,
     ElementRef,
     EventEmitter,
+    HostListener,
     Input,
+    OnDestroy,
+    OnInit,
     Output,
     QueryList,
-    ViewChildren
+    ViewChildren,
+    forwardRef,
 } from '@angular/core';
-import { NgForOf } from '@angular/common';
+import { FormArray, ReactiveFormsModule, NG_VALUE_ACCESSOR, FormControl, Validators, NG_VALIDATORS, Validator, ValidationErrors } from '@angular/forms';
+import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
+import { getBrowserOtp, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { tap } from 'rxjs';
 
 @Component({
     selector: 'xm-letters-control',
     standalone: true,
     template: `
-            <input *ngFor="let i of config.mask.split('')"
-                   [type]="config?.type||'number'"
-                   autocomplete="one-time-code"
-                   #letter
-                   maxlength="1"
-                   (input)="inputOTP($event.data,letter)"
-                   (paste)="onPaste($event, letter)"
-                   (keyup)="onKeyUp($event, letter)"/>
+        <div [formGroup]="boxes">
+            @for (box of boxes.controls; track $index) {
+                <input
+                    #letter
+                    maxlength="1"
+                    autocomplete="one-time-code"
+                    [type]="config?.type || 'number'"
+                    [formControlName]="$index"
+                    (keyup)="handleKeyboardEvent($event, $index)"
+                    (input)="handleInputEvent($event, $index)" />
+            }
+        </div>
     `,
     imports: [
-        NgForOf,
+        ReactiveFormsModule,
+    ],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => LettersControl),
+            multi: true,
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => LettersControl),
+            multi: true,
+        },
     ],
     styles: [`
         :host {
@@ -63,119 +86,192 @@ import { NgForOf } from '@angular/common';
         }
     `],
 })
-export class LettersControl implements AfterViewInit {
+export class LettersControl extends NgModelWrapper<string> implements OnInit, OnDestroy, AfterViewInit, Validator {
     @Input() public config: { mask: string, type?: string };
+
     @Output() public submitEvent: EventEmitter<string> = new EventEmitter<string>();
+
     @ViewChildren('letter') public components: QueryList<ElementRef<HTMLInputElement>>;
 
-    public ngAfterViewInit(): void {
-        this.listenForOtp();
+    private mask: string[] = [];
 
-    }
+    public boxes: FormArray<FormControl<string>>;
 
-    public inputOTP(data: string, letter: HTMLInputElement): void {
-        const length = this.config.mask.split('').length;
-        if (data?.length && data.length === length) {
-            this.fillInputs(data, letter);
-        }
-        setTimeout(() => {
-            const components = this.components.toArray();
-            const testcomp = components.filter((comp) => {
-                return comp.nativeElement.value.length === length;
-            });
-            if (testcomp.length) {
-                this.fillByValues(testcomp[0].nativeElement.value, 0);
-            }
-        }, 100);
-    }
+    private inputs: HTMLInputElement[];
+    private indexies: Map<number, HTMLInputElement>;
 
-    private listenForOtp(): void {
-        if ('OTPCredential' in window) {
-            window.addEventListener('DOMContentLoaded', (e) => {
-                const ac = new AbortController();
-                const reqObj = {
-                    otp: {transport: ['sms']},
-                    signal: ac.signal,
-                };
-                navigator.credentials
-                    .get(reqObj)
-                    .then((otp: any) => {
-                        if (otp) {
-                            if (otp && otp.code) {
-                                this.fillByValues(otp.code, 0);
-                            }
-                        }
-                    })
-                    .catch((err) => {
-                        console.info('Web OTP API not supported, Please enter manually.');
-                        return;
-                    });
-            });
-        } else {
-            console.info('Web OTP API not supported, Please enter manually.');
-        }
-    }
-
-
-    public onKeyUp(e: KeyboardEvent, letter: HTMLInputElement): void {
-        const components = this.components.toArray();
-        const ix = components.findIndex((i) => i.nativeElement === letter);
-        const isNumber = /^[0-9]$/i.test(e.key);
-        if (isNumber) {
-            letter.value = e.key;
-        }
-        if (ix + 1 >= components.length) {
-            if (e.key === 'Backspace' && letter.value === '') {
-                components[ix - 1]?.nativeElement.select();
-                return;
-            }
-            const value = components.reduce((r, i) => r + i.nativeElement.value, '');
-            this.submitEvent.next(value);
-            return;
-        }
-        if (e.key === 'Backspace' || e.key === 'ArrowLeft') {
-            if (ix === 0) {
-                return;
-            }
-            components[ix - 1].nativeElement.select();
-            return;
-        }
-
-        if ((e.key >= '0' && e.key <= '9') || (e.key >= 'a' && e.key <= 'z') || e.key === 'ArrowRight') {
-            components[ix + 1].nativeElement.select();
-        }
-    }
-
-    public onPaste(e: ClipboardEvent, letter: HTMLInputElement): void {
+    @HostListener('paste', ['$event']) public handlePasteEvent(e: ClipboardEvent): void {
         e.preventDefault();
-        this.fillInputs(e.clipboardData.getData('text'), letter);
-    }
 
-    private fillInputs(data: string, letter: HTMLInputElement): void {
-        const components = this.components.toArray();
-        const startIndex = components.findIndex((i) => i.nativeElement === letter);
-        this.fillByValues(data, startIndex);
-    }
-
-    public fillByValues(data: string, startIndex: number): void {
-        const components = this.components.toArray();
-        Array.from(data).forEach((char, index) => {
-            const component = components[startIndex + index];
-            if (component && /^[0-9]$/.test(char)) {
-                component.nativeElement.value = char;
-            }
-        });
-
-        if (startIndex + data.length >= components.length) {
-            const value = components.reduce((r, i) => r + i.nativeElement.value, '');
-            this.submitEvent.next(value);
+        if (!e.clipboardData) {
             return;
         }
 
-        components[startIndex + data.length]?.nativeElement.select();
+        const text = e.clipboardData.getData('text');
+
+        this.inputSync(text);
+    }
+
+    public handleBackspaceEvent(value: string, index: number): void {
+        if (value !== '') {
+            return;
+        }
+
+        this.focusPrev(index);
+    }
+
+    public handleKeyboardEvent(e: KeyboardEvent, index: number): void {
+        switch (e.key) {
+            case 'Backspace':
+                this.handleBackspaceEvent((e.currentTarget as HTMLInputElement).value, index);
+                break;
+            case 'ArrowLeft':
+                this.focusPrev(index);
+                break;
+            case 'ArrowRight':
+                this.focusNext(index);
+                break;
+        }
+    }
+
+    public handleInputEvent(e: InputEvent, index: number): void {
+        // Skip backspace input events, because we already handle it
+        if (e.inputType === 'deleteContentBackward') {
+            return;
+        }
+
+        const element = (e.target as HTMLInputElement);
+        const value = element.value;
+
+        // Some browsers like firefox, safari allow to pass chars despine input type, so erase invalid chars
+        if (!/^[0-9]$/.test(value)) {
+            this.boxes.at(index).setValue('');
+            return;
+        }
+
+        if (value.length === this.mask.length) {
+            this.inputSync(value);
+        } else {
+            this.focusNext(index);
+        }
+    }
+
+    public focusPrev(index?: number): void {
+        if (index == null) {
+            return;
+        }
+
+        const [prevElement] = this.getSurroundInputs(index);
+
+        if (!prevElement) {
+            return;
+        }
+
+        prevElement.select();
+    }
+
+    public focusNext(index?: number): void {
+        if (index == null) {
+            return;
+        }
+
+        const [,currElement, nextElement] = this.getSurroundInputs(index);
+
+        if (!nextElement) {
+            // Auto select last input box to prevent type multiple chars in input
+            currElement.select();
+            return;
+        }
+
+        nextElement.select();
+    }
+
+    public getSurroundInputs(index?: number): [HTMLInputElement?, HTMLInputElement?, HTMLInputElement?] {
+        if (index == null) {
+            return [];
+        }
+
+        return [
+            this.indexies.get(this.clampIndex(index - 1)),
+            this.indexies.get(this.clampIndex(index)),
+            this.indexies.get(this.clampIndex(index + 1)),
+        ];
+    }
+
+    private clampIndex(index: number): number {
+        return Math.min(Math.max(index, 0), this.inputs.length);
+    }
+
+    private toArray(text?: string): string[] {
+        return Array.from(text ?? '');
+    }
+
+    private inputSync(value?: string): void {
+        this.boxes.patchValue(this.toArray(value), { emitEvent: true });
+    }
+
+    public ngOnInit(): void {
+        this.mask = Array.from(this.config.mask ?? '').map(() => '');
+        this.boxes = new FormArray(
+            this.mask.map(() => new FormControl('')),
+            [
+                Validators.required,
+                Validators.minLength(this.mask.length),
+            ],
+        );
+
+        this.boxes.valueChanges
+            .pipe(
+                tap((boxes: string[]) => {
+                    const value = boxes.join('');
+
+                    // Sync with parent control
+                    super.change(value);
+                    super.touch(value);
+
+                    if (this.boxes.valid) {
+                        // Compatibility
+                        this.submitEvent.emit(value);
+                    }
+                }),
+                takeUntilOnDestroy(this),
+            ).subscribe();
+    }
+
+    public ngAfterViewInit(): void {
+        this.inputs = this.components.toArray().map(value => value.nativeElement);
+        this.indexies = new Map(this.inputs.map((value, index) => [index, value]));
+
+        getBrowserOtp()
+            .then((otp) => {
+                if (otp?.code) {
+                    this.inputSync(otp.code);
+                }
+            })
+            .catch((err) => {
+                console.warn(err);
+            });
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
+
+    public validate(): ValidationErrors {
+        return this.boxes.errors;
+    }
+
+    public writeValue(value?: string): void {
+        this.boxes.patchValue(this.toArray(value), { emitEvent: false });
+    }
+
+    public setDisabledState(isDisabled: boolean): void {
+        isDisabled
+            ? this.boxes.disable({ emitEvent: false })
+            : this.boxes.enable({ emitEvent: false });
     }
 
     public clear(): void {
-        this.components.forEach(c => c.nativeElement.value = '');
+        this.boxes.reset(this.mask);
     }
 }
