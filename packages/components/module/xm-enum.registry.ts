@@ -25,6 +25,10 @@ export const XM_ENUM_ELEMENTS: XmDynamicEntry[] = [
         loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControl),
     },
     {
+        selector: 'enum-from-service-control',
+        loadChildren: () => import('@xm-ngx/components/enum').then(m => m.EnumFromServiceControlComponent),
+    },
+    {
         /** @deprecated use `@xm-ngx/components/enum-control` instead */
         selector: 'xm-enum-control',
         loadChildren: () => import('@xm-ngx/components/enum').then(m => m.XmEnumControl),
