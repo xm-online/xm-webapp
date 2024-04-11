@@ -9,7 +9,7 @@ import { XmSidebarPresentationType } from './stores/xm-sidebar.state';
 
 interface SidebarConfig {
     user: unknown;
-    layout: XmDynamicLayout[]
+    layout: XmDynamicLayout[];
 }
 
 export const XM_SIDEBAR_PRESENTATION_STATE_CLASSES = {
