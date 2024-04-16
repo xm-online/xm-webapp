@@ -65,6 +65,9 @@
       ],
       "@angular/*": [
         "node_modules/@angular/*"
+      ],
+      "@xm-ngx/*": [
+        "packages/*"
       ]
     },
     "inlineSources": true,

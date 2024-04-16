@@ -65,7 +65,7 @@
            matSort>
 
       <ng-container matColumnDef="id">
-        <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'global.field.id' | translate}}</th>
+        <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header>{{'userManagement.id' | translate}}</th>
         <td *matCellDef="let user" mat-cell>
           <a [routerLink]="['/administration/user-management', user.userKey]">{{user.id}}</a>
         </td>

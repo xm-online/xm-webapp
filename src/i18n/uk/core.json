@@ -17,7 +17,7 @@
             "fields": {
                 "config": "Конфігурація",
                 "id": "ID",
-                "layout": "Розкладка",
+                "layout": "Розмітка",
                 "name": "Назва",
                 "owner": "Власник",
                 "selector": "Селектор",
@@ -147,31 +147,32 @@
     "clientManagement": {
         "client": {
             "already": {
-                "exists": "Клієнт з цим ID вже існує"
+                "exists": "Клієнт з цим ID вже існує!"
             }
         },
-        "clientId": "Ідентифікатор кліента",
-        "clientSecret": "Пароль кліента",
+        "id": "ID",
+        "clientId": "ID клієнта",
+        "clientSecret": "Пароль клієнта",
         "createdBy": "Створено",
         "createdDate": "Дата створення",
         "delete": {
-            "question": "Ви впевнені, що хочете видалити користувача {{id}}?"
+            "question": "Ви впевнені, що хочете видалити додаток/клієнт з ідентифікатором {{id}}?"
         },
         "description": "Опис",
         "detail": {
-            "title": "Кліент"
+            "title": "Додаток/Клієнт"
         },
         "home": {
-            "createOrEditLabel": "Створіть або відредагуйте користувача",
-            "title": "Кліенти"
+            "createOrEditLabel": "Створіть або відредагуйте дані автентифікації додатку/клієнта",
+            "title": "Додатки/Клієнти"
         },
         "lastModifiedBy": "Змінено",
         "lastModifiedDate": "Дата зміни",
         "role": "Роль",
         "roleKey": "Роль",
         "roles": "Ролі",
-        "scopes-add": "Додати обсяги",
-        "search-by-client-id": "Пошук за ID клієнта",
+        "scopes-add": "Дозволи(scopes)",
+        "search-by-client-id": "Пошук за ID додатку/клієнта",
         "validityPeriod": "Термін дії"
     },
     "commons": {
@@ -183,17 +184,20 @@
         "close": "Закрити",
         "config": "Конфігурація",
         "copy": "Копія",
+        "copy-clipboard": "Копіювати в буфер обміну",
         "create": "Створити",
         "create-dashboard": "Створити панель",
         "created": "Створено {{value}}",
-        "dashboard": "Приладова панель",
-        "dashboards": "Приладові панелі",
+        "dashboard": "Інформаційна панель",
+        "dashboards": "Інформаційні панелі",
         "delete": "Видалити {{value}}",
         "deleted": "Видалено {{value}}",
         "duplicate": "Дублювати",
+        "paste": "Вставити з буферу обміну",
+        "back": "Повернутися",
         "edit-dashboard": "Редагувати панель",
         "edit-widget": "Редагувати віджет",
-        "empty": "Пусто",
+        "empty": "Порожньо",
         "export": "Експорт",
         "feedback": {
             "error": "Помилки при надсиланні відгуку. Спробуйте пізніше",
@@ -201,11 +205,15 @@
             "tooltip": "Надіслати відгук"
         },
         "filter": "Фільтр",
-        "id": "Ід",
+        "id": "ID",
+        "info": "Відомості",
+        "editor": "Редактор",
+        "samples":  "Зразки",
         "import": "Імпорт",
-        "delete-existing-dashboards": "Видалити існуючі дашборди?",
+        "delete-existing-dashboards": "Видалити існуючі панелі?",
         "layout": "Розмітка",
-        "name": "Ім'я",
+        "hidden": "Прихований",
+        "name": "Назва",
         "owner": "Автор",
         "project": "Проект",
         "save": "Зберегти",
@@ -218,9 +226,9 @@
         "change-history": "Історія змін",
         "type": "Тип",
         "changed-type": "Зміни в",
-        "no-active": "Відстуня активна подія історії.",
+        "no-active": "Відстуня активна подія історії",
         "change-lists": "Перелік змін",
-        "empty-history": "Відстуні записи в історії.",
+        "empty-history": "Відстуні записи в історії",
         "show-more": "Показати більше"
     },
     "date-time-picker": {
@@ -246,7 +254,7 @@
         "search": "Пошук",
         "validation": {
             "maxlength": "Це поле не може перевищувати {{max}} символів.",
-            "required": "Це поле є обов'язковим."
+            "required": "Це поле є обов'язковим!"
         }
     },
     "error": {
@@ -267,23 +275,23 @@
         "invalid_client": "Недійсний клієнт",
         "invalid_grant": "Недійсний грант",
         "invalid_request": "Невірний запит",
-        "invalid_scope": "Неправильний обсяг",
+        "invalid_scope": "Невірний дозвіл",
         "invalid_token": "Неприпустимий маркер",
         "notfound": "Ресурс не знайдено",
-        "privilegeInsufficient": "Недостаточно привилегений '{{ name }}'!",
-        "privilegeOperationWrong": "Operation not supported '{{ name }}'!",
-        "redirect_uri_mismatch": "Переспрямовувати uri невідповідність",
+        "privilegeInsufficient": "Недостатньо привилеїв '{{ name }}'!",
+        "privilegeOperationWrong": "Операція не підтримується '{{ name }}'!",
+        "redirect_uri_mismatch": "Невідповідність uri",
         "server": {
             "not": {
                 "reachable": "Сервер недоступний"
             }
         },
-        "session_expired": "Сесія закінчилася. Будь ласка, увійдіть",
+        "session_expired": "Сесія закінчилася. Будь ласка, авторизуйтесь!",
         "title": "Сторінка помилки!",
         "unauthorized": "Необхідна авторизація",
         "unauthorized_client": "Неавторизований клієнт",
-        "unsupported_grant_type": "Непідтримуваний тип гранту",
-        "unsupported_response_type": "Непідтримуваний тип відповіді",
+        "unsupported_grant_type": "Тип гранту не підтримується",
+        "unsupported_response_type": "Тип відповіді не підтримується",
         "url": {
             "not": {
                 "found": "Не знайдено"
@@ -931,10 +939,10 @@
         "activated": "Активовано",
         "autoLogout": "Автоматичний вихід",
         "createdBy": "Створений",
-        "createdDate": "Створена дата",
+        "createdDate": "Дата створення",
         "deactivated": "Деактивовано",
         "delete": {
-            "question": "Ви впевнені, що хочете видалити користувача {{userKey}}?"
+            "question": "Ви впевнені, що хочете видалити користувача з логіном {{userKey}}?"
         },
         "detail": {
             "title": "Користувач"
@@ -946,17 +954,18 @@
             "editLoginsLabel": "Оновити логіни користувачів",
             "title": "Користувачі"
         },
+        "id": "ID",
         "langKey": "Мова",
-        "lastModifiedBy": "Змінено на",
-        "lastModifiedDate": "Змінена дата",
+        "lastModifiedBy": "Змінено",
+        "lastModifiedDate": "Дата зміни",
         "lastName": "Прізвище",
         "logins": "Логіни",
         "onlineUsers": "Користувачів онлайн: ",
         "role": "Роль",
         "search-by-login": "Шукати за логіном",
         "success": "Успішно",
-        "twoFADisabled": "Двохфакторна аутентифікація деактивована",
-        "twoFAEnabled": "Двохфакторна аутентифікація активована",
+        "twoFADisabled": "Двофакторна аутентифікація деактивована",
+        "twoFAEnabled": "Двофакторна аутентифікація активована",
         "userKey": "Ключ користувача"
     },
     "wordAutocomplete": {
@@ -1055,9 +1064,9 @@
         },
         "common": {
             "add": "Додати",
-            "add-avatar": "Добавити Аватар",
+            "add-avatar": "Додати фото",
             "cancel": "Скасувати",
-            "change-avatar": "Звінити Аватар",
+            "change-avatar": "Звінити фото",
             "close": "Закрити",
             "fields": {
                 "addressLine1": "Адресний Рядок 1",
@@ -1071,8 +1080,8 @@
                 "message": "Коментар",
                 "name": "Ім'я/Назва",
                 "region": "Область",
-                "start-date": "Дата початку",
-                "state": "Стан",
+                "start-date": "Дата створення",
+                "state": "Статус",
                 "title": "Тема",
                 "type": "Тип",
                 "zip": "Поштовий індекс"
@@ -1083,7 +1092,7 @@
                 "coordinates": "Це поле не відповідає формату широти та довготи.",
                 "date-time": "Це поле повинно бути дата і час.",
                 "pattern": "Це поле не відповідає правилам",
-                "required": "Поле обов'язково до заповнення."
+                "required": "Це поле є обов'язковим!"
             }
         },
         "entity-data-card": {
@@ -1095,7 +1104,7 @@
             "update-error": "Не оновлено. Спробуйте ще раз.",
             "update-success": "Оновлено успішно.",
             "change-avatar": "Змінити фото",
-            "current-state": "Поточний стан"
+            "current-state": "Поточний статус"
         },
         "entity-detail-dialog": {
             "add": {
@@ -1518,7 +1527,7 @@
             },
             "deleted": "Інформаційна панель видаляється з ідентифікатором {{param}}",
             "detail": {
-                "title": "Панель приладів"
+                "title": "Інформаційна панель"
             },
             "home": {
                 "createLabel": "Створіть нову інформаційну панель",
@@ -1527,7 +1536,7 @@
                 "title": "Інформаційні панелі"
             },
             "isPublic": "Є громадським",
-            "layout": "Макет",
+            "layout": "Розмітка",
             "name": "Ім'я",
             "owner": "Власник",
             "updated": "Інформаційна панель оновлюється за ідентифікатором {{param}}",
