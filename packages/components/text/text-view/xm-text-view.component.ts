@@ -34,17 +34,18 @@ export type PrimitiveOrTranslate = Primitive & Translate;
             <span xmLabel>{{config.title | translate}}</span>
             <span [attr.data-qa]="config.dataQa"
                   xmValue>
-                <span *ngIf="value !== undefined; else emptyValue">
-                    {{ value | translate }}
-                </span>
-                <ng-template #emptyValue>
-                    {{config.emptyValue | translate}}
-                </ng-template>
+                @if (isArrayValue(value)) {
+                    <span>{{ transformValue(value) }}</span>
+                } @else if (value !== undefined) {
+                    <span>{{ value | translate }}</span>
+                } @else {
+                    <ng-template>{{ config.emptyValue | translate }}</ng-template>
+                }
             </span>
         </xm-text-view-container>
     `,
 })
-export class XmTextViewComponent implements XmDynamicPresentation<PrimitiveOrTranslate, XmTextViewOptions> {
+export class XmTextViewComponent implements XmDynamicPresentation<any, XmTextViewOptions> {
     @Input() public value: PrimitiveOrTranslate;
 
     private _config: XmTextViewOptions = XM_TEXT_VIEW_OPTIONS_DEFAULT;
@@ -57,6 +58,15 @@ export class XmTextViewComponent implements XmDynamicPresentation<PrimitiveOrTra
     public set config(value: XmTextViewOptions) {
         this._config = _.defaults(value, XM_TEXT_VIEW_OPTIONS_DEFAULT);
     }
+
+    public isArrayValue(value: PrimitiveOrTranslate): boolean {
+        return Array.isArray(value);
+    }
+
+    public transformValue(value: any): string {
+        return value.map( el => el.value ?? el.title ?? el).join(', ');
+    }
+
 }
 
 @NgModule({

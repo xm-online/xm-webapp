@@ -184,7 +184,10 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
             if (typeof dates === 'string') {
                 throw new Error('XmDateRangeControl dates type is string, make sure that value is object or config.valueType="string".');
             } else {
-                model = { from: dates?.from, to: dates?.to };
+                model = {
+                    from: dates?.from ? new Date(dates.from) : undefined,
+                    to: dates?.to ? new Date(dates.to) : undefined,
+                };
             }
         }
 

@@ -13,7 +13,7 @@ import {
     observeOn,
     of,
     tap,
-    timer
+    timer,
 } from 'rxjs';
 import { filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 
@@ -79,6 +79,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         this._config = _.defaultsDeep(value, {
             'mode': 'toggle',
         });
+        this.menuService.categories = value.categories;
         this.menuService.setBrandLogo(value.logo);
         this.menuService.mobileMenuPositioning = value.mobileMenuPositioning || MenuPositionEnum.END;
     }
@@ -139,7 +140,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                 const menu: MenuItem[] = this.menuService.mapMenuCategories([...mainMenu, ...defaultMenu]);
                 this.categories = this.menuService.getUniqMenuCategories(menu);
                 this.menuByCategories = this.menuService.getGroupedMenuCategories(menu);
-                if (!this.isOnlyOtherCategory) {
+                if (this.isOnlyOtherCategory) {
                     return menu;
                 }
                 this.menuService.setMenuCategories(this.categories);
@@ -246,7 +247,8 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                     if (!hoveredCategory || !this.isMaterial3Menu) {
                         return of(null);
                     }
-                    if (this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName && this.menuByCategories) {
+                    const isSetCategory: boolean = !this.menuService.sidenav.opened || this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName;
+                    if (isSetCategory && this.menuByCategories) {
                         return this.setStateWhenCategoryChanged(hoveredCategoryName, category);
                     }
                     return of(hoveredCategory);
@@ -404,8 +406,8 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private get isOnlyOtherCategory(): boolean {
         const categoriesKeys: string[] = Object.keys(this.menuByCategories);
-        this.isMaterial3Menu = categoriesKeys?.length > 1 && categoriesKeys[0] !== this.menuService.otherCategory.name.en.toLowerCase();
+        this.isMaterial3Menu = !(categoriesKeys?.length === 1 && categoriesKeys[0] === this.menuService.otherCategory.name.en.toLowerCase());
         this.menuService.setIsMaterial3Menu(this.isMaterial3Menu);
-        return this.isMaterial3Menu;
+        return !this.isMaterial3Menu;
     }
 }

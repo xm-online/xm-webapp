@@ -1,10 +1,12 @@
-import { UntypedFormControl } from '@angular/forms';
-import { ValidatorProcessingOption } from '@xm-ngx/components/validator-processing';
-import { XmDynamicControllerDeclaration } from '@xm-ngx/dynamic/presentation/xm-dynamic-presentation-base.directive';
-import { JavascriptCode, XmConfig } from '@xm-ngx/interfaces';
+import {UntypedFormControl} from '@angular/forms';
+import {ValidatorProcessingOption} from '@xm-ngx/components/validator-processing';
+import {XmDynamicControllerDeclaration} from '@xm-ngx/dynamic/presentation/xm-dynamic-presentation-base.directive';
+import {JavascriptCode, XmConfig} from '@xm-ngx/interfaces';
 
 export type FormLayoutConfig = {
     fields: FormFieldLayoutConfig[],
+    updateData?: boolean;
+    saveData?: boolean;
 };
 
 export type FormFieldLayoutConfig = {
