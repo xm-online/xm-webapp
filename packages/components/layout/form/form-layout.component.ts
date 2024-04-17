@@ -65,7 +65,6 @@ export class FormLayoutComponent implements OnInit, OnDestroy {
         this.formGroup.valueChanges.pipe(
             debounceTime(200),
             filter(() => this.formGroup.valid),
-            // map(transform)
             withLatestFrom(this.dataController.get()),
             map(([value, data]) => {
                 this.config.fields.forEach(field => {
@@ -155,7 +154,7 @@ export class FormLayoutComponent implements OnInit, OnDestroy {
                 this.dataController.update(this.formGroup.getRawValue());
             }
             if(this.config.saveData) {
-                this.dataController.save().subscribe(() => null);
+                this.dataController.save().subscribe();
             }
         } else {
             if (this.editStateStore) {
