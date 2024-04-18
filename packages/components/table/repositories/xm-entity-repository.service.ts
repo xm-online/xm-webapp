@@ -16,6 +16,7 @@ import { XmDynamicInstanceService, XmDynamicService } from '@xm-ngx/dynamic';
 import {XmFilterQueryParams} from '../collections/i-xm-table-collection-controller';
 import {XmEntityRepositoryConfig} from '../controllers/elastic/xm-elastic-search-repository.service';
 import {XmElasticRequestBuilder} from '../controllers/elastic/xm-elastic-request-builder.service';
+import { Id } from '@xm-ngx/interfaces';
 
 export interface XmEntityRepositoryExtra {
     page: number,
@@ -65,11 +66,6 @@ export class XmEntityRepository<T extends XmEntity>
         super(null, null);
     }
 
-    public update(entity: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
-        const url = this.config.updateResourceUrl ?? this.url;
-        return this.handle(this.httpClient.put<T>(url, entity, { params, observe: 'response', headers }));
-    }
-
     public getAll(params?: XmFilterQueryParams): Observable<HttpResponse<T[] & PageableAndSortable>> {
         return super.getAll(this.getParams(params));
     }
@@ -78,11 +74,27 @@ export class XmEntityRepository<T extends XmEntity>
         return super.query(this.getParams(params));
     }
 
+    public update(entity: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
+        return this.handle(this.httpClient.put<T>(this.updateResourceUrl, entity, { params, observe: 'response', headers }));
+    }
+
     public create(entity: T, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
         if (entity.key === undefined) {
             entity.key = uuid();
         }
-        return super.create(entity, params, headers);
+        return this.handle(this.httpClient.post<T>(this.updateResourceUrl, entity, { params, observe: 'response', headers }));
+    }
+
+    public patch<E, R>(entity: Partial<E>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<R>> {
+        return this.handle(this.httpClient.patch<R>(this.updateResourceUrl, entity, { params, observe: 'response', headers }));
+    }
+
+    public delete(key: Id, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<unknown>> {
+        return this.handle(this.httpClient.delete<unknown>(`${this.updateResourceUrl}/${key}`, {
+            params,
+            observe: 'response',
+            headers,
+        }));
     }
 
     protected override resourceUrl(): string {
@@ -91,6 +103,10 @@ export class XmEntityRepository<T extends XmEntity>
             url = interpolate(url, this.activatedRoute?.snapshot?.queryParams || {});
         }
         return url;
+    }
+
+    protected get updateResourceUrl() {
+        return this.config.updateResourceUrl ?? this.url;
     }
 
     protected getParams(request: XmFilterQueryParams): QueryParamsPageable {
