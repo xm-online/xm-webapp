@@ -6,6 +6,10 @@ export const XM_ARRAY_ELEMENTS: XmDynamicEntry[] = [
         loadChildren: () => import('@xm-ngx/components/array-control').then(m => m.XmArrayControl),
     },
     {
+        selector: 'key-filter',
+        loadChildren: () => import('@xm-ngx/components/key-filter').then(m => m.XmKeyFilterComponent),
+    },
+    {
         selector: 'autocomplete-control',
         loadChildren: () => import('@xm-ngx/components/autocomplete-control').then(m => m.XmAutocompleteControlComponent),
     },
