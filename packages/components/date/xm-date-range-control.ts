@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, Input, LOCALE_ID, OnDestroy, Optional, Self, } from '@angular/core';
+import { AfterViewInit, Component, Inject, Input, LOCALE_ID, OnDestroy, Optional, Self } from '@angular/core';
 import { FormControl, FormGroup, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -27,6 +27,8 @@ export interface XmDateRangeControlConfig {
         quotes: string[];
         separator: string;
     }
+    intervalFromMinDateInDays?: number;
+    hideClear?: boolean;
 }
 
 export type XmDateRangeValue = XmDateValue | string | number;
@@ -58,6 +60,7 @@ export const XM_DATE_RANGE_CONTROL_CONFIG_DEFAULT: XmDateRangeControlConfig = {
         <mat-form-field>
             <mat-label>{{config.title | xmTranslate}}</mat-label>
             <mat-date-range-input [formGroup]="group"
+                                  [min]="minDate"
                                   [rangePicker]="picker">
                 <input matStartDate
                        (dateChange)="dateChanged()"
@@ -73,7 +76,7 @@ export const XM_DATE_RANGE_CONTROL_CONFIG_DEFAULT: XmDateRangeControlConfig = {
 
             <span matSuffix class="d-flex">
                 <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
-                <button mat-icon-button *ngIf="value !== null" (click)="clear()">
+                <button mat-icon-button *ngIf="(value !== null) && !config?.hideClear" (click)="clear()">
                     <mat-icon>close</mat-icon>
                 </button>
             </span>
@@ -106,6 +109,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         to: new FormControl<XmDateRangeValue>(''),
     });
     private refreshDate = new Subject<void>();
+    public minDate: Date | null;
 
     constructor(
         private transformDateStringCodec: TransformDateStringCodec,
@@ -125,6 +129,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
     public set config(value: XmDateRangeControlConfig) {
         this._config = defaultsDeep(cloneDeep(value), cloneDeep(XM_DATE_RANGE_CONTROL_CONFIG_DEFAULT));
         this.transformDateStringCodec.config = this._config;
+        this.minDate = this.defineStartDate();
     }
 
     @Input()
@@ -163,12 +168,23 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
     }
 
     public clear(): void {
-        this.group.reset();
+        this.group.reset(null, {emitEvent: true});
         this.change(null);
     }
 
     public dateChanged(): void {
         this.refreshDate.next();
+    }
+
+    public defineStartDate(): Date | undefined {
+        if (this.config?.intervalFromMinDateInDays) {
+            const startDate = new Date();
+            const midNightHours = this.config?.intervalFromMinDateInDays*24;
+            startDate.setHours( midNightHours,0,0,0);
+            return new Date(startDate);
+        }
+
+        return undefined;
     }
 
     public ngOnDestroy(): void {
