@@ -30,6 +30,7 @@ export interface XmTextCollapseConfig {
             text-overflow: ellipsis;
             white-space: nowrap;
             display: inline-block;
+            z-index: 0;
         }
     `],
     imports: [MatButtonModule, MatIconModule, MatMenuModule],

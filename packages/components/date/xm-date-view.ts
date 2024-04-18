@@ -9,6 +9,7 @@ import { XmDateComponent, XmDateConfig, XmDateValue } from './xm-date.component'
 export interface XmDateViewOptions extends XmDateConfig {
     title?: Translate;
     textStyle?: 'inline';
+    labelStyleInline?: string;
 }
 
 @Component({
@@ -17,7 +18,7 @@ export interface XmDateViewOptions extends XmDateConfig {
     standalone: true,
     template: `
         <xm-text-view-container [styleInline]="styleInline">
-            <span xmLabel>{{config?.title | translate}}</span>
+            <span [style]="config.labelStyleInline" xmLabel>{{config?.title | translate}}</span>
             <xm-date xmValue [value]="value" [config]="config"></xm-date>
         </xm-text-view-container>
     `,

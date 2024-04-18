@@ -15,7 +15,7 @@ export const showHideSubCategories: AnimationTriggerMetadata = trigger('showHide
     state(MenuSubcategoriesAnimationStateEnum.HIDE, style({opacity: 0})),
     transition(`${MenuSubcategoriesAnimationStateEnum.HIDE} => ${MenuSubcategoriesAnimationStateEnum.SHOW}`, [
         animate('150ms 50ms'),
-        query('@*', animateChild()),
+        query('@*', animateChild(), { optional: true }),
     ]),
 ]);
 

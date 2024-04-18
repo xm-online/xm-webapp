@@ -5,7 +5,7 @@
       <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES" [@hideCategories]>
         <div *ngIf="brandLogo$ | async as brandLogo" class="menu-categories__logo">
           <img *ngIf="brandLogo?.url"
-               [ngSrc]="brandLogo?.url"
+               [src]="brandLogo?.url"
                [width]="brandLogo?.size || DEFAULT_LOGO_SIZE"
                [height]="brandLogo?.size || DEFAULT_LOGO_SIZE"
                alt="brand-logo">

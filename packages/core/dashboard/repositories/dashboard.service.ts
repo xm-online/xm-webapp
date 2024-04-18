@@ -31,7 +31,7 @@ export class DashboardService {
     }
 
     public updateBulk(body: DashboardWithWidgets[]): Observable<void> {
-        return this.http.request<void>('UPDATE', 'dashboard/api/dashboards/bulk', { body });
+        return this.http.request<void>('PUT', 'dashboard/api/dashboards/bulk', { body });
     }
 
     public find(id: number): Observable<HttpResponse<DashboardWithWidgets>> {
