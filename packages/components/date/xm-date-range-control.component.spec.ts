@@ -88,8 +88,8 @@ describe('GIVEN XmDateRangeControl', () => {
         const fromDateControl: FormControl = component.group.get('from') as FormControl;
         const toDateControl: FormControl = component.group.get('to') as FormControl;
 
-        void expect(fromDateControl.value).toBe(testValue.from);
-        void expect(toDateControl.value).toBe(testValue.to);
+        void expect(fromDateControl.value).toEqual(new Date(testValue.from));
+        void expect(toDateControl.value).toEqual(new Date(testValue.to));
     });
 
     it('WHEN set value string THEN should emit the changed value when dateChanged is called', () => {
