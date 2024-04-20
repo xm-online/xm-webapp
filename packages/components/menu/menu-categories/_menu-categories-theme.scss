@@ -13,9 +13,9 @@
 }
 
 @mixin xm-menu-categories-theme($theme) {
-  $xm-sidebar-background: map-get($theme, sidebar-background) or #444746;
+  $xm-sidebar-background: map-get($theme, sidebar-background) or #ffffff;
   $xm-menu-categories-scrollbar-color: map-get($theme, menu-categories-scrollbar-color) or #777777;
-  $xm-menu-categories-text-color: map-get($theme, menu-categories-text-color) or #c4c7c5;
+  $xm-menu-categories-text-color: map-get($theme, menu-categories-text-color) or #555555;
 
   .menu-categories-spacer {
     @include categories-size();
@@ -116,6 +116,7 @@
         margin: 8px 0;
         background: transparent;
         box-shadow: none;
+        color: $xm-menu-categories-text-color;
 
         &.action-icon {
           transition: rotate 50ms;

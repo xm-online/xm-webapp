@@ -19,6 +19,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                 name: configName,
                 permission,
                 activeItemPathPatterns,
+                categoryKey,
                 category,
                 dataQa
             } = {},
@@ -85,6 +86,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         parent: null,
                         children: [],
                         activeItemPathPatterns,
+                        categoryKey,
                         category,
                         dataQa
                     });
@@ -115,6 +117,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         parent: tree,
                         children: [],
                         activeItemPathPatterns,
+                        categoryKey,
                         category,
                         dataQa
                     };

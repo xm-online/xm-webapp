@@ -26,13 +26,13 @@ export class ControlErrorsDirective implements OnChanges {
     private thenTemplateRef: TemplateRef<ControlErrorsContext>;
 
     constructor(
-        @Inject(XM_CONTROL_ERRORS_TRANSLATES) xmControlErrorsTranslates: XmControlErrorsTranslates,
+        @Inject(XM_CONTROL_ERRORS_TRANSLATES) public globalErrorsTranslates: XmControlErrorsTranslates,
         private viewContainer: ViewContainerRef,
         private translatePipe: TranslatePipe,
         templateRef: TemplateRef<ControlErrorsContext>,
     ) {
         this.thenTemplateRef = templateRef;
-        this._xmControlErrorsTranslates = xmControlErrorsTranslates || {};
+        this._xmControlErrorsTranslates = globalErrorsTranslates || {};
     }
 
     private _xmControlErrorsTranslates: XmControlErrorsTranslates;
@@ -43,7 +43,10 @@ export class ControlErrorsDirective implements OnChanges {
 
     @Input()
     public set xmControlErrorsTranslates(value: { [p: string]: Translate }) {
-        this._xmControlErrorsTranslates = value || {};
+        this._xmControlErrorsTranslates = {
+            ...(this.globalErrorsTranslates || {}),
+            ...(value || {}),
+        };
     }
 
     public ngOnChanges(): void {

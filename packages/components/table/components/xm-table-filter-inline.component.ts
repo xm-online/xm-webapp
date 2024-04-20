@@ -73,7 +73,7 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
 
         .filter-holder {
             overflow: hidden;
-            min-height: 4.3rem;
+            min-height: 4.6rem;
         }
     `],
     imports: [
