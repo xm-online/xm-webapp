@@ -21,9 +21,9 @@ export class ToggleLockClientComponent {
     public changeState(client: Client): void {
         const isActivate = client.clientState != ClientState.BLOCKED;
         this.alertService.open({
-            title: isActivate ? 'Block client?' : 'Unblock client?',
+            title: isActivate ? 'clientManagement.actions.block' : 'clientManagement.actions.unblock',
             showCancelButton: true,
-            confirmButtonText: 'Yes',
+            confirmButtonText: 'clientManagement.actions.confirm',
         }).subscribe((result) => result.value ?
             this.changeUserState(client) :
             console.info('Cancel'));

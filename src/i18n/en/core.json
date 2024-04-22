@@ -162,6 +162,11 @@
     "detail": {
       "title": "Client"
     },
+    "actions": {
+      "block": "Are you sure you want to block the client?",
+      "unblock": "Are you sure you want to activate the client?",
+      "confirm": "Yes, confirm"
+    },
     "home": {
       "createOrEditLabel": "Create or edit a app/client authentication data",
       "title": "Applications/Clients"
@@ -969,6 +974,14 @@
     },
     "detail": {
       "title": "User"
+    },
+    "actions": {
+      "block": "Are you sure you want to block the user?",
+      "unblock": "Are you sure you want to activate the user?",
+      "enable2famsg": "Are you sure you want to enable 2FA?",
+      "enable2fabtn": "Yes, enable",
+      "disable2famsg": "Are you sure you want to disable 2FA?",
+      "disable2fabtn": "Yes, disable"
     },
     "error": "Error",
     "firstName": "First name",
