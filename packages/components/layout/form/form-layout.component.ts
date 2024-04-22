@@ -1,18 +1,18 @@
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { ConditionModule } from '@xm-ngx/components/condition';
-import { ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
-import { EDIT_ACTION, EDIT_EVENT, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
-import { ResourceDataService } from '@xm-ngx/controllers/features/resource-data';
-import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { injectByKey, XmDynamicModule } from '@xm-ngx/dynamic';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { get, set } from 'lodash';
-import { of } from 'rxjs';
-import { debounceTime, filter, map, startWith, switchMap, withLatestFrom } from 'rxjs/operators';
-import { FormGroupFields, FormLayoutConfig } from './form-layout.model';
+import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
+import {ConditionModule} from '@xm-ngx/components/condition';
+import {ValidatorProcessingService} from '@xm-ngx/components/validator-processing';
+import {EDIT_ACTION, EDIT_EVENT, EditStateStoreService} from '@xm-ngx/controllers/features/edit-state-store';
+import {ResourceDataService} from '@xm-ngx/controllers/features/resource-data';
+import {DashboardStore} from '@xm-ngx/core/dashboard';
+import {injectByKey, XmDynamicModule} from '@xm-ngx/dynamic';
+import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
+import {get, set} from 'lodash';
+import {of} from 'rxjs';
+import {debounceTime, filter, map, startWith, switchMap, withLatestFrom} from 'rxjs/operators';
+import {FormGroupFields, FormLayoutConfig} from './form-layout.model';
 
 @Component({
     standalone: true,
@@ -33,7 +33,7 @@ import { FormGroupFields, FormLayoutConfig } from './form-layout.model';
 })
 export class FormLayoutComponent implements OnInit, OnDestroy {
     private dataController = injectByKey<ResourceDataService>('data');
-    private editStateStore = injectByKey<EditStateStoreService>('edit-state-store');
+    private editStateStore = injectByKey<EditStateStoreService>('edit-state-store', {optional: true});
 
     private validatorProcessing = inject(ValidatorProcessingService);
     private fb = inject<FormBuilder>(FormBuilder);
@@ -65,7 +65,6 @@ export class FormLayoutComponent implements OnInit, OnDestroy {
         this.formGroup.valueChanges.pipe(
             debounceTime(200),
             filter(() => this.formGroup.valid),
-            // map(transform)
             withLatestFrom(this.dataController.get()),
             map(([value, data]) => {
                 this.config.fields.forEach(field => {
@@ -77,17 +76,19 @@ export class FormLayoutComponent implements OnInit, OnDestroy {
             takeUntilOnDestroy(this),
         ).subscribe();
 
-        this.editStateStore.event$.pipe(
-            takeUntilOnDestroy(this),
-            switchMap((event) => {
-                if (event === EDIT_EVENT.SAVE) {
-                    return this.dataController.save();
-                } else if (event === EDIT_EVENT.CANCEL) {
-                    return this.dataController.reset();
-                }
-                return of();
-            }),
-        ).subscribe();
+        if (this.editStateStore) {
+            this.editStateStore.event$.pipe(
+                takeUntilOnDestroy(this),
+                switchMap((event) => {
+                    if (event === EDIT_EVENT.SAVE) {
+                        return this.dataController.save();
+                    } else if (event === EDIT_EVENT.CANCEL) {
+                        return this.dataController.reset();
+                    }
+                    return of();
+                }),
+            ).subscribe();
+        }
     }
 
     public ngOnDestroy(): void {
@@ -108,7 +109,7 @@ export class FormLayoutComponent implements OnInit, OnDestroy {
                     asyncValidators = [],
                 } = (field ?? {});
 
-                const control = this.fb.control({ value: defaultValue, disabled: defaultDisabled });
+                const control = this.fb.control({value: defaultValue, disabled: defaultDisabled});
 
                 if (validators.length > 0) {
                     control.addValidators(this.validatorProcessing.validatorsFactory(validators));
@@ -130,7 +131,7 @@ export class FormLayoutComponent implements OnInit, OnDestroy {
     private buildRecordFromData(data: unknown): Record<string, unknown> {
         return this.config.fields
             .reduce((acc, field) => {
-                const { 
+                const {
                     property,
                     defaultValue,
                 } = (field ?? {});
@@ -146,9 +147,19 @@ export class FormLayoutComponent implements OnInit, OnDestroy {
 
     private markSaveButtonEnabled(): void {
         if (this.formGroup.valid) {
-            this.editStateStore.enable([EDIT_ACTION.SAVE]);
+            if (this.editStateStore) {
+                this.editStateStore.enable([EDIT_ACTION.SAVE]);
+            }
+            if(this.config.updateData) {
+                this.dataController.update(this.formGroup.getRawValue());
+            }
+            if(this.config.saveData) {
+                this.dataController.save().subscribe();
+            }
         } else {
-            this.editStateStore.disable([EDIT_ACTION.SAVE]);
+            if (this.editStateStore) {
+                this.editStateStore.disable([EDIT_ACTION.SAVE]);
+            }
         }
     }
 }
