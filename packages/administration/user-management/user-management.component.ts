@@ -159,7 +159,7 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         this.alertService.open({
             title: 'userManagement.actions.disable2famsg',
             showCancelButton: true,
-            confirmButtonText: 'userManagement.actions.enable2fabtn',
+            confirmButtonText: 'userManagement.actions.disable2fabtn',
         }).subscribe((result) => result.value ?
             this.userService.disable2FA(user.userKey)
                 .subscribe(() => {
