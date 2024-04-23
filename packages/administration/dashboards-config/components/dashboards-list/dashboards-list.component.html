@@ -52,7 +52,7 @@
 
     <!--  name -->
     <ng-container matColumnDef="name">
-      <th *matHeaderCellDef mat-header-cell scope="col"> {{'name' | translate}} </th>
+      <th *matHeaderCellDef mat-header-cell scope="col"> {{TRS.name | translate}} </th>
       <td *matCellDef="let element" mat-cell>
         <div>{{ element.name }}</div>
         <div>
@@ -63,7 +63,7 @@
 
     <!--  config -->
     <ng-container matColumnDef="config">
-      <th *matHeaderCellDef mat-header-cell scope="col"> {{'config' | translate}}</th>
+      <th *matHeaderCellDef mat-header-cell scope="col"> {{TRS.config | translate}}</th>
       <td *matCellDef="let element" mat-cell>
         <bool-value [value]="!!element.config"></bool-value>
       </td>
@@ -71,7 +71,7 @@
 
     <!--  layout -->
     <ng-container matColumnDef="layout">
-      <th *matHeaderCellDef mat-header-cell scope="col"> {{'layout' | translate}}</th>
+      <th *matHeaderCellDef mat-header-cell scope="col"> {{TRS.layout | translate}}</th>
       <td *matCellDef="let element" mat-cell>
         <bool-value [value]="!!element.layout"></bool-value>
       </td>
@@ -79,7 +79,7 @@
 
     <!--  hidden -->
     <ng-container matColumnDef="hidden">
-      <th *matHeaderCellDef mat-header-cell scope="col"> {{'hidden' | translate}}</th>
+      <th *matHeaderCellDef mat-header-cell scope="col"> {{TRS.hidden | translate}}</th>
       <td *matCellDef="let element" mat-cell>
         <bool-value [value]="!!fromMap(element, 'hidden')"></bool-value>
       </td>
@@ -91,7 +91,7 @@
       <th *matHeaderCellDef class="text-end" mat-header-cell scope="col">
         <button (click)="onPaste()"
                 [disabled]="disabled"
-                [matTooltip]="'paste'"
+                [matTooltip]="TRS.paste | translate"
                 mat-icon-button>
           <mat-icon>content_paste</mat-icon>
         </button>

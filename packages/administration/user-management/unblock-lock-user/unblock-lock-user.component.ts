@@ -46,8 +46,8 @@ export class UnblockLockUserComponent {
     public changeState(user: User): void {
         this.alertService.open({
             title: user.activated
-                ? this.xmTranslationService.translate(this.config.blockUserMessage || 'Block user?')
-                : this.xmTranslationService.translate(this.config.unBlockUserMessage || 'Unblock user?'),
+                ? this.xmTranslationService.translate(this.config.blockUserMessage || 'userManagement.actions.block')
+                : this.xmTranslationService.translate(this.config.unBlockUserMessage || 'userManagement.actions.unblock'),
             showCancelButton: true,
             confirmButtonText: this.xmTranslationService.translate('global.common.yes'),
         }).subscribe((result) => result.value ?

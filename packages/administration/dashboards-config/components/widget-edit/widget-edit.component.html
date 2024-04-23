@@ -5,7 +5,7 @@
   <div class="d-flex justify-content-between block-sidebar-right-header">
 
     <button (click)="backToOrganisation()"
-            [matTooltip]="TRS.dashboard | translate"
+            [matTooltip]="TRS.back | translate"
             color="primary"
             mat-icon-button>
       <mat-icon>keyboard_backspace</mat-icon>
@@ -36,7 +36,7 @@
       <button (click)="onCopyToClipboard()"
               *ngIf="editType === EditType.Edit"
               [disabled]="!form.valid || disabled || !valid"
-              [matTooltip]="'copy to clipboard'"
+              [matTooltip]="TRS.copyClipboard | translate"
               mat-icon-button>
         <mat-icon>content_copy</mat-icon>
       </button>
@@ -44,7 +44,7 @@
       <button (click)="onPasteFromClipboard()"
               *ngIf="editType === EditType.Create"
               [disabled]="!form.valid || disabled || !valid"
-              [matTooltip]="'paste'"
+              [matTooltip]="TRS.paste | translate"
               mat-icon-button>
         <mat-icon>content_paste</mat-icon>
       </button>
@@ -69,7 +69,7 @@
   <div class="section-scroll">
 
     <mat-tab-group [(selectedIndex)]="selectedIndex">
-      <mat-tab [label]="'Info'">
+      <mat-tab [label]="TRS.info | translate">
         <div *ngIf="value.id">{{ TRS.id | translate }}: <span class="fw-bold">{{ value.id }}</span></div>
 
         <xm-text-control [(ngModel)]="formGroup.name"
@@ -84,7 +84,7 @@
                                   name="selector"></xm-selector-text-control>
       </mat-tab>
 
-      <mat-tab [label]="'Config'">
+      <mat-tab [label]="TRS.config | translate">
         <div *ngIf="value.name">{{TRS.name | translate}}: <span class="fw-bold">{{value.name}}</span></div>
         <div *ngIf="value.selector">{{TRS.selector | translate}}: <span class="fw-bold">{{value.selector}}</span></div>
 
@@ -95,7 +95,7 @@
 
       </mat-tab>
 
-      <mat-tab [label]="'Editor'">
+      <mat-tab [label]="TRS.editor | translate">
         <xm-schema-editor
           *ngIf="selectedIndex === 2"
           [options]="jsonEditorOptions"
@@ -105,7 +105,7 @@
         ></xm-schema-editor>
       </mat-tab>
 
-      <mat-tab [label]="'Samples'">
+      <mat-tab [label]="TRS.samples | translate">
         <xm-widget-config-examples [value]="formGroup.selector"></xm-widget-config-examples>
       </mat-tab>
 
