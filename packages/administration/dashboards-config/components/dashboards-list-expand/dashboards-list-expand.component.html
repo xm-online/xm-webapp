@@ -8,19 +8,19 @@
 
   <!--  name -->
   <ng-container matColumnDef="{{columns[0]}}">
-    <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header> {{columns[0]}} </th>
+    <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header> {{TRS.name | translate}} </th>
     <td *matCellDef="let element" mat-cell> {{ element[columns[0]] }} </td>
   </ng-container>
 
   <!--  selector -->
   <ng-container matColumnDef="{{columns[1]}}">
-    <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header> {{columns[1]}} </th>
+    <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header> {{TRS.selector | translate}} </th>
     <td *matCellDef="let element" mat-cell> {{ element[columns[1]] }} </td>
   </ng-container>
 
   <!--  config -->
   <ng-container matColumnDef="{{columns[2]}}">
-    <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header> {{columns[2]}} </th>
+    <th *matHeaderCellDef scope="col" mat-header-cell mat-sort-header> {{TRS.config | translate}} </th>
     <td *matCellDef="let element" mat-cell>
       <bool-value [value]="element[columns[2]]"></bool-value>
     </td>
@@ -31,7 +31,7 @@
 
     <th *matHeaderCellDef scope="col" class="text-end" mat-header-cell>
       <button (click)="onPaste()"
-              [matTooltip]="'paste'"
+              [matTooltip]="TRS.paste | translate"
               mat-icon-button>
         <mat-icon>content_paste</mat-icon>
       </button>
