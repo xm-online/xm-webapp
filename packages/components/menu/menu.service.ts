@@ -148,8 +148,7 @@ export class MenuService {
     public mapMenuCategories(menu: MenuItem[]): MenuItem[] {
         return menu.map((menuItem: MenuItem) => {
             const { children, url } = menuItem || {};
-            const category: MenuCategory = menuItem.category || (menuItem.categoryKey ?
-                JSON.parse(JSON.stringify(this.categories[(menuItem.categoryKey)])) : this.otherCategory) as MenuCategory;
+            const category: MenuCategory = menuItem.category || this.checkCategoryExistence(menuItem.categoryKey);
             menuItem.category = {
                 ...category,
                 hasChildren: !!children?.length,
@@ -157,6 +156,13 @@ export class MenuService {
             };
             return menuItem;
         });
+    }
+
+    private checkCategoryExistence(categoryKey: string): MenuCategory {
+        if (!categoryKey || !this.categories.hasOwnProperty(categoryKey)) {
+            return this.otherCategory;
+        }
+        return JSON.parse(JSON.stringify(this.categories[categoryKey])) as MenuCategory;
     }
 
     public getUniqMenuCategories(menu: MenuItem[]): MenuCategory[] {
@@ -246,8 +252,8 @@ export class MenuService {
         return {
             name: {
                 en: 'Other',
-                ru: 'Іньше',
-                uk: 'Іньше',
+                ru: 'Інше',
+                uk: 'Інше',
             },
             order: 1,
             icon: 'more_horiz',
