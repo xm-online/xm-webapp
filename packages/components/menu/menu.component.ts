@@ -247,7 +247,8 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                     if (!hoveredCategory || !this.isMaterial3Menu) {
                         return of(null);
                     }
-                    if (this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName && this.menuByCategories) {
+                    const isSetCategory: boolean = !this.menuService.sidenav.opened || this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName;
+                    if (isSetCategory && this.menuByCategories) {
                         return this.setStateWhenCategoryChanged(hoveredCategoryName, category);
                     }
                     return of(hoveredCategory);

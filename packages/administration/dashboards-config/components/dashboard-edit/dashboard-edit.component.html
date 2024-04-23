@@ -37,7 +37,7 @@
       <button (click)="onCopyToClipboard()"
               *ngIf="editType === EditType.Edit"
               [disabled]="!valid || disabled"
-              [matTooltip]="'copy to clipboard'"
+              [matTooltip]="TRS.copyClipboard | translate"
               mat-icon-button>
         <mat-icon>content_copy</mat-icon>
       </button>
@@ -45,7 +45,7 @@
       <button (click)="onPasteFromClipboard()"
               *ngIf="editType === EditType.Create"
               [disabled]="!valid || disabled"
-              [matTooltip]="'paste'"
+              [matTooltip]="TRS.paste | translate"
               mat-icon-button>
         <mat-icon>content_paste</mat-icon>
       </button>

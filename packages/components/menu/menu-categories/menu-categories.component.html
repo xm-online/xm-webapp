@@ -3,13 +3,13 @@
     <ng-container *ngIf="isCategoriesHidden$ | async">
       <div class="menu-categories-spacer"></div>
       <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES" [@hideCategories]>
-        <div *ngIf="brandLogo$ | async as brandLogo" class="menu-categories__logo">
+        <a *ngIf="brandLogo$ | async as brandLogo" class="menu-categories__logo" [routerLink]="'/dashboards'">
           <img *ngIf="brandLogo?.url"
-               [ngSrc]="brandLogo?.url"
+               [src]="brandLogo?.url"
                [width]="brandLogo?.size || DEFAULT_LOGO_SIZE"
                [height]="brandLogo?.size || DEFAULT_LOGO_SIZE"
                alt="brand-logo">
-        </div>
+        </a>
         <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES_CONTAINER">
           <div
             *ngFor="let category of categories"

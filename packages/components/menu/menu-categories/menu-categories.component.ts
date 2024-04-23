@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { BrandLogo, MenuCategory } from '../menu.interface';
@@ -17,7 +17,7 @@ import { MenuCategoriesClassesEnum } from '../menu.model';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     animations: [hideCategories],
-    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLinkActive, RouterLink, NgOptimizedImage],
+    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLinkActive, RouterLink],
 })
 export class MenuCategoriesComponent implements OnInit, OnDestroy {
     public readonly DEFAULT_LOGO_SIZE: number = 32;

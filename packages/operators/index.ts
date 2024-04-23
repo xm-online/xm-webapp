@@ -24,3 +24,4 @@ export * from './src/request-util';
 export * from './src/transpilingForIE';
 export * from './src/dayjs-util';
 export * from './src/flattenObjectDeep';
+export * from './src/key-predicate';
