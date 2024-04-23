@@ -1,17 +1,17 @@
-import {inject, Injectable, Injector} from '@angular/core';
+import { inject, Injectable, Injector } from '@angular/core';
 import {
     XmDynamicInstanceService,
 } from '@xm-ngx/dynamic';
-import {XmConfig} from '@xm-ngx/interfaces';
-import {UUID} from 'angular2-uuid';
-import {cloneDeep, get, set} from 'lodash';
+import { XmConfig } from '@xm-ngx/interfaces';
+import { UUID } from 'angular2-uuid';
+import { cloneDeep, get, set } from 'lodash';
 import { firstValueFrom, isObservable } from 'rxjs';
-import {XmTableEntityController} from '../controllers/entity/xm-table-entity-controller.service';
-import {AXmTableLocalPageableCollectionController} from './a-xm-table-local-pageable-collection-controller.service';
-import {IXmTableCollectionController, XmFilterQueryParams} from './i-xm-table-collection-controller';
-import {XmToasterService} from '@xm-ngx/toaster';
-import {XmAlertService} from '@xm-ngx/alert';
-import {filter, take} from 'rxjs/operators';
+import { XmTableEntityController } from '../controllers/entity/xm-table-entity-controller.service';
+import { AXmTableLocalPageableCollectionController } from './a-xm-table-local-pageable-collection-controller.service';
+import { IXmTableCollectionController, XmFilterQueryParams } from './i-xm-table-collection-controller';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { XmAlertService } from '@xm-ngx/alert';
+import { filter, take } from 'rxjs/operators';
 
 export interface XmTableEntity extends XmConfig {
     path: string;
@@ -32,6 +32,7 @@ export interface XmTableArrayCollectionControllerConfig extends XmTableEntity {
             method: string;
         }
     }
+    empty?: string;
 }
 
 @Injectable()
@@ -48,7 +49,9 @@ export class XmTableArrayCollectionController<T = unknown>
     private injector: Injector = inject(Injector);
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.entity = await firstValueFrom(this.getEntityController()[this.config?.entityController?.method || 'entity$']());
+        this.entity = await firstValueFrom(
+            this.getEntityController()[this.config?.entityController?.method || 'entity$'](),
+        );
 
         const pathList = get(this.entity, this.config.path, []) as T[];
 
@@ -68,21 +71,26 @@ export class XmTableArrayCollectionController<T = unknown>
     }
 
     public save(): void {
+        if (!this.config?.path) {
+            console.warn('table-array-collection-controller: add "path" property to config');
+        }
         set(this.entity, this.config.path, cloneDeep(this.items));
 
-        if (this.config?.save?.controller) {
+        if (this.config.save?.controller) {
             const saveResult = this.getEntityController(this.config?.save?.controller?.key)[this.config?.save?.controller?.method](this.entity);
             if (isObservable(saveResult)) {
-                saveResult.subscribe();
+                saveResult.pipe(
+                    take(1),
+                ).subscribe();
             }
         } else {
             this.getEntityController().update(this.entity);
         }
     }
 
-    private getEntityController(key?: string): XmTableEntityController<object> | any {
+    private getEntityController(key: string = this.config?.entityController?.key || 'table-entity-controller'): XmTableEntityController<object> | any {
         return this.xmDynamicInstanceService.getControllerByKey(
-            key || this.config?.entityController?.key || 'table-entity-controller',
+            key,
             this.injector,
         ) || this.entityController;
     }
