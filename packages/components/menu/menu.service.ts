@@ -3,7 +3,7 @@ import { BehaviorSubject, combineLatest, debounceTime, from, Observable, of, Sub
 import { BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem } from './menu.interface';
 import { MatDrawerMode, MatDrawerToggleResult, MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { groupBy, orderBy, uniqBy } from 'lodash';
+import { cloneDeep, groupBy, orderBy, uniqBy } from 'lodash';
 import { Router } from '@angular/router';
 import { MenuCategoriesClassesEnum, MenuPositionEnum } from './menu.model';
 
@@ -162,7 +162,7 @@ export class MenuService {
         if (!categoryKey || !this.categories.hasOwnProperty(categoryKey)) {
             return this.otherCategory;
         }
-        return JSON.parse(JSON.stringify(this.categories[categoryKey])) as MenuCategory;
+        return cloneDeep(this.categories[categoryKey]);
     }
 
     public getUniqMenuCategories(menu: MenuItem[]): MenuCategory[] {
