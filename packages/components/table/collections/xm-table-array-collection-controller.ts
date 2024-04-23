@@ -32,7 +32,6 @@ export interface XmTableArrayCollectionControllerConfig extends XmTableEntity {
             method: string;
         }
     }
-    empty?: string;
 }
 
 @Injectable()
