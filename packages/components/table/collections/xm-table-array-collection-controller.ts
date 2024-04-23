@@ -48,9 +48,8 @@ export class XmTableArrayCollectionController<T = unknown>
     private injector: Injector = inject(Injector);
 
     public async load(request: XmFilterQueryParams): Promise<void> {
-        this.entity = await firstValueFrom(
-            this.getEntityController()[this.config?.entityController?.method || 'entity$'](),
-        );
+        const entityController = this.getEntityController()[this.config?.entityController?.method || 'entity$']();
+        this.entity = await firstValueFrom(entityController);
 
         const pathList = get(this.entity, this.config.path, []) as T[];
 
@@ -72,6 +71,7 @@ export class XmTableArrayCollectionController<T = unknown>
     public save(): void {
         if (!this.config?.path) {
             console.warn('table-array-collection-controller: add "path" property to config');
+            return;
         }
         set(this.entity, this.config.path, cloneDeep(this.items));
 
