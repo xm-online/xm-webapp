@@ -3,7 +3,7 @@ import { BehaviorSubject, combineLatest, debounceTime, from, Observable, of, Sub
 import { BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem } from './menu.interface';
 import { MatDrawerMode, MatDrawerToggleResult, MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { groupBy, orderBy, uniqBy } from 'lodash';
+import { cloneDeep, groupBy, orderBy, uniqBy } from 'lodash';
 import { Router } from '@angular/router';
 import { MenuCategoriesClassesEnum, MenuPositionEnum } from './menu.model';
 
@@ -148,8 +148,7 @@ export class MenuService {
     public mapMenuCategories(menu: MenuItem[]): MenuItem[] {
         return menu.map((menuItem: MenuItem) => {
             const { children, url } = menuItem || {};
-            const category: MenuCategory = menuItem.category || (menuItem.categoryKey ?
-                JSON.parse(JSON.stringify(this.categories[(menuItem.categoryKey)])) : this.otherCategory) as MenuCategory;
+            const category: MenuCategory = menuItem.category || this.checkCategoryExistence(menuItem.categoryKey);
             menuItem.category = {
                 ...category,
                 hasChildren: !!children?.length,
@@ -157,6 +156,13 @@ export class MenuService {
             };
             return menuItem;
         });
+    }
+
+    private checkCategoryExistence(categoryKey: string): MenuCategory {
+        if (!categoryKey || !this.categories.hasOwnProperty(categoryKey)) {
+            return this.otherCategory;
+        }
+        return cloneDeep(this.categories[categoryKey]);
     }
 
     public getUniqMenuCategories(menu: MenuItem[]): MenuCategory[] {
@@ -246,8 +252,8 @@ export class MenuService {
         return {
             name: {
                 en: 'Other',
-                ru: 'Іньше',
-                uk: 'Іньше',
+                ru: 'Інше',
+                uk: 'Інше',
             },
             order: 1,
             icon: 'more_horiz',
