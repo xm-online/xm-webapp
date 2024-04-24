@@ -141,6 +141,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.categories = this.menuService.getUniqMenuCategories(menu);
                 this.menuByCategories = this.menuService.getGroupedMenuCategories(menu);
                 if (this.isOnlyOtherCategory) {
+                    this.menuService.setHoveredCategory(this.menuService.otherCategory);
                     return menu;
                 }
                 this.menuService.setMenuCategories(this.categories);
@@ -243,9 +244,10 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                     const hoveredCategoryName: string = hoveredCategory?.name?.en?.toLowerCase();
                     if (!this.isMaterial3Menu) {
                         this.setStateForOldMenu(hoveredCategoryName);
-                    }
-                    if (!hoveredCategory || !this.isMaterial3Menu) {
                         return of(null);
+                    }
+                    if (!hoveredCategory) {
+                        return from(this.menuService.sidenav.close());
                     }
                     const isSetCategory: boolean = !this.menuService.sidenav.opened || this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName;
                     if (isSetCategory && this.menuByCategories) {
