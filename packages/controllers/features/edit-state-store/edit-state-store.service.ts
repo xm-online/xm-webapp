@@ -7,7 +7,7 @@ import { PageChangesStore, PageChangesStoreType } from '@xm-ngx/core/dashboard';
 @Injectable()
 export class EditStateStoreService {
     private pageChangesStore= inject(PageChangesStore);
-    private state: BehaviorSubject<EDIT_STATE> = new BehaviorSubject<EDIT_STATE>(EDIT_STATE.VIEW);
+    private state: BehaviorSubject<EDIT_STATE> = new BehaviorSubject<EDIT_STATE>(EDIT_STATE.EDIT);
     public state$: Observable<EDIT_STATE> = this.state.asObservable();
     public disable$: BehaviorSubject<EditDisableState> = new BehaviorSubject<EditDisableState>({
         [EDIT_ACTION.EDIT]: false,
