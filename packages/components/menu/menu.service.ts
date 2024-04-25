@@ -113,7 +113,7 @@ export class MenuService {
 
                     if (!this._menuCategories.value?.length && !this.sidenav.opened && !isMaterial3Menu) {
                         this.setHoveredCategory(this.otherCategory);
-                        return !this.breakpointObserver.isMatched(this.MOBILE_SCREEN) ? from(this.sidenav.open()) : of(null);
+                        return this.breakpointObserver.isMatched(this.DESKTOP_BIG_SCREEN) ? from(this.sidenav.open()) : of(null);
                     }
 
                     if (this._menuCategories.value?.length && isMaterial3Menu) {
@@ -201,9 +201,13 @@ export class MenuService {
     }
 
     public setCategoryOnRouteChange(active: MenuItem, menu: MenuItem[]): MenuCategory {
+        if (!this._isMaterial3Menu.value) {
+            this.selectedCategory.next(this.otherCategory);
+            this.setHoveredCategory(this.otherCategory, false);
+            return this.otherCategory;
+        }
         const singleCategory: MenuCategory = this._menuCategories.value?.find((category: MenuCategory) => this.isActiveUrl(category));
-        const selectedCategory: MenuCategory = active?.parent?.category || active?.category || singleCategory ||
-            this.selectedCategory.value || this.findPossibleCategoryForHiddenSection(menu) || this.reservedCategory;
+        const selectedCategory: MenuCategory = active?.parent?.category || active?.category || singleCategory || this.findPossibleCategoryForHiddenSection(menu) || this.reservedCategory;
         this.selectedCategory.next(selectedCategory);
         this.setHoveredCategory(selectedCategory, false);
         return selectedCategory;
@@ -231,7 +235,7 @@ export class MenuService {
 
     private get reservedCategory(): MenuCategory {
         const isOtherCategoryExists: boolean = this._menuCategories.value.some((category: MenuCategory) => category.name === this.otherCategory.name);
-        return isOtherCategoryExists ? this.otherCategory : this._menuCategories.value[0];
+        return isOtherCategoryExists ? this.otherCategory : null;
     }
 
     public get isOverMode(): boolean {

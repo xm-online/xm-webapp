@@ -105,8 +105,8 @@ export class XmEntityRepository<T extends XmEntity>
         return url;
     }
 
-    protected get updateResourceUrl() {
-        return this.config.updateResourceUrl ?? this.url;
+    protected get updateResourceUrl(): string {
+        return this.config.updateResourceUrl ?? 'entity/api/xm-entities';
     }
 
     protected getParams(request: XmFilterQueryParams): QueryParamsPageable {
