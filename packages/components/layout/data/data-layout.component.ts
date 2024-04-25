@@ -5,7 +5,7 @@ import { ConditionModule } from '@xm-ngx/components/condition';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicInjectionTokenStoreService, XmDynamicModule } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { get } from 'lodash';
+import { get, isArray } from 'lodash';
 import { of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DataLayoutConfig } from './data-layout.model';
@@ -39,7 +39,9 @@ export class DataLayoutComponent implements OnInit, OnDestroy {
         if (dataController) {
             dataController[this.config.dataController?.method || 'get']()
                 .pipe(
-                    map(obj => this.config?.field ? get(obj, this.config.field) : obj),
+                    map((obj: Record<string, unknown>) => {
+                        return this.getFieldsFromData(obj);
+                    }),
                     switchMap(value => {
                         if (this.config?.transform) {
                             const transformController = this.getControllerByKey(this.config.transform);
@@ -65,5 +67,26 @@ export class DataLayoutComponent implements OnInit, OnDestroy {
     private getControllerByKey(key: string): any {
         const providerToken: ProviderToken<any> = this.injectionTokenService.resolve(key);
         return this.injector.get(providerToken, undefined,{optional: true});
+    }
+
+    private getFieldsFromData(data: Record<string, unknown>): unknown {
+        if (isArray(this.config.field)) {
+            return this.config.field.reduce<Record<string, unknown>>((acc, field) => {
+                const [key, path] = field;
+
+                if (!key || !path) {
+                    return acc;
+                }
+
+                return {
+                    ...acc,
+                    [key]: get(data, path),
+                };
+            }, {});
+        }
+
+        return this.config?.field
+            ? get(data, this.config.field)
+            : data;
     }
 }
