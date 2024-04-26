@@ -159,7 +159,7 @@ export class MenuService {
     }
 
     private checkCategoryExistence(categoryKey: string): MenuCategory {
-        if (!categoryKey || !this.categories.hasOwnProperty(categoryKey)) {
+        if (!categoryKey || !this.categories?.hasOwnProperty(categoryKey)) {
             return this.otherCategory;
         }
         return cloneDeep(this.categories[categoryKey]);
