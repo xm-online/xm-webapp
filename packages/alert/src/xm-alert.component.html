@@ -15,10 +15,10 @@
   <div *ngIf="data?.html" [innerHTML]="data.html | translate | xmSafe: 'html'"></div>
 
   <div *ngIf="data?.imageUrl" class="content-image" [class.center]="data?.center">
-    <img 
-      [src]="data?.imageUrl" 
-      [width]="data.imageWidth" 
-      [height]="data.imageHeight">
+    <img
+      [src]="data?.imageUrl"
+      [attr.width]="data.imageWidth"
+      [attr.height]="data.imageHeight">
   </div>
 </mat-dialog-content>
 
