@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { MenuComponent } from '@xm-ngx/components/menu/menu.component';
+import { MenuComponent } from './menu.component';
 
 const meta: Meta = {
     title: 'Core/Presentation/Menu',
