@@ -36,6 +36,10 @@ export interface MenuItem extends DataQa {
     position: number;
     permission?: string | string[];
     url: string[];
+    /**
+     * Slug added automatically by JS mapping. Look in nested-menu.ts.
+     */
+    slug?: string;
     icon: string;
     title: Translate;
     parent: MenuItem,
