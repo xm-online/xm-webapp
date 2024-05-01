@@ -119,7 +119,7 @@ export class MenuService {
                     if (this._menuCategories.value?.length && isMaterial3Menu) {
                         const isBigScreen: boolean = breakpoints[this.DESKTOP_BIG_SCREEN];
                         const isLargeAndClosed: boolean = isBigScreen && !this.sidenav.opened;
-                        return isLargeAndClosed && !this.selectedCategory.value?.isLinkWithoutSubcategories ?
+                        return this.selectedCategory.value && isLargeAndClosed && !this.selectedCategory.value?.isLinkWithoutSubcategories ?
                             from(this.sidenav.open()) : of(breakpointState);
                     }
                     return of(null);
