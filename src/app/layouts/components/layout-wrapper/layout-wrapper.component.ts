@@ -22,7 +22,6 @@ import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() public isGuestLayout: boolean;
     public isMaterial3Menu: boolean;
-    public initialSidenavOpenedState: boolean;
     public isMobileScreen: boolean;
     public menuCategories$: Observable<MenuCategory[]>;
 
@@ -40,7 +39,6 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
         this.observeIsMaterial3Menu();
         this.observeIsMobileScreen();
         this.menuCategories$ = this.menuService.menuCategories;
-        this.initialSidenavOpenedState = this.menuService.initialSidenavOpenedState;
     }
 
     public ngAfterViewInit(): void {
