@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, Optional } from '@angular/core';
 import { ConditionDirective } from '@xm-ngx/components/condition';
 import { XmTextTitleOptions } from '../text-title';
 import {
@@ -31,7 +31,7 @@ export interface XmTextJoinValueOptions {
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmTextJoinComponent implements OnInit, XmDynamicPresentation<unknown, XmTextJoinValueOptions> {
+export class XmTextJoinComponent implements OnChanges, XmDynamicPresentation<unknown, XmTextJoinValueOptions> {
     @Input() public value: unknown;
     @Input() public config: XmTextJoinValueOptions;
     public joinValue: string;
@@ -42,7 +42,7 @@ export class XmTextJoinComponent implements OnInit, XmDynamicPresentation<unknow
     ) {
     }
 
-    public ngOnInit(): void {
+    public ngOnChanges(): void {
         this.joinValue = this.joinTemplates(this.config.templates || []);
     }
 
