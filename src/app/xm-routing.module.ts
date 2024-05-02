@@ -4,11 +4,6 @@ import { UserRouteAccessService } from '@xm-ngx/core/permission';
 
 const ROUTES: Routes = [
     {
-        path: 'error',
-        loadChildren: () => import('@xm-ngx/components/error').then((m) => m.ErrorModule),
-        data: { authorities: [], pageTitle: 'error.title' },
-    },
-    {
         path: 'accessdenied',
         loadChildren: () => import('@xm-ngx/components/error').then((m) => m.ErrorModule),
         data: { authorities: [], pageTitle: 'error.title', error403: true },
