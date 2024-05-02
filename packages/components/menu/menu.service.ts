@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, debounceTime, from, Observable, of, Subject, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, from, Observable, of, Subject, switchMap, take } from 'rxjs';
 import { BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem } from './menu.interface';
 import { MatDrawerMode, MatDrawerToggleResult, MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
@@ -20,7 +20,6 @@ export class MenuService {
     private _isSidenavOpen: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private _isMaterial3Menu: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
     public selectedCategory: BehaviorSubject<MenuCategory> = new BehaviorSubject<MenuCategory>(null);
-    public initialSidenavOpenedState: boolean;
     public isCategoriesHidden$: Observable<boolean>;
     public mobileMenuPositioning: MenuPositionEnum;
     public categories: Record<string, MenuCategory>;
@@ -29,7 +28,6 @@ export class MenuService {
         private breakpointObserver: BreakpointObserver,
         private router: Router,
     ) {
-        this.initialSidenavOpenedState = breakpointObserver.isMatched(this.DESKTOP_BIG_SCREEN);
         this.isCategoriesHidden$ = this.getHiddenCategoriesObserver();
     }
 
@@ -96,10 +94,10 @@ export class MenuService {
 
     public observeWindowSizeChange(): Observable<BreakpointState | MatDrawerToggleResult> {
         const windowSize$ = this.breakpointObserver.observe([this.TABLET_SCREEN, this.DESKTOP_SMALL_SCREEN, this.MOBILE_SCREEN, this.DESKTOP_BIG_SCREEN]);
-        return combineLatest([windowSize$, this.isMaterial3Menu])
+        const selectedCategory$: Observable<MenuCategory> = this.selectedCategory.asObservable().pipe(take(2));
+        return combineLatest([windowSize$, this.isMaterial3Menu, selectedCategory$])
             .pipe(
-                debounceTime(150),
-                switchMap(([breakpointState, isMaterial3Menu]: [BreakpointState, boolean]) => {
+                switchMap(([breakpointState, isMaterial3Menu, selectedCategory]: [BreakpointState, boolean, MenuCategory]) => {
                     const { value } = this._menuCategories;
                     const { breakpoints } = breakpointState;
 
@@ -113,13 +111,13 @@ export class MenuService {
 
                     if (!this._menuCategories.value?.length && !this.sidenav.opened && !isMaterial3Menu) {
                         this.setHoveredCategory(this.otherCategory);
-                        return this.breakpointObserver.isMatched(this.DESKTOP_BIG_SCREEN) ? from(this.sidenav.open()) : of(null);
+                        return selectedCategory && this.breakpointObserver.isMatched(this.DESKTOP_BIG_SCREEN) ? from(this.sidenav.open()) : of(null);
                     }
 
                     if (this._menuCategories.value?.length && isMaterial3Menu) {
                         const isBigScreen: boolean = breakpoints[this.DESKTOP_BIG_SCREEN];
                         const isLargeAndClosed: boolean = isBigScreen && !this.sidenav.opened;
-                        return isLargeAndClosed && !this.selectedCategory.value?.isLinkWithoutSubcategories ?
+                        return this.selectedCategory.value && isLargeAndClosed && !this.selectedCategory.value?.isLinkWithoutSubcategories ?
                             from(this.sidenav.open()) : of(breakpointState);
                     }
                     return of(null);
