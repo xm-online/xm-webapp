@@ -66,6 +66,7 @@ export interface XmTableFilterInlineFilter {
     host: { class: 'xm-table-filter-chips' },
     template: `
         <div class="filter-container ms-1" #filterContainer>
+            <div class="filter-holder" #filterHolder>
             <mat-chip-listbox class="chip-listbox" [selectable]="false" [multiple]="true">
                 <mat-chip-option *ngFor="let filter of activeFilters"
                                  (removed)="remove(filter)"
@@ -81,6 +82,7 @@ export interface XmTableFilterInlineFilter {
                     <mat-icon matChipRemove *ngIf="filter.removable">cancel</mat-icon>
                 </mat-chip-option>
             </mat-chip-listbox>
+            </div>
         </div>
 
         <div #filterChipsActions>
@@ -152,6 +154,9 @@ export interface XmTableFilterInlineFilter {
             width: 100%;
             overflow: hidden;
         }
+        .filter-holder{
+            width:100%;
+        }
     `],
     imports: [
         CommonModule,
@@ -171,6 +176,7 @@ export class XmTableFilterChipsComponent implements AfterViewInit, OnDestroy {
     public activeFilters: XmTableFilterInlineFilter[] = [];
     public hiddenFilters: XmTableFilterInlineFilter[] = [];
     @Input() @Defaults(DEFAULT_CONFIG) public config: XmTableInlineFilterChipsConfig;
+    @ViewChild('filterHolder') public filterHolder: ElementRef<HTMLElement>;
 
     @ViewChild('filterContainer') public filterContainer: ElementRef<HTMLElement>;
     @ViewChild('filterChipsActions') public filterChipsActions: ElementRef<HTMLElement>;
@@ -243,14 +249,9 @@ export class XmTableFilterChipsComponent implements AfterViewInit, OnDestroy {
 
         const filterItems = this.filterItems.toArray();
         const filterContainer = this.filterContainer.nativeElement;
-        const filterChipsActions = this.filterChipsActions.nativeElement;
-
+        const filterHolder = this.filterHolder.nativeElement;
+        const holderWidth = parseInt(window.getComputedStyle(filterHolder).width);
         const filterContainerStyle = window.getComputedStyle(filterContainer);
-
-        const containerWidth = parseInt(filterContainerStyle.width);
-        const actionsWidth = filterChipsActions.getBoundingClientRect().width;
-
-        const calcContainerOffset = containerWidth - actionsWidth;
 
         const marginOffset = parseInt(filterContainerStyle?.marginLeft) + parseInt(filterContainerStyle.marginRight);
 
@@ -266,7 +267,7 @@ export class XmTableFilterChipsComponent implements AfterViewInit, OnDestroy {
 
             chipsWidth += itemWidth;
 
-            if (chipsWidth > calcContainerOffset && !slicedIndex) {
+            if (chipsWidth > holderWidth && !slicedIndex) {
                 slicedIndex = i;
             }
         });
