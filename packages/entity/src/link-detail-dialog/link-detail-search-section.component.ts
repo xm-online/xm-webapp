@@ -90,8 +90,8 @@ export class LinkDetailSearchSectionComponent implements OnInit, OnDestroy, Afte
                 this.eventManager.broadcast({ name: 'linkListModification' });
                 this.toasterService.success('xm-entity.link-detail-dialog.add.success');
             },
-            () => {
-                this.toasterService.error('xm-entity.link-detail-dialog.add.error');
+            (err) => {
+                !err.handled && this.toasterService.error('xm-entity.link-detail-dialog.add.error');
                 this.showLoader = false;
             },
             () => this.activeModal.close(true),

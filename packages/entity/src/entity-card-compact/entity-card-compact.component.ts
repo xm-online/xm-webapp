@@ -172,7 +172,7 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
                 },
                 (err) => {
                     if (!this.preventDefaultUpdateError) {
-                        this.toasterService.error('xm-entity.entity-data-card.update-error');
+                        !err.handled && this.toasterService.error('xm-entity.entity-data-card.update-error');
                     } else {
                         this.saveError.emit(err);
                     }
