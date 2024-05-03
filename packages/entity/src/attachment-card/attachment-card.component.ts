@@ -119,7 +119,7 @@ export class AttachmentCardComponent implements OnInit {
                         });
                         this.toasterService.success('xm-entity.attachment-card.delete.remove-success');
                     },
-                    () => this.toasterService.error('xm-entity.attachment-card.delete.remove-error'),
+                    (err) => !err.handled && this.toasterService.error('xm-entity.attachment-card.delete.remove-error'),
                 );
             }
         });
