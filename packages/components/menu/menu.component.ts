@@ -141,6 +141,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.categories = this.menuService.getUniqMenuCategories(menu);
                 this.menuByCategories = this.menuService.getGroupedMenuCategories(menu);
                 if (this.isOnlyOtherCategory) {
+                    this.menuService.setHoveredCategory(this.menuService.otherCategory);
                     return menu;
                 }
                 this.menuService.setMenuCategories(this.categories);
@@ -243,9 +244,10 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                     const hoveredCategoryName: string = hoveredCategory?.name?.en?.toLowerCase();
                     if (!this.isMaterial3Menu) {
                         this.setStateForOldMenu(hoveredCategoryName);
-                    }
-                    if (!hoveredCategory || !this.isMaterial3Menu) {
                         return of(null);
+                    }
+                    if (!hoveredCategory) {
+                        return from(this.menuService.sidenav.close());
                     }
                     const isSetCategory: boolean = !this.menuService.sidenav.opened || this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName;
                     if (isSetCategory && this.menuByCategories) {
@@ -303,6 +305,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         this.selectedCategory = parent?.category || this.menuService.selectedCategory.value || this.menuService.otherCategory;
         this.menuService.selectedCategory.next(this.selectedCategory);
         this.parentCategory = parent;
+        this.closeSidenavInMobileView();
     }
 
     public async hideMenuRightSide(event: any): Promise<void> {
@@ -367,6 +370,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (!node.children?.length) {
             this.router.navigate(node.url);
+            this.closeSidenavInMobileView();
             if (node.category) {
                 this.menuService.selectedCategory.next(node.category);
                 this.selectedCategory = node.category;
@@ -409,5 +413,9 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isMaterial3Menu = !(categoriesKeys?.length === 1 && categoriesKeys[0] === this.menuService.otherCategory.name.en.toLowerCase());
         this.menuService.setIsMaterial3Menu(this.isMaterial3Menu);
         return !this.isMaterial3Menu;
+    }
+
+    private closeSidenavInMobileView(): void {
+        this.isMaterial3Menu && this.menuService.sidenav.mode === 'push' && this.menuService.sidenav.close();
     }
 }

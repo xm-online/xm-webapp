@@ -60,7 +60,7 @@ WithBoolean.args = {
 
 export const WithDynamicLabelTooltip = Template.bind({});
 WithDynamicLabelTooltip.args = {
-    value: 'Vodafone',
+    value: 'Provider',
     config: {
         'dynamicLabel': [
             {

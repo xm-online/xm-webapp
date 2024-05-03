@@ -1134,9 +1134,9 @@
     "entity-data-card": {
       "title": "Data",
       "created-by": "Created by",
-      "created-date": "Created date",
+      "created-date": "Create date",
       "updated-by": "Updated by",
-      "updated-date": "Updated date",
+      "updated-date": "Update date",
       "update-error": "Not updated. Try again.",
       "update-success": "Updated successfully.",
       "change-avatar": "Change Picture",
