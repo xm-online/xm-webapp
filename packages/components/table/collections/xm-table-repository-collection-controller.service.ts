@@ -80,8 +80,8 @@ export class XmTableRepositoryCollectionController<T = unknown>
                             total: res.body.total,
                             pageSize: res.body.pageSize,
                             pageIndex: res.body.pageIndex,
-                            sortBy: res.body.sortBy,
-                            sortOrder: res.body.sortOrder,
+                            sortBy: res.body.sortBy || request.pageableAndSortable.sortBy,
+                            sortOrder: res.body.sortOrder || request.pageableAndSortable.sortOrder,
                         },
                         error: null,
                     });
