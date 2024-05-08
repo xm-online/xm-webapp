@@ -1,8 +1,10 @@
+import { NgStyle } from '@angular/common';
 import {
     AfterViewInit,
     Component,
     ElementRef,
     EventEmitter,
+    HostBinding,
     HostListener,
     Input,
     OnDestroy,
@@ -27,6 +29,10 @@ import { tap } from 'rxjs';
                     #letter
                     maxlength="1"
                     autocomplete="one-time-code"
+                    [ngStyle]="{
+                        '--input-width': config?.width,
+                        '--input-height': config?.height,
+                    }"
                     [type]="config?.type || 'number'"
                     [formControlName]="$index"
                     (keyup)="handleKeyboardEvent($event, $index)"
@@ -35,6 +41,7 @@ import { tap } from 'rxjs';
         </div>
     `,
     imports: [
+        NgStyle,
         ReactiveFormsModule,
     ],
     providers: [
@@ -64,8 +71,8 @@ import { tap } from 'rxjs';
         }
 
         input {
-            width: 34px;
-            height: 50px;
+            width: calc(var(--input-width, 34) * 1px);
+            height: calc(var(--input-height, 50) * 1px);
             line-height: 50px;
             text-align: center;
             font-size: 24px;
@@ -76,18 +83,25 @@ import { tap } from 'rxjs';
             background: none;
         }
 
-        @media screen and (max-width: 1280px) {
-            input {
-                width: 33px;
-                height: 40px;
-                line-height: 40px;
-                font-size: 19px;
+        :host(.empty-size) {
+            @media screen and (max-width: 1280px) {
+                input {
+                    width: 33px;
+                    height: 40px;
+                    line-height: 40px;
+                    font-size: 19px;
+                }
             }
         }
     `],
 })
 export class LettersControl extends NgModelWrapper<string> implements OnInit, OnDestroy, AfterViewInit, Validator {
-    @Input() public config: { mask: string, type?: string };
+    @Input() public config: {
+        mask: string,
+        type?: string,
+        width?: number,
+        height?: number,
+    };
 
     @Output() public submitEvent: EventEmitter<string> = new EventEmitter<string>();
 
@@ -99,6 +113,10 @@ export class LettersControl extends NgModelWrapper<string> implements OnInit, On
 
     private inputs: HTMLInputElement[];
     private indexies: Map<number, HTMLInputElement>;
+
+    @HostBinding('class.empty-size') get emptySize(): boolean {
+        return this.config?.width == null && this.config?.height == null;
+    }
 
     @HostListener('paste', ['$event']) public handlePasteEvent(e: ClipboardEvent): void {
         e.preventDefault();
