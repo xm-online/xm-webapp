@@ -155,7 +155,7 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
                         });
                         this.toasterService.success('xm-entity.location-list-card.delete.remove-success');
                     },
-                    () => this.toasterService.error('xm-entity.location-list-card.delete.remove-error'),
+                    (err) => !err.handled && this.toasterService.error('xm-entity.location-list-card.delete.remove-error'),
                 );
             }
         });

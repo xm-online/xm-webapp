@@ -111,7 +111,7 @@ export class RatingListSectionComponent implements OnChanges {
         this.voteService.create(vote).subscribe(() => {
             this.load();
             this.toasterService.success('xm-entity.rating-list-section.vote-success');
-        }, () => this.toasterService.error('xm-entity.rating-list-section.vote-error'));
+        }, (err) => !err.handled && this.toasterService.error('xm-entity.rating-list-section.vote-error'));
     }
 
 }

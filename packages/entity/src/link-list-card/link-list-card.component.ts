@@ -92,7 +92,7 @@ export class LinkListCardComponent implements OnInit, OnChanges {
             if (result.value) {
                 this.linkService.delete(link.id).subscribe(
                     () => this.toasterService.success('xm-entity.link-list-card.delete.remove-success'),
-                    () => this.toasterService.error('xm-entity.link-list-card.delete.remove-error'),
+                    (err) => !err.handled && this.toasterService.error('xm-entity.link-list-card.delete.remove-error'),
                     () => this.eventManager.broadcast({
                         name: 'linkListModification',
                     }),

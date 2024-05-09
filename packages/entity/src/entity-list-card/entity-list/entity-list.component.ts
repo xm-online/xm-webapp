@@ -297,7 +297,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
                         });
                         this.toasterService.success('xm-entity.entity-list-card.delete.remove-success');
                     },
-                    () => this.toasterService.error('xm-entity.entity-list-card.delete.remove-error'),
+                    (err) => !err.handled && this.toasterService.error('xm-entity.entity-list-card.delete.remove-error'),
                 );
             }
         });

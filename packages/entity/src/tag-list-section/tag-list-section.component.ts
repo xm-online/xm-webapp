@@ -56,8 +56,8 @@ export class TagListSectionComponent implements OnInit, OnChanges, OnDestroy {
         };
         this.tagService.create(tag).subscribe(
             () => this.load(),
-            () => {
-                this.toasterService.error('xm-entity.tag-list-section.add-error');
+            (err) => {
+                !err.handled && this.toasterService.error('xm-entity.tag-list-section.add-error');
                 this.load();
             });
     }
@@ -65,8 +65,8 @@ export class TagListSectionComponent implements OnInit, OnChanges, OnDestroy {
     public onRemove(xmTag: Tag): void {
         this.tagService.delete(xmTag.id).subscribe(
             () => this.load(),
-            () => {
-                this.toasterService.error('xm-entity.tag-list-section.remove-error');
+            (err) => {
+                !err.handled && this.toasterService.error('xm-entity.tag-list-section.remove-error');
                 this.load();
             });
     }
