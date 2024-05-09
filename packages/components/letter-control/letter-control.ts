@@ -1,8 +1,10 @@
+import { NgStyle } from '@angular/common';
 import {
     AfterViewInit,
     Component,
     ElementRef,
     EventEmitter,
+    HostBinding,
     HostListener,
     Input,
     OnDestroy,
@@ -15,6 +17,7 @@ import {
 import { FormArray, ReactiveFormsModule, NG_VALUE_ACCESSOR, FormControl, Validators, NG_VALIDATORS, Validator, ValidationErrors } from '@angular/forms';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { getBrowserOtp, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { NgxMaskModule } from 'ngx-mask';
 import { tap } from 'rxjs';
 
 @Component({
@@ -27,7 +30,11 @@ import { tap } from 'rxjs';
                     #letter
                     maxlength="1"
                     autocomplete="one-time-code"
-                    [type]="config?.type || 'number'"
+                    [ngStyle]="{
+                        '--input-width': config?.width,
+                        '--input-height': config?.height,
+                    }"
+                    [mask]="mask[$index] ?? 'number'"
                     [formControlName]="$index"
                     (keyup)="handleKeyboardEvent($event, $index)"
                     (input)="handleInputEvent($event, $index)" />
@@ -35,7 +42,9 @@ import { tap } from 'rxjs';
         </div>
     `,
     imports: [
+        NgStyle,
         ReactiveFormsModule,
+        NgxMaskModule,
     ],
     providers: [
         {
@@ -64,8 +73,8 @@ import { tap } from 'rxjs';
         }
 
         input {
-            width: 34px;
-            height: 50px;
+            width: calc(var(--input-width, 34) * 1px);
+            height: calc(var(--input-height, 50) * 1px);
             line-height: 50px;
             text-align: center;
             font-size: 24px;
@@ -76,29 +85,40 @@ import { tap } from 'rxjs';
             background: none;
         }
 
-        @media screen and (max-width: 1280px) {
-            input {
-                width: 33px;
-                height: 40px;
-                line-height: 40px;
-                font-size: 19px;
+        :host(.empty-size) {
+            @media screen and (max-width: 1280px) {
+                input {
+                    width: 33px;
+                    height: 40px;
+                    line-height: 40px;
+                    font-size: 19px;
+                }
             }
         }
     `],
 })
 export class LettersControl extends NgModelWrapper<string> implements OnInit, OnDestroy, AfterViewInit, Validator {
-    @Input() public config: { mask: string, type?: string };
+    @Input() public config: {
+        mask: string,
+        type?: string,
+        width?: number,
+        height?: number,
+    };
 
     @Output() public submitEvent: EventEmitter<string> = new EventEmitter<string>();
 
     @ViewChildren('letter') public components: QueryList<ElementRef<HTMLInputElement>>;
 
-    private mask: string[] = [];
+    public mask: string[] = [];
 
     public boxes: FormArray<FormControl<string>>;
 
     private inputs: HTMLInputElement[];
     private indexies: Map<number, HTMLInputElement>;
+
+    @HostBinding('class.empty-size') get emptySize(): boolean {
+        return this.config?.width == null && this.config?.height == null;
+    }
 
     @HostListener('paste', ['$event']) public handlePasteEvent(e: ClipboardEvent): void {
         e.preventDefault();
@@ -143,8 +163,7 @@ export class LettersControl extends NgModelWrapper<string> implements OnInit, On
         const element = (e.target as HTMLInputElement);
         const value = element.value;
 
-        // Some browsers like firefox, safari allow to pass chars despine input type, so erase invalid chars
-        if (!/^[0-9]$/.test(value)) {
+        if (!value) {
             this.boxes.at(index).setValue('');
             return;
         }
@@ -211,7 +230,7 @@ export class LettersControl extends NgModelWrapper<string> implements OnInit, On
     }
 
     public ngOnInit(): void {
-        this.mask = Array.from(this.config.mask ?? '').map(() => '');
+        this.mask = Array.from(this.config.mask ?? '').map((v) => v === '*' ? '0' : v);
         this.boxes = new FormArray(
             this.mask.map(() => new FormControl('')),
             [
