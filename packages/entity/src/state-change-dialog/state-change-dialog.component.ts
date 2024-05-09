@@ -57,7 +57,7 @@ export class StateChangeDialogComponent implements OnInit {
             (r) => {
                 this.onSuccessFunctionCall(r);
             },
-            () => this.toasterService.error('xm-entity.function-list-card.change-state.error'),
+            (err) => !err.handled && this.toasterService.error('xm-entity.function-list-card.change-state.error'),
         );
     }
 

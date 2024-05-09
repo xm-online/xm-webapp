@@ -20,4 +20,5 @@ export interface ExtSelectOptions {
     noTitle?: boolean;
     emptyPlaceholder?: string;
     link?: SelectDeepLinkOptions;
+    disableEmptyValue?: boolean;
 }

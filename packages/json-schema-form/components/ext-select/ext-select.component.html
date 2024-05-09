@@ -23,7 +23,7 @@
         ></ngx-mat-select-search>
       </mat-option>
       <mat-option disabled *ngIf="options?.placeholder">{{options?.placeholder | translate}}</mat-option>
-      <mat-option [value]="{value: ''}">{{'global.rest-select-none-option' | translate}}</mat-option>
+      <mat-option [value]="{value: ''}" *ngIf="!options?.disableEmptyValue">{{'global.rest-select-none-option' | translate}}</mat-option>
       <mat-option *ngFor="let element of filteredElements | async" [value]="element">
         {{element.label}}
       </mat-option>
