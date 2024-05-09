@@ -17,6 +17,7 @@ import {
 import { FormArray, ReactiveFormsModule, NG_VALUE_ACCESSOR, FormControl, Validators, NG_VALIDATORS, Validator, ValidationErrors } from '@angular/forms';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { getBrowserOtp, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { NgxMaskModule } from 'ngx-mask';
 import { tap } from 'rxjs';
 
 @Component({
@@ -33,7 +34,7 @@ import { tap } from 'rxjs';
                         '--input-width': config?.width,
                         '--input-height': config?.height,
                     }"
-                    [type]="config?.type || 'number'"
+                    [mask]="mask[$index] ?? 'number'"
                     [formControlName]="$index"
                     (keyup)="handleKeyboardEvent($event, $index)"
                     (input)="handleInputEvent($event, $index)" />
@@ -43,6 +44,7 @@ import { tap } from 'rxjs';
     imports: [
         NgStyle,
         ReactiveFormsModule,
+        NgxMaskModule,
     ],
     providers: [
         {
@@ -107,7 +109,7 @@ export class LettersControl extends NgModelWrapper<string> implements OnInit, On
 
     @ViewChildren('letter') public components: QueryList<ElementRef<HTMLInputElement>>;
 
-    private mask: string[] = [];
+    public mask: string[] = [];
 
     public boxes: FormArray<FormControl<string>>;
 
@@ -161,8 +163,7 @@ export class LettersControl extends NgModelWrapper<string> implements OnInit, On
         const element = (e.target as HTMLInputElement);
         const value = element.value;
 
-        // Some browsers like firefox, safari allow to pass chars despine input type, so erase invalid chars
-        if (!/^[0-9]$/.test(value)) {
+        if (!value) {
             this.boxes.at(index).setValue('');
             return;
         }
@@ -229,7 +230,7 @@ export class LettersControl extends NgModelWrapper<string> implements OnInit, On
     }
 
     public ngOnInit(): void {
-        this.mask = Array.from(this.config.mask ?? '').map(() => '');
+        this.mask = Array.from(this.config.mask ?? '').map((v) => v === '*' ? '0' : v);
         this.boxes = new FormArray(
             this.mask.map(() => new FormControl('')),
             [
