@@ -19,7 +19,7 @@ export const DEFAULT_TITLE = 'Title';
 export class TitleService implements OnInitialize, OnDestroy {
 
     protected subscriptions: Subscription[] = [];
-    private postfix: string;
+    private postfix: string = '';
 
     constructor(protected translateService: TranslateService,
                 protected route: ActivatedRoute,
@@ -36,8 +36,6 @@ export class TitleService implements OnInitialize, OnDestroy {
             this.uiConfigService.config$().subscribe((c) => {
                 if (c?.name) {
                     this.postfix = ' - ' + c.name;
-                } else {
-                    this.postfix = '';
                 }
                 if (c.showVersion) {
                     this.postfix = this.postfix;
