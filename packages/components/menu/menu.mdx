@@ -1,0 +1,160 @@
+import {Meta} from '@storybook/blocks';
+import * as MenuStories from './menu.stories';
+
+<Meta of={MenuStories}/>
+
+# Menu
+
+This component supports 2 ways to display menu for your application:
+
+* Customized Material 3 menu. Look official [Material 3 site](https://m3.material.io/) to see the reference.
+
+* Simple 2 level menu
+
+
+## Steps to implement Material 3 menu
+- [Configure public UI config](#configure-public-ui-config)
+- [Configure dashboards](#configure-dashboards)
+  - [Category as section (page)](#category-as-section-page)
+  - [Dashboard as a section (page)](#dashboard-as-a-section-page)
+  - [Dashboard as a group (accordion)](#dashboard-as-a-group-accordion)
+- [Theming](#theming)
+
+
+### Configure public UI config
+
+Example of `yaml` configuration you can use:
+```yaml
+sidebar:
+  hideAdminConsole: true
+  hideApplication: true
+  layout:
+    - selector: 'div'
+      content:
+      - selector: '@xm-ngx/components/sidebar-menu'
+        config:
+          mode: 'toggle' # possible values `toggle` – to toggle the accordion or `click` – route to accordion url
+          mobileMenuPositioning: 'left' # More info: https://material.angular.io/components/sidenav/api#MatDrawer (`position` property)
+          logo: # logo that will be displayed in the left top corner
+            url: 'https://url-to-your-logo-or-base64-string'
+          categories: # Object with categories
+            categoryKey1: # Category key that you will use in dashboard configuration
+              name: # Category name in different languages
+                en: 'Category 1'
+                uk: 'Категорія 1'
+              icon: 'home' # Category icon name from https://fonts.google.com/icons
+              order: 50 # Priority to display category, asc sort
+              dataQa: 'home-menu-category' # Key for the data-qa attribute that will be added to the html element
+            categoryKey2:
+              name:
+                en: 'Category 2'
+                uk: 'Категорія 2'
+              icon: 'menu_book'
+              order: 100
+              dataQa: 'menu-book-menu-category'
+            # ... etc., you can add here N quantity of categories you need
+```
+### Configure dashboards
+
+#### Category as section (page)
+
+Example for the dashboard configuration, when hover on category shouldn't open the sidenav and click on it should do navigation to the page.
+In this case category should be specified inside the dashboard configuration, but not used from UI config.
+```json
+{
+  "category": {
+    "name": {
+      "en": "Name",
+      "uk": "Імʼя"
+    },
+    "isLinkWithoutSubcategories": true,
+    "url": "value-streams",
+    "icon": "business_center",
+    "order": 1,
+    "dataQa": "business-menu-category"
+  }
+}
+```
+
+#### Dashboard as a section (page)
+
+Example for the dashboard configuration, when hover on category should open the sidenav and display the section which user can navigate by click on it.
+In this case it's enough to specify `categoryKey` parameter from you [UI config](#configure-public-ui-config).
+
+```json
+{
+  "hidden": false,
+  "name": {
+    "en": "Name",
+    "uk": "Імʼя"
+  },
+  "orderIndex": 1,
+  "categoryKey": "categoryKey1",
+  "dataQa": "group-tasks-menu-section",
+  "slug": "path-to-your-page"
+}
+```
+
+#### Dashboard as a group (accordion)
+Example for the dashboard configuration, when hover on category should open the sidenav and display the section which will group another pages.
+
+Create dashboard (parent):
+In this case it's enough to specify `categoryKey` parameter from you [UI config](#configure-public-ui-config).
+
+```json
+{
+  "hidden": false,
+  "name": {
+    "en": "Name",
+    "uk": "Імʼя"
+  },
+  "orderIndex": 1,
+  "categoryKey": "categoryKey1",
+  "dataQa": "parent-menu-section",
+  "slug": "parent-page-path"
+}
+```
+Then create another dashboard (child), which path inherits the parent one (see `slug` parameter). Here you don't need to specify `categoryKey` parameter.
+```json
+{
+  "hidden": false,
+  "name": {
+    "en": "Name",
+    "uk": "Імʼя"
+  },
+  "orderIndex": 2,
+  "dataQa": "child-menu-section",
+  "slug": "parent-page-path/child-page-path"
+}
+```
+`orderIndex` parameter to the child page must be higher the parent. As in example parent `orderIndex` = 1, child `orderIndex` = 2.
+
+### Theming
+
+In the `_theme.scss` file should be specified sidenav colors, for example:
+
+Dark background with white text:
+
+```scss
+$xm-theme: (
+  sidebar-text-active-color: white,
+  sidebar-backdrop: #656869,
+  sidebar-background: #444746,
+  sidebar-text-color: white,
+  sidebar-width-m3: 256px,
+  menu-categories-scrollbar-color: #777777,
+  menu-categories-text-color: #c4c7c5
+);
+```
+
+Light background and dark text:
+```scss
+$xm-theme: (
+  sidebar-text-active-color: #555555,
+  sidebar-background: #f3f3f3,
+  sidebar-text-color: #333333,
+  menu-categories-scrollbar-color: #777777,
+  menu-categories-text-color: #555555
+);
+```
+

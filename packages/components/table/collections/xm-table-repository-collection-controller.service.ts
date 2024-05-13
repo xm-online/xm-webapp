@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash';
 import { XmTableRepositoryResolver, } from '../repositories/xm-table-repository-resolver.service';
 import { NotSupportedException } from '@xm-ngx/exceptions';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
-import { take, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 import { XmDynamicInstanceService, XmDynamicService, XmDynamicWithSelector } from '@xm-ngx/dynamic';
@@ -17,7 +17,7 @@ import {
 } from './xm-table-read-only-repository-collection-controller';
 import { XmEventManagerService } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { XmTableEventType } from '../directives/xm-table.model';
 
 export interface IXmTableRepositoryCollectionControllerConfig extends XmConfig {
@@ -80,8 +80,8 @@ export class XmTableRepositoryCollectionController<T = unknown>
                             total: res.body.total,
                             pageSize: res.body.pageSize,
                             pageIndex: res.body.pageIndex,
-                            sortBy: res.body.sortBy,
-                            sortOrder: res.body.sortOrder,
+                            sortBy: res.body.sortBy || request.pageableAndSortable.sortBy,
+                            sortOrder: res.body.sortOrder || request.pageableAndSortable.sortOrder,
                         },
                         error: null,
                     });
@@ -125,10 +125,11 @@ export class XmTableRepositoryCollectionController<T = unknown>
         payload: T,
         params?: QueryParams,
         headers?: HttpHeaders
-    ): Observable<HttpResponse<unknown>> {
+    ): Observable<T> {
         return this.repositoryController.update(payload, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
+                map((res) => res?.body)
             );
     }
 
@@ -136,10 +137,11 @@ export class XmTableRepositoryCollectionController<T = unknown>
         payload: T,
         params?: QueryParams,
         headers?: HttpHeaders
-    ): Observable<HttpResponse<unknown>> {
+    ): Observable<T> {
         return this.repositoryController.create(payload, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
+                map((res) => res?.body)
             );
     }
 
@@ -147,10 +149,11 @@ export class XmTableRepositoryCollectionController<T = unknown>
         id: string | number,
         params?: QueryParams,
         headers?: HttpHeaders
-    ): Observable<HttpResponse<unknown>> {
+    ): Observable<unknown> {
         return this.repositoryController.delete(id, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
+                map((res) => res?.body)
             );
     }
 
@@ -158,10 +161,11 @@ export class XmTableRepositoryCollectionController<T = unknown>
         payload: T,
         params?: QueryParams,
         headers?: HttpHeaders
-    ): Observable<HttpResponse<unknown>> {
+    ): Observable<unknown> {
         return this.repositoryController.patch(payload, params, headers)
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
+                map((res) => res?.body)
             );
     }
 }

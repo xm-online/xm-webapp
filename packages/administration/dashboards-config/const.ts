@@ -10,6 +10,7 @@ export const DASHBOARDS_TRANSLATES = {
     config: `${dashboards}config`,
     name: `${dashboards}name`,
     layout: `${dashboards}layout`,
+    hidden: `${dashboards}hidden`,
     editDashboard: `${dashboards}edit-dashboard`,
     createDashboard: `${dashboards}create-dashboard`,
     owner: `${dashboards}owner`,
@@ -23,6 +24,9 @@ export const DASHBOARDS_TRANSLATES = {
     cancel: `${dashboards}cancel`,
     copy: `${dashboards}copy`,
     duplicate: `${dashboards}duplicate`,
+    paste: `${dashboards}paste`,
+    back: `${dashboards}back`,
+    copyClipboard: `${dashboards}copy-clipboard`,
     delete: `${dashboards}delete`,
     created: `${dashboards}created`,
     updated: `${dashboards}updated`,
@@ -35,6 +39,9 @@ export const DASHBOARDS_TRANSLATES = {
     close: `${dashboards}close`,
     filter: `${dashboards}filter`,
     empty: `${dashboards}empty`,
+    info: `${dashboards}info`,
+    editor: `${dashboards}editor`,
+    samples: `${dashboards}samples`,
     historyChangesBtnTitle: `${dashboards}historyChangesBtnTitle`,
 };
 

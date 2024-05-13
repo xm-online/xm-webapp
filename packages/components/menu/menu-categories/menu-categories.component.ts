@@ -53,10 +53,8 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy {
         this.menuService.selectedCategory.asObservable()
             .pipe(takeUntilOnDestroy(this))
             .subscribe((selectedCategory: MenuCategory) => {
-                if (selectedCategory) {
-                    this.selectedCategory = selectedCategory;
-                    this.cdr.markForCheck();
-                }
+                this.selectedCategory = selectedCategory;
+                this.cdr.markForCheck();
             });
     }
 

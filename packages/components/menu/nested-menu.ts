@@ -114,6 +114,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         title: menuName || configName || dashboardName,
                         permission: permission || 'DASHBOARD.GET_LIST',
                         url: [ 'dashboard', ...slug.split('/') ],
+                        slug: `dashboard/${slug}`,
                         parent: tree,
                         children: [],
                         activeItemPathPatterns,

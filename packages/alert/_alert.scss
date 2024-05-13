@@ -22,11 +22,9 @@ $custom-dialog-border-radius: 30px;
 
     .mdc-dialog__actions {
       padding: 0 24px 24px 24px; // Can't be redefined through material
+      row-gap: 16px;
       & .mdc-button {
         @include button-text-theme.theme-styles($custom-dialog-button-theme);
-        &:last-child {
-          margin-left: 16px;
-        }
       }
     }
 

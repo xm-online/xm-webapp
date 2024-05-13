@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, debounceTime, from, Observable, of, Subject, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, from, Observable, of, Subject, switchMap, take } from 'rxjs';
 import { BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem } from './menu.interface';
 import { MatDrawerMode, MatDrawerToggleResult, MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { groupBy, orderBy, uniqBy } from 'lodash';
+import { cloneDeep, groupBy, orderBy, uniqBy } from 'lodash';
 import { Router } from '@angular/router';
 import { MenuCategoriesClassesEnum, MenuPositionEnum } from './menu.model';
 
@@ -20,7 +20,6 @@ export class MenuService {
     private _isSidenavOpen: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private _isMaterial3Menu: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
     public selectedCategory: BehaviorSubject<MenuCategory> = new BehaviorSubject<MenuCategory>(null);
-    public initialSidenavOpenedState: boolean;
     public isCategoriesHidden$: Observable<boolean>;
     public mobileMenuPositioning: MenuPositionEnum;
     public categories: Record<string, MenuCategory>;
@@ -29,7 +28,6 @@ export class MenuService {
         private breakpointObserver: BreakpointObserver,
         private router: Router,
     ) {
-        this.initialSidenavOpenedState = breakpointObserver.isMatched(this.DESKTOP_BIG_SCREEN);
         this.isCategoriesHidden$ = this.getHiddenCategoriesObserver();
     }
 
@@ -96,10 +94,10 @@ export class MenuService {
 
     public observeWindowSizeChange(): Observable<BreakpointState | MatDrawerToggleResult> {
         const windowSize$ = this.breakpointObserver.observe([this.TABLET_SCREEN, this.DESKTOP_SMALL_SCREEN, this.MOBILE_SCREEN, this.DESKTOP_BIG_SCREEN]);
-        return combineLatest([windowSize$, this.isMaterial3Menu])
+        const selectedCategory$: Observable<MenuCategory> = this.selectedCategory.asObservable().pipe(take(2));
+        return combineLatest([windowSize$, this.isMaterial3Menu, selectedCategory$])
             .pipe(
-                debounceTime(150),
-                switchMap(([breakpointState, isMaterial3Menu]: [BreakpointState, boolean]) => {
+                switchMap(([breakpointState, isMaterial3Menu, selectedCategory]: [BreakpointState, boolean, MenuCategory]) => {
                     const { value } = this._menuCategories;
                     const { breakpoints } = breakpointState;
 
@@ -113,13 +111,13 @@ export class MenuService {
 
                     if (!this._menuCategories.value?.length && !this.sidenav.opened && !isMaterial3Menu) {
                         this.setHoveredCategory(this.otherCategory);
-                        return !this.breakpointObserver.isMatched(this.MOBILE_SCREEN) ? from(this.sidenav.open()) : of(null);
+                        return selectedCategory && this.breakpointObserver.isMatched(this.DESKTOP_BIG_SCREEN) ? from(this.sidenav.open()) : of(null);
                     }
 
                     if (this._menuCategories.value?.length && isMaterial3Menu) {
                         const isBigScreen: boolean = breakpoints[this.DESKTOP_BIG_SCREEN];
                         const isLargeAndClosed: boolean = isBigScreen && !this.sidenav.opened;
-                        return isLargeAndClosed && !this.selectedCategory.value?.isLinkWithoutSubcategories ?
+                        return this.selectedCategory.value && isLargeAndClosed && !this.selectedCategory.value?.isLinkWithoutSubcategories ?
                             from(this.sidenav.open()) : of(breakpointState);
                     }
                     return of(null);
@@ -148,8 +146,7 @@ export class MenuService {
     public mapMenuCategories(menu: MenuItem[]): MenuItem[] {
         return menu.map((menuItem: MenuItem) => {
             const { children, url } = menuItem || {};
-            const category: MenuCategory = menuItem.category || (menuItem.categoryKey ?
-                JSON.parse(JSON.stringify(this.categories[(menuItem.categoryKey)])) : this.otherCategory) as MenuCategory;
+            const category: MenuCategory = menuItem.category || this.checkCategoryExistence(menuItem.categoryKey);
             menuItem.category = {
                 ...category,
                 hasChildren: !!children?.length,
@@ -157,6 +154,13 @@ export class MenuService {
             };
             return menuItem;
         });
+    }
+
+    private checkCategoryExistence(categoryKey: string): MenuCategory {
+        if (!categoryKey || !this.categories?.hasOwnProperty(categoryKey)) {
+            return this.otherCategory;
+        }
+        return cloneDeep(this.categories[categoryKey]);
     }
 
     public getUniqMenuCategories(menu: MenuItem[]): MenuCategory[] {
@@ -195,9 +199,13 @@ export class MenuService {
     }
 
     public setCategoryOnRouteChange(active: MenuItem, menu: MenuItem[]): MenuCategory {
+        if (!this._isMaterial3Menu.value) {
+            this.selectedCategory.next(this.otherCategory);
+            this.setHoveredCategory(this.otherCategory, false);
+            return this.otherCategory;
+        }
         const singleCategory: MenuCategory = this._menuCategories.value?.find((category: MenuCategory) => this.isActiveUrl(category));
-        const selectedCategory: MenuCategory = active?.parent?.category || active?.category || singleCategory ||
-            this.selectedCategory.value || this.findPossibleCategoryForHiddenSection(menu) || this.reservedCategory;
+        const selectedCategory: MenuCategory = active?.parent?.category || active?.category || singleCategory || this.findPossibleCategoryForHiddenSection(menu) || this.reservedCategory;
         this.selectedCategory.next(selectedCategory);
         this.setHoveredCategory(selectedCategory, false);
         return selectedCategory;
@@ -225,7 +233,7 @@ export class MenuService {
 
     private get reservedCategory(): MenuCategory {
         const isOtherCategoryExists: boolean = this._menuCategories.value.some((category: MenuCategory) => category.name === this.otherCategory.name);
-        return isOtherCategoryExists ? this.otherCategory : this._menuCategories.value[0];
+        return isOtherCategoryExists ? this.otherCategory : null;
     }
 
     public get isOverMode(): boolean {
@@ -246,8 +254,8 @@ export class MenuService {
         return {
             name: {
                 en: 'Other',
-                ru: 'Іньше',
-                uk: 'Іньше',
+                ru: 'Інше',
+                uk: 'Інше',
             },
             order: 1,
             icon: 'more_horiz',

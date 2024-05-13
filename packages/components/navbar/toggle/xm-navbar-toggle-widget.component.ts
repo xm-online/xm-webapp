@@ -1,8 +1,9 @@
-import { Component, ElementRef, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { MatButtonModule } from '@angular/material/button';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import {MenuService} from '@xm-ngx/components/menu';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 @Component({
     selector: 'xm-navbar-toggle-widget',
@@ -30,7 +31,7 @@ import {MenuService} from '@xm-ngx/components/menu';
     encapsulation: ViewEncapsulation.None,
 })
 
-export class XmNavbarToggleWidget implements OnInit, XmDynamicWidget {
+export class XmNavbarToggleWidget implements OnInit, OnDestroy, XmDynamicWidget {
     @Input() public config: unknown;
 
     protected mobileMenuVisible: boolean = false;
@@ -43,14 +44,16 @@ export class XmNavbarToggleWidget implements OnInit, XmDynamicWidget {
 
     public ngOnInit(): void {
         this.sidebarOpen();
+        this.observeSidenavOpenedState();
+    }
+
+    private observeSidenavOpenedState(): void {
+        this.menuService.sidenav.openedChange.asObservable()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((isOpen: boolean) => isOpen ? this.sidebarOpen() : this.sidebarClose());
     }
 
     public async sidebarToggle(): Promise<void> {
-        if (!this.menuService.sidenav.opened) {
-            this.sidebarOpen();
-        } else {
-            this.sidebarClose();
-        }
         await this.menuService.sidenav.toggle();
     }
 
@@ -124,4 +127,7 @@ export class XmNavbarToggleWidget implements OnInit, XmDynamicWidget {
         this.mobileMenuVisible = false;
     }
 
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
 }

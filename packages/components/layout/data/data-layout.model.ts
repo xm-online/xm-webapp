@@ -2,7 +2,7 @@ import { XmDynamicControllerDeclaration } from '@xm-ngx/dynamic/presentation/xm-
 import { JavascriptCode, XmConfig } from '@xm-ngx/interfaces';
 
 export type DataLayoutConfig = {
-    field?: string;
+    field?: string | string[][];
     condition?: JavascriptCode;
     transform?: string;
     layout: DynamicLayoutConfig;

@@ -147,23 +147,29 @@
   "clientManagement": {
     "client": {
       "already": {
-        "exists": "Client with this ID already exists"
+        "exists": "Client with this ID already exists!"
       }
     },
+    "id": "ID",
     "clientId": "Client Id",
     "clientSecret": "Client Secret",
     "createdBy": "Created By",
     "createdDate": "Created Date",
     "delete": {
-      "question": "Are you sure you want to delete client {{ id }}?"
+      "question": "Are you sure you want to delete client with id {{ id }}?"
     },
     "description": "Description",
     "detail": {
       "title": "Client"
     },
+    "actions": {
+      "block": "Are you sure you want to block the client?",
+      "unblock": "Are you sure you want to activate the client?",
+      "confirm": "Yes, confirm"
+    },
     "home": {
-      "createOrEditLabel": "Create or edit a client",
-      "title": "Clients"
+      "createOrEditLabel": "Create or edit a app/client authentication data",
+      "title": "Applications/Clients"
     },
     "lastModifiedBy": "Modified By",
     "lastModifiedDate": "Modified Date",
@@ -171,7 +177,7 @@
     "roleKey": "Role",
     "roles": "Roles",
     "scopes-add": "Add scopes",
-    "search-by-client-id": "Search by client ID",
+    "search-by-client-id": "Search by app/client ID",
     "validityPeriod": "Validity period"
   },
   "commons": {
@@ -183,6 +189,7 @@
     "close": "Close",
     "config": "Config",
     "copy": "Copy",
+    "copy-clipboard": "Copy to clipboard",
     "create": "Create",
     "create-dashboard": "Create dashboard",
     "created": "Created {{value}}",
@@ -191,6 +198,7 @@
     "delete": "Delete {{value}}",
     "deleted": "Deleted {{value}}",
     "duplicate": "Duplicate",
+    "paste": "Paste from clipboard",
     "edit-dashboard": "Edit dashboard",
     "edit-widget": "Edit widget",
     "empty": "Empty",
@@ -202,9 +210,13 @@
     },
     "filter": "Filter",
     "id": "Id",
+    "info": "Info",
+    "editor": "Editor",
+    "samples":  "Samples",
     "import": "Import",
     "delete-existing-dashboards": "Delete existing dashboards?",
     "layout": "Layout",
+    "hidden": "Hidden",
     "name": "Name",
     "owner": "Owner",
     "project": "Project",
@@ -221,6 +233,7 @@
     "no-active": "No active event.",
     "change-lists": "Changes",
     "show-more": "Show more",
+    "back": "Back",
     "empty-history": "Empty for this item."
   },
   "date-time-picker": {
@@ -246,7 +259,7 @@
     "search": "Search",
     "validation": {
       "maxlength": "This field cannot be longer than {{ max }} characters.",
-      "required": "This field is required."
+      "required": "This field is required!"
     }
   },
   "error": {
@@ -957,10 +970,18 @@
     "createdDate": "Created date",
     "deactivated": "Deactivated",
     "delete": {
-      "question": "Are you sure you want to delete user {{ userKey }}?"
+      "question": "Are you sure you want to delete user with login {{ userKey }}?"
     },
     "detail": {
       "title": "User"
+    },
+    "actions": {
+      "block": "Are you sure you want to block the user?",
+      "unblock": "Are you sure you want to activate the user?",
+      "enable2famsg": "Are you sure you want to enable 2FA?",
+      "enable2fabtn": "Yes, enable",
+      "disable2famsg": "Are you sure you want to disable 2FA?",
+      "disable2fabtn": "Yes, disable"
     },
     "error": "Error",
     "firstName": "First name",
@@ -969,6 +990,7 @@
       "editLoginsLabel": "Update user logins",
       "title": "Users"
     },
+    "id": "ID",
     "langKey": "Language",
     "lastModifiedBy": "Modified by",
     "lastModifiedDate": "Modified date",
@@ -1078,9 +1100,9 @@
     },
     "common": {
       "add": "Add",
-      "add-avatar": "Add Avatar",
+      "add-avatar": "Add photo",
       "cancel": "Cancel",
-      "change-avatar": "Change Avatar",
+      "change-avatar": "Change photo",
       "close": "Close",
       "fields": {
         "addressLine1": "Address Line 1",
@@ -1094,8 +1116,8 @@
         "message": "Comment",
         "name": "Name",
         "region": "Region",
-        "start-date": "Start date",
-        "state": "State",
+        "start-date": "Created date",
+        "state": "Status",
         "title": "Title",
         "type": "Type",
         "zip": "Zip code"
@@ -1106,15 +1128,15 @@
         "coordinates": "This field does not match the format of latitude and longitude.",
         "date-time": "This field should be a date and time.",
         "pattern": "This field does not match the rules",
-        "required": "This field is required."
+        "required": "This field is required!"
       }
     },
     "entity-data-card": {
       "title": "Data",
       "created-by": "Created by",
-      "created-date": "Created date",
+      "created-date": "Create date",
       "updated-by": "Updated by",
-      "updated-date": "Updated date",
+      "updated-date": "Update date",
       "update-error": "Not updated. Try again.",
       "update-success": "Updated successfully.",
       "change-avatar": "Change Picture",
