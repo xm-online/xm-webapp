@@ -6,14 +6,14 @@ import {
     XmTableFilterController,
     XmTableQueryParamsStoreService,
 } from '../controllers';
-import { combineLatest, Observable, ReplaySubject } from 'rxjs';
+import { combineLatest, merge, Observable, ReplaySubject } from 'rxjs';
 import { PageableAndSortable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
 import {cloneDeep, isEqual, set} from 'lodash';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, XmTableEventType } from './xm-table.model';
-import { map, shareReplay, tap } from 'rxjs/operators';
+import { map, shareReplay, skip, tap } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmEventManagerService } from '@xm-ngx/core';
 import { FiltersControlValue } from '../components/xm-table-filter-button-dialog-control.component';
@@ -141,12 +141,13 @@ export class XmTableDirective implements OnInit, OnDestroy {
                 this.filters = cloneDeep(filterParams);
                 const queryParams = _.merge({}, {pageableAndSortable}, {filterParams});
 
-                this.queryParamsStoreService.set(queryParams, this._config);
+                this.queryParamsStoreService.set(queryParams, this.config);
 
                 this.xmTableController.load(queryParams);
             });
 
         this.initQueryParams();
+        this.listerQueryParamsFilter();
     }
 
     private mapPageableAndSortable(filterParams: FiltersControlValue, pageableAndSortable: PageableAndSortable): PageableAndSortable {
@@ -179,8 +180,27 @@ export class XmTableDirective implements OnInit, OnDestroy {
         this.queryParamsStoreService.key = this.config.queryPrefixKey;
     }
 
+    private listerQueryParamsFilter(): void {
+        const paramsFilter = this.config.queryParamsFilter;
+
+        if (checkIfEmpty(paramsFilter)) {
+            return;
+        }
+
+        merge(
+            this.queryParamsStoreService.listenQueryParamsToFilter(paramsFilter).pipe(
+                skip(1),
+            ),
+            this.queryParamsStoreService.queryParamsToFilter(paramsFilter),
+        ).pipe(
+            takeUntilOnDestroy(this),
+        ).subscribe(newTableFilters => {
+            this.tableFilterController.set(newTableFilters);
+        });
+    }
+
     private initQueryParams(): void {
-        const queryParams = this.queryParamsStoreService.get(this._config.queryParamsToFillter);
+        const queryParams = this.queryParamsStoreService.get();
 
         this.tableFilterController.set(queryParams.filterParams);
         const {pageIndex, pageSize, sortBy, sortOrder} = this._config.pageableAndSortable;
