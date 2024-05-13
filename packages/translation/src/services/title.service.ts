@@ -48,6 +48,7 @@ export class TitleService implements OnInitialize, OnDestroy {
                 map(() => this.getCurrentActiveRoute()),
                 filter(route => route.outlet === 'primary'),
                 distinctUntilChanged(),
+                map(() => this.currentTitle = null),
             ).subscribe(() => this.update()),
         );
     }
