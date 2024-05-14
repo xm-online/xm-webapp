@@ -1,15 +1,15 @@
-import {inject, Injectable, Injector, OnDestroy} from '@angular/core';
-import {XmDynamicInstanceService,} from '@xm-ngx/dynamic';
-import {XmConfig} from '@xm-ngx/interfaces';
-import {UUID} from 'angular2-uuid';
-import {cloneDeep, get, isFunction, set} from 'lodash';
-import {filter, isObservable, Observable, of, Subject, switchMap, take, tap} from 'rxjs';
-import {XmTableEntityController} from '../controllers/entity/xm-table-entity-controller.service';
-import {AXmTableLocalPageableCollectionController} from './a-xm-table-local-pageable-collection-controller.service';
-import {IXmTableCollectionController, XmFilterQueryParams} from './i-xm-table-collection-controller';
-import {XmToasterService} from '@xm-ngx/toaster';
-import {XmAlertService} from '@xm-ngx/alert';
-import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
+import { inject, Injectable, Injector, OnDestroy } from '@angular/core';
+import { XmDynamicInstanceService, } from '@xm-ngx/dynamic';
+import { XmConfig } from '@xm-ngx/interfaces';
+import { UUID } from 'angular2-uuid';
+import { cloneDeep, get, isFunction, set } from 'lodash';
+import { filter, isObservable, Observable, of, Subject, switchMap, take, tap } from 'rxjs';
+import { XmTableEntityController } from '../controllers/entity/xm-table-entity-controller.service';
+import { AXmTableLocalPageableCollectionController } from './a-xm-table-local-pageable-collection-controller.service';
+import { IXmTableCollectionController, XmFilterQueryParams } from './i-xm-table-collection-controller';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { XmAlertService } from '@xm-ngx/alert';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 export interface XmTableEntity extends XmConfig {
     path: string;
