@@ -1,11 +1,9 @@
 import { inject, Injectable, Injector, OnDestroy } from '@angular/core';
-import {
-    XmDynamicInstanceService,
-} from '@xm-ngx/dynamic';
+import { XmDynamicInstanceService, } from '@xm-ngx/dynamic';
 import { XmConfig } from '@xm-ngx/interfaces';
 import { UUID } from 'angular2-uuid';
 import { cloneDeep, get, isFunction, set } from 'lodash';
-import { Subject, isObservable, of, filter, switchMap, take, tap, Observable } from 'rxjs';
+import { filter, isObservable, Observable, of, Subject, switchMap, take, tap } from 'rxjs';
 import { XmTableEntityController } from '../controllers/entity/xm-table-entity-controller.service';
 import { AXmTableLocalPageableCollectionController } from './a-xm-table-local-pageable-collection-controller.service';
 import { IXmTableCollectionController, XmFilterQueryParams } from './i-xm-table-collection-controller';
@@ -53,7 +51,7 @@ export class XmTableArrayCollectionController<T = unknown>
         super();
 
         this.syncRequest.asObservable().pipe(
-            switchMap(() => {
+            switchMap((requestData: XmFilterQueryParams) => {
                 const controller = this.getEntityController() as Record<string, () => Observable<unknown[]>>;
                 const controllerMethod = this.config?.entityController?.method || 'entity$';
 
@@ -79,13 +77,14 @@ export class XmTableArrayCollectionController<T = unknown>
 
                         const items = get(value, this.config.path, []) as T[];
 
-                        this.items = this.config?.buildItemAsNestedKey?.length > 0
+                        const rawItems = this.config?.buildItemAsNestedKey?.length > 0
                             ? [
                                 {
                                     [this.config?.buildItemAsNestedKey]: items,
                                 } as T,
                             ]
                             : items;
+                        this.changeByItems(rawItems, requestData);
                     }),
                 );
             }),
