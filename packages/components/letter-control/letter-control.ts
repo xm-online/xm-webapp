@@ -34,7 +34,7 @@ import { tap } from 'rxjs';
                         '--input-width': config?.width,
                         '--input-height': config?.height,
                     }"
-                    [mask]="mask[$index] ?? 'number'"
+                    [mask]="mask[$index] ?? '0'"
                     [formControlName]="$index"
                     (keyup)="handleKeyboardEvent($event, $index)"
                     (input)="handleInputEvent($event, $index)" />
