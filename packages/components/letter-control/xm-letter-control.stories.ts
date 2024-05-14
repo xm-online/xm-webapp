@@ -8,6 +8,19 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { LettersControl } from './letter-control';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
+import { IConfig, NgxMaskModule, initialConfig } from 'ngx-mask';
+
+const ngxMaskConfig = (): IConfig | object => {
+    return {
+        ...(initialConfig ?? {}),
+        patterns: {
+            ...(initialConfig.patterns ?? {}),
+            'C': {
+                pattern: new RegExp('[а-яА-Я]'),
+            },
+        },
+    };
+};
 
 export default {
     title: 'Core/Control/Text/Letter',
@@ -21,6 +34,7 @@ export default {
                 MatFormFieldModule,
                 MatOptionModule,
                 ControlErrorModule,
+                NgxMaskModule.forRoot(ngxMaskConfig),
                 XmTranslationTestingModule,
                 BrowserAnimationsModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
@@ -40,16 +54,21 @@ const Template: Story<LettersControl> = (args: LettersControl) => ({
 export const Default = Template.bind({});
 Default.args = {
     config: {
-        title: 'Choose an option',
-        mask: '****'
+        mask: '****',
+    },
+    value: true,
+};
+
+export const CustomMask = Template.bind({});
+CustomMask.args = {
+    config: {
+        mask: '000AA',
     },
     value: true,
 };
 
 export const Empty = Template.bind({});
 Empty.args = {
-    config: {
-        title: 'Choose an option',
-    },
+    config: {},
     value: null,
 };
