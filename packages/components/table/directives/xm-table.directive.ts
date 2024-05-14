@@ -107,6 +107,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
                     settings: {displayedColumns},
                 });
             }),
+            shareReplay(1),
         );
 
         this.eventManagerService.listenTo<{ queryParams: Params }>(
