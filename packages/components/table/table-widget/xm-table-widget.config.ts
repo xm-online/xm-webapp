@@ -10,7 +10,12 @@ export interface XmTableWithColumnDynamicCellOptionsPagination extends PageableA
     hidePagination: boolean;
 }
 
-export type XmTableQueryParamsToFilter = Record<string, unknown>;
+export interface XmTableQueryParamsFilterValue {
+    update: boolean;
+    name: string;
+}
+export type XmTableQueryParamsFilter = Record<string, XmTableQueryParamsFilterValue>;
+
 
 export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersControlRequestConfig {
     /** Title */

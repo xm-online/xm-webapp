@@ -39,7 +39,7 @@ export type PrimitiveOrTranslate = Primitive & Translate;
                 } @else if (value !== undefined) {
                     <span>{{ value | translate }}</span>
                 } @else {
-                    <ng-template>{{ config.emptyValue | translate }}</ng-template>
+                    {{config.emptyValue | translate}}
                 }
             </span>
         </xm-text-view-container>

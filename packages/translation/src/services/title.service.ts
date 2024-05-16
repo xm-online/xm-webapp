@@ -19,7 +19,8 @@ export const DEFAULT_TITLE = 'Title';
 export class TitleService implements OnInitialize, OnDestroy {
 
     protected subscriptions: Subscription[] = [];
-    private postfix: string;
+    private postfix: string = '';
+    private currentTitle: string = '';
 
     constructor(protected translateService: TranslateService,
                 protected route: ActivatedRoute,
@@ -32,12 +33,11 @@ export class TitleService implements OnInitialize, OnDestroy {
 
     public init(): void {
         this.subscriptions.push(
-            this.translateService.get(this.localeId).subscribe(() => this.update()),
+            this.translateService.onLangChange.subscribe(() => this.update()),
+            this.translateService.onTranslationChange.subscribe(() => this.update()),
             this.uiConfigService.config$().subscribe((c) => {
                 if (c?.name) {
                     this.postfix = ' - ' + c.name;
-                } else {
-                    this.postfix = '';
                 }
                 if (c.showVersion) {
                     this.postfix = this.postfix;
@@ -48,6 +48,7 @@ export class TitleService implements OnInitialize, OnDestroy {
                 map(() => this.getCurrentActiveRoute()),
                 filter(route => route.outlet === 'primary'),
                 distinctUntilChanged(),
+                map(() => this.currentTitle = null),
             ).subscribe(() => this.update()),
         );
     }
@@ -60,12 +61,13 @@ export class TitleService implements OnInitialize, OnDestroy {
         if (title === undefined || title === null) {
             return;
         }
-
+        this.currentTitle = title;
         this.title.setTitle(this.translateService.instant(title) + this.postfix);
     }
 
     public get(): string {
-        return this.getTitleFormRoute(this.router.routerState.snapshot.root)
+        return this.currentTitle
+            || this.getTitleFormRoute(this.router.routerState.snapshot.root)
             || this.route.snapshot.data.pageTitle
             || this.route.root.snapshot.data.pageTitle
             || DEFAULT_TITLE;
