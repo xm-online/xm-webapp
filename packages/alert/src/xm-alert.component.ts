@@ -30,17 +30,17 @@ export class XmAlertComponent {
     }
 
     public cancel(): void {
-        this.dialogRef.close({ 
-            dismiss: 'cancel', 
-            isConfirmed: false, 
+        this.dialogRef.close({
+            dismiss: 'cancel',
+            isConfirmed: false,
             isDenied: false,
             isDismissed: true,
         });
     }
 
     public confirm(): void {
-        this.dialogRef.close({ 
-            isConfirmed: true, 
+        this.dialogRef.close({
+            isConfirmed: true,
             isDenied: false,
             isDismissed: false,
             value: true,
@@ -48,7 +48,7 @@ export class XmAlertComponent {
     }
 
     public close(): void {
-        this.dialogRef.close({ 
+        this.dialogRef.close({
             dismiss: 'close',
             isConfirmed: false,
             isDenied: false,

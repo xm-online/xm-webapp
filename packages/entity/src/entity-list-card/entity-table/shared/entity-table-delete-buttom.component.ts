@@ -59,8 +59,8 @@ export class XmEntityTableDeleteButtonComponent {
                     });
                     this.toasterService.success('xm-entity.entity-list-card.delete.remove-success');
                 }),
-                catchError(() => {
-                    this.toasterService.error('xm-entity.entity-list-card.delete.remove-error');
+                catchError((err) => {
+                    !err.handled && this.toasterService.error('xm-entity.entity-list-card.delete.remove-error');
 
                     return of(null);
                 }),
