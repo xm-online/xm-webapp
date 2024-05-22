@@ -32,7 +32,7 @@ export interface ValidatorProcessingOption {
 @Injectable({providedIn: 'root'})
 export class ValidatorProcessingService {
 
-    private validators: {[key: string]: (...args: any[]) => ValidatorFn} = {
+    private validators: { [key: string]: (...args: any[]) => ValidatorFn } = {
         languageRequired: ValidatorProcessingService.languageRequired,
         minArrayLength: ValidatorProcessingService.minArrayLength,
         pattern: Validators.pattern,
@@ -49,7 +49,7 @@ export class ValidatorProcessingService {
         severalEmails: ValidatorProcessingService.severalEmails,
     };
 
-    private asyncValidators: {[key: string]: (...args: any[]) => AsyncValidatorFn} = {
+    private asyncValidators: { [key: string]: (...args: any[]) => AsyncValidatorFn } = {
         fileDataSpec: ValidatorProcessingService.fileDataSpec,
     };
 
@@ -155,18 +155,24 @@ export class ValidatorProcessingService {
         };
     }
 
-    public static valueMoreThanIn(controlName: string): ValidatorFn | null {
+    public static valueMoreThanIn(params: string | { name: string, offset: number }): ValidatorFn | null {
         return (control: AbstractControl) => {
+            const controlName = typeof params === 'string' ? params : params?.name;
             if (!control.value) {
                 return null;
             }
             let compareValue = _.get(control?.parent?.value, controlName) ?? 0;
             const isNumber = Number.isInteger(Math.round(compareValue));
-            if(!isNumber) {
+            if (!isNumber) {
                 compareValue = new Date(compareValue);
             }
+            if (typeof params === 'object' && params?.offset) {
+                if (typeof params !== 'string') {
+                    compareValue = new Date(compareValue.getTime() + params.offset);
+                }
+            }
 
-            if(compareValue && control?.value > compareValue) {
+            if (compareValue && control?.value > compareValue) {
                 return {
                     valueMoreThanIn: {
                         controlName,
@@ -179,19 +185,26 @@ export class ValidatorProcessingService {
         };
     }
 
-    public static valueLessThanIn(controlName: string): ValidatorFn | null {
+    public static valueLessThanIn(params: string | { name: string, offset: number }): ValidatorFn | null {
         return (control: AbstractControl) => {
+            const controlName = typeof params === 'string' ? params : params?.name;
             if (!control.value) {
                 return null;
             }
             let compareValue = _.get(control?.parent?.value, controlName) ?? 0;
             const isNumber = Number.isInteger(Math.round(compareValue));
 
-            if(!isNumber) {
+            if (!isNumber) {
                 compareValue = new Date(compareValue);
             }
 
-            if(compareValue && control?.value < compareValue) {
+            if (typeof params === 'object' && params?.offset) {
+                if (typeof params !== 'string') {
+                    compareValue = new Date(compareValue.getTime() + params.offset);
+                }
+            }
+
+            if (compareValue && control?.value < compareValue) {
                 return {
                     valueLessThanIn: {
                         controlName,
@@ -204,17 +217,23 @@ export class ValidatorProcessingService {
         };
     }
 
-    public static dateMoreThanIn(controlName: string): ValidatorFn | null {
+    public static dateMoreThanIn(params: string | { name: string, offset: number }): ValidatorFn | null {
         return (control: AbstractControl) => {
+            const controlName = typeof params === 'string' ? params : params?.name;
             const valueToCompare = get(control?.parent?.value, controlName);
             const value = control.value;
             if (!value || !valueToCompare) {
                 return null;
             }
 
-            const compareDateValue = new Date(valueToCompare);
+            let compareDateValue = new Date(valueToCompare);
+            if (typeof params === 'object' && params?.offset) {
+                if (typeof params !== 'string') {
+                    compareDateValue = new Date(compareDateValue.getTime() + params.offset);
+                }
+            }
 
-            if(value <= compareDateValue) {
+            if (value <= compareDateValue) {
                 return {
                     dateMoreThanIn: {
                         controlName,
@@ -228,7 +247,7 @@ export class ValidatorProcessingService {
 
     public static severalEmails(): ValidatorFn | null {
         return (control: AbstractControl) => {
-            if(!control?.value) {
+            if (!control?.value) {
                 return null;
             }
 
@@ -237,7 +256,7 @@ export class ValidatorProcessingService {
             const emails = control.value?.split(separator);
             const isAllEmailsValid = emails.every(item => emailPattern.test(item.trim()));
 
-            if(!isAllEmailsValid) {
+            if (!isAllEmailsValid) {
                 return {
                     severalEmails: true,
                 };
