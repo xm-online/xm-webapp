@@ -155,8 +155,9 @@ export class ValidatorProcessingService {
         };
     }
 
-    public static valueMoreThanIn(controlName: string): ValidatorFn | null {
+    public static valueMoreThanIn(params: string | { name: string, offset: number }): ValidatorFn | null {
         return (control: AbstractControl) => {
+            const controlName = typeof params === 'string' ? params : params?.name;
             if (!control.value) {
                 return null;
             }
@@ -164,6 +165,11 @@ export class ValidatorProcessingService {
             const isNumber = Number.isInteger(Math.round(compareValue));
             if (!isNumber) {
                 compareValue = new Date(compareValue);
+            }
+            if (typeof params === 'object' && params?.offset) {
+                if (typeof params !== 'string') {
+                    compareValue = new Date(compareValue.getTime() + params.offset);
+                }
             }
 
             if (compareValue && control?.value > compareValue) {
@@ -179,8 +185,9 @@ export class ValidatorProcessingService {
         };
     }
 
-    public static valueLessThanIn(controlName: string): ValidatorFn | null {
+    public static valueLessThanIn(params: string | { name: string, offset: number }): ValidatorFn | null {
         return (control: AbstractControl) => {
+            const controlName = typeof params === 'string' ? params : params?.name;
             if (!control.value) {
                 return null;
             }
@@ -189,6 +196,12 @@ export class ValidatorProcessingService {
 
             if (!isNumber) {
                 compareValue = new Date(compareValue);
+            }
+
+            if (typeof params === 'object' && params?.offset) {
+                if (typeof params !== 'string') {
+                    compareValue = new Date(compareValue.getTime() + params.offset);
+                }
             }
 
             if (compareValue && control?.value < compareValue) {
@@ -214,8 +227,10 @@ export class ValidatorProcessingService {
             }
 
             let compareDateValue = new Date(valueToCompare);
-            if (typeof params !== 'string' && params?.offset) {
-                compareDateValue = new Date(compareDateValue.getTime() + params.offset);
+            if (typeof params === 'object' && params?.offset) {
+                if (typeof params !== 'string') {
+                    compareDateValue = new Date(compareDateValue.getTime() + params.offset);
+                }
             }
 
             if (value <= compareDateValue) {
