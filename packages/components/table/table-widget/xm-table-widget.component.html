@@ -12,7 +12,7 @@
               'no-horizontal-paddings mb-3': true,
               'pb-4': xmTable.config?.pageableAndSortable?.hidePagination,
             }"
-            [attr.data-qa]="config?.dataQa || 'default-xm-table-data-qa'"
+            [attr.data-qa]="config?.dataQa"
   >
 
     <xm-table-header [config]="config" [loading]="context.collection.loading">

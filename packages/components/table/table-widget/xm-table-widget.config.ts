@@ -45,4 +45,5 @@ export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
     actions: [],
     popUpFilter: false,
     showFilterChips: true,
+    dataQa: 'default-xm-table-data-qa',
 };
