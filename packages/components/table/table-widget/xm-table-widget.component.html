@@ -7,10 +7,13 @@
               [xmTableController]="getCollectionController()"
 >
 
-  <mat-card *ngIf="xmTable.context$ | async as context" [ngClass]="{
-    'no-horizontal-paddings mb-3': true,
-    'pb-4': xmTable.config?.pageableAndSortable?.hidePagination,
-  }">
+  <mat-card *ngIf="xmTable.context$ | async as context"
+            [ngClass]="{
+              'no-horizontal-paddings mb-3': true,
+              'pb-4': xmTable.config?.pageableAndSortable?.hidePagination,
+            }"
+            [attr.data-qa]="config?.dataQa || 'default-xm-table-data-qa'"
+  >
 
     <xm-table-header [config]="config" [loading]="context.collection.loading">
       <ng-container *ngIf="!xmTable.config.isCollapsed">

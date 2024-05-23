@@ -4,6 +4,7 @@ import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from '../directives/xm-table.m
 import { XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 import { XM_TABLE_EMPTY_DEFAULT_CONFIG, XmTableEmptyConfig } from '../components/xm-table-empty.component';
 import { XmTableFiltersControlRequestConfig } from '../components/xm-table-filter-button-dialog-controls.component';
+import { DataQa } from '@xm-ngx/interfaces';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination extends PageableAndSortable {
     pageSizeOptions: number[],
@@ -17,7 +18,7 @@ export interface XmTableQueryParamsFilterValue {
 export type XmTableQueryParamsFilter = Record<string, XmTableQueryParamsFilterValue>;
 
 
-export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersControlRequestConfig {
+export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersControlRequestConfig, DataQa {
     /** Title */
     title: Translate,
     isRowSelectable: boolean,
