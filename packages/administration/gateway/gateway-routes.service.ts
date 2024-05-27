@@ -9,6 +9,6 @@ export class GatewayRoutesService {
     constructor(private http: HttpClient) { }
 
     public findAll(): Observable<GatewayRoute[]> {
-        return this.http.get<GatewayRoute[]>('api/gateway/routes/');
+        return this.http.get<GatewayRoute[]>('api/gateway/routes');
     }
 }
