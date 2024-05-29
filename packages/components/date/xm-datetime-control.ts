@@ -25,6 +25,8 @@ export interface XmDateTimeControlConfig {
     required?: boolean;
 }
 
+export type XmDateTimePickerFilter = (date: Date | null) => boolean;
+
 export type XmDateTimeControlValue = Date | string | number;
 
 export interface XmDateTimeControlParts {
@@ -93,6 +95,7 @@ const dateTimeValidator = (localeId: string) => {
                     formControlName="date"
                     placeholder="DD/MM/YYYY"
                     [matDatepicker]="picker"
+                    [matDatepickerFilter]="pickerFilter"
                     (focus)="picker.open()"
                     #dateInputRef />
             </span>
@@ -166,6 +169,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         return this.focused || !this.empty;
     }
 
+    @Input() public pickerFilter: XmDateTimePickerFilter;
     @Input() public picker: MatDatepickerPanel<MatDatepickerInput<any>, any>;
 
     @Input()
@@ -425,6 +429,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
             <xm-datetime-control-field
                 #field="dateTimeField"
                 [picker]="picker"
+                [pickerFilter]="pickerFilter"
                 [hasErrors]="ngControl?.control?.errors"
                 [ngModel]="value"
                 [ngModelOptions]="{ standalone: true }"
@@ -450,6 +455,7 @@ export class XmDateTimeControlComponent extends NgModelWrapper<XmDateTimeControl
     public ngControl = inject(NgControl, { optional: true, self: true });
     public messageErrors = inject<XmControlErrorsTranslates>(XM_CONTROL_ERRORS_TRANSLATES);
 
+    @Input() public pickerFilter: XmDateTimePickerFilter;
     @Input() public config: XmDateTimeControlConfig;
 
     constructor() {
