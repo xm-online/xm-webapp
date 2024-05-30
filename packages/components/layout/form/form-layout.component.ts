@@ -5,12 +5,11 @@ import {MatCardModule} from '@angular/material/card';
 import {ConditionModule} from '@xm-ngx/components/condition';
 import {ValidatorProcessingService} from '@xm-ngx/components/validator-processing';
 import {EDIT_ACTION, EDIT_EVENT, EditStateStoreService} from '@xm-ngx/controllers/features/edit-state-store';
-import {ResourceDataService} from '@xm-ngx/controllers/features/resource-data';
 import {DashboardStore} from '@xm-ngx/core/dashboard';
-import {injectByKey, XmDynamicModule} from '@xm-ngx/dynamic';
+import { injectByKey, XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicInstanceService, XmDynamicModule } from '@xm-ngx/dynamic';
 import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
 import {get, set} from 'lodash';
-import {of} from 'rxjs';
+import { isObservable, Observable, of } from 'rxjs';
 import {debounceTime, filter, map, startWith, switchMap, withLatestFrom} from 'rxjs/operators';
 import {FormGroupFields, FormLayoutConfig} from './form-layout.model';
 
@@ -31,8 +30,7 @@ import {FormGroupFields, FormLayoutConfig} from './form-layout.model';
     providers: [DashboardStore],
     changeDetection: ChangeDetectionStrategy.Default, // keep OnPush
 })
-export class FormLayoutComponent implements OnInit, OnDestroy {
-    private dataController = injectByKey<ResourceDataService>('data');
+export class FormLayoutComponent extends XmDynamicInstanceService implements OnInit, OnDestroy {
     private editStateStore = injectByKey<EditStateStoreService>('edit-state-store', {optional: true});
 
     private validatorProcessing = inject(ValidatorProcessingService);
@@ -40,12 +38,14 @@ export class FormLayoutComponent implements OnInit, OnDestroy {
 
     public formGroup: FormGroup<FormGroupFields>;
 
-    public config: FormLayoutConfig;
+    public config: FormLayoutConfig = inject<FormLayoutConfig>(XM_DYNAMIC_COMPONENT_CONFIG);
+
+    private dataController = this.getControllerByKey(this.config?.controller?.key || 'data');
 
     public ngOnInit(): void {
         this.formGroup = this.buildFormGroup();
 
-        this.dataController.get().pipe(
+        this.dataController[this.config?.controller?.getDataMethod || 'get']().pipe(
             takeUntilOnDestroy(this),
             map(data => {
                 return this.buildRecordFromData(data);
@@ -65,14 +65,22 @@ export class FormLayoutComponent implements OnInit, OnDestroy {
         this.formGroup.valueChanges.pipe(
             debounceTime(200),
             filter(() => this.formGroup.valid),
-            withLatestFrom(this.dataController.get()),
-            map(([value, data]) => {
+            withLatestFrom(this.dataController[this.config?.controller?.getDataMethod || 'get']() as Observable<object>),
+            map(([formGroupValue, data]: [Record<string, UntypedFormControl>, object]) => {
                 this.config.fields.forEach(field => {
-                    set(data, field.property, value[field.property]);
+                    set(data, field.property, formGroupValue[field.property]);
                 });
                 return data;
             }),
-            switchMap(entity => this.dataController.update(entity)),
+            switchMap((entity) => {
+                const updateData = this.dataController[this.config?.controller?.updateDataMethod || 'update'](entity);
+
+                if (isObservable(updateData)) {
+                    return updateData;
+                }
+
+                return of(updateData);
+            }),
             takeUntilOnDestroy(this),
         ).subscribe();
 
@@ -81,9 +89,9 @@ export class FormLayoutComponent implements OnInit, OnDestroy {
                 takeUntilOnDestroy(this),
                 switchMap((event) => {
                     if (event === EDIT_EVENT.SAVE) {
-                        return this.dataController.save();
+                        return this.dataController[this.config?.controller?.saveDataMethod || 'save']();
                     } else if (event === EDIT_EVENT.CANCEL) {
-                        return this.dataController.reset();
+                        return this.dataController[this.config?.controller?.resetDataMethod || 'reset']();
                     }
                     return of();
                 }),
@@ -151,10 +159,10 @@ export class FormLayoutComponent implements OnInit, OnDestroy {
                 this.editStateStore.enable([EDIT_ACTION.SAVE]);
             }
             if(this.config.updateData) {
-                this.dataController.update(this.formGroup.getRawValue());
+                this.dataController[this.config?.controller?.updateDataMethod || 'update'](this.formGroup.getRawValue());
             }
             if(this.config.saveData) {
-                this.dataController.save().subscribe();
+                this.dataController[this.config?.controller?.saveDataMethod || 'save']().subscribe();
             }
         } else {
             if (this.editStateStore) {
