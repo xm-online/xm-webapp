@@ -4,6 +4,13 @@ import {XmDynamicControllerDeclaration} from '@xm-ngx/dynamic/presentation/xm-dy
 import {JavascriptCode, XmConfig} from '@xm-ngx/interfaces';
 
 export type FormLayoutConfig = {
+    controller?: {
+        key: string;
+        getDataMethod: string;
+        saveDataMethod: string;
+        updateDataMethod: string;
+        resetDataMethod: string;
+    };
     fields: FormFieldLayoutConfig[],
     updateData?: boolean;
     saveData?: boolean;
