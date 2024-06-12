@@ -1,12 +1,10 @@
 import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-
-import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 
 import * as _ from 'lodash';
 import { Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Principal } from '@xm-ngx/core/user';
 import { Notification, NotificationUiConfig } from '../shared/notification.model';
 
@@ -21,6 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmSafePipe } from '@xm-ngx/pipes';
 
 const DEFAULT_PRIVILEGES = ['XMENTITY.SEARCH', 'XMENTITY.SEARCH.QUERY', 'XMENTITY.SEARCH.TEMPLATE'];
 const DEF_NOTIFY_COUNT = 5;
@@ -37,6 +36,7 @@ const DEF_NOTIFY_COUNT = 5;
         MatBadgeModule,
         MatButtonModule,
         XmTranslationModule,
+        XmSafePipe
     ],
     standalone: true,
     providers: [NotificationsService],
@@ -59,7 +59,6 @@ export class XmNavbarNotificationWidget implements OnInit, OnDestroy, XmDynamicW
         private xmConfigService: XmUiConfigService<{ notifications: NotificationUiConfig }>,
         private eventManager: XmEventManager,
         private router: Router,
-        private sanitized: DomSanitizer,
         private eRef: ElementRef,
         private principal: Principal,
         private xmSessionService: XmSessionService,
@@ -128,14 +127,6 @@ export class XmNavbarNotificationWidget implements OnInit, OnDestroy, XmDynamicW
         this.notificationsService
             .getNotifications(config)
             .pipe(
-                map((notifications: any) => {
-                    notifications.forEach((notification) => {
-                        if (config.showAsHtml) {
-                            notification.label = this.sanitized.bypassSecurityTrustHtml(notification.label);
-                        }
-                    });
-                    return notifications;
-                }),
                 takeUntilOnDestroy(this),
             )
             .subscribe((resp) => {

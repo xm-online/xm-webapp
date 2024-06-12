@@ -20,7 +20,7 @@
               mat-menu-item
               *ngIf="i <= showCount">
         <span *ngIf="!config.showAsHtml">{{ item.label }}</span>
-        <span *ngIf="config.showAsHtml" [innerHTML]="item.label"></span>
+        <span *ngIf="config.showAsHtml" [innerHTML]="item.label | translate | xmSafe: 'html'"></span>
         <span *ngIf="item.updateDate" class="update-date">{{ item.updateDate | date}}</span>
         <mat-icon class="close-btn" (click)="onRemoveItem($event, item);">close</mat-icon>
       </button>

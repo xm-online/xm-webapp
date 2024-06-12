@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FunctionService, XmEntityService } from '@xm-ngx/core/entity';
 import { NotificationUiConfig } from './notification.model';
-import { TranslatePipe } from '@xm-ngx/translation';
 
 @Injectable()
 export class NotificationsService {
@@ -15,7 +14,6 @@ export class NotificationsService {
     constructor(
         private http: HttpClient,
         private eventManager: XmEventManager,
-        private translatePipe: TranslatePipe,
         private functionService: FunctionService,
         private entityService: XmEntityService,
     ) {
@@ -33,7 +31,7 @@ export class NotificationsService {
                         if (options.labelPath) {
                             label = this.byString(e, options.labelPath);
                         }
-                        label = this.translatePipe.transform(label);
+
                         return {
                             label,
                             id: e.id,
