@@ -342,3 +342,52 @@ export const Entity: StoryObj<XmTableWidget> = {
         } as XmTableWidgetConfig,
     },
 };
+
+export const TinyTableConfig: StoryObj<XmTableWidget> = {
+    args: {
+        config: {
+            collection: {
+                type: 'config',
+                path: 'staticData',
+                staticData: [
+                    {indicator: 'Indicator 1', score: 8.2},
+                    {indicator: 'Indicator 2', score: 7.4},
+                    {indicator: 'Indicator 3', score: 9.9},
+                    {indicator: 'Indicator 4', score: 4.5},
+                    {indicator: 'Indicator 5', score: 8.8},
+                ],
+            },
+            isTitleHidden: true,
+            isCardMarginBottom: false,
+            columns: [
+                {
+                    name: 'indicator',
+                    field: 'indicator',
+                    title: {en: 'Indicator'},
+                    sortable: true,
+                    dataClass: '',
+                    dataStyle: 'min-width: 300px;',
+                    selector: '@xm-ngx/components/text',
+                    class: '',
+                    style: '',
+                },
+                {
+                    name: 'score',
+                    field: 'score',
+                    title: {en: 'Score'},
+                    sortable: true,
+                    dataClass: '',
+                    dataStyle: 'min-width: 100px;',
+                    selector: '@xm-ngx/components/text',
+                    class: '',
+                    style: '',
+                },
+            ],
+            showFilterChips: false,
+            pageableAndSortable: {
+                hidePagination: true,
+            },
+            title: {en: 'Test table'},
+        } as XmTableWidgetConfig,
+    },
+};

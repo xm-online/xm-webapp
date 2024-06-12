@@ -8,10 +8,26 @@
     border-top-color: rgba(0, 0, 0, 0.12);
   }
 
+  ::ng-deep .mdc-data-table__header-row {
+    &.remove-border-top {
+      .mdc-data-table__header-cell {
+        border-top: none;
+      }
+    }
+  }
+
   ::ng-deep .mdc-data-table__row:last-child .mdc-data-table__cell {
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-bottom-color: rgba(0, 0, 0, 0.12);
+  }
+
+  ::ng-deep .mdc-data-table__row:last-child {
+    &.remove-border-bottom {
+      .mdc-data-table__cell {
+        border-bottom: none;
+      }
+    }
   }
 
   .mat-card.no-horizontal-paddings {
