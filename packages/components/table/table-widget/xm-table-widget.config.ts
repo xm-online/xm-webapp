@@ -21,6 +21,8 @@ export type XmTableQueryParamsFilter = Record<string, XmTableQueryParamsFilterVa
 export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersControlRequestConfig, DataQa {
     /** Title */
     title: Translate,
+    isTitleHidden: boolean;
+    isCardMarginBottom: boolean;
     isRowSelectable: boolean,
     noRows: XmTableEmptyConfig,
     /** Actions configuration */
@@ -35,6 +37,8 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
 
 export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
     title: null,
+    isTitleHidden: false,
+    isCardMarginBottom: true,
     isRowSelectable: false,
     noRows: XM_TABLE_EMPTY_DEFAULT_CONFIG,
     ...XM_TABLE_CONFIG_DEFAULT,

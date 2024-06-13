@@ -8,14 +8,15 @@
 >
 
   <mat-card *ngIf="xmTable.context$ | async as context"
+            class="overflow-hidden no-horizontal-paddings"
             [ngClass]="{
-              'no-horizontal-paddings mb-3': true,
-              'pb-4': xmTable.config?.pageableAndSortable?.hidePagination,
+              'mb-3': config.isCardMarginBottom,
+              'pb-4': xmTable.config?.pageableAndSortable?.hidePagination && !config.isTitleHidden,
             }"
             [attr.data-qa]="config?.dataQa"
   >
 
-    <xm-table-header [config]="config" [loading]="context.collection.loading">
+    <xm-table-header [config]="config" [loading]="context.collection.loading" *ngIf="!config.isTitleHidden">
       <ng-container *ngIf="!xmTable.config.isCollapsed">
         <xm-table-filter-button *ngIf="xmTable.config.popUpFilter"
                                 [config]="config"
@@ -63,7 +64,7 @@
           <xm-table-column-dynamic-cell *ngFor="let column of xmTableSelection.dynamicColumns"
                                         [column]="column"></xm-table-column-dynamic-cell>
 
-          <tr *matHeaderRowDef="context.settings.displayedColumns" mat-header-row></tr>
+          <tr *matHeaderRowDef="context.settings.displayedColumns" mat-header-row [ngClass]="{'remove-border-top': config.isTitleHidden}"></tr>
 
           <xm-table-loading [isLoading]="context.collection.loading"
                             [colspan]="context.settings.displayedColumns.length"></xm-table-loading>
@@ -71,9 +72,10 @@
           <tr *matRowDef="let row; columns: context.settings.displayedColumns"
               class="xm-table-hoverable-row xm-table-row-background"
               [ngClass]="{
-            'xm-table-row-selected' : selectionRow.selection.isSelected(row),
-            'xm-table-row-loading' : context.collection.loading
-          }"
+                'xm-table-row-selected' : selectionRow.selection.isSelected(row),
+                'xm-table-row-loading' : context.collection.loading,
+                'remove-border-bottom': xmTable.config.pageableAndSortable.hidePagination && config.isTitleHidden
+              }"
               mat-row
           ></tr>
 
