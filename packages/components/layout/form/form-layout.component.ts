@@ -91,7 +91,15 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
                     if (event === EDIT_EVENT.SAVE) {
                         return this.dataController[this.config?.controller?.saveDataMethod || 'save']();
                     } else if (event === EDIT_EVENT.CANCEL) {
-                        return this.dataController[this.config?.controller?.resetDataMethod || 'reset']();
+                        if (!this.config?.controller?.resetDataMethod || this.dataController[this.config?.controller?.resetDataMethod]) {
+                            const resultOfResetMethod = this.dataController[this.config?.controller?.resetDataMethod || 'reset']();
+
+                            if (isObservable(resultOfResetMethod)) {
+                                return resultOfResetMethod;
+                            }
+
+                            return of(resultOfResetMethod);
+                        }
                     }
                     return of();
                 }),
