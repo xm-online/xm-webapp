@@ -8,3 +8,11 @@ export {
     XmHtmlModule,
     XmHtmlOptions,
 } from './xm-html';
+
+export {
+    XmSanitizedHtmlComponent,
+} from './xm-sanitized-html.component';
+
+export {
+    XmSanitizedHtml,
+} from './html.model';
