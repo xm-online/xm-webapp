@@ -1,14 +1,18 @@
 import { Meta, moduleMetadata } from '@storybook/angular';
-import { XmSanitizedHtmlComponent } from '@xm-ngx/components/html/xm-sanitized-html.component';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
+import { XmHtmlValueComponent } from './xm-html-value.component';
+import { XmHtmlComponent } from './xm-html';
 
 
 export default {
     title: 'Core/Presentation/html',
-    component: XmSanitizedHtmlComponent,
+    component: XmHtmlValueComponent,
     decorators: [
         moduleMetadata({
             imports: [
-                XmSanitizedHtmlComponent,
+                XmTranslationTestingModule,
+                XmHtmlValueComponent,
+                XmHtmlComponent,
             ],
         }),
     ],
@@ -17,15 +21,15 @@ export default {
     },
 } as Meta;
 
-const Template = (args: XmSanitizedHtmlComponent) => {
+const Template = (args: XmHtmlValueComponent) => {
     return {
-        component: XmSanitizedHtmlComponent,
+        component: XmHtmlValueComponent,
         props: args,
     };
 };
 
-export const SanitizedHtml = Template.bind({});
-SanitizedHtml.args = {
+export const HtmlValue = Template.bind({});
+HtmlValue.args = {
     value: `<strong>Here displayed sanitized HTML</strong>
                 <ul>
                     <li>First item</li>

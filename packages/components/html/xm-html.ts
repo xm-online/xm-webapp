@@ -1,38 +1,32 @@
-import { Component, Input, NgModule, Type } from '@angular/core';
-import { Translate, XmTranslateService } from '@xm-ngx/translation';
-
-export interface XmHtmlOptions {
-    html: Translate,
-}
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
+import { XmTranslateService } from '@xm-ngx/translation';
+import { XmHtml } from './html.model';
+import { XmSafePipe } from '@xm-ngx/pipes';
 
 @Component({
     selector: 'xm-html',
-    template: '<div [innerHTML]="html"></div>',
+    template: `
+        <div [innerHTML]="html | xmSafe: 'html'"
+             [class]="config?.class"
+             [style]="config?.style"
+        ></div>`,
     standalone: true,
+    imports: [
+        XmSafePipe,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class XmHtmlComponent {
+export class XmHtmlComponent implements OnInit {
     public html: string;
+    private translationService: XmTranslateService = inject(XmTranslateService);
 
-    constructor(private translationService: XmTranslateService) {
+    @Input() public config: XmHtml;
+
+    public ngOnInit(): void {
+        this.translateTemplate();
     }
 
-    private _config: XmHtmlOptions;
-
-    public get config(): XmHtmlOptions {
-        return this._config;
-    }
-
-    @Input()
-    public set config(value: XmHtmlOptions) {
-        this._config = value;
+    public translateTemplate(): void {
         this.html = this.translationService.translate(this.config?.html);
     }
-}
-
-@NgModule({
-    exports: [XmHtmlComponent],
-    imports:[XmHtmlComponent]
-})
-export class XmHtmlModule {
-    public entry: Type<XmHtmlComponent> = XmHtmlComponent;
 }
