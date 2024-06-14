@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -43,7 +43,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmPasswordControl> = (args: XmPasswordControl,{globals: {locale}}) => ({
+const Template = (args: XmPasswordControl,{globals: {locale}}) => ({
     component: XmPasswordControl,
     props: {
         ...args,

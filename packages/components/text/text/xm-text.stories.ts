@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { XmTextComponent } from '../text';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
@@ -26,7 +26,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmTextComponent> = (args: XmTextComponent) => ({
+const Template = (args: XmTextComponent) => ({
     component: XmTextComponent,
     props: args,
 });

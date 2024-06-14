@@ -1,6 +1,6 @@
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmIconEnumComponent } from './xm-icon-enum.component';
 import { HintModule } from '@xm-ngx/components/hint';
@@ -33,7 +33,7 @@ export default {
     tags: ['autodocs'],
 } as Meta;
 
-const Template: Story<XmIconEnumComponent> = (args: XmIconEnumComponent) => ({
+const Template = (args: XmIconEnumComponent) => ({
     component: XmIconEnumComponent,
     props: args,
 });

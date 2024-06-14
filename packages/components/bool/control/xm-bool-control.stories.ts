@@ -1,4 +1,4 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
@@ -36,7 +36,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmBoolControl> = (args: XmBoolControl) => ({
+const Template = (args: XmBoolControl) => ({
     component: XmBoolControl,
     props: args,
 });

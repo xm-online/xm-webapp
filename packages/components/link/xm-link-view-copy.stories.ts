@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmCopyIconComponent } from '@xm-ngx/components/copy';
 import { HintModule } from '@xm-ngx/components/hint';
@@ -39,7 +39,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmLinkViewCopyComponent> = (args: XmLinkViewCopyComponent) => ({
+const Template = (args: XmLinkViewCopyComponent) => ({
     component: XmLinkViewCopyComponent,
     props: args,
 });
