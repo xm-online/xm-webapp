@@ -4,7 +4,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XmTextRangeControl } from '../text-range-control';
@@ -37,7 +37,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmTextRangeControl> = (args: XmTextRangeControl) => ({
+const Template = (args: XmTextRangeControl) => ({
     component: XmTextRangeControl,
     props: args,
 });

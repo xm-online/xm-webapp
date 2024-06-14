@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
 import { IfDashboardSlugModule } from '@xm-ngx/components/if-dashboard-slug';
@@ -49,7 +49,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmLinkButtonComponent> = (args: XmLinkButtonComponent) => ({
+const Template = (args: XmLinkButtonComponent) => ({
     component: XmLinkButtonComponent,
     props: args,
 });

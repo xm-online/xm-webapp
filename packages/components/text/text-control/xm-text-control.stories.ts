@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XmTextControl } from '@xm-ngx/components/text';
@@ -41,7 +41,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmTextControl> = (args: XmTextControl) => ({
+const Template = (args: XmTextControl) => ({
     component: XmTextControl,
     props: args,
 });

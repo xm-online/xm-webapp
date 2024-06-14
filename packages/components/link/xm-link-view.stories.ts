@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XmLink, XmLinkViewComponent } from '../link';
@@ -36,7 +36,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmLinkViewComponent> = (args: XmLinkViewComponent) => ({
+const Template = (args: XmLinkViewComponent) => ({
     component: XmLinkViewComponent,
     props: args,
 });

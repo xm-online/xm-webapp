@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
@@ -32,7 +32,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmCheckboxControl> = (args: XmCheckboxControl) => ({
+const Template = (args: XmCheckboxControl) => ({
     component: XmCheckboxControl,
     props: args,
 });

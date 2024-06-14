@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmTextCellComponent, XmTextCellConfig } from './text-cell.component';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
@@ -36,7 +36,7 @@ export default {
     tags: ['autodocs'],
 } as Meta;
 
-const Template: Story<XmTextCellComponent> = (args: XmTextCellComponent) => ({
+const Template = (args: XmTextCellComponent) => ({
     component: XmTextCellComponent,
     props: args,
 });

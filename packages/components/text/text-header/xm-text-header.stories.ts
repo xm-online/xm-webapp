@@ -1,5 +1,5 @@
 import { XmTextHeaderComponent } from '@xm-ngx/components/text';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
@@ -26,7 +26,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmTextHeaderComponent> = (args: XmTextHeaderComponent) => ({
+const Template = (args: XmTextHeaderComponent) => ({
     props: args,
 });
 

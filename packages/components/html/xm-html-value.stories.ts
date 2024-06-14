@@ -3,9 +3,8 @@ import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { XmHtmlValueComponent } from './xm-html-value.component';
 import { XmHtmlComponent } from './xm-html';
 
-
 export default {
-    title: 'Core/Presentation/html',
+    title: 'Core/Presentation/HTML',
     component: XmHtmlValueComponent,
     decorators: [
         moduleMetadata({
@@ -16,6 +15,7 @@ export default {
             ],
         }),
     ],
+    tags: ['autodocs'],
     parameters: {
         layout: 'centered',
     },
