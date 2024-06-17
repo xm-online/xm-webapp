@@ -2,7 +2,7 @@ import { inject, Injectable, Injector, OnDestroy } from '@angular/core';
 import { XmDynamicInstanceService, } from '@xm-ngx/dynamic';
 import { XmConfig } from '@xm-ngx/interfaces';
 import { UUID } from 'angular2-uuid';
-import { cloneDeep, get, isFunction, set } from 'lodash';
+import { cloneDeep, get, isEqual, isFunction, set } from 'lodash';
 import { filter, isObservable, Observable, of, Subject, switchMap, take, tap } from 'rxjs';
 import { XmTableEntityController } from '../controllers/entity/xm-table-entity-controller.service';
 import { AXmTableLocalPageableCollectionController } from './a-xm-table-local-pageable-collection-controller.service';
@@ -46,6 +46,8 @@ export class XmTableArrayCollectionController<T = unknown>
     private injector: Injector = inject(Injector);
 
     private syncRequest = new Subject<XmFilterQueryParams>();
+    private removedItems: Array<unknown> = [];
+
 
     constructor() {
         super();
@@ -113,7 +115,11 @@ export class XmTableArrayCollectionController<T = unknown>
             console.warn('table-array-collection-controller: add "path" property to config');
             return;
         }
-        set(this.entity, this.config.path, cloneDeep(this.items));
+        const itemsFromEntity: Array<unknown> = get(this.entity, this.config.path) || [];
+        const itemsFromEntityFiltered = itemsFromEntity.filter(item => !this.isDeletedItem(item) && !this.isCurrentItem(item));
+
+
+        set(this.entity, this.config.path, cloneDeep([...itemsFromEntityFiltered, ...this.items]));
 
         if (this.config.save?.controller) {
             const saveResult = this.getEntityController(this.config?.save?.controller?.key)[this.config?.save?.controller?.method](this.entity);
@@ -125,6 +131,15 @@ export class XmTableArrayCollectionController<T = unknown>
         } else {
             this.getEntityController().update(this.entity);
         }
+        this.removedItems = [];
+    }
+
+    private isDeletedItem(item: unknown): boolean{
+        return this.removedItems.some(removedItem => isEqual(removedItem, item));
+    }
+
+    private isCurrentItem(item: unknown): boolean{
+        return this.items.some(removedItem => isEqual(removedItem, item));
     }
 
     private getEntityController(key: string = this.config?.entityController?.key || 'table-entity-controller'): XmTableEntityController<object> | any {
@@ -139,6 +154,7 @@ export class XmTableArrayCollectionController<T = unknown>
             take(1),
             filter((i) => i.value),
         ).subscribe(() => {
+            this.removedItems.push(item);
             super.remove(item);
         });
     }
