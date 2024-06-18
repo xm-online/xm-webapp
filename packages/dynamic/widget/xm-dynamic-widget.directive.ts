@@ -24,6 +24,9 @@ import { setComponentInput } from '../operators/set-component-input';
 import { NotFoundException } from '@xm-ngx/exceptions';
 import { XmConfig } from '@xm-ngx/interfaces';
 import { XmDynamicWithConfig, XmDynamicWithSelector } from '../src/interfaces/xm-dynamic-selector';
+import { XmEventManager } from "@xm-ngx/core";
+
+export const XM_DYNAMIC_WIDGET_CONFIG_UPDATE = 'XM_DYNAMIC_WIDGET_CONFIG_UPDATE';
 
 export interface XmDynamicWidgetConfig<C = XmConfig, S = any> extends XmDynamicWithConfig<C>, XmDynamicWithSelector {
     /** @deprecated use selector instead */
@@ -50,7 +53,12 @@ export class XmDynamicWidgetDirective implements OnChanges {
     constructor(private dynamicComponents: XmDynamicComponentRegistry,
                 private renderer: Renderer2,
                 private injector: Injector,
-                private viewRef: ViewContainerRef) {
+                private viewRef: ViewContainerRef,
+                private eventManager: XmEventManager) {
+        this.eventManager.listenTo(XM_DYNAMIC_WIDGET_CONFIG_UPDATE).subscribe((event) => {
+            this._layout.config = event.config;
+            this.loadComponent().then();
+        });
     }
 
     public get init(): XmDynamicWidgetConfig & { controllers?: XmDynamicControllerDeclaration[], injector: Injector } {
