@@ -48,7 +48,6 @@
             },
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
-              "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/moment/moment.js",
               "node_modules/nouislider/dist/nouislider.min.js",
               "node_modules/datatables/media/js/jquery.dataTables.js",
@@ -154,7 +153,6 @@
             "include": ["**/*.spec.ts"],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
-              "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/moment/moment.js",
               "node_modules/nouislider/dist/nouislider.min.js",
               "node_modules/datatables/media/js/jquery.dataTables.js",
