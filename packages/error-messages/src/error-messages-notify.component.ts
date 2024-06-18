@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
+
+export interface ErrorMessagesNotifyConfig {
+    dismissible: boolean;
+    type: string;
+}
 
 declare const $: any;
 
@@ -18,9 +22,9 @@ export class XmErrorMessagesNotifyComponent implements OnInit {
     @Input() public type: string;
     @Input() public message: string;
 
-    constructor(config: NgbAlertConfig) {
-        this.dismissible = config.dismissible;
-        this.type = config.type;
+    constructor() {
+        this.dismissible = true;
+        this.type = 'error';
     }
 
     public ngOnInit(): void {

@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { PerPageModule } from '@xm-ngx/components/per-page';
@@ -18,7 +17,6 @@ import { AuditsService } from './audits.service';
 
 @NgModule({
     imports: [
-        NgbPaginationModule,
         NgJhipsterModule,
         MatDatepickerModule,
         LoaderModule,

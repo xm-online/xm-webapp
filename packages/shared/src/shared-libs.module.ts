@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { XmPasswordNeededModule } from '@xm-ngx/components/password-needed';
 import { XmTranslationModule } from '@xm-ngx/translation';
@@ -30,7 +29,6 @@ import { MatModule } from './mat.module';
         LanguageModule,
         XmPasswordNeededModule,
         XmMaintenanceViewModule,
-        NgbModule,
         NgJhipsterModule,
         XmTranslationModule.forChild(),
         FormsModule,
@@ -57,7 +55,6 @@ import { MatModule } from './mat.module';
         LanguageModule,
         XmPasswordNeededModule,
         XmMaintenanceViewModule,
-        NgbModule,
         NgJhipsterModule,
         XmTranslationModule,
         FormsModule,

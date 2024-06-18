@@ -14,7 +14,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConditionDashboardDialogModule } from './condition-dashboard-dialog/condition-dashboard-dialog.module';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
@@ -42,7 +41,6 @@ import { RoleMgmtDetailComponent } from './roles-management-detail.component';
         MatSelectModule,
         MatCheckboxModule,
         MatIconModule,
-        NgbPaginationModule,
         NoDataModule,
         PerPageModule,
         NgJhipsterModule,

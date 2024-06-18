@@ -14,7 +14,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { PerPageModule } from '@xm-ngx/components/per-page';
@@ -33,7 +32,6 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
         XmTranslationModule,
         NgJhipsterModule,
         RouterModule,
-        NgbPaginationModule,
         PerPageModule,
         NoDataModule,
         MatButtonModule,
