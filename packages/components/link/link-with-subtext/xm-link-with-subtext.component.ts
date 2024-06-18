@@ -90,7 +90,6 @@ export class LinkWithSubtextComponent implements XmDynamicPresentation<unknown, 
     }
 
     /**
-     * @private
      * Formats the value for the link.
      * Provide path for the value via `this.config.linkConfig.valueField`.
      * Provide the format via this.config.linkConfig.format (for now supports only date formating)
