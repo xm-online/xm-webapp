@@ -116,7 +116,6 @@
     "tslib": "2.4.0",
     "validate": "5.2.0",
     "yaml": "2.3.1",
-    "yamljs": "0.3.0",
     "zone.js": "0.11.8"
   },
   "devDependencies": {
