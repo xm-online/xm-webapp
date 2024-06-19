@@ -89,7 +89,6 @@
     "chartist-plugin-zoom": "0.6.0",
     "core-js": "3.25.5",
     "dayjs": "1.11.10",
-    "es6-shim": "0.35.6",
     "file-saver": "2.0.5",
     "file-type": "16.5.4",
     "googleapis": "108.0.0",

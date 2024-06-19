@@ -18,7 +18,6 @@ import { TextSectionComponent } from './text-section/text-section.component';
 import { ValidationComponent } from './validation-component/validation-component.component';
 import { MultilingualInputV2Component } from './multilingual-input-v2/multilingual-input-v2.component';
 import { GeoInputComponent } from './geo-input/geo-input.component';
-import { transpilingForIE } from '@xm-ngx/operators';
 
 declare const $: any;
 
@@ -107,7 +106,7 @@ const interpolate = (spec: any): any => {
         try {
             return new Function('$', 'return `' + spec + '`;').call(this, $);
         } catch (e) {
-            return transpilingForIE(spec, $);
+            console.error(`Cant execute runtime code ${spec}, check your condition`);
         }
     }
     return spec;
