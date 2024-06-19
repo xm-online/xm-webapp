@@ -1,5 +1,4 @@
 const fs = require('fs');
-const fse = require('fs-extra');
 const {exec} = require('child_process');
 const {join} = require('path');
 const LOCAL_EXT_PATH = 'src/app/ext';
