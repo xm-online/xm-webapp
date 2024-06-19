@@ -8,7 +8,7 @@ import { JhiLanguageHelper } from '@xm-ngx/translation';
 import { Principal } from '@xm-ngx/core/user';
 import { Spec, XmEntity, XmEntityService, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 
-declare const $: any;
+// declare const $: any;
 
 @Component({
     selector: 'xm-entity-detail',
@@ -52,7 +52,7 @@ export class EntityDetailComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        $.xmEntity = null;
+        // $.xmEntity = null;
         this.routeParamsSubscription.unsubscribe();
         this.routeDataSubscription.unsubscribe();
         this.eventManager.destroy(this.eventSubscriber);
@@ -64,11 +64,13 @@ export class EntityDetailComponent implements OnInit, OnDestroy {
     }
 
     private load(id: any): void {
-        $.xmEntity = null;
+        console.error(`We drop jquery, rewiew code below`);
+
+        // $.xmEntity = null;
         this.xmEntity = null;
         this.xmEntityService.find(id, {embed: 'data'}).subscribe((xmEntity) => {
             this.xmEntity = xmEntity.body;
-            $.xmEntity = xmEntity.body;
+            // $.xmEntity = xmEntity.body;
             this.routeData.pageSubSubTitle = this.xmEntity.name;
             this.jhiLanguageHelper.updateTitle();
         },

@@ -5,7 +5,7 @@ export interface ErrorMessagesNotifyConfig {
     type: string;
 }
 
-declare const $: any;
+// declare const $: any;
 
 /**
  * Alerts can be used to provide feedback messages.
@@ -29,20 +29,22 @@ export class XmErrorMessagesNotifyComponent implements OnInit {
 
     public ngOnInit(): void {
         if (this.message) {
-            $.notify(
-                {
-                    icon: 'add',
-                    message: this.message,
-                },
-                {
-                    type: this.type,
-                    timer: 5000,
-                    z_index: 2000,
-                    placement: {
-                        from: 'top',
-                        align: 'right',
-                    },
-                });
+            console.error(`We drop jquery, rewiew code below`);
+
+            // $.notify(
+            //     {
+            //         icon: 'add',
+            //         message: this.message,
+            //     },
+            //     {
+            //         type: this.type,
+            //         timer: 5000,
+            //         z_index: 2000,
+            //         placement: {
+            //             from: 'top',
+            //             align: 'right',
+            //         },
+            //     });
         }
     }
 }

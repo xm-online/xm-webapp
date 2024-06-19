@@ -3,7 +3,7 @@ import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { TableData } from './md-table.component';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
-declare const $: any;
+// declare const $: any;
 
 @Component({
     selector: 'xm-location-countries-widget',
@@ -41,59 +41,65 @@ export class LocationCountriesWidgetComponent implements OnInit, AfterViewInit, 
             RU: 300,
             US: 2920,
         };
-        $('#worldMap').vectorMap({
-            map: 'world_mill_en',
-            backgroundColor: 'transparent',
-            zoomOnScroll: false,
-            regionStyle: {
-                initial: {
-                    'fill': '#e4e4e4',
-                    'fill-opacity': 0.9,
-                    'stroke': 'none',
-                    'stroke-width': 0,
-                    'stroke-opacity': 0,
-                },
-            },
+        console.error('We drop jquery, review code below');
+        console.log(mapData);
 
-            series: {
-                regions: [{
-                    normalizeFunction: 'polynomial',
-                    scale: ['#AAAAAA', '#444444'],
-                    values: mapData,
-                }],
-            },
-        });
+        // $('#worldMap').vectorMap({
+        //     map: 'world_mill_en',
+        //     backgroundColor: 'transparent',
+        //     zoomOnScroll: false,
+        //     regionStyle: {
+        //         initial: {
+        //             'fill': '#e4e4e4',
+        //             'fill-opacity': 0.9,
+        //             'stroke': 'none',
+        //             'stroke-width': 0,
+        //             'stroke-opacity': 0,
+        //         },
+        //     },
+
+        //     series: {
+        //         regions: [{
+        //             normalizeFunction: 'polynomial',
+        //             scale: ['#AAAAAA', '#444444'],
+        //             values: mapData,
+        //         }],
+        //     },
+        // });
     }
 
     public ngAfterViewInit(): void {
+        // It's hard to say that code works properly
         const breakCards = true;
         if (breakCards === true) {
+            console.error(`We drop jquery, rewiew code below`);
+
             // We break the cards headers if there is too much stress on them :-)
-            $('[data-header-animation="true"]').each(function(this: HTMLElement) {
-                const $card = $(this).parent('.card');
-                $card.find('.fix-broken-card').click(function(this: HTMLElement) {
-                    const $header = $(this).parent().parent().siblings('.card-header, .card-image');
-                    $header.removeClass('hinge').addClass('fadeInDown');
+            // $('[data-header-animation="true"]').each(function(this: HTMLElement) {
+            //     const $card = $(this).parent('.card');
+            //     $card.find('.fix-broken-card').click(function(this: HTMLElement) {
+            //         const $header = $(this).parent().parent().siblings('.card-header, .card-image');
+            //         $header.removeClass('hinge').addClass('fadeInDown');
 
-                    $card.attr('data-count', 0);
+            //         $card.attr('data-count', 0);
 
-                    setTimeout(() => {
-                        $header.removeClass('fadeInDown animate');
-                    }, 480);
-                });
+            //         setTimeout(() => {
+            //             $header.removeClass('fadeInDown animate');
+            //         }, 480);
+            //     });
 
-                $card.mouseenter(function(this: HTMLElement) {
-                    const $this = $(this);
-                    const hoverCount = parseInt($this.attr('data-count'), 10) + 1 || 0;
-                    $this.attr('data-count', hoverCount);
-                    if (hoverCount >= 20) {
-                        $(this).children('.card-header, .card-image').addClass('hinge animated');
-                    }
-                });
-            });
+            //     $card.mouseenter(function(this: HTMLElement) {
+            //         const $this = $(this);
+            //         const hoverCount = parseInt($this.attr('data-count'), 10) + 1 || 0;
+            //         $this.attr('data-count', hoverCount);
+            //         if (hoverCount >= 20) {
+            //             $(this).children('.card-header, .card-image').addClass('hinge animated');
+            //         }
+            //     });
+            // });
         }
         //  Activate the tooltips
-        $('[rel="tooltip"]').tooltip();
+        // $('[rel="tooltip"]').tooltip();
     }
 
 }

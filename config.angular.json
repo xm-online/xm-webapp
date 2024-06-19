@@ -47,7 +47,6 @@
               ]
             },
             "scripts": [
-              "node_modules/jquery/dist/jquery.js",
               "node_modules/moment/moment.js",
               "node_modules/leaflet/dist/leaflet.js",
               "node_modules/leaflet.gridlayer.googlemutant/dist/Leaflet.GoogleMutant.js",
@@ -141,7 +140,6 @@
             "tsConfig": "tsconfig.spec.json",
             "include": ["**/*.spec.ts"],
             "scripts": [
-              "node_modules/jquery/dist/jquery.js",
               "node_modules/moment/moment.js",
               "node_modules/leaflet/dist/leaflet.js",
               "node_modules/leaflet.gridlayer.googlemutant/dist/Leaflet.GoogleMutant.js",
