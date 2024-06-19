@@ -5,7 +5,6 @@ import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmUser, XmUserService } from '@xm-ngx/core/user';
 import { OnInitialize } from '@xm-ngx/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { Idle } from 'idlejs/dist';
 import { combineLatest } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { LoginService } from '@xm-ngx/components/login';
@@ -13,7 +12,7 @@ import { LoginService } from '@xm-ngx/components/login';
 @Injectable({ providedIn: 'root' })
 export class IdleLogoutService implements OnInitialize, OnDestroy {
 
-    private idle: Idle;
+    private idle: number;
 
     constructor(
         private router: Router,
@@ -54,19 +53,13 @@ export class IdleLogoutService implements OnInitialize, OnDestroy {
     }
 
     private start(time: number): void {
-        this.idle = new Idle()
-            .whenNotInteractive()
-            .within(time, 1000)
-            .do(() => {
-                this.loginService.logout();
-                this.stop();
-            })
-            .start();
+        this.idle = window.setInterval(() => {
+            this.loginService.logout();
+            this.stop();
+        }, time * 1000);
     }
 
     private stop(): void {
-        this.idle?.stop();
-        this.idle = null;
+        window.clearInterval(this.idle);
     }
-
 }
