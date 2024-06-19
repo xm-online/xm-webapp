@@ -48,9 +48,9 @@ export class XmNavbarToggleWidget implements OnInit, OnDestroy, XmDynamicWidget 
     }
 
     private observeSidenavOpenedState(): void {
-        this.menuService.sidenav.openedChange.asObservable()
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe((isOpen: boolean) => isOpen ? this.sidebarOpen() : this.sidebarClose());
+        this.menuService.sidenav?.openedChange?.asObservable()
+            ?.pipe(takeUntilOnDestroy(this))
+            ?.subscribe((isOpen: boolean) => isOpen ? this.sidebarOpen() : this.sidebarClose());
     }
 
     public async sidebarToggle(): Promise<void> {

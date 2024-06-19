@@ -97,7 +97,7 @@ export class Principal implements OnDestroy, OnInitialize {
             }
             return false;
         } else if (privilegesOperation === 'AND') {
-            return privileges.filter((el) => this.userIdentity.privileges.indexOf(el) === -1);
+            return privileges.filter((el) => this.userIdentity.privileges.indexOf(el) === -1).length === 0;
         }
         console.warn('error.privilegeOperationWrong', { name: privilegesOperation });
         return false;
