@@ -16,10 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import { AfterContentInit, ContentChild, Directive, Host, HostListener, Input } from '@angular/core';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
-import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
-
+import { AfterContentInit, Directive, Host, HostListener, Input } from '@angular/core';
 import { JhiConfigService } from '../config.service';
 import { JhiSortDirective } from './sort.directive';
 
@@ -28,24 +25,14 @@ import { JhiSortDirective } from './sort.directive';
 })
 export class JhiSortByDirective implements AfterContentInit {
     @Input() public jhiSortBy: string;
-    @ContentChild(FaIconComponent, { static: true }) public iconComponent: FaIconComponent;
-
-    public sortIcon: IconDefinition;
-    public sortAscIcon: IconDefinition;
-    public sortDescIcon: IconDefinition;
 
     constructor(@Host() private jhiSort: JhiSortDirective, configService: JhiConfigService) {
         this.jhiSort = jhiSort;
-        const config = configService.getConfig();
-        this.sortIcon = config.sortIcon;
-        this.sortAscIcon = config.sortAscIcon;
-        this.sortDescIcon = config.sortDescIcon;
+        configService.getConfig();
     }
 
     public ngAfterContentInit(): void {
         if (this.jhiSort.predicate && this.jhiSort.predicate !== '_score' && this.jhiSort.predicate === this.jhiSortBy) {
-            this.updateIconDefinition(this.iconComponent, this.jhiSort.ascending ? this.sortAscIcon : this.sortDescIcon);
-            this.jhiSort.activeIconComponent = this.iconComponent;
         }
     }
 
@@ -53,16 +40,6 @@ export class JhiSortByDirective implements AfterContentInit {
     public onClick(): void {
         if (this.jhiSort.predicate && this.jhiSort.predicate !== '_score') {
             this.jhiSort.sort(this.jhiSortBy);
-            this.updateIconDefinition(this.jhiSort.activeIconComponent, this.sortIcon);
-            this.updateIconDefinition(this.iconComponent, this.jhiSort.ascending ? this.sortAscIcon : this.sortDescIcon);
-            this.jhiSort.activeIconComponent = this.iconComponent;
-        }
-    }
-
-    private updateIconDefinition(iconComponent: FaIconComponent, icon: IconDefinition): void {
-        if (iconComponent) {
-            iconComponent.icon = icon.iconName;
-            iconComponent.render();
         }
     }
 }
