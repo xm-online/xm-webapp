@@ -3,7 +3,7 @@ import {
     Directive, inject,
     Injector,
     Input,
-    OnChanges,
+    OnChanges, OnDestroy,
     Renderer2,
     SimpleChanges, StaticProvider,
     ViewContainerRef,
@@ -24,6 +24,10 @@ import { setComponentInput } from '../operators/set-component-input';
 import { NotFoundException } from '@xm-ngx/exceptions';
 import { XmConfig } from '@xm-ngx/interfaces';
 import { XmDynamicWithConfig, XmDynamicWithSelector } from '../src/interfaces/xm-dynamic-selector';
+import { XmEventManager } from '@xm-ngx/core';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+
+export const XM_DYNAMIC_WIDGET_CONFIG_UPDATE = 'XM_DYNAMIC_WIDGET_CONFIG_UPDATE';
 
 export interface XmDynamicWidgetConfig<C = XmConfig, S = any> extends XmDynamicWithConfig<C>, XmDynamicWithSelector {
     /** @deprecated use selector instead */
@@ -38,7 +42,7 @@ export interface XmDynamicWidgetConfig<C = XmConfig, S = any> extends XmDynamicW
     selector: 'xm-dynamic-widget, [xm-dynamic-widget]',
     providers: [XmDynamicControllerInjectorFactoryService]
 })
-export class XmDynamicWidgetDirective implements OnChanges {
+export class XmDynamicWidgetDirective implements OnChanges, OnDestroy {
 
     @Input() public class: string;
     @Input() public style: string;
@@ -50,7 +54,16 @@ export class XmDynamicWidgetDirective implements OnChanges {
     constructor(private dynamicComponents: XmDynamicComponentRegistry,
                 private renderer: Renderer2,
                 private injector: Injector,
-                private viewRef: ViewContainerRef) {
+                private viewRef: ViewContainerRef,
+                private eventManager: XmEventManager) {
+        this.eventManager.listenTo(XM_DYNAMIC_WIDGET_CONFIG_UPDATE)
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((event) => {
+            if (event?.config?.id === this._layout?.config?.id) {
+                this._layout.config = event.config;
+                this.loadComponent().then();
+            }
+        });
     }
 
     public get init(): XmDynamicWidgetConfig & { controllers?: XmDynamicControllerDeclaration[], injector: Injector } {
@@ -70,6 +83,10 @@ export class XmDynamicWidgetDirective implements OnChanges {
         if (changes.init && !_.isEqual(changes.init.currentValue, changes.init.previousValue)) {
             this.loadComponent().then();
         }
+    }
+
+    public ngOnDestroy() {
+        takeUntilOnDestroyDestroy(this);
     }
 
     private async loadComponent(): Promise<void> {
