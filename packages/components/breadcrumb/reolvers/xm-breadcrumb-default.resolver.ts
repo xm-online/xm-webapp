@@ -1,5 +1,5 @@
 import { XmBreadcrumbResolver } from './xm-breadcrumb.resolver';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Params } from '@angular/router';
 import { XmBreadcrumbRouteData } from '../interfaces/xm-breadcrumb-route-data.interface';
 import { XmBreadcrumb } from '../interfaces/xm-breadcrumb.interface';
 
@@ -43,6 +43,21 @@ export class XmBreadcrumbDefaultResolver extends XmBreadcrumbResolver {
         return {
             label: title,
             url: getResolvedUrl(route),
+            queryParams: this.keepQueryParams(route.queryParams, data),
         };
+    }
+
+    private static keepQueryParams(queryParams: Params, data: any): Params | null {
+        const { keepQueryParams } = data.dashboard.config || {};
+        if (Array.isArray(keepQueryParams)) {
+            return keepQueryParams.reduce((accumulator: Params, key: string) => {
+                return {
+                    ...accumulator,
+                    [key]: queryParams[key],
+                };
+            }, {});
+        }
+
+        return null;
     }
 }
