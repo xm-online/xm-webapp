@@ -156,7 +156,8 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         return this.userService.user$().pipe(
             switchMap((user) => {
 
-                if (this.principal.hasPrivilegesInline(['DASHBOARD.GET_LIST', 'WIDGET.GET_LIST.ITEM', 'DASHBOARD.GET_LIST.ITEM'], 'AND') !== 0) {
+                const hasPrivilegesInline = this.principal.hasPrivilegesInline(['DASHBOARD.GET_LIST', 'WIDGET.GET_LIST.ITEM', 'DASHBOARD.GET_LIST.ITEM'], 'AND');
+                if (hasPrivilegesInline !== true && hasPrivilegesInline !== 0) {
                     return of([]);
                 }
 
