@@ -22,4 +22,8 @@ export const XM_LINK_ELEMENTS: XmDynamicEntry[] = [
         selector: 'link-button',
         loadChildren: () => import('@xm-ngx/components/link').then(m => m.XmLinkButtonComponent),
     },
+    {
+        selector: 'xm-link-with-subtext',
+        loadChildren: () => import('@xm-ngx/components/link').then(m => m.LinkWithSubtextComponent),
+    },
 ];

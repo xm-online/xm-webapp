@@ -153,8 +153,16 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private get activeDashboards$(): Observable<MenuItem[]> {
-        return this.userService.user$().pipe(
+        return from(this.principal.identity()).pipe(
+            switchMap(() => this.userService.user$())
+        ).pipe(
             switchMap((user) => {
+
+                const hasPrivilegesInline = this.principal.hasPrivilegesInline(['DASHBOARD.GET_LIST', 'WIDGET.GET_LIST.ITEM', 'DASHBOARD.GET_LIST.ITEM'], 'AND');
+                if (hasPrivilegesInline !== true && hasPrivilegesInline !== 0) {
+                    return of([]);
+                }
+
                 return this.dashboardService.dashboards$().pipe(
                     filter((dashboards) => Boolean(dashboards)),
                     map((i) => filterByConditionDashboards(i, this.contextService)),
