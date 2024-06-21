@@ -7,7 +7,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { XmTranslationModule } from '@xm-ngx/translation';
@@ -16,6 +15,7 @@ import { JhiMetricsMonitoringModalComponent } from './metrics-modal.component';
 import { JhiMetricsMonitoringComponent } from './metrics.component';
 import { JhiMetricsService } from './metrics.service';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
     imports: [
@@ -24,8 +24,8 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
         FormsModule,
         MatSelectModule,
         NoDataModule,
+        MatProgressBarModule,
         LoaderModule,
-        NgbProgressbarModule,
         CommonModule,
         MatButtonModule,
         MatDialogModule,

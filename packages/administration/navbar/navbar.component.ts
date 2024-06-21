@@ -14,7 +14,7 @@ enum XmNavbarConfigVersion {
     Second = 2,
 }
 
-declare const $: any;
+// declare const $: any;
 
 @Component({
     selector: 'xm-navbar',
@@ -41,7 +41,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
             this.navbarLayout = config.navbar && config.navbar.layout ? config.navbar.layout : null;
             this.navbarVersion = config.navbar && config.navbar.version ? config.navbar.version : XmNavbarConfigVersion.First;
 
-            $('#favicon').attr('href', config.favicon ? config.favicon : './assets/img/favicon.png');
+            // What's purpose of this?
+            // $('#favicon').attr('href', config.favicon ? config.favicon : './assets/img/favicon.png');
         });
     }
 

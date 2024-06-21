@@ -21,7 +21,6 @@ export { Interpolate, interpolate } from './src/interpolate';
 export { stringSubstitute } from './src/string-substitutor';
 export { randomInt } from './src/random-int';
 export * from './src/request-util';
-export * from './src/transpilingForIE';
 export * from './src/dayjs-util';
 export * from './src/flattenObjectDeep';
 export * from './src/key-predicate';

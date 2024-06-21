@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { PerPageModule } from '@xm-ngx/components/per-page';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
@@ -34,7 +33,6 @@ import { MatButtonModule } from '@angular/material/button';
         MatSlideToggleModule,
         MatCheckboxModule,
         MatIconModule,
-        NgbPaginationModule,
         PerPageModule,
         MatTooltipModule,
         XmPermissionModule,

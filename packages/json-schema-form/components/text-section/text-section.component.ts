@@ -10,7 +10,7 @@ import { I18nNamePipe } from '@xm-ngx/translation';
 import { Principal } from '@xm-ngx/core/user';
 import { JsonSchemaFormService } from '@ajsf/core';
 import { startWith } from 'rxjs/operators';
-import * as formatString from 'string-template';
+import { template } from 'lodash';
 
 @Component({
     standalone: true,
@@ -46,6 +46,11 @@ export class TextSectionComponent implements OnInit {
         const text =
             this.options.dynamicContent.value ?
                 this.i18nNamePipe.transform(this.options.dynamicContent.value, this.principal) : '';
+
+        const formatString = template(text, {
+            interpolate: /\{(.+?)\}/g,
+        });
+
         if (this.options.dynamicContent.trackKeys) {
             const keys = this.options.dynamicContent.trackKeys.keys || [];
             const opposite = !!this.options.dynamicContent.trackKeys.hasValues;
@@ -54,16 +59,16 @@ export class TextSectionComponent implements OnInit {
                 keys.forEach((key) => {
                     if (data[key] && data[key] != null && data[key] !== 'undefined') {hasValues.push(data[key]); }
                 });
-                this.calculatedContent = hasValues.length === keys.length ? formatString(text, data) : null;
+                this.calculatedContent = hasValues.length === keys.length ? formatString(data) : null;
             } else {
                 const noValues = [];
                 keys.forEach((key) => {
                     if (!data[key] || data[key] == null || data[key] === 'undefined') {noValues.push(data[key]); }
                 });
-                this.calculatedContent = noValues.length > 0 ? formatString(text, data) : null;
+                this.calculatedContent = noValues.length > 0 ? formatString(data) : null;
             }
         } else {
-            this.calculatedContent = formatString(text, data);
+            this.calculatedContent = formatString(data);
         }
     }
 }

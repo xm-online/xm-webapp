@@ -57,7 +57,7 @@ describe('Entity detail dialog Component', () => {
                 XmToasterService,
                 {
                     provide: JhiConfigService,
-                    useValue: new JhiConfigService({defaultI18nLang: 'en', i18nEnabled: true}),
+                    useValue: new JhiConfigService({defaultI18nLang: 'en', i18nEnabled: true} as any),
                 },
                 JhiModuleConfig,
             ],

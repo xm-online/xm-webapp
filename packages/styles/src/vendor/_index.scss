@@ -1,14 +1,9 @@
 @import 'angular2-json-schema-form';
-@import 'angular-calendar';
 @import 'bootstrap';
 @import 'angular-material';
 @import 'chartist';
-@import 'datatables.net';
-@import 'fullcalendar';
-@import 'jvectormap-zoomin';
 @import 'leaflet';
 @import '@danielmoncada/angular-datetime-picker/assets/style/picker.min';
-@import 'snazzy-info-window';
 @import 'swagger-ui';
 
 @mixin xm-vendor-xm-override() {
@@ -16,6 +11,5 @@
   @include angular-material-xm-override();
   @include bootstrap-xm-override();
   @include chartist-xm-override();
-  @include jvectormap-xm-override();
   @include swagger-ui-xm-override();
 }

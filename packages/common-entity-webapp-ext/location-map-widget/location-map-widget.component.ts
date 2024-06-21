@@ -8,7 +8,7 @@ import { XmEntity, XmEntityService } from '@xm-ngx/entity';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 declare const google: any;
-declare const MarkerClusterer: any;
+// declare const MarkerClusterer: any;
 
 @Component({
     selector: 'xm-location-map-widget',
@@ -21,13 +21,15 @@ export class LocationMapWidgetComponent implements OnInit, XmDynamicWidget {
     @Input() public config: any;
     public groups: any[];
     public currentGroup: any;
-    public markerClusterer: any;
+    // public markerClusterer: any;
     public gMapApiReady$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor(private xmEntityService: XmEntityService) {
     }
 
     public ngOnInit(): void {
+        console.error('We remove marker cluster library, because of @angular/google-map');
+
         this.mapId = buildMapId('generalMap');
         this.name = this.config.name;
         this.groups = this.config.groups;
@@ -61,9 +63,9 @@ export class LocationMapWidgetComponent implements OnInit, XmDynamicWidget {
     }
 
     public onShowMap(data: any[]): void {
-        if (this.markerClusterer) {
-            this.markerClusterer.clearMarkers();
-        }
+        // if (this.markerClusterer) {
+        //     this.markerClusterer.clearMarkers();
+        // }
         const mapOptions = {
             scrollwheel: false,
         };
@@ -95,9 +97,9 @@ export class LocationMapWidgetComponent implements OnInit, XmDynamicWidget {
                 }
             }
         }
-        this.markerClusterer = new MarkerClusterer(map, markers, {
-            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
-        });
+        // this.markerClusterer = new MarkerClusterer(map, markers, {
+        //     imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+        // });
         map.fitBounds(bounds);
         map.panToBounds(bounds);
     }

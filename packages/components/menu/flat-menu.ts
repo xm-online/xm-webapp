@@ -1,6 +1,5 @@
 import { JavascriptCode } from '@xm-ngx/interfaces';
 import { ContextService } from '@xm-ngx/core/context';
-import { transpilingForIE } from '@xm-ngx/operators';
 import { Dashboard } from '@xm-ngx/core/dashboard';
 import { MenuItem } from './menu.interface';
 import { XmEntitySpec } from '@xm-ngx/core/entity';
@@ -13,7 +12,7 @@ function checkCondition(item: { config?: { condition?: JavascriptCode } }, conte
     }
 
     try {
-        const code = transpilingForIE(item.config.condition, contextService);
+        const code = item.config.condition;
         return Boolean((new Function('context', code))(contextService));
     } catch (e) {
         console.warn('RUNTIME JS:', e);

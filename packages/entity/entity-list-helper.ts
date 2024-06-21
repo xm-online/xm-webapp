@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import { FieldOptions } from '@xm-ngx/core/config';
-import { transpilingForIE } from '@xm-ngx/operators';
 import { XmEntity } from '@xm-ngx/core/entity';
 
 function fieldValueToString(field: FieldOptions, value: any): any {
@@ -8,8 +7,7 @@ function fieldValueToString(field: FieldOptions, value: any): any {
         try {
             return (new Function('value', `return ${field.func};`))(value);
         } catch (e) {
-            const code = transpilingForIE(field.func, value);
-            return (new Function('value', `return ${code}`))(value);
+            console.error(`Cant execute runtime code ${field.func}, check your condition`);
         }
     }
     return value;

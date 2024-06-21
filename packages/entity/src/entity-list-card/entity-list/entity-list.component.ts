@@ -17,7 +17,6 @@ import {
     FieldOptions,
 } from '../../entity-list-card/entity-list-card-options.model';
 import { FunctionCallDialogComponent } from '../../function-call-dialog/function-call-dialog.component';
-import { transpilingForIE } from '@xm-ngx/operators';
 import { takeUntilOnDestroy } from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';
@@ -177,7 +176,7 @@ export class EntityListComponent implements OnInit, OnDestroy {
         try {
             funcValue = new Function(`return \`${entityOptions?.filter?.template}\`;`).call(data);
         } catch (e) {
-            funcValue = transpilingForIE(entityOptions?.filter?.template, data);
+            console.error(`Cant execute runtime code ${entityOptions?.filter?.template}, check your condition`);
         }
         copy.currentQuery = `${copy.currentQuery ? copy.currentQuery : ''} ${funcValue}`;
         entityOptions.currentQuery = copy.currentQuery;

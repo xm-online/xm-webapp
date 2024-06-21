@@ -20,7 +20,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { JhiModuleConfig } from './config';
 import { JhiConfigService } from './config.service';
@@ -37,7 +36,7 @@ export function missingTranslationHandler(configService: JhiConfigService): JhiM
 }
 
 @NgModule({
-    imports: [CommonModule, NgbModule, FormsModule],
+    imports: [CommonModule, FormsModule],
     declarations: [...JHI_PIPES, ...JHI_DIRECTIVES, JhiTranslateDirective],
     exports: [...JHI_PIPES, ...JHI_DIRECTIVES, JhiTranslateDirective, CommonModule],
 })

@@ -17,7 +17,6 @@
  limitations under the License.
  */
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Directive({
     selector: '[jhiSort]',
@@ -30,7 +29,6 @@ export class JhiSortDirective {
     @Output() public predicateChange: EventEmitter<string> = new EventEmitter();
     @Output() public ascendingChange: EventEmitter<boolean> = new EventEmitter();
 
-    public activeIconComponent: FaIconComponent;
     constructor() {}
 
     public sort(field: string): void {
