@@ -19,6 +19,7 @@ export class MenuService {
     private _hoveredCategory: Subject<HoveredMenuCategory> = new Subject<HoveredMenuCategory>();
     private _isSidenavOpen: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private _isMaterial3Menu: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+    private _sidenavOpenedChange: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public selectedCategory: BehaviorSubject<MenuCategory> = new BehaviorSubject<MenuCategory>(null);
     public isCategoriesHidden$: Observable<boolean>;
     public mobileMenuPositioning: MenuPositionEnum;
@@ -91,6 +92,15 @@ export class MenuService {
     public setIsMaterial3Menu(isMaterial3Menu: boolean): void {
         this._isMaterial3Menu.next(isMaterial3Menu);
     }
+
+    public get sidenavOpenedChange(): Observable<boolean> {
+        return this._sidenavOpenedChange.asObservable();
+    }
+
+    public setSidenavOpenedChange(isOpened: boolean): void {
+        this._sidenavOpenedChange.next(isOpened);
+    }
+
 
     public observeWindowSizeChange(): Observable<BreakpointState | MatDrawerToggleResult> {
         const windowSize$ = this.breakpointObserver.observe([this.TABLET_SCREEN, this.DESKTOP_SMALL_SCREEN, this.MOBILE_SCREEN, this.DESKTOP_BIG_SCREEN]);
