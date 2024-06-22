@@ -17,7 +17,7 @@ import { defaults } from 'lodash';
 import { XmDateValue } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { DateAdapter } from '@angular/material/core';
-import { CustomDateAdapter } from '@xm-ngx/components/date/shared/custom-date-adapter';
+import { CustomDateAdapter } from './shared/custom-date-adapter';
 
 export interface XmDateControlOptions {
     hint?: HintText;
