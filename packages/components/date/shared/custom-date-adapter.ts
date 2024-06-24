@@ -1,13 +1,11 @@
 import { NativeDateAdapter } from '@angular/material/core';
+import dayjs from 'dayjs';
 
 export class CustomDateAdapter extends NativeDateAdapter {
     public parse(value: any): Date | null {
         if (typeof value === 'string' && value.indexOf('.') > -1) {
-            const str = value.split('.');
-            const day = Number(str[0]);
-            const month = Number(str[1]) - 1;
-            const year = Number(str[2]);
-            return new Date(year, month, day);
+            const str = dayjs(value).format('DD.MM.YYYY');
+            return new Date(Date.parse(str));
         }
         const timestamp = typeof value === 'number' ? value : Date.parse(value);
         return isNaN(timestamp) ? null : new Date(timestamp);
