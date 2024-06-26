@@ -59,7 +59,7 @@ const XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT: XmTextRangeControlOptions = {
 
             <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
 
-            <mat-hint *ngIf="config.maxLength" align="end" style="min-width: fit-content">{{getValueLength()}} / {{config.maxLength}}</mat-hint>
+            <mat-hint *ngIf="config.maxLength" align="end" style="min-width: fit-content">{{value?.length || 0}} / {{config.maxLength}}</mat-hint>
 
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
@@ -88,9 +88,5 @@ export class XmTextRangeControl extends NgFormAccessor<string> {
     @Input()
     public set config(value: XmTextRangeControlOptions) {
         this._config = defaults(value, XM_TEXT_RANGE_CONTROL_OPTIONS_DEFAULT);
-    }
-
-    public getValueLength(): number {
-        return this.value && typeof this.value === 'string' ? this.value.length : 0;
     }
 }
