@@ -81,7 +81,7 @@ export class XmNavbarTitleWidget implements OnInit, DoCheck, XmDynamicWidget {
         const pageTitle = this.translateOrEmpty(routData.pageTitle);
         const pageSubTitleTrans = this.translateOrEmpty(routData.pageSubTitle);
         const pageSubSubTitleTrans = this.translateOrEmpty(routData.pageSubSubTitle);
-        const titles = _.compact([pageTitle, pageSubTitleTrans, pageSubSubTitleTrans]);
+        const titles = _.compact([pageTitle, pageSubTitleTrans, pageSubSubTitleTrans]).filter(it => !_.isEmpty(it?.trim()));
         this.title = titles.join('-');
         this.titleContent = titles
             .map((title, ix) => `<span class="title-part-${ix + 1}">${title}</span>\n`)
