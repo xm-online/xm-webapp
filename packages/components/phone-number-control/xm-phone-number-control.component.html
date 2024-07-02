@@ -21,6 +21,9 @@
          type="tel">
 
   <span matTextPrefix>{{config.defaultPrefix}}</span>
+  <button *ngIf="config?.search" mat-icon-button matSuffix (click)="onSearch()">
+    <mat-icon>search</mat-icon>
+  </button>
   <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
 
   <mat-hint [hint]="config.hint"></mat-hint>
