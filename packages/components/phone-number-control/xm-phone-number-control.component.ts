@@ -79,7 +79,7 @@ export class OnPasteRemovePrefixDirective {
     ],
 })
 export class XmPhoneNumberControlComponent extends NgControlAccessor<string> {
-    @Output() search = new EventEmitter<string>();
+    @Output() public search: EventEmitter<string> = new EventEmitter<string>();
     public inputValue: string;
 
     private _config: XmPhoneNumberControlOptions = assign({}, XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT);
