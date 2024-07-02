@@ -1,10 +1,10 @@
 import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Injector, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { injectByKey } from '@xm-ngx/dynamic';
+import { injectByKey, XM_DYNAMIC_COMPONENT_CONFIG } from '@xm-ngx/dynamic';
 import { XmTranslatePipe } from '@xm-ngx/translation';
 import { defaultsDeep } from 'lodash';
 import { XmTableColumnDynamicCellComponent } from '../columns/xm-table-column-dynamic-cell.component';
@@ -32,6 +32,8 @@ import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-
 import { XmTableExpandPanelButtonComponent } from '../components/xm-table-expand-panel-button.component';
 import { TableExpand } from '../animations/xm-table-widget.animation';
 import { XmTableFilterInlineComponent } from '../components/xm-table-filter-inline.component';
+import { XmTableMatPaginatorInt } from './table.mat-paginator-int';
+import { TranslateService } from '@ngx-translate/core';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
@@ -46,7 +48,7 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     templateUrl: './xm-table-widget.component.html',
     styleUrls: ['./xm-table-widget.component.scss'],
     standalone: true,
-    host: {class: 'xm-table-widget'},
+    host: { class: 'xm-table-widget' },
     imports: [
         MatCardModule,
         XmTranslatePipe,
@@ -75,10 +77,18 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         XmTableLoadingColumnComponent,
         XmTableLoadingComponent,
         XmTableExpandPanelButtonComponent,
-        XmTableFilterInlineComponent
+        XmTableFilterInlineComponent,
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,
+        {
+            provide: MatPaginatorIntl,
+            deps: [TranslateService, Injector],
+            useFactory: (translate: TranslateService, injector: Injector) => {
+                const config = injector.get(XM_DYNAMIC_COMPONENT_CONFIG) as any as XmTableWidgetConfig;
+                return new XmTableMatPaginatorInt(translate, config);
+            },
+        },
     ],
     animations: [
         TableExpand
@@ -106,5 +116,4 @@ export class XmTableWidget {
     public getCollectionController(): IXmTableCollectionController<unknown> {
         return this.collectionController || this.collectionControllerResolver.factory(this.config.collection);
     }
-
 }
