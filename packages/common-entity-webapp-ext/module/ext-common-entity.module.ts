@@ -11,8 +11,6 @@ import { CustomerInfoWidgetComponent } from '../customer-info-widget/customer-in
 import { EntityFabActionsComponent } from '../entity-fab-actions/entity-fab-actions.component';
 import { EntityListWidgetComponent } from '../entity-list-widget/entity-list-widget.component';
 import { EntityWidgetComponent } from '../entity-widget/entity-widget.component';
-import { LocationCountriesWidgetComponent } from '../location-countries-widget/location-countries-widget.component';
-import { MdTableComponent } from '../location-countries-widget/md-table.component';
 import { LocationMapWidgetComponent } from '../location-map-widget/location-map-widget.component';
 import { StatsWidgetComponent } from '../stats-widget/stats-widget.component';
 import { TasksWidgetComponent } from '../tasks-widget/tasks-widget.component';
@@ -32,7 +30,6 @@ import { TasksWidgetComponent } from '../tasks-widget/tasks-widget.component';
             {selector: 'xm-widget-entities-list', loadChildren: () => EntityListWidgetComponent},
             {selector: 'xm-widget-entity', loadChildren: () => EntityWidgetComponent},
             {selector: 'xm-widget-general-map', loadChildren: () => LocationMapWidgetComponent},
-            {selector: 'xm-widget-general-countries', loadChildren: () => LocationCountriesWidgetComponent},
             {selector: 'xm-widget-stats', loadChildren: () => StatsWidgetComponent},
             {selector: 'xm-widget-tasks', loadChildren: () => TasksWidgetComponent},
         ]),
@@ -44,9 +41,7 @@ import { TasksWidgetComponent } from '../tasks-widget/tasks-widget.component';
         EntityFabActionsComponent,
         EntityListWidgetComponent,
         EntityWidgetComponent,
-        LocationCountriesWidgetComponent,
         LocationMapWidgetComponent,
-        MdTableComponent,
         StatsWidgetComponent,
         TasksWidgetComponent,
     ],
