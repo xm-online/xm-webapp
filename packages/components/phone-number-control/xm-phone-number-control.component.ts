@@ -119,6 +119,6 @@ export class XmPhoneNumberControlComponent extends NgControlAccessor<string> {
     }
 
     public onSearch(): void {
-        this.search.emit(this.inputValue);
+        this.search.emit(this.config?.defaultPrefix + this.inputValue);
     }
 }
