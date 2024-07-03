@@ -8,7 +8,14 @@ import { JhiLanguageHelper } from '@xm-ngx/translation';
 import { Principal } from '@xm-ngx/core/user';
 import { Spec, XmEntity, XmEntityService, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 
-// declare const $: any;
+/**
+ * TODO: Handle global $-condition
+ * This $ is not a jquery, this variables sets somewhere in page and used in runtime conditions
+ * Be careful deleting this one, it will break a entities
+ *
+ * see methods in this class, ngOnDestroy, load
+ */
+declare const $: any;
 
 @Component({
     selector: 'xm-entity-detail',
@@ -52,7 +59,7 @@ export class EntityDetailComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        // $.xmEntity = null;
+        $.xmEntity = null;
         this.routeParamsSubscription.unsubscribe();
         this.routeDataSubscription.unsubscribe();
         this.eventManager.destroy(this.eventSubscriber);
@@ -64,13 +71,11 @@ export class EntityDetailComponent implements OnInit, OnDestroy {
     }
 
     private load(id: any): void {
-        console.error(`We drop jquery, rewiew code below`);
-
-        // $.xmEntity = null;
+        $.xmEntity = null;
         this.xmEntity = null;
         this.xmEntityService.find(id, {embed: 'data'}).subscribe((xmEntity) => {
             this.xmEntity = xmEntity.body;
-            // $.xmEntity = xmEntity.body;
+            $.xmEntity = xmEntity.body;
             this.routeData.pageSubSubTitle = this.xmEntity.name;
             this.jhiLanguageHelper.updateTitle();
         },

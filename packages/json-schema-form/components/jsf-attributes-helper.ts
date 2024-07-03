@@ -19,7 +19,12 @@ import { ValidationComponent } from './validation-component/validation-component
 import { MultilingualInputV2Component } from './multilingual-input-v2/multilingual-input-v2.component';
 import { GeoInputComponent } from './geo-input/geo-input.component';
 
-// declare const $: any;
+/**
+ * TODO: Handle global $-condition
+ * This $ is not a jquery, this variables sets somewhere in page and used in runtime conditions
+ * Be careful deleting this one, it will break a entities
+ */
+declare const $: any;
 
 /**
  * Returns available JSON Scheme Form widgets.
@@ -104,9 +109,11 @@ const interpolate = (spec: any): any => {
     if (typeof (spec) === 'string') {
         spec = spec.replace(/\\\\/g, '\\\\\\\\');
         try {
-            console.error(`We drop jquery, remove runtime code`);
-
-            return new Function('$', 'return `' + spec + '`;').call(this);
+            /**
+             * This $ is not a jquery, this variables sets somewhere in page and used in runtime conditions
+             * Be careful deleting this one, it will break a entities
+             */
+            return new Function('$', 'return `' + spec + '`;').call(this, $);
         } catch (e) {
             console.error(`Cant execute runtime code ${spec}, check your condition`);
         }
@@ -219,18 +226,21 @@ const conditionalForm = (inDataForm: any, fieldName) => {
     let field = null;
     let condition = false;
 
-    console.error(`We drop jquery, rewiew eval string ${conditionalForms}`);
-    // for (const conditionalFormConfig of conditionalForms) {
-    //     const dynFn = new Function('$', conditionalFormConfig.condition);
-    //     const value = dynFn($);
-    //     if (value && !condition) {
-    //         field = conditionalFormConfig[fieldName];
-    //         condition = true;
-    //         console.info('Use form config by condition', conditionalFormConfig.condition);
-    //     } else if (value && condition) {
-    //         console.warn('Error! Two conditions of conditionalForm are true!', conditionalFormConfig.condition);
-    //     }
-    // }
+    for (const conditionalFormConfig of conditionalForms) {
+        /**
+         * This $ is not a jquery, this variables sets somewhere in page and used in runtime conditions
+         * Be careful deleting this one, it will break a entities
+         */
+        const dynFn = new Function('$', conditionalFormConfig.condition);
+        const value = dynFn($);
+        if (value && !condition) {
+            field = conditionalFormConfig[fieldName];
+            condition = true;
+            console.info('Use form config by condition', conditionalFormConfig.condition);
+        } else if (value && condition) {
+            console.warn('Error! Two conditions of conditionalForm are true!', conditionalFormConfig.condition);
+        }
+    }
 
     if (condition === false) {
         console.warn('No conditions of conditionalForm are true!');
@@ -285,19 +295,38 @@ export const formLayout = (): void => {
     setTimeout(() => {
         // remove legend elements for the array view
 
-        // Could we do it without jquery deps
+        document
+            ?.querySelectorAll('legend')
+            ?.forEach(legend => {
+                legend.classList.add('hidden');
+            });
 
-        // const legendList: HTMLElement[] = $('legend');
-        // for (const legend of legendList) {
-        //     $(legend).addClass('hidden');
-        // }
-        // // auto height for the textarea element
-        // $('.textarea-auto-height textarea').trigger('keyup');
-        // $('mat-form-field').addClass('mat-form-field');
-        // $('mat-form-field').closest('div').addClass('form-group');
-        // $('.json-schema-form .mat-button, .json-schema-form .mat-button').addClass('btn');
-        // $('.json-schema-form .mat-button.mat-primary, .json-schema-form .mat-button.mat-primary')
-        //     .addClass('btn-primary');
+        document
+            ?.querySelectorAll('.textarea-auto-height textarea')
+            ?.forEach(textarea => {
+                textarea.dispatchEvent(new Event('keyup'));
+            });
+
+        document
+            ?.querySelectorAll('mat-form-field')
+            ?.forEach(field => {
+                field.classList.add('mat-form-field');
+
+                field.closest('div')
+                    ?.classList.add('form-group');
+            });
+
+        document
+            ?.querySelectorAll('.json-schema-form .mat-button, .json-schema-form .mat-button')
+            ?.forEach(button => {
+                button.classList.add('btn');
+            });
+
+        document
+            ?.querySelectorAll('.json-schema-form .mat-button.mat-primary, .json-schema-form .mat-button.mat-primary')
+            ?.forEach(button => {
+                button.classList.add('btn-primary');
+            });
     }, 50);
 };
 
