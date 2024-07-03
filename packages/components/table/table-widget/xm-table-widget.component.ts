@@ -1,7 +1,7 @@
 import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { injectByKey } from '@xm-ngx/dynamic';
@@ -17,12 +17,8 @@ import { XmTableFilterChipsComponent } from '../components/xm-table-filter-chips
 import { XmTableHeaderComponent } from '../components/xm-table-header.component';
 import { XmTableLoadingColumnComponent } from '../components/xm-table-loading-column.component';
 import { XmTableLoadingComponent } from '../components/xm-table-loading.component';
-import { XmTableSelectionColumnComponent, } from '../components/xm-table-selection-column.component';
-import {
-    IXmTableCollectionController,
-    XM_TABLE_CONTROLLERS,
-    XmTableCollectionControllerResolver,
-} from '../collections';
+import { XmTableSelectionColumnComponent } from '../components/xm-table-selection-column.component';
+import { IXmTableCollectionController, XM_TABLE_CONTROLLERS, XmTableCollectionControllerResolver } from '../collections';
 import { XmTableMatPaginatorAdapterDirective } from '../directives/xm-table-mat-paginator-adapter.directive';
 import { XmTableMatSortAdapterDirective } from '../directives/xm-table-mat-sort-adapter.directive';
 import { XmTableSelectionDirective } from '../directives/xm-table-selection.directive';
@@ -32,10 +28,11 @@ import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-
 import { XmTableExpandPanelButtonComponent } from '../components/xm-table-expand-panel-button.component';
 import { TableExpand } from '../animations/xm-table-widget.animation';
 import { XmTableFilterInlineComponent } from '../components/xm-table-filter-inline.component';
+import { XmTableMatPaginatorInt } from './table.mat-paginator-int';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
-    config.columns.forEach(c => c.name = c.name || c.field);
+    config.columns.forEach(c => (c.name = c.name || c.field));
     config.pageableAndSortable.sortBy = config.pageableAndSortable.sortBy || config.columns[0].name;
     config.storageKey = config.storageKey || `${location.pathname}.xm-table-widget`;
     return config;
@@ -46,7 +43,7 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     templateUrl: './xm-table-widget.component.html',
     styleUrls: ['./xm-table-widget.component.scss'],
     standalone: true,
-    host: {class: 'xm-table-widget'},
+    host: { class: 'xm-table-widget' },
     imports: [
         MatCardModule,
         XmTranslatePipe,
@@ -75,10 +72,14 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         XmTableLoadingColumnComponent,
         XmTableLoadingComponent,
         XmTableExpandPanelButtonComponent,
-        XmTableFilterInlineComponent
+        XmTableFilterInlineComponent,
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,
+        {
+            provide: MatPaginatorIntl,
+            useClass: XmTableMatPaginatorInt
+        },
     ],
     animations: [
         TableExpand
@@ -106,5 +107,4 @@ export class XmTableWidget {
     public getCollectionController(): IXmTableCollectionController<unknown> {
         return this.collectionController || this.collectionControllerResolver.factory(this.config.collection);
     }
-
 }
