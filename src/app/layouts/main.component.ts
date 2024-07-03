@@ -1,15 +1,18 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { Observable } from 'rxjs';
-import { XmApplicationConfigService, XmUIConfig } from '@xm-ngx/core/config';
+import { Observable, filter, tap } from 'rxjs';
+import { XmApplicationConfigService, XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { VERSION } from '../xm.constants';
 import { XmLoggerService } from '@xm-ngx/logger';
 import { MenuService } from '@xm-ngx/components/menu';
 
-
 export interface XmMainConfig extends XmUIConfig{
     fullWidth?: boolean;
+}
+
+interface XmNavbarConfig extends XmUIConfig {
+    favicon: string;
 }
 
 @Component({
@@ -22,6 +25,8 @@ export class XmMainComponent implements OnInit, AfterViewInit, OnDestroy {
     public isGuestLayout: boolean = true;
     public config: XmMainConfig = this.xmConfigService.getAppConfig();
     public isSidenavOpen$: Observable<boolean>;
+
+    private uiConfigService = inject<XmUiConfigService<XmNavbarConfig>>(XmUiConfigService);
 
     constructor(
         private xmConfigService: XmApplicationConfigService<XmMainConfig>,
@@ -37,6 +42,19 @@ export class XmMainComponent implements OnInit, AfterViewInit, OnDestroy {
         this.sessionService.isActive().pipe(takeUntilOnDestroy(this)).subscribe(
             (auth) => this.isGuestLayout = !auth,
             () => this.isGuestLayout = true,
+        );
+
+        this.setFaviconfromConfig().pipe(takeUntilOnDestroy(this)).subscribe();
+    }
+
+    private setFaviconfromConfig(): Observable<XmNavbarConfig> {
+        return this.uiConfigService.config$().pipe(
+            filter<XmNavbarConfig>(Boolean),
+            tap((config) => {
+                document
+                    ?.getElementById('favicon')
+                    ?.setAttribute('href', config.favicon ? config.favicon : './assets/img/favicon.png');
+            }),
         );
     }
 
