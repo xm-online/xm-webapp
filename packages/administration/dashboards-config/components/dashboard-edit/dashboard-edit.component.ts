@@ -56,9 +56,10 @@ import { ConfigurationHistoryComponent } from '../../configuration-history/confi
 import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
 import { HistoryEvent } from '../../configuration-history/models/config-history.model';
 import {
-    CopyPasteBtnDirective,
-    ClipboardOperations
-} from '@xm-ngx/components/copy-paste-btn';
+    CopyDirective,
+    ClipboardOperations,
+    PasteDirective
+} from '@xm-ngx/components/copy-paste-directive';
 import { CONFIG_TYPE } from '@xm-ngx/administration/dashboards-config';
 
 export enum EditType {
@@ -91,7 +92,8 @@ const uniqValueInListValidator = (stream: Observable<any[]>) => (control: Abstra
         ReactiveFormsModule,
         ConfigurationHistoryComponent,
         FormsModule,
-        CopyPasteBtnDirective
+        CopyDirective,
+        PasteDirective
     ],
     templateUrl: './dashboard-edit.component.html',
     styleUrls: ['./dashboard-edit.component.scss'],
@@ -278,7 +280,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
             const req: Dashboard = this.dashboardValue();
             req.id = null;
             req.name = `${req.name} ${this.translateService.instant(DASHBOARDS_TRANSLATES.copy)}`;
-            req.widgets = CopyPasteBtnDirective.getUnbindedWidgets(d.widgets || []);
+            req.widgets = PasteDirective.getUnbindedWidgets(d.widgets || []);
             req.typeKey = `${this.value.typeKey}-copy`;
 
             this.onAdd(req);

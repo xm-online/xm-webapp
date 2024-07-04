@@ -51,9 +51,7 @@
                 [disabled]="!valid || disabled"
                 [matTooltip]="TRS.copyClipboard | translate"
                 mat-icon-button
-                xmCopyPasteBtn
-                [xmCopyPasteBtnOptions]="{
-                  eventType: ClipboardOperations.COPY,
+                [xmCopy]="{
                   configType: CONFIG_TYPE.DASHBOARD,
                   data: value,
                   widgets: widgetsCompRef?.widgetsList?.data.slice()
@@ -66,9 +64,7 @@
                 [disabled]="disabled"
                 [matTooltip]="TRS.paste | translate"
                 mat-icon-button
-                xmCopyPasteBtn
-                [xmCopyPasteBtnOptions]="{
-                  eventType: ClipboardOperations.PASTE,
+                [xmPaste]="{
                   configType: CONFIG_TYPE.DASHBOARD,
                   data: value,
                 }"

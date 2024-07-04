@@ -25,9 +25,9 @@ import { SelectorTextControlComponent } from '../selector-text-control/selector-
 import { ConfigurationHistoryComponent } from '../../configuration-history/configuration-history.component';
 import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
 import {
-    CopyPasteBtnDirective,
-    ClipboardOperations
-} from '@xm-ngx/components/copy-paste-btn';
+    CopyDirective,
+    ClipboardOperations, PasteDirective
+} from '@xm-ngx/components/copy-paste-directive';
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
 @Component({
@@ -47,7 +47,8 @@ export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
         AsyncPipe,
         SchemaEditorComponent,
         ConfigurationHistoryComponent,
-        CopyPasteBtnDirective
+        CopyDirective,
+        PasteDirective
     ],
     selector: 'xm-widget-edit',
     standalone: true,

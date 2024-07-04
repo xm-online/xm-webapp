@@ -38,11 +38,9 @@
               [disabled]="disabled || !valid"
               [matTooltip]="TRS.copyClipboard | translate"
               mat-icon-button
-              xmCopyPasteBtn
-              [xmCopyPasteBtnOptions]="{
-                  eventType: ClipboardOperations.COPY,
+              [xmCopy]="{
                   configType: CONFIG_TYPE.WIDGET,
-                  data: value
+                  data: value,
                 }"
       >
         <mat-icon>content_copy</mat-icon>
@@ -53,11 +51,9 @@
               [disabled]="disabled"
               [matTooltip]="TRS.paste | translate"
               mat-icon-button
-              xmCopyPasteBtn
-              [xmCopyPasteBtnOptions]="{
-                  eventType: ClipboardOperations.PASTE,
+              [xmPaste]="{
                   configType: CONFIG_TYPE.WIDGET,
-                  data: value
+                  data: value,
                 }"
               (eventValue)="eventValue($event)"
       >
