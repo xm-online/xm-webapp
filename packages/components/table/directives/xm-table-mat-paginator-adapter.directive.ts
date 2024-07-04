@@ -1,9 +1,8 @@
-import { AfterViewInit, Directive, inject, OnDestroy, Self } from '@angular/core';
+import { AfterViewInit, Directive, Input, OnDestroy, Self } from '@angular/core';
 import { XmTableDirective } from './xm-table.directive';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { MatPaginator } from '@angular/material/paginator';
-import { XM_DYNAMIC_COMPONENT_CONFIG } from '@xm-ngx/dynamic';
-import { XmTableWidgetConfig } from '../table-widget/xm-table-widget.config';
+import { XmTableWithColumnDynamicCellOptionsPagination } from '../table-widget/xm-table-widget.config';
 
 @Directive({
     selector: '[xmTableMatPaginatorAdapter]',
@@ -12,7 +11,7 @@ import { XmTableWidgetConfig } from '../table-widget/xm-table-widget.config';
     standalone: true,
 })
 export class XmTableMatPaginatorAdapterDirective implements AfterViewInit, OnDestroy {
-    public config = inject<XmTableWidgetConfig>(XM_DYNAMIC_COMPONENT_CONFIG);
+    @Input() public config: XmTableWithColumnDynamicCellOptionsPagination;
 
     constructor(
         @Self() private matPaginator: MatPaginator,
@@ -29,7 +28,7 @@ export class XmTableMatPaginatorAdapterDirective implements AfterViewInit, OnDes
             .pipe(takeUntilOnDestroy(this))
             .subscribe((context) => {
                 const {pageIndex, total, pageSize } = context.collection.pageableAndSortable || {};
-                const infinityTotal = this.config?.pageableAndSortable?.infinityTotalLimit;
+                const infinityTotal = this.config?.infinityTotalLimit;
                 this.matPaginator.pageIndex = pageIndex;
                 this.matPaginator.length = total;
                 this.matPaginator.pageSize = pageSize;
