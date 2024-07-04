@@ -19,3 +19,14 @@ export {
 export {
     XmLinkButtonComponent,
 } from './link-button/xm-link-button.component';
+
+export {
+    LinkWithSubtextComponent,
+} from './link-with-subtext/xm-link-with-subtext.component';
+
+export {
+    XmLinkSubtextConfig,
+    XmLinkWithSubtextDynamicWidget,
+    XmLinkOptionsWithFormat,
+    XmLinkValueFormat,
+} from './xm-link.model';

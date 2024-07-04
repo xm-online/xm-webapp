@@ -22,7 +22,7 @@ export interface NavbarLogoUIConfig extends XmUIConfig {
             <a [routerLink]="(isSessionActive$ | async) ? '/dashboard' : '/'"
                class="row flex-nowrap no-gutters align-items-center">
                 <span *ngIf="tenantLogoUrl" class="col"><img class="logo-img" [src]="tenantLogoUrl" [alt]="tenantName"/></span>
-                <span class="col-auto"><h5 class="logo-text d-none d-md-inline mx-2 my-0">{{tenantName}}</h5></span>
+                <span *ngIf="showTitle" class="col-auto"><h5 class="logo-text d-none d-md-inline mx-2 my-0">{{tenantName}}</h5></span>
             </a>
         </div>
     `,
@@ -40,8 +40,9 @@ export class XmNavbarLogoWidget implements OnInit, OnDestroy, XmDynamicWidget {
     public tenantLogoUrl: string = '../assets/img/logo-xm-online.png';
     public tenantName: string;
     public showLogo: boolean = false;
+    public showTitle: boolean = false;
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
-    private version: string;
+    private version: string = '';
 
     constructor(
         private xmUiConfigService: XmUiConfigService<NavbarLogoUIConfig>,
@@ -68,6 +69,10 @@ export class XmNavbarLogoWidget implements OnInit, OnDestroy, XmDynamicWidget {
 
             if (config.showLogo !== false) {
                 this.showLogo = true;
+            }
+
+            if (config.showTitle !== false) {
+                this.showTitle = true;
             }
         });
     }

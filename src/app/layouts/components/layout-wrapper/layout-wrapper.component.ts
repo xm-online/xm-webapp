@@ -45,6 +45,7 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
         this.menuService.sidenav = this.sidenav;
         this.observeShouldOpenSidenavAfterSignIn();
         this.observeSidenavConfiguration();
+        this.observeSidenavOpenedChange();
     }
 
     private observeLogoutEvent(): void {
@@ -80,6 +81,12 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
                 takeUntilOnDestroy(this),
             )
             .subscribe();
+    }
+
+    private observeSidenavOpenedChange(): void {
+        this.menuService.sidenav.openedChange.asObservable()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((isOpened: boolean) => this.menuService.setSidenavOpenedChange(isOpened));
     }
 
     public ngOnDestroy(): void {
