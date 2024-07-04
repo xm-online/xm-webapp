@@ -19,6 +19,7 @@ const CACHE_SIZE = 1;
 @Injectable({ providedIn: 'root' })
 export class Principal implements OnDestroy, OnInitialize {
     private userIdentity: any;
+    private loadInProgress: boolean = false;
     private authenticated: boolean = false;
     private authenticationState: Subject<any> = new Subject<any>();
     private promise: Promise<any>;
@@ -117,9 +118,11 @@ export class Principal implements OnDestroy, OnInitialize {
     }
 
     public identity(force: boolean = false, mockUser: boolean = false): Promise<any> {
-        if (!force && this.promise && this.userIdentity) {
+        if (!force && this.promise && (this.userIdentity || this.loadInProgress)) {
             return this.promise;
         }
+
+        this.loadInProgress = true;
         return this.promise = new Promise((resolve, reject) => {
             if (force === true) {
                 this.userService.forceReload();
@@ -192,8 +195,7 @@ export class Principal implements OnDestroy, OnInitialize {
                         resolve(this.userIdentity);
                     }
                 });
-        });
-
+        }).finally(() => this.loadInProgress = false);
     }
 
     /**

@@ -1,0 +1,12 @@
+<div class="d-flex flex-column" [class]="config?.class" [style]="config?.style">
+  <xm-link [value]="formattedValue" [config]="config.linkConfig"></xm-link>
+  <ng-container
+    xmDynamicPresentation
+    [selector]="subLayout?.selector"
+    [value]="subLayoutValue"
+    [config]="subLayout?.config"
+    [style]="subLayout?.style"
+    [class]="subLayout?.class"
+    [controllers]="subLayout?.controllers"
+  ></ng-container>
+</div>

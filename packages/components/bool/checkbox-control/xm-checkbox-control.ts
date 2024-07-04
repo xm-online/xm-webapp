@@ -80,10 +80,8 @@ export class XmCheckboxControl extends NgFormAccessor<Primitive> implements XmDy
     }
 
     public set value(value: boolean | string) {
-        this._value = value;
-        if (typeof value === 'string') {
-            this.control.setValue(JSON.parse(value), {emitEvent: false});
-        }
+        this._value = typeof value === 'string' ? JSON.parse(value) : value;
+        this.control.setValue(this._value, {emitEvent: false});
     }
 
     constructor(@Optional() @Self() public ngControl: NgControl){

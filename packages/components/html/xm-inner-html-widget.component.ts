@@ -1,21 +1,16 @@
-import { Component, Input, NgModule, Type } from '@angular/core';
-import { XmHtmlModule, XmHtmlOptions } from './xm-html';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { XmHtmlComponent } from './xm-html';
+import { XmHtml } from './html.model';
 
 @Component({
     selector: 'xm-inner-html-widget',
     template: '<xm-html [config]="config"></xm-html>',
+    standalone: true,
+    imports: [
+        XmHtmlComponent,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class XmInnerHtmlWidget {
-    @Input() public config: XmHtmlOptions;
-}
-
-@NgModule({
-    exports: [XmInnerHtmlWidget],
-    declarations: [XmInnerHtmlWidget],
-    imports: [
-        XmHtmlModule,
-    ],
-})
-export class InnerHTMLModule {
-    public entry: Type<XmInnerHtmlWidget> = XmInnerHtmlWidget;
+    @Input() public config: XmHtml;
 }
