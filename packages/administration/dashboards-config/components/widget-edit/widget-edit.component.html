@@ -33,19 +33,34 @@
         <mat-icon>save</mat-icon>
       </button>
       <xm-configuration-history [historyEvents]="historyEvents" [config]="{itemType: 'widget', itemName: value?.name, changesType: 'config'}"></xm-configuration-history>
-      <button (click)="onCopyToClipboard()"
+      <button
               *ngIf="editType === EditType.Edit"
-              [disabled]="!form.valid || disabled || !valid"
+              [disabled]="disabled || !valid"
               [matTooltip]="TRS.copyClipboard | translate"
-              mat-icon-button>
+              mat-icon-button
+              xmCopyPasteBtn
+              [xmCopyPasteBtnOptions]="{
+                  eventType: ClipboardOperations.COPY,
+                  configType: CONFIG_TYPE.WIDGET,
+                  data: value
+                }"
+      >
         <mat-icon>content_copy</mat-icon>
       </button>
 
-      <button (click)="onPasteFromClipboard()"
+      <button
               *ngIf="editType === EditType.Create"
-              [disabled]="!form.valid || disabled || !valid"
+              [disabled]="disabled"
               [matTooltip]="TRS.paste | translate"
-              mat-icon-button>
+              mat-icon-button
+              xmCopyPasteBtn
+              [xmCopyPasteBtnOptions]="{
+                  eventType: ClipboardOperations.PASTE,
+                  configType: CONFIG_TYPE.WIDGET,
+                  data: value
+                }"
+              (eventValue)="eventValue($event)"
+      >
         <mat-icon>content_paste</mat-icon>
       </button>
 
