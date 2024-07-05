@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
-import { XmUser, XmUserService } from '@xm-ngx/core/user';
+import { XmUserService } from '@xm-ngx/core/user';
 import { OnInitialize } from '@xm-ngx/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { combineLatest } from 'rxjs';
@@ -11,8 +11,17 @@ import { LoginService } from '@xm-ngx/components/login';
 
 @Injectable({ providedIn: 'root' })
 export class IdleLogoutService implements OnInitialize, OnDestroy {
+    private interactionEvents = [
+        'click',
+        'mousemove',
+        'mouseenter',
+        'keydown',
+        'scroll',
+        'touchstart',
+    ];
+    private activeIntervalId: number;
 
-    private idle: number;
+    private autoLogoutSeconds = 0;
 
     constructor(
         private router: Router,
@@ -31,35 +40,59 @@ export class IdleLogoutService implements OnInitialize, OnDestroy {
             this.router.events.pipe(filter<Event>(e => e instanceof NavigationEnd)),
         ]).pipe(
             takeUntilOnDestroy(this),
-        ).subscribe(([active, user, config]) => this.initIdleLogout(active, user, config));
+        ).subscribe(([active, user, config]) => {
+            if (this.activeIntervalId) {
+                this.removeInteractions();
+            }
+
+            if (active && user) {
+                const userAutoLogoutEnabled = user.autoLogoutEnabled || false;
+                const userAutoLogoutSeconds = user.autoLogoutTimeoutSeconds || config?.idleLogout || null;
+
+                if (userAutoLogoutEnabled && userAutoLogoutSeconds && !isNaN(userAutoLogoutSeconds)) {
+                    this.autoLogoutSeconds = userAutoLogoutSeconds;
+
+                    this.listenInteractions();
+                }
+            }
+        });
     }
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
     }
 
-    private initIdleLogout(active: boolean, user: XmUser, config: { idleLogout: number }): void {
-        if (this.idle) {
-            this.stop();
+    private createInteraction = () => {
+        this.clearInterval();
+        this.setInterval();
+    };
+
+    private listenInteractions(): void {
+        for (const event of this.interactionEvents) {
+            document.addEventListener(event, this.createInteraction);
         }
 
-        if (active && user) {
-            const userAutoLogoutEnabled = user.autoLogoutEnabled || false;
-            const userAutoLogoutSeconds = user.autoLogoutTimeoutSeconds || config?.idleLogout || null;
-            if (userAutoLogoutEnabled && userAutoLogoutSeconds && !isNaN(userAutoLogoutSeconds)) {
-                this.start(userAutoLogoutSeconds);
-            }
-        }
+        this.setInterval();
     }
 
-    private start(time: number): void {
-        this.idle = window.setInterval(() => {
+    private removeInteractions(): void {
+        for (const event of this.interactionEvents) {
+            document.removeEventListener(event, this.createInteraction);
+        }
+
+        this.clearInterval();
+
+        this.activeIntervalId = null;
+    }
+
+    private setInterval(): void {
+        this.activeIntervalId = window.setInterval(() => {
             this.loginService.logout();
-            this.stop();
-        }, time * 1000);
+            this.removeInteractions();
+        }, this.autoLogoutSeconds * 1000);
     }
 
-    private stop(): void {
-        window.clearInterval(this.idle);
+    private clearInterval(): void {
+        window.clearInterval(this.activeIntervalId);
     }
 }
