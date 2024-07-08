@@ -5,8 +5,7 @@ import {
     Output,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { Dashboard, DashboardWidget } from '@xm-ngx/core/dashboard';
-import { CONFIG_TYPE, CopiedObject } from '@xm-ngx/administration/dashboards-config';
+import { CopiedObject } from '@xm-ngx/administration/dashboards-config';
 import { take } from 'rxjs/operators';
 import { readFromClipboard } from '@xm-ngx/operators';
 import { CopyPasteDialogService } from './copy-paste-dialog/copy-paste-dialog.service';
@@ -14,20 +13,14 @@ import {
     ClipboardOperations,
     CopyPasteDialogDialog
 } from './copy-paste-dialog/copy-paste-dialog.model';
-
-export interface CopyPasteBtnOptions {
-    configType: CONFIG_TYPE;
-    eventType: ClipboardOperations;
-    data: Dashboard | DashboardWidget;
-    widgets: DashboardWidget[];
-}
+import { CopyPasteBtnOptions } from './copy-paste.model';
 
 @Directive({
     standalone: true,
     selector: '[xmPaste]',
 })
 export class PasteDirective<T> {
-    @Input('xmPaste') public options: CopyPasteBtnOptions;
+    @Input('xmPaste') public options: CopyPasteBtnOptions<T>;
     @Output() public eventValue: EventEmitter<T> = new EventEmitter();
 
     private copyPasteService: CopyPasteDialogService = inject(CopyPasteDialogService);
@@ -66,10 +59,6 @@ export class PasteDirective<T> {
         } else if (_.isObject(text)) {
             copiedObject = text as CopiedObject;
         }
-
-        // if (this.options.configType === CONFIG_TYPE.DASHBOARD) {
-        //     copiedObject.config.widgets = PasteDirective.getUnbindedWidgets(copiedObject.config.widgets);
-        // }
 
         return copiedObject.config as T;
     }

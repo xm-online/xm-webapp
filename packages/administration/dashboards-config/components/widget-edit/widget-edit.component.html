@@ -50,7 +50,6 @@
           [matTooltip]="TRS.copyClipboard | translate"
           mat-icon-button
           [xmCopy]="{
-                  configType: CONFIG_TYPE.WIDGET,
                   data: this.getData(),
                 }"
         >
@@ -63,7 +62,6 @@
           [matTooltip]="TRS.paste | translate"
           mat-icon-button
           [xmPaste]="{
-                  configType: CONFIG_TYPE.WIDGET,
                   data: value,
                 }"
           (eventValue)="eventValue($event)"

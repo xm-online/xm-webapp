@@ -4,12 +4,6 @@ import {
     Input,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { Dashboard, DashboardWidget } from '@xm-ngx/core/dashboard';
-import {
-    CONFIG_TYPE,
-    CopiedObject,
-    XM_WEBAPP_OPERATIONS
-} from '@xm-ngx/administration/dashboards-config';
 import {
     ClipboardOperations,
     CopyPasteDialogDialog
@@ -17,19 +11,14 @@ import {
 import { take } from 'rxjs/operators';
 import { copyToClipboard } from '@xm-ngx/operators';
 import { CopyPasteDialogService } from './copy-paste-dialog/copy-paste-dialog.service';
-
-export interface CopyPasteBtnOptions {
-    configType: CONFIG_TYPE;
-    data: Dashboard | DashboardWidget;
-    widgets: DashboardWidget[];
-}
+import { CopyPasteBtnOptions } from './copy-paste.model';
 
 @Directive({
     standalone: true,
     selector: '[xmCopy]',
 })
 export class CopyDirective<T> {
-    @Input('xmCopy') public options: CopyPasteBtnOptions;
+    @Input('xmCopy') public options: CopyPasteBtnOptions<T>;
 
     private copyPasteService: CopyPasteDialogService = inject(CopyPasteDialogService);
 
@@ -41,9 +30,7 @@ export class CopyDirective<T> {
     public onCopyToClipboard(): void {
         const data = _.cloneDeep(this.options.data || {});
 
-        const enrichedData: CopiedObject = {
-            type: XM_WEBAPP_OPERATIONS.COPY,
-            configType: this.options.configType,
+        const enrichedData = {
             config: data,
         };
 

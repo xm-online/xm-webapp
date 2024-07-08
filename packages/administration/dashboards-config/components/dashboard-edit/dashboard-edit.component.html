@@ -52,7 +52,6 @@
                 [matTooltip]="TRS.copyClipboard | translate"
                 mat-icon-button
                 [xmCopy]="{
-                  configType: CONFIG_TYPE.DASHBOARD,
                   data: getData(),
                 }"
         >
@@ -64,7 +63,6 @@
                 [matTooltip]="TRS.paste | translate"
                 mat-icon-button
                 [xmPaste]="{
-                  configType: CONFIG_TYPE.DASHBOARD,
                   data: value,
                 }"
                 (eventValue)="eventValue($event)"

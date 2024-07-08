@@ -7,3 +7,4 @@ export {
     ClipboardOperations,
     CopyPasteDialogDialog
 } from './copy-paste-dialog/copy-paste-dialog.model';
+export { CopyPasteBtnOptions } from './copy-paste.model';
