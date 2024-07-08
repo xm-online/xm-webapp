@@ -53,8 +53,7 @@
                 mat-icon-button
                 [xmCopy]="{
                   configType: CONFIG_TYPE.DASHBOARD,
-                  data: value,
-                  widgets: widgetsCompRef?.widgetsList?.data.slice()
+                  data: getData(),
                 }"
         >
           <mat-icon>content_copy</mat-icon>
@@ -69,7 +68,6 @@
                   data: value,
                 }"
                 (eventValue)="eventValue($event)"
-                (eventDashboardWidgets)="eventDashboardWidgets($event)"
         >
           <mat-icon>content_paste</mat-icon>
         </button>

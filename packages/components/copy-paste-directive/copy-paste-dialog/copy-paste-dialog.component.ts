@@ -10,13 +10,13 @@ import {
     DEFAULT_CONFIG,
     DialogCopyConfig,
     ClipboardOperations,
-    DashboardCopyClipboardDialog
-} from './dashboard-copy-clipboard-dialog.model';
+    CopyPasteDialogDialog
+} from './copy-paste-dialog.model';
 
 @Component({
-    selector: 'xm-dashboard-copy-clipboard-dialog',
-    templateUrl: './dashboard-copy-clipboard-dialog.component.html',
-    styleUrls: ['./dashboard-copy-clipboard-dialog.component.scss'],
+    selector: 'xm-copy-paste-dialog',
+    templateUrl: './copy-paste-dialog.component.html',
+    styleUrls: ['./copy-paste-dialog.component.scss'],
     standalone: true,
     imports: [
         MatDialogModule,
@@ -26,14 +26,14 @@ import {
         FormsModule,
     ],
 })
-export class DashboardCopyClipboardDialogComponent {
+export class CopyPasteDialogComponent {
     @Input() @Defaults(DEFAULT_CONFIG) public config: DialogCopyConfig = DEFAULT_CONFIG;
 
     public content: string | ArrayBuffer;
     public ClipboardOperations = ClipboardOperations;
-    public dialogResult: DashboardCopyClipboardDialog;
+    public dialogResult: CopyPasteDialogDialog;
 
-    public data: DashboardCopyClipboardDialog = inject(MAT_DIALOG_DATA) || {};
+    public data: CopyPasteDialogDialog = inject(MAT_DIALOG_DATA) || {};
     private matDialogRef = inject(MatDialogRef<DialogCopyConfig>);
 
     public save(): void {

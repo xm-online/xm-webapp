@@ -1,20 +1,22 @@
 import {
     Directive,
-    EventEmitter, HostListener, inject,
+    HostListener, inject,
     Input,
-    Output,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { cloneDeep, omit } from 'lodash';
 import { Dashboard, DashboardWidget } from '@xm-ngx/core/dashboard';
-import { CONFIG_TYPE, CopiedObject, XM_WEBAPP_OPERATIONS } from '@xm-ngx/administration/dashboards-config';
+import {
+    CONFIG_TYPE,
+    CopiedObject,
+    XM_WEBAPP_OPERATIONS
+} from '@xm-ngx/administration/dashboards-config';
 import {
     ClipboardOperations,
-    DashboardCopyClipboardDialog
-} from './dashboard-copy-clipboard-dialog/dashboard-copy-clipboard-dialog.model';
+    CopyPasteDialogDialog
+} from './copy-paste-dialog/copy-paste-dialog.model';
 import { take } from 'rxjs/operators';
 import { copyToClipboard } from '@xm-ngx/operators';
-import { CopyPasteService } from '@xm-ngx/components/copy-paste-directive/copy-paste.service';
+import { CopyPasteDialogService } from './copy-paste-dialog/copy-paste-dialog.service';
 
 export interface CopyPasteBtnOptions {
     configType: CONFIG_TYPE;
@@ -26,12 +28,10 @@ export interface CopyPasteBtnOptions {
     standalone: true,
     selector: '[xmCopy]',
 })
-export class CopyDirective {
+export class CopyDirective<T> {
     @Input('xmCopy') public options: CopyPasteBtnOptions;
-    @Output() public eventValue: EventEmitter<Dashboard | DashboardWidget> = new EventEmitter();
-    @Output() public eventDashboardWidgets: EventEmitter<DashboardWidget[]> = new EventEmitter();
 
-    private copyPasteService: CopyPasteService = inject(CopyPasteService);
+    private copyPasteService: CopyPasteDialogService = inject(CopyPasteDialogService);
 
     @HostListener('click', ['$event.target'])
     public onClick(): void {
@@ -40,15 +40,6 @@ export class CopyDirective {
 
     public onCopyToClipboard(): void {
         const data = _.cloneDeep(this.options.data || {});
-
-        if (this.options.configType === CONFIG_TYPE.DASHBOARD) {
-            _.set(data , 'widgets', this.options.widgets);
-            delete data.id;
-            data.widgets = data.widgets.map(widget => omit(cloneDeep(widget), ['id', 'dashboard']) as DashboardWidget);
-        } else if(this.options.configType === CONFIG_TYPE.WIDGET) {
-            delete data.id;
-            delete (data as DashboardWidget).dashboard;
-        }
 
         const enrichedData: CopiedObject = {
             type: XM_WEBAPP_OPERATIONS.COPY,
@@ -65,7 +56,7 @@ export class CopyDirective {
             .pipe(
                 take(1),
             )
-            .subscribe(async (res: DashboardCopyClipboardDialog) => {
+            .subscribe(async (res: CopyPasteDialogDialog) => {
                 await copyToClipboard(res?.value, {insecurePrompt: false});
             });
     }

@@ -1,9 +1,9 @@
 export { CopyDirective } from './copy.directive';
 export { PasteDirective } from './paste.directive';
-export { DashboardCopyClipboardDialogComponent } from './dashboard-copy-clipboard-dialog/dashboard-copy-clipboard-dialog.component';
+export { CopyPasteDialogComponent } from './copy-paste-dialog/copy-paste-dialog.component';
 export {
     DEFAULT_CONFIG,
     DialogCopyConfig,
     ClipboardOperations,
-    DashboardCopyClipboardDialog
-} from './dashboard-copy-clipboard-dialog/dashboard-copy-clipboard-dialog.model';
+    CopyPasteDialogDialog
+} from './copy-paste-dialog/copy-paste-dialog.model';

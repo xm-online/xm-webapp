@@ -7,13 +7,13 @@ import {
 import * as _ from 'lodash';
 import { Dashboard, DashboardWidget } from '@xm-ngx/core/dashboard';
 import { CONFIG_TYPE, CopiedObject } from '@xm-ngx/administration/dashboards-config';
-import {
-    ClipboardOperations,
-    DashboardCopyClipboardDialog
-} from './dashboard-copy-clipboard-dialog/dashboard-copy-clipboard-dialog.model';
 import { take } from 'rxjs/operators';
 import { readFromClipboard } from '@xm-ngx/operators';
-import { CopyPasteService } from '@xm-ngx/components/copy-paste-directive/copy-paste.service';
+import { CopyPasteDialogService } from './copy-paste-dialog/copy-paste-dialog.service';
+import {
+    ClipboardOperations,
+    CopyPasteDialogDialog
+} from './copy-paste-dialog/copy-paste-dialog.model';
 
 export interface CopyPasteBtnOptions {
     configType: CONFIG_TYPE;
@@ -26,12 +26,11 @@ export interface CopyPasteBtnOptions {
     standalone: true,
     selector: '[xmPaste]',
 })
-export class PasteDirective {
+export class PasteDirective<T> {
     @Input('xmPaste') public options: CopyPasteBtnOptions;
-    @Output() public eventValue: EventEmitter<Dashboard | DashboardWidget> = new EventEmitter();
-    @Output() public eventDashboardWidgets: EventEmitter<DashboardWidget[]> = new EventEmitter();
+    @Output() public eventValue: EventEmitter<T> = new EventEmitter();
 
-    private copyPasteService: CopyPasteService = inject(CopyPasteService);
+    private copyPasteService: CopyPasteDialogService = inject(CopyPasteDialogService);
 
     @HostListener('click', ['$event.target'])
     public async onClick(): Promise<void> {
@@ -48,16 +47,13 @@ export class PasteDirective {
             .pipe(
                 take(1),
             )
-            .subscribe((res: DashboardCopyClipboardDialog) => {
+            .subscribe((res: CopyPasteDialogDialog) => {
                 const value = _.merge(this.options.data, this.getCopiedObjectConfig(res.value));
                 this.eventValue.emit(value);
-                if (this.options.configType === CONFIG_TYPE.DASHBOARD) {
-                    this.eventDashboardWidgets.emit(value.widgets);
-                }
             });
     }
 
-    private getCopiedObjectConfig(text: string): Dashboard {
+    private getCopiedObjectConfig(text: string): T {
         let copiedObject: CopiedObject;
 
         if (_.isString(text)) {
@@ -71,18 +67,10 @@ export class PasteDirective {
             copiedObject = text as CopiedObject;
         }
 
-        if (this.options.configType === CONFIG_TYPE.DASHBOARD) {
-            copiedObject.config.widgets = PasteDirective.getUnbindedWidgets(copiedObject.config.widgets);
-        }
+        // if (this.options.configType === CONFIG_TYPE.DASHBOARD) {
+        //     copiedObject.config.widgets = PasteDirective.getUnbindedWidgets(copiedObject.config.widgets);
+        // }
 
-        return copiedObject.config;
-    }
-
-    public static getUnbindedWidgets(widgets: DashboardWidget[]): DashboardWidget[] {
-        return widgets.map(w => {
-            delete w.id;
-            delete w.dashboard;
-            return w;
-        });
+        return copiedObject.config as T;
     }
 }

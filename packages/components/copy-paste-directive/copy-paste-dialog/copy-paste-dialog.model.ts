@@ -16,7 +16,7 @@ export interface DialogCopyConfig {
     dateFormat?: string;
 }
 
-export interface DashboardCopyClipboardDialog {
+export interface CopyPasteDialogDialog {
     value: string;
     operation: ClipboardOperations;
 }

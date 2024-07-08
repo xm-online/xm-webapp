@@ -28,6 +28,7 @@ import {
     CopyDirective,
     ClipboardOperations, PasteDirective
 } from '@xm-ngx/components/copy-paste-directive';
+import * as _ from 'lodash';
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
 @Component({
@@ -207,5 +208,12 @@ export class WidgetEditComponent implements OnChanges {
 
     public eventValue(value: DashboardWidget): void {
         this.value = value;
+    }
+
+    public getData(): DashboardWidget {
+        const data = _.cloneDeep(this.value);
+        delete data.id;
+        delete data.dashboard;
+        return data;
     }
 }

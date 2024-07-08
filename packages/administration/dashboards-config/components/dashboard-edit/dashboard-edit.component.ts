@@ -61,6 +61,7 @@ import {
     PasteDirective
 } from '@xm-ngx/components/copy-paste-directive';
 import { CONFIG_TYPE } from '@xm-ngx/administration/dashboards-config';
+import { cloneDeep, omit } from 'lodash';
 
 export enum EditType {
     Create = 1,
@@ -280,7 +281,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
             const req: Dashboard = this.dashboardValue();
             req.id = null;
             req.name = `${req.name} ${this.translateService.instant(DASHBOARDS_TRANSLATES.copy)}`;
-            req.widgets = PasteDirective.getUnbindedWidgets(d.widgets || []);
+            req.widgets = this.getUnbindedWidgets(d.widgets || []);
             req.typeKey = `${this.value.typeKey}-copy`;
 
             this.onAdd(req);
@@ -332,9 +333,22 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
     public eventValue(value: Dashboard): void {
         this.value = value;
+        this.dashboardWidgets = this.getUnbindedWidgets(value.widgets);
     }
 
-    public eventDashboardWidgets(widgets: DashboardWidget[]): void {
-        this.dashboardWidgets = widgets;
+    public getData(): Dashboard {
+        const data = _.cloneDeep(this.value);
+        _.set(data , 'widgets', this.widgetsCompRef?.widgetsList?.data.slice());
+        delete data.id;
+        data.widgets = data.widgets?.map(widget => omit(cloneDeep(widget), ['id', 'dashboard']) as DashboardWidget);
+        return data;
+    }
+
+    private getUnbindedWidgets(widgets: DashboardWidget[]): DashboardWidget[] {
+        return widgets.map(w => {
+            delete w.id;
+            delete w.dashboard;
+            return w;
+        });
     }
 }
