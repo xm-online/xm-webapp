@@ -84,6 +84,7 @@
 
       <mat-paginator showFirstLastButtons
                      xmTableMatPaginatorAdapter
+                     [config]="config.pageableAndSortable"
                      [hidden]="xmTable.config.pageableAndSortable.hidePagination"
                      [pageSizeOptions]="xmTable.config.pageableAndSortable.pageSizeOptions"
       >
