@@ -1,4 +1,4 @@
-import { Inject, Injectable, OnDestroy } from '@angular/core';
+import { Inject, Injectable, OnDestroy, Optional } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
@@ -12,7 +12,7 @@ export class XmTableMatPaginatorInt extends MatPaginatorIntl implements OnDestro
 
     public OF_LABEL: string = 'of';
 
-    constructor(private translate: TranslateService, @Inject(XM_DYNAMIC_COMPONENT_CONFIG) private config: XmTableWidgetConfig) {
+    constructor(private translate: TranslateService, @Optional() @Inject(XM_DYNAMIC_COMPONENT_CONFIG) private config: XmTableWidgetConfig) {
         super();
 
         this.translate.onLangChange
