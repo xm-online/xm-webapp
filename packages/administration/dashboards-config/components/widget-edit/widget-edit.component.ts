@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../../const';
 import { EditType } from '../dashboard-edit/dashboard-edit.component';
-import { CONFIG_TYPE, DashboardEditorService } from '../../services/dashboard-editor.service';
+import { DashboardEditorService } from '../../services/dashboard-editor.service';
 import { DashboardCollection, DashboardConfig, WidgetCollection } from '../../injectors';
 import { SchemaEditorComponent, SchemaEditorOptions } from '../schema-editor/schema-editor.component';
 import { XmTranslateService, XmTranslationModule } from '@xm-ngx/translation';
@@ -77,7 +77,6 @@ export class WidgetEditComponent implements OnChanges {
 
     public historyEvents;
 
-    public CONFIG_TYPE = CONFIG_TYPE;
     public ClipboardOperations = ClipboardOperations;
 
     constructor(

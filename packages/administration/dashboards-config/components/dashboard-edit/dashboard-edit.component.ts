@@ -60,7 +60,6 @@ import {
     ClipboardOperations,
     PasteDirective
 } from '@xm-ngx/components/copy-paste-directive';
-import { CONFIG_TYPE } from '@xm-ngx/administration/dashboards-config';
 import { cloneDeep, omit } from 'lodash';
 
 export enum EditType {
@@ -162,7 +161,6 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
     );
     public dashboardWidgets: DashboardWidget[];
     public ClipboardOperations = ClipboardOperations;
-    public CONFIG_TYPE = CONFIG_TYPE;
 
     constructor(
         protected readonly dashboardCollection: DashboardCollection,
