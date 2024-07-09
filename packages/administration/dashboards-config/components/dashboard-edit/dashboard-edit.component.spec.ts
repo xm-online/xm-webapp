@@ -22,7 +22,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { MockUiConfigService } from '@xm-ngx/core/config/testing';
-import { DashboardsManagerService } from '@xm-ngx/administration/dashboards-config';
+import { DashboardsManagerService } from '../../services/dashboards-manager.service';
 
 @Component({
     selector: 'xm-text-control, xm-ace-editor-control',
