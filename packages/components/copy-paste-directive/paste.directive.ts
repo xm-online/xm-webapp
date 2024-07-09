@@ -5,7 +5,6 @@ import {
     Output,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { CopiedObject } from '@xm-ngx/administration/dashboards-config';
 import { take } from 'rxjs/operators';
 import { readFromClipboard } from '@xm-ngx/operators';
 import { CopyPasteDialogService } from './copy-paste-dialog/copy-paste-dialog.service';
@@ -47,17 +46,17 @@ export class PasteDirective<T> {
     }
 
     private getCopiedObjectConfig(text: string): T {
-        let copiedObject: CopiedObject;
+        let copiedObject;
 
         if (_.isString(text)) {
             try {
-                copiedObject = JSON.parse(text) as CopiedObject;
+                copiedObject = JSON.parse(text);
             } catch (e) {
                 console.warn(e);
                 return null;
             }
         } else if (_.isObject(text)) {
-            copiedObject = text as CopiedObject;
+            copiedObject = text;
         }
 
         return copiedObject.config as T;
