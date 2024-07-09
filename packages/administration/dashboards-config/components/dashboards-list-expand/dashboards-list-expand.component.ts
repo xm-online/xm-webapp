@@ -67,6 +67,11 @@ export class DashboardsListExpandComponent implements OnInit, OnDestroy {
 
     @Input() public dashboardId: Id;
     @Input() public widgetEditComponentType: Type<unknown> = WidgetEditComponent;
+    @Input() public set dashboardWidgets(value: DashboardWidget[]) {
+        if (value) {
+            this.widgetsList = new MatTableDataSource(value);
+        }
+    };
 
     public widgetsList: MatTableDataSource<DashboardWidget>;
 

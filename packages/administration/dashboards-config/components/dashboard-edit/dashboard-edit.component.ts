@@ -1,23 +1,48 @@
-import { AfterViewInit, Component, HostListener, inject, Input, OnDestroy, OnInit, Type, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import {
+    AfterViewInit,
+    Component,
+    HostListener,
+    inject,
+    Input,
+    OnDestroy,
+    OnInit,
+    Type,
+    ViewChild
+} from '@angular/core';
+import {
+    AbstractControl,
+    FormControl,
+    FormsModule,
+    ReactiveFormsModule,
+    ValidationErrors,
+    Validators
+} from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
-import { XmAceEditorControl, XmAceEditorControlModeEnum, XmAceEditorControlOptions, XmAceEditorControlTypeEnum } from '@xm-ngx/components/ace-editor';
+import {
+    XmAceEditorControl,
+    XmAceEditorControlModeEnum,
+    XmAceEditorControlOptions,
+    XmAceEditorControlTypeEnum
+} from '@xm-ngx/components/ace-editor';
 import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
 import { XmTextControl, XmTextControlOptions } from '@xm-ngx/components/text';
 import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard, DashboardConfig, DashboardLayout, DashboardStore, DashboardWidget } from '@xm-ngx/core/dashboard';
 import { Principal } from '@xm-ngx/core/user';
-import { copyToClipboard, readFromClipboard, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import {
+    takeUntilOnDestroy, takeUntilOnDestroyDestroy
+} from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { XmTranslateService, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
-import { cloneDeep, omit } from 'lodash';
 import { prop } from 'lodash/fp';
 import { merge, Observable } from 'rxjs';
 import { delay, distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../../const';
-import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../../services/dashboard-editor.service';
+import {
+    DashboardEditorService,
+} from '../../services/dashboard-editor.service';
 import { DashboardsListExpandComponent } from '../dashboards-list-expand/dashboards-list-expand.component';
 import { DashboardCollection, DashboardConfig as DashboardConfigInjector } from '../../injectors';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -30,6 +55,12 @@ import { RouterLink } from '@angular/router';
 import { ConfigurationHistoryComponent } from '../../configuration-history/configuration-history.component';
 import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
 import { HistoryEvent } from '../../configuration-history/models/config-history.model';
+import {
+    CopyDirective,
+    ClipboardOperations,
+    PasteDirective
+} from '@xm-ngx/components/copy-paste-directive';
+import { cloneDeep, omit } from 'lodash';
 
 export enum EditType {
     Create = 1,
@@ -39,7 +70,7 @@ export enum EditType {
 const uniqValueInListValidator = (stream: Observable<any[]>) => (control: AbstractControl): Observable<ValidationErrors> => {
     return stream.pipe(
         take(1),
-        map((arr) => !arr.includes(control.value) ? null : { notUniqInList: true }),
+        map((arr) => !arr.includes(control.value) ? null : {notUniqInList: true}),
     );
 };
 
@@ -61,6 +92,8 @@ const uniqValueInListValidator = (stream: Observable<any[]>) => (control: Abstra
         ReactiveFormsModule,
         ConfigurationHistoryComponent,
         FormsModule,
+        CopyDirective,
+        PasteDirective
     ],
     templateUrl: './dashboard-edit.component.html',
     styleUrls: ['./dashboard-edit.component.scss'],
@@ -126,6 +159,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         [Validators.required, Validators.pattern('^[A-Z0-9\\.-]+$')],
         [uniqValueInListValidator(this.dashboardList$.pipe(map(dashboards => dashboards.map(prop('typeKey')))))],
     );
+    public dashboardWidgets: DashboardWidget[];
+    public ClipboardOperations = ClipboardOperations;
 
     constructor(
         protected readonly dashboardCollection: DashboardCollection,
@@ -178,8 +213,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
     public ngAfterViewInit(): void {
         this.typeKeyControl.valueChanges.pipe(takeUntilOnDestroy(this), distinctUntilChanged()).subscribe(rawValue => {
-            const value = rawValue.toUpperCase().replace(/ /g, '-');
-            this.typeKeyControl.patchValue(value, { emitEvent: true });
+            const value = rawValue?.toUpperCase().replace(/ /g, '-');
+            this.typeKeyControl.patchValue(value, {emitEvent: true});
         });
     }
 
@@ -208,12 +243,12 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
                         .create({
                             type: 'success',
                             text: DASHBOARDS_TRANSLATES.created,
-                            textOptions: { value: res.name },
+                            textOptions: {value: res.name},
                         })
                         .subscribe();
                     this.value = res;
                     this.editType = EditType.Edit;
-                    this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.id, add: true });
+                    this.eventManager.broadcast({name: this.EDIT_EVENT, id: this.value.id, add: true});
                 }),
             )
             .subscribe();
@@ -226,12 +261,12 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
             .update(this._value)
             .pipe(
                 tap(res => {
-                    this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.id, edit: true });
+                    this.eventManager.broadcast({name: this.EDIT_EVENT, id: this.value.id, edit: true});
                     this.toasterService
                         .create({
                             type: 'success',
                             text: DASHBOARDS_TRANSLATES.updated,
-                            textOptions: { value: res.name },
+                            textOptions: {value: res.name},
                         })
                         .subscribe();
                 }),
@@ -254,7 +289,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
     public onDelete(): void {
         this.alertService
             .delete({
-                title: this.xmTranslateService.translate(DASHBOARDS_TRANSLATES.delete, { value: this.value.name }),
+                title: this.xmTranslateService.translate(DASHBOARDS_TRANSLATES.delete, {value: this.value.name}),
             })
             .pipe(
                 filter(i => i.value),
@@ -264,10 +299,10 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
                         .create({
                             type: 'success',
                             text: DASHBOARDS_TRANSLATES.deleted,
-                            textOptions: { value: this.value.name },
+                            textOptions: {value: this.value.name},
                         })
                         .subscribe();
-                    this.eventManager.broadcast({ name: this.EDIT_EVENT, id: this.value.id, delete: true });
+                    this.eventManager.broadcast({name: this.EDIT_EVENT, id: this.value.id, delete: true});
                 }),
                 tap(() => this.editorService.close()),
             )
@@ -281,45 +316,30 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         return false;
     }
 
-    public async onCopyToClipboard(): Promise<void> {
-        const data = _.cloneDeep(this.dashboardValue());
-
-        _.set(data, 'widgets', this.widgetsCompRef?.widgetsList?.data.slice());
-        delete data.id;
-        data.widgets = data.widgets.map(widget => omit(cloneDeep(widget), ['id', 'dashboard']) as DashboardWidget);
-
-        const enrichedData: CopiedObject = {
-            type: XM_WEBAPP_OPERATIONS.COPY,
-            configType: CONFIG_TYPE.DASHBOARD,
-            config: data,
-        };
-
-        const text = JSON.stringify(enrichedData);
-
-        await copyToClipboard(text);
-    }
-
-    public async onPasteFromClipboard(): Promise<void> {
-        const text = await readFromClipboard();
-        let copiedObject: CopiedObject;
-        if (_.isString(text)) {
-            try {
-                copiedObject = JSON.parse(text) as CopiedObject;
-            } catch (e) {
-                console.warn(e);
-                return;
-            }
-        } else if (_.isObject(text)) {
-            copiedObject = text as CopiedObject;
-        }
-
-        copiedObject.config.widgets = this.getUnbindedWidgets(copiedObject.config.widgets);
-
-        this.value = _.merge(this.value, copiedObject);
-    }
-
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
+    }
+
+    public dashboardValue(): Dashboard {
+        return {
+            name: this.nameControl.value,
+            typeKey: this.typeKeyControl.value,
+            config: this.configControl.value,
+            layout: this.layoutControl.value,
+        };
+    }
+
+    public eventValue(value: Dashboard): void {
+        this.value = value;
+        this.dashboardWidgets = this.getUnbindedWidgets(value.widgets);
+    }
+
+    public getData(): Dashboard {
+        const data = _.cloneDeep(this.value);
+        _.set(data , 'widgets', this.widgetsCompRef?.widgetsList?.data.slice());
+        delete data.id;
+        data.widgets = data.widgets?.map(widget => omit(cloneDeep(widget), ['id', 'dashboard']) as DashboardWidget);
+        return data;
     }
 
     private getUnbindedWidgets(widgets: DashboardWidget[]): DashboardWidget[] {
@@ -328,14 +348,5 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
             delete w.dashboard;
             return w;
         });
-    }
-
-    private dashboardValue(): Dashboard {
-        return {
-            name: this.nameControl.value,
-            typeKey: this.typeKeyControl.value,
-            config: this.configControl.value,
-            layout: this.layoutControl.value,
-        };
     }
 }
