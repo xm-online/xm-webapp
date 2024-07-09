@@ -17,4 +17,8 @@ export class CustomDateAdapter extends NativeDateAdapter {
         const year = date.getFullYear();
         return `${day}.${month}.${year}`;
     }
+
+    public getFirstDayOfWeek(): number {
+        return 1; // Monday
+    }
 }
