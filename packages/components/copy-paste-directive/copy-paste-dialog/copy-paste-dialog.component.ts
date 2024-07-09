@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-import { dayjs } from '@xm-ngx/operators/src/dayjs-util';
+import { dayjs } from '@xm-ngx/operators';
 import {
     DEFAULT_CONFIG,
     DialogCopyConfig,
