@@ -34,6 +34,7 @@ export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
             [class]="config.class || 'pt-2'"
             [indeterminate]="config.cancelable && value === false"
             [id]="config.id"
+            [disabled]="disabled"
             [ngModel]="value"
             (change)="change($event.checked)">
             <div class="d-flex align-items-center">
