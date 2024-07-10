@@ -20,8 +20,8 @@
          [required]="config.required"
          type="tel">
 
-  <span matTextPrefix>{{config.defaultPrefix}}</span>
-  <button *ngIf="config?.search" [disabled]="ngControl?.invalid" mat-icon-button matSuffix (click)="onSearch()">
+  <span matTextPrefix>{{config?.defaultPrefix}}</span>
+  <button *ngIf="config?.search" [disabled]="ngControl?.invalid || disabled" mat-icon-button matSuffix (click)="onSearch()">
     <mat-icon>search</mat-icon>
   </button>
   <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
