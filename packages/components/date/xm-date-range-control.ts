@@ -76,7 +76,7 @@ export const XM_DATE_RANGE_CONTROL_CONFIG_DEFAULT: XmDateRangeControlConfig = {
 
             <span matSuffix class="d-flex">
                 <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
-                <button mat-icon-button *ngIf="(value !== null) && !config?.hideClear" (click)="clear()">
+                <button mat-icon-button *ngIf="(value !== null) && !config?.hideClear" [disabled]="group.disabled" (click)="clear()">
                     <mat-icon>close</mat-icon>
                 </button>
             </span>
@@ -154,6 +154,12 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
 
             this.change(value);
         });
+    }
+
+    public setDisabledState(isDisabled: boolean): void {
+        isDisabled
+            ? this.group.disable({ emitEvent: false })
+            : this.group.enable({ emitEvent: false });
     }
 
     public writeValue(value: XmDateRangeValueOrString): void {
