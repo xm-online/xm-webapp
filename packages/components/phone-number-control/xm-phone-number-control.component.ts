@@ -1,4 +1,4 @@
-import { Component, Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Component, Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { assign } from 'lodash';
@@ -9,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { NgxMaskModule } from 'ngx-mask';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface XmPhoneNumberControlOptions {
     hint?: HintText;
@@ -19,6 +21,7 @@ export interface XmPhoneNumberControlOptions {
     mask: string;
     required: boolean;
     placeHolderCharacter: string;
+    search?: boolean;
 }
 
 export const XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT = {
@@ -30,6 +33,7 @@ export const XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT = {
     mask: '(000)-000-00-00',
     required: true,
     placeHolderCharacter: '_',
+    search: false,
 };
 
 @Directive({
@@ -70,9 +74,12 @@ export class OnPasteRemovePrefixDirective {
         ReactiveFormsModule,
         FormsModule,
         HintModule,
+        MatButtonModule,
+        MatIconModule,
     ],
 })
 export class XmPhoneNumberControlComponent extends NgControlAccessor<string> {
+    @Output() public search: EventEmitter<string> = new EventEmitter<string>();
     public inputValue: string;
 
     private _config: XmPhoneNumberControlOptions = assign({}, XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT);
@@ -109,5 +116,9 @@ export class XmPhoneNumberControlComponent extends NgControlAccessor<string> {
         }
 
         return value;
+    }
+
+    public onSearch(): void {
+        this.search.emit(this.config?.defaultPrefix + this.inputValue);
     }
 }

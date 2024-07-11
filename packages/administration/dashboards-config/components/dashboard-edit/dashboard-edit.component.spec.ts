@@ -4,7 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardEditorService } from '../../services/dashboard-editor.service';
-import {DashboardCollection, DashboardConfig, WidgetCollection} from '../../injectors';
+import { DashboardCollection, DashboardConfig, WidgetCollection } from '../../injectors';
 import { XmAlertService } from '@xm-ngx/alert';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { MockEntityCollection } from '@xm-ngx/repositories/testing';
@@ -22,6 +22,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { MockUiConfigService } from '@xm-ngx/core/config/testing';
+import { DashboardsManagerService } from '../../services/dashboards-manager.service';
 
 @Component({
     selector: 'xm-text-control, xm-ace-editor-control',
@@ -56,16 +57,17 @@ describe('DashboardEditComponent', () => {
             ],
             declarations: [MockXmTextControlComponent],
             providers: [
-                { provide: DashboardCollection, useClass: MockEntityCollection },
-                { provide: XmUiConfigService, useClass: MockUiConfigService },
-                { provide: DashboardEditorService, useValue: null },
-                { provide: XmAlertService, useValue: null },
-                { provide: DashboardConfig, useValue: {} },
-                { provide: XmEventManager, useValue: null },
-                { provide: Principal, useValue: null },
-                { provide: XmToasterService, useValue: null },
-                { provide: DashboardStore, useClass: MockDashboardStore },
-                { provide: WidgetCollection, useClass: MockEntityCollection},
+                {provide: DashboardCollection, useClass: MockEntityCollection},
+                {provide: XmUiConfigService, useClass: MockUiConfigService},
+                {provide: DashboardEditorService, useValue: null},
+                {provide: XmAlertService, useValue: null},
+                {provide: DashboardConfig, useValue: {}},
+                {provide: XmEventManager, useValue: null},
+                {provide: Principal, useValue: null},
+                {provide: XmToasterService, useValue: null},
+                {provide: DashboardStore, useClass: MockDashboardStore},
+                {provide: WidgetCollection, useClass: MockEntityCollection},
+                {provide: DashboardsManagerService, useValue: null}
             ],
             schemas: [NO_ERRORS_SCHEMA],
         })

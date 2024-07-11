@@ -2,6 +2,8 @@ import { NativeDateAdapter } from '@angular/material/core';
 import dayjs from 'dayjs';
 
 export class CustomDateAdapter extends NativeDateAdapter {
+    public mondayIndex: number = 1;
+
     public parse(value: any): Date | null {
         if (typeof value === 'string' && value.indexOf('.') > -1) {
             const str = dayjs(value).format('DD.MM.YYYY');
@@ -16,5 +18,9 @@ export class CustomDateAdapter extends NativeDateAdapter {
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
         const year = date.getFullYear();
         return `${day}.${month}.${year}`;
+    }
+
+    public getFirstDayOfWeek(): number {
+        return this.mondayIndex;
     }
 }

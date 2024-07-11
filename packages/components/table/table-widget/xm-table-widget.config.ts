@@ -9,6 +9,7 @@ import { DataQa } from '@xm-ngx/interfaces';
 export interface XmTableWithColumnDynamicCellOptionsPagination extends PageableAndSortable {
     pageSizeOptions: number[],
     hidePagination: boolean;
+    infinityTotalLimit?: number;
 }
 
 export interface XmTableQueryParamsFilterValue {

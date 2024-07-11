@@ -32,22 +32,8 @@
               mat-icon-button>
         <mat-icon>save</mat-icon>
       </button>
-      <xm-configuration-history [historyEvents]="historyEvents" [config]="{itemType: 'widget', itemName: value?.name, changesType: 'config'}"></xm-configuration-history>
-      <button (click)="onCopyToClipboard()"
-              *ngIf="editType === EditType.Edit"
-              [disabled]="!form.valid || disabled || !valid"
-              [matTooltip]="TRS.copyClipboard | translate"
-              mat-icon-button>
-        <mat-icon>content_copy</mat-icon>
-      </button>
-
-      <button (click)="onPasteFromClipboard()"
-              *ngIf="editType === EditType.Create"
-              [disabled]="!form.valid || disabled || !valid"
-              [matTooltip]="TRS.paste | translate"
-              mat-icon-button>
-        <mat-icon>content_paste</mat-icon>
-      </button>
+      <xm-configuration-history [historyEvents]="historyEvents"
+                                [config]="{itemType: 'widget', itemName: value?.name, changesType: 'config'}"></xm-configuration-history>
 
       <button (click)="onDelete()"
               *ngIf="editType === EditType.Edit"
@@ -57,12 +43,39 @@
         <mat-icon>delete_outline</mat-icon>
       </button>
 
-      <button (click)="onCancel()"
-              [matTooltip]="TRS.cancel | translate"
-              class="ms-auto"
-              mat-icon-button>
-        <mat-icon>cancel</mat-icon>
-      </button>
+      <div class="ms-auto">
+        <button
+          *ngIf="editType === EditType.Edit"
+          [disabled]="disabled || !valid"
+          [matTooltip]="TRS.copyClipboard | translate"
+          mat-icon-button
+          [xmCopy]="{
+                  data: this.getData(),
+                }"
+        >
+          <mat-icon>content_copy</mat-icon>
+        </button>
+
+        <button
+          *ngIf="editType === EditType.Create"
+          [disabled]="disabled"
+          [matTooltip]="TRS.paste | translate"
+          mat-icon-button
+          [xmPaste]="{
+                  data: value,
+                }"
+          (eventValue)="eventValue($event)"
+        >
+          <mat-icon>content_paste</mat-icon>
+        </button>
+
+        <button (click)="onCancel()"
+                [matTooltip]="TRS.cancel | translate"
+                class="ms-auto"
+                mat-icon-button>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -109,14 +122,14 @@
         <xm-widget-config-examples [value]="formGroup.selector"></xm-widget-config-examples>
       </mat-tab>
 
-<!--      <mat-tab [label]="'Docs'">-->
-<!--        <xm-doc-examples></xm-doc-examples>-->
-<!--        <ng-template mat-tab-label>-->
-<!--          Docs <a [routerLink]="'/dashboard/ui-docs'">-->
-<!--          <mat-icon>open_in_new</mat-icon>-->
-<!--        </a>-->
-<!--        </ng-template>-->
-<!--      </mat-tab>-->
+      <!--      <mat-tab [label]="'Docs'">-->
+      <!--        <xm-doc-examples></xm-doc-examples>-->
+      <!--        <ng-template mat-tab-label>-->
+      <!--          Docs <a [routerLink]="'/dashboard/ui-docs'">-->
+      <!--          <mat-icon>open_in_new</mat-icon>-->
+      <!--        </a>-->
+      <!--        </ng-template>-->
+      <!--      </mat-tab>-->
     </mat-tab-group>
 
   </div>
