@@ -12,7 +12,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { NoDataModule } from '@xm-ngx/components/no-data';
 import { XmTableColumnDynamicCellComponent } from '@xm-ngx/components/table';
@@ -34,7 +33,6 @@ import { ToggleLockClientComponent } from './toggle-lock-client/toggle-lock-clie
         MatInputModule,
         XmTranslationModule,
         LoaderModule,
-        NgbPaginationModule,
         NoDataModule,
         NgJhipsterModule,
         PerPageModule,

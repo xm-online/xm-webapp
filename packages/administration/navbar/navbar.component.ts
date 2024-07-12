@@ -5,7 +5,6 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators
 import { filter } from 'rxjs/operators';
 
 interface XmNavbarConfig extends XmUIConfig {
-    favicon: string;
     navbar: { layout: XmDynamicLayout[]; version: number };
 }
 
@@ -13,8 +12,6 @@ enum XmNavbarConfigVersion {
     First = 1,
     Second = 2,
 }
-
-declare const $: any;
 
 @Component({
     selector: 'xm-navbar',
@@ -40,8 +37,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         ).subscribe((config) => {
             this.navbarLayout = config.navbar && config.navbar.layout ? config.navbar.layout : null;
             this.navbarVersion = config.navbar && config.navbar.version ? config.navbar.version : XmNavbarConfigVersion.First;
-
-            $('#favicon').attr('href', config.favicon ? config.favicon : './assets/img/favicon.png');
         });
     }
 

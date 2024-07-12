@@ -8,6 +8,13 @@ import { JhiLanguageHelper } from '@xm-ngx/translation';
 import { Principal } from '@xm-ngx/core/user';
 import { Spec, XmEntity, XmEntityService, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 
+/**
+ * TODO: Handle global $-condition
+ * This $ is not a jquery, this variables sets somewhere in page and used in runtime conditions
+ * Be careful deleting this one, it will break a entities
+ *
+ * see methods in this class, ngOnDestroy, load
+ */
 declare const $: any;
 
 @Component({

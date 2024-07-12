@@ -18,8 +18,12 @@ import { TextSectionComponent } from './text-section/text-section.component';
 import { ValidationComponent } from './validation-component/validation-component.component';
 import { MultilingualInputV2Component } from './multilingual-input-v2/multilingual-input-v2.component';
 import { GeoInputComponent } from './geo-input/geo-input.component';
-import { transpilingForIE } from '@xm-ngx/operators';
 
+/**
+ * TODO: Handle global $-condition
+ * This $ is not a jquery, this variables sets somewhere in page and used in runtime conditions
+ * Be careful deleting this one, it will break a entities
+ */
 declare const $: any;
 
 /**
@@ -105,9 +109,13 @@ const interpolate = (spec: any): any => {
     if (typeof (spec) === 'string') {
         spec = spec.replace(/\\\\/g, '\\\\\\\\');
         try {
+            /**
+             * This $ is not a jquery, this variables sets somewhere in page and used in runtime conditions
+             * Be careful deleting this one, it will break a entities
+             */
             return new Function('$', 'return `' + spec + '`;').call(this, $);
         } catch (e) {
-            return transpilingForIE(spec, $);
+            console.error(`Cant execute runtime code ${spec}, check your condition`);
         }
     }
     return spec;
@@ -217,7 +225,12 @@ const conditionalForm = (inDataForm: any, fieldName) => {
     const conditionalForms = dataForm.conditionalForms;
     let field = null;
     let condition = false;
+
     for (const conditionalFormConfig of conditionalForms) {
+        /**
+         * This $ is not a jquery, this variables sets somewhere in page and used in runtime conditions
+         * Be careful deleting this one, it will break a entities
+         */
         const dynFn = new Function('$', conditionalFormConfig.condition);
         const value = dynFn($);
         if (value && !condition) {
@@ -281,17 +294,39 @@ const processDataFieldExpressions = (data: any) => {
 export const formLayout = (): void => {
     setTimeout(() => {
         // remove legend elements for the array view
-        const legendList: HTMLElement[] = $('legend');
-        for (const legend of legendList) {
-            $(legend).addClass('hidden');
-        }
-        // auto height for the textarea element
-        $('.textarea-auto-height textarea').trigger('keyup');
-        $('mat-form-field').addClass('mat-form-field');
-        $('mat-form-field').closest('div').addClass('form-group');
-        $('.json-schema-form .mat-button, .json-schema-form .mat-button').addClass('btn');
-        $('.json-schema-form .mat-button.mat-primary, .json-schema-form .mat-button.mat-primary')
-            .addClass('btn-primary');
+
+        document
+            ?.querySelectorAll('legend')
+            ?.forEach(legend => {
+                legend.classList.add('hidden');
+            });
+
+        document
+            ?.querySelectorAll('.textarea-auto-height textarea')
+            ?.forEach(textarea => {
+                textarea.dispatchEvent(new Event('keyup'));
+            });
+
+        document
+            ?.querySelectorAll('mat-form-field')
+            ?.forEach(field => {
+                field.classList.add('mat-form-field');
+
+                field.closest('div')
+                    ?.classList.add('form-group');
+            });
+
+        document
+            ?.querySelectorAll('.json-schema-form .mat-button, .json-schema-form .mat-button')
+            ?.forEach(button => {
+                button.classList.add('btn');
+            });
+
+        document
+            ?.querySelectorAll('.json-schema-form .mat-button.mat-primary, .json-schema-form .mat-button.mat-primary')
+            ?.forEach(button => {
+                button.classList.add('btn-primary');
+            });
     }, 50);
 };
 
