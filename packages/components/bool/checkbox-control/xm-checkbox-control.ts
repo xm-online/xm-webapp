@@ -1,20 +1,20 @@
-import { ChangeDetectionStrategy, Component, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
-import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
+import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, inject } from '@angular/core';
+import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { CommonModule } from '@angular/common';
-import { NgControl, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export interface XmCheckboxControlOptions extends DataQa {
     title: Translate;
-    id: string;
+    id: string | null;
     class: string;
-    cancelable: boolean,
+    cancelable: boolean; // It looks like this prop doesn't use anymore
 }
 
 export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
@@ -26,48 +26,47 @@ export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
 };
 
 @Component({
+    standalone: true,
     selector: 'xm-checkbox-control',
     template: `
-        <mat-checkbox [attr.data-qa]="config.dataQa"
-                      [formControl]="control"
-                      [class]="config.class || 'pt-2'"
-                      [indeterminate]="config.cancelable && value === false"
-                      [id]="config.id">
-            {{config.title | translate}}
-            <div class="xm-checkbox-control__placeholder"><span></span></div>
-        </mat-checkbox>
+        <mat-checkbox
+            [attr.data-qa]="config.dataQa"
+            [class]="config.class || 'pt-2'"
+            [indeterminate]="config.cancelable && value === false"
+            [id]="config.id"
+            [disabled]="disabled"
+            [ngModel]="value"
+            (change)="change($event.checked)">
+            <div class="d-flex align-items-center">
+                {{ config.title | translate }}
 
-        <button *ngIf="config.cancelable && (value === true || value === false)"
-                mat-icon-button
-                [disabled]="control.disabled"
-                aria-label="Clear"
-                (click)="control.patchValue('')">
-            <mat-icon>close</mat-icon>
-        </button>
+                @if (config.cancelable && (value === true || value === false)) {
+                    <button
+                        class="ms-1"
+                        mat-icon-button
+                        [disabled]="disabled"
+                        aria-label="Clear"
+                        (click)="change(null)">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                }
+            </div>
+        </mat-checkbox>
     `,
-    styles: [
-        `
-            /** The angular material button size const. */
-            .xm-checkbox-control__placeholder {
-                display: inline-block;
-                height: 20px;
-            }
-        `,
-    ],
     imports: [
         MatCheckboxModule,
         XmTranslationModule,
-        CommonModule,
+        FormsModule,
         ReactiveFormsModule,
         MatButtonModule,
         MatIconModule,
     ],
-    standalone: true,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-/** @beta */
-export class XmCheckboxControl extends NgFormAccessor<Primitive> implements XmDynamicControl<Primitive, XmCheckboxControlOptions> {
+export class XmCheckboxControl extends NgModelWrapper<Primitive | null> implements XmDynamicControl<Primitive, XmCheckboxControlOptions> {
+    private ngControl = inject(NgControl, { self: true, optional: true });
+
     private _config: XmCheckboxControlOptions = clone(XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT);
 
     public get config(): XmCheckboxControlOptions {
@@ -79,15 +78,24 @@ export class XmCheckboxControl extends NgFormAccessor<Primitive> implements XmDy
         this._config = defaults({}, value, XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT);
     }
 
-    public set value(value: boolean | string) {
-        this._value = value;
-        if (typeof value === 'string') {
-            this.control.setValue(JSON.parse(value), {emitEvent: false});
+    public set value(value: Primitive) {
+        this._value = coerceBooleanProperty(value);
+    }
+
+    public get value(): Primitive {
+        return this._value;
+    }
+
+    constructor() {
+        super();
+
+        if (this.ngControl) {
+            this.ngControl.valueAccessor = this;
         }
     }
 
-    constructor(@Optional() @Self() public ngControl: NgControl){
-        super(ngControl);
+    public change(value: Primitive | null): void {
+        this._onChange(value);
+        this.valueChange.next(value);
     }
-
 }

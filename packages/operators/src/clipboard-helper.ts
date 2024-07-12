@@ -1,4 +1,4 @@
-export function copyToClipboard(text: string): Promise<void> {
+export function copyToClipboard(text: string, options: { insecurePrompt: boolean } = {insecurePrompt: true}): Promise<void> {
     try {
         if (navigator.clipboard && window.isSecureContext) {
             return navigator.clipboard.writeText(text);
@@ -9,7 +9,9 @@ export function copyToClipboard(text: string): Promise<void> {
 
     return new Promise((resolve, reject) => {
         try {
-            window.prompt('Copy to clipboard: Ctrl+C, Enter', text);
+            if (options.insecurePrompt) {
+                window.prompt('Copy to clipboard: Ctrl+C, Enter', text);
+            }
 
             resolve();
         } catch (error) {

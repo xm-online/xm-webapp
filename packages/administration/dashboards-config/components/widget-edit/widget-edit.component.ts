@@ -2,14 +2,12 @@ import { Component, HostListener, Input, OnChanges, SimpleChanges, Type } from '
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { DashboardWidget } from '@xm-ngx/core/dashboard';
-import { copyToClipboard, readFromClipboard } from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
-import * as _ from 'lodash';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../../const';
 import { EditType } from '../dashboard-edit/dashboard-edit.component';
-import { CONFIG_TYPE, CopiedObject, DashboardEditorService, XM_WEBAPP_OPERATIONS } from '../../services/dashboard-editor.service';
+import { DashboardEditorService } from '../../services/dashboard-editor.service';
 import { DashboardCollection, DashboardConfig, WidgetCollection } from '../../injectors';
 import { SchemaEditorComponent, SchemaEditorOptions } from '../schema-editor/schema-editor.component';
 import { XmTranslateService, XmTranslationModule } from '@xm-ngx/translation';
@@ -24,10 +22,13 @@ import { XmTextControl } from '@xm-ngx/components/text';
 import { FormsModule } from '@angular/forms';
 import { WidgetConfigExamplesComponent } from '../widget-config-examples.component';
 import { SelectorTextControlComponent } from '../selector-text-control/selector-text-control.component';
-import { CopiedWidgetObject } from '../dashboards-list-expand/dashboards-list-expand.component';
 import { ConfigurationHistoryComponent } from '../../configuration-history/configuration-history.component';
 import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
-
+import {
+    CopyDirective,
+    ClipboardOperations, PasteDirective
+} from '@xm-ngx/components/copy-paste-directive';
+import * as _ from 'lodash';
 export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
 
 @Component({
@@ -47,6 +48,8 @@ export const EDIT_WIDGET_EVENT = 'EDIT_WIDGET_EVENT';
         AsyncPipe,
         SchemaEditorComponent,
         ConfigurationHistoryComponent,
+        CopyDirective,
+        PasteDirective
     ],
     selector: 'xm-widget-edit',
     standalone: true,
@@ -73,6 +76,8 @@ export class WidgetEditComponent implements OnChanges {
     public selectedIndex: number = 1;
 
     public historyEvents;
+
+    public ClipboardOperations = ClipboardOperations;
 
     constructor(
         protected readonly widgetService: WidgetCollection,
@@ -196,36 +201,18 @@ export class WidgetEditComponent implements OnChanges {
         });
     }
 
-    public async onCopyToClipboard(): Promise<void> {
-        const data = _.cloneDeep(this.formGroup);
-        delete data.id;
-        delete data.dashboard;
-
-        const enrichedData: CopiedObject = {type: XM_WEBAPP_OPERATIONS.COPY, configType: CONFIG_TYPE.WIDGET, config: data};
-        const text = JSON.stringify(enrichedData);
-
-        await copyToClipboard(text);
-    }
-
-    public async onPasteFromClipboard(): Promise<void> {
-        const text = await readFromClipboard();
-        let copiedObject: CopiedWidgetObject;
-
-        if (_.isString(text)) {
-            try {
-                copiedObject = JSON.parse(text) as CopiedWidgetObject;
-            } catch (e) {
-                console.warn(e);
-                return;
-            }
-        } else if (_.isObject(text)) {
-            copiedObject = text as CopiedWidgetObject;
-        }
-
-        this.value = _.merge(this.value, copiedObject.config);
-    }
-
     private get dashboardId(): number {
         return this.value.dashboard.id || this.value.dashboard;
+    }
+
+    public eventValue(value: DashboardWidget): void {
+        this.value = value;
+    }
+
+    public getData(): DashboardWidget {
+        const data = _.cloneDeep(this.value);
+        delete data.id;
+        delete data.dashboard;
+        return data;
     }
 }

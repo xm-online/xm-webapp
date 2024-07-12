@@ -28,16 +28,18 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
             <form mat-dialog-content [formGroup]="form">
                 <ng-container *ngFor="let group of (conditionControls | async); trackBy: uniqTrackBy">
                     <ng-container *xmPermission="group.permission">
-                        <ng-template
-                            xmDynamicControl
-                            [formControlName]="group.type"
-                            [class]="group.control.class"
-                            [style]="group.control.style"
-                            [options]="group.control.config ? group.control.config : group.control.options"
-                            [config]="group.control.config"
-                            [selector]="group.control.selector"
-                            [value]="group.control.value"
-                        ></ng-template>
+                        <ng-container *xmCondition="group.condition; arguments (formValues | async)">
+                            <ng-template
+                                xmDynamicControl
+                                [formControlName]="group.type"
+                                [class]="group.control.class"
+                                [style]="group.control.style"
+                                [options]="group.control.config ? group.control.config : group.control.options"
+                                [config]="group.control.config"
+                                [selector]="group.control.selector"
+                                [value]="group.control.value"
+                            ></ng-template>
+                        </ng-container>
                     </ng-container>
                 </ng-container>
             </form>
@@ -95,6 +97,7 @@ export class XmConfirmDialogComponent implements OnInit {
     public conditionControls: Observable<XmConfirmDialogGroup[]> = of([]);
     public isFormDisabled: Observable<boolean>;
     public computedData: Observable<XmConfirmDialogComputedData>;
+    public formValues: Observable<Record<string, { value: any; valid: boolean; disabled: boolean }>>;
 
     constructor(
         private fb: UntypedFormBuilder,
@@ -107,6 +110,7 @@ export class XmConfirmDialogComponent implements OnInit {
         this.conditionControls = this.dialogData.buildConditionControls();
         this.isFormDisabled = this.dialogData.hasFormDisabled();
         this.computedData = this.dialogData.getComputedData();
+        this.formValues = this.dialogData.formValues();
     }
 
     public applyForm({ invalid }: UntypedFormGroup): void {

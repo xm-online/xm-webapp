@@ -1,0 +1,86 @@
+<h4 mat-dialog-title>
+  {{config?.title | translate}}
+</h4>
+
+<div mat-dialog-content>
+  <div class="action-btn-wrapper d-flex my-3">
+    @if (data.operation === ClipboardOperations.PASTE) {
+      <button (click)="setDialogResult(ClipboardOperations.PASTE)"
+            class="btn"
+            color="primary"
+            mat-flat-button
+            type="submit">
+      <span>{{config?.pasteButtonText | translate}}</span>
+    </button>
+
+    <button
+      class="btn"
+      color="primary"
+      mat-flat-button
+      type="submit"
+      (click)="fileUpload.click()"
+    >
+      <span>{{config?.uploadButtonText | translate}}</span>
+    </button>
+
+      <input (change)="upload($event)"
+         class="d-none"
+         type="file"
+         #fileUpload
+    >
+    }
+  </div>
+  @if (data.operation === ClipboardOperations.COPY) {
+  <div>Copy to clipboard: Ctrl+C</div>
+  }
+  <mat-form-field>
+    <textarea [disabled]="!content" matInput [(ngModel)]="content" rows="10"></textarea>
+  </mat-form-field>
+
+  <div class="action-btn-wrapper d-flex my-3">
+    @if (data.operation === ClipboardOperations.COPY) {
+    <button (click)="setDialogResult(ClipboardOperations.COPY)"
+          class="btn"
+          color="primary"
+          mat-flat-button
+          type="submit">
+    <span>{{config?.copyButtonText | translate}}</span>
+  </button>
+
+   <button (click)="download()"
+        class="btn"
+        color="primary"
+        mat-flat-button
+        type="submit">
+    <span>{{config?.downloadButtonText | translate}}</span>
+   </button>
+    }
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  @if (data.operation === ClipboardOperations.COPY) {
+  <button (click)="save()"
+        class="btn ms-auto"
+        mat-button
+        type="button">
+  <span>{{config?.closeText | translate}}</span>
+  </button>
+  } @else if (data.operation === ClipboardOperations.PASTE) {
+  <button (click)="close()"
+        class="btn"
+        mat-button
+        type="button">
+  <span>{{config?.closeText | translate}}</span>
+  </button>
+  <button (click)="save()"
+      class="btn ms-auto"
+      mat-button
+      color="primary"
+      [disabled]="!content"
+      mat-flat-button
+      type="submit">
+  <span>{{config?.saveText | translate}}</span>
+  </button>
+  }
+</div>

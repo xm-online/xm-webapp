@@ -34,22 +34,6 @@
         <mat-icon>file_copy</mat-icon>
       </button>
 
-      <button (click)="onCopyToClipboard()"
-              *ngIf="editType === EditType.Edit"
-              [disabled]="!valid || disabled"
-              [matTooltip]="TRS.copyClipboard | translate"
-              mat-icon-button>
-        <mat-icon>content_copy</mat-icon>
-      </button>
-
-      <button (click)="onPasteFromClipboard()"
-              *ngIf="editType === EditType.Create"
-              [disabled]="!valid || disabled"
-              [matTooltip]="TRS.paste | translate"
-              mat-icon-button>
-        <mat-icon>content_paste</mat-icon>
-      </button>
-
       <button (click)="onDelete()"
               *ngIf="editType === EditType.Edit"
               [disabled]="!valid || disabled"
@@ -62,12 +46,36 @@
         <mat-icon>open_in_new</mat-icon>
       </a>
 
-      <button (click)="onCancel()"
-              [matTooltip]="TRS.cancel | translate"
-              class="ms-auto"
-              mat-icon-button>
-        <mat-icon>cancel</mat-icon>
-      </button>
+      <div class="ms-auto">
+        <button *ngIf="editType === EditType.Edit"
+                [disabled]="!valid || disabled"
+                [matTooltip]="TRS.copyClipboard | translate"
+                mat-icon-button
+                [xmCopy]="{
+                  data: getData(),
+                }"
+        >
+          <mat-icon>content_copy</mat-icon>
+        </button>
+
+        <button *ngIf="editType === EditType.Create"
+                [disabled]="disabled"
+                [matTooltip]="TRS.paste | translate"
+                mat-icon-button
+                [xmPaste]="{
+                  data: value,
+                }"
+                (eventValue)="eventValue($event)"
+        >
+          <mat-icon>content_paste</mat-icon>
+        </button>
+
+        <button (click)="onCancel()"
+                [matTooltip]="TRS.cancel | translate"
+                mat-icon-button>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </div>
 
     </div>
 
@@ -94,9 +102,10 @@
 
       <mat-tab [label]="TRS.widgets | translate">
         <xm-dashboards-list-expand
-          *ngIf="value.id"
           [dashboardId]="value.id"
-          [widgetEditComponentType]="widgetEditComponentType">
+          [widgetEditComponentType]="widgetEditComponentType"
+          [dashboardWidgets]="dashboardWidgets"
+        >
         </xm-dashboards-list-expand>
       </mat-tab>
 
