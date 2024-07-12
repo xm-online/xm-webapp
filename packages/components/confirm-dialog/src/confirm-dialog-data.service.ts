@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { ConditionDirective } from '@xm-ngx/components/condition';
 import { ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 import _ from 'lodash';
 import { BehaviorSubject, filter, map, Observable, of, shareReplay, startWith, Subject, switchMap } from 'rxjs';
@@ -12,7 +11,7 @@ import { XmConfirmDialogComputedData, XmConfirmDialogControls, XmConfirmDialogDa
 export class XmConfirmDialogDataService {
     private fb = inject(UntypedFormBuilder);
     private validatorsService = inject(ValidatorProcessingService);
-    
+
     public form = this.fb.group({});
 
     private _manualClosed = new Subject<unknown>();
@@ -62,44 +61,38 @@ export class XmConfirmDialogDataService {
             shareReplay(1),
         );
     }
+    public formValues(): Observable<Record<string, { value: any; valid: boolean; disabled: boolean }>> {
+        return this.form.valueChanges.pipe(
+            startWith(this.form.value),
+            map((formValues) => {
+                return Object.keys(formValues).reduce((acc, key) => {
+                    const {
+                        value,
+                        valid,
+                        disabled,
+                    } = this.form.get(key);
+
+                    return {
+                        ...acc,
+                        [key]: {
+                            value,
+                            valid,
+                            disabled,
+                        },
+                    };
+                }, {});
+            }),
+        );
+    }
 
     public buildConditionControls(): Observable<XmConfirmDialogGroup[]> {
         return this.controls.pipe(
             switchMap((controls) => {
                 if (_.isEmpty(controls)) {
-                    return of([]);
+                    return of([] as XmConfirmDialogGroup[]);
                 }
 
-                return this.form.valueChanges.pipe(
-                    startWith(this.form.value),
-                    map((formValues) => {
-                        const values = Object.keys(formValues).reduce((acc, key) => {
-                            const {
-                                value,
-                                valid,
-                                disabled,
-                            } = this.form.get(key);
-        
-                            return {
-                                ...acc,
-                                [key]: {
-                                    value,
-                                    valid,
-                                    disabled,
-                                },
-                            };
-                        }, {});
-        
-                        return controls.filter((value) => {
-                            // Always show if condition or condition arguments empty
-                            if (!value.condition || !values) {
-                                return true;
-                            }
-        
-                            return ConditionDirective.checkCondition(value.condition, values);
-                        });
-                    }),
-                );
+                return of(controls);
             }),
         );
     }

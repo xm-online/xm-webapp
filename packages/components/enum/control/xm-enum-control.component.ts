@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, Optional, Self, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/interfaces';
@@ -103,10 +103,14 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
 })
 export class XmEnumControl
     extends NgFormAccessor<XmEnumValue>
-    implements XmDynamicControl<XmEnumValue, XmEnumControlOptions> {
+    implements XmDynamicControl<XmEnumValue, XmEnumControlOptions>, OnDestroy {
     public itemsList: XmEnumControlOptionsItem[];
     public itemsMap: { [value: string]: XmEnumControlOptionsItem };
     private _config: XmEnumControlOptions = clone(XM_ENUM_CONTROL_OPTIONS_DEFAULT);
+
+    public ngOnDestroy(): void {
+        this.change(null);
+    }
 
     public get config(): XmEnumControlOptions {
         return this._config;
