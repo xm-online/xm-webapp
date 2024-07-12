@@ -13,6 +13,7 @@ export class MenuService {
     private readonly DESKTOP_SMALL_SCREEN: string = '(max-width: 1400px)';
     private readonly TABLET_SCREEN: string = '(min-width: 992px)';
     private readonly MOBILE_SCREEN: string = '(max-width: 991px)';
+    private readonly IS_MENU_PINNED_STORAGE_KEY: string = 'isMenuPinned';
     private _sidenav: MatSidenav;
     private _menuCategories: BehaviorSubject<MenuCategory[]> = new BehaviorSubject<MenuCategory[]>([]);
     private _brandLogo: BehaviorSubject<BrandLogo> = new BehaviorSubject<BrandLogo>(null);
@@ -125,9 +126,10 @@ export class MenuService {
                     }
 
                     if (this._menuCategories.value?.length && isMaterial3Menu) {
-                        const isBigScreen: boolean = breakpoints[this.DESKTOP_BIG_SCREEN];
+                        const isBigScreen: boolean = breakpoints[this.DESKTOP_BIG_SCREEN] && this.isMenuPinned();
                         const isLargeAndClosed: boolean = isBigScreen && !this.sidenav.opened;
-                        return this.selectedCategory.value && isLargeAndClosed && !this.selectedCategory.value?.isLinkWithoutSubcategories ?
+                        const isMediumAndClosed: boolean = this.isMediumScreen(breakpoints) && this.isMenuPinned(this.sidenav.opened);
+                        return this.selectedCategory.value && (isLargeAndClosed || isMediumAndClosed) && !this.selectedCategory.value?.isLinkWithoutSubcategories ?
                             from(this.sidenav.open()) : of(breakpointState);
                     }
                     return of(null);
@@ -136,13 +138,11 @@ export class MenuService {
     }
 
     private getSidenavModeForCurrentWindowSize(breakpoints: Record<string, boolean>, isMaterial3Menu: boolean): MatDrawerMode {
-        if (!isMaterial3Menu || breakpoints[this.DESKTOP_BIG_SCREEN]) {
+        if ((!isMaterial3Menu || breakpoints[this.DESKTOP_BIG_SCREEN]) && this.isMenuPinned()) {
             return 'side';
         }
 
-        if (!breakpoints[this.MOBILE_SCREEN] &&
-                (breakpoints[this.DESKTOP_SMALL_SCREEN] || breakpoints[this.TABLET_SCREEN]) &&
-                    this._menuCategories.value?.length) {
+        if (this.isMediumScreen(breakpoints) && this._menuCategories.value?.length && !this.isMenuPinned()) {
             return 'over';
         }
 
@@ -199,13 +199,16 @@ export class MenuService {
     }
 
     public async complexToggleSidenav(): Promise<void> {
-        if (!this.breakpointObserver.isMatched(this.DESKTOP_SMALL_SCREEN)) {
-            await this.sidenav.toggle();
-            return;
-        }
-
         this.sidenav.mode = this.isOverMode ? 'side' : 'over';
-        await this.sidenav.toggle();
+        localStorage.setItem(this.IS_MENU_PINNED_STORAGE_KEY, (!this.isOverMode).toString());
+        if (this.sidenav.mode === 'side' && !this.sidenav.opened) {
+            await this.sidenav.toggle();
+        }
+    }
+
+    public isMenuPinned(isOpen?: boolean): boolean {
+        const isMenuPinnedStorage: boolean | null = JSON.parse(localStorage.getItem(this.IS_MENU_PINNED_STORAGE_KEY)) as boolean | null;
+        return isOpen === undefined && isMenuPinnedStorage === null || isOpen && isMenuPinnedStorage === null ? this.breakpointObserver.isMatched(this.DESKTOP_BIG_SCREEN) : isMenuPinnedStorage;
     }
 
     public setCategoryOnRouteChange(active: MenuItem, menu: MenuItem[]): MenuCategory {
@@ -258,6 +261,10 @@ export class MenuService {
                     return of(breakpoints[this.MOBILE_SCREEN]);
                 }),
             );
+    }
+
+    private isMediumScreen(breakpoints: Record<string, boolean>): boolean {
+        return !breakpoints[this.MOBILE_SCREEN] && (breakpoints[this.DESKTOP_SMALL_SCREEN] || breakpoints[this.TABLET_SCREEN]);
     }
 
     public get otherCategory(): MenuCategory {
