@@ -108,4 +108,8 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
         selector: 'clone-action',
         loadChildren: () => import('@xm-ngx/components/clone-action').then(m => m.CloneActionComponent),
     },
+    {
+        selector: 'render-layouts',
+        loadChildren: () => import('@xm-ngx/components/render-layouts').then(m => m.XmRenderLayoutsComponent),
+    }
 ];
