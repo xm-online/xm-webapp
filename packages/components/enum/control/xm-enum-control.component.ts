@@ -108,10 +108,6 @@ export class XmEnumControl
     public itemsMap: { [value: string]: XmEnumControlOptionsItem };
     private _config: XmEnumControlOptions = clone(XM_ENUM_CONTROL_OPTIONS_DEFAULT);
 
-    public ngOnDestroy(): void {
-        this.change(null);
-    }
-
     public get config(): XmEnumControlOptions {
         return this._config;
     }
