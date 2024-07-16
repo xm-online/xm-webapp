@@ -44,6 +44,7 @@ export class XmBreadcrumbDefaultResolver extends XmBreadcrumbResolver {
             label: title,
             url: getResolvedUrl(route),
             queryParams: this.keepQueryParams(route.queryParams, data),
+            config: data.dashboard?.config?.breadcrumbs,
         };
     }
 

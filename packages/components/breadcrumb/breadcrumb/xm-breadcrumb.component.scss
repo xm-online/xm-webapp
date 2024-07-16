@@ -2,25 +2,38 @@
   display: flex;
   margin: 0;
   padding: 0;
+  flex-wrap: wrap;
 
   .xm-breadcrumb-item {
     display: flex;
     align-items: center;
     list-style-type: none;
     font-weight: normal;
+    order: 1;
+
+    .separator {
+      opacity: 0.7;
+      margin: 0 5px;
+    }
 
     h5 {
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 36px;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 28px;
       letter-spacing: .15px;
-      color: #666666;
+      color: #000;
+      margin-left: 8px !important;
+    }
+
+    .xm-breadcrumb-item-custom-text {
+      margin-left: 8px;
+      font-size: 22px;
     }
 
     .xm-breadcrumb-item-link {
-      font-size: 16px;
+      font-size: 14px;
       letter-spacing: .15px;
-      color: #666666;
+      color: #000;
       font-weight: 400;
     }
 
@@ -31,6 +44,11 @@
     .mat-button {
       font-weight: 400;
       color: #666666;
+    }
+
+    &-active {
+      width: 100%;
+      order: 0;
     }
   }
 }
