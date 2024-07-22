@@ -25,6 +25,7 @@ export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {
     showClearButton?: boolean;
     clearButtonText?: Translate | string;
     hint?: HintText;
+    resetValueOnDestroy?: boolean;
 }
 
 export interface XmEnumControlOptionsItem extends XmEnumOptionsItem {
@@ -130,5 +131,14 @@ export class XmEnumControl
 
     constructor(@Optional() @Self() public ngControl: NgControl) {
         super(ngControl);
+    }
+
+
+    public ngOnDestroy(): void {
+        if (this.config?.resetValueOnDestroy) {
+            this.change(null);
+        }
+
+        super.ngOnDestroy();
     }
 }
