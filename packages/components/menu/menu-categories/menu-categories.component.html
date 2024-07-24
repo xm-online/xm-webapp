@@ -31,7 +31,10 @@
           <button mat-mini-fab
                   [disabled]="selectedCategory?.isLinkWithoutSubcategories"
                   (click)="toggleSidenav()">
-            <mat-icon class="action-icon" [ngClass]="{'rotate-chevron': isSidenavOpened$ | async}">chevron_right</mat-icon>
+            <div class="d-flex">
+              <mat-icon class="action-icon action-icon__left" [ngClass]="{'rotate-chevron-left': isSidenavPinned}">chevron_left</mat-icon>
+              <mat-icon class="action-icon action-icon__right" [ngClass]="{'rotate-chevron-right': isSidenavPinned}">chevron_right</mat-icon>
+            </div>
           </button>
         </div>
       </div>

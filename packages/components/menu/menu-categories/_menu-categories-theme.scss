@@ -118,14 +118,34 @@
         box-shadow: none;
         color: $xm-menu-categories-text-color;
 
+        &:focus {
+          box-shadow: none;
+        }
+
         &.action-icon {
           transition: rotate 50ms;
         }
       }
-    }
 
-    .rotate-chevron {
-      transform: rotate(180deg);
+      .action-icon {
+        transform: rotate(0deg);
+
+        &__left {
+          margin-right: -6px;
+        }
+
+        &__right {
+          margin-left: -6px;
+        }
+      }
+
+      .rotate-chevron-left {
+        transform: rotate(-180deg);
+      }
+
+      .rotate-chevron-right {
+        transform: rotate(180deg);
+      }
     }
   }
 
