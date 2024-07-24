@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/interfaces';
@@ -20,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 export interface XmMultipleEnumControlOptions extends XmEnumViewOptions, DataQa {
     id?: string;
     required?: boolean;
+    initValue?: boolean[] | string[] | number[];
     items: XmEnumControlOptionsItem[];
     hint?: HintText;
 }
@@ -104,7 +105,7 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
 })
 export class XmMultipleEnumControl
     extends NgFormAccessor<XmEnumValue[] | undefined>
-    implements XmDynamicControl<XmEnumValue[] | undefined, XmMultipleEnumControlOptions> {
+    implements XmDynamicControl<XmEnumValue[] | undefined, XmMultipleEnumControlOptions>, OnInit {
     public itemsList: XmEnumControlOptionsItem[];
     public itemsMap: {[value: string]: XmEnumControlOptionsItem};
     private _config: XmMultipleEnumControlOptions = clone(XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
@@ -137,6 +138,10 @@ export class XmMultipleEnumControl
         this.itemsMap = keyBy(this.itemsList, 'value');
     }
 
+    public ngOnInit(): void {
+        this.setInitValue();
+    }
+
     public selectionsChange(res: MatSelectChange): void {
         if (res.value?.length === 0) {
             this.control.patchValue(null);
@@ -145,5 +150,16 @@ export class XmMultipleEnumControl
 
     public deselect(): void {
         this.control.patchValue(null);
+    }
+
+    private setInitValue(): void {
+        const { initValue } = this.config;
+
+        if (!initValue) {
+            return;
+        }
+
+        this.value = initValue;
+        this.control.patchValue(this.value);
     }
 }
