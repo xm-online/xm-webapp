@@ -3,5 +3,6 @@ export enum EDIT_STATE {
     VIEW = 'view'
 }
 export interface DataResourceOptions{
-    listenQueryParams?: string[],
+    listenQueryParams?: string[];
+    skipCache?: boolean;
 }
