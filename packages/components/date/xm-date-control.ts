@@ -123,6 +123,9 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
     }
 
     private isWithinDaysAhead = (selectedDate: Date): boolean => {
+        if (!Number(this.config?.daysAhead)) {
+            return true;
+        }
         const today = new Date();
         const futureDate = new Date(today);
         futureDate.setDate(today.getDate() + this.config.daysAhead);
@@ -130,17 +133,17 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
         return selectedDate >= today && selectedDate <= futureDate;
     };
 
-    private isWeekday = (selectedDate: Date): boolean => {
+    private isWeekDay = (selectedDate: Date): boolean => {
+        if(!this.config.disableWeekends){
+            return true;
+        }
+
         const day = selectedDate.getDay();
         return day !== 0 && day !== 6;
     };
 
     public datepickerFilter = (selectedDate: Date = new Date()): boolean => {
-        if (Number(this.config?.daysAhead) && this.config.disableWeekends) {
-            return this.isWithinDaysAhead(selectedDate) && this.isWeekday(selectedDate);
-        }
-
-        return true;
+        return this.isWithinDaysAhead(selectedDate) && this.isWeekDay(selectedDate);
     };
 
     public get config(): XmDateControlOptions {
