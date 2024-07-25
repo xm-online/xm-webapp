@@ -20,7 +20,5 @@ import { XmDynamicModule } from '@xm-ngx/dynamic';
     changeDetection: ChangeDetectionStrategy.Default, // keep OnPush
 })
 export class ListLayoutComponent {
-
-    @Input() public config: ListLayoutConfig;
-
+   @Input() public config: ListLayoutConfig;
 }
