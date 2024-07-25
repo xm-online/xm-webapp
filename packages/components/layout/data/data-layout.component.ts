@@ -6,7 +6,7 @@ import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicInjectionTokenStoreService, XmDynamicModule } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { get, isArray } from 'lodash';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DataLayoutConfig } from './data-layout.model';
 
@@ -31,13 +31,13 @@ export class DataLayoutComponent implements OnInit, OnDestroy {
     private injector = inject(Injector);
     private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
 
-    public value: any;
+    public value: Observable<any>;
 
     public ngOnInit(): void {
         const dataControllerKey = this.config.dataController?.key || 'data';
         const dataController = this.getControllerByKey(dataControllerKey);
         if (dataController) {
-            dataController[this.config.dataController?.method || 'get']()
+            this.value = dataController[this.config.dataController?.method || 'get']()
                 .pipe(
                     map((obj: Record<string, unknown>) => {
                         return this.getFieldsFromData(obj);
@@ -52,9 +52,8 @@ export class DataLayoutComponent implements OnInit, OnDestroy {
                         }
                         return of(value);
                     }),
-                    takeUntilOnDestroy(this)
-                )
-                .subscribe(value => this.value = value);
+                    takeUntilOnDestroy(this),
+                );
         } else {
             console.warn(`Cannot find controller by key: "${dataControllerKey}"`);
         }
