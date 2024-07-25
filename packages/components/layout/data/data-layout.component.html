@@ -4,7 +4,7 @@
     [class]="layout.theme?.class"
     [style]="layout.theme?.style"
     xmDynamicPresentation
-    [value]="value"
+    [value]="value | async"
     [selector]="layout.selector"
     [config]="layout.config"
     [controllers]="layout.controllers"
