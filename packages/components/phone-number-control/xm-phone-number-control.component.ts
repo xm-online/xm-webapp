@@ -22,6 +22,7 @@ export interface XmPhoneNumberControlOptions {
     required: boolean;
     placeHolderCharacter: string;
     search?: boolean;
+    searchOnEnter?: boolean;
 }
 
 export const XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT = {
