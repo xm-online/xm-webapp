@@ -30,6 +30,8 @@ export interface XmDateControlOptions {
     intervalFromMinDateInDays?: number;
     dateNow?: boolean;
     useIsoString?: boolean;
+    disableWeekends?: boolean;
+    daysAhead?: number;
 }
 
 const DEFAULT_CONFIG: XmDateControlOptions = {
@@ -39,6 +41,8 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
     required: null,
     useUtc: null,
     errors: null,
+    disableWeekends: null,
+    daysAhead: null,
 };
 
 @Component({
@@ -46,13 +50,13 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
     template: `
         <mat-form-field>
             <mat-label>{{ config?.title | translate }}</mat-label>
-
             <input matInput
                    (dateChange)="changeDateControl($event)"
                    [formControl]="control"
                    [min]="minDate"
                    [max]="maxDate"
                    [matDatepicker]="picker"
+                   [matDatepickerFilter]="datepickerFilter"
                    [name]="config?.name"
                    [required]="config?.required"
                    (click)="picker.open()">
@@ -117,6 +121,30 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
         this.maxDate = this.disableFutureDates();
         this.minDate = this.defineStartDate();
     }
+
+    private isWithinDaysAhead = (selectedDate: Date): boolean => {
+        if (!Number(this.config?.daysAhead)) {
+            return true;
+        }
+        const today = new Date();
+        const futureDate = new Date(today);
+        futureDate.setDate(today.getDate() + this.config.daysAhead);
+
+        return selectedDate >= today && selectedDate <= futureDate;
+    };
+
+    private isWeekDay = (selectedDate: Date): boolean => {
+        if(!this.config.disableWeekends){
+            return true;
+        }
+
+        const day = selectedDate.getDay();
+        return day !== 0 && day !== 6;
+    };
+
+    public datepickerFilter = (selectedDate: Date = new Date()): boolean => {
+        return this.isWithinDaysAhead(selectedDate) && this.isWeekDay(selectedDate);
+    };
 
     public get config(): XmDateControlOptions {
         return this._config;

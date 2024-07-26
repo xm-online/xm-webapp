@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { CardLayoutConfig } from './card-layout.model';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
@@ -20,6 +20,6 @@ import { XmDynamicModule } from '@xm-ngx/dynamic';
 })
 export class CardLayoutComponent {
 
-    public config: CardLayoutConfig;
+    @Input() public config: CardLayoutConfig;
 
 }

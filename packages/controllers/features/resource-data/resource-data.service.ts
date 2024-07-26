@@ -30,7 +30,8 @@ export class ResourceDataService<T extends IId = any> {
             return this.data$.pipe(shareReplay(1));
         }
 
-        this.useCache = true;
+        this.useCache = this.config?.skipCache ? false : true;
+
         if (this.config?.listenQueryParams) {
             return this.activatedRoute.queryParams.pipe(
                 distinctUntilChanged((prev: Params, next: Params) => {

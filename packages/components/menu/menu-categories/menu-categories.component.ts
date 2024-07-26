@@ -24,7 +24,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy {
     public readonly menuCategoriesClassesEnum: typeof MenuCategoriesClassesEnum = MenuCategoriesClassesEnum;
     public categories$: Observable<MenuCategory[]>;
     public selectedCategory: MenuCategory;
-    public isSidenavOpened$: Observable<boolean>;
+    public isSidenavPinned: boolean;
     public isCategoriesHidden$: Observable<boolean>;
     public brandLogo$: Observable<BrandLogo>;
     private hoverSubscription: Subscription;
@@ -40,13 +40,22 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.assignSidenavObservers();
         this.observeSelectedCategory();
+        this.observeIsSidenavPinned();
     }
 
     private assignSidenavObservers(): void {
         this.categories$ = this.menuService.menuCategories;
-        this.isSidenavOpened$ = this.menuService.isSidenavOpen;
         this.isCategoriesHidden$ = this.menuService.isCategoriesHidden$;
         this.brandLogo$ = this.menuService.brandLogo;
+    }
+
+    private observeIsSidenavPinned(): void {
+        this.menuService.isSidenavOpen
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((isOpened: boolean) => {
+                this.isSidenavPinned = this.menuService.isMenuPinned(isOpened);
+                this.cdr.markForCheck();
+            });
     }
 
     private observeSelectedCategory(): void {
@@ -78,6 +87,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy {
     }
 
     public async toggleSidenav(): Promise<void> {
+        this.isSidenavPinned = !this.isSidenavPinned;
         await this.menuService.complexToggleSidenav();
     }
 
