@@ -2,26 +2,29 @@
 
   <mat-label>{{ config.title | translate}}</mat-label>
 
-  <input (blur)="touch(value)"
-         (ngModelChange)="change($event)"
-         [ngModelOptions]="{standalone: true}"
-         [id]="config.id"
-         [mask]="config.mask"
-         [ngModel]="inputValue"
-         [disabled]="ngControl?.disabled || disabled"
-         [pattern]="config.pattern"
-         onPasteRemovePrefix
-         [onPasteRemovePrefixPrefix]="config.defaultPrefix"
-         [placeHolderCharacter]="config.placeHolderCharacter"
-         [showMaskTyped]="true"
-         autocomplete="tel"
-         matInput
-         name="phoneNumber"
-         [required]="config.required"
-         type="tel">
+  <input
+    (keyup.enter)="config.searchOnEnter && onSearch()"
+    (blur)="touch(value)"
+    (ngModelChange)="change($event)"
+    [ngModelOptions]="{standalone: true}"
+    [id]="config.id"
+    [mask]="config.mask"
+    [ngModel]="inputValue"
+    [disabled]="ngControl?.disabled || disabled"
+    [pattern]="config.pattern"
+    onPasteRemovePrefix
+    [onPasteRemovePrefixPrefix]="config.defaultPrefix"
+    [placeHolderCharacter]="config.placeHolderCharacter"
+    [showMaskTyped]="true"
+    autocomplete="tel"
+    matInput
+    name="phoneNumber"
+    [required]="config.required"
+    type="tel">
 
   <span matTextPrefix>{{config?.defaultPrefix}}</span>
-  <button *ngIf="config?.search" [disabled]="ngControl?.invalid || disabled" mat-icon-button matSuffix (click)="onSearch()">
+  <button *ngIf="config?.search" [disabled]="ngControl?.invalid || disabled" mat-icon-button matSuffix
+          (click)="onSearch()">
     <mat-icon>search</mat-icon>
   </button>
   <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
