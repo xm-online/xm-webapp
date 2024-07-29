@@ -6,7 +6,7 @@ import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicInjectionTokenStoreService, XmDynamicModule } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { get, isArray } from 'lodash';
-import { Observable, of } from 'rxjs';
+import { isObservable, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DataLayoutConfig } from './data-layout.model';
 
@@ -30,14 +30,21 @@ export class DataLayoutComponent implements OnInit, OnDestroy {
     public config: DataLayoutConfig = inject<DataLayoutConfig>(XM_DYNAMIC_COMPONENT_CONFIG);
     private injector = inject(Injector);
     private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
+    private _value: Observable<any>;
 
-    public dataValue: Observable<any>;
+    public set value (value: any){
+        this._value = isObservable(value) ? value : of(value);
+    };
+
+    public get value(): Observable<any> {
+        return this._value;
+    }
 
     public ngOnInit(): void {
         const dataControllerKey = this.config.dataController?.key || 'data';
         const dataController = this.getControllerByKey(dataControllerKey);
         if (dataController) {
-            this.dataValue = dataController[this.config.dataController?.method || 'get']()
+            this.value = dataController[this.config.dataController?.method || 'get']()
                 .pipe(
                     map((obj: Record<string, unknown>) => {
                         return this.getFieldsFromData(obj);
