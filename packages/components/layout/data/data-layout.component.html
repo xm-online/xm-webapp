@@ -1,10 +1,10 @@
 <ng-container *ngIf="config.layout as layout">
   <ng-container
-    *xmCondition="config?.condition; arguments {value: value | async}"
+    *xmCondition="config?.condition; arguments {value: dataValue | async}"
     [class]="layout.theme?.class"
     [style]="layout.theme?.style"
     xmDynamicPresentation
-    [value]="value | async"
+    [value]="dataValue | async"
     [selector]="layout.selector"
     [config]="layout.config"
     [controllers]="layout.controllers"

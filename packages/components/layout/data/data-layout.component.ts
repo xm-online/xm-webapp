@@ -31,13 +31,13 @@ export class DataLayoutComponent implements OnInit, OnDestroy {
     private injector = inject(Injector);
     private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
 
-    public value: Observable<any>;
+    public dataValue: Observable<any>;
 
     public ngOnInit(): void {
         const dataControllerKey = this.config.dataController?.key || 'data';
         const dataController = this.getControllerByKey(dataControllerKey);
         if (dataController) {
-            this.value = dataController[this.config.dataController?.method || 'get']()
+            this.dataValue = dataController[this.config.dataController?.method || 'get']()
                 .pipe(
                     map((obj: Record<string, unknown>) => {
                         return this.getFieldsFromData(obj);
