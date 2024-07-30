@@ -34,6 +34,7 @@ export interface IDateOptions {
     initValue?: DateInitValues;
     required?: boolean;
     firstDayOfWeek?: number;
+    formatDateRange?: boolean;
 }
 
 type DateValue = string[] | Date[];
@@ -114,7 +115,7 @@ export class DateRangeFilterControl extends NgControlAccessor<DateValue>
         this.dateTimeAdapter.setLocale(this.translateService.currentLang);
     }
 
-    private formatDate([start, end]: DateValue): DateValue {
+    private formatDateRange([start, end]: DateValue): DateValue {
         return [
             dayjs(start).startOf('day').toDate(),
             dayjs(end).endOf('day').toDate(),
@@ -122,7 +123,7 @@ export class DateRangeFilterControl extends NgControlAccessor<DateValue>
     }
 
     public change(v: DateValue): void {
-        v = this.formatDate(v);
+        v = this.config?.formatDateRange ? this.formatDateRange(v) : v;
         this.value = v;
         this._onChange(v);
         this.valueChange.emit(v);
