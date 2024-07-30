@@ -170,9 +170,11 @@ export class XmMultipleEnumControl
 
     private setInitValue(): void {
         const {initValue} = this.config;
-        if (initValue?.length) {
-            this.value = initValue;
+
+        if(!initValue?.length) {
+            return;
         }
-        this.control.patchValue(this.value?.length ? this.value : []);
+        this.value = initValue;
+        this.control.patchValue(this.value);
     }
 }
