@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    OnChanges,
+    OnInit,
+    Optional,
+    Self,
+    ViewEncapsulation
+} from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/interfaces';
@@ -77,16 +86,16 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
         </mat-form-field>
     `,
     styles: [`
-      .empty-option {
-        cursor: pointer;
-        padding: 9px 13px;
-        align-items: center;
-        display: flex;
-      }
+        .empty-option {
+            cursor: pointer;
+            padding: 9px 13px;
+            align-items: center;
+            display: flex;
+        }
 
-      .empty-option:hover {
-        background: rgba(0, 0, 0, 0.04);
-      }
+        .empty-option:hover {
+            background: rgba(0, 0, 0, 0.04);
+        }
     `],
     imports: [
         XmTranslationModule,
@@ -107,7 +116,7 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
 })
 export class XmMultipleEnumControl
     extends NgFormAccessor<XmEnumValue[] | undefined>
-    implements XmDynamicControl<XmEnumValue[] | undefined, XmMultipleEnumControlOptions>, OnInit {
+    implements XmDynamicControl<XmEnumValue[] | undefined, XmMultipleEnumControlOptions>, OnChanges, OnInit {
     public itemsList: XmEnumControlOptionsItem[];
     public itemsMap: { [value: string]: XmEnumControlOptionsItem };
     private _config: XmMultipleEnumControlOptions = clone(XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
@@ -145,6 +154,10 @@ export class XmMultipleEnumControl
         this.setInitValue();
     }
 
+    public ngOnChanges(): void {
+        this.setInitValue();
+    }
+
     public selectionsChange(res: MatSelectChange): void {
         if (res.value?.length === 0) {
             this.control.patchValue(null);
@@ -157,9 +170,9 @@ export class XmMultipleEnumControl
 
     private setInitValue(): void {
         const {initValue} = this.config;
-
-        this.value = initValue?.length ? initValue : null;
-
-        this.control.patchValue(this.value?.length ? this.value : null );
+        if (initValue?.length) {
+            this.value = initValue;
+        }
+        this.control.patchValue(this.value?.length ? this.value : []);
     }
 }
