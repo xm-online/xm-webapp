@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { XmDateComponent } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { TranslateService } from '@ngx-translate/core';
+import { dayjs } from '@xm-ngx/operators';
 
 const dateInitValues = {
     '7DaysAgo': 7,
@@ -113,8 +114,15 @@ export class DateRangeFilterControl extends NgControlAccessor<DateValue>
         this.dateTimeAdapter.setLocale(this.translateService.currentLang);
     }
 
+    private formatDate([start, end]: DateValue): DateValue {
+        return [
+            dayjs(start).startOf('day').toDate(),
+            dayjs(end).endOf('day').toDate(),
+        ];
+    }
 
     public change(v: DateValue): void {
+        v = this.formatDate(v);
         this.value = v;
         this._onChange(v);
         this.valueChange.emit(v);
