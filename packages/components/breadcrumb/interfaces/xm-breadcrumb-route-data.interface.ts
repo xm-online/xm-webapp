@@ -1,4 +1,4 @@
-import { XmBreadcrumbOptions } from '@xm-ngx/components/breadcrumb/interfaces/xm-breadcrumb.interface';
+import { XmBreadcrumbOptions } from './xm-breadcrumb.interface';
 
 export interface XmBreadcrumbRouteData {
     title: string;

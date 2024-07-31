@@ -6,22 +6,23 @@
       class="xm-breadcrumb-item">
         @if(last) {
             @if(breadcrumb.config?.lastSegmentLayout || config?.lastSegmentLayout) {
-            <div class="xm-breadcrumb-item-custom-text">
+            <div class="xm-breadcrumb-item-custom-text opened-breadcrumb">
               <xm-dynamic-presentation-layout
                 [layouts]="breadcrumb.config?.lastSegmentLayout || config?.lastSegmentLayout"></xm-dynamic-presentation-layout>
             </div>
             } @else {
-              <h5 class="mb-0 d-inline mx-3">{{ breadcrumb.label | translate }}</h5>
+              <h5 class="mb-0 d-inline opened-breadcrumb">{{ breadcrumb.label | translate }}</h5>
             }
         } @else {
           @if(!first) {
             <span class="align-middle separator">/</span>
           }
           <a
-             [routerLink]="breadcrumb.url"
-             [queryParams]="breadcrumb.queryParams"
-             class="xm-breadcrumb-item-link"
-             mat-button>{{ breadcrumb.label | translate }}
+            [routerLink]="breadcrumb.url"
+            [queryParams]="breadcrumb.queryParams"
+            class="xm-breadcrumb-item-link"
+            mat-ripple
+          >{{ breadcrumb.label | translate }}
           </a>
         }
   </li>
