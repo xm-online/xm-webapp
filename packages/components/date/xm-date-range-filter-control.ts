@@ -115,7 +115,7 @@ export class DateRangeFilterControl extends NgControlAccessor<DateValue>
         this.dateTimeAdapter.setLocale(this.translateService.currentLang);
     }
 
-    private normalizeToStartOfDay(date: Date) {
+    private normalizeToStartOfDay(date: Date): Date {
         return dayjs(date).startOf('day').toDate();
     }
 
