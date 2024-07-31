@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { XmPermissionService, XmPermittedDirective } from '@xm-ngx/core/permission';
@@ -99,7 +99,7 @@ describe('XmPermittedDirective', () => {
         fixture = TestBed.createComponent(TestComponent);
     }));
 
-    it('should be visible all elements from OK_SET', waitForAsync(() => {
+    it('should be visible all elements from OK_SET', fakeAsync(() => {
         fixture.detectChanges();
 
         void fixture.whenStable().then(() => {
@@ -111,7 +111,7 @@ describe('XmPermittedDirective', () => {
 
     }));
 
-    it('should not be visible all elements from NOK_SET', waitForAsync(() => {
+    it('should not be visible all elements from NOK_SET', fakeAsync(() => {
         fixture.detectChanges();
 
         void fixture.whenStable().then(() => {
