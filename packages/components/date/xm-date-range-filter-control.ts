@@ -34,7 +34,7 @@ export interface IDateOptions {
     initValue?: DateInitValues;
     required?: boolean;
     firstDayOfWeek?: number;
-    formatDateRange?: boolean;
+    normalizeToStartOfDay?: boolean;
 }
 
 type DateValue = string[] | Date[];
@@ -115,15 +115,11 @@ export class DateRangeFilterControl extends NgControlAccessor<DateValue>
         this.dateTimeAdapter.setLocale(this.translateService.currentLang);
     }
 
-    private formatDateRange([start, end]: DateValue): DateValue {
-        return [
-            dayjs(start).startOf('day').toDate(),
-            dayjs(end).endOf('day').toDate(),
-        ];
+    private normalizeToStartOfDay(date: Date) {
+        return dayjs(date).startOf('day').toDate();
     }
 
     public change(v: DateValue): void {
-        v = this.config?.formatDateRange ? this.formatDateRange(v) : v;
         this.value = v;
         this._onChange(v);
         this.valueChange.emit(v);
@@ -149,6 +145,7 @@ export class DateRangeFilterControl extends NgControlAccessor<DateValue>
         const now = new Date();
         const pastDate = now.getDate() - dateInitValues[initValue];
         this.value = [new Date(now.setDate(pastDate)), new Date()];
+        this.value = this.config?.normalizeToStartOfDay ? this.value.map(date => this.normalizeToStartOfDay(date)) : this.value;
         this.change(this.value);
     }
 }
