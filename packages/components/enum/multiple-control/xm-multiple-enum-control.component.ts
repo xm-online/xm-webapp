@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    Optional,
+    Self,
+    ViewEncapsulation,
+} from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/interfaces';
@@ -107,7 +114,7 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
 })
 export class XmMultipleEnumControl
     extends NgFormAccessor<XmEnumValue[] | undefined>
-    implements XmDynamicControl<XmEnumValue[] | undefined, XmMultipleEnumControlOptions>, OnInit {
+    implements XmDynamicControl<XmEnumValue[] | undefined, XmMultipleEnumControlOptions> {
     public itemsList: XmEnumControlOptionsItem[];
     public itemsMap: { [value: string]: XmEnumControlOptionsItem };
     private _config: XmMultipleEnumControlOptions = clone(XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
@@ -139,9 +146,6 @@ export class XmMultipleEnumControl
             }
         });
         this.itemsMap = keyBy(this.itemsList, 'value');
-    }
-
-    public ngOnInit(): void {
         this.setInitValue();
     }
 
@@ -158,7 +162,7 @@ export class XmMultipleEnumControl
     private setInitValue(): void {
         const {initValue} = this.config;
 
-        if(!initValue?.length) {
+        if(!initValue?.length || this.value?.length) {
             return;
         }
         this.value = initValue;
