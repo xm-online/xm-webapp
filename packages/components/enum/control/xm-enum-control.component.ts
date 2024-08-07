@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, Optional, Self, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Injector, Input, OnDestroy, Optional, Self, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { XmDynamicControl } from '@xm-ngx/dynamic';
+import { XmDynamicControl, XmDynamicInstanceService } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
-import { clone, defaults, forEach, keyBy } from 'lodash';
+import { clone, cloneDeep, defaults, forEach, keyBy } from 'lodash';
 import { XmEnumOptionsItem, XmEnumValue } from '../value/xm-enum.component';
 import { XmEnumViewOptions } from '../view/xm-enum-view';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
@@ -14,7 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-
+import { Observable } from 'rxjs';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {
     id?: string;
@@ -26,6 +27,10 @@ export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {
     clearButtonText?: Translate | string;
     hint?: HintText;
     resetValueOnDestroy?: boolean;
+    itemsController?: {
+        key: string;
+        method: string;
+    };
 }
 
 export interface XmEnumControlOptionsItem extends XmEnumOptionsItem {
@@ -108,6 +113,8 @@ export class XmEnumControl
     public itemsList: XmEnumControlOptionsItem[];
     public itemsMap: { [value: string]: XmEnumControlOptionsItem };
     private _config: XmEnumControlOptions = clone(XM_ENUM_CONTROL_OPTIONS_DEFAULT);
+    private dynamicInstanceService = inject(XmDynamicInstanceService);
+    public dynamicInjector = inject(Injector);
 
     public get config(): XmEnumControlOptions {
         return this._config;
@@ -116,25 +123,49 @@ export class XmEnumControl
     @Input()
     public set config(value: XmEnumControlOptions) {
         this._config = defaults({}, value, XM_ENUM_CONTROL_OPTIONS_DEFAULT);
+
+        if (this._config.itemsController) {
+            this.setItemsFromController();
+            return;
+        }
         this.itemsList = this._config.items || this._config.enum;
-        forEach(this.itemsList, (item) => {
-            if (item.value === undefined) {
-                item.value = '';
-            }
-        });
-        this.itemsMap = keyBy(this.itemsList, 'value');
+        this.setItems();
 
         if (value?.enum) {
             console.warn('"enum" is deprecated use "items" instead!');
         }
     }
 
+    private setItems(): void {
+        forEach(this.itemsList, item => {
+            if (item.value === undefined) {
+                item.value = '';
+            }
+        });
+        this.itemsMap = keyBy(this.itemsList, 'value');
+    }
+
     constructor(@Optional() @Self() public ngControl: NgControl) {
         super(ngControl);
     }
 
+    private setItemsFromController(): void {
+        const { key, method } = this.config.itemsController;
+        const controller = this.dynamicInstanceService.getControllerByKey(key, this.dynamicInjector);
+        if (!controller) {
+            console.warn('XmEnumControl: cant get items controller!');
+            return;
+        }
+        (controller[method] as () => Observable<XmEnumControlOptionsItem[]>)()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(items => {
+                this.itemsList = cloneDeep(items);
+                this.setItems();
+            });
+    }
 
     public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
         if (this.config?.resetValueOnDestroy) {
             this.change(null);
         }
