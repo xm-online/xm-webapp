@@ -11,6 +11,7 @@ import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
+import { XmDynamicInjectionTokenStoreService, XmDynamicInstanceService } from '@xm-ngx/dynamic';
 
 describe('XmEnumControlComponent', () => {
     let component: XmEnumControl;
@@ -19,7 +20,7 @@ describe('XmEnumControlComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [],
-            providers: [{ provide: XmPermissionService, useClass: MockPermissionService }],
+            providers: [{ provide: XmPermissionService, useClass: MockPermissionService }, XmDynamicInstanceService, XmDynamicInjectionTokenStoreService],
             imports: [
                 XmEnumControl,
                 CommonModule,
