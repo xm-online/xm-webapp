@@ -18,7 +18,7 @@ import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.compo
         <ng-content></ng-content>
 
         <xm-table-actions-buttons
-            class="d-flex align-items-center gap-1"
+            class="push-self-right"
             [config]="config.actions"></xm-table-actions-buttons>
 
         <ng-content select="[expandPanelButton]"></ng-content>
@@ -30,6 +30,12 @@ import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.compo
             margin-left: 1rem;
             margin-right: 1rem;
             min-height: 48px;
+        }
+
+        :host(.xm-table-header) .push-self-right {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
         }
 
         :host(.xm-table-header) .no-margin {
