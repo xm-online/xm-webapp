@@ -4,7 +4,7 @@ import { Injectable, Injector, TemplateRef, Type } from '@angular/core';
 import { CustomOverlayRef } from './custom-overlay-ref';
 import { XmOverlayComponent } from './xm-overlay-component/xm-overlay.component';
 
-@Injectable({ providedIn: 'any' })
+@Injectable({ providedIn: 'root' })
 export class XmOverlayService {
     private overlayConfig: OverlayConfig = new OverlayConfig({
         hasBackdrop: true,
