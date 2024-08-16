@@ -5,6 +5,7 @@ export interface XmBreadcrumb {
     url: string;
     label: string;
     queryParams: Params;
+    config?: XmBreadcrumbOptions
 }
 
 export interface XmBreadcrumbOptions {

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterModule } from '@angular/router';
+import { QueryParamsHandling, RouterModule } from '@angular/router';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/interfaces';
 import { flattenObjectDeep, interpolate, transformByMap } from '@xm-ngx/operators';
@@ -23,6 +23,8 @@ export interface XmLinkOptions {
     valueIcon: string;
     style?: string;
     newWindow?: boolean;
+    /** See Angular queryParamsHandling routerLink parameter for more details https://next.angular.dev/api/router/QueryParamsHandling */
+    queryParamsHandling?: QueryParamsHandling | null;
 }
 
 export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
@@ -31,6 +33,7 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
     valueField: 'id',
     valueTitle: null,
     valueIcon: null,
+    queryParamsHandling: null,
 };
 
 @Component({
@@ -45,6 +48,7 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
     template: `
         <a [queryParams]="queryParams"
            [routerLink]="routerLink"
+           [queryParamsHandling]="config?.queryParamsHandling"
            [target]="config?.newWindow ? '_blank' : '_self'"
            [style]="config?.style || config?.config?.style" >
             <mat-icon *ngIf="config?.valueIcon || config?.config?.valueIcon">{{config.valueIcon || config?.config?.valueIcon}}</mat-icon>

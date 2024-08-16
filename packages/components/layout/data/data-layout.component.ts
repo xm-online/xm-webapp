@@ -7,7 +7,7 @@ import { XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicInjectionTokenStoreService, XmDyn
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { get, isArray } from 'lodash';
 import { isObservable, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { DataLayoutConfig } from './data-layout.model';
 
 @Component({
@@ -33,7 +33,7 @@ export class DataLayoutComponent implements OnInit, OnDestroy {
     private _value: Observable<any>;
 
     public set value (value: any){
-        this._value = isObservable(value) ? value : of(value);
+        this._value = (isObservable(value) ? value : of(value)).pipe(shareReplay(1));
     };
 
     public get value(): Observable<any> {
