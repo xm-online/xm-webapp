@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { XmHtmlComponent } from './xm-html';
 import { XmHtml } from './html.model';
@@ -12,11 +12,11 @@ import { XmHtml } from './html.model';
         XmHtmlComponent,
     ],
 })
-export class XmHtmlValueComponent implements XmDynamicPresentation<string, XmHtml>, OnInit {
+export class XmHtmlValueComponent implements XmDynamicPresentation<string, XmHtml>, OnChanges {
     @Input() public value: string = '';
     @Input() public config: XmHtml | null;
 
-    public ngOnInit(): void {
+    public ngOnChanges(): void {
         this.config = {
             ...this.config,
             html: this.value,

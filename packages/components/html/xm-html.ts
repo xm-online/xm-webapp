@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnChanges } from '@angular/core';
 import { XmTranslateService } from '@xm-ngx/translation';
 import { XmHtml } from './html.model';
 import { XmSafePipe } from '@xm-ngx/pipes';
@@ -16,13 +16,13 @@ import { XmSafePipe } from '@xm-ngx/pipes';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class XmHtmlComponent implements OnInit {
+export class XmHtmlComponent implements OnChanges {
     public html: string;
     private translationService: XmTranslateService = inject(XmTranslateService);
 
     @Input() public config: XmHtml;
 
-    public ngOnInit(): void {
+    public ngOnChanges(): void {
         this.translateTemplate();
     }
 

@@ -7,8 +7,8 @@ import { CommonModule } from '@angular/common';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { MatRippleModule } from '@angular/material/core';
 
 @Component({
     selector: 'xm-breadcrumb',
@@ -19,8 +19,8 @@ import { XmDynamicModule } from '@xm-ngx/dynamic';
         XmTranslationModule,
         RouterModule,
         MatIconModule,
-        MatButtonModule,
         XmDynamicModule,
+        MatRippleModule,
     ],
     standalone: true,
 })

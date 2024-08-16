@@ -77,6 +77,7 @@
                 'remove-border-bottom': xmTable.config.pageableAndSortable.hidePagination && config.isTitleHidden
               }"
               mat-row
+              (click)="rowClicked.emit(row)"
           ></tr>
 
         </table>

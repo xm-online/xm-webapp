@@ -1,5 +1,5 @@
 import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -72,7 +72,7 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         XmTableLoadingColumnComponent,
         XmTableLoadingComponent,
         XmTableExpandPanelButtonComponent,
-        XmTableFilterInlineComponent,
+        XmTableFilterInlineComponent
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,
@@ -103,6 +103,8 @@ export class XmTableWidget {
     public set config(value: XmTableWidgetConfig) {
         this._config = getConfig(value);
     }
+
+    @Output() public rowClicked = new EventEmitter<unknown>();
 
     public getCollectionController(): IXmTableCollectionController<unknown> {
         return this.collectionController || this.collectionControllerResolver.factory(this.config.collection);

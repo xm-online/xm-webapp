@@ -44,11 +44,12 @@ export class XmBreadcrumbDefaultResolver extends XmBreadcrumbResolver {
             label: title,
             url: getResolvedUrl(route),
             queryParams: this.keepQueryParams(route.queryParams, data),
+            config: data.dashboard?.config?.breadcrumbs,
         };
     }
 
     private static keepQueryParams(queryParams: Params, data: any): Params | null {
-        const { keepQueryParams } = data.dashboard.config || {};
+        const { keepQueryParams } = data.dashboard?.config?.breadcrumbs || {};
         if (Array.isArray(keepQueryParams)) {
             return keepQueryParams.reduce((accumulator: Params, key: string) => {
                 return {

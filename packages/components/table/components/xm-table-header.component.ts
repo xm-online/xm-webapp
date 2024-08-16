@@ -33,7 +33,8 @@ import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.compo
         }
 
         :host(.xm-table-header) .push-self-right {
-            display: block;
+            display: flex;
+            align-items: center;
             margin-left: auto;
         }
 

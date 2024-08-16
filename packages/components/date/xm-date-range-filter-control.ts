@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import { XmDateComponent } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { TranslateService } from '@ngx-translate/core';
+import { dayjs } from '@xm-ngx/operators';
 
 const dateInitValues = {
     '7DaysAgo': 7,
@@ -33,6 +34,7 @@ export interface IDateOptions {
     initValue?: DateInitValues;
     required?: boolean;
     firstDayOfWeek?: number;
+    normalizeToStartOfDay?: boolean;
 }
 
 type DateValue = string[] | Date[];
@@ -113,6 +115,9 @@ export class DateRangeFilterControl extends NgControlAccessor<DateValue>
         this.dateTimeAdapter.setLocale(this.translateService.currentLang);
     }
 
+    private normalizeToStartOfDay(date: Date): Date {
+        return dayjs(date).startOf('day').toDate();
+    }
 
     public change(v: DateValue): void {
         this.value = v;
@@ -140,6 +145,7 @@ export class DateRangeFilterControl extends NgControlAccessor<DateValue>
         const now = new Date();
         const pastDate = now.getDate() - dateInitValues[initValue];
         this.value = [new Date(now.setDate(pastDate)), new Date()];
+        this.value = this.config?.normalizeToStartOfDay ? this.value.map(date => this.normalizeToStartOfDay(date)) : this.value;
         this.change(this.value);
     }
 }
