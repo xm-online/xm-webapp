@@ -138,8 +138,8 @@ export class XmTableDirective implements OnInit, OnDestroy {
             )
             .subscribe((obsObj) => {
                 const filterParams = obsObj.tableFilter;
-                const pageableAndSortable = this.mapPageableAndSortable(filterParams, obsObj.pageableAndSortable);
                 this.filters = cloneDeep(filterParams);
+                const pageableAndSortable = this.mapPageableAndSortable(filterParams, obsObj.pageableAndSortable);
                 const queryParams = _.merge({}, {pageableAndSortable}, {filterParams});
 
                 this.queryParamsStoreService.set(queryParams, this.config);
