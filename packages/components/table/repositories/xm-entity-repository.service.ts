@@ -56,7 +56,7 @@ export class XmEntityRepository<T extends XmEntity>
         resourceUrl: 'entity/api/_search/xm-entities',
     })
     public config: XmEntityRepositoryCustomConfig;
-    private activatedRoute = inject(ActivatedRoute);
+    protected activatedRoute = inject(ActivatedRoute);
 
     private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
     private requestBuilder: XmElasticRequestBuilder = this.xmDynamicInstanceService.getControllerByKey('table-request-builder') || inject(XmElasticRequestBuilder);
