@@ -22,6 +22,12 @@ export interface XmTableConfig {
     isExpandable: boolean;
     showFilterChips?: boolean;
     popUpFilter?: boolean;
+    navigation?: XmTableNavigation;
+}
+
+export interface XmTableNavigation {
+    /** See Angular replaceUrl routerLink parameter for more details https://angular.dev/api/router/NavigationExtras#replaceUrl */
+    replaceUrl: boolean;
 }
 
 export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
@@ -41,6 +47,9 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
     popUpFilter: false,
     showFilterChips: true,
     queryPrefixKey: '',
+    navigation: {
+        replaceUrl: false,
+    },
 };
 
 export enum XmTableEventType {
