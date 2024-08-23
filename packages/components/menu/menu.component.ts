@@ -125,7 +125,6 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         this.observeSectionsFiltering();
         this.assignSubCategories();
         this.observeNavigationAndSubCategories();
-        this.observeLogoutEvent();
     }
 
     public ngAfterViewInit(): void {
@@ -248,16 +247,6 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
             activeNode.isActiveRoute = true;
             this.previousActiveNode = activeNode;
         }
-    }
-
-    private observeLogoutEvent(): void {
-        this.eventManager.listenTo('USER-LOGOUT')
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe(() => {
-                this.categories = [];
-                this.menuByCategories = {};
-                this.menuService.setMenuCategories([]);
-            });
     }
 
     public observeSectionsFiltering(): void {
