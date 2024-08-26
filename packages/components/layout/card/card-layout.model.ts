@@ -18,6 +18,7 @@ export type CardLayoutConfig = {
 export type DynamicLayoutConfig<C extends XmConfig = XmConfig> = {
     theme?: DynamicLayoutThemeConfig,
     controllers?: XmDynamicControllerDeclaration[],
+    dataQa?: string;
     selector: string;
     config?: C;
 };

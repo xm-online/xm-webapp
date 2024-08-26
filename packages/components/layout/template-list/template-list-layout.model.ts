@@ -14,6 +14,7 @@ export type DynamicLayoutConfig<C extends XmConfig = XmConfig> = {
     theme?: DynamicLayoutThemeConfig,
     controllers?: XmDynamicControllerDeclaration[],
     selector: string;
+    dataQa?: string;
     config?: C;
 };
 
