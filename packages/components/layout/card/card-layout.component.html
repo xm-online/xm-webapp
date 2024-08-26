@@ -8,6 +8,7 @@
       [selector]="layout.selector"
       [config]="layout.config"
       [controllers]="layout.controllers"
+      [attr.data-qa]="layout.dataQa"
     ></ng-container>
   </ng-container>
   <ng-container *ngIf="config.body as body">
@@ -19,6 +20,7 @@
       [selector]="layout.selector"
       [config]="layout.config"
       [controllers]="layout.controllers"
+      [attr.data-qa]="layout.dataQa"
     ></ng-container>
   </ng-container>
   <ng-container *ngIf="config.footer as footer">
@@ -30,6 +32,7 @@
       [selector]="layout.selector"
       [config]="layout.config"
       [controllers]="layout.controllers"
+      [attr.data-qa]="layout.dataQa"
     ></ng-container>
   </ng-container>
 </mat-card>
