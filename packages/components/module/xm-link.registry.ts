@@ -28,6 +28,6 @@ export const XM_LINK_ELEMENTS: XmDynamicEntry[] = [
     },
     {
         selector: 'xm-external-link-button',
-        loadChildren: () => import('@xm-ngx/components/link/xm-external-link-button/xm-external-link-button.component').then(m => m.XmExternalLinkButtonComponent),
+        loadChildren: () => import('@xm-ngx/components/link').then(m => m.XmExternalLinkButtonComponent),
     },
 ];

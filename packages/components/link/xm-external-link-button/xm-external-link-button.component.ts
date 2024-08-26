@@ -15,7 +15,7 @@ import { Defaults } from '@xm-ngx/operators';
  * ## Usage
  * | Property | Key |
  * |---|---|
- * | selector | \@xm-ngx/components/xm-external-link |
+ * | selector | \@xm-ngx/components/xm-external-link-button |
  * | config | XmExternalLinkConfig |
  *
  *
