@@ -1,5 +1,5 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, Injector, OnDestroy, OnInit, ProviderToken } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Injector, OnDestroy, OnInit, ProviderToken, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
@@ -27,7 +27,7 @@ import { DataLayoutConfig } from './data-layout.model';
 })
 export class DataLayoutComponent implements OnInit, OnDestroy {
 
-    public config: DataLayoutConfig = inject<DataLayoutConfig>(XM_DYNAMIC_COMPONENT_CONFIG);
+    @Input() public config: DataLayoutConfig = inject<DataLayoutConfig>(XM_DYNAMIC_COMPONENT_CONFIG);
     private injector = inject(Injector);
     private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
     private _value: Observable<any>;
