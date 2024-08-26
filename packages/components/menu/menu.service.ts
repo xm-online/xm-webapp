@@ -106,9 +106,9 @@ export class MenuService {
     public observeWindowSizeChange(): Observable<BreakpointState | MatDrawerToggleResult> {
         const windowSize$ = this.breakpointObserver.observe([this.TABLET_SCREEN, this.DESKTOP_SMALL_SCREEN, this.MOBILE_SCREEN, this.DESKTOP_BIG_SCREEN]);
         const selectedCategory$: Observable<MenuCategory> = this.selectedCategory.asObservable().pipe(take(2));
-        return combineLatest([windowSize$, this.isMaterial3Menu, selectedCategory$])
+        return combineLatest([windowSize$, this.isMaterial3Menu, selectedCategory$, this.menuCategories])
             .pipe(
-                switchMap(([breakpointState, isMaterial3Menu, selectedCategory]: [BreakpointState, boolean, MenuCategory]) => {
+                switchMap(([breakpointState, isMaterial3Menu, selectedCategory, categories]: [BreakpointState, boolean, MenuCategory, MenuCategory[]]) => {
                     const { value } = this._menuCategories;
                     const { breakpoints } = breakpointState;
 
@@ -120,16 +120,17 @@ export class MenuService {
                         return from(this.sidenav.close());
                     }
 
-                    if (!this._menuCategories.value?.length && !this.sidenav.opened && !isMaterial3Menu) {
+                    if (!categories?.length && !this.sidenav.opened && !isMaterial3Menu) {
                         this.setHoveredCategory(this.otherCategory);
                         return selectedCategory && this.breakpointObserver.isMatched(this.DESKTOP_BIG_SCREEN) ? from(this.sidenav.open()) : of(null);
                     }
 
-                    if (this._menuCategories.value?.length && isMaterial3Menu) {
+                    if (categories?.length && isMaterial3Menu) {
                         const isBigScreen: boolean = breakpoints[this.DESKTOP_BIG_SCREEN] && this.isMenuPinned();
                         const isLargeAndClosed: boolean = isBigScreen && !this.sidenav.opened;
                         const isMediumAndClosed: boolean = this.isMediumScreen(breakpoints) && this.isMenuPinned(this.sidenav.opened);
-                        return this.selectedCategory.value && (isLargeAndClosed || isMediumAndClosed) && !this.selectedCategory.value?.isLinkWithoutSubcategories ?
+                        const selectedCategoryValue: MenuCategory = this.selectedCategory.value || selectedCategory;
+                        return selectedCategoryValue && (isLargeAndClosed || isMediumAndClosed) && !selectedCategoryValue.isLinkWithoutSubcategories  ?
                             from(this.sidenav.open()) : of(breakpointState);
                     }
                     return of(null);
@@ -199,11 +200,13 @@ export class MenuService {
     }
 
     public async complexToggleSidenav(): Promise<void> {
+        const previousMode: MatDrawerMode = this.sidenav.mode;
         this.sidenav.mode = this.isOverMode ? 'side' : 'over';
         localStorage.setItem(this.IS_MENU_PINNED_STORAGE_KEY, (!this.isOverMode).toString());
-        if (this.sidenav.mode === 'side' && !this.sidenav.opened) {
-            await this.sidenav.toggle();
+        if (previousMode === 'over' && this.sidenav.opened) {
+            return;
         }
+        await this.sidenav.toggle();
     }
 
     public isMenuPinned(isOpen?: boolean): boolean {

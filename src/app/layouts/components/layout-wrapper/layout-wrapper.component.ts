@@ -51,7 +51,10 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
     private observeLogoutEvent(): void {
         this.eventManager.listenTo('USER-LOGOUT')
             .pipe(takeUntilOnDestroy(this))
-            .subscribe(() => this.menuService.sidenav.close());
+            .subscribe(() => {
+                this.menuService.sidenav.close();
+                this.menuService.setMenuCategories([]);
+            });
     }
 
     private observeIsMobileScreen(): void {
