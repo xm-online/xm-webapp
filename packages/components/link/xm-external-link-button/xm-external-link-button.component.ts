@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import {
     XM_EXTERNAL_LINK_DEFAULTS,
     XmExternalLinkConfig,
-} from '@xm-ngx/components/link/xm-external-link-button/xm-external-link-button.model';
+} from './xm-external-link-button.model';
 import { XmTranslatePipe } from '@xm-ngx/translation';
 import { Defaults } from '@xm-ngx/operators';
 
