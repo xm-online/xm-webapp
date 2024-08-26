@@ -49,6 +49,7 @@ export class XmTableQueryParamsStoreService {
                 relativeTo: this.route,
                 queryParams: finalQuery,
                 queryParamsHandling: 'merge',
+                replaceUrl: config?.navigation?.replaceUrl,
             },
         );
     }
