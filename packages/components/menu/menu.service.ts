@@ -130,7 +130,7 @@ export class MenuService {
                         const isLargeAndClosed: boolean = isBigScreen && !this.sidenav.opened;
                         const isMediumAndClosed: boolean = this.isMediumScreen(breakpoints) && this.isMenuPinned(this.sidenav.opened);
                         const selectedCategoryValue: MenuCategory = this.selectedCategory.value || selectedCategory;
-                        return selectedCategoryValue && (isLargeAndClosed || isMediumAndClosed) && !selectedCategoryValue.isLinkWithoutSubcategories  ?
+                        return selectedCategoryValue && (isLargeAndClosed || isMediumAndClosed) && !selectedCategoryValue.isLinkWithoutSubcategories ?
                             from(this.sidenav.open()) : of(breakpointState);
                     }
                     return of(null);
