@@ -1,10 +1,39 @@
 {
   "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": ["node"],
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
+  },
   "files": [
     "../src/polyfills.ts",
-    ],
+    "./typings.d.ts"
+  ],
+  "exclude": [
+    "../src/test.ts",
+    "../src/**/*.spec.ts",
+    "../packages/**/*.spec.ts",
+    "../src/app/ext/b2b-webapp-ext/**",
+    "../src/app/ext/b2c-webapp-ext/**",
+    "../src/app/ext/boards-webapp-ext/**",
+    "../src/app/ext/bs-webapp-ext/**",
+    "../src/app/ext/ccare-webapp-ext/**",
+    "../src/app/ext/convergent-offer-webapp-ext/**",
+    "../src/app/ext/crm-webapp-ext/**",
+    "../src/app/ext/dua-webapp-ext/**",
+    "../src/app/ext/entity-webapp-ext/**",
+    "../src/app/ext/example-webapp-ext/**",
+    "../src/app/ext/genai-webapp-ext/**",
+    "../src/app/ext/genesys-chat-webapp-ext/**",
+    "../src/app/ext/m2m-webapp-ext/**",
+    "../src/app/ext/mnp-webapp-ext/**",
+    "../src/app/ext/pg-webapp-ext/**",
+    "../src/app/ext/vodafone-webapp-ext/**"
+  ],
   "include": [
-    "../packages/**/*.stories.ts",
-    "../src/**/*.stories.ts"
+    "../packages/**/*.stories.*",
+    "../src/app/ext/common-webapp-ext/**/*.stories.*",
+    "./preview.tsx"
   ]
 }
