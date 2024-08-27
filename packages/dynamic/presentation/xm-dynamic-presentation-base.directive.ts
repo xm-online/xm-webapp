@@ -69,6 +69,7 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
     public compRef: ComponentRef<XmDynamicPresentation<V, C>>;
 
     public class: string;
+    public dataQa: string;
     public style: string;
 
     get instance(): XmDynamicPresentation<V, C> {
@@ -168,6 +169,7 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
 
         const el = this.compRef.location.nativeElement as HTMLElement;
         this.updateStyles(el);
+        this.addDataQa(el);
     }
 
     protected updateStyles(el: HTMLElement): void {
@@ -178,6 +180,13 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
             this.renderer.setAttribute(el, 'style', this.style);
         }
     }
+
+    protected addDataQa(el: HTMLElement): void {
+        if (this.dataQa) {
+            this.renderer.setAttribute(el, 'data-qa', this.dataQa);
+        }
+    }
+
 
     private configProvider(): StaticProvider {
         return {
