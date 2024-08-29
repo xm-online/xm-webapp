@@ -145,18 +145,11 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                     return menu;
                 }
                 this.menuService.setMenuCategories(this.categories);
-                this.navigateInCaseOfEmptyPath();
                 return menu;
             }),
             takeUntilOnDestroy(this),
             shareReplay(1),
         );
-    }
-
-    private navigateInCaseOfEmptyPath(): void {
-        if (this.router.url === '/') {
-            this.router.navigate(['dashboard']);
-        }
     }
 
     private get activeDashboards$(): Observable<MenuItem[]> {
