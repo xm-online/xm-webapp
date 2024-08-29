@@ -19,7 +19,9 @@ export interface XmAceEditorControlOptions {
 
 export enum XmAceEditorControlModeEnum {
     JSON = 'json',
-    YAML = 'yaml'
+    YAML = 'yaml',
+    JAVASCRIPT = 'javascript',
+    SQL = 'sql',
 }
 
 export enum XmAceEditorControlTypeEnum {
