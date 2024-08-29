@@ -72,6 +72,9 @@ export class XmDynamicControlDirective<V, C>
     /** Component options */
     @Input() public declare options: C;
 
+    /** Data QA attribute */
+    @Input() public declare dataQa: string;
+
     /** Component ref */
     @Input() public declare selector: XmDynamicControlConstructor<V, C> | string;
 

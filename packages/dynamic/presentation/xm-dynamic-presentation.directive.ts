@@ -38,4 +38,5 @@ export class XmDynamicPresentationDirective<V, O> extends XmDynamicPresentationB
 
     @Input() public declare class: string;
     @Input() public declare style: string;
+    @Input() public declare dataQa: string;
 }

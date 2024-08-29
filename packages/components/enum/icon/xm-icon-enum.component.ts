@@ -29,8 +29,8 @@ export interface XmIconEnumOptions {
     template: `
         <mat-icon
             [matTooltip]="tooltips[value + ''] | translate"
-            [matTooltipShowDelay]="config?.showTooltipDelay"
-            [matTooltipPosition]="config?.tooltipPosition"
+            [matTooltipShowDelay]="config?.showTooltipDelay || 0"
+            [matTooltipPosition]="config?.tooltipPosition || 'above'"
             >{{ icons[value + ''] || value }}</mat-icon
         >
     `,

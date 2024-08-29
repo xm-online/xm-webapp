@@ -4,6 +4,7 @@ import { UntypedFormArray, UntypedFormControl } from '@angular/forms';
 
 interface JsfLayoutNode {
     options?: {
+        config?: any;
         selector?: string;
         title?: string
     };
@@ -12,11 +13,15 @@ interface JsfLayoutNode {
 @Component({
     selector: 'xm-dynamic-control-injector',
     template: `
-        <ng-container *ngIf="formControl"
-                      [formControl]="formControl"
-                      [selector]="layoutNode.options?.selector"
-                      [options]="layoutNode.options"
-                      xmDynamicControl></ng-container>`,
+        @if (formControl) {
+            <ng-container
+                [formControl]="formControl"
+                [selector]="layoutNode.options?.selector"
+                [options]="layoutNode.options"
+                [config]="layoutNode.options?.config"
+                xmDynamicControl></ng-container>
+        }
+    `,
 })
 export class DynamicControlInjectorComponent implements OnInit {
     @Input() public layoutNode: JsfLayoutNode;
