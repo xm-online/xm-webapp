@@ -1,0 +1,9 @@
+.mat-mdc-menu-panel [mat-button],
+.mat-mdc-menu-panel [mat-stroked-button],
+.mat-mdc-menu-panel [mat-raised-button],
+.mat-mdc-menu-panel [mat-flat-button] {
+  border-radius: 0 !important;
+  justify-content: left !important;
+  padding: 0 12px !important;
+  font-weight: 400 !important;
+}
