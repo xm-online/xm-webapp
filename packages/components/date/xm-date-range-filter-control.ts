@@ -1,20 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Optional, Output, Self } from '@angular/core';
 import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { DateTimeAdapter, OwlDateTimeIntl, OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
+import { TranslateService } from '@ngx-translate/core';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
-import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { DateTimeAdapter, OwlDateTimeIntl, OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { CommonModule } from '@angular/common';
-import { XmDateComponent } from './xm-date.component';
-import { HintModule, HintText } from '@xm-ngx/components/hint';
-import { TranslateService } from '@ngx-translate/core';
 import { dayjs } from '@xm-ngx/operators';
+import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { XmDateComponent } from './xm-date.component';
 
 const dateInitValues = {
     '7DaysAgo': 7,
@@ -22,8 +22,12 @@ const dateInitValues = {
     monthAgo: 30,
     currentMonth: new Date().getDate() - 1,
 };
+const endDateInitValues = {
+    endMonth: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
+};
 
 type DateInitValues = keyof typeof dateInitValues;
+type EndDateInitValues = keyof typeof endDateInitValues;
 
 export interface IDateOptions {
     hint?: HintText;
@@ -32,6 +36,7 @@ export interface IDateOptions {
     max?: DateValue;
     start?: DateValue;
     initValue?: DateInitValues;
+    initEndValue?: EndDateInitValues;
     required?: boolean;
     firstDayOfWeek?: number;
     normalizeToStartOfDay?: boolean;
@@ -63,7 +68,7 @@ type DateValue = string[] | Date[];
                    [required]="config?.required"
                    class="abs"
                    matInput>
-            <mat-error *ngIf="dateControl.invalid">{{'common-webapp-ext.validation.required' | translate}}</mat-error>
+            <mat-error *ngIf="dateControl.invalid">{{ 'common-webapp-ext.validation.required' | translate }}</mat-error>
             <button *ngIf="value && !disabled" matSuffix mat-icon-button (click)="change(null)">
                 <mat-icon>close</mat-icon>
             </button>
@@ -115,14 +120,14 @@ export class DateRangeFilterControl extends NgControlAccessor<DateValue>
         this.dateTimeAdapter.setLocale(this.translateService.currentLang);
     }
 
-    private normalizeToStartOfDay(date: Date): Date {
-        return dayjs(date).startOf('day').toDate();
-    }
-
     public change(v: DateValue): void {
         this.value = v;
         this._onChange(v);
         this.valueChange.emit(v);
+    }
+
+    private normalizeToStartOfDay(date: Date): Date {
+        return dayjs(date).startOf('day').toDate();
     }
 
     private localizedDateRangeLabels(): void {
@@ -131,7 +136,7 @@ export class DateRangeFilterControl extends NgControlAccessor<DateValue>
     }
 
     private setDateRange(): void {
-        const { initValue } = this.config;
+        const {initValue, initEndValue} = this.config;
 
         if (!initValue) {
             return;
@@ -144,7 +149,11 @@ export class DateRangeFilterControl extends NgControlAccessor<DateValue>
 
         const now = new Date();
         const pastDate = now.getDate() - dateInitValues[initValue];
-        this.value = [new Date(now.setDate(pastDate)), new Date()];
+        let endDate = new Date();
+        if (initEndValue && endDateInitValues[initEndValue]) {
+            endDate = endDateInitValues[initEndValue];
+        }
+        this.value = [new Date(now.setDate(pastDate)), endDate];
         this.value = this.config?.normalizeToStartOfDay ? this.value.map(date => this.normalizeToStartOfDay(date)) : this.value;
         this.change(this.value);
     }
