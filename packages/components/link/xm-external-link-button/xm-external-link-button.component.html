@@ -1,0 +1,9 @@
+@if (config && config.link && config.title) {
+  <a mat-button
+     [href]="config.link | xmTranslate"
+     [color]="config.colorScheme"
+     [target]="config.target">
+    <mat-icon>{{ config.icon }}</mat-icon>
+    <span>{{ config.title | xmTranslate }}</span>
+  </a>
+}

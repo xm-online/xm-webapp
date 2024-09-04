@@ -1,5 +1,5 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, Injector, OnDestroy, OnInit, ProviderToken } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Injector, OnDestroy, OnInit, ProviderToken, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
@@ -7,7 +7,7 @@ import { XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicInjectionTokenStoreService, XmDyn
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { get, isArray } from 'lodash';
 import { isObservable, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { DataLayoutConfig } from './data-layout.model';
 
 @Component({
@@ -27,13 +27,13 @@ import { DataLayoutConfig } from './data-layout.model';
 })
 export class DataLayoutComponent implements OnInit, OnDestroy {
 
-    public config: DataLayoutConfig = inject<DataLayoutConfig>(XM_DYNAMIC_COMPONENT_CONFIG);
+    @Input() public config: DataLayoutConfig = inject<DataLayoutConfig>(XM_DYNAMIC_COMPONENT_CONFIG);
     private injector = inject(Injector);
     private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
     private _value: Observable<any>;
 
     public set value (value: any){
-        this._value = isObservable(value) ? value : of(value);
+        this._value = (isObservable(value) ? value : of(value)).pipe(shareReplay(1));
     };
 
     public get value(): Observable<any> {

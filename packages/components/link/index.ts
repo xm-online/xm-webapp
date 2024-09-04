@@ -25,6 +25,10 @@ export {
 } from './link-with-subtext/xm-link-with-subtext.component';
 
 export {
+    XmExternalLinkButtonComponent,
+} from './xm-external-link-button/xm-external-link-button.component';
+
+export {
     XmLinkSubtextConfig,
     XmLinkWithSubtextDynamicWidget,
     XmLinkOptionsWithFormat,
