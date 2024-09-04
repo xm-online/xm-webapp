@@ -23,7 +23,7 @@ import { DataQa, Primitive } from '@xm-ngx/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
-import { filter } from 'rxjs/operators';
+import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { XmTextTitleOptions } from '../text-title';
 
 export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
@@ -168,6 +168,7 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
             .pipe(
                 takeUntilOnDestroy(this),
                 filter(() => this.newControl.valid),
+                distinctUntilChanged(),
             )
             .subscribe((value: string) => {
                 this.control.patchValue(value?.trim());
@@ -176,10 +177,10 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
         this.control.valueChanges
             .pipe(
                 takeUntilOnDestroy(this),
-                filter((value) => !value),
+                distinctUntilChanged(),
             )
-            .subscribe(() => {
-                this.newControl.patchValue(null, {emitEvent: false});
+            .subscribe((value) => {
+                this.newControl.patchValue(value, {emitEvent: false});
             });
     }
 
