@@ -19,6 +19,7 @@ import { ValidationComponent } from './validation-component/validation-component
 import { MultilingualInputV2Component } from './multilingual-input-v2/multilingual-input-v2.component';
 import { GeoInputComponent } from './geo-input/geo-input.component';
 import { transpilingForIE } from '@xm-ngx/operators';
+import _ from "lodash";
 
 declare const $: any;
 
@@ -190,11 +191,18 @@ export const processValidationMessages = (jsfAttributes: any): any => {
         key = key.replace(/\./g, '.properties.');
         key = key.replace(/\[\]/g, '.items');
 
-        let field = jsfAttributes.schema || {};
+        const schema = jsfAttributes.schema;
+        let field = schema || {};
         field = field.properties || {};
 
         const path = key.split('.');
         for (const i in path) {
+            if (field.$ref) {
+                let ref = field.$ref.replace('#/', '');
+                ref = ref.replace('/', '.');
+                const refTarget = _.get(jsfAttributes.schema, ref);
+                field = {...field, ...refTarget};
+            }
             field = field[path[i]];
         }
 
