@@ -19,7 +19,7 @@ import { ValidationComponent } from './validation-component/validation-component
 import { MultilingualInputV2Component } from './multilingual-input-v2/multilingual-input-v2.component';
 import { GeoInputComponent } from './geo-input/geo-input.component';
 import { transpilingForIE } from '@xm-ngx/operators';
-import _ from "lodash";
+import _ from 'lodash';
 
 declare const $: any;
 
