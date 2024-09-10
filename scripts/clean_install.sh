@@ -12,6 +12,8 @@ function cleanNestedNodeModules() {
           if [ -d "node_modules" ]; then
               echo "✓ Remove node_modules in $dir."
               rm -rf "node_modules";
+          else
+              echo "× node_modules in $dir doesn't exist. Proceed to the next one."
           fi
           cd .. || exit
       fi
