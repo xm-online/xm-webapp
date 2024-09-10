@@ -46,6 +46,7 @@
     "translations": "npm run get-translations && xm-ngx ext-i18n",
     "report:bundle": "webpack-bundle-analyzer dist/stats.json",
     "get-version": "printf $npm_package_version",
+    "json-docs": "compodoc -p .storybook/tsconfig.doc.json -e json -d .",
     "storybook": "ng run xm-webapp:storybook",
     "build-storybook": "ng run xm-webapp:build-storybook"
   },

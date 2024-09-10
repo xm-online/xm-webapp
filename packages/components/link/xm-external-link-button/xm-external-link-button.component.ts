@@ -9,7 +9,6 @@ import { XmTranslatePipe } from '@xm-ngx/translation';
 import { Defaults } from '@xm-ngx/operators';
 
 /**
- * # External link button component
  * Use this component to create a button that opens a link in a new tab.
  *
  * ## Usage
@@ -19,14 +18,15 @@ import { Defaults } from '@xm-ngx/operators';
  * | config | XmExternalLinkConfig |
  *
  *
- * ## Configuration
- * | Configuration Object (`XmExternalLinkConfig`) | Description | Type | Default Value |
+ * ## Configuration `XmExternalLinkConfig`
+ * | Key | Description | Type | Default Value |
  * |-----------------------------------------------|-------------|------|---------------|
  * | `link` | The URL to open when the button is clicked. This can be a translatable string. | `Translate` | `null` |
  * | `title` | The text to display on the button. This can be a translatable string. | `ITranslate` | `null` |
  * | `icon` (optional) | The name of the Material icon to display on the button. | `string` | `'open_in_new'` |
- * | `colorScheme` (optional) | The color scheme of the button. | `'primary' \| 'accent' \| 'warn'` | `'primary'` |
- * | `target` (optional) | Specifies where to open the linked document. | `'_blank' \| '_self'` | `'_blank'` |
+ * | `colorScheme` (optional) | The color scheme of the button. | `'primary' | 'accent' | 'warn'` | `'primary'` |
+ * | `target` (optional) | Specifies where to open the linked document. | `'_blank' | '_self'` | `'_blank'` |
+ * | `dataQa` (optional) | Specifies data-qa attribute for the element. | `'string'` | `'xm-external-link-button'` |
  *
  */
 @Component({

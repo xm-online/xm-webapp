@@ -7,7 +7,7 @@
     "../src/test.ts",
     "../src/**/*.spec.ts",
     "../packages/**/*.spec.ts",
-    "../src/app/ext/example-webapp-ext/**",
+    "../src/app/ext/example-webapp-ext/**"
   ],
   // Please make sure to include all files from which Compodoc should generate documentation.
   "include": [
@@ -16,7 +16,7 @@
     "../packages/**/*.service.ts",
     "../src/app/ext/**/*.stories.*",
     "../src/app/ext/**/*.component.*",
-    "../src/app/ext/**/*.service.*",
+    "../src/app/ext/**/*.service.*"
   ],
   "files": ["./typings.d.ts"]
 }
