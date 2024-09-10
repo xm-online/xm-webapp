@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "6.0.189",
+  "version": "6.0.190",
   "release": "6.0.0",
   "private": true,
   "description": "Xm-webapp",
@@ -23,6 +23,7 @@
   "scripts": {
     "ng": "ng",
     "xm-ngx": "xm-ngx",
+    "clean-install": "chmod 755 ./scripts/clean_install.sh && ./scripts/clean_install.sh",
     "postinstall": "npm run build:packages",
     "build:packages": "node ./scripts/build-packages_copy-dist-package.js && npm install --ignore-scripts && node ./scripts/build-packages.js && npm i --ignore-scripts",
     "prebuild": "xm-ngx ext-lazy-module && xm-ngx ext-assets && xm-ngx ext-i18n && xm-ngx ext-theming && xm-ngx ext-themes && xm-ngx dynamic-specification && npm run import-jsf-exts && xm-ngx ext-config",
