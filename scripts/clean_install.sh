@@ -1,7 +1,9 @@
 # Run these script when you need to clean the project from the auto-generated files and directories and reinstall all dependencies.
+#
+# Script expects that you run it from the root of the project!
 # To run script:
-#  - make script executable `chmod 755 ./clean_install_xm.sh`
-#  - run the script `./scripts/clean_install_xm.sh`
+#  - make script executable `chmod 755 ./script/clean_install.sh`
+#  - run the script `./scripts/clean_install.sh`
 # or use `npm run clean-install` command.
 
 function cleanNestedNodeModules() {
