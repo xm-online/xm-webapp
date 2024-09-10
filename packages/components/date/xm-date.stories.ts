@@ -23,7 +23,7 @@ export default {
 } as Meta;
 
 // named export for the individual story
-export const Primary = (args: {value: XmDateValue, config: XmDateConfig}) => ({
+export const Primary = (args: {value: XmDateValue, config: XmDateConfig}): unknown => ({
     component: XmDateComponent,
     props: args,
 });
@@ -37,7 +37,7 @@ Primary.args = {
     },
 };
 
-export const LongFormat = (args: {value: XmDateValue, config: XmDateConfig}) => ({
+export const LongFormat = (args: {value: XmDateValue, config: XmDateConfig}): unknown => ({
     component: XmDateComponent,
     props: args,
 });

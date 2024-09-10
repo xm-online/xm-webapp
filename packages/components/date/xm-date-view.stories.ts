@@ -28,7 +28,7 @@ export default {
     },
 } as Meta;
 
-export const Primary = (args: { value: XmDateValue; config: XmDateViewOptions }) => ({
+export const Primary = (args: { value: XmDateValue; config: XmDateViewOptions }): unknown => ({
     component: XmDateView,
     props: args,
 });
@@ -44,7 +44,7 @@ Primary.args = {
     },
 };
 
-export const LongBlock = (args: { value: XmDateValue; config: XmDateViewOptions }) => ({
+export const LongBlock = (args: { value: XmDateValue; config: XmDateViewOptions }): unknown => ({
     component: XmDateView,
     props: args,
 });
