@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmFormLayoutComponent} from './xm-form-layout.component';
@@ -39,7 +39,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmFormLayoutComponent> = (args: XmFormLayoutComponent) => ({
+const Template = (args: XmFormLayoutComponent) => ({
     component: XmFormLayoutComponent,
     props: args,
 });

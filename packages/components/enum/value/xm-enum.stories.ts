@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmEnumComponent } from './xm-enum.component';
 import { HintModule } from '@xm-ngx/components/hint';
@@ -24,7 +24,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmEnumComponent> = (args: XmEnumComponent) => ({
+const Template = (args: XmEnumComponent) => ({
     component: XmEnumComponent,
     props: args,
 });

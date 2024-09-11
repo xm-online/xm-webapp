@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -47,7 +47,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmPhoneNumberControlComponent> = (args: XmPhoneNumberControlComponent, {globals: {locale}}) => ({
+const Template = (args: XmPhoneNumberControlComponent, {globals: {locale}}) => ({
     component: XmPhoneNumberControlComponent,
     props: {
         ...args,

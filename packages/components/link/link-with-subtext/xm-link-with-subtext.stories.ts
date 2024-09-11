@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { XmDateComponent } from '@xm-ngx/components/date';
 
 const meta: Meta<LinkWithSubtextComponent> = {
-    title: 'Core/Presentation/Link',
+    title: 'Core/Presentation/Link/Link with subtext',
     component: LinkWithSubtextComponent,
     decorators: [
         moduleMetadata({

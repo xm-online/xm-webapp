@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -32,7 +32,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmCopyIconComponent> = (args: XmCopyIconComponent) => ({
+const Template = (args: XmCopyIconComponent) => ({
     component: XmCopyIconComponent,
     props: args,
 });

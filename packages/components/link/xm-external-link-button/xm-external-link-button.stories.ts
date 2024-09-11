@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 const meta: Meta<XmExternalLinkButtonComponent> = {
-    title: 'Core/Presentation/Link',
+    title: 'Core/Presentation/Link/External Link Button',
     component: XmExternalLinkButtonComponent,
     decorators: [
         moduleMetadata({

@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
 import { MultiLanguageComponent } from '../multilanguage';
@@ -50,7 +50,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<MultiLanguageComponent> = (args: MultiLanguageComponent) => ({
+const Template = (args: MultiLanguageComponent) => ({
     component: MultiLanguageComponent,
     props: args,
 });

@@ -1,10 +1,23 @@
 {
   "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "types": ["node"],
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
+  },
   "files": [
     "../src/polyfills.ts",
-    ],
+    "./typings.d.ts"
+  ],
+  "exclude": [
+    "../src/test.ts",
+    "../src/**/*.spec.ts",
+    "../packages/**/*.spec.ts"
+  ],
   "include": [
-    "../packages/**/*.stories.ts",
-    "../src/**/*.stories.ts"
+    "../packages/**/*.stories.*",
+    "../src/app/ext/**/*.stories.*",
+    "./preview.tsx"
   ]
 }

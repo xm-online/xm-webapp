@@ -1,7 +1,7 @@
 
 
 // default export to define the component metadata
-import { Meta, Story } from '@storybook/angular';
+import { Meta } from '@storybook/angular';
 import { XmDateComponent, XmDateConfig, XmDateValue } from './xm-date.component';
 
 export default {
@@ -23,7 +23,7 @@ export default {
 } as Meta;
 
 // named export for the individual story
-export const Primary: Story<XmDateComponent> = (args: {value: XmDateValue, config: XmDateConfig}) => ({
+export const Primary = (args: {value: XmDateValue, config: XmDateConfig}): unknown => ({
     component: XmDateComponent,
     props: args,
 });
@@ -37,7 +37,7 @@ Primary.args = {
     },
 };
 
-export const LongFormat: Story<XmDateComponent> = (args: {value: XmDateValue, config: XmDateConfig}) => ({
+export const LongFormat = (args: {value: XmDateValue, config: XmDateConfig}): unknown => ({
     component: XmDateComponent,
     props: args,
 });

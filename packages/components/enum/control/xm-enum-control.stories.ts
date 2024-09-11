@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmEnumControl, XmEnumControlOptions } from './xm-enum-control.component';
 import { HintModule } from '@xm-ngx/components/hint';
@@ -52,7 +52,7 @@ export default {
 } as Meta;
 
 
-const Template: Story<XmEnumControl> = (args: XmEnumControl) => ({
+const Template = (args: XmEnumControl) => ({
     component: XmEnumControl,
     props: args,
 });
