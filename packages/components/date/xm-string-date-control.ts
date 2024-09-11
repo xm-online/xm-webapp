@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { CustomDateAdapter } from '@xm-ngx/components/date/shared/custom-date-adapter';
+import { CustomDateAdapter } from './shared/custom-date-adapter';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateValue } from './xm-date.component';
