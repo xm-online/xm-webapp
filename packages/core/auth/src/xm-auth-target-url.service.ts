@@ -20,15 +20,11 @@ export class XmAuthTargetUrlService {
          * since login is succesful, go to stored previousState and clear previousState
          */
         const redirect = this.stateStorageService.getUrl();
-        // TODO: due to cashed dashboards data (which is null by the moment of dashboard navigation) we cannot navigate to appropriate route (guard returns false).
-        // We need to investigate way to clean dashboard cache on user logout
-        setTimeout(() => {
-            if (redirect && redirect !== '/') {
-                this.router.navigateByUrl(this.router.parseUrl(redirect));
-            } else {
-                this.router.navigate(['dashboard']);
-            }
-        }, 100);
+        if (redirect && redirect !== '/') {
+            this.router.navigateByUrl(this.router.parseUrl(redirect));
+        } else {
+            this.router.navigate(['dashboard']);
+        }
     }
 
     public cleanUrl(): void {
