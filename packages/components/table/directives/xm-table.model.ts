@@ -1,6 +1,4 @@
-import {
-    XmTableCollectionControllerType,
-} from '../collections/xm-table-collection-controller-resolver.service';
+import { XmTableCollectionControllerType, } from '../collections/xm-table-collection-controller-resolver.service';
 import { PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
 import {
@@ -22,6 +20,7 @@ export interface XmTableConfig {
     isExpandable: boolean;
     showFilterChips?: boolean;
     popUpFilter?: boolean;
+    showQuickFilters?: boolean;
     navigation?: XmTableNavigation;
 }
 

@@ -40,3 +40,5 @@ export * from './directives/xm-table.model';
 export * from './directives/xm-table-selection.directive';
 export * from './directives/xm-table-mat-paginator-adapter.directive';
 export * from './directives/xm-table-mat-sort-adapter.directive';
+export * from './components/xm-table-quick-filter-inline.component';
+export * from './components/chips-filter-btn/chips-filter-btn.component';
