@@ -6,9 +6,9 @@ export class CustomDateAdapter extends NativeDateAdapter {
 
     public parse(value: any): Date | null {
         if (typeof value === 'string' && value.indexOf('.') > -1) {
-            const str = dayjs(value).format('DD.MM.YYYY');
-            return new Date(Date.parse(str));
+            return dayjs(value, 'DD.MM.YYYY').toDate();
         }
+
         const timestamp = typeof value === 'number' ? value : Date.parse(value);
         return isNaN(timestamp) ? null : new Date(timestamp);
     }
