@@ -1,11 +1,12 @@
-<ng-container *ngFor="let layout of layouts">
+<ng-container *ngFor="let template of templates">
   <ng-container
-    [class]="layout.theme?.class"
-    [style]="layout.theme?.style"
+    [class]="template.layout.theme?.class"
+    [style]="template.layout.theme?.style"
+    [value]="template.value"
     xmDynamicPresentation
-    [selector]="layout.selector"
-    [config]="layout.config"
-    [controllers]="layout.controllers"
-    [dataQa]="layout.dataQa"
+    [selector]="template.layout.selector"
+    [config]="template.layout.config"
+    [controllers]="template.layout.controllers"
+    [dataQa]="template.layout.dataQa"
   ></ng-container>
 </ng-container>
