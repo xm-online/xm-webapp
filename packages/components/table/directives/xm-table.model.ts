@@ -48,7 +48,7 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
     showFilterChips: true,
     queryPrefixKey: '',
     navigation: {
-        replaceUrl: false,
+        replaceUrl: true,
     },
 };
 
