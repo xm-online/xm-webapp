@@ -2,7 +2,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XmTextCollapseComponent } from '../text-collapse';
@@ -33,7 +33,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmTextCollapseComponent> = (args: XmTextCollapseComponent) => ({
+const Template = (args: XmTextCollapseComponent) => ({
     component: XmTextCollapseComponent,
     props: args,
 });

@@ -1,4 +1,4 @@
-import { Meta, Story, moduleMetadata } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
@@ -26,7 +26,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmBoolComponent> = (args: XmBoolComponent) => ({
+const Template = (args: XmBoolComponent) => ({
     component: XmBoolComponent,
     props: args,
 });

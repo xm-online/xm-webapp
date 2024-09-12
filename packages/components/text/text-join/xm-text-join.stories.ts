@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
 import { XmTextJoinComponent } from './xm-text-join.component';
@@ -25,7 +25,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmTextJoinComponent> = (args: XmTextJoinComponent) => ({
+const Template = (args: XmTextJoinComponent) => ({
     component: XmTextJoinComponent,
     props: args,
 });

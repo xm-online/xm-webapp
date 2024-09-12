@@ -1,10 +1,9 @@
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { HintModule } from '@xm-ngx/components/hint';
-import { XmTextDynamicOptions, XmTextDynamicView } from './xm-text-dynamic-view';
+import { XmTextDynamicView } from './xm-text-dynamic-view';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
-import { Primitive } from '@xm-ngx/interfaces';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 export default {
@@ -26,12 +25,7 @@ export default {
     },
 } as Meta<XmTextDynamicView>;
 
-interface XmTextDynamicViewStoryProps {
-    value: Primitive;
-    config: XmTextDynamicOptions;
-}
-
-const Template: Story<XmTextDynamicViewStoryProps> = (args) => ({
+const Template = (args) => ({
     component: XmTextDynamicView,
     props: args,
 });

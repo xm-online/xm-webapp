@@ -2,7 +2,8 @@
   <a mat-button
      [href]="config.link | xmTranslate"
      [color]="config.colorScheme"
-     [target]="config.target">
+     [target]="config.target"
+     [attr.data-qa]="config.dataQa">
     <mat-icon>{{ config.icon }}</mat-icon>
     <span>{{ config.title | xmTranslate }}</span>
   </a>

@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { NavbarUserWidgetComponent } from './navbar-user-widget.component';
 import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
@@ -63,7 +63,7 @@ export default {
     tags: ['autodocs'],
 } as Meta;
 
-const Template: Story<NavbarUserWidgetComponent> = (args: NavbarUserWidgetComponent) => ({
+const Template = (args: NavbarUserWidgetComponent) => ({
     component: NavbarUserWidgetComponent,
     props: args,
 });

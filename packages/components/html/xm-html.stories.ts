@@ -1,4 +1,4 @@
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { XmHtmlComponent } from './xm-html';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
@@ -19,7 +19,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmHtmlComponent> = (args: XmHtmlComponent) => ({
+const Template = (args: XmHtmlComponent) => ({
     component: XmHtmlComponent,
     props: args,
 });

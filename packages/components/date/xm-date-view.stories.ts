@@ -1,6 +1,6 @@
 import { XmTextViewModule } from '@xm-ngx/components/text';
 import { XmDateValue, XmDateViewOptions } from '@xm-ngx/components/date';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
@@ -28,7 +28,7 @@ export default {
     },
 } as Meta;
 
-export const Primary: Story<XmDateView> = (args: { value: XmDateValue; config: XmDateViewOptions }) => ({
+export const Primary = (args: { value: XmDateValue; config: XmDateViewOptions }): unknown => ({
     component: XmDateView,
     props: args,
 });
@@ -44,7 +44,7 @@ Primary.args = {
     },
 };
 
-export const LongBlock: Story<XmDateView> = (args: { value: XmDateValue; config: XmDateViewOptions }) => ({
+export const LongBlock = (args: { value: XmDateValue; config: XmDateViewOptions }): unknown => ({
     component: XmDateView,
     props: args,
 });

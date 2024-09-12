@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -52,7 +52,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmArrayControl> = (args: XmArrayControl) => ({
+const Template = (args: XmArrayControl) => ({
     component: XmArrayControl,
     props: {
         ...args,

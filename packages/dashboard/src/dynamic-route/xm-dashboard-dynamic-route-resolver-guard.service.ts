@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Routes, } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, skipWhile } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ArgumentException } from '@xm-ngx/exceptions';
 import * as _ from 'lodash';
@@ -54,6 +54,7 @@ export class XmDashboardDynamicRouteResolverGuard
 
     private getRoutes$(): Observable<Routes> {
         return this.dashboardStore.dashboards$().pipe(
+            skipWhile((dashboards) => !dashboards),
             map((dashboards) => {
                 if (dashboards === null) {
                     throw new ArgumentException('Dashboards should not be empty!');

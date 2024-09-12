@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { Meta, moduleMetadata } from '@storybook/angular';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { XmInlineControlComponent } from '../inline-control';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
@@ -48,7 +48,7 @@ export default {
     },
 } as Meta;
 
-const Template: Story<XmInlineControlComponent> = (args: XmInlineControlComponent) => ({
+const Template = (args: XmInlineControlComponent) => ({
     component: XmInlineControlComponent,
     props: args,
 });

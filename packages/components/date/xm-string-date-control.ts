@@ -2,11 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { DateAdapter } from '@angular/material/core';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { CustomDateAdapter } from './shared/custom-date-adapter';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmDateValue } from './xm-date.component';
@@ -22,6 +24,9 @@ export interface XmStringDateControlOptions {
 @Component({
     selector: 'xm-string-date-control',
     standalone: true,
+    providers: [
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+    ],
     imports: [
         MatFormFieldModule,
         ReactiveFormsModule,
