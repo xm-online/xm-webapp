@@ -96,7 +96,7 @@ export const dateRangeElastic = (date: {from: Date, to: Date}, o: IWithField): s
 };
 
 export const dayRangeElastic = (date: {from: Date, to: Date}, o: IWithField): string => {
-    const from = date?.from ? `${o.field}: >=${dayjs(date.from).startOf('day').utc().valueOf()}` : '';
-    const to = date?.to ? ` AND ${o.field}: <=${dayjs(date.to).endOf('day').utc().valueOf()}` : '';
+    const from = date?.from ? `${o.field}: >=${dayjs(date.from).startOf('day').toDate().getTime()}` : '';
+    const to = date?.to ? ` AND ${o.field}: <=${dayjs(date.to).endOf('day').toDate().getTime()}` : '';
     return from + to;
 };
