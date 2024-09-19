@@ -19,6 +19,6 @@
     $xm-primary:      map-get($xm-theme, primary);
 
     color:            $xm-primary;
-    background-color: lighten($xm-primary, 20%);
+    background-color: lighten($xm-primary, 60%);
   }
 }

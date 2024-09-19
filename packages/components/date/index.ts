@@ -23,3 +23,5 @@ export {
 export * from './xm-datetime-control';
 export * from './transform-date-string-codec.service';
 export * from './shared/parse-time';
+
+export { CustomDateAdapter } from './shared/custom-date-adapter';
