@@ -38,10 +38,6 @@
       opacity: 0;
       transition: width 0.2s ease-in-out;
     }
-
-    &.start-icon {
-      //margin-left: -8px;
-    }
   }
 
   .chips-text {
@@ -50,7 +46,6 @@
   }
 
   .quick--holder {
-    //margin-left: -4px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -64,13 +59,4 @@
     font-weight: 500;
     max-width: 120px;
   }
-}
-
-.arrow-icon {
-  //margin-right: -8px;
-  //padding-left: 4px;
-}
-
-.clear-icon {
-  //margin-right: -8px;
 }

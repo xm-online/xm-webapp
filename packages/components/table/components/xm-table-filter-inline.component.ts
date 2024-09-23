@@ -19,7 +19,7 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
     selector: 'xm-table-filter-inline',
     standalone: true,
     template: `
-        <ng-container *ngIf="isFilterVisible">
+        <ng-container *ngIf="!isFilterVisible">
             <ng-container *ngIf="!(config?.filters | xmEmpty)">
                 <div class="m-3 d-flex filter-holder">
                     <xm-filters-control-request
@@ -61,7 +61,7 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
             </ng-container>
         </ng-container>
     `,
-    styles: [`
+    styles: [ `
         .xm-filters-control-hidden {
             visibility: visible !important;
         }
@@ -70,7 +70,7 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
             overflow: hidden;
             min-height: 4.6rem;
         }
-    `],
+    ` ],
     imports: [
         MatButtonModule,
         XmTableFilterButtonDialogControlsComponent,
@@ -96,7 +96,7 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
     private request$: Subject<FiltersControlValue> = new Subject<FiltersControlValue>();
 
     private tableFilterController: XmTableFilterController = inject(XmTableFilterController);
-    public isFilterVisible:boolean = false;
+    public isFilterVisible: boolean = true;
 
     public ngOnInit(): void {
         this.filterExpand = !this.config.isOnlyExpand;

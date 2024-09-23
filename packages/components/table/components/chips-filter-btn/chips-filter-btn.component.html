@@ -3,19 +3,19 @@
     <div
       (click)="clickAction()"
       [matMenuTriggerFor]="menu"
-      [ngClass]="{filled:(value||valueText),disabled:disabled}"
+      [ngClass]="{filled: (value || valueText), disabled: disabled}"
       class="chips-btn">
       <div class="quick--holder">
         @if (customIcon) {
           <mat-icon class="small-icon start-icon">{{ customIcon }}</mat-icon>
         }
         @if (!customIcon) {
-          <mat-icon class="small-icon start-icon" [ngClass]="{hidden:(!isChecked||(!value&&!valueText))}">check
+          <mat-icon class="small-icon start-icon" [ngClass]="{hidden: (!isChecked || (!value && !valueText))}">check
           </mat-icon>
         }
-        <span class="chips-text"><span>{{ title|translate }}</span>
-        <span *ngIf="value||valueText" class="value-txt"
-              [style.max-width]="textWidth ? textWidth : ''">: {{ (valueText || value)|translate }}</span>
+        <span class="chips-text"><span>{{ title | translate }}</span>
+        <span *ngIf="value || valueText" class="value-txt"
+              [style.max-width]="textWidth ? textWidth : ''">: {{ (valueText || value) | translate }}</span>
           </span>
         @if ((!value && !valueText) && arrow) {
           <mat-icon class="arrow-icon">arrow_drop_down</mat-icon>
@@ -32,19 +32,19 @@
     <div
       (click)="clickAction()"
       [matMenuTriggerFor]="menu"
-      [ngClass]="{filled:value,disabled:disabled}"
+      [ngClass]="{filled: value, disabled: disabled}"
       class="chips-btn">
       <div class="quick--holder">
         @if (customIcon) {
           <mat-icon class="small-icon start-icon">{{ customIcon }}</mat-icon>
         }
         @if (!customIcon) {
-          <mat-icon class="small-icon start-icon" [ngClass]="{hidden:!isChecked}">check</mat-icon>
+          <mat-icon class="small-icon start-icon" [ngClass]="{hidden: !isChecked}">check</mat-icon>
         }
 
         <span class="chips-text"><span>{{ title|translate }}</span>
-        <span *ngIf="value||valueText" class="value-txt"
-              [style.max-width]="textWidth ? textWidth : ''">: {{ (valueText || value)|translate }}</span>
+        <span *ngIf="value || valueText" class="value-txt"
+              [style.max-width]="textWidth ? textWidth : ''">: {{ (valueText || value) | translate }}</span>
           </span>
         @if (isChecked) {
           <mat-icon class="clear-icon small-icon" (click)="clear($event)">
@@ -58,18 +58,18 @@
     <div
       (click)="clickAction()"
       [matMenuTriggerFor]="menu"
-      [ngClass]="{filled:value||valueText,disabled:disabled}"
+      [ngClass]="{ filled: value || valueText, disabled: disabled }"
       class="chips-btn">
       <div class="quick--holder">
         @if (customIcon) {
           <mat-icon class="small-icon start-icon">{{ customIcon }}</mat-icon>
         }
         @if (!customIcon) {
-          <mat-icon class="small-icon start-icon" [ngClass]="{hidden:!isChecked}">check</mat-icon>
+          <mat-icon class="small-icon start-icon" [ngClass]="{ hidden: !isChecked }">check</mat-icon>
         }
-        <span class="chips-text"><span>{{ title|translate }}</span>
-        <span *ngIf="value||valueText" class="value-txt"
-              [style.max-width]="textWidth?textWidth:''">: {{ (valueText || value)|translate }}</span>
+        <span class="chips-text"><span>{{ title | translate }}</span>
+        <span *ngIf="value || valueText" class="value-txt"
+              [style.max-width]="textWidth ? textWidth: ''">: {{ (valueText || value) | translate }}</span>
           </span>
         @if ((!value && !valueText) && arrow) {
           <mat-icon class="arrow-icon">arrow_drop_down</mat-icon>

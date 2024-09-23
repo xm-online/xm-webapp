@@ -1,10 +1,9 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatMenuModule, MatMenuPanel } from '@angular/material/menu';
-import { text } from '@fortawesome/fontawesome-svg-core';
 
 export enum InputType {
     Toggle = 'toggle',
@@ -15,11 +14,11 @@ export enum InputType {
 @Component({
     selector: 'xm-chips-filter-btn',
     standalone: true,
-    imports: [CommonModule, MatChipsModule, MatIconModule, XmTranslationModule, MatMenuModule],
+    imports: [ CommonModule, MatChipsModule, MatIconModule, XmTranslationModule, MatMenuModule ],
     templateUrl: './chips-filter-btn.component.html',
     styleUrl: './chips-filter-btn.component.scss',
 })
-export class ChipsFilterBtnComponent implements OnInit, OnChanges {
+export class ChipsFilterBtnComponent {
     @Input() public title: string;
     @Input() public value: any;
     @Input() public customIcon: string;
@@ -31,19 +30,10 @@ export class ChipsFilterBtnComponent implements OnInit, OnChanges {
     @Input() public inputField: any = null;
     @Input() type: InputType = InputType.Input;
     @Input() public textWidth: string = '120px';
-    @Output() public valueCleared = new EventEmitter<void>();
-    @Output() public valueToggle = new EventEmitter<void>();
+    @Output() public valueCleared: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public valueToggle: EventEmitter<void> = new EventEmitter<void>();
     public isChecked: boolean = false;
-
-    public ngOnInit(): void {
-        //this.isChecked = (this.value || this.valueText);
-    }
-
-    public ngOnChanges(changes: SimpleChanges) {
-       /* if (!changes.valueText?.currentValue) {
-            //this.isChecked = null;
-        }*/
-    }
+    protected readonly InputType = InputType;
 
     public clickAction(): void {
         if (InputType.Toggle) {
@@ -66,15 +56,5 @@ export class ChipsFilterBtnComponent implements OnInit, OnChanges {
     public isArray(value: any): boolean {
         return Array.isArray(value);
     }
-
-    public isLastItem(item: any): boolean {
-        if (!this.valueText || !Array.isArray(this.valueText)) {
-            return false;
-        }
-        return this.valueText.indexOf(item) === this.valueText.length - 1;
-    }
-
-    protected readonly text = text;
-    protected readonly toolbar = toolbar;
-    protected readonly InputType = InputType;
+    
 }

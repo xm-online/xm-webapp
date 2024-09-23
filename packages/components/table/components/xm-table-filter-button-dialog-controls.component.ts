@@ -12,6 +12,7 @@ export interface XmTableFiltersControlRequestConfig {
     chips: FormLayoutItem[];
     filtersClass?: string;
     filterStoreKey?: string;
+    quickFilters?: FormLayoutItem[];
 }
 
 @Component({

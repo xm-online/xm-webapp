@@ -37,7 +37,6 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
                         [request]="value"
                         (requestChange)="requestChange($event)"
                         #formContainer
-                        class=""
                         [ngClass]="{'xm-filters-control-hidden': filterExpand}"
                     >
                     </xm-quick-filters-control-request>
@@ -51,7 +50,7 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
             </ng-container>
         </div>
     `,
-    styles: [`
+    styles: [ `
         .xm-filters-control-hidden {
             visibility: visible !important;
         }
@@ -70,14 +69,16 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
             display: flex;
             flex-wrap: wrap;
         }
-        .xm-filters-btn{
+
+        .xm-filters-btn {
             align-self: flex-start;
-            .filter-btn{
+
+            .filter-btn {
                 padding: 0;
                 --mdc-icon-button-state-layer-size: 36px;
             }
         }
-    `],
+    ` ],
     imports: [
         MatButtonModule,
         XmTableFilterButtonDialogControlsComponent,
@@ -110,9 +111,12 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.filterExpand = !this.config.isOnlyExpand;
         this.value = this.tableFilterController.get();
-        this.filterSubscription = this.tableFilterController.filterVisibility$.subscribe(
-            isVisible => this.isFilterVisible = isVisible
-        );
+        this.tableFilterController.toggleFilterVisibility(true);
+        this.filterSubscription = this.tableFilterController.filterVisibility$
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(
+                isVisible => this.isFilterVisible = isVisible
+            );
 
         this.setValueOnChangeFilter();
         this.submitOnChangeFilter();
