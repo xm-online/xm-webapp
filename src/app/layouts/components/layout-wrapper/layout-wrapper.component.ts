@@ -6,6 +6,12 @@ import { Observable, combineLatest, switchMap, from, of } from 'rxjs';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmSidebarModule } from '@xm-ngx/components/sidebar';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
+import { XmDynamicLayout, XmDynamicModule } from '@xm-ngx/dynamic';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
+
+interface XmRootConfig extends XmUIConfig {
+    root: { layout: XmDynamicLayout[] };
+}
 
 @Component({
     selector: 'xm-layout-wrapper',
@@ -15,6 +21,7 @@ import { XmEventManager, XmSessionService } from '@xm-ngx/core';
         MatSidenavModule,
         MenuCategoriesComponent,
         XmSidebarModule,
+        XmDynamicModule,
     ],
     templateUrl: './layout-wrapper.component.html',
     styleUrl: './layout-wrapper.component.scss',
@@ -24,6 +31,7 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
     public isMaterial3Menu: boolean;
     public isMobileScreen: boolean;
     public menuCategories$: Observable<MenuCategory[]>;
+    public rootLayout: XmDynamicLayout[];
 
     @ViewChild('sidenav') public sidenav: MatSidenav;
 
@@ -31,6 +39,7 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
         private menuService: MenuService,
         private eventManager: XmEventManager,
         private sessionService: XmSessionService,
+        private uiConfigService: XmUiConfigService<XmRootConfig>,
     ) {
     }
 
@@ -39,6 +48,12 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
         this.observeIsMaterial3Menu();
         this.observeIsMobileScreen();
         this.menuCategories$ = this.menuService.menuCategories;
+
+        this.uiConfigService.config$().pipe(
+            takeUntilOnDestroy(this),
+        ).subscribe((config) => {
+            this.rootLayout = config.root?.layout || null;
+        });
     }
 
     public ngAfterViewInit(): void {
