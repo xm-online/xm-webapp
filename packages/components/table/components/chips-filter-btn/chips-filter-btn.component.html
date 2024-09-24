@@ -3,14 +3,14 @@
     <div
       (click)="clickAction()"
       [matMenuTriggerFor]="menu"
-      [ngClass]="{filled: (value || valueText), disabled: disabled}"
+      [ngClass]="{ filled: (value || valueText), disabled: disabled }"
       class="chips-btn">
       <div class="quick--holder">
         @if (customIcon) {
           <mat-icon class="small-icon start-icon">{{ customIcon }}</mat-icon>
         }
         @if (!customIcon) {
-          <mat-icon class="small-icon start-icon" [ngClass]="{hidden: (!isChecked || (!value && !valueText))}">check
+          <mat-icon class="small-icon start-icon" [ngClass]="{ hidden: (!isChecked || (!value && !valueText)) }">check
           </mat-icon>
         }
         <span class="chips-text"><span>{{ title | translate }}</span>
@@ -32,14 +32,14 @@
     <div
       (click)="clickAction()"
       [matMenuTriggerFor]="menu"
-      [ngClass]="{filled: value, disabled: disabled}"
+      [ngClass]="{ filled: value, disabled: disabled }"
       class="chips-btn">
       <div class="quick--holder">
         @if (customIcon) {
           <mat-icon class="small-icon start-icon">{{ customIcon }}</mat-icon>
         }
         @if (!customIcon) {
-          <mat-icon class="small-icon start-icon" [ngClass]="{hidden: !isChecked}">check</mat-icon>
+          <mat-icon class="small-icon start-icon" [ngClass]="{ hidden: !isChecked }">check</mat-icon>
         }
 
         <span class="chips-text"><span>{{ title|translate }}</span>
