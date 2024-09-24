@@ -9,8 +9,8 @@ import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { XmDynamicLayout, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 
-interface XmRootConfig extends XmUIConfig {
-    root: { layout: XmDynamicLayout[] };
+interface XmMainConfig extends XmUIConfig {
+    main: { layout: XmDynamicLayout[] };
 }
 
 @Component({
@@ -31,7 +31,7 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
     public isMaterial3Menu: boolean;
     public isMobileScreen: boolean;
     public menuCategories$: Observable<MenuCategory[]>;
-    public rootLayout: XmDynamicLayout[];
+    public mainLayout: XmDynamicLayout[];
 
     @ViewChild('sidenav') public sidenav: MatSidenav;
 
@@ -39,7 +39,7 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
         private menuService: MenuService,
         private eventManager: XmEventManager,
         private sessionService: XmSessionService,
-        private uiConfigService: XmUiConfigService<XmRootConfig>,
+        private uiConfigService: XmUiConfigService<XmMainConfig>,
     ) {
     }
 
@@ -52,7 +52,7 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
         this.uiConfigService.config$().pipe(
             takeUntilOnDestroy(this),
         ).subscribe((config) => {
-            this.rootLayout = config.root?.layout || null;
+            this.mainLayout = config.main?.layout || null;
         });
     }
 
