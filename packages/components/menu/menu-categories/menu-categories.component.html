@@ -14,6 +14,7 @@
           <div
             *ngFor="let category of categories"
             [class]="menuCategoriesClassesEnum.MENU_CATEGORY"
+            [ngClass]="{'active': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()}"
             (click)="onNavigate(category)"
             (mouseenter)="onHoverCategory(category)"
             (mouseleave)="closeHoverSubscription()"
