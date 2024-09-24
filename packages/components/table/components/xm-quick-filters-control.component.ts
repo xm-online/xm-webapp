@@ -33,7 +33,6 @@ export interface FiltersControlValue extends QueryParams {
 
         <xm-form-layout [config]="options"
                         class="quick-form-layout"
-                        [class]=""
                         [value]="formGroup">
         </xm-form-layout>
     `,
@@ -92,7 +91,6 @@ export class XmTableQuickFilterControl<T = FiltersControlValue> extends NgContro
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        ///debugger on change
         if (this.formGroup && changes.disabled) {
             this.disabled ? this.formGroup.disable() : this.formGroup.enable();
         }
@@ -173,7 +171,7 @@ export class XmTableQuickFilterControl<T = FiltersControlValue> extends NgContro
         }
     }
 
-    private emitValue(value): void {
+    private emitValue(value: any): void {
         if (this.formGroup.valid || this.submitInvalidForm) {
             this.value = value;
             this.valueChange.next(value);

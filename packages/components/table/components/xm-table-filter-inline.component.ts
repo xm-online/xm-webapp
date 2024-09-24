@@ -99,6 +99,15 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
     public isFilterVisible: boolean = true;
 
     public ngOnInit(): void {
+        this.initFilers();
+    }
+
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
+
+    public initFilers(): void {
         this.filterExpand = !this.config.isOnlyExpand;
         this.value = this.tableFilterController.get();
         this.tableFilterController.filterVisibility$
@@ -110,10 +119,6 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
 
         this.setValueOnChangeFilter();
         this.submitOnChangeFilter();
-    }
-
-    public ngOnDestroy(): void {
-        takeUntilOnDestroyDestroy(this);
     }
 
     public requestChange(value: FiltersControlValue): void {
