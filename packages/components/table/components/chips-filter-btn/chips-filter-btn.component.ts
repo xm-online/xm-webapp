@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +13,7 @@ import { InputType } from './chips-filter-btn.model';
     imports: [ CommonModule, MatChipsModule, MatIconModule, XmTranslationModule, MatMenuModule ],
     templateUrl: './chips-filter-btn.component.html',
     styleUrl: './chips-filter-btn.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChipsFilterBtnComponent {
     @Input() public title: string;
@@ -24,7 +25,7 @@ export class ChipsFilterBtnComponent {
     @Input() public arrow: boolean = false;
     @Input() public disabled: boolean = false;
     @Input() public inputField: any = null;
-    @Input() type: InputType = InputType.Input;
+    @Input() public type: InputType = InputType.Input;
     @Input() public textWidth: string = '120px';
     @Output() public valueCleared: EventEmitter<void> = new EventEmitter<void>();
     @Output() public valueToggle: EventEmitter<void> = new EventEmitter<void>();
@@ -37,9 +38,7 @@ export class ChipsFilterBtnComponent {
             this.valueToggle.emit();
             this.value = this.valueText;
         }
-        if (this.inputField?.nativeElement) {
-            this.inputField.nativeElement.focus();
-        }
+        this.inputField?.nativeElement?.focus();
     }
 
     public clear(event: Event): void {
@@ -49,7 +48,7 @@ export class ChipsFilterBtnComponent {
         this.valueCleared.emit();
     }
 
-    public isArray(value: any): boolean {
+    public isArray<T>(value: T): boolean {
         return Array.isArray(value);
     }
 
