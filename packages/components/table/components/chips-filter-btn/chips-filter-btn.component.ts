@@ -4,12 +4,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatMenuModule, MatMenuPanel } from '@angular/material/menu';
+import { InputType } from './chips-filter-btn.model';
 
-export enum InputType {
-    Toggle = 'toggle',
-    Input = 'input',
-    Calendar = 'calendar'
-}
 
 @Component({
     selector: 'xm-chips-filter-btn',
@@ -56,5 +52,5 @@ export class ChipsFilterBtnComponent {
     public isArray(value: any): boolean {
         return Array.isArray(value);
     }
-    
+
 }
