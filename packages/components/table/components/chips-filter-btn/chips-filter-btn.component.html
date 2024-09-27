@@ -6,25 +6,16 @@
       [ngClass]="{ filled: (value || valueText), disabled: disabled }"
       class="chips-btn">
       <div class="quick--holder">
-        @if (customIcon) {
-          <mat-icon class="small-icon start-icon">{{ customIcon }}</mat-icon>
-        }
-        @if (!customIcon) {
-          <mat-icon class="small-icon start-icon" [ngClass]="{ hidden: (!isChecked || (!value && !valueText)) }">check
-          </mat-icon>
-        }
-        <span class="chips-text"><span>{{ title | translate }}</span>
-        <span *ngIf="value || valueText" class="value-txt"
-              [style.max-width]="textWidth ? textWidth : ''">: {{ (valueText || value) | translate }}</span>
-          </span>
-        @if ((!value && !valueText) && arrow) {
-          <mat-icon class="arrow-icon">arrow_drop_down</mat-icon>
-        }
-        @if (value || valueText) {
-          <mat-icon class="clear-icon small-icon" (click)="clear($event)">
-            clear
-          </mat-icon>
-        }
+        <ng-container
+          *ngTemplateOutlet="iconTemplate; context: {isChecked: isChecked, customIcon: customIcon}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="chipsTextTemplate;
+          context: {title: title, value: value, valueText: valueText, textWidth: textWidth}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="iconActionTemplate; context: {value: value, valueText: valueText, arrow: arrow}">
+        </ng-container>
       </div>
     </div>
   }
@@ -35,17 +26,15 @@
       [ngClass]="{ filled: value, disabled: disabled }"
       class="chips-btn">
       <div class="quick--holder">
-        @if (customIcon) {
-          <mat-icon class="small-icon start-icon">{{ customIcon }}</mat-icon>
-        }
-        @if (!customIcon) {
-          <mat-icon class="small-icon start-icon" [ngClass]="{ hidden: !isChecked }">check</mat-icon>
-        }
+        <ng-container
+          *ngTemplateOutlet="iconTemplate; context: {isChecked: isChecked, customIcon: customIcon}">
+        </ng-container>
 
-        <span class="chips-text"><span>{{ title|translate }}</span>
-        <span *ngIf="value || valueText" class="value-txt"
-              [style.max-width]="textWidth ? textWidth : ''">: {{ (valueText || value) | translate }}</span>
-          </span>
+        <ng-container
+          *ngTemplateOutlet="chipsTextTemplate;
+          context: {title: title, value: value, valueText: valueText, textWidth: textWidth}">
+        </ng-container>
+
         @if (isChecked) {
           <mat-icon class="clear-icon small-icon" (click)="clear($event)">
             clear
@@ -61,28 +50,40 @@
       [ngClass]="{ filled: value || valueText, disabled: disabled }"
       class="chips-btn">
       <div class="quick--holder">
-        @if (customIcon) {
-          <mat-icon class="small-icon start-icon">{{ customIcon }}</mat-icon>
-        }
-        @if (!customIcon) {
-          <mat-icon class="small-icon start-icon" [ngClass]="{ hidden: !isChecked }">check</mat-icon>
-        }
-        <span class="chips-text"><span>{{ title | translate }}</span>
-        <span *ngIf="value || valueText" class="value-txt"
-              [style.max-width]="textWidth ? textWidth: ''">: {{ (valueText || value) | translate }}</span>
-          </span>
-        @if ((!value && !valueText) && arrow) {
-          <mat-icon class="arrow-icon">arrow_drop_down</mat-icon>
-        }
-        @if (value || valueText) {
-          <mat-icon class="clear-icon small-icon" (click)="clear($event)">
-            clear
-          </mat-icon>
-        }
+        <ng-container
+          *ngTemplateOutlet="iconTemplate; context: {isChecked: isChecked, customIcon: customIcon}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="chipsTextTemplate;
+          context: {title: title, value: value, valueText: valueText, textWidth: textWidth}">
+        </ng-container>
+        <ng-container
+          *ngTemplateOutlet="iconActionTemplate; context: {value: value, valueText: valueText, arrow: arrow}"></ng-container>
       </div>
     </div>
   }
 }
+
+<ng-template #iconTemplate let-isChecked="isChecked" let-customIcon="customIcon">
+  <mat-icon class="small-icon start-icon" *ngIf="customIcon">{{ customIcon }}</mat-icon>
+  <mat-icon class="small-icon start-icon" *ngIf="!customIcon" [ngClass]="{ hidden: !isChecked }">check</mat-icon>
+</ng-template>
+
+<ng-template #chipsTextTemplate let-title="title" let-value="value" let-valueText="valueText" let-textWidth="textWidth">
+  <span class="chips-text">
+    <span>{{ title | translate }}</span>
+    <span *ngIf="value || valueText" class="value-txt" [style.max-width]="textWidth ? textWidth : ''">
+      : {{ (valueText || value) | translate }}
+    </span>
+  </span>
+</ng-template>
+
+<ng-template #iconActionTemplate let-value="value" let-valueText="valueText" let-arrow="arrow">
+  <mat-icon class="arrow-icon" *ngIf="(!value && !valueText) && arrow">arrow_drop_down</mat-icon>
+  <mat-icon class="clear-icon small-icon" *ngIf="value || valueText" (click)="clear($event)">
+    clear
+  </mat-icon>
+</ng-template>
 
 
 
