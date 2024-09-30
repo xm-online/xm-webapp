@@ -23,10 +23,9 @@ import { InputType } from './chips-filter-btn.model';
 })
 export class ChipsFilterBtnComponent {
     @Input() public title: string;
-    @Input() public value: any;
+    @Input() public value: unknown;
     @Input() public customIcon: string;
-    @Input() public valueText: any;
-    @Input() public fieldInput: any = null;
+    @Input() public valueText: unknown;
     @Input() public menu: MatMenuPanel = null;
     @Input() public arrow: boolean = false;
     @Input() public disabled: boolean = false;
