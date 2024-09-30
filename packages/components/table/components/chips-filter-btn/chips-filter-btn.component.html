@@ -71,9 +71,9 @@
 
 <ng-template #chipsTextTemplate let-title="title" let-value="value" let-valueText="valueText" let-textWidth="textWidth">
   <span class="chips-text">
-    <span>{{ title | translate }}</span>
+    <span>{{ title | xmTranslate }}</span>
     <span *ngIf="value || valueText" class="value-txt" [style.max-width]="textWidth ? textWidth : ''">
-      : {{ (valueText || value) | translate }}
+      : {{ (valueText || value) | xmTranslate }}
     </span>
   </span>
 </ng-template>

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmTranslatePipe } from '@xm-ngx/translation';
 import { MatMenuModule, MatMenuPanel } from '@angular/material/menu';
 import { InputType } from './chips-filter-btn.model';
 
@@ -10,7 +10,13 @@ import { InputType } from './chips-filter-btn.model';
 @Component({
     selector: 'xm-chips-filter-btn',
     standalone: true,
-    imports: [ CommonModule, MatChipsModule, MatIconModule, XmTranslationModule, MatMenuModule ],
+    imports: [
+        CommonModule,
+        MatChipsModule,
+        MatIconModule,
+        MatMenuModule,
+        XmTranslatePipe
+    ],
     templateUrl: './chips-filter-btn.component.html',
     styleUrl: './chips-filter-btn.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
