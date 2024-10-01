@@ -7,59 +7,48 @@ import {
     XmTableFiltersControlRequestConfig,
 } from './xm-table-filter-button-dialog-controls.component';
 import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
-import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmTranslatePipe } from '@xm-ngx/translation';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NgClass, NgIf } from '@angular/common';
 import _ from 'lodash';
 import { XmEmptyPipe } from '@xm-ngx/pipes';
+import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quick-filter-controls.component';
 
 @Component({
-    selector: 'xm-table-filter-inline',
+    selector: 'xm-table-quick-filter-inline',
     standalone: true,
     template: `
-        <ng-container *ngIf="isFilterVisible">
-            <ng-container *ngIf="!(config?.filters | xmEmpty)">
-                <div class="m-3 d-flex filter-holder">
-                    <xm-filters-control-request
-                        [@bodyExpansion]="filterExpand ? 'collapsed' : 'expanded'"
+        <div class="d-flex quick-filter-block">
+        <span *ngIf="!config?.isOnlyExpand" class="xm-filters-btn">
+            <button (click)="toggleFilters()"
+                    class="ms-2 mb-2 filter-btn"
+                    color="accent"
+                    mat-icon-button
+                    type="button">
+                <mat-icon>filter_list</mat-icon>
+            </button>
+        </span>
+            <ng-container *ngIf="!(config?.quickFilters | xmEmpty)">
+                <div class="quick-filter-holder">
+                    <xm-quick-filters-control-request
                         [options]="config"
                         [request]="value"
                         (requestChange)="requestChange($event)"
                         #formContainer
-                        class="w-100"
                         [ngClass]="{'xm-filters-control-hidden': filterExpand}"
                     >
-                    </xm-filters-control-request>
+                    </xm-quick-filters-control-request>
 
-                    <div *ngIf="!config?.isOnlyExpand" class="ms-auto xm-filters-btn">
-                        <button (click)="filterExpand = !filterExpand"
-                                class="align-self-top ms-2"
-                                color="accent"
-                                mat-icon-button
-                                type="button">
-                            <mat-icon>filter_list</mat-icon>
-                        </button>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-end me-3 ms-3 mb-3">
                     <button mat-button
                             class="me-3"
                             (click)="reset()">
-                        {{ 'table.filter.button.reset' | translate }}
-                    </button>
-
-                    <button mat-button
-                            mat-raised-button
-                            color="primary"
-                            [disabled]="formContainer.disabled"
-                            (click)="submit()">
-                        {{ 'table.filter.button.search' | translate }}
+                        {{ 'table.filter.button.reset' | xmTranslate }}
                     </button>
                 </div>
             </ng-container>
-        </ng-container>
+        </div>
     `,
     styles: [ `
         .xm-filters-control-hidden {
@@ -68,24 +57,44 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
 
         .filter-holder {
             overflow: hidden;
-            min-height: 4.6rem;
+        }
+
+        .quick-filter-block {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .quick-filter-holder {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .xm-filters-btn {
+            align-self: flex-start;
+
+            .filter-btn {
+                padding: 0;
+                --mdc-icon-button-state-layer-size: 36px;
+            }
         }
     ` ],
     imports: [
         MatButtonModule,
         XmTableFilterButtonDialogControlsComponent,
-        XmTranslationModule,
         XmEmptyPipe,
         NgIf,
-        XmTranslationModule,
         MatIconModule,
         NgClass,
+        XmTableQuickFilterControlsComponent,
+        XmTranslatePipe,
+        XmEmptyPipe,
     ],
     animations: [
         matExpansionAnimations.bodyExpansion,
     ],
 })
-export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
+export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
     @Input() public config: XmTableFiltersControlRequestConfig;
     @Input() public loading: boolean;
 
@@ -96,29 +105,24 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
     private request$: Subject<FiltersControlValue> = new Subject<FiltersControlValue>();
 
     private tableFilterController: XmTableFilterController = inject(XmTableFilterController);
-    public isFilterVisible: boolean = true;
+    public isFilterVisible: boolean = false;
 
     public ngOnInit(): void {
-        this.initFilers();
-    }
-
-
-    public ngOnDestroy(): void {
-        takeUntilOnDestroyDestroy(this);
-    }
-
-    public initFilers(): void {
         this.filterExpand = !this.config.isOnlyExpand;
         this.value = this.tableFilterController.get();
+        this.tableFilterController.toggleFilterVisibility(false);
         this.tableFilterController.filterVisibility$
             .pipe(takeUntilOnDestroy(this))
-            .subscribe((res) => {
-                this.isFilterVisible = res;
-                this.filterExpand = !res;
-            });
+            .subscribe(
+                isVisible => this.isFilterVisible = isVisible
+            );
 
         this.setValueOnChangeFilter();
         this.submitOnChangeFilter();
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
     }
 
     public requestChange(value: FiltersControlValue): void {
@@ -160,4 +164,10 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
             this.submit();
         });
     }
+
+    public toggleFilters(): void {
+        const currentVisibility = !this.isFilterVisible;
+        this.tableFilterController.toggleFilterVisibility(currentVisibility);
+    }
+
 }

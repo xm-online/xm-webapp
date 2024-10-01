@@ -3,37 +3,33 @@ import {
     FiltersControlValue,
     XmTableFilterButtonDialogControlComponent
 } from './xm-table-filter-button-dialog-control.component';
-import { FormLayoutItem } from '@xm-ngx/components/form-layout';
+import { JsonPipe } from '@angular/common';
+import { XmTableQuickFilterControl } from '../components/xm-quick-filters-control.component';
+import { MatChipsModule } from '@angular/material/chips';
 
-export interface XmTableFiltersControlRequestConfig {
-    submitInvalidForm?: boolean;
-    isOnlyExpand?: boolean;
-    filters: FormLayoutItem[];
-    chips: FormLayoutItem[];
-    filtersClass?: string;
-    filterStoreKey?: string;
-    quickFilters?: FormLayoutItem[];
-}
 
 @Component({
-    selector: 'xm-filters-control-request',
+    selector: 'xm-quick-filters-control-request',
     template: `
-        <xm-filters-control (valueChange)="OnValueChange($event)"
-                            (filtersChanged)="filtersChanged.emit($event)"
-                            [containerClass]="options?.filtersClass"
-                            [disabled]="disabled"
-                            (validStatusChange)="valid = $event"
-                            [options]="options?.filters"
-                            [submitInvalidForm]="options?.submitInvalidForm"
-                            [value]="value">
-        </xm-filters-control>
+        <xm-quick-filters-control class="quick-filter-control" (valueChange)="onValueChange($event)"
+                                  (filtersChanged)="filtersChanged.emit($event)"
+                                  [containerClass]="options?.filtersClass"
+                                  [disabled]="disabled"
+                                  (validStatusChange)="valid = $event"
+                                  [options]="options?.quickFilters"
+                                  [submitInvalidForm]="options?.submitInvalidForm"
+                                  [value]="value">
+        </xm-quick-filters-control>
     `,
     standalone: true,
     imports: [
-        XmTableFilterButtonDialogControlComponent
+        XmTableFilterButtonDialogControlComponent,
+        JsonPipe,
+        XmTableQuickFilterControl,
+        MatChipsModule
     ]
 })
-export class XmTableFilterButtonDialogControlsComponent implements OnChanges {
+export class XmTableQuickFilterControlsComponent implements OnChanges {
     @ViewChild(XmTableFilterButtonDialogControlComponent)
     public filtersControl: XmTableFilterButtonDialogControlComponent;
 
@@ -43,12 +39,12 @@ export class XmTableFilterButtonDialogControlsComponent implements OnChanges {
 
     @Input() public disabled: boolean;
     @Input() public loading: boolean;
-    @Input() public options: XmTableFiltersControlRequestConfig;
+    @Input() public options: any;
 
     public value: FiltersControlValue;
     public valid: boolean = true;
 
-    public OnValueChange(value: FiltersControlValue): void {
+    public onValueChange(value: FiltersControlValue): void {
         this.request = this.getRequest(value);
         this.requestChange.emit(this.request);
     }
@@ -63,7 +59,6 @@ export class XmTableFilterButtonDialogControlsComponent implements OnChanges {
         if (!this.options?.filters) {
             return null;
         }
-
         return values;
     }
 
