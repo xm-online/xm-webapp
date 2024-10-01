@@ -19,7 +19,7 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
     selector: 'xm-table-filter-inline',
     standalone: true,
     template: `
-        <ng-container *ngIf="!isFilterVisible">
+        <ng-container *ngIf="isFilterVisible">
             <ng-container *ngIf="!(config?.filters | xmEmpty)">
                 <div class="m-3 d-flex filter-holder">
                     <xm-filters-control-request

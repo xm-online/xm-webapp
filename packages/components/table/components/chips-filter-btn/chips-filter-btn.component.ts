@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { XmTranslatePipe } from '@xm-ngx/translation';
+import { Translate, XmTranslatePipe } from '@xm-ngx/translation';
 import { MatMenuModule, MatMenuPanel } from '@angular/material/menu';
 import { InputType } from './chips-filter-btn.model';
 
@@ -23,9 +23,9 @@ import { InputType } from './chips-filter-btn.model';
 })
 export class ChipsFilterBtnComponent {
     @Input() public title: string;
-    @Input() public value: unknown;
+    @Input() public value: any;
     @Input() public customIcon: string;
-    @Input() public valueText: unknown;
+    @Input() public valueText: string | Translate;
     @Input() public menu: MatMenuPanel = null;
     @Input() public arrow: boolean = false;
     @Input() public disabled: boolean = false;

@@ -7,8 +7,8 @@ import {
     XmTableFiltersControlRequestConfig,
 } from './xm-table-filter-button-dialog-controls.component';
 import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
-import { XmTranslationModule } from '@xm-ngx/translation';
-import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
+import { XmTranslatePipe } from '@xm-ngx/translation';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NgClass, NgIf } from '@angular/common';
@@ -30,7 +30,7 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
                 <mat-icon>filter_list</mat-icon>
             </button>
         </span>
-            <ng-container *ngIf="!(config?.filters | xmEmpty)">
+            <ng-container *ngIf="!(config?.quickFilters | xmEmpty)">
                 <div class="quick-filter-holder">
                     <xm-quick-filters-control-request
                         [options]="config"
@@ -44,7 +44,7 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
                     <button mat-button
                             class="me-3"
                             (click)="reset()">
-                        {{ 'table.filter.button.reset' | translate }}
+                        {{ 'table.filter.button.reset' | xmTranslate }}
                     </button>
                 </div>
             </ng-container>
@@ -82,13 +82,13 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
     imports: [
         MatButtonModule,
         XmTableFilterButtonDialogControlsComponent,
-        XmTranslationModule,
         XmEmptyPipe,
         NgIf,
-        XmTranslationModule,
         MatIconModule,
         NgClass,
         XmTableQuickFilterControlsComponent,
+        XmTranslatePipe,
+        XmEmptyPipe,
     ],
     animations: [
         matExpansionAnimations.bodyExpansion,
@@ -106,13 +106,12 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
 
     private tableFilterController: XmTableFilterController = inject(XmTableFilterController);
     public isFilterVisible: boolean = false;
-    public filterSubscription: Subscription;
 
     public ngOnInit(): void {
         this.filterExpand = !this.config.isOnlyExpand;
         this.value = this.tableFilterController.get();
-        this.tableFilterController.toggleFilterVisibility(true);
-        this.filterSubscription = this.tableFilterController.filterVisibility$
+        this.tableFilterController.toggleFilterVisibility(false);
+        this.tableFilterController.filterVisibility$
             .pipe(takeUntilOnDestroy(this))
             .subscribe(
                 isVisible => this.isFilterVisible = isVisible

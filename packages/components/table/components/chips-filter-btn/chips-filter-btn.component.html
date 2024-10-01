@@ -7,15 +7,14 @@
       class="chips-btn">
       <div class="quick--holder">
         <ng-container
-          *ngTemplateOutlet="iconTemplate; context: {isChecked: isChecked, customIcon: customIcon}">
+          *ngTemplateOutlet="iconTemplate; context: {isChecked: (isChecked && (value || valueText)), customIcon: customIcon}">
         </ng-container>
         <ng-container
           *ngTemplateOutlet="chipsTextTemplate;
           context: {title: title, value: value, valueText: valueText, textWidth: textWidth}">
         </ng-container>
         <ng-container
-          *ngTemplateOutlet="iconActionTemplate; context: {value: value, valueText: valueText, arrow: arrow}">
-        </ng-container>
+          *ngTemplateOutlet="iconActionTemplate; context: {value: value, valueText: valueText, arrow: arrow}"></ng-container>
       </div>
     </div>
   }
