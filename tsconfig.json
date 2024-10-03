@@ -24,6 +24,9 @@
       "@xm-ngx/core/environment": [
         "src/environments"
       ],
+      "@xm-ngx/ext/*": [
+        "src/app/ext/*"
+      ],
       "@xm-ngx-ext/*": [
         "src/app/ext/*"
       ],
