@@ -11,6 +11,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
                  [value]="control.value"
                  [options]="config.options"
                  [selector]="config.selector"
+                 [dataQa]="config.dataQa"
                  xmDynamicFormControl>
     </ng-template>
     `,
