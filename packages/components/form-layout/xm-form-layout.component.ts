@@ -10,6 +10,7 @@ import { XmDynamicLayoutNode } from '@xm-ngx/dynamic';
 
 export interface FormLayoutItem<C = unknown> extends FormGroupLayoutItem<unknown, C>, XmDynamicLayoutNode<C> {
     condition: JavascriptCode;
+    dataQa?: string;
 }
 
 export function toggleControlValidation(control: AbstractControl, active: boolean): void {
