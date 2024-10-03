@@ -151,7 +151,7 @@
     "string-template": "1.0.0",
     "swagger-ui": "5.4.2",
     "tether": "2.0.0",
-    "ts-morph": "18.0.0",
+    "ts-morph": "23.0.0",
     "tslib": "2.4.0",
     "validate": "5.2.0",
     "yaml": "2.3.1",
