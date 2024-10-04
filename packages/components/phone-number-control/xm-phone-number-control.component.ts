@@ -23,6 +23,7 @@ export interface XmPhoneNumberControlOptions {
     placeHolderCharacter: string;
     search?: boolean;
     searchOnEnter?: boolean;
+    activeIconColor?: string;
 }
 
 export const XM_PHONE_NUMBER_CONTROL_OPTIONS_DEFAULT = {

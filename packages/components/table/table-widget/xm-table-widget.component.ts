@@ -18,7 +18,11 @@ import { XmTableHeaderComponent } from '../components/xm-table-header.component'
 import { XmTableLoadingColumnComponent } from '../components/xm-table-loading-column.component';
 import { XmTableLoadingComponent } from '../components/xm-table-loading.component';
 import { XmTableSelectionColumnComponent } from '../components/xm-table-selection-column.component';
-import { IXmTableCollectionController, XM_TABLE_CONTROLLERS, XmTableCollectionControllerResolver } from '../collections';
+import {
+    IXmTableCollectionController,
+    XM_TABLE_CONTROLLERS,
+    XmTableCollectionControllerResolver
+} from '../collections';
 import { XmTableMatPaginatorAdapterDirective } from '../directives/xm-table-mat-paginator-adapter.directive';
 import { XmTableMatSortAdapterDirective } from '../directives/xm-table-mat-sort-adapter.directive';
 import { XmTableSelectionDirective } from '../directives/xm-table-selection.directive';
@@ -29,6 +33,7 @@ import { XmTableExpandPanelButtonComponent } from '../components/xm-table-expand
 import { TableExpand } from '../animations/xm-table-widget.animation';
 import { XmTableFilterInlineComponent } from '../components/xm-table-filter-inline.component';
 import { XmTableMatPaginatorInt } from './table.mat-paginator-int';
+import { XmTableQuickFilterInlineComponent } from '../components/xm-table-quick-filter-inline.component';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
@@ -72,7 +77,8 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         XmTableLoadingColumnComponent,
         XmTableLoadingComponent,
         XmTableExpandPanelButtonComponent,
-        XmTableFilterInlineComponent
+        XmTableFilterInlineComponent,
+        XmTableQuickFilterInlineComponent,
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,

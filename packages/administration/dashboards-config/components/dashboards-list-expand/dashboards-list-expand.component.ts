@@ -87,13 +87,15 @@ export class DashboardsListExpandComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.loading$ = this.dashboardService.loading$.pipe(delay(0));
 
-        this.dashboardService.getById(this.dashboardId).pipe(
-            map((i) => _.orderBy(i?.widgets, 'name')),
-            map((widgets) => new MatTableDataSource(widgets)),
-        ).subscribe((i) => {
-            this.widgetsList = i;
-            this.loadToEditor();
-        });
+        if (this.dashboardId) {
+            this.dashboardService.getById(this.dashboardId).pipe(
+                map((i) => _.orderBy(i?.widgets, 'name')),
+                map((widgets) => new MatTableDataSource(widgets)),
+            ).subscribe((i) => {
+                this.widgetsList = i;
+                this.loadToEditor();
+            });
+        }
     }
 
     public ngOnDestroy(): void {
@@ -101,6 +103,9 @@ export class DashboardsListExpandComponent implements OnInit, OnDestroy {
     }
 
     public onAdd(): void {
+        if (!this.dashboardId) {
+            return;
+        }
         this.editorService.addWidget(this.widgetEditComponentType, {dashboard: {id: this.dashboardId}});
         this.managerService.setActiveWidget(null);
     }
