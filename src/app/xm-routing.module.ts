@@ -32,6 +32,7 @@ const ROUTES: Routes = [
         path: 'public',
         loadChildren: () => import('@xm-ngx/dynamic/public').then((m) => m.XmPublicModule),
     },
+    {path: '**', redirectTo: '/not-found'},
 ];
 
 @NgModule({

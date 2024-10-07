@@ -5,7 +5,7 @@ import { XmDynamicLayout } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import * as _ from 'lodash';
 import { Observable, zip } from 'rxjs';
-import { filter, map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { XmUIConfig } from '@xm-ngx/core/config';
 
 interface PublicSlugLayout {
@@ -44,11 +44,10 @@ export class XmPublicComponent implements OnInit, OnDestroy {
         const routes$: Observable<PublicSlugLayout[]> = this.publicUiConfig.config$().pipe(
             takeUntilOnDestroy(this),
             map((c) => _.get(c, 'public.routes', null)),
-            filter<PublicSlugLayout[]>(Boolean),
         );
 
         this.layouts$ = zip(slug$, routes$).pipe(
-            map(([slug, routes]) => routes.find(i => i.slug === slug)),
+            map(([slug, routes]) => routes?.find(i => i.slug === slug)),
             map((r) => {
                 if (!r) {
                     this.router.navigateByUrl('/not-found');
