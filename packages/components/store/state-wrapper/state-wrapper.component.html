@@ -1,0 +1,13 @@
+<ng-container *ngIf="config.widget as widget">
+  <ng-container
+    *xmCondition="config?.condition; arguments {value: value$ | async}"
+    [class]="widget.theme?.class"
+    [style]="widget.theme?.style"
+    xmDynamicPresentation
+    [value]="value() | valueFromSignal: config?.['state']?.['field']"
+    [selector]="widget.selector"
+    [config]="widget.config"
+    [controllers]="widget.controllers"
+    [dataQa]="widget.dataQa"
+  ></ng-container>
+</ng-container>
