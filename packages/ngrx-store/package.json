@@ -1,0 +1,13 @@
+{
+  "name": "@xm-ngx/ngrx-store",
+  "dependencies": {
+    "@ngrx/store": "17.2.0",
+    "@ngrx/effects": "17.2.0",
+    "@ngrx/component-store": "17.2.0",
+    "@ngrx/store-devtools": "17.2.0",
+    "@ngrx/signals": "18.0.2"
+  },
+  "devDependencies": {
+    "@angular-architects/ngrx-toolkit": "18.0.3"
+  }
+}

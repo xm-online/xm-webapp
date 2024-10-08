@@ -1,9 +1,10 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 // import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
 import { Observable, ReplaySubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { DashboardStore } from '../dashboard-store.service';
 import { DashboardWidget } from '../models/dashboard-widget.model';
+import { AppStore } from '@xm-ngx/ngrx-store';
 
 export interface Page<C = unknown, L = unknown> {
     id?: number;
@@ -20,7 +21,7 @@ export interface Page<C = unknown, L = unknown> {
     providedIn: 'root',
 })
 export class PageService<T extends Page = Page> implements OnDestroy {
-
+    private appStore = inject(AppStore);
     private _active$: ReplaySubject<T | null> = new ReplaySubject(1);
     // private logger: XmLogger;
 
@@ -49,7 +50,11 @@ export class PageService<T extends Page = Page> implements OnDestroy {
         if (idOrSlug) {
             this.dashboard.getByIdOrSlug(idOrSlug)
                 .pipe(take(1))
-                .subscribe((i) => this._active$.next(i as T));
+                .subscribe((i) => {
+                    // @ts-ignore
+                    this.appStore.updateDashboard(i);
+                    this._active$.next(i as T);
+                });
         } else {
             this._active$.next(null);
         }
