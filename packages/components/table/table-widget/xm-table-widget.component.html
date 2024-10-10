@@ -25,7 +25,6 @@
 
         <xm-table-filter-chips *ngIf="xmTable.config.showFilterChips" [config]="config"></xm-table-filter-chips>
       </ng-container>
-
       <ng-container expandPanelButton *ngIf="xmTable.config.isExpandable">
         <xm-table-expand-panel-button [config]="config"
                                       (changeCollapsed)="xmTable.config.isCollapsed = $event"></xm-table-expand-panel-button>
@@ -36,6 +35,9 @@
     <xm-table-selection-header [config]="config.selection"></xm-table-selection-header>
 
     <div class="xm-table-wrapper" [@tableExpand]="xmTable.config.isCollapsed ? 'collapsed' : 'expanded'">
+      <ng-container>
+        <xm-table-quick-filter-inline *ngIf="xmTable.config.showQuickFilters" [config]="config"></xm-table-quick-filter-inline>
+      </ng-container>
 
       <xm-table-filter-inline *ngIf="!xmTable.config.popUpFilter"
                               [config]="config"

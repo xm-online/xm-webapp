@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { assign, cloneDeep, isPlainObject, transform } from 'lodash';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FiltersControlValue } from '../../components/xm-table-filter-button-dialog-control.component';
 import { XmTableInlineFilterFormLayoutItem } from '../../components/xm-table-filter-chips.component';
 
@@ -17,6 +17,8 @@ function cloneDeepWithoutUndefined(obj) {
 @Injectable()
 export class XmTableFilterController<T extends FiltersControlValue = FiltersControlValue> implements OnDestroy {
     private request$: BehaviorSubject<T>;
+    private filterVisibilitySubject = new Subject<boolean>();
+    public filterVisibility$ = this.filterVisibilitySubject.asObservable();
 
     constructor() {
         this.request$ = new BehaviorSubject<T>({} as T);
@@ -41,7 +43,7 @@ export class XmTableFilterController<T extends FiltersControlValue = FiltersCont
                     [filter.name]: filter.removable,
                 };
             }, {});
-        
+
         const keepFixedFilters = Object.keys(cacheFilters)
             .filter(key => fixedFilters[key] === false)
             .reduce((acc, key) => {
@@ -71,5 +73,9 @@ export class XmTableFilterController<T extends FiltersControlValue = FiltersCont
 
     public get(): T {
         return this.request$.getValue();
+    }
+
+    public toggleFilterVisibility(isVisible: boolean): void {
+        this.filterVisibilitySubject.next(isVisible);
     }
 }

@@ -1,6 +1,6 @@
 <mat-form-field>
 
-  <mat-label>{{ config.title | translate}}</mat-label>
+  <mat-label>{{ config.title | translate }}</mat-label>
 
   <input
     (keyup.enter)="config.searchOnEnter && onSearch()"
@@ -25,9 +25,9 @@
   <span matTextPrefix>{{config?.defaultPrefix}}</span>
   <button *ngIf="config?.search" [disabled]="ngControl?.invalid || disabled" mat-icon-button matSuffix
           (click)="onSearch()">
-    <mat-icon>search</mat-icon>
+    <mat-icon [style.color]="!disabled && ngControl.valid ? config?.activeIconColor : ''">search</mat-icon>
   </button>
-  <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
+  <mat-error *xmControlErrors="ngControl?.errors; message as message">{{ message }}</mat-error>
 
-  <mat-hint [hint]="config.hint"></mat-hint>
+  <mat-hint [hint]="config.hint" ></mat-hint>
 </mat-form-field>
