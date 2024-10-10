@@ -32,6 +32,8 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
         hidden: column['hidden'] || false,
         title: column.title,
         isHideLock: column['isHideLock'] || false,
+        permission: column.permission,
+        permissionStrategy: column.permissionStrategy,
     }));
 }
 
