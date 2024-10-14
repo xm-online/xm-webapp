@@ -40,7 +40,7 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
                         [ngClass]="{'xm-filters-control-hidden': filterExpand}">
                     </xm-quick-filters-control-request>
 
-                    <button mat-button *ngIf="hasActiveFilters()"
+                    <button mat-button *ngIf="hasActiveFilters"
                             class="me-3"
                             (click)="reset()">
                         {{ 'table.filter.button.reset' | xmTranslate }}
@@ -49,7 +49,7 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
             </ng-container>
         </div>
     `,
-    styles: [ `
+    styles: [`
         .xm-filters-control-hidden {
             visibility: visible !important;
         }
@@ -77,7 +77,7 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
                 --mdc-icon-button-state-layer-size: 36px;
             }
         }
-    ` ],
+    `],
     imports: [
         MatButtonModule,
         XmTableFilterButtonDialogControlsComponent,
@@ -96,8 +96,10 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
 export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
     @Input() public config: XmTableFiltersControlRequestConfig;
     @Input() public loading: boolean;
+    public hasActiveFilters = false;
 
     public value: FiltersControlValue;
+
     public filterExpand: boolean = true;
     private cacheFilters: FiltersControlValue;
     private DELAY = 400;
@@ -108,7 +110,7 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.filterExpand = !this.config.isOnlyExpand;
-        this.value = this.tableFilterController.get();
+        //this.value = this.tableFilterController.get();
         if (this.config?.hideDefaultFilters) {
             this.tableFilterController.toggleFilterVisibility(false);
         }
@@ -125,6 +127,15 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
     }
+
+    // get value(): any {
+    //     return this._value;
+    // }
+    //
+    // set value(val: any) {
+    //     this._value = val;
+    //     this.checkActiveFilters();
+    // }
 
     public requestChange(value: FiltersControlValue): void {
         if (!this.cacheFilters) {
@@ -153,6 +164,7 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
             )
             .subscribe((value: FiltersControlValue) => {
                 this.value = _.merge({}, this.cacheFilters, value);
+                this.checkActiveFilters();
             });
     }
 
@@ -163,6 +175,7 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
             takeUntilOnDestroy(this)
         ).subscribe(() => {
             this.submit();
+            this.checkActiveFilters();
         });
     }
 
@@ -171,8 +184,10 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
         this.tableFilterController.toggleFilterVisibility(currentVisibility);
     }
 
-    public hasActiveFilters(): boolean {
-        return !!this.value && Object.values(this.value).some(filter => filter != null && filter !== '');
+    protected checkActiveFilters(): void {
+        this.hasActiveFilters = !!this.value && Object.values(this.value).some(
+            filter => filter != null && filter !== ''
+        );
     }
 
 }
