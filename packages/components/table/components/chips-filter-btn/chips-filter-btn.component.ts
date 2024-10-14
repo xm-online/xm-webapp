@@ -38,16 +38,20 @@ export class ChipsFilterBtnComponent {
     protected readonly InputType = InputType;
 
     public clickAction(): void {
-        if (this.type === InputType.Toggle) {
-            this.isChecked = !this.isChecked;
-            this.valueToggle.emit();
-            this.value = this.valueText;
+        switch (this.type) {
+            case InputType.Toggle:
+                this.isChecked = !this.isChecked;
+                this.valueToggle.emit();
+                this.value = this.valueText;
+                break;
+            case InputType.Calendar:
+                this.valueToggle.emit();
+                this.value = this.valueText;
+                break;
+            default:
+                this.inputField?.nativeElement?.focus();
+                break;
         }
-        if (this.type === InputType.Calendar) {
-            this.valueToggle.emit();
-            this.value = this.valueText;
-        }
-        this.inputField?.nativeElement?.focus();
     }
 
     public clear(event: Event): void {
