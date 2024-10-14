@@ -38,8 +38,12 @@ export class ChipsFilterBtnComponent {
     protected readonly InputType = InputType;
 
     public clickAction(): void {
-        if (InputType.Toggle) {
+        if (this.type === InputType.Toggle) {
             this.isChecked = !this.isChecked;
+            this.valueToggle.emit();
+            this.value = this.valueText;
+        }
+        if (this.type === InputType.Calendar) {
             this.valueToggle.emit();
             this.value = this.valueText;
         }
