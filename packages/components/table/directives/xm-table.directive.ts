@@ -89,9 +89,12 @@ export class XmTableDirective implements OnInit, OnDestroy {
                 })
             )
             .subscribe((res: XmTableSettingStoreStateItem) => {
-                if (!res || !res.columns) return;
-                const { columns } = res;
                 const displayedColumns = getDisplayedColumns(this._config);
+                if (!res || !res.columns){
+                    this.columnsSettingStorageService.defaultStore(displayedColumns);
+                    return;
+                }
+                const { columns } = res;
                 if (columns.length < displayedColumns.length) {
                     this.columnsSettingStorageService.defaultStore(columns);
                 } else {
