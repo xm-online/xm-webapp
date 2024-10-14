@@ -110,7 +110,6 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.filterExpand = !this.config.isOnlyExpand;
-        //this.value = this.tableFilterController.get();
         if (this.config?.hideDefaultFilters) {
             this.tableFilterController.toggleFilterVisibility(false);
         }
@@ -127,15 +126,6 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
     }
-
-    // get value(): any {
-    //     return this._value;
-    // }
-    //
-    // set value(val: any) {
-    //     this._value = val;
-    //     this.checkActiveFilters();
-    // }
 
     public requestChange(value: FiltersControlValue): void {
         if (!this.cacheFilters) {
