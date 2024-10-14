@@ -99,6 +99,7 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
     public isFilterVisible: boolean = true;
 
     public ngOnInit(): void {
+        this.isFilterVisible = !this.config?.hideDefaultFilters;
         this.initFilers();
     }
 
