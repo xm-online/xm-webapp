@@ -1,19 +1,21 @@
-import { ContentChild, Directive, Input, OnDestroy, OnInit } from '@angular/core';
+import { ContentChild, Directive, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { IXmTableCollectionController, IXmTableCollectionState } from '../collections';
 import {
     ColumnsSettingStorageItem,
     XmTableColumnsSettingStorageService,
     XmTableFilterController,
     XmTableQueryParamsStoreService,
+    XmTableSettingStore,
+    XmTableSettingStoreStateItem,
 } from '../controllers';
-import { combineLatest, merge, Observable, ReplaySubject } from 'rxjs';
+import { combineLatest, merge, Observable, of, ReplaySubject } from 'rxjs';
 import { PageableAndSortable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
-import {cloneDeep, isEqual, set} from 'lodash';
+import { cloneDeep, isEqual, set } from 'lodash';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, XmTableEventType } from './xm-table.model';
-import { map, shareReplay, skip, tap } from 'rxjs/operators';
+import { catchError, map, shareReplay, skip, tap } from 'rxjs/operators';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmEventManagerService } from '@xm-ngx/core';
 import { FiltersControlValue } from '../components/xm-table-filter-button-dialog-control.component';
@@ -55,6 +57,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
     @ContentChild(MatSort, {static: false}) public sort: MatSort | null;
     @Input()
     public xmTableController: IXmTableCollectionController<unknown>;
+    private xmTableColumnsSettingStorageService = inject(XmTableSettingStore);
 
     constructor(
         private tableFilterController: XmTableFilterController,
@@ -78,7 +81,23 @@ export class XmTableDirective implements OnInit, OnDestroy {
         this._config.queryPrefixKey = this._config.storageKey;
 
         this.setStorageKeys();
-        this.columnsSettingStorageService.defaultStore(getDisplayedColumns(this._config));
+        this.xmTableColumnsSettingStorageService.getStore(this._config.storageKey)
+            .pipe(
+                takeUntilOnDestroy(this),
+                catchError((error) => {
+                    return of(null);
+                })
+            )
+            .subscribe((res: XmTableSettingStoreStateItem) => {
+                if (!res || !res.columns) return;
+                const { columns } = res;
+                const displayedColumns = getDisplayedColumns(this._config);
+                if (columns.length < displayedColumns.length) {
+                    this.columnsSettingStorageService.defaultStore(columns);
+                } else {
+                    this.columnsSettingStorageService.defaultStore(displayedColumns);
+                }
+            });
     }
 
     public ngOnInit(): void {
