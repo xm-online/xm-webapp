@@ -16,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TransformDateStringCodec } from './transform-date-string-codec.service';
 import { cloneDeep, defaultsDeep } from 'lodash';
 import { DateAdapter } from '@angular/material/core';
-import { CustomDateAdapter } from '@xm-ngx/components/date/shared/custom-date-adapter';
+import { CustomDateAdapter } from './shared/custom-date-adapter';
 
 export interface XmDateRangeControlConfig {
     hint?: HintText;
