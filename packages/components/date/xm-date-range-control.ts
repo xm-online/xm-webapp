@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TransformDateStringCodec } from './transform-date-string-codec.service';
 import { cloneDeep, defaultsDeep } from 'lodash';
+import { DateAdapter } from '@angular/material/core';
+import { CustomDateAdapter } from './shared/custom-date-adapter';
 
 export interface XmDateRangeControlConfig {
     hint?: HintText;
@@ -88,7 +90,10 @@ export const XM_DATE_RANGE_CONTROL_CONFIG_DEFAULT: XmDateRangeControlConfig = {
             <mat-hint [hint]="config?.hint"></mat-hint>
         </mat-form-field>
     `,
-    providers: [TransformDateStringCodec],
+    providers: [
+        TransformDateStringCodec,
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+    ],
     imports: [
         CommonModule,
         MatFormFieldModule,

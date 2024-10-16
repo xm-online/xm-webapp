@@ -30,17 +30,19 @@
   <ng-container [matColumnDef]="ACTIONS_COLUMN">
 
     <th *matHeaderCellDef scope="col" class="text-end" mat-header-cell>
-      <button (click)="onPaste()"
-              [matTooltip]="TRS.paste | translate"
-              mat-icon-button>
-        <mat-icon>content_paste</mat-icon>
-      </button>
-      <button (click)="onAdd()"
-              color="primary"
-              [matTooltip]="TRS.addWidget | translate"
-              mat-icon-button>
-        <mat-icon>add</mat-icon>
-      </button>
+      @if (dashboardId) {
+        <button (click)="onPaste()"
+                [matTooltip]="TRS.paste | translate"
+                mat-icon-button>
+          <mat-icon>content_paste</mat-icon>
+        </button>
+        <button (click)="onAdd()"
+                color="primary"
+                [matTooltip]="TRS.addWidget | translate"
+                mat-icon-button>
+          <mat-icon>add</mat-icon>
+        </button>
+      }
     </th>
 
     <td *matCellDef="let row" class="text-end" mat-cell>
