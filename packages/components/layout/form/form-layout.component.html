@@ -4,7 +4,7 @@
       <ng-container
         *ngIf="getControl(field.property) as control">
         <ng-container
-          *xmCondition="field.condition; arguments {value: control.value, form: formGroup?.value}"
+          *xmCondition="field.condition; arguments {value: control.value, form: formGroup?.value, dataValue: dataValue}"
           [class]="field.layout.theme?.class"
           [style]="field.layout.theme?.style"
           [formControlName]="field.property"
