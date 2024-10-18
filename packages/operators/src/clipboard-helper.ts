@@ -20,7 +20,7 @@ export function copyToClipboard(text: string, options: { insecurePrompt: boolean
     });
 }
 
-export function readFromClipboard(): Promise<unknown> {
+export function readFromClipboard(options: { insecurePrompt: boolean } = {insecurePrompt: true}): Promise<unknown> {
     try {
         if (navigator.clipboard && window.isSecureContext) {
             return navigator.clipboard.readText();
@@ -31,7 +31,11 @@ export function readFromClipboard(): Promise<unknown> {
 
     return new Promise((resolve, reject) => {
         try {
-            const data = window.prompt('Paste from clipboard: Ctrl+V, Enter', '');
+            let data = '';
+
+            if (options.insecurePrompt) {
+                data = window.prompt('Paste from clipboard: Ctrl+V, Enter', '');
+            }
 
             if (data == null) {
                 reject(new Error('The user clicked the cancel button'));

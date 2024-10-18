@@ -1,14 +1,17 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
+import { PermissionCheckStrategy, XmPermissionService } from '@xm-ngx/core/permission';
 import { Translate } from '@xm-ngx/translation';
 import { LocalStorageService } from 'ngx-webstorage';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
+import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 
 export interface ColumnsSettingStorageItem {
     name: string;
     title: Translate;
     hidden: boolean;
     isHideLock: boolean;
+    permission?: any;
+    permissionStrategy?: string;
 }
 
 export const COLUMNS_SETTING_STORE_NAME = 'XmTableSettingStoreState';
@@ -82,14 +85,13 @@ export class XmTableSettingStore implements OnDestroy {
 export class XmTableColumnsSettingStorageService {
     private _key: string;
 
-    constructor(
-        private XmTableColumnsSettingStorageService: XmTableSettingStore,
-    ) {
-    }
+    private XmTableColumnsSettingStorageService = inject(XmTableSettingStore);
+    private permissionService = inject(XmPermissionService);
 
     public set key(key: string) {
         this._key = key;
     }
+
     public get key(): string {
         return this._key;
     }
@@ -105,6 +107,36 @@ export class XmTableColumnsSettingStorageService {
     public getStore(): Observable<ColumnsSettingStorageItem[]> {
         return this.XmTableColumnsSettingStorageService.getStore(this.key).pipe(
             map(storageStateItem => storageStateItem?.columns ?? []),
+            withLatestFrom(this.permissionService.privileges$()),
+            switchMap(([columns, __]) => {
+                const columnsByName = new Map(columns.map((c) => [c.name, c]));
+                return forkJoin(columns.reduce((acc, column) => {
+                    const permitted = !column.permission || column.permission === true || column.permission.length === 0
+                        ? of(column.permission !== false)
+                        : this.permissionService.hasPrivilegesBy(column.permission, column.permissionStrategy as PermissionCheckStrategy)
+                            .pipe(
+                                take(1),
+                            );
+
+                    return {
+                        ...acc,
+                        [column.name]: permitted,
+                    };
+                }, {})).pipe(
+                    map((permitted) => {
+                        return Object.entries(permitted)
+                            .filter(([__, permitted]) => !!permitted)
+                            .map(([name, __]) => {
+                                return columnsByName.get(name);
+                            });
+                    }),
+                );
+            }),
+            tap((res) => {
+                if (res) {
+                    this.defaultStore(res);
+                }
+            })
         );
     }
 
