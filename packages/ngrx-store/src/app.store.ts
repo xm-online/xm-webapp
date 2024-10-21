@@ -1,8 +1,9 @@
 import { signalStore, withState } from '@ngrx/signals';
-import { AppState } from './models/app-store.type';
-import { withLogger } from './features/logger.feature';
-import { withDashboard } from '@xm-ngx/ngrx-store/src/features/dashboard.feature';
-import { withHttpRequest } from '@xm-ngx/ngrx-store/src/features/http-request.feature';
+import { AppState } from './models/app-store.model';
+import { withDashboard } from './features/dashboard.feature';
+import { withHttpRequest } from './features/http-request.feature';
+import { withDevtools } from '@angular-architects/ngrx-toolkit';
+import { withUser } from '@xm-ngx/ngrx-store/src/features/user.feature';
 
 const initialAppState: AppState = {
     user: null,
@@ -11,10 +12,11 @@ const initialAppState: AppState = {
     widgets: {},
 };
 
-export const AppStore = signalStore(
+export const AppStore: any = signalStore(
     { providedIn: 'root' },
     withState(initialAppState),
-    withLogger('AppStore'),
+    withDevtools('appStore'),
+    withUser(),
     withDashboard(),
     withHttpRequest(),
 );

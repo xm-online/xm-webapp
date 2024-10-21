@@ -1,11 +1,18 @@
-import { Component, inject, Input, OnInit, Signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    inject,
+    input,
+    InputSignal,
+    OnInit,
+    Signal,
+} from '@angular/core';
 import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
-import { StateWrapperService } from './state-wrapper.service';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { get } from 'lodash';
 import { AppStore } from '@xm-ngx/ngrx-store';
-import { ValueFromSignalPipe } from './value-from-signal.pipe';
 
 @Component({
     selector: 'xm-state-wrapper',
@@ -16,39 +23,51 @@ import { ValueFromSignalPipe } from './value-from-signal.pipe';
         XmDynamicModule,
         ConditionModule,
         NgIf,
-        ValueFromSignalPipe,
     ],
     templateUrl: './state-wrapper.component.html',
     styleUrl: './state-wrapper.component.scss',
-    // changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StateWrapperComponent<ConfigType> implements OnInit {
-    @Input() public config: any;
+    public config: InputSignal<any> = input<any>();
 
-    private readonly componentStore: StateWrapperService = inject(StateWrapperService);
-    public value$ = this.componentStore.select(state => get(state, this.config.state.field));
-    private appStore = inject(AppStore);
+    private appStore = inject<any>(AppStore);
     public value: Signal<any>;
 
     public ngOnInit(): void {
-        this.componentStore.addWidget({
-            selector: this.config?.widget?.['selector'],
-            data: {config: this.config, entity: null},
+        this.fetchData();
+        this.assignValue();
+        // For testing purposes only
+        this.extraRequest();
+    }
+
+    private fetchData(): void {
+        if (this.config().httpRequest) {
+            this.appStore.fetch(this.config());
+        }
+    }
+
+    private assignValue(): void {
+        this.value = computed(() => {
+            const value = this.appStore.httpRequest();
+            if (!value[this.config().state.key]) {
+                return null;
+            }
+            return get(value, this.config().state.field);
         });
-        // this.componentStore.fetchWidgetData(this.config);
-        // @ts-ignore
-        this.appStore.fetch(this.config);
-        this.value = this.appStore.httpRequest;
-        // this.componentStore.select(state => state).subscribe(console.log);
+    }
+
+    private extraRequest(): void {
         setTimeout(() => {
-            // @ts-ignore
-            this.appStore.fetch({
-                ...this.config,
-                httpRequest: {
-                    url: 'ussd/api/v1/ussdCode/3bc3beb4-370a-4a17-a2a5-be3a67907bd8?embed=data',
-                    method: 'GET',
-                },
-            });
-        }, 2000);
+            if (this.config().httpRequest) {
+                this.appStore.fetch({
+                    ...this.config(),
+                    httpRequest: {
+                        url: 'speech-evaluation/api/v1/operators/nmunko/summaries?filterStrategy=&fromDate.greaterThan=&toDate.lessThan=&sort=creationDate%2CDESC',
+                        method: 'GET',
+                    },
+                });
+            }
+        }, 5000);
     }
 }

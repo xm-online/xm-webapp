@@ -1,10 +1,10 @@
-<ng-container *ngIf="config.widget as widget">
+<ng-container *ngIf="config().widget as widget">
   <ng-container
-    *xmCondition="config?.condition; arguments {value: value$ | async}"
+    *xmCondition="config().condition; arguments {value: value()}"
     [class]="widget.theme?.class"
     [style]="widget.theme?.style"
     xmDynamicPresentation
-    [value]="value() | valueFromSignal: config?.['state']?.['field']"
+    [value]="value()"
     [selector]="widget.selector"
     [config]="widget.config"
     [controllers]="widget.controllers"

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import {
     RequestCache,
     RequestCacheFactoryService,
@@ -9,6 +9,8 @@ import {
 } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 import { XmUser } from './xm-user-model';
+import { AppStore } from '@xm-ngx/ngrx-store';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
@@ -16,6 +18,7 @@ import { XmUser } from './xm-user-model';
 export class XmUserService<T = XmUser> implements OnDestroy {
 
     protected requestCache: RequestCache<T>;
+    private appStore = inject<any>(AppStore)
 
     constructor(
         protected httpClient: HttpClient,
@@ -50,6 +53,6 @@ export class XmUserService<T = XmUser> implements OnDestroy {
         return this.httpClient.get<T>(
             this.xmCoreConfig.USER_URL,
             { headers: SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS },
-        );
+        ).pipe(tap((user) => user && this.appStore.updateUser(user)));
     }
 }
