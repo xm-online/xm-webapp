@@ -109,6 +109,10 @@ export class XmTableColumnsSettingStorageService {
             map(storageStateItem => storageStateItem?.columns ?? []),
             withLatestFrom(this.permissionService.privileges$()),
             switchMap(([columns, __]) => {
+                if(!columns?.length){
+                    return of([]);
+                }
+
                 const columnsByName = new Map(columns.map((c) => [c.name, c]));
                 return forkJoin(columns.reduce((acc, column) => {
                     const permitted = !column.permission || column.permission === true || column.permission.length === 0
