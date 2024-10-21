@@ -3,5 +3,9 @@
   "dest": "../../lib/ngrx-store",
   "lib": {
     "entryFile": "./index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "@ngrx/signals",
+    "@angular-architects/ngrx-toolkit"
+  ]
 }

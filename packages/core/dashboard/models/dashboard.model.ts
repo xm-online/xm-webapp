@@ -24,6 +24,11 @@ export interface DashboardConfig {
             key?: string;
         };
     };
+    httpRequest?: {
+        method: string;
+        url: string;
+        options?: any;
+    };
 
     /**
      * Backward compatibility, @deprecated
