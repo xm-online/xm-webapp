@@ -78,7 +78,7 @@ export const XM_DATE_RANGE_CONTROL_CONFIG_DEFAULT: XmDateRangeControlConfig = {
 
             <span matSuffix class="d-flex">
                 <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
-                <button mat-icon-button *ngIf="(value !== null) && !config?.hideClear" [disabled]="group.disabled" (click)="clear()">
+                <button mat-icon-button *ngIf="(value !== null) && !config?.hideClear" [disabled]="group.disabled" (click)="clear($event)">
                     <mat-icon>close</mat-icon>
                 </button>
             </span>
@@ -178,7 +178,8 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         this.valueChange.next(value);
     }
 
-    public clear(): void {
+    public clear(event: MouseEvent): void {
+        event.stopPropagation();
         this.group.reset(null, {emitEvent: true});
         this.change(null);
     }
