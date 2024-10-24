@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { TransformDateStringCodec } from './transform-date-string-codec.service';
 import { cloneDeep, defaultsDeep } from 'lodash';
+import { DateAdapter } from '@angular/material/core';
+import { CustomDateAdapter } from './shared/custom-date-adapter';
 
 export interface XmDateRangeControlConfig {
     hint?: HintText;
@@ -76,7 +78,7 @@ export const XM_DATE_RANGE_CONTROL_CONFIG_DEFAULT: XmDateRangeControlConfig = {
 
             <span matSuffix class="d-flex">
                 <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
-                <button mat-icon-button *ngIf="(value !== null) && !config?.hideClear" [disabled]="group.disabled" (click)="clear()">
+                <button mat-icon-button *ngIf="(value !== null) && !config?.hideClear" [disabled]="group.disabled" (click)="clear($event)">
                     <mat-icon>close</mat-icon>
                 </button>
             </span>
@@ -88,7 +90,10 @@ export const XM_DATE_RANGE_CONTROL_CONFIG_DEFAULT: XmDateRangeControlConfig = {
             <mat-hint [hint]="config?.hint"></mat-hint>
         </mat-form-field>
     `,
-    providers: [TransformDateStringCodec],
+    providers: [
+        TransformDateStringCodec,
+        { provide: DateAdapter, useClass: CustomDateAdapter },
+    ],
     imports: [
         CommonModule,
         MatFormFieldModule,
@@ -173,7 +178,8 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         this.valueChange.next(value);
     }
 
-    public clear(): void {
+    public clear(event: MouseEvent): void {
+        event.stopPropagation();
         this.group.reset(null, {emitEvent: true});
         this.change(null);
     }

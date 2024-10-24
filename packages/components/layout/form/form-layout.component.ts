@@ -8,7 +8,7 @@ import {EDIT_ACTION, EDIT_EVENT, EditStateStoreService} from '@xm-ngx/controller
 import {DashboardStore} from '@xm-ngx/core/dashboard';
 import { injectByKey, XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicInstanceService, XmDynamicModule } from '@xm-ngx/dynamic';
 import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
-import {get, set} from 'lodash';
+import { cloneDeep, get, set } from 'lodash';
 import { isObservable, Observable, of } from 'rxjs';
 import {debounceTime, filter, map, startWith, switchMap, withLatestFrom} from 'rxjs/operators';
 import {FormGroupFields, FormLayoutConfig} from './form-layout.model';
@@ -40,6 +40,8 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
 
     public config: FormLayoutConfig = inject<FormLayoutConfig>(XM_DYNAMIC_COMPONENT_CONFIG);
 
+    public dataValue: unknown;
+
     private dataController = this.getControllerByKey(this.config?.controller?.key || 'data');
 
     public ngOnInit(): void {
@@ -48,6 +50,7 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
         this.dataController[this.config?.controller?.getDataMethod || 'get']().pipe(
             takeUntilOnDestroy(this),
             map(data => {
+                this.dataValue = cloneDeep(data);
                 return this.buildRecordFromData(data);
             }),
         ).subscribe(value => {
