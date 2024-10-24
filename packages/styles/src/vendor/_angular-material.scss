@@ -49,11 +49,11 @@ $secondary:      map-get($xm-theme, secondary-palette);
 $warn:           map-get($xm-theme, warn-palette);
 
 // TODO: pass $default, $light and $dark
-$xm-mat-primary: mat.define-palette($primary);
-$xm-mat-accent:  mat.define-palette($secondary, $xm-mat-secondary-default);
-$xm-mat-warn:    mat.define-palette($warn);
+$xm-mat-primary: mat.m2-define-palette($primary);
+$xm-mat-accent:  mat.m2-define-palette($secondary, $xm-mat-secondary-default);
+$xm-mat-warn:    mat.m2-define-palette($warn);
 
-$xm-mat-theme: mat.define-light-theme((
+$xm-mat-theme: mat.m2-define-light-theme((
   color: (
     primary: $xm-mat-primary,
     accent: $xm-mat-accent,
@@ -62,13 +62,13 @@ $xm-mat-theme: mat.define-light-theme((
 )) !default;
 
 @if ($xm-is-dark-mode == true) {
-  $xm-mat-theme: mat.define-dark-theme((
+  $xm-mat-theme: mat.m2-define-dark-theme((
     color: (
       primary: $xm-mat-primary,
       accent: $xm-mat-accent,
       warn: $xm-mat-warn,
     ),
-    typography: mat.define-typography-config(),
+    typography: mat.m2-define-typography-config(),
     density: 0,
   ));
 }
@@ -107,7 +107,7 @@ $xm-mat-theme: mat.define-light-theme((
 
 }
 
-$xm-mat-typography:        mat.define-typography-config(
+$xm-mat-typography:        mat.m2-define-typography-config(
                              $font-family: $xm-font-family,
                              $headline-1:  $xm-headline-1,
                              $headline-2:  $xm-headline-2,

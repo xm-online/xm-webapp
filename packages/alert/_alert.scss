@@ -1,5 +1,4 @@
-@use '@material/dialog/dialog-theme' as mdc-dialog-theme;
-@use '@material/button/button-text-theme' as button-text-theme;
+@use '@angular/material' as mat;
 
 $custom-dialog-theme: (
   container-shape: 30px
@@ -13,8 +12,9 @@ $custom-dialog-border-radius: 30px;
 
 @mixin xm-alert-theme($xm-theme) {
   .xm-alert {
-    @include mdc-dialog-theme.theme-styles($custom-dialog-theme);
-    @include mdc-dialog-theme.container-shape($custom-dialog-border-radius);
+    .mat-mdc-dialog-surface {
+      border-radius: $custom-dialog-border-radius;
+    }
 
     .mdc-dialog__title {
       padding-bottom: 16px;
@@ -23,9 +23,6 @@ $custom-dialog-border-radius: 30px;
     .mdc-dialog__actions {
       padding: 0 24px 24px 24px; // Can't be redefined through material
       row-gap: 16px;
-      & .mdc-button {
-        @include button-text-theme.theme-styles($custom-dialog-button-theme);
-      }
     }
 
     .mdc-dialog__content {
@@ -45,6 +42,6 @@ $custom-dialog-border-radius: 30px;
   }
 
   .mat-mdc-dialog-container {
-    @include mdc-dialog-theme.container-shape($custom-dialog-border-radius);
+    border-radius: $custom-dialog-border-radius;
   }
 }
