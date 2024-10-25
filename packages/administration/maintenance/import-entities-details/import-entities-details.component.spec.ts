@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ImportEntitiesService } from '../import-entities.service';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
@@ -10,7 +10,7 @@ describe('ImportEntitiesDetailsComponent', () => {
     let component: ImportEntitiesDetailsComponent;
     let fixture: ComponentFixture<ImportEntitiesDetailsComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             providers: [
                 { provide: MatDialogRef, useValue: null },

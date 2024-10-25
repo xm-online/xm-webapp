@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmUserService } from '@xm-ngx/core/user';
 import { MockUserService } from '@xm-ngx/core/user/testing';
 
@@ -9,7 +9,7 @@ describe('XmUserLoginWidgetComponent', () => {
     let component: XmUserLoginWidgetComponent;
     let fixture: ComponentFixture<XmUserLoginWidgetComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             providers: [{ provide: XmUserService, useClass: MockUserService }],
             imports: [XmUserLoginWidgetComponent],

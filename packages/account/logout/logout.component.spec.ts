@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
@@ -17,7 +17,7 @@ describe('LogoutComponent', () => {
     let component: LogoutComponent;
     let fixture: ComponentFixture<LogoutComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [XmTranslationTestingModule, HttpClientTestingModule],
             declarations: [LogoutComponent],

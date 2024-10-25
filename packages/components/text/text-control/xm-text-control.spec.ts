@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -14,7 +14,7 @@ describe('XmTextControl', () => {
     let fixture: ComponentFixture<XmTextControl>;
     let validatorProcessingServiceMock: any;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         validatorProcessingServiceMock = {
             validatorsFactory: jasmine.createSpy('validatorsFactory'),
         };

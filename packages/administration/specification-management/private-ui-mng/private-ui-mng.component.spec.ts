@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Principal } from '@xm-ngx/core/user';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { of } from 'rxjs';
@@ -13,7 +13,7 @@ describe('PrivateUiMngComponent', () => {
     let component: PrivateUiMngComponent;
     let fixture: ComponentFixture<PrivateUiMngComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
             imports: [HttpClientTestingModule, XmTranslationTestingModule],

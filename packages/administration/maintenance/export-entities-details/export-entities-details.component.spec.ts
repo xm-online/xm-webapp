@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ExportEntitiesService } from '../export-entities.service';
 import { ExportSelectedEntitiesPipe } from '../export-selected-entities.pipe';
@@ -14,7 +14,7 @@ describe('ExportEntitiesDetailsComponent', () => {
     let component: ExportEntitiesDetailsComponent;
     let fixture: ComponentFixture<ExportEntitiesDetailsComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [XmTranslationTestingModule],
             providers: [

@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { ClientService } from '@xm-ngx/core/client';
@@ -10,7 +10,7 @@ describe('ToggleLockClientComponent', () => {
     let component: ToggleLockClientComponent;
     let fixture: ComponentFixture<ToggleLockClientComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             providers: [
                 { provide: XmAlertService, useValue: {} },

@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
@@ -11,7 +11,7 @@ describe('FeedbackDialogComponent', () => {
     let component: FeedbackDialogComponent;
     let fixture: ComponentFixture<FeedbackDialogComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
             imports: [XmTranslationTestingModule, HttpClientTestingModule, NoopAnimationsModule],

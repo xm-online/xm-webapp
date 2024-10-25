@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { of } from 'rxjs';
 import { XmConfigService } from '@xm-ngx/core/config';
@@ -10,7 +10,7 @@ describe('TenantMngComponent', () => {
     let component: TenantMngComponent;
     let fixture: ComponentFixture<TenantMngComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             providers: [
                 { provide: XmConfigService, useValue: { getConfig: () => of(null) } },

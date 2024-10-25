@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StyleGuideComponent } from './style-guide.component';
 
@@ -7,7 +7,7 @@ describe('StyleGuideComponent', () => {
     let component: StyleGuideComponent;
     let fixture: ComponentFixture<StyleGuideComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [StyleGuideComponent],
             schemas: [NO_ERRORS_SCHEMA],

@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FeedbackService } from '@xm-ngx/components/feedback';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -12,7 +12,7 @@ describe('FeedbackComponent', () => {
     let component: FeedbackComponent;
     let fixture: ComponentFixture<FeedbackComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
             imports: [XmTranslationTestingModule, MatDialogModule, HttpClientTestingModule],

@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AccountService, Principal } from '@xm-ngx/core/user';
 import { LanguageService, TitleService } from '@xm-ngx/translation';
 import { MockLanguageService, XmTranslationTestingModule } from '@xm-ngx/translation/testing';
@@ -13,7 +13,7 @@ describe('XmUserSettingsWidgetComponent', () => {
     let component: XmUserSettingsWidgetComponent;
     let fixture: ComponentFixture<XmUserSettingsWidgetComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [XmTranslationTestingModule, XmUserSettingsWidgetComponent],
             providers: [

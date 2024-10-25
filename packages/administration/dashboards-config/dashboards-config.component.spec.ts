@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { DashboardsConfigComponent } from './dashboards-config.component';
@@ -15,7 +15,7 @@ describe('DashboardsConfigComponent', () => {
     let component: DashboardsConfigComponent;
     let fixture: ComponentFixture<DashboardsConfigComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 XmTranslationTestingModule,

@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SignInService } from './sign-in.service';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { of } from 'rxjs';
@@ -10,7 +10,7 @@ describe('SignInFormComponent', () => {
     let component: XmSignInFormComponent;
     let fixture: ComponentFixture<XmSignInFormComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [XmTranslationTestingModule],
             providers: [{ provide: SignInService, useValue: { loading$: () => of(false) } }],

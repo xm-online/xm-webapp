@@ -1,4 +1,4 @@
-import {async, TestBed} from '@angular/core/testing';
+import {waitForAsync, TestBed} from '@angular/core/testing';
 import {XmDynamicComponentRegistry} from './xm-dynamic-component-registry.service';
 import {XmDynamicModuleRegistry} from './xm-dynamic-module-registry.service';
 import {Component, NgModule} from '@angular/core';
@@ -24,7 +24,7 @@ export class MockExtensionModule {
 describe('XmDynamicComponentRegistry', () => {
     let dynamicComponentRegistry: XmDynamicComponentRegistry;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             providers: [
                 {

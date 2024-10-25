@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { JhiLanguageService } from '@xm-ngx/jhipster';
 import { of } from 'rxjs';
@@ -11,7 +11,7 @@ describe('HelpComponent', () => {
     let component: HelpComponent;
     let fixture: ComponentFixture<HelpComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [XmTranslationTestingModule],
             declarations: [HelpComponent],

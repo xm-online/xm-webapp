@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { XmToasterService } from '@xm-ngx/toaster';
@@ -12,7 +12,7 @@ describe('UnblockLockUserComponent', () => {
     let component: UnblockLockUserComponent;
     let fixture: ComponentFixture<UnblockLockUserComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [XmTranslationTestingModule],
             providers: [

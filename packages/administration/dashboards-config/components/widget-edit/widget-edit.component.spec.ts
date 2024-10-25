@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, forwardRef } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DashboardEditorService } from '../../index';
 import {
@@ -44,7 +44,7 @@ describe('WidgetEditComponent', () => {
     let component: WidgetEditComponent;
     let fixture: ComponentFixture<WidgetEditComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 XmTranslationTestingModule,

@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {
     MockWidgetListService
@@ -15,7 +15,7 @@ describe('SelectorTextControlComponent', () => {
     let component: SelectorTextControlComponent;
     let fixture: ComponentFixture<SelectorTextControlComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             providers: [
                 { provide: WidgetListService, useClass: MockWidgetListService },

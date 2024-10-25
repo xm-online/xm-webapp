@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 import { EntitySpecEditorComponent } from './entity-spec-editor.component';
@@ -8,7 +8,7 @@ describe('EntitySpecEditorComponent', () => {
     let component: EntitySpecEditorComponent;
     let fixture: ComponentFixture<EntitySpecEditorComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [XmTranslationTestingModule],
             schemas: [NO_ERRORS_SCHEMA],
