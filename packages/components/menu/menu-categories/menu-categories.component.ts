@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { hideCategories } from '../menu.animation';
 import { MenuCategoriesClassesEnum } from '../menu.model';
+import { DefaultDashboardService } from '@xm-ngx/dashboard';
 
 @Component({
     selector: 'xm-menu-categories',
@@ -27,6 +28,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy {
     public isSidenavPinned: boolean;
     public isCategoriesHidden$: Observable<boolean>;
     public brandLogo$: Observable<BrandLogo>;
+    public navigationSlug: string = '/dashboards';
     private hoverSubscription: Subscription;
 
 
@@ -34,6 +36,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy {
         private menuService: MenuService,
         private router: Router,
         private cdr: ChangeDetectorRef,
+        private defaultDashboardService: DefaultDashboardService,
     ) {
     }
 
@@ -47,6 +50,14 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy {
         this.categories$ = this.menuService.menuCategories;
         this.isCategoriesHidden$ = this.menuService.isCategoriesHidden$;
         this.brandLogo$ = this.menuService.brandLogo;
+
+        this.defaultDashboardService.getDefaultOrFirstAvailable()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((d) => {
+                if (d.config?.slug) {
+                    this.navigationSlug = `/dashboard/${d.config?.slug}`;
+                }
+            });
     }
 
     private observeIsSidenavPinned(): void {
