@@ -124,7 +124,7 @@ export class XmTableColumnsSettingStorageService {
                 return forkJoin(columns.reduce((acc, column) => {
                     const permitted = !column.permission || column.permission === true || column.permission.length === 0
                         ? of(column.permission !== false)
-                        : this.checkPermissions(column.permission, column.permissionStrategy);
+                        : this.permissionService.hasPrivilegesBy(column.permission, column.permissionStrategy as PermissionCheckStrategy).pipe(take(1));
 
                     return {
                         ...acc,
@@ -146,10 +146,6 @@ export class XmTableColumnsSettingStorageService {
                 }
             })
         );
-    }
-
-    private checkPermissions(permissions: string | string[], permissionStrategy: string): Observable<boolean> {
-        return this.permissionService.hasPrivilegesBy(permissions, permissionStrategy as PermissionCheckStrategy).pipe(take(1));
     }
 
     public clearStore(): void {
