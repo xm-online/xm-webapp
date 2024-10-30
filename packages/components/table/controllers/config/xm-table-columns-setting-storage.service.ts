@@ -31,7 +31,7 @@ export class XmTableSettingStore implements OnDestroy {
 
     constructor(
         private localStorage: LocalStorageService,
-        protected eventManager: XmEventManager,
+        private eventManager: XmEventManager,
     ) {
         const state: XmTableSettingStoreState = this.localStorage.retrieve(COLUMNS_SETTING_STORE_NAME) || {};
         this.store = new BehaviorSubject<XmTableSettingStoreState>(state);
@@ -42,7 +42,6 @@ export class XmTableSettingStore implements OnDestroy {
         this.eventManager.listenTo('USER-LOGOUT').subscribe((): void => {
             this.localStorage.clear(COLUMNS_SETTING_STORE_NAME);
             this.store.next({});
-            this.store.value;
         });
     }
 
