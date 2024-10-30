@@ -10,7 +10,7 @@ import {
     Self,
     SimpleChanges,
 } from '@angular/core';
-import { NgControl, UntypedFormGroup } from '@angular/forms';
+import { FormControl, NgControl, UntypedFormGroup } from '@angular/forms';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { FormGroupLayoutFactoryService, FormLayoutItem, FormLayoutModule } from '@xm-ngx/components/form-layout';
 import * as _ from 'lodash';
@@ -96,6 +96,11 @@ export class XmTableQuickFilterControl<T = FiltersControlValue> extends NgContro
         }
 
         if (this.formGroup && changes.value) {
+            Object.keys(this.value).forEach(controlName => {
+                if (!this.formGroup.contains(controlName)) {
+                    this.formGroup.addControl(controlName, new FormControl(''));
+                }
+            });
             this.formGroup.setValue(this.value);
         }
 

@@ -73,16 +73,17 @@ export class XmPermissionService {
     }
 
     public hasPrivilegesBy(
-        privileges: string[],
+        privileges: string | string[],
         strategy: PermissionCheckStrategy = PermissionCheckStrategy.ALL,
     ): Observable<boolean> {
+        const permissions: string[] = Array.isArray(privileges) ? privileges : [privileges];
         switch (strategy) {
             case PermissionCheckStrategy.ALL:
-                return this.hasPrivileges(privileges);
+                return this.hasPrivileges(permissions);
             case PermissionCheckStrategy.ANY:
-                return this.hasAnyPrivilege(privileges);
+                return this.hasAnyPrivilege(permissions);
             default:
-                return this.hasPrivileges(privileges);
+                return this.hasPrivileges(permissions);
         }
     }
 
