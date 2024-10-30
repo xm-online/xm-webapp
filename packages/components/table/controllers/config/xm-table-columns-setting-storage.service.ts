@@ -109,7 +109,7 @@ export class XmTableColumnsSettingStorageService {
             map(storageStateItem => storageStateItem?.columns ?? []),
             withLatestFrom(this.permissionService.privileges$()),
             switchMap(([columns, __]) => {
-                if(!columns?.length){
+                if (!columns?.length) {
                     return of([]);
                 }
 
@@ -145,8 +145,6 @@ export class XmTableColumnsSettingStorageService {
         const permissions: string[] = Array.isArray(permission) ? permission : [permission];
         return this.permissionService.hasPrivilegesBy(permissions, permissionStrategy as PermissionCheckStrategy)
             .pipe(
-                tap((res)=>{
-                    console.log(res)}),
                 take(1),
             );
     }
