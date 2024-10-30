@@ -148,12 +148,8 @@ export class XmTableColumnsSettingStorageService {
         );
     }
 
-    private checkPermissions(permission: string | string[], permissionStrategy: string): Observable<boolean> {
-        const permissions: string[] = Array.isArray(permission) ? permission : [permission];
-        return this.permissionService.hasPrivilegesBy(permissions, permissionStrategy as PermissionCheckStrategy)
-            .pipe(
-                take(1),
-            );
+    private checkPermissions(permissions: string | string[], permissionStrategy: string): Observable<boolean> {
+        return this.permissionService.hasPrivilegesBy(permissions, permissionStrategy as PermissionCheckStrategy).pipe(take(1));
     }
 
     public clearStore(): void {
