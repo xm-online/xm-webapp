@@ -12,7 +12,18 @@ import { User, UserService } from '@xm-ngx/core/user';
 export class UserMgmtDeleteDialogComponent {
 
     public showLoader: boolean;
-    @Input() public user: User;
+    public login: string;
+    private _user: User;
+
+    @Input()
+    public set user(user: User) {
+        this._user = user;
+        this.login = this.getLogin(this._user);
+    }
+
+    public get user(): User {
+        return this._user;
+    }
 
     constructor(
         private userService: UserService,
@@ -40,4 +51,7 @@ export class UserMgmtDeleteDialogComponent {
             () => this.showLoader = false);
     }
 
+    private getLogin(user: User): string {
+        return user?.logins?.find(login => login.typeKey === 'LOGIN.NICKNAME')?.login;
+    }
 }

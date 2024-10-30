@@ -78,6 +78,7 @@ export interface MenuCategory extends DataQa {
 export interface BrandLogo {
     url: string;
     size?: number;
+    navigationSlug?: string;
 }
 
 export interface HoveredMenuCategory {
