@@ -121,7 +121,7 @@ export class XmPhoneNumberControlComponent extends NgControlAccessor<string> {
     }
 
     public onSearch(): void {
-        if (this.ngControl?.invalid || !this.inputValue) {
+        if (this.ngControl?.invalid) {
             return;
         }
         this.search.emit(this.config?.defaultPrefix + this.inputValue);
