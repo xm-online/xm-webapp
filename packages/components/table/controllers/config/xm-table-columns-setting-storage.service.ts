@@ -4,6 +4,7 @@ import { Translate } from '@xm-ngx/translation';
 import { LocalStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { XmEventManager } from '@xm-ngx/core';
 
 export interface ColumnsSettingStorageItem {
     name: string;
@@ -30,11 +31,17 @@ export class XmTableSettingStore implements OnDestroy {
 
     constructor(
         private localStorage: LocalStorageService,
+        private eventManager: XmEventManager,
     ) {
         const state: XmTableSettingStoreState = this.localStorage.retrieve(COLUMNS_SETTING_STORE_NAME) || {};
         this.store = new BehaviorSubject<XmTableSettingStoreState>(state);
         this.store.subscribe(value => {
             this.localStorage.store(COLUMNS_SETTING_STORE_NAME, value);
+        });
+
+        this.eventManager.listenTo('USER-LOGOUT').subscribe((): void => {
+            this.localStorage.clear(COLUMNS_SETTING_STORE_NAME);
+            this.store.next({});
         });
     }
 
