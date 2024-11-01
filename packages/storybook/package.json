@@ -8,7 +8,7 @@
     "@storybook/angular": "^8.2.9",
     "@storybook/blocks": "^8.2.9",
     "@storybook/test": "^8.2.9",
-    "eslint-plugin-storybook": "0.8.0",
+    "eslint-plugin-storybook": "0.10.2",
     "storybook": "8.2.9"
   }
 }

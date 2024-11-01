@@ -71,7 +71,6 @@ export interface XmAlertOptions extends XmAlertConfig {
      * @deprecated
      * Not using in material dialog
      */
-    // eslint-disable-next-line @typescript-eslint/ban-types
     inputValidator?: Function;
 }
 
