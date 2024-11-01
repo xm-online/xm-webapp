@@ -1,3 +1,4 @@
+#!/bin/bash
 # Run these script when you need to clean the project from the auto-generated files and directories and reinstall all dependencies.
 #
 # Script expects that you run it from the root of the project!

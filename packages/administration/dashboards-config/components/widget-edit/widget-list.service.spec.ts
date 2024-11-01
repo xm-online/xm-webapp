@@ -1,4 +1,4 @@
-import { ApplicationRef, Injector } from '@angular/core';
+import { Injector } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { XmDynamicModuleRegistry, XM_DYNAMIC_ENTRIES, XM_DYNAMIC_EXTENSIONS } from '@xm-ngx/dynamic';
 
@@ -18,7 +18,6 @@ describe('WidgetListService', () => {
                 { provide: XmDynamicModuleRegistry, useValue: null },
                 { provide: XmUiConfigService, useClass: MockUiConfigService },
                 { provide: Injector, useValue: null },
-                { provide: ApplicationRef, useValue: null },
             ],
             imports: [],
         });
