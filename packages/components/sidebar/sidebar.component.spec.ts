@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmSidebarStoreService } from './stores/xm-sidebar-store.service';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { MockUiConfigService } from '@xm-ngx/core/config/testing';
@@ -13,7 +13,7 @@ describe('XmSidebarComponent', () => {
     let component: XmSidebarComponent;
     let fixture: ComponentFixture<XmSidebarComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [XmTranslationTestingModule, HttpClientTestingModule],
             providers: [

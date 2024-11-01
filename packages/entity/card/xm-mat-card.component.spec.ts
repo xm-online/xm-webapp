@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageChangesStore } from '@xm-ngx/dashboard';
 import { MockPageChangesStore } from '@xm-ngx/core/dashboard/testing';
 
@@ -9,7 +9,7 @@ describe('XmMatCardComponent', () => {
     let component: XmMatCardComponent;
     let fixture: ComponentFixture<XmMatCardComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [XmMatCardComponent],
             providers: [

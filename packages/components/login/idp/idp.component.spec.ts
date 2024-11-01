@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IdpComponent } from '@xm-ngx/components/login';
 import { LoginService } from '@xm-ngx/components/login';
@@ -10,7 +10,7 @@ describe('IdpComponent', () => {
     let component: IdpComponent;
     let fixture: ComponentFixture<IdpComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule, IdpComponent],
         }).overrideComponent(IdpComponent, {

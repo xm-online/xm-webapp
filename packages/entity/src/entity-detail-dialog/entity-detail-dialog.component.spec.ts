@@ -1,6 +1,6 @@
 import { HttpClient, HttpHandler } from '@angular/common/http';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -27,7 +27,7 @@ describe('Entity detail dialog Component', () => {
     let element: DebugElement;
     let error: DebugElement;
     const PATTERN = '^(?=.*[a-z])[a-z0-9]{2,20}$';
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 XmTranslationTestingModule,
@@ -70,11 +70,11 @@ describe('Entity detail dialog Component', () => {
         error = fixture.debugElement.query(By.css('.has-error'));
     }));
 
-    it('Should create component', async(() => {
+    it('Should create component', waitForAsync(() => {
         expect(component).toBeTruthy();
     }));
 
-    it('Name input should be empty', async(() => {
+    it('Name input should be empty', waitForAsync(() => {
         fixture.detectChanges();
         fixture.whenRenderingDone().then(() => {
             element = fixture.debugElement.query(By.css('#field_name'));
@@ -82,7 +82,7 @@ describe('Entity detail dialog Component', () => {
         });
     }));
 
-    it('Should be no errors when no pattern', async(() => {
+    it('Should be no errors when no pattern', waitForAsync(() => {
         component.nameValidPattern = null;
         fixture.detectChanges();
         component.xmEntity.name = '@e';

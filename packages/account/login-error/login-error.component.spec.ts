@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginErrorComponent } from './login-error.component';
 import { ActivatedRoute } from '@angular/router';
@@ -10,7 +10,7 @@ describe('LoginErrorComponent', () => {
     let component: LoginErrorComponent;
     let fixture: ComponentFixture<LoginErrorComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
             providers: [

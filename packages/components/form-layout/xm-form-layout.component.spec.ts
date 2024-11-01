@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 
 import { XmFormLayoutComponent } from './xm-form-layout.component';
@@ -7,7 +7,7 @@ describe('FormLayoutComponent', () => {
     let component: XmFormLayoutComponent;
     let fixture: ComponentFixture<XmFormLayoutComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [XmDynamicModule, XmFormLayoutComponent],
         })

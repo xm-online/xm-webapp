@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
@@ -36,7 +36,7 @@ class MockedConfig extends Mock {
 }
 
 describe('XmMainComponent', () => {
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
             imports: [XmTranslationTestingModule, HttpClientTestingModule, NgxWebstorageModule.forRoot()],
@@ -87,7 +87,7 @@ describe('XmMainComponent', () => {
             ],
         }).compileComponents();
     }));
-    it('should create the app', async(() => {
+    it('should create the app', waitForAsync(() => {
         const fixture = TestBed.createComponent(XmMainComponent);
         const app = fixture.debugElement.componentInstance;
         expect(app).toBeTruthy();

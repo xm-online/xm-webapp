@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
@@ -10,7 +10,7 @@ describe('HighLevelArchitectureWidgetComponent', () => {
     let component: ArchitectureComponent;
     let fixture: ComponentFixture<ArchitectureComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [XmTranslationTestingModule, HttpClientTestingModule, NoopAnimationsModule],
             declarations: [ArchitectureComponent],

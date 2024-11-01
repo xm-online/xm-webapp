@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { MockUiConfigService } from '@xm-ngx/core/config/testing';
@@ -11,7 +11,7 @@ describe('LogoComponent', () => {
     let component: LogoComponent;
     let fixture: ComponentFixture<LogoComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             schemas: [NO_ERRORS_SCHEMA],
             providers: [{ provide: XmUiConfigService, useClass: MockUiConfigService }],

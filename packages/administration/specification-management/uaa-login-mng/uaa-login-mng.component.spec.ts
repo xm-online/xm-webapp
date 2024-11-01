@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmConfigService } from '@xm-ngx/core/config';
 
 import { UaaLoginMngComponent } from './uaa-login-mng.component';
@@ -11,7 +11,7 @@ describe('UaaLoginMngComponent', () => {
     let component: UaaLoginMngComponent;
     let fixture: ComponentFixture<UaaLoginMngComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule, XmTranslationTestingModule],
             declarations: [UaaLoginMngComponent],

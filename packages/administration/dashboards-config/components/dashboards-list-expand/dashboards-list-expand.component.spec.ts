@@ -1,6 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardEditorService, DashboardsManagerService } from '../../index';
 import { DashboardCollection, WidgetCollection } from '../../injectors';
@@ -15,7 +15,7 @@ describe('DashboardsListExpandComponent', () => {
     let component: DashboardsListExpandComponent;
     let fixture: ComponentFixture<DashboardsListExpandComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 XmTranslationTestingModule,

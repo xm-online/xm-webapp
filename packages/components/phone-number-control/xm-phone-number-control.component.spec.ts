@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { XmPhoneNumberControlComponent } from './xm-phone-number-control.component';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
@@ -12,7 +12,7 @@ describe('XmPhoneNumberControlComponent', () => {
     let component: XmPhoneNumberControlComponent;
     let fixture: ComponentFixture<XmPhoneNumberControlComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             imports: [
                 ControlErrorModule.forRoot({ errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES }),

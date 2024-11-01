@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AccountService, Principal } from '@xm-ngx/core/user';
 import { MockPrincipalService } from '@xm-ngx/core/user/testing';
 
@@ -13,7 +13,7 @@ describe('XmUserSecuritySettingsComponent', () => {
     let component: XmUserSecuritySettingsComponent;
     let fixture: ComponentFixture<XmUserSecuritySettingsComponent>;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             providers: [
                 { provide: Principal, useClass: MockPrincipalService },
