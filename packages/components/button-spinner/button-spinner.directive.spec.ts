@@ -1,6 +1,6 @@
 import { Component, DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { By } from '@angular/platform-browser';
 import { ButtonSpinnerDirective } from './button-spinner.directive';
 
@@ -20,8 +20,8 @@ describe('ButtonSpinnerDirective', () => {
 
     beforeEach(() => {
         fixture = TestBed.configureTestingModule({
-            imports: [ButtonSpinnerDirective],
-            declarations: [MockTestComponent, MatButton],
+            imports: [ButtonSpinnerDirective, MatButtonModule],
+            declarations: [MockTestComponent],
             schemas: [NO_ERRORS_SCHEMA],
 
         }).createComponent(MockTestComponent);
