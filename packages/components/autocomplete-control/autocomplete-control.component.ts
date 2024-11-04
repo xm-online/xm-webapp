@@ -39,10 +39,9 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
                         [placeholderLabel]="config.searchPlaceholder | translate"
                         [noEntriesFoundLabel]="config.notFoundSearchPlaceholder | translate"></ngx-mat-select-search>
                 </mat-option>
-
-                <div class="mat-mdc-option" [hidden]="!selection.selected" (click)="deselect()">
+                <div class="mat-mdc-option" [hidden]="!selection.selected?.length" (click)="deselect()">
                     <mat-icon>close</mat-icon>
-                    {{ (config.deselectText ?? 'common-webapp-ext.buttons.cancel') | translate}}
+                    {{ (config.deselectText ?? 'common-webapp-ext.buttons.cancel') | translate }}
                 </div>
 
                 <ng-container *ngIf="(list | async)?.length > 0; then listing"></ng-container>
