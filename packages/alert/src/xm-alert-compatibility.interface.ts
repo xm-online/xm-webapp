@@ -1,7 +1,7 @@
 // Intefaces in this file taken from sweetalert
 import { XmAlertConfig } from './xm-alert.interface';
 
-export type XmAlertDismissReason = 
+export type XmAlertDismissReason =
     'cancel' |
     'backdrop' |
     'close' |
@@ -71,7 +71,6 @@ export interface XmAlertOptions extends XmAlertConfig {
      * @deprecated
      * Not using in material dialog
      */
-    // eslint-disable-next-line @typescript-eslint/ban-types
     inputValidator?: Function;
 }
 

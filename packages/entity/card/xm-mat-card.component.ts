@@ -39,6 +39,7 @@ export class XmMatCardComponent implements OnInit, OnChanges {
     @Input() public loading: boolean = false;
     @Input() public disableSubmit: boolean = false;
     @Output() public save: EventEmitter<void> = new EventEmitter<void>();
+    // eslint-disable-next-line @angular-eslint/no-output-native
     @Output() public cancel: EventEmitter<void> = new EventEmitter<void>();
     @Output() public isEditChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 

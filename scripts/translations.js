@@ -35,6 +35,7 @@ function getTrKeys(htmlFile) {
             });
             if (!/^[\.\w\{\}ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ]+$/.test(trKeysResults[1])) {
                 let error = `Can not parse translation key: ${trKeysResults[1]}`;
+                // eslint-disable-next-line no-console
                 console.error(error);
                 throw new Error(error);
             }
@@ -58,6 +59,7 @@ function detectLangFiles(jsFile) {
 
     let addLocationRegexp = /\.addLocation\(['"](.*)['"]\)/gm;
     let additionalLangFiles;
+    // eslint-disable-next-line no-cond-assign
     while (additionalLangFiles = addLocationRegexp.exec(jsFile)) {
         files.push(additionalLangFiles[1].trim());
     }
@@ -189,6 +191,7 @@ function scanComponentHtmlFileToTranslations() {
     return translationKeys;
 }
 
+// eslint-disable-next-line consistent-return
 function hasOwnProperty(currentTranslationSubTree, trKey, passedPath) {
     let propertyKey = '';
     for (let trPath of trKey.substring(passedPath.length).split('.')) {
@@ -234,6 +237,7 @@ function checkProperty(trKey, translations, usedTranslations) {
     let passedPath = '';
     while (passedPath.length < trKey.length) {
         let property;
+        // eslint-disable-next-line no-cond-assign
         if (property = hasOwnProperty(currentTranslationSubTree, trKey, passedPath)) {
             currentTranslationSubTree = currentTranslationSubTree[property];
         } else {
@@ -300,6 +304,7 @@ function merge(objects) {
     for (let object of objects)
         for (let field in object) {
             if (result[field]) {
+                // eslint-disable-next-line
                 let v = object[field] ? object[field] : [];
                 result[field].addAll();
             } else {
@@ -351,10 +356,10 @@ for (let langFolder of glob(I_18_N + '*', { sync: true }).map(filePath => filePa
                     langFiles: templateLangFiles[file],
                     defaultValue: trObject.defaultValue,
                 });
-                console.log(`${trKey} from ${file} for ${lang} translation not found in ${templateLangFiles[file]} and global`);
+                console.info(`${trKey} from ${file} for ${lang} translation not found in ${templateLangFiles[file]} and global`);
                 for (let translationFile in translations) {
                     if (checkProperty(trKey, translations[translationFile], usedTranslation(usedTranslations, translationFile))) {
-                        console.log(`but found in ${translationFile}`);
+                        console.info(`but found in ${translationFile}`);
                     }
                 }
             }
@@ -383,9 +388,9 @@ for (let langFolder of glob(I_18_N + '*', { sync: true }).map(filePath => filePa
         translationFiles.push(translationFile);
     }
 
-    for (let file in usedTranslations) {
-        //fs.writeFileSync(I_18_N + `${lang}/${file}.json`, JSON.stringify(usedTranslations[file], null, 4), {encoding: 'utf8'});
-    }
+    // for (let file in usedTranslations) {
+    //     fs.writeFileSync(I_18_N + `${lang}/${file}.json`, JSON.stringify(usedTranslations[file], null, 4), {encoding: 'utf8'});
+    // }
 
 }
 
@@ -398,12 +403,12 @@ fs.writeFileSync(I_18_N + 'settings.json', JSON.stringify({
 
 
 if (filesWithoutLangFile.length > 0) {
-    console.log('============================!!!WARNING!!! !!!WARNING!!! !!!WARNING!!!=============================');
-    console.log('===== IN NEXT FILES NOT SPECIFIED TRANSLATIONs FILE!!! It\'s meant this files using global.json! ==');
-    console.log('====== Please use JhiLanguageService like: this.jhiLanguageService.addLocation(\'<FILENAME>\'); ====');
-    console.log('If component use only global translations please add @UseGlobalTranslations() for avoid this warning.');
-    console.log(filesWithoutLangFile);
-    console.log('==================================================================================================\n\n');
+    console.info('============================!!!WARNING!!! !!!WARNING!!! !!!WARNING!!!=============================');
+    console.info('===== IN NEXT FILES NOT SPECIFIED TRANSLATIONs FILE!!! It\'s meant this files using global.json! ==');
+    console.info('====== Please use JhiLanguageService like: this.jhiLanguageService.addLocation(\'<FILENAME>\'); ====');
+    console.info('If component use only global translations please add @UseGlobalTranslations() for avoid this warning.');
+    console.info(filesWithoutLangFile);
+    console.info('==================================================================================================\n\n');
 } else {
     console.info('Clear translation locations: OK.');
 }

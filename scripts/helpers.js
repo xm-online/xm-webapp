@@ -10,9 +10,9 @@ const getDirectories = (source) => glob.sync(source).map(filePath => filePath.re
 const getJsonFile = async (file) => {
     return new Promise((res, rej) => {
         fs.readFile(file, 'utf8', (err, data) => {
-            err ? rej(err) : res(data)
+            err ? rej(err) : res(data);
         });
-    })
+    });
 };
 
 const writeJsonFile = async (json, file) => {
@@ -20,7 +20,7 @@ const writeJsonFile = async (json, file) => {
         fs.writeFile(file, JSON.stringify(json, null, 2) + '\r\n', 'utf8', (err) => {
             err ? rej(err) : res();
         });
-    })
+    });
 };
 
 module.exports = {EXT_PATH, LANGUAGES, getDirectories, getJsonFile, writeJsonFile};

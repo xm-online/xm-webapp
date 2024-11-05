@@ -7,6 +7,6 @@
   },
   "main": "./index.js",
   "peerDependencies": {
-    "eslint": "8.14.0"
+    "eslint": "9.11.1"
   }
 }

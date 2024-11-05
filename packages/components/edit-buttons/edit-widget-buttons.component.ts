@@ -40,6 +40,7 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
     @Output() public isEditChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() public edit: EventEmitter<void> = new EventEmitter<void>();
     @Output() public save: EventEmitter<void> = new EventEmitter<void>();
+    // eslint-disable-next-line @angular-eslint/no-output-native
     @Output() public cancel: EventEmitter<void> = new EventEmitter<void>();
     @Output() public changeEvent: EventEmitter<EditWidgetButtonsEvent> = new EventEmitter<EditWidgetButtonsEvent>();
 
