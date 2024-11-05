@@ -137,6 +137,7 @@ async function exportMain() {
     logger.info('XM.main end');
 }
 
+// eslint-disable-next-line no-unused-vars
 async function importMain() {
     logger.info('XM.main start');
     const dashboardRepo = new ExportDashboardRepo();

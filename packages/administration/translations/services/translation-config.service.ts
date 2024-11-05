@@ -49,7 +49,7 @@ export class TranslationConfigService {
         if (index > -1) {
             const parentObj = prop.substring(0, index);
             if (translation[parentObj] !== undefined && typeof translation[parentObj] === 'object') {
-                this.deleteFromObject(translation[parentObj] as TranslationObject, prop.substr(index + 1));
+                this.deleteFromObject(translation[parentObj], prop.substr(index + 1));
             }
         } else {
             if (translation[prop] !== undefined) {

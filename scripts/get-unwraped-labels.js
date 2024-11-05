@@ -11,7 +11,7 @@ let isTransletableText = function(text) {
         && !/^\s*{{.*}}\s*$/g.test(text)
         && !/^\s*\d+\s*$/g.test(text)
         && !/^\s*\W+\s*$/g.test(text)
-        ;
+    ;
 };
 
 function findNoTranslationsElement(dom, parentTag, file) {
@@ -23,7 +23,7 @@ function findNoTranslationsElement(dom, parentTag, file) {
             .replace(/\s*{{.*}}\s*/g, '').trim();
 
         if (isTransletableText(text)) {
-
+            // eslint-disable-next-line
             if (/\d+"/g.test(text)) {}
             else {
                 console.info(`${file} -->> ${text}`);

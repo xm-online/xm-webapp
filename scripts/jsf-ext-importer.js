@@ -1,16 +1,13 @@
 const fs = require('fs');
-const fse = require('fs-extra');
 const {exec} = require('child_process');
 const {join} = require('path');
 const LOCAL_EXT_PATH = 'src/app/ext';
-const LOCAL_ASSETS_PATH = 'src/assets/css/ext/';
-const LOCAL_ASSETS_IMG_PATH = 'src/assets/img/ext/';
 const dirs = p => fs.readdirSync(p).filter(f => fs.statSync(join(p, f)).isDirectory());
 
 const generateImports = [];
 dirs(LOCAL_EXT_PATH).forEach(moduleName => {
     const MODULE_PATH = `${LOCAL_EXT_PATH}/${moduleName}/jsf-module/${moduleName}-jsf.module.ts`;
-    console.log('Check module path', MODULE_PATH);
+    console.info('Check module path', MODULE_PATH);
     if (fs.existsSync(MODULE_PATH)) {
         const moduleClassName = moduleName.split('-').map(it => capitalizeFirstLetter(it)).join('') + 'JsfModule';
         generateImports[moduleClassName] = `./ext/${moduleName}/jsf-module/${moduleName}-jsf.module`;
@@ -42,7 +39,7 @@ fs.readFile('src/app/xm-jsf-ext.module.ts', function (err, data) {
         );
     }
     fs.writeFile('src/app/xm-jsf-ext.module.ts', fileContent, () => {
-        console.log('Jsf extensions processed!');
+        console.info('Jsf extensions processed!');
     });
 });
 

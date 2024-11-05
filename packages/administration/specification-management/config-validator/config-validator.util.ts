@@ -70,6 +70,7 @@ export class ConfigValidatorUtil {
         for (const property in object) {
             if (object.hasOwnProperty(property)) {
                 if (object[property] instanceof Array) {
+                    // eslint-disable-next-line @typescript-eslint/no-for-in-array
                     for (const i in object[property]) {
                         if (object[property].hasOwnProperty(i)) {
                             const PARENT = `${parent}.${property}[${i}]`;

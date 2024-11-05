@@ -21,7 +21,7 @@ function getTranslatesFromExts() {
         const command = `ngx-translate-extract -i ./${path} ${outputPaths} -f namespaced-json -s --fi "  "`;
 
         execCommand(command);
-    })
+    });
 }
 
 function getCoreTranslates() {

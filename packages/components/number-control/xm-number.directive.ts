@@ -38,6 +38,7 @@ export class XmNumberPipe implements PipeTransform {
             case XmNumberSystemType.Rational:
                 return value ? charFilter(value, '0123456789-.,') : value;
             default:
+                // eslint-disable-next-line @typescript-eslint/only-throw-error
                 throw 'Invalid type';
         }
     }

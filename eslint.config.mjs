@@ -30,14 +30,15 @@ export default [{
   ],
 }, ...compat.extends("eslint:recommended").map(config => ({
   ...config,
-  files: ["*.js"],
+  files: ["**/*.js"],
 })), {
-  files: ["*.js"],
+  files: ["**/*.js"],
 
   languageOptions: {
     globals: {
       ...globals.browser,
       ...globals.node,
+      ...globals.jasmine
     },
 
     ecmaVersion: 2020,
@@ -63,6 +64,8 @@ export default [{
     semi: "error",
     "space-unary-ops": "error",
     "comma-dangle": ["warn", "always-multiline"],
+    "no-prototype-builtins": "warn",
+    "no-useless-escape": "warn",
   },
 }, ...compat.extends(
   "plugin:@typescript-eslint/recommended",
@@ -168,6 +171,16 @@ export default [{
     "@typescript-eslint/unbound-method": ["warn", {
       ignoreStatic: true,
     }],
+    "no-unused-expressions": "off",
+    "@typescript-eslint/no-unused-expressions": ["error", {
+      allowTernary: true,
+      allowShortCircuit: true,
+    }],
+    "@typescript-eslint/no-empty-object-type": "warn",
+    "@typescript-eslint/no-require-imports": "warn",
+    "@typescript-eslint/prefer-promise-reject-errors": "warn",
+    "@typescript-eslint/no-unsafe-function-type": "warn",
+    "no-useless-escape": "warn",
   },
 }, ...compat.extends("plugin:storybook/recommended").map(config => ({
   ...config,

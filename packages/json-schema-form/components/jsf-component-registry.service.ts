@@ -6,20 +6,20 @@ import { buildJsfAttributes, getJsfWidgets } from './jsf-attributes-helper';
 })
 export class JsfComponentRegistryService {
 
-    private componentList: { [key: string]: Object } = {};
+    private componentList: { [key: string]: object } = {};
 
     constructor() {
         this.componentList = getJsfWidgets();
     }
 
-    public registerWidget(name: string, componentClass: Object): void {
+    public registerWidget(name: string, componentClass: object): void {
         if (this.componentList[name]) {
             throw new Error(`Widget ${name} has been already registered!`);
         }
         this.componentList[name] = componentClass;
     }
 
-    public listWidgets(): { [key: string]: Object } {
+    public listWidgets(): { [key: string]: object } {
         return this.componentList;
     }
 
