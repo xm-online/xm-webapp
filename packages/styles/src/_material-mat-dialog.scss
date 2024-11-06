@@ -3,6 +3,10 @@ $xm-mat-dialog-close-color:       $xm-text-light !default;
 $xm-mat-dialog-close-color-hover: $xm-text !default;
 
 @mixin xm-mat-dialog($theme) {
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-shape: 20px;
+  }
+  
   .mat-dialog-title {
     position: relative;
     padding:  0 $xm-mat-dialog-padding 0 0;
