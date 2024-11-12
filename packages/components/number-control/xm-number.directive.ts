@@ -59,6 +59,7 @@ export class XmNumberDirective {
         this.elementRef.nativeElement.value = value;
     }
 
+    // TODO: Do we really need all of this events
     @HostListener('input', ['$event'])
     @HostListener('keydown', ['$event'])
     @HostListener('keyup', ['$event'])
@@ -68,10 +69,19 @@ export class XmNumberDirective {
     @HostListener('contextmenu', ['$event'])
     @HostListener('drop', ['$event'])
     @HostListener('focusout', ['$event'])
-    public onValueChange(): void {
-        if (!this.value) {
+    public onValueChange(evt: Event): void {
+        const newValue = (evt.target as HTMLInputElement)?.value;
+        const oldValue = this.value;
+
+        if (!newValue) {
             return;
         }
+
+        // We handle all events above, it's a lot of events while we're typing, so we change value if it's changed
+        if (newValue === oldValue) {
+            return;
+        }
+
         this.value = new XmNumberPipe().transform(this.value, this.type);
     }
 }
