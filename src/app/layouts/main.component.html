@@ -4,7 +4,11 @@
 <xm-password-needed></xm-password-needed>
 
 <xm-heatmap-container>
-    <div class="wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}" navigationClass>
+    <xm-top-panel></xm-top-panel>
+    <div class="wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}"
+         navigationClass
+         id="main-content-wrapper"
+    >
       <div xmGuestBackground></div>
       <xm-layout-wrapper
         [isGuestLayout]="isGuestLayout"

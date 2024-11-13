@@ -3,6 +3,11 @@
   @import 'packages/components/navbar-guest-background/navbar-guest-background';
 }
 
+.wrapper {
+  height: 100%;
+  transition: 300ms transform ease-in-out;
+}
+
 .xm-main-panel {
   position: relative;
   display:        flex;
