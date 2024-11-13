@@ -25,6 +25,7 @@ import { CommonModule } from '@angular/common';
 import { XmHeatmapContainerComponent } from '@xm-ngx/components/navbar-heatmap-widget';
 import { NavigationClassDirective } from './navigation-class.directive';
 import { LayoutWrapperComponent } from './components/layout-wrapper/layout-wrapper.component';
+import { TopPanelComponent } from './components/top-panel/top-panel.component';
 
 @NgModule({
     imports: [
@@ -53,6 +54,7 @@ import { LayoutWrapperComponent } from './components/layout-wrapper/layout-wrapp
         XmHeatmapContainerComponent,
         NavigationClassDirective,
         LayoutWrapperComponent,
+        TopPanelComponent,
     ],
     exports: [XmMainComponent],
     declarations: [XmMainComponent],

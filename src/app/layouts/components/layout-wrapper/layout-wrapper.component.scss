@@ -1,11 +1,18 @@
 .layout-wrapper-view {
   display: flex;
+  height: 100%;
+  position: relative;
 
   .menu-sidenav-container {
     width: 100%;
+    height: 100%;
 
     .menu-sidenav {
       border-radius: 0 16px 16px 0;
+
+      .mat-drawer-inner-container {
+        height: 100%;
+      }
     }
 
     .border-none {
@@ -14,10 +21,6 @@
 
     .no-box-shadow {
       box-shadow: none;
-    }
-
-    &__content {
-      height: 100vh;
     }
   }
 }

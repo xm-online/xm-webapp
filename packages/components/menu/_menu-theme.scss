@@ -79,10 +79,11 @@ $xm-menu-icon-font-size:    20px !default;
     min-width: $xm-sidebar-width;
     max-width: $xm-sidebar-width;
     background-color: $xm-sidebar-background;
+    height: 100%;
 
     cdk-tree {
       width: 100%;
-      height: calc(100vh - 16px);
+      height: calc(100% - 16px);
       overflow-y: auto;
       margin: 8px 0 8px;
       @include xm-scrollbar();

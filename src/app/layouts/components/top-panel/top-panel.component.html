@@ -1,0 +1,7 @@
+<div class="top-panel-view" #topPanelRef [@showHideTopPanel]="{value: animationState}">
+  @if (topPanelLayout && isTopPanel) {
+    <xm-dynamic-widget-layout
+      [layouts]="topPanelLayout">
+    </xm-dynamic-widget-layout>
+  }
+</div>
