@@ -43,11 +43,13 @@ import {
 } from './autocomple-control.interface';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { checkIfEmpty } from '@xm-ngx/pipes';
-import { cloneDeep, defaultsDeep, get, intersectionBy, isArray, isEmpty, isEqual, isMatch, isObject, omitBy, template, uniqWith } from 'lodash';
+import { cloneDeep, defaultsDeep, get, intersectionBy, isArray, isEmpty, isEqual, isFunction, isMatch, isObject, omitBy, template, uniqWith } from 'lodash';
 
 @Directive()
 export class XmAutocompleteControl extends NgModelWrapper<object | string> implements OnInit, OnDestroy, OnChanges {
     private _config: XmAutocompleteControlConfig = AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG;
+
+    @Input() public normalizeValuesFn: (collection: unknown) => XmAutocompleteControlListItem[];
 
     @Input()
     public set config(value: XmAutocompleteControlConfig) {
@@ -317,6 +319,10 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     private normalizeValues(collection: unknown): XmAutocompleteControlListItem[] {
+        if (isFunction(this.normalizeValuesFn)) {
+            return this.normalizeValuesFn(collection);
+        }
+
         return coerceArray(collection)
             .filter(value => !checkIfEmpty(value))
             .map((item: any) => {
