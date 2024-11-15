@@ -101,6 +101,7 @@ export class XmTableQuickFilterControl<T = FiltersControlValue> extends NgContro
             this.updateValue();
             this.subscribeFormChanges();
         }
+        this.updateValue();
 
     }
 
