@@ -8,16 +8,20 @@
         checkboxPosition='before'
         [selected]="isSelectedAll"
         (click)="$event.stopPropagation(); toggleSelectAll()">
-        {{TRS.selectAll | translate}}
+        {{ TRS.selectAll | translate }}
       </mat-list-option>
-      <mat-list-option *ngFor="let column of columns"
-                       [value]="column"
-                       [style.display]="column.isHideLock ? 'none': 'invalid'"
-                       [selected]="!column.hidden"
-                       checkboxPosition='before'
-                       (click)="$event.stopPropagation(); setSelectedAll()"
-      >{{column.title | translate}}
-      </mat-list-option>
+      @for (column of columns; track column.name) {
+        @if (!column.storageColumn) {
+          <mat-list-option
+            [value]="column"
+            [style.display]="column.isHideLock ? 'none': 'invalid'"
+            [selected]="!column.hidden"
+            checkboxPosition='before'
+            (click)="$event.stopPropagation(); setSelectedAll()"
+          >{{ column.title | translate }}
+          </mat-list-option>
+        }
+      }
     </mat-selection-list>
   </mat-menu>
 </div>
