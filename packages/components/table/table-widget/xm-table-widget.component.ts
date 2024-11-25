@@ -1,17 +1,31 @@
 import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    EventEmitter,
+    inject,
+    Input,
+    NgZone,
+    OnDestroy,
+    Output,
+    ViewChild,
+} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { injectByKey } from '@xm-ngx/dynamic';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmTranslatePipe } from '@xm-ngx/translation';
 import { defaultsDeep } from 'lodash';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { TableExpand } from '../animations/xm-table-widget.animation';
 import {
     IXmTableCollectionController,
     XM_TABLE_CONTROLLERS,
-    XmTableCollectionControllerResolver
+    XmTableCollectionControllerResolver,
 } from '../collections';
 import { XmTableColumnDynamicCellComponent } from '../columns/xm-table-column-dynamic-cell.component';
 import { XmTableDynamicColumnComponent } from '../columns/xm-table-dynamic-column.component';
@@ -48,7 +62,7 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     templateUrl: './xm-table-widget.component.html',
     styleUrls: ['./xm-table-widget.component.scss'],
     standalone: true,
-    host: { class: 'xm-table-widget' },
+    host: {class: 'xm-table-widget'},
     imports: [
         MatCardModule,
         XmTranslatePipe,
@@ -84,24 +98,22 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         ...XM_TABLE_CONTROLLERS,
         {
             provide: MatPaginatorIntl,
-            useClass: XmTableMatPaginatorInt
+            useClass: XmTableMatPaginatorInt,
         },
     ],
     animations: [
-        TableExpand
+        TableExpand,
     ],
 })
-export class XmTableWidget {
+export class XmTableWidget implements AfterViewInit, OnDestroy {
 
-    private collectionController: IXmTableCollectionController<unknown> = injectByKey<IXmTableCollectionController<unknown>>('collection', {optional: true});
-
+    @ViewChild('table', {read: ElementRef}) public tableRef: ElementRef;
     @ViewChild(MatTable) public table: MatTable<any>;
-
-    public ngAfterViewChecked(): void {
-        if (this.table) {
-            this.table.updateStickyColumnStyles();
-        }
-    }
+    @Output() public rowClicked = new EventEmitter<unknown>();
+    private collectionController: IXmTableCollectionController<unknown> = injectByKey<IXmTableCollectionController<unknown>>('collection', {optional: true});
+    private hasSticky: boolean = false;
+    private zone = inject(NgZone);
+    private resizeObserver: ResizeObserver;
 
     constructor(
         private collectionControllerResolver: XmTableCollectionControllerResolver) {
@@ -116,9 +128,31 @@ export class XmTableWidget {
     @Input()
     public set config(value: XmTableWidgetConfig) {
         this._config = getConfig(value);
+        this.hasSticky = this.config.columns.some(column => column.sticky || column.stickyEnd);
     }
 
-    @Output() public rowClicked = new EventEmitter<unknown>();
+    public ngAfterViewInit(): void {
+        const subject = new Subject();
+        this.resizeObserver = new ResizeObserver(() => {
+            this.zone.run(() => {
+                subject.next(null);
+            });
+        });
+        this.resizeObserver.observe(this.tableRef.nativeElement);
+        subject.pipe(
+            takeUntilOnDestroy(this),
+            debounceTime(50)
+        ).subscribe(() => {
+            if (this.hasSticky) {
+                this.table.updateStickyColumnStyles();
+            }
+        });
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+        if (this.tableRef?.nativeElement) this.resizeObserver?.unobserve(this.tableRef.nativeElement);
+    }
 
     public getCollectionController(): IXmTableCollectionController<unknown> {
         return this.collectionController || this.collectionControllerResolver.factory(this.config.collection);
