@@ -1,15 +1,24 @@
 import { XmDynamicLayout } from '@xm-ngx/dynamic';
+import { MatSnackBarConfig } from '@angular/material/snack-bar';
 
 export interface XmTopPanelAppearanceEvent {
-    isTopPanel: boolean;
+    isShown: boolean;
 }
 
 export interface XmTopPanelUIConfig {
+    snackbar: XmTopPanelSnackbarConfig;
+    animation: XmTopPanelAnimationConfig;
     layout: XmDynamicLayout[];
 }
 
-export enum XmTopPanelAppearanceTimings {
-    DEFAULT_TRANSITION = 300,
+export interface XmTopPanelSnackbarConfig {
+    selector: string;
+    config: MatSnackBarConfig;
+}
+
+export interface XmTopPanelAnimationConfig {
+    marginBottom: number;
+    duration: number;
 }
 
 export enum XmTopPanelAppearanceAnimationStateEnum {

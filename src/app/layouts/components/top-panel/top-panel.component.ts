@@ -1,15 +1,5 @@
-import {
-    AfterViewInit,
-    Component,
-    ElementRef,
-    inject,
-    NgZone,
-    OnDestroy,
-    OnInit,
-    Renderer2,
-    ViewChild,
-} from '@angular/core';
-import { XmDynamicLayout, XmDynamicModule } from '@xm-ngx/dynamic';
+import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { XmDynamicComponentRegistry, XmDynamicLayout, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { filter } from 'rxjs/operators';
@@ -18,10 +8,11 @@ import { XmEventManager, XmEventManagerAction } from '@xm-ngx/core';
 import {
     XmTopPanelAppearanceAnimationStateEnum,
     XmTopPanelAppearanceEvent,
-    XmTopPanelAppearanceTimings,
     XmTopPanelUIConfig,
 } from './top-panel.model';
 import { NgStyle } from '@angular/common';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { XmDynamicComponentRecord } from '@xm-ngx/dynamic/src/loader/xm-dynamic-component-registry.service';
 
 /**
  * # Top Panel Component
@@ -32,6 +23,9 @@ import { NgStyle } from '@angular/common';
  * To make it works you need to provide the public UI configuration in format (example below):
  * ```yaml
  * topPanel:
+ *     animation: // optional
+ *         marginBottom: 8 // pixels, use it in case you have indent between top panel and main content to make all animation smooth
+ *         duration: 250 // ms, use it in case you want to change the animation duration (component appearance and disappearance)
  *     layout:
  *         - selector: '@xm-ngx/components/list-layout'
  *           class: 'd-flex flex-column'
@@ -76,49 +70,51 @@ import { NgStyle } from '@angular/common';
         XmDynamicModule,
         NgStyle,
     ],
+    providers: [XmDynamicComponentRegistry],
     templateUrl: './top-panel.component.html',
     styleUrl: './top-panel.component.scss',
     animations: [showHideTopPanel],
 })
-export class TopPanelComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TopPanelComponent implements OnInit, OnDestroy {
     public topPanelLayout: XmDynamicLayout[];
     public animationState: XmTopPanelAppearanceAnimationStateEnum = XmTopPanelAppearanceAnimationStateEnum.HIDE;
-    public isTopPanel: boolean = false;
+    public config: XmTopPanelUIConfig;
     @ViewChild('topPanelRef') public topPanelRef: ElementRef;
 
-    private readonly heightProperty = 'height';
-    private readonly transformProperty = 'transform';
-    private readonly overflowProperty = 'overflow';
-
     private uiConfigService: XmUiConfigService<XmUIConfig> = inject<XmUiConfigService>(XmUiConfigService);
-    private renderer: Renderer2 = inject(Renderer2);
-    private zone: NgZone = inject(NgZone);
     private eventManager: XmEventManager = inject(XmEventManager);
-    private resizeObserver: ResizeObserver;
-
-    private mainWrapperEl: HTMLElement;
-    private heatMapEl: HTMLElement;
+    private snackBar: MatSnackBar = inject(MatSnackBar);
+    private snackBarRef: MatSnackBarRef<any>;
+    private xmDynamicComponentRegistry: XmDynamicComponentRegistry = inject(XmDynamicComponentRegistry);
 
     public ngOnInit(): void {
+        this.observeShowTopSnackbarEvent();
         this.observeShowTopPanelEvent();
         this.observeConfigChanges();
+        this.observeHostElementHeightChanges();
     }
 
-    public ngAfterViewInit(): void {
-        this.mainWrapperEl = document.querySelector('#main-content-wrapper');
-        this.observeHostElementHeightChanges();
+    private observeShowTopSnackbarEvent(): void {
+        this.eventManager.listenTo<XmTopPanelAppearanceEvent>('IS_TOP_PANEL_SNACKBAR')
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(async (event: XmEventManagerAction<XmTopPanelAppearanceEvent>) => {
+                const { snackbar} = this.config || {};
+                const { isShown } = event.payload || {};
+                if (snackbar && isShown) {
+                    const component: XmDynamicComponentRecord<any> = await this.xmDynamicComponentRegistry.find(snackbar.selector);
+                    this.snackBarRef = this.snackBar.openFromComponent(component.componentType, snackbar.config);
+                } else if (!isShown && this.snackBarRef) {
+                    this.snackBarRef.dismiss();
+                }
+            });
     }
 
     private observeShowTopPanelEvent(): void {
         this.eventManager.listenTo<XmTopPanelAppearanceEvent>('IS_TOP_PANEL')
             .pipe(takeUntilOnDestroy(this))
             .subscribe((event: XmEventManagerAction<XmTopPanelAppearanceEvent>) => {
-                const { isTopPanel } = event.payload;
-                if (isTopPanel) {
-                    this.isTopPanel = isTopPanel;
-                } else {
-                    this.hideTopPanel();
-                }
+                const { isShown } = event.payload;
+                isShown ? this.showTopPanel() : this.hideTopPanel();
             });
     }
 
@@ -127,7 +123,8 @@ export class TopPanelComponent implements OnInit, AfterViewInit, OnDestroy {
             takeUntilOnDestroy(this),
             filter(Boolean),
         ).subscribe((config: XmUIConfig) => {
-            const { layout } = config?.topPanel as XmTopPanelUIConfig || {};
+            this.config = config.topPanel as XmTopPanelUIConfig;
+            const { layout } = this.config || {};
             if (layout && !this.topPanelLayout) {
                 this.topPanelLayout = layout;
             }
@@ -135,48 +132,27 @@ export class TopPanelComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private observeHostElementHeightChanges(): void {
-        this.heatMapEl = document.querySelector('xm-heatmap-container');
-        this.resizeObserver = new ResizeObserver(entries => {
-            this.zone.run(() => {
-                const {height} = entries[0].contentRect || {};
-                height > 0 && this.showTopPanel(height);
-            });
-        });
-        this.resizeObserver.observe(this.topPanelRef.nativeElement);
-
         // TODO: FOR DEV PURPOSES. REMOVE IT LATER.
+        // setTimeout(() => {
+        //     this.eventManager.broadcast({name: 'IS_TOP_PANEL_SNACKBAR', payload: {isShown: true}});
+        // }, 3000);
         // setTimeout(() => {
         //     this.eventManager.broadcast({name: 'IS_TOP_PANEL', payload: {isTopPanel: true}});
         // }, 3000);
-        //
         // setTimeout(() => {
         //     this.eventManager.broadcast({name: 'IS_TOP_PANEL', payload: {isTopPanel: false}});
-        // }, 20000);
+        // }, 10000);
     }
 
     private hideTopPanel(): void {
         this.animationState = XmTopPanelAppearanceAnimationStateEnum.HIDE;
-        this.renderer.setStyle(this.mainWrapperEl, this.heightProperty, '100%');
-        this.renderer.setStyle(this.mainWrapperEl, this.transformProperty, 'translateY(0)');
-
-        setTimeout(() => {
-            this.isTopPanel = false;
-        }, XmTopPanelAppearanceTimings.DEFAULT_TRANSITION);
     }
 
-    private showTopPanel(height: number): void {
-        this.renderer.setStyle(this.heatMapEl, this.overflowProperty, 'hidden');
-        this.renderer.setStyle(this.mainWrapperEl, this.transformProperty, `translateY(${height}px)`);
+    private showTopPanel(): void {
         this.animationState = XmTopPanelAppearanceAnimationStateEnum.SHOW;
-
-        setTimeout(() => {
-            this.renderer.setStyle(this.heatMapEl, this.overflowProperty, 'auto');
-            this.renderer.setStyle(this.mainWrapperEl, this.heightProperty, `calc(100% - ${height}px`);
-        }, XmTopPanelAppearanceTimings.DEFAULT_TRANSITION);
     }
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
-        this.resizeObserver.unobserve(this.topPanelRef.nativeElement);
     }
 }

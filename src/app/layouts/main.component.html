@@ -4,7 +4,6 @@
 <xm-password-needed></xm-password-needed>
 
 <xm-heatmap-container>
-    <xm-top-panel></xm-top-panel>
     <div class="wrapper {{isGuestLayout ? 'xm-guest-layout' : 'xm-auth-layout'}}"
          navigationClass
          id="main-content-wrapper"
@@ -16,6 +15,7 @@
         <div *ngIf="resolved$ | async"
              class="main-panel xm-main-panel"
              id="main">
+          <xm-top-panel></xm-top-panel>
           <xm-loader [absolute]="true" routerLoading></xm-loader>
 
           <xm-navbar class="mb-3" [ngClass]="{'relative-position': isSidenavOpen$ | async}"></xm-navbar>
