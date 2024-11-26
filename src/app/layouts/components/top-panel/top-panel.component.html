@@ -1,7 +1,15 @@
-<div class="top-panel-view" #topPanelRef [@showHideTopPanel]="{value: animationState}">
-  @if (topPanelLayout && isTopPanel) {
-    <xm-dynamic-widget-layout
-      [layouts]="topPanelLayout">
-    </xm-dynamic-widget-layout>
+<div class="top-panel-view" #topPanelRef>
+  @if (topPanelLayout) {
+    <div [@showHideTopPanel]="{
+          value: animationState,
+          params: {
+            marginBottom: config?.animation?.marginBottom,
+            duration: config?.animation?.duration
+          }
+      }">
+      <xm-dynamic-widget-layout
+        [layouts]="topPanelLayout">
+      </xm-dynamic-widget-layout>
+    </div>
   }
 </div>

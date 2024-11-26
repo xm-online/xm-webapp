@@ -1,10 +1,20 @@
 import { animate, AnimationTriggerMetadata, state, style, transition, trigger } from '@angular/animations';
-import { XmTopPanelAppearanceAnimationStateEnum, XmTopPanelAppearanceTimings } from './top-panel.model';
+import { XmTopPanelAppearanceAnimationStateEnum } from './top-panel.model';
 
 export const showHideTopPanel: AnimationTriggerMetadata = trigger('showHideTopPanel', [
-    state(XmTopPanelAppearanceAnimationStateEnum.HIDE, style({transform: 'translateY(-100%)'})),
-    state(XmTopPanelAppearanceAnimationStateEnum.SHOW, style({transform: 'translateY(0)'})),
-    transition(`${XmTopPanelAppearanceAnimationStateEnum.SHOW} <=> ${XmTopPanelAppearanceAnimationStateEnum.HIDE}`, [
-        animate(`${XmTopPanelAppearanceTimings.DEFAULT_TRANSITION}ms ease-in-out`),
-    ]),
+    state(XmTopPanelAppearanceAnimationStateEnum.HIDE, style({
+        opacity: 0,
+        height: '0px',
+        marginBottom: 0,
+    })),
+    state(XmTopPanelAppearanceAnimationStateEnum.SHOW, style({
+        opacity: 1,
+        height: '*',
+        marginBottom: '{{marginBottom}}px',
+    }), {params: { marginBottom: 0 } }),
+    transition(
+        `${XmTopPanelAppearanceAnimationStateEnum.SHOW} <=> ${XmTopPanelAppearanceAnimationStateEnum.HIDE}`,
+        animate('{{duration}}ms ease-in-out'),
+        {params: { duration: 250 } },
+    ),
 ]);
