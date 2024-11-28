@@ -11,10 +11,10 @@ export const showHideTopPanel: AnimationTriggerMetadata = trigger('showHideTopPa
         opacity: 1,
         height: '*',
         marginBottom: '{{marginBottom}}px',
-    }), {params: { marginBottom: 0 } }),
+    }), {params: {marginBottom: 0}}),
     transition(
         `${XmTopPanelAppearanceAnimationStateEnum.SHOW} <=> ${XmTopPanelAppearanceAnimationStateEnum.HIDE}`,
         animate('{{duration}}ms ease-in-out'),
-        {params: { duration: 250 } },
+        {params: {duration: 250}},
     ),
 ]);
