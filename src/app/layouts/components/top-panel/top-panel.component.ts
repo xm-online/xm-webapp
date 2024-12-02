@@ -18,14 +18,22 @@ import { AnimationEvent } from '@angular/animations';
 /**
  * # Top Panel Component
  *
- * This component is responsible for rendering the top panel layout that collapses the main content on its height.
+ * This component is responsible for rendering the snackbar widget or top panel layout that collapses the main content on its height.
  *
  * ## Usage
  * To make it works you need to provide the public UI configuration in format (example below):
  * ```yaml
  * topPanel:
+ *     snackbar: // optional
+ *         selector: 'your/component/selector'
+ *         config: // use MatSnackBarConfig
+ *             panelClass: 'your-class-with-custom-styles' // in case you want to add custom styles to the snackbar. Should be defined in the global styles or in component with `encapsulation: ViewEncapsulation.None`
+ *             verticalPosition: 'top' // The vertical position to place the snack bar.
+ *             horizontalPosition: 'center' // The horizontal position to place the snack bar.
+ *             data: {} // Data being injected into the child component. Use https://material.angular.io/components/snack-bar/api#MAT_SNACK_BAR_DATA to reed this data in the component
+ *             ...see more in https://material.angular.io/components/snack-bar/api#MatSnackBarConfig
  *     animation: // optional
- *         marginBottom: 8 // pixels, use it in case you have indent between top panel and main content to make all animation smooth
+ *         marginBottom: 8 // pixels, use it in case you have indent between top panel and main content to make show/hide animation smooth
  *         duration: 250 // ms, use it in case you want to change the animation duration (component appearance and disappearance)
  *     layout:
  *         - selector: '@xm-ngx/components/list-layout'
@@ -49,19 +57,29 @@ import { AnimationEvent } from '@angular/animations';
  *                       uk: 'Тестовий заголовок 3'
  * ```
  *
- * Anywhere in the code you can broadcast the event to show or hide the top panel:
+ * Anywhere in the code you can broadcast the event to show or hide the top panel or snackbar.:
  * Firstly, inject the `XmEventManager` service:
  * ```typescript
  * import { XmEventManager } from '@xm-ngx/core';
  * ```
  * Then, to show the top panel call:
  * ```typescript
- * this.eventManager.broadcast({name: 'IS_TOP_PANEL', payload: {isTopPanel: true}});
+ * this.eventManager.broadcast({name: 'IS_TOP_PANEL', payload: {isShown: true}});
  * ```
  *
  * To hide the top panel:
  * ```typescript
- * this.eventManager.broadcast({name: 'IS_TOP_PANEL', payload: {isTopPanel: false}});
+ * this.eventManager.broadcast({name: 'IS_TOP_PANEL', payload: {isShown: false}});
+ * ```
+ *
+ * To show the snackbar:
+ * ```typescript
+ * this.eventManager.broadcast({name: 'IS_TOP_PANEL_SNACKBAR', payload: {isShown: true}});
+ * ```
+ *
+ * To hide the top snackbar:
+ * ```typescript
+ * this.eventManager.broadcast({name: 'IS_TOP_PANEL_SNACKBAR', payload: {isShown: false}});
  * ```
  */
 @Component({
