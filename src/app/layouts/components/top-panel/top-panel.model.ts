@@ -9,6 +9,7 @@ export interface XmTopPanelUIConfig {
     snackbar: XmTopPanelSnackbarConfig;
     animation: XmTopPanelAnimationConfig;
     layout: XmDynamicLayout[];
+    position: 'on-top' | 'before-dashboard-content';
 }
 
 export interface XmTopPanelSnackbarConfig {
