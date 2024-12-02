@@ -15,10 +15,14 @@
         <div *ngIf="resolved$ | async"
              class="main-panel xm-main-panel"
              id="main">
-          <xm-top-panel></xm-top-panel>
+
+          <xm-top-panel *ngIf="config?.topPanel?.position === 'on-top'"></xm-top-panel>
+
           <xm-loader [absolute]="true" routerLoading></xm-loader>
 
           <xm-navbar class="mb-3" [ngClass]="{'relative-position': isSidenavOpen$ | async}"></xm-navbar>
+
+          <xm-top-panel *ngIf="config?.topPanel?.position === 'before-dashboard-content'"></xm-top-panel>
 
           <div [ngClass]="(isGuestLayout && !config.fullWidth) ? 'container' : 'container-fluid'"
                class="main-content xm-main-content">
