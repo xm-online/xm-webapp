@@ -16,7 +16,7 @@
             [attr.data-qa]="config?.dataQa"
   >
 
-    <xm-table-header [config]="config" [loading]="context.collection.loading" *ngIf="!config.isTitleHidden">
+    <xm-table-header [style]="config?.headerStyle" [config]="config" [loading]="context.collection.loading" *ngIf="!config.isTitleHidden">
       <ng-container *ngIf="!xmTable.config.isCollapsed">
         <xm-table-filter-button *ngIf="xmTable.config.popUpFilter"
                                 [config]="config"
