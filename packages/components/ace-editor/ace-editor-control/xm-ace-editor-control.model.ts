@@ -8,13 +8,16 @@ export interface XmAceEditorControlOptions {
     theme?: string;
     darkTheme?: string;
     enableInitialFocus?: boolean;
-    options?: {
-        highlightActiveLine?: boolean;
-        maxLines?: number;
-        tabSize?: number;
-        printMargin?: boolean;
-        autoScrollEditorIntoView?: boolean;
-    },
+    options?: XmAceEditorControlOptionsConfig;
+}
+
+export interface XmAceEditorControlOptionsConfig {
+    highlightActiveLine?: boolean;
+    maxLines?: number;
+    tabSize?: number;
+    printMargin?: boolean;
+    autoScrollEditorIntoView?: boolean;
+    useWrapMode?: boolean;
 }
 
 export enum XmAceEditorControlModeEnum {

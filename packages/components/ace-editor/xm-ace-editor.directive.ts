@@ -12,6 +12,9 @@ import 'brace/mode/sql';
 import 'brace/theme/chrome';
 import 'brace/theme/tomorrow_night';
 import _ from 'lodash';
+import {
+    XmAceEditorControlOptionsConfig,
+} from './ace-editor-control/xm-ace-editor-control.model';
 
 
 @Directive({
@@ -39,6 +42,7 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
     public set config(options: O) {
         this._config = options;
         this.editor.setOptions(options || {});
+        this.setSessionConfiguration();
     }
 
     public get config(): O {
@@ -101,6 +105,13 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
             this.editor.scrollToLine(line, true, true, () => undefined);
             this.editor.gotoLine(line, 0, true);
         }
+    }
+
+    private setSessionConfiguration(): void {
+        const {
+            useWrapMode = true,
+        } = (this.config || {}) as XmAceEditorControlOptionsConfig;
+        useWrapMode && this.editor.getSession().setUseWrapMode(true);
     }
 
     public initialFocusOnEditor(): void {

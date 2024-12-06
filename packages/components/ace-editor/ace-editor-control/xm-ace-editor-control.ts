@@ -38,7 +38,6 @@ type AceEditorValue = string | object;
         MatFormFieldModule,
         ControlErrorModule,
         XmAceEditorThemeSchemeAdapterDirective,
-        XmAceEditorControl,
     ],
     standalone: true,
     template: `
