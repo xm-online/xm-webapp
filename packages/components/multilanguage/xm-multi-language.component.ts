@@ -43,8 +43,8 @@ export type MultiLanguageMapModel = Record<string, string>;
 export type MultiLanguageModel = MultiLanguageListModel | MultiLanguageMapModel;
 export type MultiLanguageType<T> =
     T extends 'array' ? MultiLanguageListModel :
-    T extends 'object' ? MultiLanguageMapModel :
-    never[];
+        T extends 'object' ? MultiLanguageMapModel :
+            never[];
 
 export type MultiLanguageTransform = 'array' | 'object';
 
@@ -60,6 +60,7 @@ export interface MultiLanguageOptions {
     language?: LanguageOptions;
     maxLength?: number;
     excludeLang: string[];
+    spellcheck?: boolean;
 }
 
 export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
@@ -70,6 +71,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
     language: null,
     maxLength: null,
     excludeLang: [],
+    spellcheck: false,
 };
 
 @Component({
@@ -81,7 +83,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
         </mat-label>
 
         <mat-button-toggle-group [(ngModel)]="selectedLng">
-            <mat-button-toggle *ngFor="let k of languages" [value]="k">{{k}}</mat-button-toggle>
+            <mat-button-toggle *ngFor="let k of languages" [value]="k">{{ k }}</mat-button-toggle>
         </mat-button-toggle-group>
 
         <ng-container [ngSwitch]="config.language?.type">
@@ -104,6 +106,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                     <textarea
                         matInput
                         type="text"
+                        [spellcheck]="config?.spellcheck"
                         [disabled]="!selectedLng || disabled"
                         [attr.name]="name"
                         [readonly]="readonly"
@@ -112,7 +115,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
 
                     <mat-hint [hint]="config.hint"></mat-hint>
 
-                    <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
+                    <mat-error *xmControlErrors="control?.errors; message as message">{{ message }}</mat-error>
                 </mat-form-field>
             </ng-container>
 
@@ -121,6 +124,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                     <input
                         matInput
                         type="text"
+                        spellcheck="{{config?.spellcheck}}"
                         [disabled]="!selectedLng || disabled"
                         [ngModel]="modelToView()"
                         [attr.name]="name"
@@ -132,12 +136,12 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                         *ngIf="config.maxLength"
                         align="end"
                         style="min-width: fit-content">
-                        {{modelToView().length}} / {{config.maxLength}}
+                        {{ modelToView().length }} / {{ config.maxLength }}
                     </mat-hint>
 
                     <mat-hint [hint]="config.hint"></mat-hint>
 
-                    <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
+                    <mat-error *xmControlErrors="control?.errors; message as message">{{ message }}</mat-error>
                 </mat-form-field>
             </ng-container>
         </ng-container>
@@ -181,6 +185,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
     public wysiwygConfig: AngularEditorConfig = {
         editable: true,
         showToolbar: true,
+        spellcheck: this.config?.spellcheck || false,
         defaultParagraphSeparator: 'p',
         toolbarHiddenButtons: [
             ['fontName'],
@@ -234,6 +239,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             this.matInput.ngControl.control.setErrors(this.control.errors);
             this.setDisabledState(this.control.disabled);
         });
+        this.wysiwygConfig.spellcheck = this.config?.spellcheck;
     }
 
     public ngOnInit(): void {
@@ -265,8 +271,8 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             return value[this.selectedLng] ?? '';
         }
         let oldValue = (this.getValue<'array'>() ?? []).slice();
-        if (typeof oldValue=== 'string') {
-            oldValue=[];
+        if (typeof oldValue === 'string') {
+            oldValue = [];
         }
         const langValue = oldValue.find(propEq('languageKey', this.selectedLng));
         return langValue ? langValue.name : '';
@@ -288,9 +294,9 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
         } else {
             let oldValue = (this.getValue<'array'>() ?? []);
             if (typeof oldValue === 'string') {
-                oldValue=[];
+                oldValue = [];
             }
-            const langValue = {languageKey: this.selectedLng, name: value};
+            const langValue = { languageKey: this.selectedLng, name: value };
             const index = oldValue.findIndex(propEq('languageKey', this.selectedLng));
             if (index > -1) {
                 oldValue.splice(index, 1, langValue);

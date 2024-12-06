@@ -2,7 +2,7 @@
   <ng-container *ngIf="config.fields as fields">
     <ng-container *ngFor="let field of fields">
       <ng-container
-        *ngIf="getControl(field.property) as control">
+        *ngIf="getControl(field.property) as control; else view">
         <ng-container
           *xmCondition="field.condition; arguments {value: control.value, form: formGroup?.value, dataValue: dataValue}"
           [class]="field.layout.theme?.class"
@@ -17,6 +17,18 @@
           [controllers]="field.layout.controllers"
         ></ng-container>
       </ng-container>
+        <ng-template #view>
+          <ng-container
+                  *xmCondition="field.condition; arguments {form: formGroup?.value, dataValue: dataValue}"
+                  [class]="field.layout.theme?.class"
+                  [style]="field.layout.theme?.style"
+                  xmDynamicPresentation
+                  [selector]="field.layout.selector"
+                  [dataQa]="field.layout.dataQa"
+                  [config]="field.layout.config"
+                  [controllers]="field.layout.controllers"
+         ></ng-container>
+        </ng-template>
     </ng-container>
   </ng-container>
 </ng-container>
