@@ -78,8 +78,8 @@ export class XmTableRepositoryCollectionController<T = unknown>
                         items: res.body,
                         pageableAndSortable: {
                             total: res.body.total,
-                            pageSize: res.body.pageSize,
-                            pageIndex: res.body.pageIndex,
+                            pageSize: res.body.pageSize || request.pageableAndSortable.pageSize,
+                            pageIndex: res.body.pageIndex || request.pageableAndSortable.pageIndex,
                             sortBy: res.body.sortBy || request.pageableAndSortable.sortBy,
                             sortOrder: res.body.sortOrder || request.pageableAndSortable.sortOrder,
                         },
