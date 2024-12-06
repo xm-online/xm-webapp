@@ -100,7 +100,7 @@ export class XmElasticRequestBuilder {
             filtersToRequest,
         );
 
-        return _.omitBy(mergeFilters, _.isEmpty) as { query: string };
+        return mergeFilters as { query: string };
     }
 
     private createFormatFiltersToRequest(
