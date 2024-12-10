@@ -69,7 +69,10 @@ export class ResourceDataService<T extends IId = any> {
     public save(): Observable<T> {
         if (this.data$.value?.id) {
             return this.resourceController.update(this.data$.value).pipe(
-                tap(entity => this.data$.next(entity)),
+                tap(entity => {
+                    this.data$.next(entity);
+                    this.stable = cloneDeep(entity);
+                }),
             );
         }
         return this.data$;

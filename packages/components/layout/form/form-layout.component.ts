@@ -121,6 +121,9 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
     private buildFormGroup(): FormGroup<FormGroupFields> {
         const controls = this.config.fields
             .reduce<FormGroupFields>((acc, field) => {
+                if (!field?.property) {
+                    return acc;
+                }
                 const {
                     defaultValue = null,
                     defaultDisabled = false,

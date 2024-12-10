@@ -3,7 +3,7 @@
   <button (click)="onEdit($event)"
           *ngIf="!isEdit"
           [disabled]="isEditDisabled()"
-          class="btn"
+          class="btn d-flex"
           [attr.data-qa]="'edit-button'"
           mat-icon-button
           type="button">
