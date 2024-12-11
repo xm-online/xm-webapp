@@ -23,4 +23,8 @@ export const XM_BOOL_ELEMENTS: XmDynamicEntry[] = [
         selector: 'checkbox-control',
         loadChildren: () => import('@xm-ngx/components/bool').then(m => m.XmCheckboxControl),
     },
+    {
+        selector: 'slide-toggle-control',
+        loadChildren: () => import('@xm-ngx/components/bool').then(m => m.SlideToggleControl),
+    },
 ];
