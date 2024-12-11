@@ -29,6 +29,7 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
     public editor: Editor;
     public oldText: string;
     @Output() public textChanged: EventEmitter<string> = new EventEmitter<string>();
+    @Output() public annotationsChange: EventEmitter<any[]> = new EventEmitter<any[]>();
 
     constructor(elementRef: ElementRef) {
         this.editor = ace.edit(elementRef.nativeElement);
@@ -134,7 +135,10 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
     }
 
     public initEvents(): void {
-        this.editor.on('change', () => this.updateValue());
+        this.editor.on('change', () => {
+            this.updateValue();
+            this.updateAnnotations();
+        });
         this.editor.on('keypress', () => this.updateValue());
         this.editor.on('paste', () => this.updateValue());
     }
@@ -151,6 +155,13 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
         }
 
         this.oldText = newVal;
+    }
+
+    private updateAnnotations(): void {
+        setTimeout(() => {
+            const annotations: any[] = this.editor.getSession().getAnnotations();
+            this.annotationsChange.emit(annotations);
+        }, 250);
     }
 
 }
