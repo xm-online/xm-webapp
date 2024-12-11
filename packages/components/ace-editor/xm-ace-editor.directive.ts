@@ -158,10 +158,11 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
     }
 
     private updateAnnotations(): void {
+        const editorGetInfoAboutAnnotationsDelay = 250;
         setTimeout(() => {
             const annotations: any[] = this.editor.getSession().getAnnotations();
             this.annotationsChange.emit(annotations);
-        }, 250);
+        }, editorGetInfoAboutAnnotationsDelay);
     }
 
 }
