@@ -61,6 +61,7 @@ export interface MultiLanguageOptions {
     maxLength?: number;
     excludeLang: string[];
     spellcheck?: boolean;
+    sanitize?: boolean;
 }
 
 export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
@@ -72,6 +73,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
     maxLength: null,
     excludeLang: [],
     spellcheck: false,
+    sanitize: true,
 };
 
 @Component({
@@ -185,6 +187,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
     public wysiwygConfig: AngularEditorConfig = {
         editable: true,
         showToolbar: true,
+        sanitize: this.config?.sanitize || true,
         spellcheck: this.config?.spellcheck || false,
         defaultParagraphSeparator: 'p',
         toolbarHiddenButtons: [
@@ -240,6 +243,7 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
             this.setDisabledState(this.control.disabled);
         });
         this.wysiwygConfig.spellcheck = this.config?.spellcheck;
+        this.wysiwygConfig.sanitize = this.config?.sanitize;
     }
 
     public ngOnInit(): void {
@@ -304,7 +308,6 @@ export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
                 this.value = [...oldValue, langValue];
             }
         }
-
         this.change(this.value);
 
         if (this.control) {
