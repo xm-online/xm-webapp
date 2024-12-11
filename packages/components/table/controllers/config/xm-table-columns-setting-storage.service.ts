@@ -13,6 +13,7 @@ export interface ColumnsSettingStorageItem {
     isHideLock: boolean;
     permission?: any;
     permissionStrategy?: string;
+    storageColumn?: boolean;
 }
 
 export const COLUMNS_SETTING_STORE_NAME = 'XmTableSettingStoreState';

@@ -1,18 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy, } from '@xm-ngx/operators';
 
 import { AbstractControl, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy, } from '@xm-ngx/operators';
+import { XmTranslationModule } from '@xm-ngx/translation';
 import {
     ColumnsSettingStorageItem,
     XmTableColumnsSettingStorageService,
 } from '../../controllers/config/xm-table-columns-setting-storage.service';
-import { CommonModule } from '@angular/common';
-import { XmTranslationModule } from '@xm-ngx/translation';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatListModule } from '@angular/material/list';
 
 @Component({
     selector: 'xm-show-hide-columns-settings',
@@ -96,17 +96,19 @@ export class ShowHideColumnsSettingsComponent implements OnInit, OnDestroy {
 
     private setUnCheckedColumns(): void {
         this.columns.forEach(item => {
-            item.hidden = !this.columnsControl?.value.some(control => control?.name === item?.name);
+            if (!item.storageColumn) {
+                item.hidden = !this.columnsControl?.value.some(control => control?.name === item?.name);
+            }
         });
     }
 
     private setSelectedAllToOptions(isSelectedAll: boolean): void {
         this.columns.forEach(item => {
-            if(!item.isHideLock) {
+            if (!item.isHideLock && !item.storageColumn) {
                 item.hidden = !isSelectedAll;
             }
         });
 
-        this.columnsControl.patchValue(this.columns, { emitEvent: false });
+        this.columnsControl.patchValue(this.columns, {emitEvent: false});
     }
 }

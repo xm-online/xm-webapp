@@ -22,6 +22,7 @@ export type XmTableQueryParamsFilter = Record<string, XmTableQueryParamsFilterVa
 export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersControlRequestConfig, DataQa {
     /** Title */
     title: Translate,
+    headerStyle?: string,
     isTitleHidden: boolean;
     isCardMarginBottom: boolean;
     isRowSelectable: boolean,

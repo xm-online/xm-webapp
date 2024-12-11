@@ -11,6 +11,7 @@ import {
 import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { Translate } from '@xm-ngx/translation';
 import { Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY } from './xm-table-filters-elastic-string-query';
+import { checkIfEmpty } from '@xm-ngx/pipes';
 
 export interface XmTableConfigFilters extends FormGroupLayoutItem {
     options: {
@@ -100,7 +101,7 @@ export class XmElasticRequestBuilder {
             filtersToRequest,
         );
 
-        return _.omitBy(mergeFilters, _.isEmpty) as { query: string };
+        return _.omitBy(mergeFilters, checkIfEmpty) as { query: string };
     }
 
     private createFormatFiltersToRequest(
