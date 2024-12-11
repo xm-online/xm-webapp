@@ -77,7 +77,7 @@ export class XmTableArrayCollectionController<T = unknown>
                     tap((value) => {
                         this.entity = value;
 
-                        const items = get(value, this.config.path, []) as T[];
+                        const items = this.config?.path ? get(value, this.config.path, []) as T[] : value as T[];
 
                         const rawItems = this.config?.buildItemAsNestedKey?.length > 0
                             ? [
