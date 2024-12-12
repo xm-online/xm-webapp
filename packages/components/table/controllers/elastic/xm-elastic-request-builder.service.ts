@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { XmFilterQueryParams } from '../../collections/i-xm-table-collection-controller';
 import { PageableAndSortable, QueryParams, QueryParamsPageable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
@@ -12,6 +12,7 @@ import { FormGroupLayoutItem } from '@xm-ngx/components/form-layout';
 import { Translate } from '@xm-ngx/translation';
 import { Xm_TABLE_FILTERS_ELASTIC_STRING_QUERY } from './xm-table-filters-elastic-string-query';
 import { checkIfEmpty } from '@xm-ngx/pipes';
+import { ActivatedRoute } from '@angular/router';
 
 export interface XmTableConfigFilters extends FormGroupLayoutItem {
     options: {
@@ -23,6 +24,7 @@ export interface XmTableConfigFilters extends FormGroupLayoutItem {
     {providedIn: 'root'}
 )
 export class XmElasticRequestBuilder {
+    private route = inject(ActivatedRoute);
 
     protected config: XmEntityRepositoryConfig;
 
@@ -92,7 +94,12 @@ export class XmElasticRequestBuilder {
         queryParams: QueryParamsPageable,
         skipMerge = false,
     ): XmElasticSearchRepositoryQueryParamsPageable {
-        const filtersToRequest = xmFormatJs(this.config.paramsToRequest, { queryParams });
+        const filtersToRequest = xmFormatJs(this.config.paramsToRequest,
+            {
+                queryParams,
+                rawQueryParams: this.route.snapshot.queryParams,
+            }
+        );
         const mergeFilters = _.merge(
             {},
             skipMerge

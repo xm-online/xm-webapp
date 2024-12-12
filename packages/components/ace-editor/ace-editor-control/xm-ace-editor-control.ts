@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    Optional,
+    Output,
+    Self,
+    ViewEncapsulation,
+} from '@angular/core';
 import {NgControlAccessor} from '@xm-ngx/components/ng-accessor';
 import {XmTranslationModule} from '@xm-ngx/translation';
 import {XmAceEditorDirective} from '../xm-ace-editor.directive';
@@ -46,6 +55,7 @@ type AceEditorValue = string | object;
             <div class="ace-editor-control w-100 border"
                  [ngClass]="{ 'border-danger': error}"
                  (textChanged)="changeValue($event)"
+                 (annotationsChange)="onAnnotationsChange($event)"
                  [enableInitialFocus]="config.enableInitialFocus"
                  [autoUpdateContent]="true"
                  [mode]="config.mode"
@@ -73,6 +83,9 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
     @Input() @Defaults(XM_ACE_EDITOR_CONTROL_DEFAULT_OPTIONS)
     public config: XmAceEditorControlOptions;
     public _value: string = '';
+
+    @Output() public annotationsChange: EventEmitter<any[]> = new EventEmitter<any[]>();
+
     constructor(@Optional() @Self() public ngControl: NgControl){
         super(ngControl);
     }
@@ -127,5 +140,9 @@ export class XmAceEditorControl extends NgControlAccessor<AceEditorValue> {
 
         this._onChange(this.value);
         this.valueChange.next(this.value);
+    }
+
+    public onAnnotationsChange(value: any[]): void {
+        this.annotationsChange.emit(value);
     }
 }
