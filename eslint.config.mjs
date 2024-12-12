@@ -56,7 +56,7 @@ export default [{
       avoidEscape: true,
     }],
     "no-console": ["error", {
-      allow: ["warn", "info"],
+      allow: ["warn", "info", "error"],
     }],
     "no-multi-spaces": "error",
     "consistent-return": "error",
@@ -105,7 +105,7 @@ export default [{
       avoidEscape: true,
     }],
     "no-console": ["error", {
-      allow: ["warn", "info"],
+      allow: ["warn", "info", "error"],
     }],
     "no-multi-spaces": "error",
     "consistent-return": "error",
