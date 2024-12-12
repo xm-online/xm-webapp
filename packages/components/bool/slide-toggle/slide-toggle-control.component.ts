@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
-import { NgModelWrapper } from '../../ng-accessor';
+import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 
 @Component({
     selector: 'xm-slide-control',
