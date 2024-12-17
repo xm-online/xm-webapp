@@ -19,7 +19,7 @@ import { injectByKey } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmTranslatePipe } from '@xm-ngx/translation';
 import { defaultsDeep } from 'lodash';
-import { Subject } from 'rxjs';
+import { merge, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { TableExpand } from '../animations/xm-table-widget.animation';
 import {
@@ -27,6 +27,7 @@ import {
     XM_TABLE_CONTROLLERS,
     XmTableCollectionControllerResolver,
 } from '../collections';
+import { XmTableColumnsSettingStorageService } from '../controllers/config/xm-table-columns-setting-storage.service';
 import { XmTableColumnDynamicCellComponent } from '../columns/xm-table-column-dynamic-cell.component';
 import { XmTableDynamicColumnComponent } from '../columns/xm-table-dynamic-column.component';
 import { XmTableSelectionHeaderComponent } from '../components/selection-header/xm-table-selection-header.component';
@@ -116,7 +117,9 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
     private resizeObserver: ResizeObserver;
 
     constructor(
-        private collectionControllerResolver: XmTableCollectionControllerResolver) {
+        private collectionControllerResolver: XmTableCollectionControllerResolver,
+        private tableColumnsSettingStorageService: XmTableColumnsSettingStorageService
+    ) {
     }
 
     private _config: XmTableWidgetConfig;
@@ -139,7 +142,7 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
             });
         });
         this.resizeObserver.observe(this.tableRef.nativeElement);
-        subject.pipe(
+        merge(this.tableColumnsSettingStorageService.getStore(), subject).pipe(
             takeUntilOnDestroy(this),
             debounceTime(50)
         ).subscribe(() => {

@@ -89,7 +89,7 @@ export class XmTableSettingStore implements OnDestroy {
     }
 }
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class XmTableColumnsSettingStorageService {
     private _key: string;
 
