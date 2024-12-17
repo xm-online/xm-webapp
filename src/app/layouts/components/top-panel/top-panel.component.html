@@ -1,0 +1,17 @@
+<div class="top-panel-view" #topPanelRef>
+  @if (topPanelLayout && isTopPanel) {
+    <div
+      [@showHideTopPanel]="{
+          value: animationState,
+          params: {
+            marginBottom: config?.animation?.marginBottom,
+            duration: config?.animation?.duration
+          }
+      }"
+      (@showHideTopPanel.done)="onAnimationDone($event)">
+      <xm-dynamic-widget-layout
+        [layouts]="topPanelLayout">
+      </xm-dynamic-widget-layout>
+    </div>
+  }
+</div>

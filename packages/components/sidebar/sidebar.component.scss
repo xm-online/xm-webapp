@@ -12,6 +12,7 @@ $xm-sidebar-backdrop-z-index: -1 !default;
 .xm-sidebar-content {
   display:    block;
   width:      100%;
+  height:     100%;
 
   .xm-sidebar-background {
     position: absolute;
@@ -37,7 +38,7 @@ $xm-sidebar-backdrop-z-index: -1 !default;
   }
 
   &__dynamic-content {
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
   }
