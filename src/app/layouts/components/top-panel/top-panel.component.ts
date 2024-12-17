@@ -23,6 +23,7 @@ import {
  * To make it works you need to provide the public UI configuration in format (example below):
  * ```yaml
  * topPanel:
+ *     position: 'on-top' // mandatory, possible values: 'on-top' or 'before-dashboard-content'. This option is used in `src/app/layouts/main.component.html` and defines position where to display component.
  *     snackbar: // optional
  *         selector: 'your/component/selector'
  *         config: // use MatSnackBarConfig
