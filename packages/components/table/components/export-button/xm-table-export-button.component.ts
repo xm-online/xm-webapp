@@ -11,7 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { XmTranslatePipe } from '@xm-ngx/translation';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
-import { XmTableQueryParamsStoreService } from '@xm-ngx/components/table';
+import { XmTableQueryParamsStoreService } from '../../controllers/filters/xm-table-query-params-store.service';
 import _ from 'lodash';
 import { take } from 'rxjs/operators';
 

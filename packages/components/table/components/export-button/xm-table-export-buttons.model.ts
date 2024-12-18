@@ -1,6 +1,6 @@
 import { Translate } from '@xm-ngx/translation';
 import { JavascriptCode } from '@xm-ngx/interfaces';
-import { XmTableColumn } from '@xm-ngx/components/table';
+import { XmTableColumn } from '../../columns/xm-table-column-dynamic-cell.component';
 
 export type ExportButtonConfig = {
     title?: Translate;
