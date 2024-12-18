@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash';
 import { XmTableRepositoryResolver, } from '../repositories/xm-table-repository-resolver.service';
 import { NotSupportedException } from '@xm-ngx/exceptions';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
-import { map, take, tap } from 'rxjs/operators';
+import { finalize, map, take, tap } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { PageableAndSortable, PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 import { XmDynamicInstanceService, XmDynamicService, XmDynamicWithSelector } from '@xm-ngx/dynamic';
@@ -41,6 +41,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
     @Defaults({
         triggerTableKey: 'action'
     }) public declare config: XmTableReadOnlyRepositoryCollectionControllerConfig;
+    public loading: boolean;
 
     private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
     private injector: Injector = inject(Injector);
@@ -166,6 +167,20 @@ export class XmTableRepositoryCollectionController<T = unknown>
             .pipe(
                 tap(() => this.eventManagerService.broadcast({name: this.config.triggerTableKey + XmTableEventType.XM_TABLE_UPDATE})),
                 map((res) => res?.body)
+            );
+    }
+
+    public export(
+        request: XmFilterQueryParams
+    ): Observable<unknown> {
+        if (_.isEmpty(request.pageableAndSortable)) {
+            request.pageableAndSortable = PAGEABLE_AND_SORTABLE_DEFAULT;
+        }
+        this.loading = true
+        return this.repositoryController.query(request)
+            .pipe(
+                map((res) => res?.body),
+                finalize(() => this.loading = false)
             );
     }
 }

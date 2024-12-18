@@ -6,6 +6,13 @@ import { Translate, XmTranslatePipe } from '@xm-ngx/translation';
 import { XmTableFilterButtonComponent } from './xm-table-filter-button.component';
 import { XmTableFilterChipsComponent } from './xm-table-filter-chips.component';
 import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.component';
+import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
+
+export interface XmTableHeaderConfig {
+    actions: XmDynamicPresentationLayout[],
+    title: Translate;
+    columns?: XmTableColumn[];
+}
 
 @Component({
     selector: 'xm-table-header',
@@ -58,9 +65,26 @@ import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.compo
     ],
 })
 export class XmTableHeaderComponent {
-    @Input() public config: {
-        actions: XmDynamicPresentationLayout[],
-        title: Translate
+    public _config: XmTableHeaderConfig;
+
+    @Input() public set config(val: XmTableHeaderConfig) {
+        this._config =  {
+            title: val.title,
+            actions: val.actions.map(action => {
+                return {
+                    ...action,
+                    config: {
+                        ...action.config,
+                        columns: val.columns
+                    },
+                }
+            })
+        }
     };
+
+    public get config(): XmTableHeaderConfig {
+        return this._config;
+    }
+
     @Input() public loading: boolean;
 }

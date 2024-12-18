@@ -69,7 +69,7 @@
 
           <tr *matHeaderRowDef="context.settings.displayedColumns" mat-header-row [ngClass]="{'remove-border-top': config.isTitleHidden}"></tr>
 
-          <xm-table-loading [isLoading]="context.collection.loading"
+          <xm-table-loading [isLoading]="context.collection.loading || xmTable.xmTableController['loading']"
                             [colspan]="context.settings.displayedColumns.length"></xm-table-loading>
 
           <tr *matRowDef="let row; columns: context.settings.displayedColumns"

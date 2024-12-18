@@ -1,0 +1,29 @@
+<ng-container *xmPermission="config?.permissions">
+  <ng-container *xmCondition="config?.showCondition; arguments {data: value}">
+    @if (config?.asIcon && config?.icon) {
+    <button
+      mat-icon-button
+      [matTooltip]="config?.title | translate"
+      [class]="config.class"
+      [style]="config.style"
+      [disabled]="disableButton() || (loading$ | async)"
+      [xm-loading]="loading$ | async"
+      [attr.data-qa]="config.dataQa"
+      (click)="executeControllerMethod()">
+      <mat-icon>{{ config.icon }}</mat-icon>
+      </button>
+    } @else {
+    <button
+      mat-button
+      [class]="config.class"
+      [style]="config.style"
+      [disabled]="disableButton() || (loading$ | async)"
+      [xm-loading]="loading$ | async"
+      [attr.data-qa]="config.dataQa"
+      (click)="executeControllerMethod()">
+      @if (config.icon) {<mat-icon>{{ config.icon }}</mat-icon>}
+    {{ config.title | translate }}
+    </button>
+    }
+  </ng-container>
+</ng-container>

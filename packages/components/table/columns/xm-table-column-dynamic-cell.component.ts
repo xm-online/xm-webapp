@@ -38,7 +38,8 @@ export interface XmTableColumn<C = unknown> extends XmDynamicCell<C> {
         options: unknown;
         config: unknown;
     },
-    body?: XmDynamicCell
+    body?: XmDynamicCell;
+    hideExport?: boolean;
 }
 
 @Component({

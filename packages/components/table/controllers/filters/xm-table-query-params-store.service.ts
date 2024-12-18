@@ -10,12 +10,13 @@ import {
 import { flattenObjectDeep, unFlattenObjectDeep } from '@xm-ngx/operators';
 import { XmTableConfig } from '../../directives/xm-table.model';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map, of, BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class XmTableQueryParamsStoreService {
     private router = inject(Router);
     private route = inject(ActivatedRoute);
+    private queryParamsSub: BehaviorSubject<QueryParamsPageable> = new BehaviorSubject(null as QueryParamsPageable);
 
     private _key: string;
 
@@ -42,6 +43,8 @@ export class XmTableQueryParamsStoreService {
             ...deleteParams,
             ...flattenedParams,
         };
+
+        this.queryParamsSub.next(queryParams);
 
         this.router.navigate(
             [],
@@ -131,5 +134,9 @@ export class XmTableQueryParamsStoreService {
             }
         });
         return changedValues;
+    }
+
+    public getQueryParamsValue(): QueryParamsPageable {
+        return this.queryParamsSub.getValue();
     }
 }

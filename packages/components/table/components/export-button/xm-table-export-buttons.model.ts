@@ -1,0 +1,59 @@
+import { Translate } from '@xm-ngx/translation';
+import { JavascriptCode } from '@xm-ngx/interfaces';
+import { XmTableColumn } from '@xm-ngx/components/table';
+
+export type ExportButtonConfig = {
+    title?: Translate;
+    icon?: string;
+    class?: string;
+    style?: string;
+    valueKey?: string;
+    asIcon?: boolean;
+    permissions?: string[];
+    showCondition?: JavascriptCode;
+    disableCondition?: JavascriptCode;
+    controller?: {
+        key: string;
+        method: string;
+    }
+    loadingController?: {
+        key: string;
+        method: string;
+    }
+    dataQa: string;
+    columns?: XmTableColumn[];
+    export?: ExportParamsButtonConfig;
+    pageSize?: string;
+}
+
+export enum ExportType {
+    XLS = 'xls',
+    XLSX = 'xlsx',
+    CSV = 'csv',
+    TXT = 'txt',
+}
+
+export interface ExportParamsButtonConfig {
+    type?: ExportType;
+    name?: string;
+    delimiter?: string;
+    additionalFields?: XmTableColumn[];
+}
+
+export const XmTableExportButtonConfigDefault = {
+    export: {
+        type: ExportType.CSV,
+        fileName: 'table_data',
+        delimiter: ';',
+        additionalFields: [],
+    },
+    pageSize: '1000',
+    controller: {
+        key: 'export-action-controller',
+        method: 'export'
+    },
+    loadingController: {
+        key: 'export-action-controller',
+        method: 'loading'
+    }
+};
