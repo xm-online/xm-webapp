@@ -5,14 +5,15 @@ import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { isObservable, Observable } from 'rxjs';
 import { ConditionDirective, ConditionModule } from '@xm-ngx/components/condition';
-import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { Defaults } from '@xm-ngx/operators';
 import { ExportButtonConfig, XmTableExportButtonConfigDefault } from './xm-table-export-buttons.model';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmTranslatePipe } from '@xm-ngx/translation';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { XmTableQueryParamsStoreService } from '@xm-ngx/components/table';
 import _ from 'lodash';
+import { take } from 'rxjs/operators';
 
 @Component({
     selector: 'xm-table-export-button',
@@ -22,7 +23,7 @@ import _ from 'lodash';
         MatButtonModule,
         MatIconModule,
         MatTooltipModule,
-        XmTranslationModule,
+        XmTranslatePipe,
         XmPermissionModule,
         ConditionModule,
         XmLoadingModule,
@@ -56,7 +57,7 @@ export class XmTableExportButtonComponent {
             const executedMethod = this.controller[this.config.controller.method](queryParams, this.config.export);
             if (isObservable(executedMethod)) {
                 executedMethod.pipe(
-                    takeUntilOnDestroy(this),
+                    take(1),
                 ).subscribe();
             }
             return;
@@ -69,9 +70,5 @@ export class XmTableExportButtonComponent {
             return ConditionDirective.checkCondition(this.config.disableCondition, {data: this.value});
         }
         return false;
-    }
-
-    public ngOnDestroy(): void {
-        takeUntilOnDestroyDestroy(this);
     }
 }

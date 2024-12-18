@@ -12,14 +12,8 @@ export type ExportButtonConfig = {
     permissions?: string[];
     showCondition?: JavascriptCode;
     disableCondition?: JavascriptCode;
-    controller?: {
-        key: string;
-        method: string;
-    }
-    loadingController?: {
-        key: string;
-        method: string;
-    }
+    controller?: XmTableExportButtonControllerConfig;
+    loadingController?: XmTableExportButtonControllerConfig;
     dataQa: string;
     columns?: XmTableColumn[];
     export?: ExportParamsButtonConfig;
@@ -31,6 +25,11 @@ export enum ExportType {
     XLSX = 'xlsx',
     CSV = 'csv',
     TXT = 'txt',
+}
+
+export interface XmTableExportButtonControllerConfig {
+    key?: string;
+    method?: string;
 }
 
 export interface ExportParamsButtonConfig {

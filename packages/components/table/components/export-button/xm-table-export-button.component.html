@@ -3,7 +3,7 @@
     @if (config?.asIcon && config?.icon) {
     <button
       mat-icon-button
-      [matTooltip]="config?.title | translate"
+      [matTooltip]="config?.title | xmTranslate "
       [class]="config.class"
       [style]="config.style"
       [disabled]="disableButton() || (loading$ | async)"
@@ -22,7 +22,7 @@
       [attr.data-qa]="config.dataQa"
       (click)="executeControllerMethod()">
       @if (config.icon) {<mat-icon>{{ config.icon }}</mat-icon>}
-    {{ config.title | translate }}
+    {{ config.title | xmTranslate  }}
     </button>
     }
   </ng-container>
