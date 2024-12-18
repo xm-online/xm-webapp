@@ -67,8 +67,9 @@ export interface XmTableHeaderConfig {
 export class XmTableHeaderComponent {
     public _config: XmTableHeaderConfig;
 
-    @Input() public set config(val: XmTableHeaderConfig) {
-        this._config =  {
+    @Input()
+    public set config(val: XmTableHeaderConfig) {
+        this._config = {
             title: val.title,
             actions: val.actions.map(action => {
                 return {
@@ -77,9 +78,9 @@ export class XmTableHeaderComponent {
                         ...action.config,
                         columns: val.columns
                     },
-                }
+                };
             })
-        }
+        };
     };
 
     public get config(): XmTableHeaderConfig {

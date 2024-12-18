@@ -176,7 +176,7 @@ export class XmTableRepositoryCollectionController<T = unknown>
         if (_.isEmpty(request.pageableAndSortable)) {
             request.pageableAndSortable = PAGEABLE_AND_SORTABLE_DEFAULT;
         }
-        this.loading = true
+        this.loading = true;
         return this.repositoryController.query(request)
             .pipe(
                 map((res) => res?.body),

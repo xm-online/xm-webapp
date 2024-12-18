@@ -25,13 +25,12 @@ export class XmTableExportButtonControllerService<T> {
     @Defaults(XmTableExportButtonControllerConfigDefault)
     public config: XmTableExportButtonControllerConfig;
     private loadingSub: Subject<boolean> = new Subject();
+    @Input() private columns: XmTableColumn[];
 
     private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
     private injector: Injector = inject(Injector);
 
     private xmTranslateService: XmTranslateService = inject(XmTranslateService);
-
-    @Input() private columns: XmTableColumn[];
 
     private get controllerByKey(): any {
         return this.xmDynamicInstanceService.getControllerByKey(
@@ -142,7 +141,7 @@ export class XmTableExportButtonControllerService<T> {
         return columns;
     }
 
-    protected exportToText(data: Record<string, unknown>[], exportBtnConfig: ExportParamsButtonConfig) {
+    protected exportToText(data: Record<string, unknown>[], exportBtnConfig: ExportParamsButtonConfig): void {
         const blob = new Blob([JSON.stringify(data)], {type: 'application/octet-stream'});
         saveAs(blob, `${exportBtnConfig.name}_${this.getCurrentDate()}.txt`);
     }
