@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "7.0.25",
+  "version": "7.0.26",
   "release": "6.0.0",
   "private": true,
   "description": "Xm-webapp",
@@ -155,6 +155,7 @@
     "ts-morph": "23.0.0",
     "tslib": "2.4.0",
     "validate": "5.2.0",
+    "xlsx": "^0.18.5",
     "yaml": "2.3.1",
     "yamljs": "0.3.0",
     "zone.js": "0.14.10"

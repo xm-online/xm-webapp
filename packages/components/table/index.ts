@@ -22,6 +22,7 @@ export * from './components/xm-table-header.component';
 export * from './components/xm-table-loading-column.component';
 export * from './components/xm-table-selection-column.component';
 export * from './components/xm-table-loading.component';
+export * from './components/export-button/xm-table-export-button.component';
 
 export * from './configs/xm-table-config-root.service';
 

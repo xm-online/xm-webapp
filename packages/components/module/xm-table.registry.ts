@@ -57,4 +57,12 @@ export const XM_TABLE_ELEMENTS: XmDynamicEntry[] = [
         selector: 'table-repository-collection-controller',
         loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableRepositoryCollectionController),
     },
+    {
+        selector: 'export-button',
+        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableExportButtonComponent),
+    },
+    {
+        selector: 'table-export-button-controller',
+        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableExportButtonControllerService),
+    },
 ];
