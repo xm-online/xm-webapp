@@ -35,7 +35,7 @@ export interface LinksGroupWidgetConfig {
     ],
     styleUrls:['./links-group-widget.scss'],
     template: `
-        <div *ngIf="config?.list" class="bg-surface mb-3 overflow-hidden">
+        <div *ngIf="config?.list" class="btn-block bg-surface mb-3 overflow-hidden">
             <nav [color]="'primary'"
                  mat-tab-nav-bar
                  [tabPanel]="tabPanel"
