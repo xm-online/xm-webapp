@@ -9,3 +9,7 @@
   @include xm.material-stroked-border-color();
   @include xm.material-border-rounded();
 }
+
+:host(xm-links-group-widget) .btn-block {
+  @include xm.material-border-rounded();
+}
