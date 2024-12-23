@@ -13,7 +13,14 @@ export class XmDatePipe implements PipeTransform {
         if (!date) {
             return null;
         }
+        if (!this.isDateValid(date)) {
+            return null;
+        }
         this.locale = this.xmPrincipalService.getLangKey();
         return this.datePipe.transform(date, format, timezone, locale || this.locale);
+    }
+
+    private isDateValid(dateStr: string | Date): boolean {
+        return !isNaN(new Date(dateStr) as any);
     }
 }
