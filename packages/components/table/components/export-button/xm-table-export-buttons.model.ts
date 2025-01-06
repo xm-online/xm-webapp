@@ -17,7 +17,7 @@ export type ExportButtonConfig = {
     dataQa: string;
     columns?: XmTableColumn[];
     export?: ExportParamsButtonConfig;
-    pageSize?: string;
+    pageSize?: number;
 }
 
 export enum ExportType {
@@ -46,7 +46,7 @@ export const XmTableExportButtonConfigDefault = {
         delimiter: ';',
         additionalFields: [],
     },
-    pageSize: '1000',
+    pageSize: 1000,
     controller: {
         key: 'export-action-controller',
         method: 'export'

@@ -32,8 +32,6 @@
 
     </xm-table-header>
 
-    <xm-table-selection-header [config]="config.selection"></xm-table-selection-header>
-
     <div class="xm-table-wrapper" [@tableExpand]="xmTable.config.isCollapsed ? 'collapsed' : 'expanded'">
       <ng-container>
         <xm-table-quick-filter-inline *ngIf="xmTable.config.showQuickFilters" [config]="config"></xm-table-quick-filter-inline>
@@ -42,6 +40,8 @@
       <xm-table-filter-inline *ngIf="!xmTable.config.popUpFilter"
                               [config]="config"
                               [loading]="context.collection.loading"></xm-table-filter-inline>
+
+      <xm-table-selection-header [config]="config.selection"></xm-table-selection-header>
 
       <div class="xm-table-overflow-wrap">
         <table
@@ -60,9 +60,13 @@
                           [colspan]="context.settings.displayedColumns.length"
                           [type]="'initial'"></xm-table-empty>
 
-          <xm-table-selection-column [column]="xmTableSelection.selectColumn"
-                                     #selectionRow
-                                     [rows]="context.collection.items"></xm-table-selection-column>
+          <xm-table-selection-column
+            *ngIf="config.selection"
+            [column]="xmTableSelection.selectColumn"
+            [rows]="context.collection.items"
+            [config]="config.selection"
+          >
+          </xm-table-selection-column>
 
           <xm-table-column-dynamic-cell *ngFor="let column of xmTableSelection.dynamicColumns"
                                         [column]="column"></xm-table-column-dynamic-cell>
@@ -75,7 +79,6 @@
           <tr *matRowDef="let row; columns: context.settings.displayedColumns"
               class="xm-table-hoverable-row xm-table-row-background"
               [ngClass]="{
-                'xm-table-row-selected' : selectionRow.selection.isSelected(row),
                 'xm-table-row-loading' : context.collection.loading,
                 'remove-border-bottom': xmTable.config.pageableAndSortable.hidePagination && config.isTitleHidden
               }"
