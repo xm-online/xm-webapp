@@ -1,10 +1,10 @@
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Injector, Input, OnDestroy, OnInit } from '@angular/core';
 import { XmTableSelectionService, } from '../../controllers/selections/xm-table-selection.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { injectByKey, XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicModule } from '@xm-ngx/dynamic';
+import { XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicInstanceService, XmDynamicModule } from '@xm-ngx/dynamic';
 import {
     finalize,
     map
@@ -120,7 +120,15 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
     public loading: boolean = false;
     public xmTableSelectionTranslates = XmTableSelectionTranslates;
 
-    private collectionController = injectByKey<any>(this.config?.controller?.key, {optional: true});
+    private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
+    private injector: Injector = inject(Injector);
+    private get collectionController(): any {
+        return this.xmDynamicInstanceService.getControllerByKey(
+            this.config.controller?.key,
+            this.injector
+        );
+    }
+
     private selectionService: XmTableSelectionService<unknown> = inject(XmTableSelectionService);
     private xmTableQueryParamsStoreService = inject(XmTableQueryParamsStoreService);
 
