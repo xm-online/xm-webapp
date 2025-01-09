@@ -1,7 +1,7 @@
 import { Translate } from '@xm-ngx/translation';
 import { PageableAndSortable } from '@xm-ngx/repositories';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from '../directives/xm-table.model';
-import { XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
+import { XmDynamicLayout, XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 import { XM_TABLE_EMPTY_DEFAULT_CONFIG, XmTableEmptyConfig } from '../components/xm-table-empty.component';
 import { XmTableFiltersControlRequestConfig } from '../components/xm-table-filter-button-dialog-controls.component';
 import { DataQa } from '@xm-ngx/interfaces';
@@ -32,9 +32,19 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     width?: string;
     filtersClass?: string,
     /** Selection configuration */
-    selection: XmDynamicPresentationLayout[],
+    selection?: XmTableSelectionConfig;
     popUpFilter?: boolean;
     showFilterChips?: boolean;
+}
+
+export interface XmTableSelectionConfig {
+    controller?: {
+        key: string
+    };
+    pageSize?: number;
+    key?: string;
+    menuMode?: boolean;
+    layout?: XmDynamicLayout[]
 }
 
 export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
@@ -46,7 +56,6 @@ export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
     ...XM_TABLE_CONFIG_DEFAULT,
     filtersClass: 'row',
     filters: [],
-    selection: [],
     chips: [],
     actions: [],
     popUpFilter: false,

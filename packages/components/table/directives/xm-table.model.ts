@@ -2,7 +2,7 @@ import { XmTableCollectionControllerType, } from '../collections/xm-table-collec
 import { PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
 import {
-    XmTableQueryParamsFilter,
+    XmTableQueryParamsFilter, XmTableSelectionConfig,
     XmTableWithColumnDynamicCellOptionsPagination,
 } from '../table-widget/xm-table-widget.config';
 
@@ -22,6 +22,7 @@ export interface XmTableConfig {
     popUpFilter?: boolean;
     showQuickFilters?: boolean;
     navigation?: XmTableNavigation;
+    selection?: XmTableSelectionConfig;
 }
 
 export interface XmTableNavigation {
