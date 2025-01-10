@@ -73,7 +73,7 @@ export class XmElasticRequestBuilder {
         filterParams: QueryParams,
     ): XmElasticSearchRepositoryQueryParamsPageable {
         const searchArr = Object.keys(filterParams)
-            .filter(key => !_.isEmpty(filterParams[key]))
+            .filter(key => typeof filterParams[key] === 'boolean' || !_.isEmpty(filterParams[key]))
             .map(key => this.getElastic(key, filterParams[key]));
 
         return this.buildParamsWithElasticQuery(queryParams, searchArr);
@@ -84,7 +84,7 @@ export class XmElasticRequestBuilder {
         filterParams: QueryParams,
     ): XmElasticSearchRepositoryQueryParamsPageable {
         const searchArr = Object.keys(filterParams)
-            .filter(key => !_.isEmpty(filterParams[key]))
+            .filter(key => typeof filterParams[key] === 'boolean' || !_.isEmpty(filterParams[key]))
             .map(key => `${key}: ${filterParams[key]}`);
 
         return this.buildParamsWithElasticQuery(queryParams, searchArr);
@@ -117,7 +117,7 @@ export class XmElasticRequestBuilder {
     ): XmElasticSearchRepositoryQueryParamsPageable {
         const formattedObj = format(this.config.format?.query, filterParams);
         const searchArr = Object.keys(formattedObj)
-            .filter(key => !_.isEmpty(formattedObj[key]))
+            .filter(key => typeof formattedObj[key] === 'boolean' || !_.isEmpty(formattedObj[key]))
             .map(key => `${key}: ${formattedObj[key]}`);
 
         return this.buildParamsWithElasticQuery(queryParams, searchArr);
