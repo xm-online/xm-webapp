@@ -15,7 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTable, MatTableModule } from '@angular/material/table';
-import { injectByKey } from '@xm-ngx/dynamic';
+import { injectByKey, XM_DYNAMIC_COMPONENT_CONFIG } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmTranslatePipe } from '@xm-ngx/translation';
 import { defaultsDeep } from 'lodash';
@@ -49,6 +49,7 @@ import { XmTableDirective } from '../directives/xm-table.directive';
 import { XM_TABLE_CONFIG_DEFAULT } from '../directives/xm-table.model';
 import { XmTableMatPaginatorInt } from './table.mat-paginator-int';
 import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-widget.config';
+import { XmTableSelectionDefault } from '@xm-ngx/components/table/components/selection-header/xm-table-selection.model';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
@@ -100,6 +101,10 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         {
             provide: MatPaginatorIntl,
             useClass: XmTableMatPaginatorInt,
+        },
+        {
+            provide: XM_DYNAMIC_COMPONENT_CONFIG,
+            useValue: XmTableSelectionDefault,
         },
     ],
     animations: [
