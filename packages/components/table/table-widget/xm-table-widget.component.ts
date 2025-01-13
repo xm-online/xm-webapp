@@ -49,7 +49,7 @@ import { XmTableDirective } from '../directives/xm-table.directive';
 import { XM_TABLE_CONFIG_DEFAULT } from '../directives/xm-table.model';
 import { XmTableMatPaginatorInt } from './table.mat-paginator-int';
 import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-widget.config';
-import { XmTableSelectionDefault } from '@xm-ngx/components/table/components/selection-header/xm-table-selection.model';
+import { XmTableSelectionDefault } from '../components/selection-header/xm-table-selection.model';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
