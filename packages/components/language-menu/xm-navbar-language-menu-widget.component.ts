@@ -3,7 +3,7 @@ import { XmSessionService } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { LanguageModule, LanguageService, Locale, XmTranslationModule } from '@xm-ngx/translation';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +29,7 @@ export interface XmLanguageUiConfig extends XmUIConfig {
     ],
     standalone: true,
     template: `
-        <button *ngIf="!(isSessionActive$ | async)"
+        <button *ngIf="showWidget() | async"
                 mat-button
                 [matMenuTriggerFor]="menu"
                 [matTooltip]="'xm-navbar-language-menu.choose-language' | translate"
@@ -50,7 +50,7 @@ export interface XmLanguageUiConfig extends XmUIConfig {
 })
 export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
     @Input() public config: unknown;
-
+    @Input() public showAlways: boolean = false;
     public languages: Locale[];
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
 
@@ -80,4 +80,11 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
         takeUntilOnDestroyDestroy(this);
     }
 
+    public showWidget(): Observable<boolean> {
+        return this.isSessionActive$.pipe(
+            map(isSessionActive => {
+                return !isSessionActive || this.showAlways;
+            })
+        );
+    }
 }
