@@ -24,9 +24,11 @@ export interface XmTableHeaderConfig {
 
         <ng-content></ng-content>
 
-        <xm-table-actions-buttons
-            class="push-self-right"
-            [config]="config?.actions"></xm-table-actions-buttons>
+        <div *ngIf="config?.actions">
+            <xm-table-actions-buttons
+                class="push-self-right"
+                [config]="config.actions"></xm-table-actions-buttons>
+        </div>
 
         <ng-content select="[expandPanelButton]"></ng-content>
     `,
