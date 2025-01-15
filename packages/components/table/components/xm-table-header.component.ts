@@ -18,7 +18,7 @@ export interface XmTableHeaderConfig {
     selector: 'xm-table-header',
     host: {class: 'xm-table-header'},
     template: `
-        <div *ngIf="config.title">
+        <div *ngIf="config?.title">
             <h5 class="no-margin">{{config.title | xmTranslate }}</h5>
         </div>
 
@@ -26,7 +26,7 @@ export interface XmTableHeaderConfig {
 
         <xm-table-actions-buttons
             class="push-self-right"
-            [config]="config.actions"></xm-table-actions-buttons>
+            [config]="config?.actions"></xm-table-actions-buttons>
 
         <ng-content select="[expandPanelButton]"></ng-content>
     `,
