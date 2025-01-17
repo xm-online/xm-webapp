@@ -82,6 +82,8 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
         }
     }
 
+    public mode: string;
+
     private mousePressedOnResizer: boolean;
 
     constructor(private sidebarRightService: SidebarRightService,
@@ -102,6 +104,8 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
         if (viewContainerRef.length > 0) {
             viewContainerRef.clear();
         }
+
+        this.mode = config.mode || 'side';
 
         if (templateRef instanceof TemplateRef) {
             viewContainerRef.createEmbeddedView(templateRef);
@@ -141,7 +145,16 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
 
     private changeMainElementMarginBy(width: string): void {
         const main: HTMLElement = document.getElementById('main');
-        main.style.marginRight = width;
+
+        if (this.mode === 'over') {
+            if (width === '0') {
+                main.classList.remove('has-backdrop');
+            } else {
+                main.classList.add('has-backdrop');
+            }
+        } else {
+            main.style.marginRight = width;
+        }
     }
 
     private getWidthStorageKey(): string {
