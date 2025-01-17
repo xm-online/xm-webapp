@@ -3,8 +3,6 @@ import { NgIf } from '@angular/common';
 
 import { XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 import { Translate, XmTranslatePipe } from '@xm-ngx/translation';
-import { XmTableFilterButtonComponent } from './xm-table-filter-button.component';
-import { XmTableFilterChipsComponent } from './xm-table-filter-chips.component';
 import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.component';
 import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
 
@@ -55,15 +53,7 @@ export interface XmTableHeaderConfig {
     imports: [
         NgIf,
         XmTableActionsButtonsComponent,
-        XmTableFilterButtonComponent,
-        XmTableFilterChipsComponent,
         XmTranslatePipe,
-        XmTableFilterButtonComponent,
-        XmTableFilterChipsComponent,
-        XmTableActionsButtonsComponent,
-        XmTableFilterButtonComponent,
-        XmTableFilterChipsComponent,
-        XmTableActionsButtonsComponent,
     ],
 })
 export class XmTableHeaderComponent {
@@ -73,15 +63,15 @@ export class XmTableHeaderComponent {
     public set config(val: XmTableHeaderConfig) {
         this._config = {
             title: val.title,
-            actions: val.actions.map(action => {
+            actions: val.actions?.map(action => {
                 return {
                     ...action,
                     config: {
                         ...action.config,
-                        columns: val.columns
+                        columns: val.columns,
                     },
                 };
-            })
+            }),
         };
     };
 
