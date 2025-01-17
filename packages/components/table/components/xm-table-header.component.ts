@@ -18,7 +18,7 @@ export interface XmTableHeaderConfig {
     selector: 'xm-table-header',
     host: {class: 'xm-table-header'},
     template: `
-        <div *ngIf="config.title">
+        <div *ngIf="config?.title">
             <h5 class="no-margin">{{config.title | xmTranslate }}</h5>
         </div>
 
@@ -71,7 +71,7 @@ export class XmTableHeaderComponent {
     public set config(val: XmTableHeaderConfig) {
         this._config = {
             title: val.title,
-            actions: val.actions.map(action => {
+            actions: val.actions?.map(action => {
                 return {
                     ...action,
                     config: {
