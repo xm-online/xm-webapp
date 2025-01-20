@@ -3,8 +3,6 @@ import { NgIf } from '@angular/common';
 
 import { XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 import { Translate, XmTranslatePipe } from '@xm-ngx/translation';
-import { XmTableFilterButtonComponent } from './xm-table-filter-button.component';
-import { XmTableFilterChipsComponent } from './xm-table-filter-chips.component';
 import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.component';
 import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
 
@@ -18,15 +16,17 @@ export interface XmTableHeaderConfig {
     selector: 'xm-table-header',
     host: {class: 'xm-table-header'},
     template: `
-        <div *ngIf="config.title">
+        <div *ngIf="config?.title">
             <h5 class="no-margin">{{config.title | xmTranslate }}</h5>
         </div>
 
         <ng-content></ng-content>
 
-        <xm-table-actions-buttons
-            class="push-self-right"
-            [config]="config.actions"></xm-table-actions-buttons>
+        <ng-container *ngIf="config?.actions">
+            <xm-table-actions-buttons
+                class="push-self-right"
+                [config]="config.actions"></xm-table-actions-buttons>
+        </ng-container>
 
         <ng-content select="[expandPanelButton]"></ng-content>
     `,
@@ -53,15 +53,7 @@ export interface XmTableHeaderConfig {
     imports: [
         NgIf,
         XmTableActionsButtonsComponent,
-        XmTableFilterButtonComponent,
-        XmTableFilterChipsComponent,
         XmTranslatePipe,
-        XmTableFilterButtonComponent,
-        XmTableFilterChipsComponent,
-        XmTableActionsButtonsComponent,
-        XmTableFilterButtonComponent,
-        XmTableFilterChipsComponent,
-        XmTableActionsButtonsComponent,
     ],
 })
 export class XmTableHeaderComponent {
@@ -71,15 +63,15 @@ export class XmTableHeaderComponent {
     public set config(val: XmTableHeaderConfig) {
         this._config = {
             title: val.title,
-            actions: val.actions.map(action => {
+            actions: val.actions?.map(action => {
                 return {
                     ...action,
                     config: {
                         ...action.config,
-                        columns: val.columns
+                        columns: val.columns,
                     },
                 };
-            })
+            }),
         };
     };
 

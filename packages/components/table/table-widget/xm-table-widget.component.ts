@@ -146,7 +146,7 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
                 subject.next(null);
             });
         });
-        this.resizeObserver.observe(this.tableRef.nativeElement);
+        this.resizeObserver.observe(this.tableRef?.nativeElement);
         merge(this.tableColumnsSettingStorageService.getStore(), subject).pipe(
             takeUntilOnDestroy(this),
             debounceTime(50)
