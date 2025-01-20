@@ -17,6 +17,7 @@ import {
 import * as _ from 'lodash';
 import { Container } from './container';
 import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service';
+import { XmEventManager } from '@xm-ngx/core';
 
 @Directive({selector: '[xmContainerOutlet]'})
 export class ContainerOutletDirective {
@@ -88,6 +89,7 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
 
     constructor(private sidebarRightService: SidebarRightService,
                 private moduleRef: NgModuleRef<unknown>,
+                private eventManager: XmEventManager,
     ) {
     }
 
@@ -144,17 +146,7 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     }
 
     private changeMainElementMarginBy(width: string): void {
-        const main: HTMLElement = document.getElementById('main');
-
-        if (this.mode === 'over') {
-            if (width === '0') {
-                main.classList.remove('has-backdrop');
-            } else {
-                main.classList.add('has-backdrop');
-            }
-        } else {
-            main.style.marginRight = width;
-        }
+        this.eventManager.broadcast({ name: 'rightSidebarToggle', data: { mode: this.mode, width } });
     }
 
     private getWidthStorageKey(): string {
