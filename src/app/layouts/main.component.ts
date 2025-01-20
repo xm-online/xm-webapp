@@ -22,7 +22,7 @@ export class XmMainComponent implements OnInit, AfterViewInit, OnDestroy {
     public isGuestLayout: boolean = true;
     public config: XmMainConfig = this.xmConfigService.getAppConfig();
     public isSidenavOpen$: Observable<boolean>;
-    private rightSidebarSubscription: Subscription;
+    private rightSidebarSubscription: Subscription = Subscription.EMPTY;
     public showSidebarBackdrop: boolean = false;
     public sidebarContentSpacer: string = '0';
 
