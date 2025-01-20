@@ -4,6 +4,7 @@ import { Container } from './container';
 
 export interface SidebarRightConfig<D> {
     width?: string;
+    mode?: 'side' | 'over'
     data: D;
     injector: Injector;
 }
