@@ -114,6 +114,8 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
 export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
     @Defaults(XmTableSelectionDefault)
     @Input() public config: XmTableSelectionConfig = inject<XmTableSelectionConfig>(XM_DYNAMIC_COMPONENT_CONFIG);
+    @Input() public defaultCollectionController: any;
+
     public selection: SelectionModel<unknown>;
     public isVisible$: Observable<boolean>;
     public totalCount$: Observable<number>;
@@ -123,10 +125,18 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
     private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
     private injector: Injector = inject(Injector);
     private get collectionController(): any {
-        return this.xmDynamicInstanceService.getControllerByKey(
+        const configCollectionCtrl = this.xmDynamicInstanceService.getControllerByKey(
             this.config.controller?.key,
             this.injector
         );
+
+        // Config in priority,
+        // If we dont have config for selection try to use table collection
+        if (configCollectionCtrl == null) {
+            return this.defaultCollectionController;
+        }
+
+        return configCollectionCtrl;
     }
 
     private selectionService: XmTableSelectionService<unknown> = inject(XmTableSelectionService);
