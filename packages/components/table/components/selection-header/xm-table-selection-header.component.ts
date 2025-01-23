@@ -44,7 +44,7 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
             <mat-icon class="close" (click)="clear()">close</mat-icon>
 
             <div class="selected-items-text">
-                {{xmTableSelectionTranslates.selectedItems | xmTranslate}} {{this.selection?.selected?.length}}
+                {{xmTableSelectionTranslates.selectedItems | xmTranslate}} {{selection?.selected?.length}}
             </div>
 
             <ng-container *ngIf="(totalCount$ | async) as totalCount">
@@ -66,7 +66,7 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
                              [class]="item.class"
                              [style]="item.style"
                              [selector]="item.selector"
-                             [value]="selection"
+                             [value]="getValue(item)"
                              [options]="item.options"
                              [config]="item.config"
                         >
@@ -85,7 +85,7 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
                                   [class]="item.class"
                                   [style]="item.style"
                                   [selector]="item.selector"
-                                  [value]="selection"
+                                  [value]="getValue(item)"
                                   [options]="item.options"
                                   [config]="item.config">
                     </ng-container>
@@ -145,6 +145,11 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
             );
     }
 
+    public getValue(item: T): SelectionModel<unknown> | unknown[] {
+        const config = item['config'] || item['options'];
+        return config?.valueAsSelection ? this.selection : this.selection.selected;
+    }
+
     public selections$(): Observable<SelectionModel<XmEntity>> {
         return this.selectionService.get(this.config?.key);
     }
@@ -172,6 +177,7 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
 
     public clear(): void {
         this.selection.clear();
+        takeUntilOnDestroyDestroy(this);
     }
 
     public ngOnDestroy(): void {
