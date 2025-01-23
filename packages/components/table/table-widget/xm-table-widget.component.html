@@ -1,10 +1,12 @@
+@let collectionController = getCollectionController();
+
 <ng-container #xmTable="xmTable"
               #xmTableSelection="xmTableSelection"
               xmTable
               xmTableSelection
               [xmTableSelectionConfig]="config"
               [xmTableConfig]="config"
-              [xmTableController]="getCollectionController()"
+              [xmTableController]="collectionController"
 >
 
   <mat-card *ngIf="xmTable.context$ | async as context"
@@ -41,7 +43,7 @@
                               [config]="config"
                               [loading]="context.collection.loading"></xm-table-filter-inline>
 
-      <xm-table-selection-header [config]="config.selection"></xm-table-selection-header>
+      <xm-table-selection-header [defaultCollectionController]="collectionController" [config]="config.selection"></xm-table-selection-header>
 
       <div class="xm-table-overflow-wrap">
         <table
