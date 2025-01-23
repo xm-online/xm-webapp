@@ -44,7 +44,7 @@ export interface XmTableSelectionConfig {
     pageSize?: number;
     key?: string;
     menuMode?: boolean;
-    layout?: XmDynamicLayout[]
+    layout?: XmDynamicLayout[] & {valueAsSelection?: boolean}[];
 }
 
 export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
