@@ -4,7 +4,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
-import { XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicInstanceService, XmDynamicModule } from '@xm-ngx/dynamic';
+import {
+    XM_DYNAMIC_COMPONENT_CONFIG,
+    XmDynamicInstanceService,
+    XmDynamicLayout,
+    XmDynamicModule
+} from '@xm-ngx/dynamic';
 import {
     finalize,
     map
@@ -58,11 +63,11 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
                 </button>
             </ng-container>
 
-            <div *ngIf="config.layout?.length" class="ms-auto">
+            <div *ngIf="layout?.length" class="ms-auto">
                 <ng-container *ngIf="config.menuMode; else default">
                     <mat-menu #actions class="selection-menu">
                         <div xmDynamicPresentation
-                             *ngFor="let item of config.layout"
+                             *ngFor="let item of layout"
                              [class]="item.class"
                              [style]="item.style"
                              [selector]="item.selector"
@@ -81,7 +86,7 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
 
                 <ng-template #default>
                     <ng-container xmDynamicPresentation
-                                  *ngFor="let item of config.layout"
+                                  *ngFor="let item of layout"
                                   [class]="item.class"
                                   [style]="item.style"
                                   [selector]="item.selector"
@@ -121,6 +126,7 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
     public totalCount$: Observable<number>;
     public loading: boolean = false;
     public xmTableSelectionTranslates = XmTableSelectionTranslates;
+    public layout: XmDynamicLayout[];
     private cancelSelectionRequests$: Subscription;
 
     private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
@@ -155,7 +161,7 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
                 map((select) => !select.source.isEmpty()),
             );
 
-        this.config.layout = this.config.layout?.map((item: any) => {
+        this.layout = this.config.layout?.map((item: any) => {
             const config = item['config'] || item['options'];
             const selectionKey = {
                 selectionKey: config.selectionKey || this.config.key,
