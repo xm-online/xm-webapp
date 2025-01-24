@@ -27,4 +27,8 @@ export class XmTableSelectionService<T> {
         unset(state, key);
         this.selections$.next(state);
     }
+
+    public getSelection<T>(key: string = 'table-selection'): SelectionModel<T> {
+        return this.selections$.value[key];
+    }
 }
