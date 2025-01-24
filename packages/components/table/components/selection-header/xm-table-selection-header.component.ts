@@ -16,7 +16,7 @@ import {
 } from '@xm-ngx/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 import {
-    Observable, switchMap,
+    Observable, Subscription, switchMap,
     take
 } from 'rxjs';
 import { XmEntity } from '@xm-ngx/core/entity';
@@ -66,7 +66,7 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
                              [class]="item.class"
                              [style]="item.style"
                              [selector]="item.selector"
-                             [value]="getValue(item)"
+                             [value]="selection.selected"
                              [options]="item.options"
                              [config]="item.config"
                         >
@@ -85,7 +85,7 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
                                   [class]="item.class"
                                   [style]="item.style"
                                   [selector]="item.selector"
-                                  [value]="getValue(item)"
+                                  [value]="selection.selected"
                                   [options]="item.options"
                                   [config]="item.config">
                     </ng-container>
@@ -121,6 +121,7 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
     public totalCount$: Observable<number>;
     public loading: boolean = false;
     public xmTableSelectionTranslates = XmTableSelectionTranslates;
+    private cancelSelectionRequests$: Subscription;
 
     private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
     private injector: Injector = inject(Injector);
@@ -153,11 +154,17 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
             .pipe(
                 map((select) => !select.source.isEmpty()),
             );
-    }
 
-    public getValue(item: T): SelectionModel<unknown> | unknown[] {
-        const config = item['config'] || item['options'];
-        return config?.valueAsSelection ? this.selection : this.selection.selected;
+        this.config.layout = this.config.layout?.map((item: any) => {
+            const config = item['config'] || item['options'];
+            const selectionKey = {
+                selectionKey: config.selectionKey || this.config.key,
+            };
+            return _.merge(item, {
+                config: selectionKey,
+                options: selectionKey,
+            });
+        });
     }
 
     public selections$(): Observable<SelectionModel<XmEntity>> {
@@ -166,7 +173,7 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
 
     public onAllSelected(): void {
         this.loading = true;
-        this.selections$()
+        this.cancelSelectionRequests$ = this.selections$()
             .pipe(
                 take(1),
                 switchMap(() => {
@@ -187,7 +194,7 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
 
     public clear(): void {
         this.selection.clear();
-        takeUntilOnDestroyDestroy(this);
+        this.cancelSelectionRequests$?.unsubscribe();
     }
 
     public ngOnDestroy(): void {
