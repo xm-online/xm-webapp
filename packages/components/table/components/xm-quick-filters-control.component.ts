@@ -95,6 +95,10 @@ export class XmTableQuickFilterControl<T = FiltersControlValue> extends NgContro
             this.disabled ? this.formGroup.disable() : this.formGroup.enable();
         }
 
+        if (this.formGroup && changes.value) {
+            this.formGroup.setValue(this.value);
+        }
+
         if (changes.options && !changes.options.isFirstChange()) {
             this.destroyForm();
             this.initForm();
