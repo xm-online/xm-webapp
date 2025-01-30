@@ -38,6 +38,7 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
         ...{
             pageSizeOptions: [],
             hidePagination: false,
+            showFirstLastButtons: true,
         },
     },
     storageKey: '',
