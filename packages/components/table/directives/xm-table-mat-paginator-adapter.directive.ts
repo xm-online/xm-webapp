@@ -32,7 +32,7 @@ export class XmTableMatPaginatorAdapterDirective implements AfterViewInit, OnDes
                 this.matPaginator.pageIndex = pageIndex;
                 this.matPaginator.length = total;
                 this.matPaginator.pageSize = pageSize;
-                this.matPaginator.showFirstLastButtons = !(infinityTotal && total >= infinityTotal);
+                this.matPaginator.showFirstLastButtons = this.config.showFirstLastButtons && !(infinityTotal && total >= infinityTotal);
             });
         this.matPaginator.page
             .pipe(takeUntilOnDestroy(this))
