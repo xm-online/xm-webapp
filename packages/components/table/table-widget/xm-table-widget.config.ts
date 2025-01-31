@@ -10,6 +10,7 @@ export interface XmTableWithColumnDynamicCellOptionsPagination extends PageableA
     pageSizeOptions: number[],
     hidePagination: boolean;
     infinityTotalLimit?: number;
+    showFirstLastButtons?: boolean;
 }
 
 export interface XmTableQueryParamsFilterValue {
@@ -44,7 +45,7 @@ export interface XmTableSelectionConfig {
     pageSize?: number;
     key?: string;
     menuMode?: boolean;
-    layout?: XmDynamicLayout[]
+    layout?: XmDynamicLayout[];
 }
 
 export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {

@@ -14,6 +14,8 @@ export interface XmTableFiltersControlRequestConfig {
     filterStoreKey?: string;
     quickFilters?: FormLayoutItem[];
     hideDefaultFilters?: boolean;
+    hideResetButton?: boolean;
+    quickFilterInlineContainerStyle?: string;
 }
 
 @Component({
