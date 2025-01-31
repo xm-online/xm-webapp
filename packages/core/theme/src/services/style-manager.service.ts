@@ -13,18 +13,8 @@ export class StyleManagerService {
         }
     }
 
-    public set(key: string, href: string): Promise<void> {
-        const link = getLinkElementForKey(key);
-        const promise: Promise<void> = new Promise((resolve) => {
-            link.addEventListener('load', function() {
-                resolve();
-            }, {once: true});
-            link.addEventListener('error', function() {
-                resolve();
-            }, {once: true});
-        });
-        link.setAttribute('href', href); // have to be after init promise, because of this line invoke load immediately
-        return promise;
+    public set(key: string, href: string): void {
+        getLinkElementForKey(key).setAttribute('href', href);
     }
 
 }
