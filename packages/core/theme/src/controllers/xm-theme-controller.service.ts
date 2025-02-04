@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, map, Observable, Subscription, from } from 'rxjs';
+import { BehaviorSubject, map, Observable, of, Subscription } from 'rxjs';
 import { ThemeSchemeService } from '../services/theme-scheme.service';
 import { XmThemeStore } from '../stores/xm-theme-store.service';
 import { ColorSchemeService } from '../services/color-scheme.service';
@@ -73,14 +73,16 @@ export class XmThemeController implements OnDestroy {
             this.themeColorService.set(theme.themeColor);
         }
 
-        return from(this.updateStyleTheme(theme));
+        this.updateStyleTheme(theme);
+
+        return of(undefined);
     }
 
     public get(): XmTheme | null {
         return this.activeTheme.value;
     }
 
-    private async updateStyleTheme(theme: XmTheme): Promise<void> {
+    private updateStyleTheme(theme: XmTheme): void {
         let file = theme.lightTheme;
         const isThemeAllowDark = theme.appearanceStrategy == 'dark' || theme.appearanceStrategy == 'auto';
         const isThemeDark = theme.appearanceStrategy == 'dark';
@@ -89,9 +91,9 @@ export class XmThemeController implements OnDestroy {
         }
 
         if (theme.themeStrategy === 'TENANT_ONLY') {
-            await this.styleManager.set('theme', `assets/css/${file}.css`);
+            this.styleManager.set('theme', `assets/css/${file}.css`);
         } else {
-            await this.styleManager.set('theme', `/assets/themes/${file}.css`);
+            this.styleManager.set('theme', `/assets/themes/${file}.css`);
         }
 
         this.activeTheme.next(theme);
