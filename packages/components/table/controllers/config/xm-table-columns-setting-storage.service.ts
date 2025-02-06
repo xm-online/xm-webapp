@@ -1,6 +1,7 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
 import { PermissionCheckStrategy, XmPermissionService } from '@xm-ngx/core/permission';
 import { Translate } from '@xm-ngx/translation';
+import { isEqual } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
@@ -82,10 +83,7 @@ export class XmTableSettingStore implements OnDestroy {
     }
 
     private hasColumnChanges(s1: XmTableSettingStoreStateItem, s2: XmTableSettingStoreStateItem): boolean {
-        const c1 = (s1?.columns ?? []).map(s => s.name).join(',');
-        const c2 = (s2?.columns ?? []).map(s => s.name).join(',');
-
-        return c1 !== c2;
+        return !isEqual(s1, s2);
     }
 }
 
