@@ -1,26 +1,24 @@
-import { ContentChild, Directive, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { ContentChild, Directive, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { Params } from '@angular/router';
+import { XmEventManagerService } from '@xm-ngx/core';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { checkIfEmpty } from '@xm-ngx/pipes';
+import { PageableAndSortable } from '@xm-ngx/repositories';
+import * as _ from 'lodash';
+import { cloneDeep, isEqual, set } from 'lodash';
+import { combineLatest, merge, Observable, ReplaySubject } from 'rxjs';
+import { map, shareReplay, skip, tap } from 'rxjs/operators';
 import { IXmTableCollectionController, IXmTableCollectionState } from '../collections';
+import { FiltersControlValue } from '../components/xm-table-filter-button-dialog-control.component';
 import {
     ColumnsSettingStorageItem,
     XmTableColumnsSettingStorageService,
     XmTableFilterController,
     XmTableQueryParamsStoreService,
-    XmTableSettingStore,
-    XmTableSettingStoreStateItem,
 } from '../controllers';
-import { combineLatest, merge, Observable, of, ReplaySubject } from 'rxjs';
-import { PageableAndSortable } from '@xm-ngx/repositories';
-import * as _ from 'lodash';
-import { cloneDeep, isEqual, set } from 'lodash';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, XmTableEventType } from './xm-table.model';
-import { catchError, map, shareReplay, skip, take, tap } from 'rxjs/operators';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { XmEventManagerService } from '@xm-ngx/core';
-import { FiltersControlValue } from '../components/xm-table-filter-button-dialog-control.component';
-import { Params } from '@angular/router';
-import { checkIfEmpty } from '@xm-ngx/pipes';
 
 export interface IXmTableContext {
     collection: IXmTableCollectionState<unknown>,
@@ -58,7 +56,6 @@ export class XmTableDirective implements OnInit, OnDestroy {
     @ContentChild(MatSort, {static: false}) public sort: MatSort | null;
     @Input()
     public xmTableController: IXmTableCollectionController<unknown>;
-    private xmTableColumnsSettingStorageService = inject(XmTableSettingStore);
 
     constructor(
         private tableFilterController: XmTableFilterController,
@@ -82,22 +79,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
         this._config.queryPrefixKey = this._config.storageKey;
 
         this.setStorageKeys();
-        this.xmTableColumnsSettingStorageService.getStore(this._config.storageKey)
-            .pipe(
-                take(1),
-                catchError((error) => {
-                    return of(null);
-                })
-            )
-            .subscribe((res: XmTableSettingStoreStateItem) => {
-                const displayedColumns = getDisplayedColumns(this._config);
-                const { columns } = res || {};
-                if (!columns || columns?.length === displayedColumns?.length) {
-                    this.columnsSettingStorageService.defaultStore(displayedColumns);
-                    return;
-                }
-                this.columnsSettingStorageService.defaultStore(columns);
-            });
+        this.columnsSettingStorageService.defaultStore(getDisplayedColumns(this._config));
     }
 
     public ngOnInit(): void {
