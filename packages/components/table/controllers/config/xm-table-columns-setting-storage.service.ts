@@ -63,7 +63,7 @@ export class XmTableSettingStore implements OnDestroy {
 
         if (hasChanges) {
             // TODO: the following code could use not only "name" as uniq key for columns but "field" too. Need to double-check.
-            const ls = Object.fromEntries(settings.columns.map(v => [v.name, v]));
+            const ls = Object.fromEntries((settings?.columns || []).map(v => [v.name, v]));
             const columns = items.columns.map(col => {
                 if (ls[col.name] && ls[col.name].isHideLock === col.isHideLock) {
                     col.hidden = ls[col.name].hidden;
