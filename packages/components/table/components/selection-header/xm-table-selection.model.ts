@@ -2,7 +2,7 @@ export const XmTableSelectionDefault = {
     controller: {
         key: 'collection',
     },
-    key: 'selectionKey',
+    key: 'table-selection',
     menuMode: false,
     pageSize: 300,
 };
