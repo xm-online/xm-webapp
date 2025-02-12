@@ -10,6 +10,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+ import { AccountService, Principal, XmUser } from '@xm-ngx/core/user';
+import { TranslateService } from '@ngx-translate/core';
+import { TitleService } from 'lib/translation';
 
 export interface XmLanguageUiConfig extends XmUIConfig {
     exts: string[];
@@ -53,15 +56,25 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
     @Input() public showAlways: boolean = false;
     public languages: Locale[];
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
-
+    public accountSettings: XmUser
     constructor(
         private xmUiConfigService: XmUiConfigService<XmLanguageUiConfig>,
         private xmSessionService: XmSessionService,
         public languageService: LanguageService,
+        public principal: Principal,
+        public translateService: TranslateService,
+        public titleService: TitleService,
+        private accountService: AccountService,
     ) {
     }
 
     public ngOnInit(): void {
+        this.principal.identity().then((account: XmUser) => {
+            if (!account){
+                return;
+            }
+            this.accountSettings = account;
+        });
         this.xmUiConfigService.config$().pipe(takeUntilOnDestroy(this)).subscribe({
             next: (config) => {
                 this.languages = (config && config.langs) ? config.langs : this.languageService.languages;
@@ -73,7 +86,20 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
     }
 
     public changeLanguage(languageKey: string): void {
-        this.languageService.locale = languageKey;
+        if (!this.accountSettings) {
+            this.languageService.locale = languageKey;
+            return;
+        } else {
+            this.accountSettings.langKey = languageKey;
+            this.accountService.save(this.accountSettings).subscribe({
+                next: () => {
+                    this.principal.identity(true).then((account) => {
+                        this.languageService.locale = languageKey;
+                    });
+                },
+                error: () => console.error('Error updating language preference'),
+            });
+        }
     }
 
     public ngOnDestroy(): void {
