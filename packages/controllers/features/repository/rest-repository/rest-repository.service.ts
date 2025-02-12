@@ -4,7 +4,7 @@ import { format } from '@xm-ngx/operators';
 import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { LanguageService } from '@xm-ngx/translation';
 import { isArray } from 'lodash';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { RestResourceConfig } from './rest-repository.model';
 
 @Injectable()
@@ -65,7 +65,7 @@ export class RestRepositoryService<T = any> {
             catchError((error) => {
                 console.warn(error);
 
-                return of({} as T);
+                return throwError(() => error);
             }),
         );
     }
