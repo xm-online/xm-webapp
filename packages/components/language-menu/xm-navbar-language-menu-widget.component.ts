@@ -3,14 +3,14 @@ import { XmSessionService } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { LanguageModule, LanguageService, Locale, XmTranslationModule } from '@xm-ngx/translation';
-import { Observable, map } from 'rxjs';
+import { Observable, from, map, tap } from 'rxjs';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
- import { AccountService, Principal, XmUser } from '@xm-ngx/core/user';
+import { AccountService, Principal, XmUser } from '@xm-ngx/core/user';
 import { TranslateService } from '@ngx-translate/core';
 import { TitleService } from 'lib/translation';
 
@@ -56,7 +56,7 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
     @Input() public showAlways: boolean = false;
     public languages: Locale[];
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
-    public accountSettings: XmUser
+    public accountSettings?: XmUser;
     constructor(
         private xmUiConfigService: XmUiConfigService<XmLanguageUiConfig>,
         private xmSessionService: XmSessionService,
@@ -69,12 +69,16 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
     }
 
     public ngOnInit(): void {
-        this.principal.identity().then((account: XmUser) => {
-            if (!account){
-                return;
-            }
-            this.accountSettings = account;
-        });
+        from(this.principal.identity())
+            .pipe(
+                takeUntilOnDestroy(this),
+                tap((account: XmUser | null) => {
+                    if (account) {
+                        this.accountSettings = account;
+                    }
+                })
+            )
+            .subscribe();
         this.xmUiConfigService.config$().pipe(takeUntilOnDestroy(this)).subscribe({
             next: (config) => {
                 this.languages = (config && config.langs) ? config.langs : this.languageService.languages;
@@ -89,17 +93,20 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
         if (!this.accountSettings) {
             this.languageService.locale = languageKey;
             return;
-        } else {
-            this.accountSettings.langKey = languageKey;
-            this.accountService.save(this.accountSettings).subscribe({
-                next: () => {
-                    this.principal.identity(true).then((account) => {
-                        this.languageService.locale = languageKey;
-                    });
-                },
-                error: () => console.error('Error updating language preference'),
-            });
         }
+
+        this.accountSettings.langKey = languageKey;
+        this.accountService.save(this.accountSettings).subscribe({
+            next: () => {
+                this.principal.identity(true).then((account) => {
+                    if (account && account.langKey === languageKey) {
+                        this.accountSettings = account;
+                        this.languageService.locale = languageKey;
+                    }
+                });
+            },
+            error: () => console.error('Error updating language preference'),
+        });
     }
 
     public ngOnDestroy(): void {
