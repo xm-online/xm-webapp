@@ -30,12 +30,12 @@ export class XmSocketService implements OnDestroy {
         this.socket = new WebSocket(url);
 
         this.socket.onopen = () => {
-            console.log('[XmWebSocket] Connected.');
+            console.warn('[XmWebSocket] Connected.');
             this.reconnectAttempts = 0;
         };
 
         this.socket.onmessage = (event) => {
-            console.log('[XmWebSocket] Message received:', event.data);
+            console.warn('[XmWebSocket] Message received:', event.data);
             this.messageSubject.next(event.data);
         };
 
@@ -54,7 +54,7 @@ export class XmSocketService implements OnDestroy {
     private tryReconnect(typeKey: string): void {
         if (this.reconnectAttempts < this.maxReconnectAttempts) {
             this.reconnectAttempts++;
-            console.log(`[XmWebSocket] Reconnecting attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts}...`);
+            console.warn(`[XmWebSocket] Reconnecting attempt ${this.reconnectAttempts}/${this.maxReconnectAttempts}...`);
             setTimeout(() => this.connect(typeKey), this.reconnectDelay);
         } else {
             console.error('[XmWebSocket] Max reconnect attempts reached.');
@@ -64,7 +64,7 @@ export class XmSocketService implements OnDestroy {
     public sendMessage(message: string): void {
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(message);
-            console.log('[XmWebSocket] Message sent:', message);
+            console.warn('[XmWebSocket] Message sent:', message);
         } else {
             console.warn('[XmWebSocket] Cannot send message, socket is not open.');
         }
@@ -72,7 +72,7 @@ export class XmSocketService implements OnDestroy {
 
     public disconnect(): void {
         if (this.socket) {
-            console.log('[XmWebSocket] Closing connection...');
+            console.warn('[XmWebSocket] Closing connection...');
             this.socket.close();
             this.socket = null;
         }
