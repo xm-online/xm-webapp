@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { XmAuthenticationStoreService } from '@xm-ngx/core/auth';
 import { Observable, Subject } from 'rxjs';
 
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class XmSocketService implements OnDestroy {
     private sockets: Map<string, WebSocket> = new Map();
     private messageSubject = new Subject<{ typeKey: string; message: string }>();
@@ -22,11 +22,11 @@ export class XmSocketService implements OnDestroy {
 
         const token = this.tokenService.getAuthenticationToken();
         if (!token) {
-            console.error("[XmWebSocket] Missing authentication token.");
+            console.error('[XmWebSocket] Missing authentication token.');
             return this.messageSubject.asObservable();
         }
 
-        const protocol = location.protocol === "https:" ? "wss" : "ws";
+        const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
         const url = `${protocol}://${location.host}/websocket/connect?typeKey=${typeKey}&token=${token}`;
 
         console.warn(`[XmWebSocket] Connecting to ${url}...`);
@@ -49,7 +49,7 @@ export class XmSocketService implements OnDestroy {
             this.sockets.delete(typeKey);
 
             if (event.code === 1000) {
-                console.warn("[XmWebSocket] Normal closure, no reconnection.");
+                console.warn('[XmWebSocket] Normal closure, no reconnection.');
                 return;
             }
 
@@ -104,8 +104,7 @@ export class XmSocketService implements OnDestroy {
         }
     }
 
-
-    ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this.sockets.forEach((socket, typeKey) => this.disconnect(typeKey));
         this.messageSubject.complete();
     }
