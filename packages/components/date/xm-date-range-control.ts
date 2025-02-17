@@ -154,7 +154,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
             if (this._config.valueType === 'string') {
                 value = this.transformDateStringCodec.fromModel(dates as XmDateRangeControlValue);
             } else {
-                value = { from: dates.from, to: dates.to };
+                value = { from: dates?.from, to: dates?.to };
             }
 
             this.change(value);
@@ -181,7 +181,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
     public clear(event: MouseEvent): void {
         event.stopPropagation();
         this.group.reset(null, {emitEvent: true});
-        this.change(null);
+        this.change({from: '', to: ''});
     }
 
     public dateChanged(): void {
