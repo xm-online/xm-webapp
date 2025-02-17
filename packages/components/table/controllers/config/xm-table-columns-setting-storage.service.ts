@@ -1,10 +1,11 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
+import { XmEventManager } from '@xm-ngx/core';
 import { PermissionCheckStrategy, XmPermissionService } from '@xm-ngx/core/permission';
 import { Translate } from '@xm-ngx/translation';
+import { isEqual } from 'lodash';
 import { LocalStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
-import { XmEventManager } from '@xm-ngx/core';
 
 export interface ColumnsSettingStorageItem {
     name: string;
@@ -50,10 +51,6 @@ export class XmTableSettingStore implements OnDestroy {
         this.store.complete();
     }
 
-    private getSettingsByKey(key: string): XmTableSettingStoreStateItem {
-        return this.store.value[key];
-    }
-
     public updateStore(key: string, value: XmTableSettingStoreStateItem): void {
         const state = this.store.value;
         state[key] = value;
@@ -65,7 +62,16 @@ export class XmTableSettingStore implements OnDestroy {
         const hasChanges = this.hasColumnChanges(settings, items);
 
         if (hasChanges) {
-            this.updateStore(key, items);
+            // TODO: the following code could use not only "name" as uniq key for columns but "field" too. Need to double-check.
+            const ls = Object.fromEntries((settings?.columns || []).map(v => [v.name, v]));
+            const columns = items.columns.map(col => {
+                if (ls[col.name] && ls[col.name].isHideLock === col.isHideLock) {
+                    col.hidden = ls[col.name].hidden;
+                }
+                return col;
+            });
+
+            this.updateStore(key, {columns});
         }
     }
 
@@ -81,35 +87,36 @@ export class XmTableSettingStore implements OnDestroy {
         this.store.next(state);
     }
 
-    private hasColumnChanges(s1: XmTableSettingStoreStateItem, s2: XmTableSettingStoreStateItem): boolean {
-        const c1 = (s1?.columns ?? []).map(s => s.name).join(',');
-        const c2 = (s2?.columns ?? []).map(s => s.name).join(',');
+    private getSettingsByKey(key: string): XmTableSettingStoreStateItem {
+        return this.store.value[key];
+    }
 
-        return c1 !== c2;
+    private hasColumnChanges(s1: XmTableSettingStoreStateItem, s2: XmTableSettingStoreStateItem): boolean {
+        return !isEqual(s1, s2);
     }
 }
 
 @Injectable({providedIn: 'root'})
 export class XmTableColumnsSettingStorageService {
-    private _key: string;
-
     private XmTableColumnsSettingStorageService = inject(XmTableSettingStore);
     private permissionService = inject(XmPermissionService);
 
-    public set key(key: string) {
-        this._key = key;
-    }
+    private _key: string;
 
     public get key(): string {
         return this._key;
     }
 
+    public set key(key: string) {
+        this._key = key;
+    }
+
     public updateStore(columns: ColumnsSettingStorageItem[]): void {
-        this.XmTableColumnsSettingStorageService.updateStore(this.key, { columns });
+        this.XmTableColumnsSettingStorageService.updateStore(this.key, {columns});
     }
 
     public defaultStore(columns: ColumnsSettingStorageItem[]): void {
-        this.XmTableColumnsSettingStorageService.defaultStore(this.key, { columns });
+        this.XmTableColumnsSettingStorageService.defaultStore(this.key, {columns});
     }
 
     public getStore(): Observable<ColumnsSettingStorageItem[]> {

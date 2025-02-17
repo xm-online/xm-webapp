@@ -3,8 +3,8 @@ import { RestRepositoryService } from '@xm-ngx/controllers/features/repository/r
 import { injectByKey } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/interfaces';
 import { cloneDeep } from 'lodash';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
-import { distinctUntilChanged, shareReplay, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, switchMap, throwError } from 'rxjs';
+import { catchError, distinctUntilChanged, shareReplay, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
 import { DataResourceOptions } from './resource-data.model';
 
@@ -69,6 +69,9 @@ export class ResourceDataService<T extends IId = any> {
     public save(): Observable<T> {
         if (this.data$.value?.id) {
             return this.resourceController.update(this.data$.value).pipe(
+                catchError((err) => {
+                    return throwError(() => err);
+                }),
                 tap(entity => {
                     this.data$.next(entity);
                     this.stable = cloneDeep(entity);
