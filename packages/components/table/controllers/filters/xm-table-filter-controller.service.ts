@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { assign, cloneDeep, isPlainObject, transform } from 'lodash';
+import { merge, cloneDeep, isPlainObject, transform } from 'lodash';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FiltersControlValue } from '../../components/xm-table-filter-button-dialog-control.component';
 import { XmTableInlineFilterFormLayoutItem } from '../../components/xm-table-filter-chips.component';
@@ -58,7 +58,9 @@ export class XmTableFilterController<T extends FiltersControlValue = FiltersCont
 
     public update(request: T): void {
         const oldReq = cloneDeep(this.request$.getValue());
-        let newRequest = assign({}, oldReq, cloneDeep(request));
+        const newReq = cloneDeep(request);
+
+        let newRequest = merge({}, oldReq, newReq);
         newRequest = cloneDeepWithoutUndefined(newRequest) as T;
         this.request$.next(newRequest);
     }
