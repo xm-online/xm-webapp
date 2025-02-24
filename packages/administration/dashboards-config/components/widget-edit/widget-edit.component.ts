@@ -130,6 +130,19 @@ export class WidgetEditComponent implements OnChanges {
         this.jsonEditorOptions = {...this.jsonEditorOptions};
     }
 
+    public ngAfterViewInit() {
+        const aceContent = document.querySelector('.ace_content') as HTMLElement;
+
+        if (aceContent) {
+          aceContent.style.marginLeft = '0px';
+          const observer = new MutationObserver(() => {
+            aceContent.style.marginLeft = '0px';
+          });
+
+          observer.observe(aceContent, { attributes: true, attributeFilter: ['style'] });
+        }
+      }
+
     public onCancel(): void {
         this.editorService.close();
     }
