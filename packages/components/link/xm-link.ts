@@ -3,12 +3,12 @@ import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular
 import { MatIconModule } from '@angular/material/icon';
 import { QueryParamsHandling, RouterModule } from '@angular/router';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
-import { IId } from '@xm-ngx/interfaces';
+import { DataQa, IId } from '@xm-ngx/interfaces';
 import { flattenObjectDeep, interpolate, transformByMap } from '@xm-ngx/operators';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, get, isString } from 'lodash';
 
-export interface XmLinkOptions {
+export interface XmLinkOptions extends DataQa {
     /** list of fields which will be transformed to queryParams */
     queryParamsFromEntityFields?: { [key: string]: string };
     /** list of fields which will fill statically queryParams */
@@ -50,7 +50,9 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
            [routerLink]="routerLink"
            [queryParamsHandling]="config?.queryParamsHandling"
            [target]="config?.newWindow ? '_blank' : '_self'"
-           [style]="config?.style || config?.config?.style" >
+           [style]="config?.style || config?.config?.style"
+           [attr.data-qa]="config?.dataQa || 'xm-link-default-data-qa'"
+        >
             <mat-icon *ngIf="config?.valueIcon || config?.config?.valueIcon">{{config.valueIcon || config?.config?.valueIcon}}</mat-icon>
             <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
             <span *ngIf="fieldValue">{{fieldValue}}</span>

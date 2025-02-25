@@ -56,7 +56,7 @@ export class SwitchThemeWidget implements OnInit, XmDynamicWidget {
 
     public ngOnInit(): void {
         const fromStore = this.themeService.get();
-        const current = _.find(this.config?.themes, { theme: fromStore.name });
+        const current = _.find(this.config?.themes, { theme: fromStore?.name });
         this.changeTheme(current);
         this.nextTheme = this.getNext(current);
     }

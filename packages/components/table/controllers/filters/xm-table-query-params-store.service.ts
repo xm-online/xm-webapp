@@ -1,16 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { PageableAndSortable, QueryParamsPageable } from '@xm-ngx/repositories';
-import { get, isFunction, merge } from 'lodash';
+import { get, merge } from 'lodash';
 import {
     XmTableQueryParamsFilter,
-    XmTableQueryParamsFilterValue,
     XmTableWithColumnDynamicCellOptionsPagination,
 } from '../../table-widget/xm-table-widget.config';
 import { flattenObjectDeep, unFlattenObjectDeep } from '@xm-ngx/operators';
 import { XmTableConfig } from '../../directives/xm-table.model';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Observable, map, of, BehaviorSubject } from 'rxjs';
+import { Observable, map, BehaviorSubject, distinctUntilChanged } from 'rxjs';
 
 @Injectable()
 export class XmTableQueryParamsStoreService {
@@ -70,49 +68,38 @@ export class XmTableQueryParamsStoreService {
 
     public listenQueryParamsToFilter(queryParamsFilter?: XmTableQueryParamsFilter): Observable<Params> {
         return this.route.queryParams.pipe(
-            map((queryParams) => {
-                return this.filterParams(
-                    queryParams,
-                    queryParamsFilter,
-                    (filter) => coerceBooleanProperty(filter.update),
-                );
-            }),
-        );
-    }
+            distinctUntilChanged((prev, curr) => {
+                const keys = Object.keys(queryParamsFilter ?? {});
 
-    public queryParamsToFilter(queryParamsFilter?: XmTableQueryParamsFilter): Observable<Params> {
-        return of(this.route.snapshot.queryParams).pipe(
-            map((queryParams) => {
-                return this.filterParams(queryParams, queryParamsFilter);
-            }),
-        );
-    }
+                if (keys.length === 0) {
+                    return true;
+                }
 
-    public filterParams(
-        queryParams: Params,
-        queryParamsFilter: XmTableQueryParamsFilter,
-        queryParamsCriteria?: (value: XmTableQueryParamsFilterValue) => boolean,
-    ): Params {
-        return Object.entries(queryParamsFilter ?? {})
-            .filter(([, filter]) => {
-                if (isFunction(queryParamsCriteria)) {
-                    return queryParamsCriteria(filter);
+                const changedKeys = keys.filter((key) => prev[key] !== curr[key]);
+
+                // Keys changed, so allow emission
+                if (changedKeys.length > 0) {
+                    return false;
                 }
 
                 return true;
-            })
-            .reduce((acc, [key, filter]) => {
-                const param = queryParams[key] as string;
+            }),
+            map((queryParams) => {
+                return Object.entries(queryParamsFilter ?? {})
+                    .reduce((acc, [key, filter]) => {
+                        const param = queryParams[key] as string;
 
-                if (!param) {
-                    return acc;
-                }
+                        if (!param) {
+                            return acc;
+                        }
 
-                return {
-                    ...acc,
-                    [filter.name]: param,
-                };
-            }, this.getByKey('filterParams'));
+                        return {
+                            ...acc,
+                            [filter.name]: param,
+                        };
+                    }, this.getByKey('filterParams'));
+            }),
+        );
     }
 
     public get(): QueryParamsPageable {
