@@ -131,10 +131,7 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
 
     public allToggle(): void {
         if (this.selection.selected.filter((selection: T) => this.rows.map((row: T) => row.id).includes(selection.id)).length == this.rows.length) {
-            this.rows.forEach((row: T) => {
-                const foundSelection = this.selection.selected.find((selection: T) => row.id === selection.id);
-                this.selection.deselect(foundSelection);
-            });
+            this.deselectAll();
         } else {
             this.rows?.filter((row: T) => !this.selection.selected.map((selection: T) => selection.id).includes(row.id))
                 .forEach((row) => this.selection.select(row));
@@ -168,5 +165,13 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
         this._table.removeColumnDef(this._columnDef);
         this.selectionService.clear(this.column.selectionKey); //TODO: old config, will be remove
         this.selectionService.clear(this.config.key);
+        this.deselectAll();
+    }
+
+    private deselectAll(): void {
+        this.rows.forEach((row: T) => {
+            const foundSelection = this.selection.selected.find((selection: T) => row.id === selection.id);
+            this.selection.deselect(foundSelection);
+        });
     }
 }
