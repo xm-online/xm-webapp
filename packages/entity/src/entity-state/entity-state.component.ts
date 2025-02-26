@@ -2,6 +2,7 @@ import { Component, Input, NgModule } from '@angular/core';
 
 import { StateSpec } from '@xm-ngx/core/entity';
 import { XmSharedModule } from '@xm-ngx/shared';
+import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'xm-entity-state',
@@ -12,7 +13,7 @@ export class EntityStateComponent {
 }
 
 @NgModule({
-    imports: [XmSharedModule],
+    imports: [XmSharedModule, NgIf],
     exports: [EntityStateComponent],
     declarations: [EntityStateComponent],
     providers: []
