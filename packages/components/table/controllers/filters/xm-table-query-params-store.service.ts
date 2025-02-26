@@ -8,7 +8,7 @@ import {
 } from '../../table-widget/xm-table-widget.config';
 import { flattenObjectDeep, unFlattenObjectDeep } from '@xm-ngx/operators';
 import { XmTableConfig } from '../../directives/xm-table.model';
-import { Observable, map, BehaviorSubject, distinctUntilChanged } from 'rxjs';
+import { Observable, map, BehaviorSubject, distinctUntilChanged, filter } from 'rxjs';
 
 @Injectable()
 export class XmTableQueryParamsStoreService {
@@ -67,15 +67,16 @@ export class XmTableQueryParamsStoreService {
     }
 
     public listenQueryParamsToFilter(queryParamsFilter?: XmTableQueryParamsFilter): Observable<Params> {
+        const filterParams = Object.entries(queryParamsFilter ?? {});
+
         return this.route.queryParams.pipe(
+            filter((queryParams) => {
+                return filterParams
+                    .filter(([key]) => queryParams[key] != null)
+                    .length > 0;
+            }),
             distinctUntilChanged((prev, curr) => {
-                const keys = Object.keys(queryParamsFilter ?? {});
-
-                if (keys.length === 0) {
-                    return true;
-                }
-
-                const changedKeys = keys.filter((key) => prev[key] !== curr[key]);
+                const changedKeys = filterParams.filter(([key]) => prev[key] !== curr[key]);
 
                 // Keys changed, so allow emission
                 if (changedKeys.length > 0) {
@@ -85,7 +86,7 @@ export class XmTableQueryParamsStoreService {
                 return true;
             }),
             map((queryParams) => {
-                return Object.entries(queryParamsFilter ?? {})
+                const combineParams = filterParams
                     .reduce((acc, [key, filter]) => {
                         const param = queryParams[key] as string;
 
@@ -98,6 +99,8 @@ export class XmTableQueryParamsStoreService {
                             [filter.name]: param,
                         };
                     }, this.getByKey('filterParams'));
+
+                return combineParams;
             }),
         );
     }
