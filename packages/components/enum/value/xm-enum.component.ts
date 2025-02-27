@@ -15,6 +15,7 @@ export interface XmEnumOptionsItem {
 export interface XmEnumOptions {
     /** @deprecated use {@link items} instead */
     titles?: Titles;
+    dataQa?: string;
     items: XmEnumOptionsItem[];
     layout?: XmDynamicPresentationLayout;
 }
@@ -22,7 +23,8 @@ export interface XmEnumOptions {
 @Component({
     selector: 'xm-enum',
     template: `
-        @if (config?.layout?.selector) {
+        <span [attr.data-qa]="config?.dataQa">
+            @if (config?.layout?.selector) {
             <ng-container
                 xmDynamicPresentation
                 [value]="(titles[value + ''] || value) | translate"
@@ -31,7 +33,8 @@ export interface XmEnumOptions {
                 [selector]="config.layout.selector"
                 [config]="config?.layout?.config">
             </ng-container>
-        } @else {{{(titles[value + ''] || value) | translate}}}
+            } @else {{{(titles[value + ''] || value) | translate }}}
+        </span>
     `,
     imports: [XmTranslationModule, XmDynamicModule],
     standalone: true,

@@ -7,6 +7,7 @@ export interface XmDateConfig {
     format?: string;
     timezone?: string;
     locale?: string;
+    dataQa?: string;
 }
 
 export type ISODate = string;
@@ -21,7 +22,11 @@ export const XM_DATE_CONFIG_DEFAULT: XmDateConfig = {};
         DatePipe,
     ],
     standalone: true,
-    template: '{{ value | date : config.format : config.timezone : config.locale }}',
+    template: `
+        <span [attr.data-qa]="config?.dataQa">
+            {{ value | date : config.format : config.timezone : config.locale }}
+        </span>
+    `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
