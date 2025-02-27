@@ -7,7 +7,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators
 import { PageableAndSortable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
 import { cloneDeep, isEqual, set } from 'lodash';
-import { combineLatest, Observable, ReplaySubject, startWith, tap } from 'rxjs';
+import { combineLatest, Observable, Subject, startWith, tap } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { IXmTableCollectionController, IXmTableCollectionState } from '../collections';
 import { FiltersControlValue } from '../components/xm-table-filter-button-dialog-control.component';
@@ -22,6 +22,11 @@ import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, XmTableEventType } from './xm-t
 export interface IXmTableContext {
     collection: IXmTableCollectionState<unknown>,
     settings: { displayedColumns: string [] };
+}
+
+export interface StaticQueryParams {
+    pageableAndSortable: PageableAndSortable;
+    filterParams: Record<string, any>;
 }
 
 function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[] {
@@ -50,7 +55,7 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
 })
 export class XmTableDirective implements OnInit, OnDestroy {
     public context$: Observable<IXmTableContext>;
-    public pageableAndSortable$: ReplaySubject<PageableAndSortable> = new ReplaySubject<PageableAndSortable>(1);
+    public pageableAndSortable$ = new Subject<PageableAndSortable>();
     @ContentChild(MatPaginator, {static: false}) public paginator: MatPaginator | null;
     @ContentChild(MatSort, {static: false}) public sort: MatSort | null;
     @Input()
@@ -112,13 +117,17 @@ export class XmTableDirective implements OnInit, OnDestroy {
             shareReplay(1),
         );
 
+        const queryParams = this.getInitialQueryParams();
+
         combineLatest([
-            this.queryParamsStoreService.listenQueryParamsToFilter(this.config.queryParamsFilter),
+            this.queryParamsStoreService.listenQueryParamsToFilter(this.config.queryParamsFilter).pipe(
+                startWith(queryParams?.filterParams ?? {}),
+            ),
             this.eventManagerService.listenTo<{ queryParams: Params }>(`${this.config.triggerTableKey}${XmTableEventType.XM_TABLE_UPDATE}`).pipe(
                 map((evt) => evt.payload?.queryParams),
+                startWith({}),
             ),
         ]).pipe(
-            startWith([{}, {}]),
             tap(([queryFilter, eventFilter]) => {
                 const mergeFilters = _.merge({}, queryFilter, eventFilter);
 
@@ -133,7 +142,9 @@ export class XmTableDirective implements OnInit, OnDestroy {
 
         combineLatest({
             tableFilter: this.tableFilterController.change$(),
-            pageableAndSortable: this.pageableAndSortable$,
+            pageableAndSortable: this.pageableAndSortable$.pipe(
+                startWith(queryParams.pageableAndSortable ?? {}),
+            ),
         }).pipe(
             takeUntilOnDestroy(this),
         ).subscribe((obsObj) => {
@@ -146,8 +157,6 @@ export class XmTableDirective implements OnInit, OnDestroy {
 
             this.xmTableController.load(queryParams);
         });
-
-        this.initQueryParams();
     }
 
     private mapPageableAndSortable(filterParams: FiltersControlValue, pageableAndSortable: PageableAndSortable): PageableAndSortable {
@@ -180,17 +189,20 @@ export class XmTableDirective implements OnInit, OnDestroy {
         this.queryParamsStoreService.key = this.config.queryPrefixKey;
     }
 
-    private initQueryParams(): void {
-        const queryParams = this.queryParamsStoreService.get();
-
-        this.tableFilterController.set(queryParams.filterParams);
+    private getInitialQueryParams(): StaticQueryParams {
+        const { filterParams, pageableAndSortable } = (this.queryParamsStoreService.get() ?? {}) as StaticQueryParams;
         const { pageIndex, pageSize, sortBy, sortOrder } = this._config.pageableAndSortable;
-        const pageParams = {
+
+        const mergePageAndSort = _.merge({}, {
             pageIndex,
             pageSize,
             sortBy,
             sortOrder,
+        }, pageableAndSortable);
+
+        return {
+            pageableAndSortable: mergePageAndSort,
+            filterParams,
         };
-        this.pageableAndSortable$.next(_.merge({}, pageParams, queryParams.pageableAndSortable));
     }
 }
