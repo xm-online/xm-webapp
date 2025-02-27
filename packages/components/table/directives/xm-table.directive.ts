@@ -7,7 +7,7 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators
 import { PageableAndSortable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
 import { cloneDeep, isEqual, set } from 'lodash';
-import { combineLatest, Observable, ReplaySubject, startWith } from 'rxjs';
+import { combineLatest, Observable, ReplaySubject, startWith, tap } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { IXmTableCollectionController, IXmTableCollectionState } from '../collections';
 import { FiltersControlValue } from '../components/xm-table-filter-button-dialog-control.component';
@@ -112,23 +112,27 @@ export class XmTableDirective implements OnInit, OnDestroy {
             shareReplay(1),
         );
 
-        const mergeFiltersChange = combineLatest([
-            this.tableFilterController.change$(),
-            this.queryParamsStoreService.listenQueryParamsToFilter(this.config.queryParamsFilter).pipe(
-                startWith({})
-            ),
+        combineLatest([
+            this.queryParamsStoreService.listenQueryParamsToFilter(this.config.queryParamsFilter),
             this.eventManagerService.listenTo<{ queryParams: Params }>(`${this.config.triggerTableKey}${XmTableEventType.XM_TABLE_UPDATE}`).pipe(
                 map((evt) => evt.payload?.queryParams),
-                startWith({}),
             ),
         ]).pipe(
-            map(([tableFilter, queryFilter, eventFilter]) => {
-                return _.merge({}, tableFilter, queryFilter, eventFilter);
+            startWith([{}, {}]),
+            tap(([queryFilter, eventFilter]) => {
+                const mergeFilters = _.merge({}, queryFilter, eventFilter);
+
+                if (_.isEmpty(mergeFilters)) {
+                    return;
+                }
+
+                this.tableFilterController.update(mergeFilters);
             }),
-        );
+            takeUntilOnDestroy(this),
+        ).subscribe();
 
         combineLatest({
-            tableFilter: mergeFiltersChange,
+            tableFilter: this.tableFilterController.change$(),
             pageableAndSortable: this.pageableAndSortable$,
         }).pipe(
             takeUntilOnDestroy(this),
