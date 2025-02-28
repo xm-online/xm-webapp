@@ -17,6 +17,7 @@ import { TransformDateStringCodec } from './transform-date-string-codec.service'
 import { cloneDeep, defaultsDeep } from 'lodash';
 import { DateAdapter } from '@angular/material/core';
 import { CustomDateAdapter } from './shared/custom-date-adapter';
+import { coerceNumberProperty } from '@angular/cdk/coercion';
 
 export interface XmDateRangeControlConfig {
     hint?: HintText;
@@ -31,6 +32,11 @@ export interface XmDateRangeControlConfig {
     }
     intervalFromMinDateInDays?: number;
     hideClear?: boolean;
+    defaultValues?: {
+        from?: number,
+        to?: number,
+    }
+
 }
 
 export type XmDateRangeValue = XmDateValue | string | number;
@@ -144,6 +150,12 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
     }
 
     public ngAfterViewInit(): void {
+        const defaultModel = this.getDefaultModel();
+        if (defaultModel.from != '' && defaultModel.to != '') {
+            this.syncValue(defaultModel);
+            this.change(defaultModel);
+        }
+
         this.refreshDate.pipe(
             map(() => this.group.value),
             filter(({ to }) => !!to),
@@ -224,5 +236,34 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         } else if (typeof model !== 'string') {
             this.group.patchValue(model, { emitEvent: false });
         }
+    }
+
+    private getDefaultModel(): XmDateRangeControlValue {
+        if (!this.config.defaultValues) {
+            return {
+                from: '',
+                to: ''
+            };
+        }
+        const {
+            from: rawFrom,
+            to: rawTo
+        } = this.config.defaultValues;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const from = coerceNumberProperty(rawFrom);
+        const to = coerceNumberProperty(rawTo);
+        const fromDate = new Date();
+        const toDate = new Date();
+        if (!isNaN(from)) {
+            fromDate.setDate(today.getDate() - from);
+        }
+        if (!isNaN(to)) {
+            toDate.setDate(today.getDate() + to);
+        }
+        return {
+            from: fromDate,
+            to: toDate,
+        };
     }
 }
