@@ -113,4 +113,28 @@ describe('GIVEN XmDateRangeControl', () => {
         void expect(fromDateControl.value.getMilliseconds()).toBe(new Date('2023-07-28T12:34:56').getMilliseconds());
         void expect(toDateControl.value.getMilliseconds()).toBe(new Date('2023-07-30T15:45:23').getMilliseconds());
     });
+
+    it('WHEN set defaultValues should set values (using current date) before/after dates', () => {
+        const defaultValues = { from: 7, to: 0 };
+        const config: XmDateRangeControlConfig = {
+            ...XM_DATE_RANGE_CONTROL_CONFIG_DEFAULT,
+            defaultValues: defaultValues,
+            title: 'Test Title',
+        };
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        component.config = config;
+        const defaultModel = (component as any).getDefaultModel();
+        const expectedFrom = new Date(today);
+        expectedFrom.setDate(today.getDate() - defaultValues.from);
+        const expectedTo = new Date(today);
+        expectedTo.setDate(today.getDate() + defaultValues.to);
+        const compareDates = (d1: Date, d2: Date): boolean =>
+            d1.getFullYear() === d2.getFullYear() &&
+            d1.getMonth() === d2.getMonth() &&
+            d1.getDate() === d2.getDate();
+
+        expect(compareDates(defaultModel.from, expectedFrom)).toBeTrue();
+        expect(compareDates(defaultModel.to, expectedTo)).toBeTrue();
+    });
 });
