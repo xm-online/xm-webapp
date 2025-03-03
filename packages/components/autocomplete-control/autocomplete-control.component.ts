@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
     Component,
     forwardRef,
-    ViewChild,
+    ViewChild, ViewEncapsulation,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -78,7 +78,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
             z-index: 2;
         }
 
-        ::ng-deep .autocomplete-tooltip.mat-mdc-option .mdc-list-item__primary-text {
+        .autocomplete-tooltip.mat-mdc-option .mdc-list-item__primary-text {
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
@@ -103,6 +103,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         useExisting: forwardRef(() => XmAutocompleteControlComponent),
         multi: true,
     }],
+    encapsulation: ViewEncapsulation.None,
 })
 export class XmAutocompleteControlComponent extends XmAutocompleteControl {
     @ViewChild(MatSelect) public matSelect: MatSelect;
