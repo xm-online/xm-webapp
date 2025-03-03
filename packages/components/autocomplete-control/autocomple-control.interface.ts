@@ -42,6 +42,8 @@ export interface XmAutocompleteControlConfig {
     startFromCharSearch?: number;
     errors?: XmControlErrorsTranslates;
     required?: boolean;
+    useTooltip?: boolean;
+    tooltipPosition?: 'after' | 'before' | 'above' | 'below' | 'left' | 'right';
 }
 
 export interface XmAutocompleteSearchParams {
@@ -89,4 +91,6 @@ export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = 
     notFoundSearchPlaceholder: 'global.rest-select-placeholder-noresults',
     startFromCharSearch: 0,
     required: false,
+    useTooltip: false,
+    tooltipPosition: 'below',
 };

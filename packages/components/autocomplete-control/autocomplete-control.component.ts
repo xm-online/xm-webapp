@@ -14,6 +14,7 @@ import { HintModule } from '@xm-ngx/components/hint';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { XmAutocompleteControl } from './autocomplete-control';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
     standalone: true,
@@ -47,10 +48,17 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
                 <ng-container *ngIf="(list | async)?.length > 0; then listing"></ng-container>
 
                 <ng-template #listing>
-                    <mat-option *ngFor="let s of list | async"
-                                [value]="s">
-                        {{s.view | translate}}
-                    </mat-option>
+                    @if(config.useTooltip) {
+                        <mat-option *ngFor="let s of list | async"
+                                    [value]="s" [matTooltip]="s.view" [matTooltipPosition]="config.tooltipPosition" class="autocomplete-tooltip">
+                            {{s.view | translate}}
+                        </mat-option>
+                    } @else {
+                        <mat-option *ngFor="let s of list | async"
+                                    [value]="s">
+                            {{s.view | translate}}
+                        </mat-option>
+                    }
                 </ng-template>
             </mat-select>
 
@@ -69,6 +77,12 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
             width: 100%;
             z-index: 2;
         }
+
+        ::ng-deep .autocomplete-tooltip.mat-mdc-option .mdc-list-item__primary-text {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
     `],
     imports: [
         MatFormFieldModule,
@@ -82,6 +96,7 @@ import { ControlErrorModule } from '@xm-ngx/components/control-error';
         CommonModule,
         HintModule,
         ControlErrorModule,
+        MatTooltipModule
     ],
     providers: [{
         provide: NG_VALUE_ACCESSOR,
