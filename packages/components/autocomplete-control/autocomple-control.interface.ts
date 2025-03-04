@@ -3,6 +3,7 @@ import { HintText } from '@xm-ngx/components/hint';
 import { XmTableColumnDynamicCellsOptions } from '@xm-ngx/components/table';
 import { XmFormatTemplateRecursive } from '@xm-ngx/operators';
 import { XmControlErrorsTranslates } from '@xm-ngx/components/control-error';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 export interface XmAutocompleteControlMapper {
     // Interpolated string as ${name}
@@ -42,6 +43,8 @@ export interface XmAutocompleteControlConfig {
     startFromCharSearch?: number;
     errors?: XmControlErrorsTranslates;
     required?: boolean;
+    useTooltip?: boolean;
+    tooltipPosition?: TooltipPosition;
 }
 
 export interface XmAutocompleteSearchParams {
@@ -89,4 +92,6 @@ export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = 
     notFoundSearchPlaceholder: 'global.rest-select-placeholder-noresults',
     startFromCharSearch: 0,
     required: false,
+    useTooltip: false,
+    tooltipPosition: 'below',
 };
