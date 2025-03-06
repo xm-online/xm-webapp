@@ -100,7 +100,7 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
     private requestOnlyOnSubmit= false;
 
     public ngOnInit(): void {
-        this.requestOnlyOnSubmit=this.config.requestOnlyOnSubmit;
+        this.requestOnlyOnSubmit = this.config?.requestOnlyOnSubmit;
         this.isFilterVisible = !this.config?.hideDefaultFilters;
         this.initFilers();
     }
