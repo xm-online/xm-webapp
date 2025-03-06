@@ -16,6 +16,7 @@ export interface XmTableFiltersControlRequestConfig {
     hideDefaultFilters?: boolean;
     hideResetButton?: boolean;
     quickFilterInlineContainerStyle?: string;
+    requestOnlyOnSubmit?: boolean;
 }
 
 @Component({
