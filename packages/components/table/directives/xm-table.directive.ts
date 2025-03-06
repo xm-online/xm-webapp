@@ -60,6 +60,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
     @ContentChild(MatSort, {static: false}) public sort: MatSort | null;
     @Input()
     public xmTableController: IXmTableCollectionController<unknown>;
+    private skipLoadOnInit = false;
 
     constructor(
         private tableFilterController: XmTableFilterController,
@@ -87,6 +88,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        this.skipLoadOnInit = this._config.skipLoadOnInit;
         this.onControllerStateChangeUpdateContext();
     }
 
@@ -151,11 +153,14 @@ export class XmTableDirective implements OnInit, OnDestroy {
             const filterParams = obsObj.tableFilter;
             const pageableAndSortable = this.mapPageableAndSortable(filterParams, obsObj.pageableAndSortable);
             this.filters = cloneDeep(filterParams);
-            const queryParams = _.merge({}, { pageableAndSortable }, { filterParams });
+            const queryParams = _.merge({}, {pageableAndSortable}, {filterParams});
 
             this.queryParamsStoreService.set(queryParams, this.config);
 
-            this.xmTableController.load(queryParams);
+            if (!this.skipLoadOnInit) {
+                this.xmTableController.load(queryParams);
+            }
+            this.skipLoadOnInit = false;
         });
     }
 

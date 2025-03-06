@@ -23,6 +23,7 @@ export interface XmTableConfig {
     showQuickFilters?: boolean;
     navigation?: XmTableNavigation;
     selection?: XmTableSelectionConfig;
+    skipLoadOnInit?: boolean;
 }
 
 export interface XmTableNavigation {

@@ -97,8 +97,10 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
 
     private tableFilterController: XmTableFilterController = inject(XmTableFilterController);
     public isFilterVisible: boolean = true;
+    private requestOnlyOnSubmit: boolean = false;
 
     public ngOnInit(): void {
+        this.requestOnlyOnSubmit = this.config?.requestOnlyOnSubmit;
         this.isFilterVisible = !this.config?.hideDefaultFilters;
         this.initFilers();
     }
@@ -158,6 +160,9 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
             debounceTime(this.DELAY),
             takeUntilOnDestroy(this)
         ).subscribe(() => {
+            if (this.requestOnlyOnSubmit) {
+                return;
+            }
             this.submit();
         });
     }
