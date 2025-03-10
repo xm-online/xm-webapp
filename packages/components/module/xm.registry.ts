@@ -111,5 +111,9 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     {
         selector: 'render-layouts',
         loadChildren: () => import('@xm-ngx/components/render-layouts').then(m => m.XmRenderLayoutsComponent),
-    }
+    },
+    {
+        selector: 'virtual-infinite-scroll',
+        loadChildren: () => import('@xm-ngx/components/virtual-infinite-scroll').then(m => m.XmVirtualInfiniteScrollWidget),
+    },
 ];

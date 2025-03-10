@@ -6,6 +6,7 @@
   },
   "allowedNonPeerDependencies": [
     "html2canvas",
-    "ng-recaptcha"
+    "ng-recaptcha",
+    "ngx-infinite-scroll"
   ]
 }

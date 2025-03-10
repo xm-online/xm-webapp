@@ -1,0 +1,41 @@
+@if (config().isVirtualScrollOnly && layouts) {
+    <cdk-virtual-scroll-viewport
+            itemSize="{{config().itemSize}}"
+            [class]="config().theme?.class"
+            [style]="config().theme?.style"
+            xmDynamicPresentation
+            [dataQa]="config().dataQa">
+        <ng-container *cdkVirtualFor="let layout of layouts" class="item">
+            <ng-container [ngTemplateOutlet]="scrollContent"></ng-container>
+        </ng-container>
+    </cdk-virtual-scroll-viewport>
+} @else if (config() && layouts) {
+    <cdk-virtual-scroll-viewport
+            infiniteScroll
+            [infiniteScrollDistance]="config().infiniteScrollDistance"
+            [infiniteScrollThrottle]="config().infiniteScrollThrottle"
+            itemSize="{{config().itemSize}}"
+            [class]="config().theme?.class"
+            [style]="config().theme?.style"
+            xmDynamicPresentation
+            [dataQa]="config().dataQa">
+        <ng-container *cdkVirtualFor="let layout of layouts" class="item">
+            <ng-container [ngTemplateOutlet]="scrollContent" [ngTemplateOutletContext]="{ layout: layout }">
+
+            </ng-container>
+        </ng-container>
+    </cdk-virtual-scroll-viewport>
+}
+
+<ng-template #scrollContent let-layout="layout">
+    <ng-container
+            [class]="config()?.layout.theme?.class"
+            [style]="config()?.layout.theme?.style"
+            xmDynamicPresentation
+            [selector]="config()?.layout.selector"
+            [config]="config()?.layout.config"
+            [controllers]="config()?.layout.controllers"
+            [dataQa]="config()?.layout.dataQa"
+            [value]="layout"
+    ></ng-container>
+</ng-template>
