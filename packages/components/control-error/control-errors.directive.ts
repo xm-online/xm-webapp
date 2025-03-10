@@ -66,14 +66,14 @@ export class ControlErrorsDirective implements OnInit, OnChanges {
     }
 
     public ngOnInit(): void {
-        this.setExtraErrors();
+        this.setExtraErrorTranslations();
     }
 
     public ngOnChanges(): void {
         this.updateView();
     }
 
-    private setExtraErrors(): void {
+    private setExtraErrorTranslations(): void {
         this._xmControlErrorsTranslates = {...this._xmControlErrorsTranslates, ...this.xmControlErrorsExtraErrorTranslations};
     }
 
