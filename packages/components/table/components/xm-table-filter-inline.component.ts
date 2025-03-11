@@ -7,7 +7,7 @@ import {
     XmTableFiltersControlRequestConfig,
 } from './xm-table-filter-button-dialog-controls.component';
 import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
-import { XmTranslatePipe, XmTranslationModule } from '@xm-ngx/translation';
+import { XmTranslatePipe } from '@xm-ngx/translation';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { matExpansionAnimations } from '@angular/material/expansion';
@@ -75,10 +75,8 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
     imports: [
         MatButtonModule,
         XmTableFilterButtonDialogControlsComponent,
-        XmTranslationModule,
         XmEmptyPipe,
         NgIf,
-        XmTranslationModule,
         MatIconModule,
         NgClass,
         XmTranslatePipe,
