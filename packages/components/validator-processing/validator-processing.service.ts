@@ -79,7 +79,7 @@ export class ValidatorProcessingService {
                 return {required: true};
             }
             return null;
-        }
+        };
     }
 
     public static fileDataSpec(options: {
@@ -292,7 +292,6 @@ export class ValidatorProcessingService {
     }
 
     public validatorFactory(option: ValidatorProcessingOption): ValidatorFn | null {
-        debugger
         const validator = this.validators[option.type] || null;
         return (validator && option.params) ? (validator as any)(option.params) : validator();
     }
