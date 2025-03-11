@@ -54,7 +54,7 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
                     <button mat-button
                             mat-raised-button
                             color="primary"
-                            [disabled]="formContainer.disabled||!isValid"
+                            [disabled]="formContainer.disabled || !isValid"
                             (click)="submit()">
                         {{ 'table.filter.button.search' | translate }}
                     </button>
