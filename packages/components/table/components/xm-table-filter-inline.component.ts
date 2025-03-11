@@ -7,7 +7,7 @@ import {
     XmTableFiltersControlRequestConfig,
 } from './xm-table-filter-button-dialog-controls.component';
 import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
-import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmTranslatePipe } from '@xm-ngx/translation';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { matExpansionAnimations } from '@angular/material/expansion';
@@ -48,7 +48,7 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
                     <button mat-button
                             class="me-3"
                             (click)="reset()">
-                        {{ 'table.filter.button.reset' | translate }}
+                        {{ 'table.filter.button.reset' | xmTranslate }}
                     </button>
 
                     <button mat-button
@@ -56,7 +56,7 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
                             color="primary"
                             [disabled]="formContainer.disabled || !isValid"
                             (click)="submit()">
-                        {{ 'table.filter.button.search' | translate }}
+                        {{ (config?.searchFilterBtnText || 'table.filter.button.search') | xmTranslate }}
                     </button>
                 </div>
             </ng-container>
@@ -75,12 +75,11 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
     imports: [
         MatButtonModule,
         XmTableFilterButtonDialogControlsComponent,
-        XmTranslationModule,
         XmEmptyPipe,
         NgIf,
-        XmTranslationModule,
         MatIconModule,
         NgClass,
+        XmTranslatePipe,
     ],
     animations: [
         matExpansionAnimations.bodyExpansion,
