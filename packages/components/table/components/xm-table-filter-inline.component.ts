@@ -56,7 +56,7 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
                             color="primary"
                             [disabled]="formContainer.disabled || !isValid"
                             (click)="submit()">
-                        {{ 'table.filter.button.search' | translate }}
+                        {{ (config?.searchFilterBtnText || 'table.filter.button.search') | translate }}
                     </button>
                 </div>
             </ng-container>

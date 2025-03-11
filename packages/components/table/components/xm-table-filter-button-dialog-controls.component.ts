@@ -4,6 +4,7 @@ import {
     XmTableFilterButtonDialogControlComponent
 } from './xm-table-filter-button-dialog-control.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
+import { Translate } from '@xm-ngx/translation';
 
 export interface XmTableFiltersControlRequestConfig {
     submitInvalidForm?: boolean;
@@ -17,6 +18,7 @@ export interface XmTableFiltersControlRequestConfig {
     hideResetButton?: boolean;
     quickFilterInlineContainerStyle?: string;
     requestOnlyOnSubmit?: boolean;
+    searchFilterBtnText?: Translate;
 }
 
 @Component({
