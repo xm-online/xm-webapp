@@ -27,6 +27,7 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
                         [options]="config"
                         [request]="value"
                         (requestChange)="requestChange($event)"
+                        (validStatusChange)="setValid($event)"
                         #formContainer
                         class="w-100"
                         [ngClass]="{'xm-filters-control-hidden': filterExpand}"
@@ -53,7 +54,7 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
                     <button mat-button
                             mat-raised-button
                             color="primary"
-                            [disabled]="formContainer.disabled"
+                            [disabled]="formContainer.disabled || !isValid"
                             (click)="submit()">
                         {{ 'table.filter.button.search' | translate }}
                     </button>
@@ -90,6 +91,7 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
     @Input() public loading: boolean;
 
     public value: FiltersControlValue;
+    public isValid = null;
     public filterExpand: boolean = true;
     private cacheFilters: FiltersControlValue;
     private DELAY = 400;
@@ -165,5 +167,10 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
             }
             this.submit();
         });
+    }
+
+    public setValid(event: boolean): void {
+        this.isValid = event;
+
     }
 }
