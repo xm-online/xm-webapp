@@ -198,6 +198,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
     public clear(event: MouseEvent): void {
         event.stopPropagation();
         this.group.reset(null, {emitEvent: true});
+        this.group.markAllAsTouched();
         this.change({from: '', to: ''});
         this.validDateFields();
     }
@@ -274,8 +275,8 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
     }
 
 
-    public validDateFields(){
-        if (this.config.required) {
+    public validDateFields(): void {
+        if (this.config?.required) {
             const fromControl = this.group.get('from');
             const toControl = this.group.get('to');
             fromControl?.setValidators(Validators.required);
@@ -286,5 +287,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
                 this.group.setErrors(null);
             }
         }
+        this.group.markAllAsTouched();
+        this.group.updateValueAndValidity();
     }
 }

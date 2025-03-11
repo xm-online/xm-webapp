@@ -47,6 +47,7 @@ export class ValidatorProcessingService {
         valueLessThanIn: ValidatorProcessingService.valueLessThanIn,
         valueMoreThanIn: ValidatorProcessingService.valueMoreThanIn,
         severalEmails: ValidatorProcessingService.severalEmails,
+        requiredDates: ValidatorProcessingService.dateFieldsRequired,
     };
 
     private asyncValidators: { [key: string]: (...args: any[]) => AsyncValidatorFn } = {
@@ -67,6 +68,18 @@ export class ValidatorProcessingService {
                 ? {languageRequired: invalidLanguages}
                 : null;
         };
+    }
+
+    public static dateFieldsRequired(value: any): ValidatorFn {
+        return (control: AbstractControl) => {
+            if (!control?.value) {
+                return {required: true};
+            }
+            if (!control?.value?.from || !control?.value?.to) {
+                return {required: true};
+            }
+            return null;
+        }
     }
 
     public static fileDataSpec(options: {
@@ -279,6 +292,7 @@ export class ValidatorProcessingService {
     }
 
     public validatorFactory(option: ValidatorProcessingOption): ValidatorFn | null {
+        debugger
         const validator = this.validators[option.type] || null;
         return (validator && option.params) ? (validator as any)(option.params) : validator();
     }
