@@ -1,0 +1,13 @@
+<ng-container *ngIf="config.layout as layout">
+  <ng-container
+    *xmCondition="config?.condition; arguments {value: row}"
+    [class]="layout.theme?.class"
+    [style]="layout.theme?.style"
+    xmDynamicPresentation
+    [selector]="layout.selector"
+    [config]="layout.config"
+    [controllers]="layout.controllers"
+    [dataQa]="layout.dataQa"
+    [value]="row"
+  ></ng-container>
+</ng-container>
