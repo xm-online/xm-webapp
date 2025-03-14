@@ -45,6 +45,10 @@ export interface XmAutocompleteControlConfig {
     required?: boolean;
     useTooltip?: boolean;
     tooltipPosition?: TooltipPosition;
+    controller?: {
+        key?: string;
+        method?: string;
+    }
 }
 
 export interface XmAutocompleteSearchParams {
