@@ -130,7 +130,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
                     return {
                         eventFilter: evt.payload?.queryParams,
                         triggerEvent: true,
-                    }
+                    };
                 }),
                 startWith({} as any),
             ),
