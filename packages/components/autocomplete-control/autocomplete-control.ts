@@ -2,7 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { HttpHeaders } from '@angular/common/http';
 import {
     Directive,
-    inject,
+    inject, Injector,
     Input,
     OnChanges,
     OnDestroy,
@@ -31,7 +31,7 @@ import {
     switchMap,
     tap,
 } from 'rxjs';
-import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
+import { EntityCollectionFactoryService, IEntityCollectionPageable, PageableAndSortable } from '@xm-ngx/repositories';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import {
     AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG,
@@ -44,6 +44,7 @@ import {
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { checkIfEmpty } from '@xm-ngx/pipes';
 import { cloneDeep, defaultsDeep, get, intersectionBy, isArray, isEmpty, isEqual, isFunction, isMatch, isObject, omitBy, template, uniqWith } from 'lodash';
+import { XmDynamicInstanceService } from '@xm-ngx/dynamic';
 
 @Directive()
 export class XmAutocompleteControl extends NgModelWrapper<object | string> implements OnInit, OnDestroy, OnChanges {
@@ -96,6 +97,16 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     public selected: unknown | unknown[];
 
     public messageErrors = XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES;
+
+    private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
+    private injector: Injector = inject(Injector);
+
+    private get repositoryController(): IEntityCollectionPageable<any, PageableAndSortable> {
+        return this.xmDynamicInstanceService.getControllerByKey(
+            this.config.controller?.key,
+            this.injector
+        );
+    }
 
     constructor(
         @Optional() @SkipSelf() public ngControl: NgControl,
@@ -286,6 +297,15 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
         const { resourceUrl, resourceMethod, headers } = this.config?.search || {};
 
+        if(this.repositoryController) {
+            return this.repositoryController[this.config.controller?.method || 'query'](httpParams, new HttpHeaders(headers))
+                .pipe(
+                    map((data) => this.mapBackendData(data)),
+                    map(collection => this.normalizeValues(collection)),
+                    finalize(() => this._loading.next(false)),
+                );
+        }
+
         if (resourceUrl) {
             return this.collectionFactory.create(resourceUrl).request(
                 resourceMethod,
@@ -293,19 +313,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
                 httpParams,
                 new HttpHeaders(headers),
             ).pipe(
-                map((data) => {
-                    if (this.config?.extractByKey) {
-                        data = get(data, this.config?.extractByKey, []);
-                    }
-
-                    if (!isEmpty(this.config.formatBackendData)) {
-                        data = coerceArray(data).map((item) => {
-                            return format(this.config.formatBackendData, item);
-                        });
-                    }
-
-                    return data;
-                }),
+                map((data) => this.mapBackendData(data)),
                 map(collection => this.normalizeValues(collection)),
                 finalize(() => this._loading.next(false)),
             );
@@ -416,6 +424,20 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
          * Possible scenario when we set same value as previously
          */
         this.setUpdatedValues(unwrapValues, false);
+    }
+
+    private mapBackendData(value: unknown): unknown {
+        let data = cloneDeep(value);
+        if (this.config?.extractByKey) {
+            data = get(data, this.config?.extractByKey, []);
+        }
+
+        if (!isEmpty(this.config.formatBackendData)) {
+            data = coerceArray(data).map((item) => {
+                return format(this.config.formatBackendData, item);
+            });
+        }
+        return data;
     }
 
     public ngOnDestroy(): void {
