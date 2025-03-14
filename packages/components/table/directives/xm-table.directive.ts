@@ -126,12 +126,22 @@ export class XmTableDirective implements OnInit, OnDestroy {
                 startWith(queryParams?.filterParams ?? {}),
             ),
             this.eventManagerService.listenTo<{ queryParams: Params }>(`${this.config.triggerTableKey}${XmTableEventType.XM_TABLE_UPDATE}`).pipe(
-                map((evt) => evt.payload?.queryParams),
-                startWith({}),
+                map((evt) => {
+                    return {
+                        eventFilter: evt.payload?.queryParams,
+                        triggerEvent: true,
+                    }
+                }),
+                startWith({} as any),
             ),
         ]).pipe(
-            tap(([queryFilter, eventFilter]) => {
-                const mergeFilters = _.merge({}, queryFilter, eventFilter);
+            tap(([queryFilter, eventManager]) => {
+                const mergeFilters = _.merge({}, queryFilter, eventManager.eventFilter);
+
+                if(eventManager.triggerEvent) {
+                    this.tableFilterController.update(mergeFilters);
+                    return;
+                }
 
                 if (_.isEmpty(mergeFilters)) {
                     return;

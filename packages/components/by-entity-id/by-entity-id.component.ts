@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { Id } from '@xm-ngx/interfaces';
 import { Translate } from '@xm-ngx/translation';
@@ -32,7 +32,7 @@ export const BY_ENTITY_ID_OPTIONS: ByEntityIdOptions = {
         </xm-text-view-container>
     `,
 })
-export class ByEntityIdComponent extends ByEntityIdValueComponent implements OnInit, OnChanges {
+export class ByEntityIdComponent extends ByEntityIdValueComponent implements OnChanges {
 
     /** {@inheritDoc XmDynamicPresentation.config} */
     @Input() public declare config: ByEntityIdOptions;

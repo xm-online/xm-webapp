@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, NgModule, OnChanges } from '@angular/core';
 import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import {
     XmDynamicPresentation,
@@ -36,7 +36,7 @@ export const BY_ENTITY_ID_VALUE_OPTIONS: ByEntityIdValueOptions = {
     template: '<span>{{fieldValue}}</span>',
 })
 export class ByEntityIdValueComponent
-implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnInit, OnChanges {
+implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnChanges {
 
     /** {@inheritDoc XmDynamicPresentation.config} */
     @Input() public config: ByEntityIdValueOptions;
@@ -58,11 +58,6 @@ implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnInit, OnChanges 
 
     /** {@inheritDoc OnChanges.ngOnChanges} */
     public ngOnChanges(): void {
-        this.update();
-    }
-
-    /** {@inheritDoc OnInit.ngOnInit} */
-    public ngOnInit(): void {
         this.update();
     }
 
