@@ -47,6 +47,7 @@ export class ValidatorProcessingService {
         valueLessThanIn: ValidatorProcessingService.valueLessThanIn,
         valueMoreThanIn: ValidatorProcessingService.valueMoreThanIn,
         severalEmails: ValidatorProcessingService.severalEmails,
+        requiredDates: ValidatorProcessingService.dateFieldsRequired,
     };
 
     private asyncValidators: { [key: string]: (...args: any[]) => AsyncValidatorFn } = {
@@ -66,6 +67,18 @@ export class ValidatorProcessingService {
             return invalidLanguages.length > 0
                 ? {languageRequired: invalidLanguages}
                 : null;
+        };
+    }
+
+    public static dateFieldsRequired(value: any): ValidatorFn {
+        return (control: AbstractControl) => {
+            if (!control?.value) {
+                return {required: true};
+            }
+            if (!control?.value?.from || !control?.value?.to) {
+                return {required: true};
+            }
+            return null;
         };
     }
 

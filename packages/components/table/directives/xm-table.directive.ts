@@ -126,13 +126,11 @@ export class XmTableDirective implements OnInit, OnDestroy {
                 startWith(queryParams?.filterParams ?? {}),
             ),
             this.eventManagerService.listenTo<{ queryParams: Params }>(`${this.config.triggerTableKey}${XmTableEventType.XM_TABLE_UPDATE}`).pipe(
-                map((evt) => evt.payload?.queryParams),
-                startWith({}),
                 map((evt) => {
                     return {
                         eventFilter: evt.payload?.queryParams,
                         triggerEvent: true,
-                    };
+                    }
                 }),
                 startWith({} as any),
             ),

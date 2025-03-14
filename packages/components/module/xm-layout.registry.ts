@@ -6,6 +6,10 @@ export const XM_LAYOUT_ELEMENTS: XmDynamicEntry[] = [
         loadChildren: () => import('@xm-ngx/components/layout/card').then(m => m.CardLayoutComponent),
     },
     {
+        selector: 'cell-layout',
+        loadChildren: () => import('@xm-ngx/components/layout/cell').then(m => m.CellLayoutComponent),
+    },
+    {
         selector: 'list-layout',
         loadChildren: () => import('@xm-ngx/components/layout/list').then(m => m.ListLayoutComponent),
     },
