@@ -1,43 +1,29 @@
-@if (config().isVirtualScrollOnly && layouts) {
+@if (config() && items()) {
+  <div class="virtual-scroll-widget-container">
+    @if (isLoading()) {
+      <div class="virtual-scroll-widget-container__loading">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+    }
     <cdk-virtual-scroll-viewport
-            itemSize="{{config().itemSize}}"
-            [class]="config().theme?.class"
-            [style]="config().theme?.style"
-            xmDynamicPresentation
-            [dataQa]="config().dataQa">
-        <ng-container *cdkVirtualFor="let layout of layouts" class="item">
-            <ng-container [ngTemplateOutlet]="scrollContent"></ng-container>
-        </ng-container>
+      [itemSize]="config().itemSize"
+      [minBufferPx]="config().minBufferPx || window.innerHeight"
+      [maxBufferPx]="config().maxBufferPx || window.innerHeight + 200"
+      [class]="config().theme?.class"
+      [style]="config().theme?.style"
+      [attr.data-qa]="config().dataQa">
+      <ng-container *cdkVirtualFor="let item of items()">
+        <ng-container
+          xmDynamicPresentation
+          [class]="config()?.layout.theme?.class"
+          [style]="config()?.layout.theme?.style"
+          [selector]="config()?.layout.selector"
+          [config]="config()?.layout.config"
+          [controllers]="config()?.layout.controllers"
+          [dataQa]="config()?.layout.dataQa"
+          [value]="item"
+        ></ng-container>
+      </ng-container>
     </cdk-virtual-scroll-viewport>
-} @else if (config() && layouts) {
-    <cdk-virtual-scroll-viewport
-            infiniteScroll
-            [infiniteScrollDistance]="config().infiniteScrollDistance"
-            [infiniteScrollThrottle]="config().infiniteScrollThrottle"
-            itemSize="{{config().itemSize}}"
-            [minBufferPx]="1400"
-            [maxBufferPx]="1600"
-            [class]="config().theme?.class"
-            [style]="config().theme?.style"
-            xmDynamicPresentation
-            [dataQa]="config().dataQa">
-        <ng-container *cdkVirtualFor="let layout of layouts" class="item">
-            <ng-container [ngTemplateOutlet]="scrollContent" [ngTemplateOutletContext]="{ layout: layout }">
-
-            </ng-container>
-        </ng-container>
-    </cdk-virtual-scroll-viewport>
+  </div>
 }
-
-<ng-template #scrollContent let-layout="layout">
-    <ng-container
-            [class]="config()?.layout.theme?.class"
-            [style]="config()?.layout.theme?.style"
-            xmDynamicPresentation
-            [selector]="config()?.layout.selector"
-            [config]="config()?.layout.config"
-            [controllers]="config()?.layout.controllers"
-            [dataQa]="config()?.layout.dataQa"
-            [value]="layout"
-    ></ng-container>
-</ng-template>

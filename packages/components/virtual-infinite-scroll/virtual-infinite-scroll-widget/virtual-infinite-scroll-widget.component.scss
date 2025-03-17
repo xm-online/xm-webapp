@@ -1,7 +1,22 @@
-cdk-virtual-scroll-viewport{
-  height: calc(100vh - 233px);
+.virtual-scroll-widget-container {
+  position: relative;
+  z-index: 1;
 
-  .item {
-    height: 50px;
+  &__loading {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+  }
+
+  cdk-virtual-scroll-viewport {
+    height: calc(100vh - 306px);
+    //height: 56px;
+
+    .item {
+      height: 50px;
+    }
   }
 }
+
