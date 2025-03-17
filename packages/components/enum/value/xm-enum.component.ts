@@ -36,7 +36,7 @@ export interface XmEnumOptions {
             </ng-container>
             } @else {
                 <span [style]="titles[value + '']?.style">
-                    {{(titles?.[value + '']?.title || value) | translate }}
+                    {{(titles?.[value + '']?.title || titles?.[value + ''] || value) | translate }}
                 </span>
             }
         </span>

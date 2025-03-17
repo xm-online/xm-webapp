@@ -113,7 +113,7 @@ export class XmTableDirective implements OnInit, OnDestroy {
                 const displayedColumns = _.map(_.filter(a, i => !i.hidden), i => i.name);
                 return ({
                     collection: state,
-                    settings: { displayedColumns },
+                    settings: {displayedColumns},
                 });
             }),
             shareReplay(1),
@@ -126,12 +126,22 @@ export class XmTableDirective implements OnInit, OnDestroy {
                 startWith(queryParams?.filterParams ?? {}),
             ),
             this.eventManagerService.listenTo<{ queryParams: Params }>(`${this.config.triggerTableKey}${XmTableEventType.XM_TABLE_UPDATE}`).pipe(
-                map((evt) => evt.payload?.queryParams),
-                startWith({}),
+                map((evt) => {
+                    return {
+                        eventFilter: evt.payload?.queryParams,
+                        triggerEvent: true,
+                    };
+                }),
+                startWith({} as any),
             ),
         ]).pipe(
-            tap(([queryFilter, eventFilter]) => {
-                const mergeFilters = _.merge({}, queryFilter, eventFilter);
+            tap(([queryFilter, eventManager]) => {
+                const mergeFilters = _.merge({}, queryFilter, eventManager.eventFilter);
+
+                if(eventManager.triggerEvent) {
+                    this.tableFilterController.update(mergeFilters);
+                    return;
+                }
 
                 if (_.isEmpty(mergeFilters)) {
                     return;
@@ -177,14 +187,14 @@ export class XmTableDirective implements OnInit, OnDestroy {
     }
 
     public updatePagination(refreshIndex?: boolean): void {
-        const { sortBy: defaultSortBy, sortOrder: defaultSortOrder } = this._config.pageableAndSortable;
+        const {sortBy: defaultSortBy, sortOrder: defaultSortOrder} = this._config.pageableAndSortable;
 
         const sortBy = this._config.columns.find((i) => i.name === this.sort.active)?.name ?? defaultSortBy;
         const sortOrder = this.sort.direction ?? defaultSortOrder;
         const pageIndex = refreshIndex ? 0 : this.paginator.pageIndex;
         const pageSize = this.paginator.pageSize;
         const total = this.paginator.length;
-        const pageAndSort: PageableAndSortable = { pageIndex, pageSize, sortOrder, sortBy, total };
+        const pageAndSort: PageableAndSortable = {pageIndex, pageSize, sortOrder, sortBy, total};
         this.pageableAndSortable$.next(pageAndSort);
     }
 
@@ -195,8 +205,8 @@ export class XmTableDirective implements OnInit, OnDestroy {
     }
 
     private getInitialQueryParams(): StaticQueryParams {
-        const { filterParams, pageableAndSortable } = (this.queryParamsStoreService.get() ?? {}) as StaticQueryParams;
-        const { pageIndex, pageSize, sortBy, sortOrder } = this._config.pageableAndSortable;
+        const {filterParams, pageableAndSortable} = (this.queryParamsStoreService.get() ?? {}) as StaticQueryParams;
+        const {pageIndex, pageSize, sortBy, sortOrder} = this._config.pageableAndSortable;
 
         const mergePageAndSort = _.merge({}, {
             pageIndex,
