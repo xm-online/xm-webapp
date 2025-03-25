@@ -25,6 +25,8 @@ import { Role, RoleService } from '@xm-ngx/core/role';
     templateUrl: './client-management.component.html',
 })
 export class ClientMgmtComponent extends BaseAdminListComponent implements OnInit, OnDestroy {
+    private readonly DIALOG_WIDTH = '80%';
+    private readonly DIALOG_MAX_WIDTH = '1000px';
 
     public list: Client[];
     public eventModify: string = 'clientListModification';
@@ -132,12 +134,12 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
     }
 
     public onEdit(client: Client): void {
-        const modalRef = this.modalService.open(ClientMgmtDialogComponent, { width: '500px' });
+        const modalRef = this.modalService.open(ClientMgmtDialogComponent, { width: this.DIALOG_WIDTH, maxWidth: this.DIALOG_MAX_WIDTH });
         modalRef.componentInstance.selectedClient = client;
     }
 
     public onAdd(): void {
-        this.modalService.open(ClientMgmtDialogComponent, { width: '500px' });
+        this.modalService.open(ClientMgmtDialogComponent, { width: this.DIALOG_WIDTH, maxWidth: this.DIALOG_MAX_WIDTH });
     }
 
     private loadClients(): Observable<Client[]> {
