@@ -31,6 +31,7 @@ export interface XmIconEnumOptions {
             [matTooltip]="tooltips[value + ''] | translate"
             [matTooltipShowDelay]="config?.showTooltipDelay || 0"
             [matTooltipPosition]="config?.tooltipPosition || 'above'"
+            [style]="styles[value + '']"
             >{{ icons[value + ''] || value }}</mat-icon
         >
     `,
@@ -44,6 +45,7 @@ export class XmIconEnumComponent implements XmDynamicPresentation<XmEnumValue, X
 
     public icons: Icons = {};
     public tooltips: Tooltips = {};
+    public styles: Record<string, string> = {};
     private _config: XmIconEnumOptions = { items: [] };
 
     public get config(): XmIconEnumOptions {
@@ -55,6 +57,7 @@ export class XmIconEnumComponent implements XmDynamicPresentation<XmEnumValue, X
         if (config?.items) {
             this.icons = mapValues(keyBy(config.items, 'value'), 'icon');
             this.tooltips = mapValues(keyBy(config.items, 'value'), 'tooltip');
+            this.styles = mapValues(keyBy(config.items, 'value'), 'style');
         }
         this._config = config;
     }
