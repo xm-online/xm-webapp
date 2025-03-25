@@ -6,7 +6,19 @@ import { filter } from 'rxjs/operators';
 
 interface XmNavbarConfig extends XmUIConfig {
     favicon: string;
-    navbar: { layout: XmDynamicLayout[]; version: number };
+    navbar: {
+        layout: XmDynamicLayout[];
+        version: number;
+        config?: {
+            logoDisabled?: boolean;
+            arrowBackDisabled?: boolean;
+            titleDisabled?: boolean;
+            searchDisabled?: boolean;
+            notificationDisabled?: boolean;
+            helpLinkDisabled?: boolean;
+            languageMenuDisabled?: boolean;
+        }
+    };
 }
 
 enum XmNavbarConfigVersion {
@@ -27,6 +39,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     public XmNavbarConfigVersion: typeof XmNavbarConfigVersion = XmNavbarConfigVersion;
     public navbarLayout: XmDynamicLayout[];
     public navbarVersion: number;
+    public navbarConfig: any;
 
     constructor(
         private uiConfigService: XmUiConfigService<XmNavbarConfig>,
@@ -40,6 +53,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
         ).subscribe((config) => {
             this.navbarLayout = config.navbar && config.navbar.layout ? config.navbar.layout : null;
             this.navbarVersion = config.navbar && config.navbar.version ? config.navbar.version : XmNavbarConfigVersion.First;
+            this.navbarConfig = config.navbar?.config || {};
 
             $('#favicon').attr('href', config.favicon ? config.favicon : './assets/img/favicon.png');
         });
