@@ -162,7 +162,7 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
             );
 
         this.layout = this.config.layout?.map((item: any) => {
-            const config = item['config'] || item['options'];
+            const config = item['config'] || item['options'] || {};
             _.set(item, 'config.selectionKey', config.selectionKey || this.config.key);
             _.set(item, 'options.selectionKey', config.selectionKey || this.config.key);
             return item;
