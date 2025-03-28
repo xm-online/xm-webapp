@@ -148,7 +148,7 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
 
     public ngOnInit(): void {
         if (this._config.defaultValue && !this.value) {
-            this.value = this._config.defaultValue
+            this.value = this._config.defaultValue;
         }
         if (this.config.applyTrimForValue) {
             this.initControlWithTrimmingString();
