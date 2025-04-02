@@ -17,6 +17,7 @@ export interface XmTableQueryParamsFilterValue {
     update: boolean;
     name: string;
 }
+
 export type XmTableQueryParamsFilter = Record<string, XmTableQueryParamsFilterValue>;
 
 
@@ -36,6 +37,7 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     selection?: XmTableSelectionConfig;
     popUpFilter?: boolean;
     showFilterChips?: boolean;
+    isStickyHeader?: boolean;
 }
 
 export interface XmTableSelectionConfig {
