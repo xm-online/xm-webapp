@@ -7,19 +7,19 @@ import { Observable, zip } from 'rxjs';
 
 @Injectable()
 export class UserService<T extends XmUser = any> {
-    private resourceUrl: string = 'uaa/api/users';
-    private resourceUrlByLogin: string = `${this.resourceUrl}/logins-contains`;
-    private resourceUrlByAuthorityContains: string = `${this.resourceUrl}/filter`;
+    protected resourceUrl: string = 'uaa/api/users';
+    protected resourceUrlByLogin: string = `${this.resourceUrl}/logins-contains`;
+    protected resourceUrlByAuthorityContains: string = `${this.resourceUrl}/filter`;
 
-    constructor(private http: HttpClient) {
+    constructor(protected http: HttpClient) {
     }
 
     public create(user: T): Observable<HttpResponse<T>> {
-        return this.http.post<T>(this.resourceUrl, user, { observe: 'response' });
+        return this.http.post<T>(this.resourceUrl, user, {observe: 'response'});
     }
 
     public update(user: T): Observable<HttpResponse<T>> {
-        return this.http.put<T>(this.resourceUrl, user, { observe: 'response' });
+        return this.http.put<T>(this.resourceUrl, user, {observe: 'response'});
     }
 
     public enable2FA(userKey: string, email: string): Observable<HttpResponse<any>> {
@@ -28,11 +28,11 @@ export class UserService<T extends XmUser = any> {
                 channelType: 'email',
                 destination: email,
             },
-        }, { observe: 'response' });
+        }, {observe: 'response'});
     }
 
     public disable2FA(userKey: string): Observable<HttpResponse<any>> {
-        return this.http.post(`${this.resourceUrl}/${userKey}/tfa_disable`, {}, { observe: 'response' });
+        return this.http.post(`${this.resourceUrl}/${userKey}/tfa_disable`, {}, {observe: 'response'});
     }
 
     public find(userKey: string): Observable<T> {
@@ -54,11 +54,11 @@ export class UserService<T extends XmUser = any> {
             }
         }
 
-        return this.http.get(this.resourceUrlByLogin, { params, observe: 'response' });
+        return this.http.get(this.resourceUrlByLogin, {params, observe: 'response'});
     }
 
     public findPublic(userKey: string): Observable<T> {
-        return this.http.get<T>(`${this.resourceUrl}/${userKey}/public`, { headers: SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS });
+        return this.http.get<T>(`${this.resourceUrl}/${userKey}/public`, {headers: SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS});
     }
 
     public getByUserKeys(userKeys: string[]): Observable<T[]> {
@@ -70,7 +70,7 @@ export class UserService<T extends XmUser = any> {
     public findByLogin(login: string): Observable<HttpResponse<T>> {
         let params = new HttpParams();
         params = params.set('login', login);
-        return this.http.get<T>(`${this.resourceUrl}/logins`, { params, observe: 'response' });
+        return this.http.get<T>(`${this.resourceUrl}/logins`, {params, observe: 'response'});
     }
 
     public query(req?: any): Observable<HttpResponse<T[]>> {
@@ -95,19 +95,19 @@ export class UserService<T extends XmUser = any> {
             }
         }
 
-        return this.http.get<T[]>(requestUrl, { params, observe: 'response' });
+        return this.http.get<T[]>(requestUrl, {params, observe: 'response'});
     }
 
     public delete(userKey: string): Observable<HttpResponse<any>> {
-        return this.http.delete(`${this.resourceUrl}/${userKey}`, { observe: 'response' });
+        return this.http.delete(`${this.resourceUrl}/${userKey}`, {observe: 'response'});
     }
 
     public updateLogins(user: T): Observable<HttpResponse<T>> {
-        return this.http.put<T>(`${this.resourceUrl}/logins`, user, { observe: 'response' });
+        return this.http.put<T>(`${this.resourceUrl}/logins`, user, {observe: 'response'});
     }
 
     public getOnlineUsers(): Observable<HttpResponse<T>> {
-        return this.http.get<T>('uaa/api/onlineUsers', { observe: 'response' });
+        return this.http.get<T>('uaa/api/onlineUsers', {observe: 'response'});
     }
 
 
@@ -120,6 +120,6 @@ export class UserService<T extends XmUser = any> {
     }
 
     public getUsersByFilter(query: string): Observable<T[]> {
-        return this.http.get<T[]>('/uaa/api/users/filter?'+query);
+        return this.http.get<T[]>('/uaa/api/users/filter?' + query);
     }
 }

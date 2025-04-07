@@ -73,7 +73,7 @@
           <xm-table-column-dynamic-cell *ngFor="let column of xmTableSelection.dynamicColumns"
                                         [column]="column"></xm-table-column-dynamic-cell>
 
-          <tr *matHeaderRowDef="context.settings.displayedColumns" mat-header-row [ngClass]="{'remove-border-top': config.isTitleHidden}"></tr>
+          <tr *matHeaderRowDef="context.settings.displayedColumns; sticky: config.isStickyHeader" mat-header-row [ngClass]="{'remove-border-top': config.isTitleHidden}"></tr>
 
           <xm-table-loading [isLoading]="context.collection.loading || xmTable.xmTableController['loading']"
                             [colspan]="context.settings.displayedColumns.length"></xm-table-loading>

@@ -41,6 +41,7 @@ export interface XmTextControlOptions extends XmTextTitleOptions, DataQa {
     applyTrimForValue?: boolean;
     validators?: ValidatorProcessingOption[];
     clearButton?: boolean;
+    defaultValue?: any;
 }
 
 const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
@@ -58,6 +59,7 @@ const XM_TEXT_CONTROL_OPTIONS_DEFAULT: XmTextControlOptions = {
     dataQa: 'text-control',
     applyTrimForValue: false,
     clearButton: false,
+    defaultValue: null,
 };
 
 @Component({
@@ -145,6 +147,9 @@ export class XmTextControl<T = Primitive> extends NgFormAccessor<T>
     }
 
     public ngOnInit(): void {
+        if (this._config.defaultValue && !this.value) {
+            this.value = this._config.defaultValue;
+        }
         if (this.config.applyTrimForValue) {
             this.initControlWithTrimmingString();
         }

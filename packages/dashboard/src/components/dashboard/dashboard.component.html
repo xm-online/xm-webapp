@@ -1,6 +1,6 @@
 <xm-loader [showLoader]="showLoader"></xm-loader>
 
-<div [class]="dashboard?.layout?.class" [style]="dashboard?.layout?.style">
+<div [style]="dashboard?.layout?.style" class="dashboard-container {{dashboard?.layout?.class}}">
   @for (item of dashboard?.layout?.grid; track item) {
     <ng-container *ngTemplateOutlet="dashboardItem; context: {item: item}"></ng-container>
   }
@@ -44,9 +44,9 @@
         <mat-card matRipple [routerLink]="['/dashboard/'].concat(childDashboard.config.slug.split('/'))">
           <mat-card-header class="pb-3">
             <mat-card-subtitle>
-              {{childDashboard.config.slug}}
+              {{ childDashboard.config.slug }}
             </mat-card-subtitle>
-            <mat-card-title>{{childDashboard.config.name | translate}}</mat-card-title>
+            <mat-card-title>{{ childDashboard.config.name | translate }}</mat-card-title>
             <mat-icon class="position-absolute" style="top: .5rem; right: .5rem">call_made</mat-icon>
           </mat-card-header>
         </mat-card>
