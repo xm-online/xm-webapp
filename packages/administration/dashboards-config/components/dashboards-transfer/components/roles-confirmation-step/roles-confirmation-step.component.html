@@ -1,0 +1,16 @@
+<mat-list>
+  <cdk-virtual-scroll-viewport
+    #viewport
+    [itemSize]="viewportItemHeight"
+    [style.height.px]="viewportHeight"
+    class="viewport">
+    <mat-list-item *cdkVirtualFor="let role of roles$ | async; index as i; trackBy: trackByFn">
+      <div class="d-flex gap-2">
+        <div class="grey-color">
+          {{ i + 1 }}.
+        </div>
+        {{ role.roleKey }}
+      </div>
+    </mat-list-item>
+  </cdk-virtual-scroll-viewport>
+</mat-list>
