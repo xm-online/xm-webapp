@@ -1,0 +1,38 @@
+<form [formGroup]="formGroup" class="d-flex gap-4">
+  <mat-form-field class="example-full-width">
+    <mat-label>{{ translates.envStep.urlLabel | xmTranslate }}</mat-label>
+
+    <input
+      [formControlName]="'envUrl'"
+      [matAutocomplete]="auto"
+      [placeholder]="translates.envStep.urlPlaceholder | xmTranslate"
+      [type]="'text'"
+      matInput>
+
+    <mat-autocomplete #auto="matAutocomplete">
+      @for (environment of environments; track environment) {
+        <mat-option [value]="environment">{{ environment }}</mat-option>
+      }
+    </mat-autocomplete>
+
+    <mat-error
+      *xmControlErrors="formGroup.get('envUrl')?.errors; extraErrorTranslations: extraErrorTranslations; message as message">
+      {{ message }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>{{ translates.envStep.tokenLabel | xmTranslate }}</mat-label>
+
+    <input
+      [formControlName]="'token'"
+      [placeholder]="translates.envStep.tokenPlaceholder | xmTranslate"
+      [type]="'text'"
+      matInput>
+
+    <mat-error
+      *xmControlErrors="formGroup.get('token')?.errors; message as message">
+      {{ message }}
+    </mat-error>
+  </mat-form-field>
+</form>
