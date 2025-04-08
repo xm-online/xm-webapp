@@ -6,7 +6,7 @@
   <h4 mat-card-title>{{'clientManagement.home.title' | translate}}</h4>
     </mat-card-header>
 
-  <div mat-card-content>
+  <div mat-card-content class="p-3">
 
     <form (ngSubmit)="filterByClientId()"
           action=""
@@ -30,7 +30,7 @@
         </button>
       </mat-form-field>
 
-      <button mat-icon-button>
+      <button mat-icon-button class="search-button">
         <mat-icon>search</mat-icon>
       </button>
     </form>
