@@ -1,7 +1,5 @@
 import { DashboardWidget, DashboardWithWidgets } from '@xm-ngx/core/dashboard';
-import {
-    DashboardWithWidgetsPayloadType,
-} from '@xm-ngx/administration/dashboards-config/components/dashboards-transfer/types';
+import { DashboardWithWidgetsPayloadType } from '../types';
 import { cloneDeep } from 'lodash';
 
 export const clearDashboardIds = (dashboards: DashboardWithWidgets[]): DashboardWithWidgetsPayloadType[] => {
