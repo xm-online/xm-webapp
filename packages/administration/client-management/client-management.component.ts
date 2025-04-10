@@ -94,12 +94,12 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
             }),
             takeUntilOnDestroy(this),
         ).subscribe((list: Array<Client>) => {
-                this.dataSource = new MatTableDataSource(list);
-            },
-            (err) => {
-                this.onError(err);
-                this.showLoader = false;
-            });
+            this.dataSource = new MatTableDataSource(list);
+        },
+        (err) => {
+            this.onError(err);
+            this.showLoader = false;
+        });
 
     }
 
@@ -129,8 +129,8 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
             .pipe(
                 takeUntilOnDestroy(this),
             ).subscribe((list: Array<Client>) => {
-            this.dataSource = new MatTableDataSource(list);
-        });
+                this.dataSource = new MatTableDataSource(list);
+            });
     }
 
     public onDelete(client: Client): void {
@@ -187,8 +187,8 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
                     .pipe(
                         takeUntilOnDestroy(this),
                     ).subscribe((list: Array<Client>) => {
-                    this.dataSource = new MatTableDataSource(list);
-                });
+                        this.dataSource = new MatTableDataSource(list);
+                    });
             });
     }
 

@@ -65,8 +65,7 @@ export class LinkDetailNewSectionComponent implements OnInit, OnDestroy, AfterVi
         if (this.xmEntitySpec.dataSpec) {
             this.jsfAttributes = this.widgetService.buildJsfAttributes(this.xmEntitySpec.dataSpec, this.xmEntitySpec.dataForm);
             this.jsfAttributes.data = Object.assign(nullSafe(this.jsfAttributes.data), nullSafe(this.xmEntity.data));
-            if (this.jsfAttributes && this.jsfAttributes.entity
-                && this.jsfAttributes.entity.hideNameAndDescription
+            if ((this.jsfAttributes?.entity?.hideNameAndDescription || this.xmEntitySpec?.namePattern)
                 && !this.xmEntity.name) {
                 this.xmEntity.name = '###';
             } else if (this.xmEntity.name === '###') {
