@@ -1,0 +1,33 @@
+<mat-form-field>
+  <mat-label>{{ translates.dashboardsStep.searchLabel | xmTranslate }}</mat-label>
+
+  <input
+    [formControl]="searchTermControl"
+    [placeholder]="translates.dashboardsStep.searchPlaceholder | xmTranslate"
+    [type]="'text'"
+    matInput>
+</mat-form-field>
+
+<cdk-virtual-scroll-viewport class="viewport" itemSize="56">
+  <mat-selection-list
+    (selectionChange)="onSelectionChange($event)"
+    [color]="'primary'"
+    [multiple]="true"
+    class="selection-list">
+
+    <mat-list-option
+      (selectedChange)="onSelectAll($event)"
+      [togglePosition]="'before'"
+      class="select-all-option">
+      {{ translates.dashboardsStep.selectAllDashboards | xmTranslate }}
+    </mat-list-option>
+
+    <mat-list-option
+      *cdkVirtualFor="let dashboard of items$ | async; templateCacheSize: 0; index as i; trackBy: trackByFn"
+      [selected]="selectionModel.isSelected(dashboard)"
+      [togglePosition]="'before'"
+      [value]="dashboard">
+      <xm-dashboard-option [dashboard]="dashboard"></xm-dashboard-option>
+    </mat-list-option>
+  </mat-selection-list>
+</cdk-virtual-scroll-viewport>

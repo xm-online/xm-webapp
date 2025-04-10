@@ -1,0 +1,211 @@
+<mat-horizontal-stepper #stepperRef [linear]="true">
+  <mat-step
+    [editable]="!actionDone"
+    [label]="translates.actionTypeStepLabel | xmTranslate"
+    [stepControl]="actionTypeGroup">
+
+    <h4>{{ translates.actionTypeStepTitle | xmTranslate }}</h4>
+
+    <xm-action-type-step
+      [formGroup]="actionTypeGroup">
+    </xm-action-type-step>
+
+    <div class="actions-wrapper">
+      <button
+        [color]="'primary'"
+        [disabled]="actionTypeGroup.invalid"
+        mat-stroked-button
+        matStepperNext>
+        {{ translates.actionNext | xmTranslate }}
+      </button>
+    </div>
+  </mat-step>
+
+  <mat-step
+    [editable]="!actionDone"
+    [label]="translates.environmentStepLabel | xmTranslate"
+    [stepControl]="envGroup">
+
+    <h4>{{ translates.environmentTitle | xmTranslate }}</h4>
+
+    <xm-environment-step
+      [environments]="config.environments"
+      [formGroup]="envGroup">
+    </xm-environment-step>
+
+    <div class="actions-wrapper">
+      <button
+        [disabled]="loading"
+        mat-button
+        matStepperPrevious>
+        {{ translates.actionBack | xmTranslate }}
+      </button>
+
+      <button
+        (click)="processEnvStep()"
+        [color]="'primary'"
+        [disabled]="loading"
+        mat-stroked-button>
+        {{ translates.actionNext | xmTranslate }}
+      </button>
+    </div>
+  </mat-step>
+
+  @if (action === 'transfer-dashboards') {
+    <mat-step
+      [editable]="envGroup.valid && !actionDone"
+      [label]="translates.dashboardsStepLabel | xmTranslate"
+      [stepControl]="dashboardsGroup">
+
+      <h4>{{ translates.dashboardsTitle | xmTranslate }}</h4>
+
+      <xm-dashboards-step
+        [formGroup]="dashboardsGroup"
+        [entities$]="dashboards$"
+      ></xm-dashboards-step>
+
+      <div class="actions-wrapper">
+        <button
+          [color]="'primary'"
+          [disabled]="loading"
+          mat-button
+          matStepperPrevious>
+          {{ translates.actionBack | xmTranslate }}
+        </button>
+
+        <button
+          (click)="processDashboardsStep()"
+          [color]="'primary'"
+          [disabled]="loading"
+          mat-button>
+          {{ translates.actionNext | xmTranslate }}
+        </button>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [editable]="envGroup.valid && dashboardsGroup.valid && !actionDone"
+      [label]="translates.dashboardsConfirmStepLabel | xmTranslate">
+
+      <h4>{{ translates.dashboardsConfirmTitle | xmTranslate }}</h4>
+
+      @if (loading) {
+        <ng-container [ngTemplateOutlet]="loader"></ng-container>
+      } @else {
+        <xm-dashboard-confirmation-step
+          [formGroup]="dashboardsGroup">
+        </xm-dashboard-confirmation-step>
+      }
+
+      <div class="actions-wrapper">
+        <button
+          [color]="'primary'"
+          [disabled]="loading"
+          mat-button
+          matStepperPrevious>
+          {{ translates.actionBack | xmTranslate }}
+        </button>
+
+        <button
+          (click)="processDashboardsConfirmationStep()"
+          [color]="'primary'"
+          [disabled]="loading || envGroup.invalid || dashboardsGroup.invalid"
+          mat-button>
+          {{ translates.actionTransfer | xmTranslate }}
+        </button>
+      </div>
+    </mat-step>
+  }
+
+  @if (action === 'update-roles') {
+    <mat-step
+      [editable]="!actionDone"
+      [label]="translates.rolesStepLabel | xmTranslate"
+      [stepControl]="rolesGroup">
+
+      <h4>{{ translates.rolesTitle | xmTranslate }}</h4>
+
+      <xm-roles-step
+        [formGroup]="rolesGroup"
+        [entities$]="roles$">
+      </xm-roles-step>
+
+      <div class="actions-wrapper">
+        <button
+          [color]="'primary'"
+          [disabled]="loading"
+          mat-button
+          matStepperPrevious>
+          {{ translates.actionBack | xmTranslate }}
+        </button>
+
+        <button
+          [color]="'primary'"
+          [disabled]="loading"
+          mat-button
+          (click)="processRolesStep()">
+          {{ translates.actionNext | xmTranslate }}
+        </button>
+      </div>
+    </mat-step>
+
+    <mat-step
+      [editable]="envGroup.valid && rolesGroup.valid && !actionDone"
+      [label]="translates.rolesConfirmationStepLabel | xmTranslate">
+
+      <h4>{{ translates.rolesConfirmationStepTitle | xmTranslate }}</h4>
+
+      @if (loading) {
+        <ng-container [ngTemplateOutlet]="loader"></ng-container>
+      } @else {
+        <xm-roles-confirmation-step
+          [formGroup]="rolesGroup">
+        </xm-roles-confirmation-step>
+      }
+
+      <div class="actions-wrapper">
+        <button
+          [color]="'primary'"
+          [disabled]="loading"
+          mat-button
+          matStepperPrevious>
+          {{ translates.actionBack | xmTranslate }}
+        </button>
+
+        <button
+          (click)="processRolesConfirmationStep()"
+          [color]="'primary'"
+          [disabled]="loading || envGroup.invalid || rolesGroup.invalid"
+          mat-button>
+          {{ translates.actionUpdateRoles | xmTranslate }}
+        </button>
+      </div>
+    </mat-step>
+  }
+
+  @if (actionDone) {
+    <mat-step
+      [label]="translates.doneStepLabel | xmTranslate">
+
+      <xm-congratulations-step
+        [formGroup]="rootGroup">
+      </xm-congratulations-step>
+
+      <div class="actions-wrapper">
+        <button
+          (click)="window.location.reload()"
+          [color]="'primary'"
+          mat-button>
+          {{ translates.actionDoItAgain | xmTranslate }}
+        </button>
+      </div>
+    </mat-step>
+  }
+
+</mat-horizontal-stepper>
+
+<ng-template #loader>
+  <div class="loader">
+    <mat-progress-spinner diameter="72" mode="indeterminate"></mat-progress-spinner>
+  </div>
+</ng-template>
