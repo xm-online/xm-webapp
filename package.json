@@ -53,6 +53,7 @@
   "dependencies": {
     "@ajsf/core": "0.8.0",
     "@ajsf/material": "0.8.0",
+    "@angular-material-components/datetime-picker": "^16.0.1",
     "@angular/animations": "18.2.7",
     "@angular/cdk": "18.2.7",
     "@angular/common": "18.2.7",
