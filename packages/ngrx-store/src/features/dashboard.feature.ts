@@ -1,29 +1,20 @@
 import { signalStoreFeature, SignalStoreFeature, withMethods } from '@ngrx/signals';
 import { updateState } from '@angular-architects/ngrx-toolkit';
-import { HttpClient } from '@angular/common/http';
-import { inject } from '@angular/core';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { mergeMap, pipe } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
-import { DashboardWithWidgets } from '@xm-ngx/core/dashboard';
-import { fetchData, updateHttpRequestState } from '../functions/http.functions';
+import { pipe } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { AppStoreActions } from '../models/app-store.model';
 
-export const withDashboard = <_>(): SignalStoreFeature => {
+export const withDashboard = (): SignalStoreFeature => {
     return signalStoreFeature(
         withMethods((
             store: any,
-            httpClient: HttpClient = inject(HttpClient),
-            activatedRoute: ActivatedRoute = inject(ActivatedRoute),
         ) => ({
-            updateDashboard: rxMethod<any>(
+            updateDashboard: rxMethod(
                 pipe(
-                    tap((dashboard: DashboardWithWidgets) => updateState(store, 'Update dashboard', { dashboard })),
-                    filter(({config}) => !!config.httpRequest?.method || !!config.httpRequest?.url),
-                    mergeMap(({config}) => fetchData(config, activatedRoute, httpClient)),
-                    tap(({response, config}) => updateHttpRequestState(store, config, response, 'dashboard')),
+                    tap((dashboard: any) => updateState(store, AppStoreActions.DASHBOARD_UPDATE, {dashboard})),
                 ),
-            )
+            ),
         })),
     );
 };

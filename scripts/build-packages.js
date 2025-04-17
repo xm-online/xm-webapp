@@ -15,6 +15,7 @@ execSync('(cd ./packages/pipes && npm run build && cd ../../)', {stdio: 'inherit
 execSync('(cd ./packages/validators && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/operators && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/repositories && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/ngrx-store && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/core && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/dynamic && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/logger && npm run build && cd ../../)', {stdio: 'inherit'});

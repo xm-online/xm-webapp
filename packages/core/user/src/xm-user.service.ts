@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { XmUser } from './xm-user-model';
 import { AppStore } from '@xm-ngx/ngrx-store';
 import { tap } from 'rxjs/operators';
+import { AppStoreSource } from '@xm-ngx/ngrx-store/src/models/app-store.model';
 
 @Injectable({
     providedIn: 'root',
@@ -18,7 +19,7 @@ import { tap } from 'rxjs/operators';
 export class XmUserService<T = XmUser> implements OnDestroy {
 
     protected requestCache: RequestCache<T>;
-    private appStore = inject<any>(AppStore)
+    private appStore = inject<AppStoreSource>(AppStore);
 
     constructor(
         protected httpClient: HttpClient,
@@ -52,7 +53,7 @@ export class XmUserService<T = XmUser> implements OnDestroy {
     private getUser(): Observable<T> {
         return this.httpClient.get<T>(
             this.xmCoreConfig.USER_URL,
-            { headers: SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS },
+            {headers: SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS},
         ).pipe(tap((user) => user && this.appStore.updateUser(user)));
     }
 }

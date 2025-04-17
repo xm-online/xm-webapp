@@ -5,6 +5,7 @@ import { take } from 'rxjs/operators';
 import { DashboardStore } from '../dashboard-store.service';
 import { DashboardWidget } from '../models/dashboard-widget.model';
 import { AppStore } from '@xm-ngx/ngrx-store';
+import { AppStoreSource } from '@xm-ngx/ngrx-store/src/models/app-store.model';
 
 export interface Page<C = unknown, L = unknown> {
     id?: number;
@@ -21,8 +22,9 @@ export interface Page<C = unknown, L = unknown> {
     providedIn: 'root',
 })
 export class PageService<T extends Page = Page> implements OnDestroy {
-    private appStore: any = inject(AppStore);
+    private appStore = inject<AppStoreSource>(AppStore);
     private _active$: ReplaySubject<T | null> = new ReplaySubject(1);
+
     // private logger: XmLogger;
 
     constructor(

@@ -4,7 +4,7 @@
     "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
   },
   "dependencies": {
-    "@ngrx/signals": "18.0.2",
-    "@angular-architects/ngrx-toolkit": "18.0.3"
+    "@ngrx/signals": "18.1.1",
+    "@angular-architects/ngrx-toolkit": "18.1.1"
   }
 }
