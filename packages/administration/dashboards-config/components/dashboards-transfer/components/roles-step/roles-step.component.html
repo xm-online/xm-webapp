@@ -1,0 +1,33 @@
+<mat-form-field>
+  <mat-label>{{ translates.rolesStep.searchLabel | xmTranslate }}</mat-label>
+
+  <input
+    [formControl]="searchTermControl"
+    [placeholder]="translates.rolesStep.searchPlaceholder | xmTranslate"
+    [type]="'text'"
+    matInput>
+</mat-form-field>
+
+<cdk-virtual-scroll-viewport class="viewport" itemSize="56">
+  <mat-selection-list
+    (selectionChange)="onSelectionChange($event)"
+    [color]="'primary'"
+    [multiple]="true"
+    class="selection-list">
+
+    <mat-list-option
+      (selectedChange)="onSelectAll($event)"
+      [togglePosition]="'before'"
+      class="select-all-option">
+      {{ translates.rolesStep.selectAllRoles | xmTranslate }}
+    </mat-list-option>
+
+    <mat-list-option
+      *cdkVirtualFor="let role of items$ | async; templateCacheSize: 0; index as i; trackBy: trackByFn"
+      [selected]="selectionModel.isSelected(role)"
+      [togglePosition]="'before'"
+      [value]="role">
+      {{ role.roleKey }}
+    </mat-list-option>
+  </mat-selection-list>
+</cdk-virtual-scroll-viewport>
