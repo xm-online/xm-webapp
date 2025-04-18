@@ -2,7 +2,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { HttpHeaders } from '@angular/common/http';
 import {
     Directive,
-    inject, Injector,
+    inject,
+    Injector,
     Input,
     OnChanges,
     OnDestroy,
@@ -43,7 +44,21 @@ import {
 } from './autocomple-control.interface';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { checkIfEmpty } from '@xm-ngx/pipes';
-import { cloneDeep, defaultsDeep, get, intersectionBy, isArray, isEmpty, isEqual, isFunction, isMatch, isObject, omitBy, template, uniqWith } from 'lodash';
+import {
+    cloneDeep,
+    defaultsDeep,
+    get,
+    intersectionBy,
+    isArray,
+    isEmpty,
+    isEqual,
+    isFunction,
+    isMatch,
+    isObject,
+    omitBy,
+    template,
+    uniqWith
+} from 'lodash';
 import { XmDynamicInstanceService } from '@xm-ngx/dynamic';
 
 @Directive()
@@ -314,6 +329,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
                 new HttpHeaders(headers),
             ).pipe(
                 map((data) => this.mapBackendData(data)),
+                map((data) => this.skipByKeyValue(<unknown[]>data, this.config.skipByKeyValue)),
                 map(collection => this.normalizeValues(collection)),
                 finalize(() => this._loading.next(false)),
             );
@@ -438,6 +454,23 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             });
         }
         return data;
+    }
+
+    /**
+     * Filter the object in array with key equals value
+     * Skip data filtering if no value provided in the config.
+     */
+    private skipByKeyValue<T>(
+        data: T[],
+        filter: { [K in keyof T]?: T[K] } | undefined
+    ): T[] {
+        if (!filter) {
+            return data;
+        }
+
+        const [key, value] = Object.entries(filter)[0] as [keyof T, T[keyof T]];
+
+        return data.filter(item => item[key] !== value);
     }
 
     public ngOnDestroy(): void {
