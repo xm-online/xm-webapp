@@ -4,7 +4,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatInput } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { AuthServerProvider, TOKEN_URL } from '@xm-ngx/core/user';
+import { AuthServerProvider } from '@xm-ngx/core/user';
+import { TOKEN_URL } from '@xm-ngx/core';
 import { PasswordSpec, XmConfigService } from '@xm-ngx/core/config';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

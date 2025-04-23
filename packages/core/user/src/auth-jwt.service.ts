@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable, InjectionToken } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { IIdpClient, XmSessionService } from '@xm-ngx/core';
+import { IIdpClient, TOKEN_URL, XmSessionService } from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -25,17 +25,12 @@ const DEFAULT_HEADERS = {
     Authorization: DEFAULT_AUTH_TOKEN,
 };
 
-const _TOKEN_URL = 'uaa/oauth/token';
 const _CONFIG_SETTINGS_API = 'config/api/profile/webapp/settings-public.yml?toJson&processed=true';
 const TOKEN_STORAGE_KEY = 'WALLET-TOKEN';
 const WIDGET_DATA = 'widget:data';
 export const ACCESS_TOKEN = 'access_token';
 export const REFRESH_TOKEN = 'refresh_token';
 
-export const TOKEN_URL: InjectionToken<string> = new InjectionToken<string>('TOKEN_URL', {
-    providedIn: 'root',
-    factory: () => _TOKEN_URL,
-});
 export const CONFIG_SETTINGS_API = _CONFIG_SETTINGS_API;
 
 interface GuestTokenResponse {
