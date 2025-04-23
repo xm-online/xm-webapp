@@ -5,7 +5,7 @@ import { XmAuthenticationStoreService } from './xm-authentication-store.service'
 import { GuestTokenResponse } from './guest-token.response';
 import { AuthTokenResponse } from './auth-token.response';
 import { XmAuthenticationConfig } from './xm-authentication-config.service';
-import { TOKEN_URL } from '@xm-ngx/core/user';
+import { TOKEN_URL } from '@xm-ngx/core';
 
 const DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded';
 const DEFAULT_AUTH_TOKEN = 'Basic d2ViYXBwOndlYmFwcA==';

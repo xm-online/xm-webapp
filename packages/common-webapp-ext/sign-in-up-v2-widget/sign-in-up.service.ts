@@ -2,10 +2,10 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CustomUriEncoder } from '@xm-ngx/operators';
-import { ACCESS_TOKEN, AuthTokenResponse, REFRESH_TOKEN, TOKEN_URL } from '@xm-ngx/core/user';
+import { ACCESS_TOKEN, AuthTokenResponse, REFRESH_TOKEN } from '@xm-ngx/core/user';
 import { AuthRefreshTokenService, XmAuthenticationRepository, XmAuthenticationStoreService } from '@xm-ngx/core/auth';
 import { map, tap } from 'rxjs/operators';
-import { XmSessionService } from '@xm-ngx/core';
+import { TOKEN_URL, XmSessionService } from '@xm-ngx/core';
 
 const DEFAULT_HEADERS = {
     'Content-Type': 'application/x-www-form-urlencoded',

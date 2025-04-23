@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { TOKEN_URL } from '@xm-ngx/core/user';
+import { TOKEN_URL } from '@xm-ngx/core';
 
 @Injectable()
 export class XmAuthenticationConfig {
