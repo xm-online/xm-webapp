@@ -1,14 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatInput } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthServerProvider } from '@xm-ngx/core/user';
-import { PasswordSpec } from '@xm-ngx/core/config';
+import { TOKEN_URL } from '@xm-ngx/core';
+import { PasswordSpec, XmConfigService } from '@xm-ngx/core/config';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { XmConfigService } from '@xm-ngx/core/config';
 import { PasswordResetFinish } from './password-reset-finish.service';
 import { ModulesLanguageHelper } from '@xm-ngx/translation';
 import { IPasswordPolicyConfig } from '@xm-ngx/components/password-policies';
@@ -40,6 +40,7 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
     public passwordSettings: PasswordSpec;
     public patternMessage: string;
     public passwordConfig: IPasswordPolicyConfig;
+    private TOKEN_URL: string = inject(TOKEN_URL);
 
     @ViewChild('passwordInputElement', {static: false}) public passwordInputElement: MatInput;
 
@@ -129,7 +130,7 @@ export class PasswordResetFinishComponent implements OnInit, AfterViewInit {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Authorization': 'Basic d2ViYXBwOndlYmFwcA==',
         };
-        return this.http.post<any>('uaa/oauth/token', data, {headers, observe: 'response'})
+        return this.http.post<any>(this.TOKEN_URL, data, {headers, observe: 'response'})
             .pipe(map((resp) => {
                 this.authServerProvider.loginWithToken(resp.body.access_token, false);
             }));

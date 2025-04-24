@@ -48,7 +48,8 @@ export interface XmAutocompleteControlConfig {
     controller?: {
         key?: string;
         method?: string;
-    }
+    },
+    skipByKeyValue?: { [key: string]: unknown }
 }
 
 export interface XmAutocompleteSearchParams {

@@ -15,6 +15,7 @@ execSync('(cd ./packages/pipes && npm run build && cd ../../)', {stdio: 'inherit
 execSync('(cd ./packages/validators && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/operators && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/repositories && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/ngrx-store && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/core && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/dynamic && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/logger && npm run build && cd ../../)', {stdio: 'inherit'});
@@ -31,6 +32,7 @@ execSync('(cd ./packages/balance && npm run build && cd ../../)', {stdio: 'inher
 execSync('(cd ./packages/timeline && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/account && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/dashboard && npm run build && cd ../../)', {stdio: 'inherit'});
+execSync('(cd ./packages/ngrx-store && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/administration && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/common-webapp-ext && npm run build && cd ../../)', {stdio: 'inherit'});
 execSync('(cd ./packages/common-entity-webapp-ext && npm run build && cd ../../)', {stdio: 'inherit'});

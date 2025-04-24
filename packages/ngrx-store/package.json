@@ -1,0 +1,10 @@
+{
+  "name": "@xm-ngx/ngrx-store",
+  "scripts": {
+    "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
+  },
+  "dependencies": {
+    "@ngrx/signals": "18.1.1",
+    "@angular-architects/ngrx-toolkit": "18.1.1"
+  }
+}
