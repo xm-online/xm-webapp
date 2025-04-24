@@ -25,6 +25,7 @@ export interface XmLinkOptions extends DataQa {
     newWindow?: boolean;
     /** See Angular queryParamsHandling routerLink parameter for more details https://next.angular.dev/api/router/QueryParamsHandling */
     queryParamsHandling?: QueryParamsHandling | null;
+    isIconOnRight?: boolean;
 }
 
 export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
@@ -53,9 +54,10 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
            [style]="config?.style || config?.config?.style"
            [attr.data-qa]="config?.dataQa || 'xm-link-default-data-qa'"
         >
-            <mat-icon *ngIf="config?.valueIcon || config?.config?.valueIcon">{{config.valueIcon || config?.config?.valueIcon}}</mat-icon>
+            <mat-icon *ngIf="!config?.isIconOnRight && (config?.valueIcon || config?.config?.valueIcon)">{{config.valueIcon || config?.config?.valueIcon}}</mat-icon>
             <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
             <span *ngIf="fieldValue">{{fieldValue}}</span>
+            <mat-icon *ngIf="config?.isIconOnRight && (config?.valueIcon || config?.config?.valueIcon)">{{config.valueIcon || config?.config?.valueIcon}}</mat-icon>
         </a>
     `,
     encapsulation: ViewEncapsulation.None,
