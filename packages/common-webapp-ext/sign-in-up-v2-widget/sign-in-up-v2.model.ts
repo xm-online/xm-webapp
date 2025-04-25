@@ -18,6 +18,13 @@ export interface SignPageFormConfig {
     next?: string,
     error?: Translate,
     title?: Translate,
+    header: {
+        logo: string;
+        title: Translate,
+        description: Translate,
+        class: string;
+        style: string;
+    }
     config?: any,
 }
 
