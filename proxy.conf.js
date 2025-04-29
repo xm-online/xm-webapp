@@ -12,6 +12,13 @@ const PROXY_CONFIG = [
         changeOrigin: true,
         logLevel: 'debug',
     },
+    {
+        context: ['/oauth2/authorization/KeycloakLocal'],
+        target: 'https://xm.dev.xm-online.com/',
+        secure: false,
+        changeOrigin: true,
+        logLevel: 'debug',
+    },
 ];
 
 module.exports = PROXY_CONFIG;
