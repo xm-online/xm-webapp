@@ -1,20 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CustomUriEncoder } from '@xm-ngx/operators';
-import {
-    ACCESS_TOKEN,
-    REFRESH_TOKEN,
-    AuthTokenResponse,
-    TOKEN_URL,
-} from '@xm-ngx/core/user';
-import {
-    AuthRefreshTokenService,
-    XmAuthenticationRepository,
-    XmAuthenticationStoreService,
-} from '@xm-ngx/core/auth';
+import { ACCESS_TOKEN, AuthTokenResponse, REFRESH_TOKEN } from '@xm-ngx/core/user';
+import { AuthRefreshTokenService, XmAuthenticationRepository, XmAuthenticationStoreService } from '@xm-ngx/core/auth';
 import { map, tap } from 'rxjs/operators';
-import { XmSessionService } from '@xm-ngx/core';
+import { TOKEN_URL, XmSessionService } from '@xm-ngx/core';
 
 const DEFAULT_HEADERS = {
     'Content-Type': 'application/x-www-form-urlencoded',
@@ -31,6 +22,7 @@ export class SignInUpService {
     private credentials;
     public state: BehaviorSubject<string>;
     private currentView = new BehaviorSubject<string>('SIGN-IN');
+    private TOKEN_URL: string = inject(TOKEN_URL);
 
     constructor(private storeService: XmAuthenticationStoreService,
                 private sessionService: XmSessionService,
@@ -76,7 +68,7 @@ export class SignInUpService {
 
 
     private getAccessToken(data: any, headers: any, rememberMe: boolean): Observable<any> {
-        return this.http.post<any>(TOKEN_URL, data, {headers, observe: 'response'})
+        return this.http.post<any>(this.TOKEN_URL, data, {headers, observe: 'response'})
             .pipe(map((resp) => {
                 const result = resp.body;
                 this.token = this.storeAT(result, rememberMe);

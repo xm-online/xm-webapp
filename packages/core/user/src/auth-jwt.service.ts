@@ -1,23 +1,23 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { XmSessionService } from '@xm-ngx/core';
+import { IIdpClient, TOKEN_URL, XmSessionService } from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
-import { AuthRefreshTokenService } from '@xm-ngx/core/auth';
-import { XmAuthenticationStoreService } from '@xm-ngx/core/auth';
+import {
+    AuthRefreshTokenService,
+    StateStorageService,
+    XmAuthenticationRepository,
+    XmAuthenticationStoreService,
+    XmAuthTargetUrlService,
+} from '@xm-ngx/core/auth';
+import { CustomUriEncoder } from '@xm-ngx/operators';
+import { Principal } from './principal.service';
 
 const DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded';
 const DEFAULT_AUTH_TOKEN = 'Basic d2ViYXBwOndlYmFwcA==';
 export const IDP_CLIENT = 'idp_client';
-
-import { CustomUriEncoder } from '@xm-ngx/operators';
-import { Principal } from './principal.service';
-import { StateStorageService } from '@xm-ngx/core/auth';
-import { IIdpClient } from '@xm-ngx/core';
-import { XmAuthenticationRepository } from '@xm-ngx/core/auth';
-import { XmAuthTargetUrlService } from '@xm-ngx/core/auth';
 
 
 const DEFAULT_HEADERS = {
@@ -25,14 +25,12 @@ const DEFAULT_HEADERS = {
     Authorization: DEFAULT_AUTH_TOKEN,
 };
 
-const _TOKEN_URL = 'uaa/oauth/token';
 const _CONFIG_SETTINGS_API = 'config/api/profile/webapp/settings-public.yml?toJson&processed=true';
 const TOKEN_STORAGE_KEY = 'WALLET-TOKEN';
 const WIDGET_DATA = 'widget:data';
 export const ACCESS_TOKEN = 'access_token';
 export const REFRESH_TOKEN = 'refresh_token';
 
-export const TOKEN_URL = _TOKEN_URL;
 export const CONFIG_SETTINGS_API = _CONFIG_SETTINGS_API;
 
 interface GuestTokenResponse {
@@ -44,8 +42,9 @@ export interface AuthTokenResponse extends GuestTokenResponse {
     expires_in?: number;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class AuthServerProvider {
+    private TOKEN_URL: string = inject(TOKEN_URL);
 
     constructor(
         private principal: Principal,
@@ -66,7 +65,7 @@ export class AuthServerProvider {
         this.setAutoRefreshTokens(isRememberMe);
         this.sessionService.isActive().pipe(
             filter(i => i === false),
-            switchMap(()=>this.logout(true)),
+            switchMap(() => this.logout(true)),
         ).subscribe();
     }
 
@@ -85,11 +84,11 @@ export class AuthServerProvider {
             Accept: 'application/json',
         };
         return this.http
-            .post(`/uaa/api/users/accept-terms-of-conditions/${tocOneTimeToken}`, {}, { headers });
+            .post(`/uaa/api/users/accept-terms-of-conditions/${tocOneTimeToken}`, {}, {headers});
     }
 
     public login(credentials: any): Observable<any> {
-        let data = new HttpParams({ encoder: new CustomUriEncoder() });
+        let data = new HttpParams({encoder: new CustomUriEncoder()});
         this.$sessionStorage.clear(WIDGET_DATA);
 
         if (credentials && !credentials.grant_type) {
@@ -115,8 +114,8 @@ export class AuthServerProvider {
 
     public loginIdp(opt: Params): Observable<any> {
         const config: IIdpClient = this.$sessionStorage.retrieve(IDP_CLIENT);
-        const params = new HttpParams({ fromObject: opt });
-        const stream = this.http.get<any>(`login/oauth2/code/${config.key}`, { params });
+        const params = new HttpParams({fromObject: opt});
+        const stream = this.http.get<any>(`login/oauth2/code/${config.key}`, {params});
         return stream.pipe(
             map((resp) => {
                 this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
@@ -230,7 +229,7 @@ export class AuthServerProvider {
     }
 
     private getAccessToken(data: any, headers: any, rememberMe: boolean): Observable<any> {
-        return this.http.post<any>(TOKEN_URL, data, { headers, observe: 'response' }).pipe(map((resp) => {
+        return this.http.post<any>(this.TOKEN_URL, data, {headers, observe: 'response'}).pipe(map((resp) => {
             this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
             const result = resp.body;
             let accessToken;
@@ -243,10 +242,10 @@ export class AuthServerProvider {
                 this.stateStorageService.storeDestinationState(
                     {
                         name: 'otpConfirmation',
-                        data: { tfaVerificationKey: result.tfaVerificationKey, tfaChannel },
+                        data: {tfaVerificationKey: result.tfaVerificationKey, tfaChannel},
                     },
                     {},
-                    { name: 'login' });
+                    {name: 'login'});
 
                 accessToken = this.storeAT(result, rememberMe);
             } else {
@@ -268,7 +267,7 @@ export class AuthServerProvider {
             });
         } else {
             // TODO: move to interceptor
-            this.getGuestAccessToken().subscribe(() => this.sessionService.create({ active: false }));
+            this.getGuestAccessToken().subscribe(() => this.sessionService.create({active: false}));
         }
     }
 }

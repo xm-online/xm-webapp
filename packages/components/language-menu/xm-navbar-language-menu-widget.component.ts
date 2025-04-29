@@ -3,7 +3,7 @@ import { XmSessionService } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { LanguageModule, LanguageService, Locale, XmTranslationModule } from '@xm-ngx/translation';
-import { Observable, from, map, tap } from 'rxjs';
+import { from, map, Observable, tap } from 'rxjs';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -32,20 +32,22 @@ export interface XmLanguageUiConfig extends XmUIConfig {
     ],
     standalone: true,
     template: `
-        <button *ngIf="showWidget() | async"
-                mat-button
-                [matMenuTriggerFor]="menu"
-                [matTooltip]="'xm-navbar-language-menu.choose-language' | translate"
-                [attr.aria-label]="'xm-navbar-language-menu.choose-language' | translate">
-            {{languageService.locale | findLanguageFromKey}}
-            <mat-icon>expand_more</mat-icon>
-        </button>
+        @if (!isHidden) {
+            <button *ngIf="showWidget() | async"
+                    mat-button
+                    [matMenuTriggerFor]="menu"
+                    [matTooltip]="'xm-navbar-language-menu.choose-language' | translate"
+                    [attr.aria-label]="'xm-navbar-language-menu.choose-language' | translate">
+                {{ languageService.locale | findLanguageFromKey }}
+                <mat-icon>expand_more</mat-icon>
+            </button>
+        }
 
         <mat-menu #menu="matMenu" xPosition="before">
             <button mat-menu-item
                     *ngFor="let language of languages"
                     (click)="changeLanguage(language);">
-                <span>{{language | findLanguageFromKey}}</span>
+                <span>{{ language | findLanguageFromKey }}</span>
             </button>
         </mat-menu>
     `,
@@ -54,9 +56,11 @@ export interface XmLanguageUiConfig extends XmUIConfig {
 export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
     @Input() public config: unknown;
     @Input() public showAlways: boolean = false;
+    @Input() public isHidden: boolean = false;
     public languages: Locale[];
     public isSessionActive$: Observable<boolean> = this.xmSessionService.isActive();
     public accountSettings?: XmUser;
+
     constructor(
         private xmUiConfigService: XmUiConfigService<XmLanguageUiConfig>,
         private xmSessionService: XmSessionService,
@@ -76,7 +80,7 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
                     if (account) {
                         this.accountSettings = account;
                     }
-                })
+                }),
             )
             .subscribe();
 
@@ -91,7 +95,7 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
             },
             error: () => {
                 this.languages = this.languageService.languages;
-            }
+            },
         });
     }
 
@@ -123,7 +127,7 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
         return this.isSessionActive$.pipe(
             map(isSessionActive => {
                 return !isSessionActive || this.showAlways;
-            })
+            }),
         );
     }
 }
