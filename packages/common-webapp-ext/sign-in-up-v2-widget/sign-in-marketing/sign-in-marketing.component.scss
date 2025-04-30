@@ -29,7 +29,17 @@
   .marketing-card {
     height: 100%;
   }
-  .sign-in-marketing{
+  .sign-in-marketing {
     width: 50%;
+  }
+}
+
+@media all and (min-width: 992px) {
+  .marketing-card {
+    width: 100%;
+  }
+
+  .sign-in-marketing {
+    width: 100%;
   }
 }
