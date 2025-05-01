@@ -29,7 +29,7 @@
       </mat-form-field>
     </div>
 
-    <div *ngIf="!jsfAttributes?.entity?.hideNameAndDescription" class="form-group">
+    <div *ngIf="!jsfAttributes?.entity?.hideNameAndDescription && !xmEntitySpec?.namePattern" class="form-group">
       <mat-form-field>
         <mat-label>{{'xm-entity.common.fields.name' | translate}}</mat-label>
         <input #entityName="ngModel"
@@ -45,7 +45,7 @@
       </mat-form-field>
     </div>
 
-    <div *ngIf="!jsfAttributes?.entity?.hideNameAndDescription" class="form-group">
+    <div *ngIf="!jsfAttributes?.entity?.hideNameAndDescription && !xmEntitySpec?.descriptionPattern && !xmEntitySpec?.namePattern" class="form-group">
       <mat-form-field>
         <mat-label>{{'xm-entity.common.fields.description' | translate}}</mat-label>
         <textarea [(ngModel)]="xmEntity.description"

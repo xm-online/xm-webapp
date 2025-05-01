@@ -84,16 +84,16 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
         </mat-form-field>
     `,
     styles: [`
-      .empty-option {
-        cursor: pointer;
-        padding: 9px 13px;
-        align-items: center;
-        display: flex;
-      }
+        .empty-option {
+            cursor: pointer;
+            padding: 9px 13px;
+            align-items: center;
+            display: flex;
+        }
 
-      .empty-option:hover {
-        background: rgba(0, 0, 0, 0.04);
-      }
+        .empty-option:hover {
+            background: rgba(0, 0, 0, 0.04);
+        }
     `],
     imports: [
         XmTranslationModule,
@@ -162,10 +162,10 @@ export class XmMultipleEnumControl
     private setInitValue(): void {
         const {initValue} = this.config;
 
-        if(!initValue?.length || this.value?.length) {
-            return;
+        if (initValue?.length) {
+            this.value = initValue;
         }
-        this.value = initValue;
+
         this.control.patchValue(this.value);
     }
 }

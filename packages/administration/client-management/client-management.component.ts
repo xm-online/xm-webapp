@@ -23,6 +23,11 @@ import { Role, RoleService } from '@xm-ngx/core/role';
 @Component({
     selector: 'xm-client-mgmt',
     templateUrl: './client-management.component.html',
+    styles: `
+        .search-button {
+            margin-bottom: 22px;
+        }
+    `,
 })
 export class ClientMgmtComponent extends BaseAdminListComponent implements OnInit, OnDestroy {
     private readonly DIALOG_WIDTH = '80%';
@@ -34,8 +39,8 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
     public clientId: string;
     public authoritiesMap: Record<string, Role> = {};
     public dataSource: MatTableDataSource<Client> = new MatTableDataSource<Client>([]);
-    @ViewChild(MatSort, { static: true }) public matSort: MatSort;
-    @ViewChild(MatPaginator, { static: true }) public paginator: MatPaginator;
+    @ViewChild(MatSort, {static: true}) public matSort: MatSort;
+    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
     public displayedColumns: string[] = [
         'id',
         'clientId',
@@ -129,17 +134,20 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
     }
 
     public onDelete(client: Client): void {
-        const modalRef = this.modalService.open(ClientMgmtDeleteDialogComponent, { width: '500px' });
+        const modalRef = this.modalService.open(ClientMgmtDeleteDialogComponent, {width: '500px'});
         modalRef.componentInstance.selectedClient = client;
     }
 
     public onEdit(client: Client): void {
-        const modalRef = this.modalService.open(ClientMgmtDialogComponent, { width: this.DIALOG_WIDTH, maxWidth: this.DIALOG_MAX_WIDTH });
+        const modalRef = this.modalService.open(ClientMgmtDialogComponent, {
+            width: this.DIALOG_WIDTH,
+            maxWidth: this.DIALOG_MAX_WIDTH,
+        });
         modalRef.componentInstance.selectedClient = client;
     }
 
     public onAdd(): void {
-        this.modalService.open(ClientMgmtDialogComponent, { width: this.DIALOG_WIDTH, maxWidth: this.DIALOG_MAX_WIDTH });
+        this.modalService.open(ClientMgmtDialogComponent, {width: this.DIALOG_WIDTH, maxWidth: this.DIALOG_MAX_WIDTH});
     }
 
     private loadClients(): Observable<Client[]> {
