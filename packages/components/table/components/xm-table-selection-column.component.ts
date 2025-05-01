@@ -1,15 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkCellDef, CdkColumnDef, CdkHeaderCellDef, CdkTable } from '@angular/cdk/table';
-import {
-    ChangeDetectionStrategy,
-    Component,
-    inject,
-    Inject,
-    Input,
-    OnDestroy,
-    OnInit,
-    ViewChild
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
 import { XmTableSelectionService } from '../controllers/selections/xm-table-selection.service';
 import { XmCheckboxControl } from '@xm-ngx/components/bool';
@@ -113,7 +104,7 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
     }
 
     public ngOnInit(): void {
-        this.selection = this.selectionService.selection;
+        this.selection = this.config.useMultipleSelectionModels ? this.selectionService.getSelectionModel(this.config.key) : this.selectionService.selection;
 
         this._columnDef.name = this.column.name;
         this._columnDef.cell = this._cell;
