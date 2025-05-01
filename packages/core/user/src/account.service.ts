@@ -1,11 +1,12 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { JhiDateUtils } from '@xm-ngx/jhipster';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { createRequestOption } from '@xm-ngx/operators';
 
-import { ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL, ACCOUNT_URL } from '@xm-ngx/core/auth';
+import { ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL } from '@xm-ngx/core/auth';
+import { ACCOUNT_URL } from '@xm-ngx/core';
 import { Account } from './account.model';
 
 @Injectable({providedIn: 'root'})
@@ -13,16 +14,17 @@ export class AccountService {
 
     private resourceProfileUrl: string = 'entity/api/profile';
     private resourceLogins: string = 'uaa/api/account/logins';
+    private accountUrl: string = inject(ACCOUNT_URL);
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
     }
 
     public get(): Observable<HttpResponse<any>> {
-        return this.http.get<Account>(ACCOUNT_URL, {observe: 'response'});
+        return this.http.get<Account>(this.accountUrl, {observe: 'response'});
     }
 
     public save(account: any): Observable<HttpResponse<any>> {
-        return this.http.post(ACCOUNT_URL, account, {observe: 'response'});
+        return this.http.post(this.accountUrl, account, {observe: 'response'});
     }
 
     public updateLogins(account: any): Observable<HttpResponse<any>> {
@@ -56,7 +58,7 @@ export class AccountService {
     }
 
     public resetPasswordV2(login: string, loginType: string): Observable<any> {
-        return this.http.post('uaa/api/account/reset_password/init', { login, loginType, resetType: 'EMAIL' });
+        return this.http.post('uaa/api/account/reset_password/init', {login, loginType, resetType: 'EMAIL'});
     }
 
     private convertResponse(res: HttpResponse<any>): HttpResponse<any> {
