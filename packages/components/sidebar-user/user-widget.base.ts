@@ -8,9 +8,7 @@ import { ContextService } from '../../../src/app/shared';
 import { ActivationEnd, Router } from '@angular/router';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/shared/operators';
 import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
-import {
-    flatTree,
-    filterByConditionDashboards } from '@xm-ngx/components/menu';
+import { filterByConditionDashboards } from '@xm-ngx/components/menu';
 import { buildMenuTree } from '@xm-ngx/components/menu/nested-menu';
 import * as _ from 'lodash';
 
@@ -108,7 +106,6 @@ export class UserWidgetBase implements OnInit, OnDestroy {
             map((i) => filterByConditionDashboards(i, this.contextService)),
             map((i) => _.filter(i, (j) => (j.config?.menu?.section === 'xm-user'))),
             map(dashboards => buildMenuTree(dashboards)),
-            map(tree => flatTree(tree)),
             map((arr) => arr?.length ? arr : USER_MENU),
             shareReplay(1),
         );
