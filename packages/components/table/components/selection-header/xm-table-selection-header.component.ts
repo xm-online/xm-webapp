@@ -1,5 +1,5 @@
 import { Component, inject, Injector, Input, OnDestroy, OnInit } from '@angular/core';
-import { XmTableSelectionService, } from '../../controllers/selections/xm-table-selection.service';
+import { XmTableSelectionService } from '../../controllers/selections/xm-table-selection.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
@@ -8,31 +8,18 @@ import {
     XM_DYNAMIC_COMPONENT_CONFIG,
     XmDynamicInstanceService,
     XmDynamicLayout,
-    XmDynamicModule
+    XmDynamicModule,
 } from '@xm-ngx/dynamic';
-import {
-    finalize,
-    map
-} from 'rxjs/operators';
-import {
-    Defaults,
-    takeUntilOnDestroy,
-    takeUntilOnDestroyDestroy
-} from '@xm-ngx/operators';
+import { finalize, map } from 'rxjs/operators';
+import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { SelectionModel } from '@angular/cdk/collections';
-import {
-    Observable, Subscription, switchMap,
-    take
-} from 'rxjs';
+import { Observable, Subscription, switchMap, take } from 'rxjs';
 import { XmEntity } from '@xm-ngx/core/entity';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmTableQueryParamsStoreService } from '../../controllers/filters/xm-table-query-params-store.service';
 import { TableHeaderSelection } from '../../animations/xm-table-widget.animation';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
-import {
-    XmTableSelectionDefault,
-    XmTableSelectionTranslates
-} from './xm-table-selection.model';
+import { XmTableSelectionDefault, XmTableSelectionTranslates } from './xm-table-selection.model';
 import _ from 'lodash';
 import { XmTranslatePipe } from '@xm-ngx/translation';
 import { QueryParamsPageable } from '@xm-ngx/repositories';
@@ -74,6 +61,7 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
                              [value]="selection.selected"
                              [options]="item.options"
                              [config]="item.config"
+                             [controllers]="item['controllers']"
                         >
                         </div>
                     </mat-menu>
@@ -92,7 +80,8 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
                                   [selector]="item.selector"
                                   [value]="selection.selected"
                                   [options]="item.options"
-                                  [config]="item.config">
+                                  [config]="item.config"
+                                  [controllers]="item['controllers']">
                     </ng-container>
                 </ng-template>
             </div>
@@ -150,7 +139,7 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
     private xmTableQueryParamsStoreService = inject(XmTableQueryParamsStoreService);
 
     public ngOnInit(): void {
-        this.selection = this.selectionService.selection;
+        this.selection = this.config.useMultipleSelectionModels ? this.selectionService.getSelectionModel(this.config.key) : this.selectionService.selection;
 
         this.totalCount$ = this.collectionController.state$()
             .pipe(

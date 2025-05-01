@@ -17,4 +17,4 @@ export { IIdpConfig, IIdpClient, IOpenIdConfig } from './src/xm-public-idp-confi
 export { XmSessionService, ISession } from './src/xm-session.service';
 export { XmCoreModule } from './src/xm-core.module';
 export { XM_CORE_EXTERNAL_CONFIG, XmCoreConfig } from './src/xm-core-config';
-export { TOKEN_URL } from './injection-tokens/auth';
+export { TOKEN_URL, ACCOUNT_URL } from './injection-tokens/auth';
