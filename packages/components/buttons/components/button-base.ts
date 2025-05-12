@@ -21,7 +21,7 @@ export class ButtonBase implements OnInit, OnDestroy {
     }
 
     public executeControllerMethod(): void {
-        const executedMethod = this.controller[this.config.controller.method]();
+        const executedMethod = this.controller[this.config?.controller?.method]();
         if (isObservable(executedMethod)) {
             executedMethod.pipe(takeUntilOnDestroy(this)).subscribe();
         }
