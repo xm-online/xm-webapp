@@ -1,0 +1,60 @@
+<div class="mb-4">
+  <h4 class="d-flex justify-content-center align-items-center gap-2 mb-4 text-primary">
+    <div class="circle text-primary">
+      <mat-icon>check</mat-icon>
+    </div>
+
+    {{ translates.doneStep.title | xmTranslate }}
+  </h4>
+
+  <div class="content text-center">
+    @if (actionType === 'transfer-dashboards') {
+      {{ translates.doneStep.successTransferredDashboards | xmTranslate }}: <span
+        class="text-primary">{{ amountOfTransferredDashboards }}</span>
+    }
+
+    @if (actionType === 'update-roles') {
+      {{ translates.doneStep.successUpdatedRoles | xmTranslate }}: <span
+        class="text-primary">{{ amountOfTransferredRoles }}</span>
+    }
+  </div>
+
+  <div class="content text-center">
+    {{ translates.doneStep.inEnvironment | xmTranslate }}: <span class="text-primary">{{ transferUrlTo }}</span>
+  </div>
+</div>
+
+@if (rolesErrors.length) {
+  <div class="content errors-wrapper">
+    <mat-divider></mat-divider>
+
+    <div class="text-center mt-4 mb-2">
+      <span
+        class="text-primary text-uppercase">{{ translates.doneStep.pleaseNote | xmTranslate }}</span> {{ translates.doneStep.errorsOccurredWhileUpdating | xmTranslate }} {{ rolesErrors.length }} {{ translates.doneStep.roles | xmTranslate }}
+    </div>
+
+    <div class="errors-block">
+      <div>roleKey</div>
+      <div>{{ translates.doneStep.statusCode | xmTranslate }}</div>
+      <div>{{ translates.doneStep.errorDescription | xmTranslate }}</div>
+
+      @for (error of rolesErrors; track error.roleKey) {
+        <div class="role-key" [matTooltip]="error.roleKey" [matTooltipPosition]="'above'">
+          {{ error.roleKey }}
+        </div>
+        <div class="status-code">{{ error.errorCode }}</div>
+        <div class="description" [matTooltip]="error.errorDescription" [matTooltipPosition]="'above'">
+          {{ error.errorDescription }}
+        </div>
+      }
+    </div>
+  </div>
+
+}
+
+
+
+
+
+
+

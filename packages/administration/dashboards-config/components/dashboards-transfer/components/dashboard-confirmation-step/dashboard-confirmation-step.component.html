@@ -1,0 +1,16 @@
+<mat-list>
+  <cdk-virtual-scroll-viewport
+    #viewport
+    [itemSize]="viewportItemHeight"
+    [style.height.px]="viewportHeight"
+    class="viewport">
+    <mat-list-item *cdkVirtualFor="let dashboard of dashboards$ | async; index as i; trackBy: trackByFn">
+      <div class="d-flex gap-2 align-items-center">
+        <div class="position grey-color">
+          {{ i + 1 }}.
+        </div>
+        <xm-dashboard-option [dashboard]="dashboard"></xm-dashboard-option>
+      </div>
+    </mat-list-item>
+  </cdk-virtual-scroll-viewport>
+</mat-list>

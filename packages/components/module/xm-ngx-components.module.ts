@@ -13,6 +13,7 @@ import { XM_TEXT_ELEMENTS } from './xm-text.registry';
 import { XM_ENUM_ELEMENTS } from './xm-enum.registry';
 import { XM_ICON_ELEMENTS } from './xm-icon.registry';
 import { XM_LAYOUT_ELEMENTS } from './xm-layout.registry';
+import { XM_BUTTON_ELEMENTS } from '@xm-ngx/components/module/xm-buttons.registry';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { XM_LAYOUT_ELEMENTS } from './xm-layout.registry';
             XM_NAVBAR_ELEMENTS,
             XM_COMPONENTS_ELEMENTS,
             XM_LAYOUT_ELEMENTS,
+            XM_BUTTON_ELEMENTS,
         ]),
     ],
 })
