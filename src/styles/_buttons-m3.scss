@@ -13,7 +13,8 @@ $elevated-box-shadow: $darkness-box-shadow, $light-box-shadow !important;
 }
 
 .mat-mdc-outlined-button {
-    border: 1px solid currentColor !important;
+    border: 1px solid #DADADA !important;
+    color: currentColor !important;
 }
 
 .mat-mdc-unelevated-button {
