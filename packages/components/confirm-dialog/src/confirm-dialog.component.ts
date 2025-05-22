@@ -58,10 +58,6 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
                 </ng-template>
             </div>
         </ng-container>
-
-        <button mat-icon-button mat-dialog-close class="icon-close">
-            <mat-icon>close</mat-icon>
-        </button>
     `,
     styles: [`
         .heading {
@@ -90,7 +86,7 @@ import { XmConfirmDialogDataService } from './confirm-dialog-data.service';
         XmDynamicModule,
         ConditionModule,
         XmPermissionModule,
-    ]
+    ],
 })
 export class XmConfirmDialogComponent implements OnInit {
     public form = this.fb.group({});
