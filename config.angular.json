@@ -127,26 +127,26 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "xm-webapp:build:development",
+            "buildTarget": "xm-webapp:build:development",
             "proxyConfig": "proxy.conf.js",
             "host": "0.0.0.0"
           },
           "configurations": {
             "production": {
-              "browserTarget": "xm-webapp:build:production"
+              "buildTarget": "xm-webapp:build:production"
             },
             "serve-production": {
-              "browserTarget": "xm-webapp:build:serve-production"
+              "buildTarget": "xm-webapp:build:serve-production"
             },
             "idp": {
-              "browserTarget": "xm-webapp:build:idp"
+              "buildTarget": "xm-webapp:build:idp"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "xm-webapp:build"
+            "buildTarget": "xm-webapp:build"
           }
         },
         "test": {
@@ -156,7 +156,9 @@
             "karmaConfig": "karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
-            "include": ["**/*.spec.ts"],
+            "include": [
+              "**/*.spec.ts"
+            ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/popper.js/dist/umd/popper.js",
@@ -231,7 +233,7 @@
           "builder": "@storybook/angular:start-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "xm-webapp:build",
+            "buildTarget": "xm-webapp:build",
             "compodoc": true,
             "compodocArgs": [
               "-e",
@@ -246,7 +248,7 @@
           "builder": "@storybook/angular:build-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "xm-webapp:build",
+            "buildTarget": "xm-webapp:build",
             "compodoc": true,
             "compodocArgs": [
               "-e",
