@@ -37,7 +37,7 @@ export const BY_ENTITY_ID_VALUE_OPTIONS: ByEntityIdValueOptions = {
     standalone: false,
 })
 export class ByEntityIdValueComponent
-    implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnChanges {
+implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnChanges {
 
     /** {@inheritDoc XmDynamicPresentation.config} */
     @Input() public config: ByEntityIdValueOptions;

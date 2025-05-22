@@ -36,11 +36,11 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
         sortDirection: 'asc' | 'desc',
         sortBy: string
     } = {
-        pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
-        pageSize: TABLE_CONFIG_DEFAULT.pageSize,
-        sortDirection: 'desc',
-        sortBy: 'roleKey',
-    };
+            pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
+            pageSize: TABLE_CONFIG_DEFAULT.pageSize,
+            sortDirection: 'desc',
+            sortBy: 'roleKey',
+        };
 
     public pagination: QueryParamsPageable = {
         total: 0,
@@ -101,16 +101,16 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
             startWith({}),
             takeUntilOnDestroy(this),
         ).subscribe(() => {
-                this.pagination.pageIndex = this.paginator.pageIndex;
-                this.pagination.pageSize = this.paginator.pageSize;
-                this.pagination.sortOrder = this.sort.direction;
-                this.pagination.sortBy = this.sort.active;
-                this.updateRoute();
-            },
-            (err) => {
-                this.onError(err);
-                this.showLoader = false;
-            });
+            this.pagination.pageIndex = this.paginator.pageIndex;
+            this.pagination.pageSize = this.paginator.pageSize;
+            this.pagination.sortOrder = this.sort.direction;
+            this.pagination.sortBy = this.sort.active;
+            this.updateRoute();
+        },
+        (err) => {
+            this.onError(err);
+            this.showLoader = false;
+        });
 
     }
 

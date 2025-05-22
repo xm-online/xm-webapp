@@ -47,10 +47,10 @@ export class ConfirmActionDialogComponent {
 }
 
 @NgModule({
-        declarations: [ConfirmActionDialogComponent],
-        imports: [ConfirmActionModule],
-        exports: [ConfirmActionDialogComponent],
-    },
+    declarations: [ConfirmActionDialogComponent],
+    imports: [ConfirmActionModule],
+    exports: [ConfirmActionDialogComponent],
+},
 )
 export class ConfirmActionDialogModule {
     public entry: Type<ConfirmActionDialogComponent> = ConfirmActionDialogComponent;

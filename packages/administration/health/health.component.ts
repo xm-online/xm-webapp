@@ -81,7 +81,7 @@ export class JhiHealthCheckComponent implements OnInit {
             = currentMetrics
         && currentMetrics.health
         && currentMetrics.health.status
-            ? currentMetrics.health.status : null;
+                ? currentMetrics.health.status : null;
     }
 
     public baseName(name: string): string {

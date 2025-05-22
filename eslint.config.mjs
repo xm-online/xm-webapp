@@ -137,6 +137,7 @@ export default [{
             allowSingleExtends: true,
         }],
         "@angular-eslint/prefer-standalone": "off",
+        "@angular-eslint/no-output-native": "off",
         "@angular-eslint/component-class-suffix": ["warn", {
             suffixes: ["Component", "Widget", "Control"],
         }],
