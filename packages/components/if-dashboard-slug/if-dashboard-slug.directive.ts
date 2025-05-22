@@ -4,6 +4,7 @@ import { first } from 'rxjs/operators';
 
 @Directive({
     selector: '[xmIfDashboardSlug]',
+    standalone: false,
 })
 export class IfDashboardSlugDirective {
 

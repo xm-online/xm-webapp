@@ -5,6 +5,7 @@ import { Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation } fr
     templateUrl: './loader.component.html',
     styleUrls: ['./loader.component.scss'],
     encapsulation: ViewEncapsulation.Emulated,
+    standalone: false,
 })
 export class LoaderComponent implements OnInit, OnDestroy {
 

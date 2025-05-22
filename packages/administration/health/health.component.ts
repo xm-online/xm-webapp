@@ -8,6 +8,7 @@ import { JhiHealth, JhiHealthService } from './health.service';
     selector: 'xm-health',
     templateUrl: './health.component.html',
     styleUrls: ['./health.component.scss'],
+    standalone: false,
 })
 export class JhiHealthCheckComponent implements OnInit {
 
@@ -78,9 +79,9 @@ export class JhiHealthCheckComponent implements OnInit {
             : [];
         this.selectedInstanceStatus
             = currentMetrics
-            && currentMetrics.health
-            && currentMetrics.health.status
-                ? currentMetrics.health.status : null;
+        && currentMetrics.health
+        && currentMetrics.health.status
+            ? currentMetrics.health.status : null;
     }
 
     public baseName(name: string): string {
@@ -90,13 +91,13 @@ export class JhiHealthCheckComponent implements OnInit {
     public getBadgeClass(statusState: string): string {
         if (statusState === 'UP') {
             return 'badge-success';
-        } 
+        }
         return 'badge-danger';
-        
+
     }
 
     public showHealth(health: JhiHealth): void {
-        const modalRef = this.modalService.open(JhiHealthModalComponent, { width: '500px' });
+        const modalRef = this.modalService.open(JhiHealthModalComponent, {width: '500px'});
         modalRef.componentInstance.currentHealth = health;
     }
 

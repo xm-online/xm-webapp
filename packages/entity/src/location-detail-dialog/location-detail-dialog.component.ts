@@ -4,15 +4,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
+
+import { XmConfigService } from '@xm-ngx/core/config';
+import { Location, LocationService, LocationSpec, XmEntity } from '@xm-ngx/core/entity';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Observable } from 'rxjs';
 import { finalize, map, startWith } from 'rxjs/operators';
-
-import { XmConfigService } from '@xm-ngx/core/config';
-import { LocationSpec } from '@xm-ngx/core/entity';
-import { Location } from '@xm-ngx/core/entity';
-import { LocationService } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
 import { ISO3166_CODES } from './iso-3166-codes';
 
 declare let google: any;
@@ -26,6 +23,7 @@ export interface CountryOption {
     selector: 'xm-location-detail-dialog',
     templateUrl: './location-detail-dialog.component.html',
     styleUrls: ['./location-detail-dialog.component.scss'],
+    standalone: false,
 })
 export class LocationDetailDialogComponent implements OnInit {
     @Input() public xmEntity: XmEntity;
@@ -56,12 +54,16 @@ export class LocationDetailDialogComponent implements OnInit {
     }
 
     public applyCoordinates(setCenter: boolean = true): void {
-        if (this.coordinatesInvalid || !this.locationMarker || !this.locationMap) {return; }
+        if (this.coordinatesInvalid || !this.locationMarker || !this.locationMap) {
+            return;
+        }
 
         const latLng = new google.maps.LatLng(this.form.controls.latitude.value, this.form.controls.longitude.value);
 
         this.locationMarker.setPosition(latLng);
-        if (setCenter) {this.locationMap.setCenter(latLng); }
+        if (setCenter) {
+            this.locationMap.setCenter(latLng);
+        }
     }
 
     public ngOnInit(): void {
@@ -87,7 +89,9 @@ export class LocationDetailDialogComponent implements OnInit {
             );
 
         this.xmConfigService.getUiConfig().subscribe((result) => {
-            if (!result.entity || (result.entity && !result.entity.location)) {return; }
+            if (!result.entity || (result.entity && !result.entity.location)) {
+                return;
+            }
             const defaultSetting = result.entity.location;
 
             if (this.form.controls.latitude.invalid && defaultSetting.defaultLat) {

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { JhiLanguageService } from '@xm-ngx/jhipster';
-import { finalize, map } from 'rxjs/operators';
+import { IHelpNavLink } from '@xm-ngx/components/navbar';
 
 import { XmConfigService } from '@xm-ngx/core/config';
+import { JhiLanguageService } from '@xm-ngx/jhipster';
 import { Translate } from '@xm-ngx/translation';
-import { IHelpNavLink } from '@xm-ngx/components/navbar';
+import { finalize, map } from 'rxjs/operators';
 
 export interface IHelpConfig {
     title?: string | Translate;
@@ -16,6 +16,7 @@ export interface IHelpConfig {
     selector: 'xm-help',
     templateUrl: './help.component.html',
     styleUrls: ['./help.component.scss'],
+    standalone: false,
 })
 export class HelpComponent implements OnInit {
 

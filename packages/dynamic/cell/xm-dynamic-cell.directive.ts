@@ -10,13 +10,13 @@ import {
     OnInit,
     SimpleChanges,
 } from '@angular/core';
-import {
-    XmDynamicControllerInjectorFactoryService
-} from '../src/services/xm-dynamic-controller-injector-factory.service';
 import { getValue } from '@xm-ngx/operators';
 import * as _ from 'lodash';
 import { XmDynamicPresentationBase } from '../presentation';
 import { XmDynamicLayoutNode } from '../src/interfaces';
+import {
+    XmDynamicControllerInjectorFactoryService,
+} from '../src/services/xm-dynamic-controller-injector-factory.service';
 
 
 export const XM_DYNAMIC_TABLE_ROW = new InjectionToken<unknown>('XM_DYNAMIC_TABLE_ROW');
@@ -42,7 +42,8 @@ export interface XmDynamicCell<C = unknown> extends XmDynamicLayoutNode<C> {
  */
 @Directive({
     selector: 'xm-dynamic-cell, [xmDynamicCell]',
-    providers: [XmDynamicControllerInjectorFactoryService]
+    standalone: false,
+    providers: [XmDynamicControllerInjectorFactoryService],
 })
 export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
     extends XmDynamicPresentationBase<V, O>
@@ -84,30 +85,6 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
         return getValue(this.row, this._cell.field);
     }
 
-    private getStyle(style?: string): string {
-        if (style?.includes('${')) {
-            try {
-                style = _.template(style ?? '')(this.row as object ?? {});
-            } catch (e) {
-                console.warn(e);
-            }
-        }
-
-        return style;
-    }
-
-    private getClass(classNames?: string): string {
-        if (classNames?.includes('${')) {
-            try {
-                classNames = _.template(classNames ?? '')(this.row as object ?? {});
-            } catch (e) {
-                console.warn(e);
-            }
-        }
-
-        return classNames;
-    }
-
     public ngOnChanges(changes: SimpleChanges): void {
         super.ngOnChanges(changes);
         if (changes.row) {
@@ -139,6 +116,30 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
             this.value = newValue;
             this.updateValue();
         }
+    }
+
+    private getStyle(style?: string): string {
+        if (style?.includes('${')) {
+            try {
+                style = _.template(style ?? '')(this.row as object ?? {});
+            } catch (e) {
+                console.warn(e);
+            }
+        }
+
+        return style;
+    }
+
+    private getClass(classNames?: string): string {
+        if (classNames?.includes('${')) {
+            try {
+                classNames = _.template(classNames ?? '')(this.row as object ?? {});
+            } catch (e) {
+                console.warn(e);
+            }
+        }
+
+        return classNames;
     }
 
 }

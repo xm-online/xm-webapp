@@ -5,6 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
     selector: 'xm-metrics-modal',
     templateUrl: './metrics-modal.component.html',
+    standalone: false,
 })
 export class JhiMetricsMonitoringModalComponent implements OnInit {
 

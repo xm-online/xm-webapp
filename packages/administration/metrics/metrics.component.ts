@@ -9,6 +9,7 @@ import { JhiMetricsService } from './metrics.service';
     selector: 'xm-metrics',
     templateUrl: './metrics.component.html',
     styleUrls: ['./metrics.component.scss'],
+    standalone: false,
 })
 export class JhiMetricsMonitoringComponent implements OnInit {
 
@@ -104,7 +105,7 @@ export class JhiMetricsMonitoringComponent implements OnInit {
 
     public refreshThreadDumpData(): void {
         this.metricsService.threadDump().subscribe((data) => {
-            const modalRef = this.modalService.open(JhiMetricsMonitoringModalComponent, { width: '800px'});
+            const modalRef = this.modalService.open(JhiMetricsMonitoringModalComponent, {width: '800px'});
             modalRef.componentInstance.threadDump = (data && data.threads) || [];
         });
     }

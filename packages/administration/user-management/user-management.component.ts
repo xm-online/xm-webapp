@@ -4,29 +4,30 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { XmAlertService } from '@xm-ngx/alert';
-import { XmEventManager } from '@xm-ngx/core';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { XmToasterService } from '@xm-ngx/toaster';
-
-import { JhiParseLinks } from '@xm-ngx/jhipster';
-import { merge, Observable, Subscription } from 'rxjs';
-import { finalize, map, startWith, switchMap } from 'rxjs/operators';
-import { User, UserService } from '@xm-ngx/core/user';
-import { Role, RoleService } from '@xm-ngx/core/role';
 import { UserLogin, UserLoginService } from '@xm-ngx/account/user-login-widget';
-import { Client } from '@xm-ngx/core/client';
 
 // import { XM_EVENT_LIST } from '../../../src/app/xm.constants';
 import { BaseAdminListComponent } from '@xm-ngx/administration';
+import { XmAlertService } from '@xm-ngx/alert';
+import { XmEventManager } from '@xm-ngx/core';
+import { Client } from '@xm-ngx/core/client';
+import { Role, RoleService } from '@xm-ngx/core/role';
+import { User, UserService } from '@xm-ngx/core/user';
+
+import { JhiParseLinks } from '@xm-ngx/jhipster';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { TranslatePipe } from '@xm-ngx/translation';
+import { merge, Observable, Subscription } from 'rxjs';
+import { finalize, map, startWith, switchMap } from 'rxjs/operators';
 import { UserLoginMgmtDialogComponent } from './user-login-management-dialog.component';
 import { UserMgmtDeleteDialogComponent } from './user-management-delete-dialog.component';
 import { UserMgmtDialogComponent } from './user-management-dialog/user-management-dialog.component';
-import { TranslatePipe } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-user-mgmt',
     templateUrl: './user-management.component.html',
+    standalone: false,
 })
 export class UserMgmtComponent extends BaseAdminListComponent implements OnDestroy {
 
@@ -82,8 +83,8 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
                     .pipe(
                         takeUntilOnDestroy(this),
                     ).subscribe((list: Array<Client>) => {
-                        this.dataSource = new MatTableDataSource(list);
-                    });
+                    this.dataSource = new MatTableDataSource(list);
+                });
             });
     }
 
@@ -116,12 +117,12 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
             }),
             takeUntilOnDestroy(this),
         ).subscribe((list: Array<Client>) => {
-            this.dataSource = new MatTableDataSource(list);
-        },
-        (err) => {
-            this.onError(err);
-            this.showLoader = false;
-        });
+                this.dataSource = new MatTableDataSource(list);
+            },
+            (err) => {
+                this.onError(err);
+                this.showLoader = false;
+            });
     }
 
     public getRegistrationEmail(user: User): string {
@@ -163,10 +164,10 @@ export class UserMgmtComponent extends BaseAdminListComponent implements OnDestr
         }).subscribe((result) => result.value ?
             this.userService.disable2FA(user.userKey)
                 .subscribe(() => {
-                    user.tfaEnabled = false;
-                    this.toasterService.success('userManagement.twoFADisabled');
-                },
-                (error) => this.toasterService.error(error)) :
+                        user.tfaEnabled = false;
+                        this.toasterService.success('userManagement.twoFADisabled');
+                    },
+                    (error) => this.toasterService.error(error)) :
             console.info('Cancel'));
     }
 

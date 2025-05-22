@@ -1,18 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
-import { Subscription } from 'rxjs';
-
-import { I18nNamePipe } from '@xm-ngx/translation';
-import { JhiLanguageHelper } from '@xm-ngx/translation';
-import { Principal } from '@xm-ngx/core/user';
 import { Spec, XmEntity, XmEntityService, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
+import { Principal } from '@xm-ngx/core/user';
+
+import { I18nNamePipe, JhiLanguageHelper } from '@xm-ngx/translation';
+import { Subscription } from 'rxjs';
 
 declare const $: any;
 
 @Component({
     selector: 'xm-entity-detail',
     templateUrl: './entity-detail.component.html',
+    standalone: false,
 })
 export class EntityDetailComponent implements OnInit, OnDestroy {
 
@@ -67,12 +67,12 @@ export class EntityDetailComponent implements OnInit, OnDestroy {
         $.xmEntity = null;
         this.xmEntity = null;
         this.xmEntityService.find(id, {embed: 'data'}).subscribe((xmEntity) => {
-            this.xmEntity = xmEntity.body;
-            $.xmEntity = xmEntity.body;
-            this.routeData.pageSubSubTitle = this.xmEntity.name;
-            this.jhiLanguageHelper.updateTitle();
-        },
-        (err) => console.info(err));
+                this.xmEntity = xmEntity.body;
+                $.xmEntity = xmEntity.body;
+                this.routeData.pageSubSubTitle = this.xmEntity.name;
+                this.jhiLanguageHelper.updateTitle();
+            },
+            (err) => console.info(err));
     }
 
 }

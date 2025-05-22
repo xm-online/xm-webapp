@@ -6,6 +6,7 @@ import { map, share } from 'rxjs/operators';
     selector: 'xm-clock-widget',
     templateUrl: './clock-widget.component.html',
     styleUrls: ['./clock-widget.component.scss'],
+    standalone: false,
 })
 export class ClockWidgetComponent implements OnInit, OnDestroy {
 

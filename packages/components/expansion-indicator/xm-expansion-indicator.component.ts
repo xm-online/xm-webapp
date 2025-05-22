@@ -13,6 +13,7 @@ import { matExpansionAnimations } from '@angular/material/expansion';
     animations: [
         matExpansionAnimations.indicatorRotate,
     ],
+    standalone: false,
 })
 export class XmExpansionIndicatorComponent {
     @Input() public value: boolean;

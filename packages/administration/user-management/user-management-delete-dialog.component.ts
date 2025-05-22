@@ -2,34 +2,35 @@ import { Component, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 // import { XM_EVENT_LIST } from '../../../src/app/xm.constants';
-
 import { User, UserService } from '@xm-ngx/core/user';
 
 @Component({
     selector: 'xm-user-mgmt-delete-dialog',
     templateUrl: './user-management-delete-dialog.component.html',
+    standalone: false,
 })
 export class UserMgmtDeleteDialogComponent {
 
     public showLoader: boolean;
     public login: string;
-    private _user: User;
-
-    @Input()
-    public set user(user: User) {
-        this._user = user;
-        this.login = this.getLogin(this._user);
-    }
-
-    public get user(): User {
-        return this._user;
-    }
 
     constructor(
         private userService: UserService,
         public activeModal: MatDialogRef<UserMgmtDeleteDialogComponent>,
         private eventManager: XmEventManager,
     ) {
+    }
+
+    private _user: User;
+
+    public get user(): User {
+        return this._user;
+    }
+
+    @Input()
+    public set user(user: User) {
+        this._user = user;
+        this.login = this.getLogin(this._user);
     }
 
     public clear(): void {

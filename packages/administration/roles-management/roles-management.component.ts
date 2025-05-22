@@ -4,16 +4,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { QueryParamsPageable } from '@xm-ngx/repositories';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { XmEventManager } from '@xm-ngx/core';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { Role, RoleService } from '@xm-ngx/core/role';
 import { takeUntilOnDestroy } from '@xm-ngx/operators';
+import { QueryParamsPageable } from '@xm-ngx/repositories';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { merge, Subscription } from 'rxjs';
 import { startWith, take } from 'rxjs/operators';
-import { XmConfigService } from '@xm-ngx/core/config';
-import { Role } from '@xm-ngx/core/role';
-import { RoleService } from '@xm-ngx/core/role';
 
 import { RoleMgmtDeleteDialogComponent } from './roles-management-delete-dialog.component';
 import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
@@ -22,11 +21,12 @@ import { RoleMgmtDialogComponent } from './roles-management-dialog.component';
     selector: 'xm-roles-mgmt',
     templateUrl: './roles-management.component.html',
     styles: [`
-        :host .role-description {
-            max-width: 300px;
-            min-width: 300px;
-        }
+      :host .role-description {
+        max-width: 300px;
+        min-width: 300px;
+      }
     `],
+    standalone: false,
 })
 export class RolesMgmtComponent implements OnInit, OnDestroy {
 
@@ -36,11 +36,11 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
         sortDirection: 'asc' | 'desc',
         sortBy: string
     } = {
-            pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
-            pageSize: TABLE_CONFIG_DEFAULT.pageSize,
-            sortDirection: 'desc',
-            sortBy: 'roleKey',
-        };
+        pageSizeOptions: TABLE_CONFIG_DEFAULT.pageSizeOptions,
+        pageSize: TABLE_CONFIG_DEFAULT.pageSize,
+        sortDirection: 'desc',
+        sortBy: 'roleKey',
+    };
 
     public pagination: QueryParamsPageable = {
         total: 0,
@@ -62,8 +62,8 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     ];
     public dataSource: MatTableDataSource<Role> = new MatTableDataSource<Role>([]);
     public readOnlyMode: boolean;
-    @ViewChild(MatSort, { static: true }) public sort: MatSort;
-    @ViewChild(MatPaginator, { static: true }) public paginator: MatPaginator;
+    @ViewChild(MatSort, {static: true}) public sort: MatSort;
+    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
     private eventSubscriber: Subscription;
 
     constructor(
@@ -101,16 +101,16 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
             startWith({}),
             takeUntilOnDestroy(this),
         ).subscribe(() => {
-            this.pagination.pageIndex = this.paginator.pageIndex;
-            this.pagination.pageSize = this.paginator.pageSize;
-            this.pagination.sortOrder = this.sort.direction;
-            this.pagination.sortBy = this.sort.active;
-            this.updateRoute();
-        },
-        (err) => {
-            this.onError(err);
-            this.showLoader = false;
-        });
+                this.pagination.pageIndex = this.paginator.pageIndex;
+                this.pagination.pageSize = this.paginator.pageSize;
+                this.pagination.sortOrder = this.sort.direction;
+                this.pagination.sortBy = this.sort.active;
+                this.updateRoute();
+            },
+            (err) => {
+                this.onError(err);
+                this.showLoader = false;
+            });
 
     }
 
@@ -132,16 +132,16 @@ export class RolesMgmtComponent implements OnInit, OnDestroy {
     }
 
     public onAdd(): void {
-        this.modalService.open(RoleMgmtDialogComponent, { width: '500px' });
+        this.modalService.open(RoleMgmtDialogComponent, {width: '500px'});
     }
 
     public onEdit(role: Role): void {
-        const modalRef = this.modalService.open(RoleMgmtDialogComponent, { width: '500px' });
+        const modalRef = this.modalService.open(RoleMgmtDialogComponent, {width: '500px'});
         modalRef.componentInstance.selectedRole = role;
     }
 
     public onDelete(role: Role): void {
-        const modalRef = this.modalService.open(RoleMgmtDeleteDialogComponent, { width: '500px' });
+        const modalRef = this.modalService.open(RoleMgmtDeleteDialogComponent, {width: '500px'});
         modalRef.componentInstance.selectedRole = role;
     }
 

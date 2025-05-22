@@ -1,11 +1,11 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { XmEntity, XmEntityService } from '@xm-ngx/entity';
 
 import { buildMapId, buildPinSymbol } from '@xm-ngx/operators';
-import { XmEntity, XmEntityService } from '@xm-ngx/entity';
-import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { BehaviorSubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 declare const google: any;
 declare const MarkerClusterer: any;
@@ -13,6 +13,7 @@ declare const MarkerClusterer: any;
 @Component({
     selector: 'xm-location-map-widget',
     templateUrl: './location-map-widget.component.html',
+    standalone: false,
 })
 export class LocationMapWidgetComponent implements OnInit, XmDynamicWidget {
 

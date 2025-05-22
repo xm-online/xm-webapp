@@ -6,12 +6,14 @@ import { User } from '@xm-ngx/core/user';
 @Component({
     selector: 'xm-user-login-mgmt-dialog',
     templateUrl: './user-login-management-dialog.component.html',
+    standalone: false,
 })
 export class UserLoginMgmtDialogComponent {
 
     @Input() public user: User;
 
-    constructor(public activeModal: MatDialogRef<UserLoginMgmtDialogComponent>) {}
+    constructor(public activeModal: MatDialogRef<UserLoginMgmtDialogComponent>) {
+    }
 
     public close(): void {
         this.activeModal.close();

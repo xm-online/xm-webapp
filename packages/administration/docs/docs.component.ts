@@ -19,16 +19,17 @@ interface JhiDocsComponentConfig {
     templateUrl: './docs.component.html',
     styles: [
         `
-            :host ::ng-deep #swaggerHolder .col-12 {
-                padding-left: 0;
-                padding-right: 0;
-            }
+          :host ::ng-deep #swaggerHolder .col-12 {
+            padding-left: 0;
+            padding-right: 0;
+          }
 
-            :host ::ng-deep #swaggerHolder .scheme-container {
-                display: none;
-            }
+          :host ::ng-deep #swaggerHolder .scheme-container {
+            display: none;
+          }
         `,
     ],
+    standalone: false,
 })
 export class JhiDocsComponent implements AfterViewInit {
 
@@ -39,7 +40,7 @@ export class JhiDocsComponent implements AfterViewInit {
     constructor(
         private http: HttpClient,
         private auth: AuthServerProvider,
-        private ngZone: NgZone
+        private ngZone: NgZone,
     ) {
     }
 

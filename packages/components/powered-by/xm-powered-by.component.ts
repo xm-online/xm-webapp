@@ -14,7 +14,7 @@ export interface PoweredBy {
     template: `
         <div class="xm-powered-by" *ngIf="config">
             <div class="powered-by-text" *ngIf="config.text">
-                <span class="truncate">{{config.text | translate}}</span>
+                <span class="truncate">{{ config.text | translate }}</span>
             </div>
             <div class="powered-by-image" *ngIf="config.imageUrl">
                 <img [class.has-url]="config.redirectUrl"
@@ -26,6 +26,7 @@ export interface PoweredBy {
         </div>
     `,
     styleUrls: ['./xm-powered-by.component.scss'],
+    standalone: false,
 })
 export class XmPoweredBy implements OnInit, OnDestroy {
 
