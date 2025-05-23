@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ExportEntitiesService } from '../export-entities.service';
 import { XmEntitySpec, XmEntitySpecService } from '@xm-ngx/entity';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { saveFile, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 import * as _ from 'lodash';
 import { finalize, map } from 'rxjs/operators';
-import { saveFile } from '@xm-ngx/operators';
+import { ExportEntitiesService } from '../export-entities.service';
 
 export interface ExportConfig extends XmEntitySpec {
     selected?: boolean;
@@ -20,6 +19,7 @@ export interface ExportConfig extends XmEntitySpec {
     selector: 'xm-export-entities-details',
     templateUrl: './export-entities-details.component.html',
     styleUrls: ['./export-entities-details.component.scss'],
+    standalone: false,
 })
 export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
 
@@ -89,7 +89,7 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
         this.showLoader = true;
         const configSelectedEntities = this.config
             .filter(c => c.selected)
-            .map(c => ({ selection: c.selection || [], key: c.key }));
+            .map(c => ({selection: c.selection || [], key: c.key}));
         const payload = this.exportEntitiesService.mapPayload(configSelectedEntities);
         this.exportEntitiesService
             .getExportJson(payload)
@@ -99,7 +99,7 @@ export class ExportEntitiesDetailsComponent implements OnInit, OnDestroy {
             )
             .subscribe((resp: unknown) => {
                 const json = JSON.stringify(resp);
-                const blob = new Blob([json], { type: 'application/json' });
+                const blob = new Blob([json], {type: 'application/json'});
                 const stamp = new Date().getTime();
                 saveFile(blob, `export-${stamp}.json`, 'application/json');
                 this.activeModal.close('success');

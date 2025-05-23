@@ -24,12 +24,14 @@ import { numberOfBytes } from './number-of-bytes';
 @Directive({
     selector: '[jhiMaxbytes][ngModel]',
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    providers: [{ provide: NG_VALIDATORS, useExisting: forwardRef(() => JhiMaxbytesValidatorDirective), multi: true }],
+    providers: [{provide: NG_VALIDATORS, useExisting: forwardRef(() => JhiMaxbytesValidatorDirective), multi: true}],
+    standalone: false,
 })
 export class JhiMaxbytesValidatorDirective {
     @Input() public jhiMaxbytes: number;
 
-    constructor() {}
+    constructor() {
+    }
 
     public validate(c: FormControl): ValidationErrors | null {
         return c.value && numberOfBytes(c.value) > this.jhiMaxbytes

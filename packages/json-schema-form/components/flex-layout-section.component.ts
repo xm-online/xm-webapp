@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
 import { FlexLayoutSectionComponent } from '@ajsf/material';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'xm-flex-layout-section-widget',
@@ -17,7 +17,8 @@ import { FlexLayoutSectionComponent } from '@ajsf/material';
 
                     <ng-container *ngTemplateOutlet="layoutRootTpl"></ng-container>
 
-                    <mat-error *ngIf="options?.showErrors && options?.errorMessage" [innerHTML]="options?.errorMessage"></mat-error>
+                    <mat-error *ngIf="options?.showErrors && options?.errorMessage"
+                               [innerHTML]="options?.errorMessage"></mat-error>
                 </div>
             </ng-container>
 
@@ -45,9 +46,9 @@ import { FlexLayoutSectionComponent } from '@ajsf/material';
                           [class.expanded]="options?.expandable && expanded">
                     <mat-card-header *ngIf="sectionTitle">
                         <legend
-                            [class]="'legend ' + (options?.labelHtmlClass || '')"
-                            [innerHTML]="sectionTitle"
-                            (click)="toggleExpanded()"></legend>
+                                [class]="'legend ' + (options?.labelHtmlClass || '')"
+                                [innerHTML]="sectionTitle"
+                                (click)="toggleExpanded()"></legend>
                     </mat-card-header>
                     <mat-card-content *ngIf="expanded">
                         <fieldset [disabled]="options?.readonly">
@@ -77,7 +78,8 @@ import { FlexLayoutSectionComponent } from '@ajsf/material';
                         <ng-container *ngTemplateOutlet="layoutRootTpl"></ng-container>
                     </fieldset>
 
-                    <mat-error *ngIf="options?.showErrors && options?.errorMessage" [innerHTML]="options?.errorMessage"></mat-error>
+                    <mat-error *ngIf="options?.showErrors && options?.errorMessage"
+                               [innerHTML]="options?.errorMessage"></mat-error>
                 </mat-expansion-panel>
             </ng-container>
         </ng-container>
@@ -104,11 +106,27 @@ import { FlexLayoutSectionComponent } from '@ajsf/material';
         </ng-template>
     `,
     styles: [`
-        fieldset { border: 0; margin: 0; padding: 0; }
-        .legend { font-weight: bold; }
-        .expandable > .legend:before { content: '▶'; padding-right: .3em; }
-        .expanded > .legend:before { content: '▼'; padding-right: .2em; }
+      fieldset {
+        border: 0;
+        margin: 0;
+        padding: 0;
+      }
+
+      .legend {
+        font-weight: bold;
+      }
+
+      .expandable > .legend:before {
+        content: '▶';
+        padding-right: .3em;
+      }
+
+      .expanded > .legend:before {
+        content: '▼';
+        padding-right: .2em;
+      }
     `],
+    standalone: false,
 })
 export class XmFlexLayoutSectionComponent extends FlexLayoutSectionComponent {
     get computeOptions(): Record<string, string> {

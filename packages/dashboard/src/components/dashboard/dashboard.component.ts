@@ -1,18 +1,16 @@
 import { ChangeDetectorRef, Component, inject, Injector, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Dashboard, DashboardStore, Page, PageService } from '@xm-ngx/core/dashboard';
+import { XmDynamicControllerInjectorFactoryService } from '@xm-ngx/dynamic';
 
 // import { environment } from '@xm-ngx/core/environment';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { XmLoggerService } from '@xm-ngx/logger';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { Page, PageService } from '@xm-ngx/core/dashboard';
-import { Dashboard } from '@xm-ngx/core/dashboard';
-import { DashboardBase } from './dashboard-base';
-import { PageTitleService } from './page-title.service';
-import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { from, of } from 'rxjs';
 import { mapTo, switchMap, tap } from 'rxjs/operators';
-import { XmDynamicControllerInjectorFactoryService } from '@xm-ngx/dynamic';
+import { DashboardBase } from './dashboard-base';
+import { PageTitleService } from './page-title.service';
 
 
 @Component({
@@ -20,6 +18,7 @@ import { XmDynamicControllerInjectorFactoryService } from '@xm-ngx/dynamic';
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
     providers: [PageTitleService],
+    standalone: false,
 })
 export class DashboardComponent extends DashboardBase implements OnInit, OnDestroy {
     public childrenDashboards: Dashboard[] = [];

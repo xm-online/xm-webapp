@@ -1,10 +1,8 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { XmEventManager } from '@xm-ngx/core';
+import { TimeAgoService, TimelinePage, TimelineService } from '@xm-ngx/timeline';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { TimeAgoService, TimelineService } from '@xm-ngx/timeline';
-
-import { TimelinePage } from '@xm-ngx/timeline';
 
 const TL_REFRESH_EVENT = 'xmEntityDetailModification';
 
@@ -12,6 +10,7 @@ const TL_REFRESH_EVENT = 'xmEntityDetailModification';
     selector: 'xm-timeline-widget',
     templateUrl: './xm-timeline-widget.component.html',
     styleUrls: ['./xm-timeline-widget.component.scss'],
+    standalone: false,
 })
 export class XmTimelineWidgetComponent implements OnInit, OnChanges, OnDestroy {
 

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 import { FinanceService } from './finance.service';
-import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 declare let $: any;
 
@@ -9,6 +9,7 @@ declare let $: any;
     selector: 'xm-exchange-widget',
     templateUrl: './exchange-widget.component.html',
     styleUrls: ['./exchange-widget.component.scss'],
+    standalone: false,
 })
 export class ExchangeWidgetComponent implements OnInit, XmDynamicWidget {
 

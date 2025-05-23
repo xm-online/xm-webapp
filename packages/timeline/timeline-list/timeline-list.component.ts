@@ -1,22 +1,23 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { finalize, map, pluck, switchMap, tap } from 'rxjs/operators';
-import { Principal } from '@xm-ngx/core/user';
-import { I18nNamePipe, Translate } from '@xm-ngx/translation';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { Timeline, TimelinePage, TimelineService } from '@xm-ngx/timeline';
-import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
+import { XmEntity } from '@xm-ngx/core/entity';
+import { Principal } from '@xm-ngx/core/user';
 import { XmMatCardOptions } from '@xm-ngx/entity/card';
-
+import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import {
+    Timeline,
     TimeLineConfig,
     TimeLineConfigItem,
     TimeLineContext,
     TimeLineItem,
+    TimelinePage,
+    TimelineService,
     TimeLineServiceConfig,
 } from '@xm-ngx/timeline';
-import { HttpResponse } from '@angular/common/http';
+import { I18nNamePipe, Translate } from '@xm-ngx/translation';
+import { Observable, of } from 'rxjs';
+import { finalize, map, pluck, switchMap, tap } from 'rxjs/operators';
 
 export interface TimelineListConfig {
     descOrder?: boolean,
@@ -62,6 +63,7 @@ const DEFAULT: TimelineListConfig & XmMatCardOptions = {
     selector: 'xm-timeline-list',
     templateUrl: './timeline-list.component.html',
     styleUrls: ['./timeline-list.component.scss'],
+    standalone: false,
 })
 export class TimelineListComponent implements OnInit, OnDestroy {
 
@@ -115,7 +117,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
 
     public onNextPage(next: number): void {
         this.isMoreLoading = true;
-        this.timelineService.search(this.getSearchBody({ next })).pipe(
+        this.timelineService.search(this.getSearchBody({next})).pipe(
             finalize(() => this.isMoreLoading = false))
             .subscribe((result) => {
                 this.next = result.next;
@@ -128,7 +130,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
     public loadAll(): void {
         this.isMoreLoading = true;
         const searchAll = (next = 0): Observable<TimelinePage> => this.timelineService
-            .search(this.getSearchBody({ limit: 1000, next }))
+            .search(this.getSearchBody({limit: 1000, next}))
             .pipe(
                 switchMap((res) => {
                     if (res.next == null) {
@@ -173,7 +175,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
 
     public onNextPageV2(): void {
         this.page = this.page + 1;
-        this.timelineService.searchV2(this.getSearchBodyV2({ size: this.config.limit, page: this.page }))
+        this.timelineService.searchV2(this.getSearchBodyV2({size: this.config.limit, page: this.page}))
             .pipe(
                 tap((resp: HttpResponse<any>) => {
                     this.totalCount = parseInt(resp.headers.get('X-Total-Count'));
@@ -188,7 +190,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
 
     private searchAllTimeLineItemsV2(size: number = 1000, page: number = 0): Observable<any> {
         return this.timelineService
-            .searchV2(this.getSearchBodyV2({ size: size, page: page }))
+            .searchV2(this.getSearchBodyV2({size: size, page: page}))
             .pipe(
                 map((resp: HttpResponse<any>) => {
                     this.totalCount -= 1000;
@@ -229,7 +231,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
         }
         if (this.config?.version && this.config.version === 2) {
 
-            this.timelineService.searchV2(this.getSearchBodyV2({ size: this.config?.limit }))
+            this.timelineService.searchV2(this.getSearchBodyV2({size: this.config?.limit}))
                 .pipe(
                     tap((resp: HttpResponse<any>) => {
                         this.totalCount = parseInt(resp.headers.get('X-Total-Count'));
@@ -290,7 +292,7 @@ export class TimelineListComponent implements OnInit, OnDestroy {
     private fillTimelineTemplate(item, templateName: Translate): TimeLineItem {
         const templateStringByLang = this.i18nNamePipe.transform(templateName, this.principal);
         const templateString: string = new Function('item', 'return `' + templateStringByLang + '`;')(item);
-        Object.assign(item, { messageData: templateString });
+        Object.assign(item, {messageData: templateString});
         return item;
     }
 
@@ -298,29 +300,29 @@ export class TimelineListComponent implements OnInit, OnDestroy {
         const after = this.getParamValue(item.entityAfter, param);
         const before = this.getParamValue(item.entityBefore, param);
         if (Array.isArray(after) && after.length && before === undefined) {
-            return { action: 'new', value: after.length };
+            return {action: 'new', value: after.length};
         }
         if (Array.isArray(before) && before.length && after === undefined) {
-            return { action: 'deleted', value: ' deleted' };
+            return {action: 'deleted', value: ' deleted'};
         }
         if (Array.isArray(before) && Array.isArray(after)) {
             if (after.length > before.length) {
-                return { action: 'update', value: after.length };
+                return {action: 'update', value: after.length};
             }
             if (before?.length > after?.length) {
-                return { action: 'deleted', value: after.length };
+                return {action: 'deleted', value: after.length};
             }
         }
         if (!before && after) {
-            return { action: 'new', value: after };
+            return {action: 'new', value: after};
         }
         if (before && after === undefined) {
-            return { action: 'deleted', value: before };
+            return {action: 'deleted', value: before};
         }
         if (!Array.isArray(before) && !Array.isArray(after) && (before && after) && before !== after) {
-            return { action: 'update', value: after };
+            return {action: 'update', value: after};
         }
-        return { action: 'no-prop', value: null };
+        return {action: 'no-prop', value: null};
     }
 
     private getParamValue(obj, propertyString: string): unknown {
@@ -339,13 +341,13 @@ export class TimelineListComponent implements OnInit, OnDestroy {
         this.tlc = new TimeLineContext(item);
         const respConfigEl = this.timeLineResponseConfig.getResponseConfigItem(this.tlc);
         if (respConfigEl) {
-            Object.assign(item, { responseBodyParsed: item.responseBody ? JSON.parse(item.responseBody) : null });
+            Object.assign(item, {responseBodyParsed: item.responseBody ? JSON.parse(item.responseBody) : null});
             const templateStringByLang = this.i18nNamePipe.transform(respConfigEl.template, this.principal);
             const templateString = new Function('item', 'return `' + templateStringByLang + '`;')(item);
-            Object.assign(item, { messageData: templateString });
+            Object.assign(item, {messageData: templateString});
             this.timeLines.push(item);
         } else {
-            Object.assign(item, { messageData: item.responseBody ? item.responseBody : '' });
+            Object.assign(item, {messageData: item.responseBody ? item.responseBody : ''});
             this.timeLines.push(item);
         }
     }

@@ -3,12 +3,12 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { IFeedbackRequest } from '../feedback.service';
 
 const TRANSLATES = {
-    feedback: { en: 'Feedback', ru: 'Обратная связь', uk: 'Відгуки' },
-    title: { en: 'Topic', ru: 'Тема', uk: 'Тема' },
-    send: { en: 'Send', ru: 'Отправить', uk: 'Надіслати' },
-    image: { en: 'Image', ru: 'Изображение', uk: 'Зображення' },
-    cancel: { en: 'Cancel', ru: 'Отмена', uk: 'Скасувати' },
-    description: { en: 'Description', ru: 'Описание', uk: 'Опис' },
+    feedback: {en: 'Feedback', ru: 'Обратная связь', uk: 'Відгуки'},
+    title: {en: 'Topic', ru: 'Тема', uk: 'Тема'},
+    send: {en: 'Send', ru: 'Отправить', uk: 'Надіслати'},
+    image: {en: 'Image', ru: 'Изображение', uk: 'Зображення'},
+    cancel: {en: 'Cancel', ru: 'Отмена', uk: 'Скасувати'},
+    description: {en: 'Description', ru: 'Описание', uk: 'Опис'},
     feedbackDetails: {
         en: 'Send your review - we are sure it will make our product better!',
         ru: 'Отправь свой отзыв - уверены, он сделает наш продукт лучше!',
@@ -24,6 +24,7 @@ const TRANSLATES = {
 @Component({
     selector: 'xm-feedback-dialog',
     templateUrl: './feedback-dialog.component.html',
+    standalone: false,
 })
 export class FeedbackDialogComponent {
 

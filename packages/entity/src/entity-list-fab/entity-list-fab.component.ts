@@ -1,17 +1,17 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
-
-import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
-import { Spec } from '@xm-ngx/core/entity';
-import { XmEntitySpec } from '@xm-ngx/core/entity';
 import { EntityUiConfig } from '@xm-ngx/core/config';
+import { Spec, XmEntitySpec } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
 import { XM_ENTITY_EVENT_LIST } from '../constants';
+
+import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
 
 @Component({
     selector: 'xm-entity-list-fab',
     templateUrl: './entity-list-fab.component.html',
+    standalone: false,
 })
 export class EntityListFabComponent {
 
@@ -49,7 +49,7 @@ export class EntityListFabComponent {
     }
 
     public onAddNew(): void {
-        const modalRef = this.modalService.open(EntityDetailDialogComponent, { minWidth: '500px' });
+        const modalRef = this.modalService.open(EntityDetailDialogComponent, {minWidth: '500px'});
         modalRef.componentInstance.xmEntitySpec = this.xmEntitySpec;
         modalRef.componentInstance.spec = this.spec;
     }

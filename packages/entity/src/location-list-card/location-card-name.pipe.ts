@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@xm-ngx/core/entity';
 
-@Pipe({name: 'locationAddress'})
+@Pipe({standalone: false, name: 'locationAddress'})
 export class LocationCardNamePipe implements PipeTransform {
 
     constructor(private translateService: TranslateService) {

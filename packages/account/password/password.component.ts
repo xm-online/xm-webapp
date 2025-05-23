@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { IPasswordPolicyConfig } from '@xm-ngx/components/password-policies';
+import { PasswordSpec, XmConfigService } from '@xm-ngx/core/config';
 
 import { Principal } from '@xm-ngx/core/user';
-import { PasswordSpec } from '@xm-ngx/core/config';
-import { XmConfigService } from '@xm-ngx/core/config';
+import { ModulesLanguageHelper } from '@xm-ngx/translation';
 import { ChangePassword } from './password.model';
 import { Password } from './password.service';
-import { ModulesLanguageHelper } from '@xm-ngx/translation';
-import { IPasswordPolicyConfig } from '@xm-ngx/components/password-policies';
 
 @Component({
     selector: 'xm-password',
     templateUrl: './password.component.html',
     styleUrls: ['./password.component.scss'],
+    standalone: false,
 })
 export class PasswordComponent implements OnInit {
 
@@ -77,16 +77,16 @@ export class PasswordComponent implements OnInit {
         }
     }
 
+    public updatePatternMessage(message: any, currentLang?: string): string {
+        const lang = currentLang ? currentLang : this.modulesLangHelper.getLangKey();
+        return message[lang] || message;
+    }
+
     private makePasswordSettings(config?: any): void {
         this.passwordConfig = config;
         this.passwordSettings = this.xmConfigService.mapPasswordSettings(config);
         if (this.passwordSettings.patternMessage) {
             this.patternMessage = this.updatePatternMessage(this.passwordSettings.patternMessage);
         }
-    }
-
-    public updatePatternMessage(message: any, currentLang?: string): string {
-        const lang = currentLang ? currentLang : this.modulesLangHelper.getLangKey();
-        return message[lang] || message;
     }
 }

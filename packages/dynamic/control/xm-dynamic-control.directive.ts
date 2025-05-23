@@ -20,7 +20,9 @@ import { XmDynamicPresentationDirective } from '../presentation/xm-dynamic-prese
 import { XmDynamicConstructor } from '../src/interfaces/xm-dynamic-constructor';
 import { XmDynamicEntryModule } from '../src/interfaces/xm-dynamic-entry-module';
 import { XmDynamicComponentRegistry } from '../src/loader/xm-dynamic-component-registry.service';
-import {XmDynamicControllerInjectorFactoryService} from '../src/services/xm-dynamic-controller-injector-factory.service';
+import {
+    XmDynamicControllerInjectorFactoryService,
+} from '../src/services/xm-dynamic-controller-injector-factory.service';
 
 export interface XmDynamicControl<V = unknown, C = unknown> extends XmDynamicPresentation<V, C>, ControlValueAccessor {
     valueChange: EventEmitter<V>;
@@ -53,37 +55,27 @@ export interface XmDynamicControlEntryModule<V = unknown, C = unknown> extends X
     selector: '[xmDynamicControl]',
     providers: [
         XmDynamicControllerInjectorFactoryService,
-        {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmDynamicControlDirective), multi: true}
+        {provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => XmDynamicControlDirective), multi: true},
     ],
+    standalone: false,
 })
 export class XmDynamicControlDirective<V, C>
     extends XmDynamicPresentationDirective<V, C>
     implements ControlValueAccessor, XmDynamicControl<V, C>, OnInit, OnChanges, OnDestroy {
-    private unsubscribe = new Subject<void>();
-
-    private controlValue = new ReplaySubject<V>(1);
-
     /** Component value */
     @Input() public declare value: V;
-
     /** Component value */
     @Input() public declare disabled: boolean;
-
     /** Component options */
     @Input() public declare options: C;
-
     /** Data QA attribute */
     @Input() public declare dataQa: string;
-
     /** Component ref */
     @Input() public declare selector: XmDynamicControlConstructor<V, C> | string;
-
     /** Component value changes */
     @Output() public valueChange: EventEmitter<V> = new EventEmitter<V>();
-
-    get instance(): XmDynamicControl<V, C> {
-        return super.instance as XmDynamicControl<V, C>;
-    }
+    private unsubscribe = new Subject<void>();
+    private controlValue = new ReplaySubject<V>(1);
 
     constructor(
         viewContainerRef: ViewContainerRef,
@@ -94,6 +86,9 @@ export class XmDynamicControlDirective<V, C>
         super(viewContainerRef, injector, renderer, dynamicComponents);
     }
 
+    get instance(): XmDynamicControl<V, C> {
+        return super.instance as XmDynamicControl<V, C>;
+    }
 
     public ngOnInit(): void {
         from(this.createComponent()).pipe(

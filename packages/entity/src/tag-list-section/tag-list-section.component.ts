@@ -1,22 +1,18 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { XmEventManager } from '@xm-ngx/core';
-import { XmToasterService } from '@xm-ngx/toaster';
-import { Subscription } from 'rxjs';
 // import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
-
-import { TagSpec } from '@xm-ngx/core/entity';
-import { Tag } from '@xm-ngx/core/entity';
-import { TagService } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { XmEntityService } from '@xm-ngx/core/entity';
-import { XM_ENTITY_EVENT_LIST } from '../constants';
+import { Tag, TagService, TagSpec, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
+import { XmToasterService } from '@xm-ngx/toaster';
 import _ from 'lodash';
+import { Subscription } from 'rxjs';
+import { XM_ENTITY_EVENT_LIST } from '../constants';
 
 @Component({
     selector: 'xm-tag-list-section',
     templateUrl: './tag-list-section.component.html',
     styleUrls: ['./tag-list-section.component.scss'],
+    standalone: false,
 })
 export class TagListSectionComponent implements OnInit, OnChanges, OnDestroy {
 

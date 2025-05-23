@@ -1,15 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Comment, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { XmEntityService } from '@xm-ngx/core/entity';
-import { Comment } from '@xm-ngx/core/entity';
 
 @Component({
     selector: 'xm-comment-card',
     templateUrl: './comment-card.component.html',
     styleUrls: ['./comment-card.component.scss'],
+    standalone: false,
 })
 export class CommentCardComponent implements OnInit {
     @Input() public comment: Comment;

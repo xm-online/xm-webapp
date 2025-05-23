@@ -1,13 +1,13 @@
 import { Directive, Input, OnChanges, OnInit } from '@angular/core';
-import {
-    XmDynamicControllerInjectorFactoryService
-} from '../src/services/xm-dynamic-controller-injector-factory.service';
 import { XmDynamicSelector } from '../src/interfaces';
+import {
+    XmDynamicControllerInjectorFactoryService,
+} from '../src/services/xm-dynamic-controller-injector-factory.service';
 import {
     XmDynamicControllerDeclaration,
     XmDynamicPresentation,
     XmDynamicPresentationBase,
-    XmDynamicPresentationConstructor
+    XmDynamicPresentationConstructor,
 } from './xm-dynamic-presentation-base.directive';
 
 /**
@@ -20,7 +20,8 @@ import {
  */
 @Directive({
     selector: '[xmDynamicPresentation]',
-    providers: [XmDynamicControllerInjectorFactoryService]
+    standalone: false,
+    providers: [XmDynamicControllerInjectorFactoryService],
 })
 export class XmDynamicPresentationDirective<V, O> extends XmDynamicPresentationBase<V, O> implements XmDynamicPresentation<V, O>, OnChanges, OnInit {
     @Input() public controllers: XmDynamicControllerDeclaration[] = [];
@@ -34,7 +35,7 @@ export class XmDynamicPresentationDirective<V, O> extends XmDynamicPresentationB
     /** Component config */
     @Input() public declare config: O;
     /** Component ref */
-     @Input() public declare selector: XmDynamicPresentationConstructor<V, O> | XmDynamicSelector;
+    @Input() public declare selector: XmDynamicPresentationConstructor<V, O> | XmDynamicSelector;
 
     @Input() public declare class: string;
     @Input() public declare style: string;

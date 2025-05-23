@@ -11,6 +11,7 @@ import { Component, Input } from '@angular/core';
         <xm-copy-icon [value]="copyValue"
                       class="xm-code-container-copy-icon"></xm-copy-icon>
     `,
+    standalone: false,
 })
 export class XmCodeContainerComponent {
     @Input() public copyValue: unknown;

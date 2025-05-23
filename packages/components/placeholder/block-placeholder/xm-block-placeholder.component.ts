@@ -7,6 +7,7 @@ import { Component, HostBinding, Input } from '@angular/core';
         class: 'xm-block-placeholder',
     },
     styleUrls: ['./xm-block-placeholder.scss'],
+    standalone: false,
 })
 export class XmBlockPlaceholderComponent {
     @Input() @HostBinding('style.width') public width: string = 'initial';

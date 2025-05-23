@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Pipe, PipeTransform } from '@angular/core';
 
 export enum XmNumberSystemType {
     None = 0,
@@ -9,8 +9,6 @@ export enum XmNumberSystemType {
     /** -infinity.fractions-infinity.fractions */
     Rational = 'Rational'
 }
-
-import { Pipe, PipeTransform } from '@angular/core';
 
 function charFilter(value: string, regex: string): string {
     let res = '';
@@ -44,7 +42,7 @@ export class XmNumberPipe implements PipeTransform {
     }
 }
 
-@Directive({ selector: 'input[xm-number],[xm-number]' })
+@Directive({standalone: false, selector: 'input[xm-number],[xm-number]'})
 export class XmNumberDirective {
     @Input('xm-number') public type: XmNumberSystemType = XmNumberSystemType.Rational;
 

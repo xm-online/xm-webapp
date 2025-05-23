@@ -1,11 +1,11 @@
 import { EventEmitter, Injectable, NgModule, Pipe, PipeTransform } from '@angular/core';
 import { DefaultLangChangeEvent, LangChangeEvent, TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
-import { Observable, of } from 'rxjs';
 import { LanguageService, TranslatePipe, XmTranslateService } from '@xm-ngx/translation';
+import { Observable, of } from 'rxjs';
 import { MockXmTranslateService } from './mock-xm-translate.service';
 
 @Injectable()
-@Pipe({ name: 'translate' })
+@Pipe({standalone: false, name: 'translate'})
 /** @public */
 export class MockTranslatePipe implements PipeTransform {
     public transform: (args: string) => Observable<string> = (arg) => of(arg);
@@ -29,12 +29,12 @@ export class MockLanguageService {
 
 @NgModule({
     declarations: [MockTranslatePipe],
-    exports: [MockTranslatePipe,],
+    exports: [MockTranslatePipe],
     providers: [
-        { provide: LanguageService, useClass: MockLanguageService },
-        { provide: TranslatePipe, useClass: MockTranslatePipe },
-        { provide: TranslateService, useClass: MockTranslateService },
-        { provide: XmTranslateService, useClass: MockXmTranslateService },
+        {provide: LanguageService, useClass: MockLanguageService},
+        {provide: TranslatePipe, useClass: MockTranslatePipe},
+        {provide: TranslateService, useClass: MockTranslateService},
+        {provide: XmTranslateService, useClass: MockXmTranslateService},
     ],
 })
 /** @public */

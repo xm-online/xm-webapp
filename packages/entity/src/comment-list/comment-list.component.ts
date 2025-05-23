@@ -1,16 +1,14 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { XmEventManager } from '@xm-ngx/core';
-import { Subscription } from 'rxjs';
 
-import { CommentSpec } from '@xm-ngx/core/entity';
-import { Comment } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { XmEntityService } from '@xm-ngx/core/entity';
+import { Comment, CommentSpec, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'xm-comment-list',
     templateUrl: './comment-list.component.html',
+    standalone: false,
 })
 export class CommentListComponent implements OnInit, OnChanges, OnDestroy {
 

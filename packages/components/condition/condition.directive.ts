@@ -13,6 +13,7 @@ import { keys, values } from 'lodash';
 
 @Directive({
     selector: '[xmCondition]',
+    standalone: false,
 })
 export class ConditionDirective implements OnChanges {
 

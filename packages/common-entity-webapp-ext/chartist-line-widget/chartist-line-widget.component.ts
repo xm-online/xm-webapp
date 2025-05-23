@@ -1,14 +1,15 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 import { XmEntity, XmEntityService } from '@xm-ngx/entity';
 import * as Chartist from 'chartist';
 import { LineChart } from 'chartist';
-import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-chartist-line-widget',
     templateUrl: './chartist-line-widget.component.html',
+    standalone: false,
 })
 export class ChartistLineWidgetComponent implements OnInit, XmDynamicWidget {
 

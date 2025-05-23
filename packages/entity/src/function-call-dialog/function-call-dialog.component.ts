@@ -1,18 +1,16 @@
+import { JsonSchemaFormService } from '@ajsf/core';
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { Router } from '@angular/router';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
+import { FunctionService, FunctionSpec, XmEntity } from '@xm-ngx/core/entity';
 import { JsfAttributes } from '@xm-ngx/json-schema-form';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
+import { getFileNameFromResponseContentDisposition, saveFile } from '@xm-ngx/operators';
 import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { catchError, filter, finalize, share, tap } from 'rxjs/operators';
-import { getFileNameFromResponseContentDisposition, saveFile } from '@xm-ngx/operators';
-import { FunctionSpec } from '@xm-ngx/core/entity';
-import { FunctionService } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { JsonSchemaFormService } from '@ajsf/core';
-import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
 import { XM_ENTITY_EVENT_LIST } from '../constants';
 
 declare let $: any;
@@ -23,6 +21,7 @@ const FUNC_CONTEXT_URL = '/api/function-contexts/';
     selector: 'xm-function-call-dialog',
     templateUrl: './function-call-dialog.component.html',
     providers: [JsonSchemaFormService],
+    standalone: false,
 })
 export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
 
@@ -33,16 +32,10 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
     @Input() public onSuccess: any;
     @Input() public onError: any;
     @Input() public preSendHandler: any;
-
-    @Input() set listSelection(selection: XmEntity[]) {
-        this.xmEntityListSelection = selection;
-    }
-
     public jsfAttributes: JsfAttributes;
     public formData: any = {};
     public isJsonFormValid: boolean = true;
     public xmEntityListSelection!: XmEntity[];
-
     public showLoader$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public showSecondStep$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -54,6 +47,10 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
                 private router: Router,
                 private widgetService: JsfComponentRegistryService,
     ) {
+    }
+
+    @Input() set listSelection(selection: XmEntity[]) {
+        this.xmEntityListSelection = selection;
     }
 
     public ngOnInit(): void {

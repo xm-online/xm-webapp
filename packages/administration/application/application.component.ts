@@ -3,20 +3,20 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { Link, Spec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
+import { Principal } from '@xm-ngx/core/user';
+import { DashboardStore } from '@xm-ngx/dashboard';
+import { EntityListCardOptions } from '@xm-ngx/entity';
+
+import { I18nNamePipe, LIST_DEFAULT_FIELDS } from '@xm-ngx/translation';
 import { Observable, of, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { I18nNamePipe } from '@xm-ngx/translation';
-import { Principal } from '@xm-ngx/core/user';
-import { XmConfigService } from '@xm-ngx/core/config';
-import { LIST_DEFAULT_FIELDS } from '@xm-ngx/translation';
-import { DashboardStore } from '@xm-ngx/dashboard';
-import { Link, Spec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
-import { EntityListCardOptions } from '@xm-ngx/entity';
 
 @Component({
     selector: 'xm-entity',
     templateUrl: './application.component.html',
+    standalone: false,
 })
 export class ApplicationComponent implements OnInit, OnDestroy {
 
@@ -148,7 +148,7 @@ export class ApplicationComponent implements OnInit, OnDestroy {
                 page: this.page,
                 size: this.itemsPerPage,
                 search: this.searchQuery,
-                sort: `${this.predicate },${ this.reverse ? 'asc' : 'desc'}`,
+                sort: `${this.predicate},${this.reverse ? 'asc' : 'desc'}`,
             },
         }).then(() => this.load());
     }
@@ -159,7 +159,7 @@ export class ApplicationComponent implements OnInit, OnDestroy {
         this.router.navigate(['/application', this.typeKey], {
             queryParams: {
                 page: this.page,
-                sort: `${this.predicate },${ this.reverse ? 'asc' : 'desc'}`,
+                sort: `${this.predicate},${this.reverse ? 'asc' : 'desc'}`,
             },
         }).then(() => this.load());
     }
@@ -215,21 +215,21 @@ export class ApplicationComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getApplicationUiConfig(): Record<string, any> {
-        return this.uiConfig?.applications?.config ?? {};
-    }
-
     protected getListConfig(): null | any {
         if (this.isSearch) {
             return this.getSearchPattern();
         }
         const entitiesConfig = this.uiConfig.applications && this.uiConfig.applications.config
-                && this.uiConfig.applications.config.entities;
+            && this.uiConfig.applications.config.entities;
         if (entitiesConfig) {
             return entitiesConfig.filter((c) => c.typeKey === this.typeKey).shift();
         }
 
         return null;
+    }
+
+    private getApplicationUiConfig(): Record<string, any> {
+        return this.uiConfig?.applications?.config ?? {};
     }
 
     private buildDefaultFields(): any[] {

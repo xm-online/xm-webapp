@@ -1,10 +1,10 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnInit, Type } from '@angular/core';
-import { UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { XmTextControl } from '@xm-ngx/components/text';
 import { XmAceEditorControl } from '@xm-ngx/components/ace-editor';
+import { XmTextControl } from '@xm-ngx/components/text';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { combineLatest, Observable } from 'rxjs';
 import { map, shareReplay, startWith } from 'rxjs/operators';
@@ -24,7 +24,7 @@ import { ExtendedDynamicComponents, WidgetListService } from './widget-edit/widg
                         <button mat-button
                                 (click)="activeWidget = widget"
                                 [color]="activeWidget === widget ? 'primary' : ''">
-                            {{widget.globalSelector}}
+                            {{ widget.globalSelector }}
                         </button>
                     </div>
                 </cdk-virtual-scroll-viewport>
@@ -32,7 +32,7 @@ import { ExtendedDynamicComponents, WidgetListService } from './widget-edit/widg
 
             <div *ngIf="activeWidget"
                  class="col-4">
-                <h4>{{activeWidget.globalSelector}}</h4>
+                <h4>{{ activeWidget.globalSelector }}</h4>
                 <ng-container xmDynamicPresentation
                               [selector]="activeWidget.globalSelector"
                               [value]="valueControl.value"
@@ -50,6 +50,7 @@ import { ExtendedDynamicComponents, WidgetListService } from './widget-edit/widg
         </section>
     `,
     providers: [WidgetListService],
+    standalone: false,
 })
 
 export class XmDynamicListComponent implements OnInit {

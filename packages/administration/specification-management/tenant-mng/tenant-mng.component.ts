@@ -1,18 +1,19 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
 import {
     XmAceEditorControlModeEnum,
     XmAceEditorControlOptions,
-    XmAceEditorControlTypeEnum
+    XmAceEditorControlTypeEnum,
 } from '@xm-ngx/components/ace-editor';
-import { finalize } from 'rxjs/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
+import { finalize } from 'rxjs/operators';
+import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
 
 const TENANT_SPEC_PATH = '/tenant-config.yml';
 
 @Component({
     selector: 'xm-tenant-mng',
     templateUrl: './tenant-mng.component.html',
+    standalone: false,
 })
 export class TenantMngComponent implements OnInit {
     @Input() public disabled: boolean;
@@ -55,7 +56,7 @@ export class TenantMngComponent implements OnInit {
     public validateTenantSpecification(): void {
         const errors = ConfigValidatorUtil.validateYAML(this.tenantSpecificationOut);
         if (errors && errors.length) {
-            this.tenantValidation = { errorMessage: '' };
+            this.tenantValidation = {errorMessage: ''};
             for (const err of errors) {
                 this.tenantValidation.errorMessage += err.message + (err.path ? ' path: ' + err.path : '') + '<br/>';
 

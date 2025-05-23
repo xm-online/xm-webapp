@@ -1,5 +1,5 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule } from '@angular/core';
-import { XmTextTitleOptions } from '../text-title/xm-text-title.component';
 import {
     XmDynamicPresentation,
     XmDynamicPresentationConstructor,
@@ -8,8 +8,8 @@ import {
 import { DataQa, Primitive } from '@xm-ngx/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
+import { XmTextTitleOptions } from '../text-title/xm-text-title.component';
 import { XmTextViewContainerComponent } from './xm-text-view-container.component';
-import { CommonModule } from '@angular/common';
 
 export interface XmTextViewOptions extends XmTextTitleOptions, DataQa {
     emptyValue?: Translate;
@@ -30,8 +30,9 @@ export type PrimitiveOrTranslate = Primitive & Translate;
 @Component({
     selector: 'xm-text-view',
     template: `
-        <xm-text-view-container [styleInline]="!!config?.style" [valueStyleInline]="config?.valueStyleInline" [labelStyleInline]="config?.labelStyleInline">
-            <span xmLabel>{{config.title | translate}}</span>
+        <xm-text-view-container [styleInline]="!!config?.style" [valueStyleInline]="config?.valueStyleInline"
+                                [labelStyleInline]="config?.labelStyleInline">
+            <span xmLabel>{{ config.title | translate }}</span>
             <span [attr.data-qa]="config.dataQa"
                   xmValue>
                 @if (isArrayValue(value)) {
@@ -39,11 +40,12 @@ export type PrimitiveOrTranslate = Primitive & Translate;
                 } @else if (value !== undefined) {
                     <span>{{ value | translate }}</span>
                 } @else {
-                    {{config.emptyValue | translate}}
+                    {{ config.emptyValue | translate }}
                 }
             </span>
         </xm-text-view-container>
     `,
+    standalone: false,
 })
 export class XmTextViewComponent implements XmDynamicPresentation<any, XmTextViewOptions> {
     @Input() public value: PrimitiveOrTranslate;
@@ -64,7 +66,7 @@ export class XmTextViewComponent implements XmDynamicPresentation<any, XmTextVie
     }
 
     public transformValue(value: any): string {
-        return value.map( el => el.value ?? el.title ?? el).join(', ');
+        return value.map(el => el.value ?? el.title ?? el).join(', ');
     }
 
 }

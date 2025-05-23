@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
               [ngClass]="{'d-block': isBlock !== undefined && isBlock !== false}">
             <ng-content></ng-content>
         </code>`,
+    standalone: false,
 })
 export class XmCodeComponent {
     @Input() public isBlock: boolean | unknown | '';

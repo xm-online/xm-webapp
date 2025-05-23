@@ -18,7 +18,7 @@
  */
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'truncateWords' })
+@Pipe({standalone: false, name: 'truncateWords'})
 export class JhiTruncateWordsPipe implements PipeTransform {
     public transform(input: string, words: number): string {
         if (isNaN(words)) {

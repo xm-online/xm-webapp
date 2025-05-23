@@ -1,7 +1,7 @@
 import { AfterContentInit, Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { XmPermissionService } from '../xm-permission.service';
 import { switchMap } from 'rxjs/operators';
+import { XmPermissionService } from '../xm-permission.service';
 
 /**
  * Conditionally includes an HTML element if current user has any
@@ -24,6 +24,7 @@ import { switchMap } from 'rxjs/operators';
  */
 @Directive({
     selector: '[xmPermitted], [permitted]',
+    standalone: false,
 })
 export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit {
     private privilegeSubscription: Subscription;
@@ -88,7 +89,7 @@ export class XmPermittedDirective implements OnInit, OnDestroy, AfterContentInit
             this.viewContainerRef.clear();
             return;
         }
-        
+
         requestAnimationFrame(() => {
             this.permissionChange.next(this._xmPermitted);
         });

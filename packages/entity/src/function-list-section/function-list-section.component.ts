@@ -4,42 +4,40 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
+import { ContextService } from '@xm-ngx/core/context';
+import {
+    FunctionContext,
+    FunctionSpec,
+    NextSpec,
+    StateSpec,
+    XmEntity,
+    XmEntityService,
+    XmEntitySpec,
+} from '@xm-ngx/core/entity';
+import { Principal } from '@xm-ngx/core/user';
 
 import { Observable, of, ReplaySubject } from 'rxjs';
 import { pluck, takeUntil } from 'rxjs/operators';
-import { Principal } from '@xm-ngx/core/user';
-import { ContextService } from '@xm-ngx/core/context';
+import { XM_ENTITY_EVENT_LIST } from '../constants';
 import { FunctionCallDialogComponent } from '../function-call-dialog/function-call-dialog.component';
 import { AreaComponent } from '../functions/area/area.component';
-import { FunctionContext } from '@xm-ngx/core/entity';
-import { FunctionSpec } from '@xm-ngx/core/entity';
-import { NextSpec, StateSpec } from '@xm-ngx/core/entity';
-import { XmEntitySpec } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { XmEntityService } from '@xm-ngx/core/entity';
 import { StateChangeDialogComponent } from '../state-change-dialog/state-change-dialog.component';
-import { XM_ENTITY_EVENT_LIST } from '../constants';
 
 @Component({
     selector: 'xm-function-list-section',
     templateUrl: './function-list-section.component.html',
     styleUrls: ['./function-list-section.component.scss'],
+    standalone: false,
 })
 export class FunctionListSectionComponent implements OnInit, OnDestroy {
 
     @Input() public xmEntityId: number;
     @Input() public functionSpecs: FunctionSpec[];
-    @Input() public set functionSpecsUpdates(f: FunctionSpec[]) {
-        this.functionSpecs = f;
-        this.mapFunctions();
-    }
     @Input() public listView: boolean;
     @Input() public nextStates: StateSpec[];
     @Input() public stateSpec: StateSpec;
     @Input() public xmEntitySpec: XmEntitySpec;
     @Input() public xmEntity: XmEntity;
-
-
     public initMap: boolean;
     public functionContexts: FunctionContext[];
     public defaultFunctions$: Observable<FunctionSpec[]>;
@@ -64,6 +62,12 @@ export class FunctionListSectionComponent implements OnInit, OnDestroy {
             .subscribe((selected: unknown) => {
                 this.xmEntityListSelection = selected as XmEntity[];
             });
+    }
+
+    @Input()
+    public set functionSpecsUpdates(f: FunctionSpec[]) {
+        this.functionSpecs = f;
+        this.mapFunctions();
     }
 
     public ngOnInit(): void {
@@ -108,15 +112,6 @@ export class FunctionListSectionComponent implements OnInit, OnDestroy {
 
     }
 
-    private getInputForm(nextSpec: NextSpec) {
-        try {
-            return nextSpec.inputForm ? JSON.parse(nextSpec.inputForm) : null;
-        } catch (e) {
-            console.warn(e);
-            return null;
-        }
-    }
-
     public getCurrentStateSpec(): StateSpec {
         return this.xmEntitySpec.states &&
             this.xmEntitySpec.states.filter((s) => s.key === this.xmEntity.stateKey).shift();
@@ -139,6 +134,15 @@ export class FunctionListSectionComponent implements OnInit, OnDestroy {
     public reinitMap(tabChangeEvent: MatTabChangeEvent): void {
         if (tabChangeEvent.tab.textLabel === 'Area') {
             this.initMap = true;
+        }
+    }
+
+    private getInputForm(nextSpec: NextSpec) {
+        try {
+            return nextSpec.inputForm ? JSON.parse(nextSpec.inputForm) : null;
+        } catch (e) {
+            console.warn(e);
+            return null;
         }
     }
 

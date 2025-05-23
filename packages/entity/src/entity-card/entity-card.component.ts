@@ -1,11 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
-import { FunctionSpec, NextSpec, StateSpec } from '@xm-ngx/core/entity';
+import { FunctionSpec, NextSpec, StateSpec, XmEntity, XmEntitySpec } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
 import { AvatarDialogComponent } from '../avatar-dialog/avatar-dialog.component';
-import { XmEntitySpec } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
 import { XM_ENTITY_EVENT_LIST } from '../constants';
 
 
@@ -13,6 +11,7 @@ import { XM_ENTITY_EVENT_LIST } from '../constants';
     selector: 'xm-entity-card',
     templateUrl: './entity-card.component.html',
     styleUrls: ['./entity-card.component.scss'],
+    standalone: false,
 })
 export class EntityCardComponent implements OnInit {
 
@@ -24,7 +23,7 @@ export class EntityCardComponent implements OnInit {
     constructor(
         protected modalService: MatDialog,
         protected principal: Principal,
-        protected eventManager: XmEventManager
+        protected eventManager: XmEventManager,
     ) {
     }
 

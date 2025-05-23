@@ -14,12 +14,12 @@ import {
     ViewChild,
     ViewContainerRef,
 } from '@angular/core';
+import { XmEventManager } from '@xm-ngx/core';
 import * as _ from 'lodash';
 import { Container } from './container';
 import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service';
-import { XmEventManager } from '@xm-ngx/core';
 
-@Directive({selector: '[xmContainerOutlet]'})
+@Directive({standalone: false, selector: '[xmContainerOutlet]'})
 export class ContainerOutletDirective {
     constructor(public viewContainerRef: ViewContainerRef) {
     }
@@ -35,6 +35,7 @@ export class ContainerOutletDirective {
         <div class="resize-divider" #resizer></div>
         <ng-container xmContainerOutlet></ng-container>
     `,
+    standalone: false,
 })
 export class XmSidebarRightComponent implements OnInit, OnDestroy {
 
@@ -43,6 +44,14 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     @ViewChild('resizer') public resizerElement: ElementRef;
 
     @HostBinding('style.width') public width: string;
+    public mode: string;
+    private mousePressedOnResizer: boolean;
+
+    constructor(private sidebarRightService: SidebarRightService,
+                private moduleRef: NgModuleRef<unknown>,
+                private eventManager: XmEventManager,
+    ) {
+    }
 
     @HostBinding('class.animate') get animate(): boolean {
         return !this.mousePressedOnResizer;
@@ -81,16 +90,6 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
         if (this.resizerElement.nativeElement.contains(event.target)) {
             this.mousePressedOnResizer = true;
         }
-    }
-
-    public mode: string;
-
-    private mousePressedOnResizer: boolean;
-
-    constructor(private sidebarRightService: SidebarRightService,
-                private moduleRef: NgModuleRef<unknown>,
-                private eventManager: XmEventManager,
-    ) {
     }
 
     public ngOnInit(): void {
@@ -146,7 +145,7 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     }
 
     private changeMainElementMarginBy(width: string): void {
-        this.eventManager.broadcast({ name: 'rightSidebarToggle', data: { mode: this.mode, width } });
+        this.eventManager.broadcast({name: 'rightSidebarToggle', data: {mode: this.mode, width}});
     }
 
     private getWidthStorageKey(): string {

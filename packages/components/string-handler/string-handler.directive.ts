@@ -10,6 +10,7 @@ import { StringHandler, StringProcessing } from './string-processing';
         useExisting: forwardRef(() => StringHandlerDirective),
         multi: true,
     }],
+    standalone: false,
 })
 export class StringHandlerDirective extends NgModelWrapper<string> {
 

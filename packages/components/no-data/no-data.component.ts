@@ -6,6 +6,7 @@ import { Translate } from '@xm-ngx/translation';
     selector: 'xm-no-data, no-data',
     templateUrl: './no-data.component.html',
     styleUrls: ['./no-data.component.scss'],
+    standalone: false,
 })
 export class NoDataComponent {
     @Input() public imageUrl: string | SafeUrl;

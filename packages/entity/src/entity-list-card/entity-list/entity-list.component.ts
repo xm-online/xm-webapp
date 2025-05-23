@@ -9,7 +9,17 @@ import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
 import { XmEventManager } from '@xm-ngx/core';
+import { ContextService } from '@xm-ngx/core/context';
 import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
+import { Principal } from '@xm-ngx/core/user';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
+import { saveFile, takeUntilOnDestroy, transpilingForIE } from '@xm-ngx/operators';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { TranslatePipe } from '@xm-ngx/translation';
+import { merge, Observable, of, Subscription } from 'rxjs';
+import { catchError, delay, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { flattenEntityWithPath, getFieldValue } from '../../../entity-list-helper';
+import { XM_ENTITY_EVENT_LIST } from '../../constants';
 import {
     ActionOptions,
     EntityListCardOptions,
@@ -17,23 +27,12 @@ import {
     FieldOptions,
 } from '../../entity-list-card/entity-list-card-options.model';
 import { FunctionCallDialogComponent } from '../../function-call-dialog/function-call-dialog.component';
-import { transpilingForIE } from '@xm-ngx/operators';
-import { takeUntilOnDestroy } from '@xm-ngx/operators';
-import { XmToasterService } from '@xm-ngx/toaster';
-import { TranslatePipe } from '@xm-ngx/translation';
-import { merge, Observable, of, Subscription } from 'rxjs';
-import { catchError, delay, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { flattenEntityWithPath, getFieldValue } from '../../../entity-list-helper';
-import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
-import { ContextService } from '@xm-ngx/core/context';
-import { Principal } from '@xm-ngx/core/user';
-import { saveFile } from '@xm-ngx/operators';
-import { XM_ENTITY_EVENT_LIST } from '../../constants';
 
 @Component({
     selector: 'xm-entity-list',
     templateUrl: './entity-list.component.html',
     styleUrls: ['./entity-list.component.scss'],
+    standalone: false,
 })
 export class EntityListComponent implements OnInit, OnDestroy {
 
@@ -111,12 +110,6 @@ export class EntityListComponent implements OnInit, OnDestroy {
                 this.loadSearch(true, {query, typeKey});
             },
         );
-    }
-
-    private loadSearch(setDefaultParams?: boolean, queryParams?: Params): void {
-        this.loadEntitiesPaged(this.item, setDefaultParams, queryParams).subscribe((result) => {
-            this.tableDataSource.data = result;
-        });
     }
 
     public ngAfterViewInit(): void {
@@ -303,6 +296,29 @@ export class EntityListComponent implements OnInit, OnDestroy {
         });
     }
 
+    protected loadEntitiesPaged(entityOptions: EntityOptions, setDefaultParams?: boolean, queryParams?: Params): Observable<XmEntity[]> {
+        this.showLoader = true;
+        const {options, method}: any = this.getQueryOptions(entityOptions, queryParams);
+
+        return this.xmEntityService[method](options).pipe(
+            tap((xmEntities: HttpResponse<XmEntity[]>) => {
+                this.item.totalItems = xmEntities.headers.get('X-Total-Count');
+            }),
+            map((xmEntities: HttpResponse<XmEntity[]>) => xmEntities.body),
+            map((xmEntities: XmEntity[]) => xmEntities.map(e => this.enrichEntity(e))),
+            catchError((err) => {
+                this.showLoader = false;
+                return of([]);
+            }),
+            finalize(() => this.showLoader = false));
+    }
+
+    private loadSearch(setDefaultParams?: boolean, queryParams?: Params): void {
+        this.loadEntitiesPaged(this.item, setDefaultParams, queryParams).subscribe((result) => {
+            this.tableDataSource.data = result;
+        });
+    }
+
     private getQueryOptions(entityOptions: EntityOptions, queryParams?: Params): any {
         let options: any;
         let method = 'query';
@@ -356,23 +372,6 @@ export class EntityListComponent implements OnInit, OnDestroy {
             size: size || this.paginator.pageSize,
             sort: sort ? [sort] : [`${this.sort.active},${this.sort.direction}`],
         };
-    }
-
-    protected loadEntitiesPaged(entityOptions: EntityOptions, setDefaultParams?: boolean, queryParams?: Params): Observable<XmEntity[]> {
-        this.showLoader = true;
-        const {options, method}: any = this.getQueryOptions(entityOptions, queryParams);
-
-        return this.xmEntityService[method](options).pipe(
-            tap((xmEntities: HttpResponse<XmEntity[]>) => {
-                this.item.totalItems = xmEntities.headers.get('X-Total-Count');
-            }),
-            map((xmEntities: HttpResponse<XmEntity[]>) => xmEntities.body),
-            map((xmEntities: XmEntity[]) => xmEntities.map(e => this.enrichEntity(e))),
-            catchError((err) => {
-                this.showLoader = false;
-                return of([]);
-            }),
-            finalize(() => this.showLoader = false));
     }
 
     private getCurrentEntitiesConfig(): void {

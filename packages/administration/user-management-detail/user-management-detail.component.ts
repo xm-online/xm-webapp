@@ -1,18 +1,18 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+import { UserLogin, UserLoginService } from '@xm-ngx/account/user-login-widget';
 import { XmAlertService } from '@xm-ngx/alert';
-import { JhiLanguageHelper } from '@xm-ngx/translation';
 
 import { AccountService, User, UserService } from '@xm-ngx/core/user';
-
-import { UserLoginService } from '@xm-ngx/account/user-login-widget';
-import { UserLogin } from '@xm-ngx/account/user-login-widget';
+import { JhiLanguageHelper } from '@xm-ngx/translation';
 
 @Component({
     selector: 'xm-user-mgmt-detail',
     templateUrl: './user-management-detail.component.html',
     providers: [],
+    standalone: false,
 })
 export class UserMgmtDetailComponent implements OnInit, OnDestroy {
 

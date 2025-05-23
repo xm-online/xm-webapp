@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { Observable, Subject } from 'rxjs';
 import { XmSignInFormOptions } from '../sign-in-form/xm-sign-in-form.options';
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs';
 import { SignInForm, SignInService } from './sign-in.service';
 
 @Component({
     selector: 'xm-sign-in-form',
-    host: { class: 'xm-sign-in-form' },
+    host: {class: 'xm-sign-in-form'},
     templateUrl: './xm-sign-in-form.component.html',
     styleUrls: ['./xm-sign-in-form.component.scss'],
+    standalone: false,
 })
 export class XmSignInFormComponent {
 

@@ -1,9 +1,9 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Translate, LanguageService } from '../services/language.service';
 import { Principal } from '@xm-ngx/core/user';
+import { LanguageService, Translate } from '../services/language.service';
 
-@Pipe({name: 'i18nName'})
+@Pipe({standalone: false, name: 'i18nName'})
 export class I18nNamePipe implements PipeTransform {
 
     private translateService: TranslateService = inject(TranslateService);

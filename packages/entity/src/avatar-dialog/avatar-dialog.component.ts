@@ -2,15 +2,14 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
+import { XmEntity, XmEntityService } from '@xm-ngx/core/entity';
 import { CropperSettings, ImageCropperComponent } from 'ngx-img-cropper';
-import { XmEntity } from '@xm-ngx/core/entity';
-
-import { XmEntityService } from '@xm-ngx/core/entity';
 
 @Component({
     selector: 'xm-avatar-dialog',
     templateUrl: './avatar-dialog.component.html',
     styleUrls: ['./avatar-dialog.component.scss'],
+    standalone: false,
 })
 export class AvatarDialogComponent {
 

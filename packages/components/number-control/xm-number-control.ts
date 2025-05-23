@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, Optional, Self, ViewEncapsulation, } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
+import { HintText } from '@xm-ngx/components/hint';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
-import { HintText } from '@xm-ngx/components/hint';
 
 import { XmNumberSystemType } from './xm-number.directive';
 
@@ -41,7 +41,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
     selector: 'xm-number-control',
     template: `
         <mat-form-field>
-            <mat-label>{{config.title | translate}}</mat-label>
+            <mat-label>{{ config.title | translate }}</mat-label>
 
             <input matInput
                    [formControl]="control"
@@ -55,7 +55,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
                    type="number">
 
             <mat-error *xmControlErrors="control.errors; translates config?.errors; message as message">
-                {{message}}
+                {{ message }}
             </mat-error>
 
             <mat-hint [hint]="config.hint"></mat-hint>
@@ -63,10 +63,13 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
+    standalone: false,
 })
 export class XmNumberControl extends NgFormAccessor<Primitive> implements XmDynamicControl<Primitive, XmNumberControlOptions> {
     constructor(@Optional() @Self() public ngControl: NgControl | null,
-                @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
+                @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: {
+                    [errorKey: string]: Translate
+                }) {
         super(ngControl);
     }
 

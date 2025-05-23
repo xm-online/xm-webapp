@@ -1,13 +1,10 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {matExpansionAnimations} from '@angular/material/expansion';
-import {
-    EditWidgetButtonsEvent,
-    EditWidgetButtonsEventType,
-} from '@xm-ngx/components/edit-buttons';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { matExpansionAnimations } from '@angular/material/expansion';
+import { EditWidgetButtonsEvent, EditWidgetButtonsEventType } from '@xm-ngx/components/edit-buttons';
+import { PageChangesStore, PageChangesStoreType } from '@xm-ngx/core/dashboard';
 
-import {IId, JavascriptCode} from '@xm-ngx/interfaces';
-import {Translate} from '@xm-ngx/translation';
-import {PageChangesStore, PageChangesStoreType} from '@xm-ngx/core/dashboard';
+import { IId, JavascriptCode } from '@xm-ngx/interfaces';
+import { Translate } from '@xm-ngx/translation';
 
 export interface XmMatCardOptions {
     cardClass?: string;
@@ -31,6 +28,7 @@ export interface XmMatCardOptions {
         matExpansionAnimations.bodyExpansion,
         matExpansionAnimations.indicatorRotate,
     ],
+    standalone: false,
 })
 export class XmMatCardComponent implements OnInit, OnChanges {
 

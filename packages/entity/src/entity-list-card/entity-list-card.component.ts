@@ -2,22 +2,23 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
-import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
-import * as _ from 'lodash';
-import { Observable, of } from 'rxjs';
-import { catchError, finalize, map, take, tap } from 'rxjs/operators';
 
 import { XmConfigService } from '@xm-ngx/core/config';
 import { ContextService } from '@xm-ngx/core/context';
+import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
+import * as _ from 'lodash';
+import { set } from 'lodash';
+import { Observable, of } from 'rxjs';
+import { catchError, finalize, map, take, tap } from 'rxjs/operators';
 import { getFieldValue } from '../../entity-list-helper';
 import { EntityListCardOptions, EntityOptions, FieldOptions } from './entity-list-card-options.model';
-import { set } from 'lodash';
 
 
 @Component({
     selector: 'xm-entity-list-card',
     templateUrl: './entity-list-card.component.html',
     styleUrls: ['./entity-list-card.component.scss'],
+    standalone: false,
 })
 export class EntityListCardComponent implements OnInit, OnChanges {
 
@@ -53,7 +54,8 @@ export class EntityListCardComponent implements OnInit, OnChanges {
         if (this.currentEntitiesUiConfig && this.currentEntitiesUiConfig.length) {
             const entityConfig = this.currentEntitiesUiConfig.find((e) => e && e.typeKey === typeKey) || {};
             return entityConfig && entityConfig.fastSearchHideAll;
-        } return false;
+        }
+        return false;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -114,7 +116,9 @@ export class EntityListCardComponent implements OnInit, OnChanges {
             }),
             map((conf) => conf.entities || []),
             tap((entities) => this.entitiesUiConfig = entities),
-            tap(() => { this.getCurrentEntitiesConfig(); }),
+            tap(() => {
+                this.getCurrentEntitiesConfig();
+            }),
         ).subscribe();
     }
 
@@ -222,7 +226,6 @@ export class EntityListCardComponent implements OnInit, OnChanges {
             }),
             finalize(() => this.showLoader = false));
     }
-
 
 
     private getQueryOptions(entityOptions: EntityOptions): any {

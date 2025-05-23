@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import { Params } from '@angular/router';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { DataQa } from '@xm-ngx/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { clone } from 'lodash';
-import { Params } from '@angular/router';
-import { ThemePalette } from '@angular/material/core';
-import {DataQa} from '@xm-ngx/interfaces';
 
 export interface MatFabConfigBase extends DataQa {
     icon?: string;
@@ -36,6 +36,7 @@ export const MAT_FAB_DEFAULT_CONFIG: MatFabConfig = {
     selector: 'xm-mat-fab',
     templateUrl: './mat-fab-widget.component.html',
     styleUrls: ['./mat-fab-widget.component.scss'],
+    standalone: false,
 })
 export class MatFabWidget implements XmDynamicWidget {
     private _config: MatFabConfig = clone(MAT_FAB_DEFAULT_CONFIG);

@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'xm-dynamic-control-example',
     templateUrl: './xm-dynamic-control-example.component.html',
+    standalone: false,
 })
 export class XmDynamicControlExampleComponent<T> {
 

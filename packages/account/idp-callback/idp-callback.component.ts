@@ -5,7 +5,8 @@ import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';
-const TERMS_ERROR= 'needAcceptTermsOfConditions';
+
+const TERMS_ERROR = 'needAcceptTermsOfConditions';
 
 const TERMS_PROP = 'privacyAndTermsEnabled';
 
@@ -19,6 +20,7 @@ interface IErrorTerm {
 @Component({
     selector: 'xm-idp-callback',
     templateUrl: './idp-callback.component.html',
+    standalone: false,
 })
 export class IdpCallbackComponent implements OnDestroy {
 
@@ -79,21 +81,21 @@ export class IdpCallbackComponent implements OnDestroy {
 
     private extractTermConfig(config: object, key: string) {
         let result = null;
-        if(config instanceof Array) {
-            for(let i = 0; i < config.length; i++) {
+        if (config instanceof Array) {
+            for (let i = 0; i < config.length; i++) {
                 result = this.extractTermConfig(config[i], key);
                 if (result) {
                     break;
                 }
             }
         } else {
-            for(const prop in config) {
-                if(prop == key) {
-                    if(config[prop] == 1) {
+            for (const prop in config) {
+                if (prop == key) {
+                    if (config[prop] == 1) {
                         return config;
                     }
                 }
-                if(config[prop] instanceof Object || config[prop] instanceof Array) {
+                if (config[prop] instanceof Object || config[prop] instanceof Array) {
                     result = this.extractTermConfig(config[prop], key);
                     if (result) {
                         break;

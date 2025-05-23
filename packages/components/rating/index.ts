@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, forwardRef, HostListener, Input, NgModule, OnInit, Output } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'rating',
@@ -18,11 +18,11 @@ import {MatIconModule} from '@angular/material/icon';
               [attr.aria-valuenow]="model">
     <span *ngFor="let item of ratingRange; let index = index">
         <mat-icon (mouseenter)="setHovered(item)"
-           (mousemove)="changeHovered($event)"
-           (click)="rate(item)"
-           [attr.data-icon]="fullIcon"
-           class="{{ iconClass }} half{{ calculateWidth(item) }}"
-           [title]="titles[index] || item">{{ emptyIcon }}</mat-icon>
+                  (mousemove)="changeHovered($event)"
+                  (click)="rate(item)"
+                  [attr.data-icon]="fullIcon"
+                  class="{{ iconClass }} half{{ calculateWidth(item) }}"
+                  [title]="titles[index] || item">{{ emptyIcon }}</mat-icon>
     </span>
 </span>
     `,
@@ -32,91 +32,92 @@ import {MatIconModule} from '@angular/material/icon';
     ],
     styles: [
         `
-            span.rating {
-                cursor: pointer;
-                outline: none;
-            }
+          span.rating {
+            cursor: pointer;
+            outline: none;
+          }
 
-            span.rating.readonly {
-                cursor: default;
-            }
+          span.rating.readonly {
+            cursor: default;
+          }
 
-            span.rating.disabled {
-                cursor: not-allowed;
-            }
+          span.rating.disabled {
+            cursor: not-allowed;
+          }
 
-            span.rating i {
-                font-style: normal;
-            }
+          span.rating i {
+            font-style: normal;
+          }
 
+          .star-icon {
+            color: #ddd;
+            font-size: 2em;
+            position: relative;
+          }
+
+          .star-icon:before {
+            color: #FDE16D;
+            content: attr(data-icon) " ";
+            position: absolute;
+            left: 0;
+            overflow: hidden;
+            width: 0;
+          }
+
+          span.rating.disabled .star-icon:before {
+            color: #ECECEC;
+            text-shadow: none;
+          }
+
+          .star-icon.half10:before {
+            width: 10%;
+          }
+
+          .star-icon.half20:before {
+            width: 20%;
+          }
+
+          .star-icon.half30:before {
+            width: 30%;
+          }
+
+          .star-icon.half40:before {
+            width: 40%;
+          }
+
+          .star-icon.half50:before {
+            width: 50%;
+          }
+
+          .star-icon.half60:before {
+            width: 60%;
+          }
+
+          .star-icon.half70:before {
+            width: 70%;
+          }
+
+          .star-icon.half80:before {
+            width: 80%;
+          }
+
+          .star-icon.half90:before {
+            width: 90%;
+          }
+
+          .star-icon.half100:before {
+            width: 100%;
+          }
+
+          @-moz-document url-prefix() { /* Firefox Hack */
             .star-icon {
-                color: #ddd;
-                font-size: 2em;
-                position: relative;
+              font-size: 50px;
+              line-height: 34px;
             }
-
-            .star-icon:before {
-                color: #FDE16D;
-                content: attr(data-icon) " ";
-                position: absolute;
-                left: 0;
-                overflow: hidden;
-                width: 0;
-            }
-
-            span.rating.disabled .star-icon:before {
-                color: #ECECEC;
-                text-shadow: none;
-            }
-
-            .star-icon.half10:before {
-                width: 10%;
-            }
-
-            .star-icon.half20:before {
-                width: 20%;
-            }
-
-            .star-icon.half30:before {
-                width: 30%;
-            }
-
-            .star-icon.half40:before {
-                width: 40%;
-            }
-
-            .star-icon.half50:before {
-                width: 50%;
-            }
-
-            .star-icon.half60:before {
-                width: 60%;
-            }
-
-            .star-icon.half70:before {
-                width: 70%;
-            }
-
-            .star-icon.half80:before {
-                width: 80%;
-            }
-
-            .star-icon.half90:before {
-                width: 90%;
-            }
-
-            .star-icon.half100:before {
-                width: 100%;
-            }
-
-            @-moz-document url-prefix() { /* Firefox Hack */
-                .star-icon {
-                    font-size: 50px;
-                    line-height: 34px;
-                }
-            }
+          }
         `,
     ],
+    standalone: false,
 })
 export class Rating implements OnInit, ControlValueAccessor, Validator {
 
