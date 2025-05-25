@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FieldArrayType, FieldType, FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
-import { JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { NgForOf, NgIf } from '@angular/common';
 import {
     SelectorTextControlComponent,
 } from '../selector-text-control/selector-text-control.component';
@@ -135,7 +135,6 @@ export class MultiSchemaTypeComponent extends FieldType {
         NgIf,
         FormlyModule,
         NgForOf,
-        JsonPipe,
         FormsModule,
         FormlyMaterialModule,
         SelectorTextControlComponent,
