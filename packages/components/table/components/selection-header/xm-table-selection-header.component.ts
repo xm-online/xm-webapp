@@ -41,7 +41,7 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
 
             <ng-container *ngIf="(totalCount$ | async) as totalCount">
                 <button
-                    *ngIf="(totalCount > selection.selected.length) && config.layout?.length"
+                    *ngIf="(totalCount > selection.selected.length) && (config.selectAllWithoutLayouts || config.layout?.length)"
                     [xm-loading]="loading"
                     class="total-count"
                     mat-button
