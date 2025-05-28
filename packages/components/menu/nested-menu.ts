@@ -22,19 +22,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                 categoryKey,
                 category,
                 dataQa,
-            } = {} as {
-                slug?: string;
-                hidden?: boolean;
-                menu?: any;
-                icon?: string;
-                orderIndex?: number;
-                name?: string;
-                permission?: string;
-                activeItemPathPatterns?: string[];
-                categoryKey?: string;
-                category?: string;
-                dataQa?: string;
-            },
+            } = {},
         }) => {
             if (hidden) {
                 if (!checkCondition || checkCondition(hidden.toString(), conditionArgs)) {
