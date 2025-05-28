@@ -7,7 +7,7 @@ import { MenuService } from '../menu.service';
 import { concatMap, from, Observable, of, Subscription, take, timer } from 'rxjs';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { hideCategories } from '../menu.animation';
 import { MenuCategoriesClassesEnum } from '../menu.model';
 
@@ -17,7 +17,7 @@ import { MenuCategoriesClassesEnum } from '../menu.model';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     animations: [hideCategories],
-    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLinkActive, RouterLink],
+    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLink],
 })
 export class MenuCategoriesComponent implements OnInit, OnDestroy {
     public readonly DEFAULT_LOGO_SIZE: number = 32;

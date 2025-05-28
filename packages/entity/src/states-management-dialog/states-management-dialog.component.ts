@@ -1,20 +1,20 @@
 import { Component, NgModule, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { NoDataModule } from '@xm-ngx/components/no-data';
-import { EntityStateModule } from '../entity-state';
+import { NextSpec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 import { XmSharedModule } from '@xm-ngx/shared';
 
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
-import { NextSpec, XmEntitySpec } from '@xm-ngx/core/entity';
-import { XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
-import { ModalCloseModule } from '@xm-ngx/components/modal-close';
+import { EntityStateModule } from '../entity-state';
 
 @Component({
     selector: 'xm-states-management-dialog',
     templateUrl: './states-management-dialog.component.html',
     styleUrls: ['./states-management-dialog.component.scss'],
+    standalone: false,
 })
 
 export class StatesManagementDialogComponent implements OnInit {
@@ -103,7 +103,7 @@ export class StatesManagementDialogComponent implements OnInit {
     imports: [XmSharedModule, NoDataModule, EntityStateModule, ModalCloseModule],
     exports: [StatesManagementDialogComponent],
     declarations: [StatesManagementDialogComponent],
-    providers: []
+    providers: [],
 })
 export class StatesManagementDialogModule {
 }

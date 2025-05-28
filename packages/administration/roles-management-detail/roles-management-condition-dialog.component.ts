@@ -6,6 +6,7 @@ import { Permission } from '@xm-ngx/core/role';
 @Component({
     selector: 'xm-role-mgmt-condition-dialog',
     templateUrl: './roles-management-condition-dialog.component.html',
+    standalone: false,
 })
 export class RoleConditionDialogComponent implements OnInit {
 

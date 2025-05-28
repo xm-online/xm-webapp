@@ -1,19 +1,18 @@
+import { AnimationEvent } from '@angular/animations';
 import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { XmDynamicComponentRegistry, XmDynamicLayout, XmDynamicModule } from '@xm-ngx/dynamic';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { XmEventManager, XmEventManagerAction } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
+import { XmDynamicComponentRegistry, XmDynamicLayout, XmDynamicModule } from '@xm-ngx/dynamic';
+import { XmDynamicComponentRecord } from '@xm-ngx/dynamic/src/loader/xm-dynamic-component-registry.service';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { filter } from 'rxjs/operators';
 import { showHideTopPanel } from './top-panel.animation';
-import { XmEventManager, XmEventManagerAction } from '@xm-ngx/core';
 import {
     XmTopPanelAppearanceAnimationStateEnum,
     XmTopPanelAppearanceEvent,
     XmTopPanelUIConfig,
 } from './top-panel.model';
-import { NgStyle } from '@angular/common';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
-import { XmDynamicComponentRecord } from '@xm-ngx/dynamic/src/loader/xm-dynamic-component-registry.service';
-import { AnimationEvent } from '@angular/animations';
 
 /**
  * # Top Panel Component
@@ -87,7 +86,6 @@ import { AnimationEvent } from '@angular/animations';
     standalone: true,
     imports: [
         XmDynamicModule,
-        NgStyle,
     ],
     providers: [XmDynamicComponentRegistry],
     templateUrl: './top-panel.component.html',
@@ -113,12 +111,23 @@ export class TopPanelComponent implements OnInit, OnDestroy {
         this.observeConfigChanges();
     }
 
+    public onAnimationDone(event: AnimationEvent): void {
+        const {fromState, toState, phaseName} = event || {};
+        if (fromState === 'show' && toState === 'hide' && phaseName === 'done') {
+            this.isTopPanel = false;
+        }
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
+
     private observeShowTopSnackbarEvent(): void {
         this.eventManager.listenTo<XmTopPanelAppearanceEvent>('IS_TOP_PANEL_SNACKBAR')
             .pipe(takeUntilOnDestroy(this))
             .subscribe(async (event: XmEventManagerAction<XmTopPanelAppearanceEvent>) => {
-                const { snackbar } = this.config || {};
-                const { isShown } = event.payload || {};
+                const {snackbar} = this.config || {};
+                const {isShown} = event.payload || {};
                 if (snackbar && isShown) {
                     const component: XmDynamicComponentRecord<any> = await this.xmDynamicComponentRegistry.find(snackbar.selector);
                     this.snackBarRef = this.snackBar.openFromComponent(component.componentType, snackbar.config);
@@ -132,7 +141,7 @@ export class TopPanelComponent implements OnInit, OnDestroy {
         this.eventManager.listenTo<XmTopPanelAppearanceEvent>('IS_TOP_PANEL')
             .pipe(takeUntilOnDestroy(this))
             .subscribe((event: XmEventManagerAction<XmTopPanelAppearanceEvent>) => {
-                const { isShown } = event.payload;
+                const {isShown} = event.payload;
                 isShown ? this.showTopPanel() : this.hideTopPanel();
             });
     }
@@ -143,7 +152,7 @@ export class TopPanelComponent implements OnInit, OnDestroy {
             filter(Boolean),
         ).subscribe((config: XmUIConfig) => {
             this.config = config.topPanel as XmTopPanelUIConfig;
-            const { layout } = this.config || {};
+            const {layout} = this.config || {};
             if (layout && !this.topPanelLayout) {
                 this.topPanelLayout = layout;
             }
@@ -157,16 +166,5 @@ export class TopPanelComponent implements OnInit, OnDestroy {
     private showTopPanel(): void {
         this.isTopPanel = true;
         setTimeout(() => this.animationState = XmTopPanelAppearanceAnimationStateEnum.SHOW, 200);
-    }
-
-    public onAnimationDone(event: AnimationEvent): void {
-        const { fromState, toState, phaseName } = event || {};
-        if (fromState === 'show' && toState === 'hide' && phaseName === 'done') {
-            this.isTopPanel = false;
-        }
-    }
-
-    public ngOnDestroy(): void {
-        takeUntilOnDestroyDestroy(this);
     }
 }

@@ -3,6 +3,7 @@ import { ExportConfig } from './export-entities-details/export-entities-details.
 
 @Pipe({
     name: 'exportSelectedEntities',
+    standalone: false,
 })
 export class ExportSelectedEntitiesPipe implements PipeTransform {
 

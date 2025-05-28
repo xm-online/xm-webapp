@@ -1,4 +1,4 @@
-import { AsyncPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { XM_DYNAMIC_TABLE_ROW, XmDynamicModule } from '@xm-ngx/dynamic';
@@ -12,7 +12,6 @@ import { CellLayoutConfig } from './cell-layout.model';
     imports: [
         XmDynamicModule,
         NgIf,
-        AsyncPipe,
         ConditionModule,
     ],
     changeDetection: ChangeDetectionStrategy.Default,

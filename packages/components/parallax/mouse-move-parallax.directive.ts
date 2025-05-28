@@ -2,6 +2,7 @@ import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
     selector: '[xmMouseMoveParallax]',
+    standalone: false,
 })
 export class MouseMoveParallaxDirective {
 

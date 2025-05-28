@@ -1,23 +1,18 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
-import { XmToasterService } from '@xm-ngx/toaster';
-import { Subscription } from 'rxjs';
+import { EntityUiConfig } from '@xm-ngx/core/config';
+import { Attachment, AttachmentService, AttachmentSpec, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
 import { saveFile, saveFileFromUrl } from '@xm-ngx/operators';
-import { EntityUiConfig } from '@xm-ngx/core/config';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { Subscription } from 'rxjs';
 // import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
 import { AttachmentDetailDialogComponent } from '../attachment-detail-dialog/attachment-detail-dialog.component';
-import { AttachmentSpec } from '@xm-ngx/core/entity';
-import { Attachment } from '@xm-ngx/core/entity';
-import { AttachmentService } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { XmEntityService } from '@xm-ngx/core/entity';
 import { XM_ENTITY_EVENT_LIST } from '../constants';
 
 
@@ -26,6 +21,7 @@ const ATTACHMENT_EVENT = XM_ENTITY_EVENT_LIST.XM_ATTACHMENT_LIST_MODIFICATION;
 @Component({
     selector: 'xm-attachment-list-base',
     template: 'no template, to be extended',
+    standalone: false,
 })
 export class AttachmentListBaseComponent implements OnInit, OnChanges, OnDestroy {
 

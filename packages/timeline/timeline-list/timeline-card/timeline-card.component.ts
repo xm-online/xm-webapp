@@ -12,6 +12,7 @@ export type TimelineItemData = {
     selector: 'xm-timeline-card',
     templateUrl: './timeline-card.component.html',
     styleUrls: ['./timeline-card.component.scss'],
+    standalone: false,
 })
 export class TimelineCardComponent implements OnInit {
     public login: string = 'System';

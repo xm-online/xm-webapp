@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { XmTableConfig } from '../directives/xm-table.model';
 
 @Component({
@@ -27,7 +27,6 @@ import { XmTableConfig } from '../directives/xm-table.model';
         MatButtonModule,
         XmTranslationModule,
         MatIconModule,
-        NgIf,
         NgClass
     ],
 })

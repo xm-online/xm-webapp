@@ -1,29 +1,31 @@
 import {
     ComponentRef,
-    Directive, inject,
+    Directive,
+    inject,
     Injector,
     Input,
     OnChanges,
     Renderer2,
-    SimpleChanges, StaticProvider,
+    SimpleChanges,
+    StaticProvider,
     ViewContainerRef,
 } from '@angular/core';
+import { NotFoundException } from '@xm-ngx/exceptions';
+import { XmConfig } from '@xm-ngx/interfaces';
+import * as _ from 'lodash';
+
+import { setComponentInput } from '../operators/set-component-input';
 import { XmDynamicControllerDeclaration } from '../presentation/xm-dynamic-presentation-base.directive';
 import { XM_DYNAMIC_COMPONENT_CONFIG } from '../src/dynamic.injectors';
-import {
-    XmDynamicControllerInjectorFactoryService
-} from '../src/services/xm-dynamic-controller-injector-factory.service';
-import * as _ from 'lodash';
-import { XmDynamicWidget } from './xm-dynamic-widget';
+import { XmDynamicWithConfig, XmDynamicWithSelector } from '../src/interfaces/xm-dynamic-selector';
 import {
     XmDynamicComponentRecord,
     XmDynamicComponentRegistry,
 } from '../src/loader/xm-dynamic-component-registry.service';
-
-import { setComponentInput } from '../operators/set-component-input';
-import { NotFoundException } from '@xm-ngx/exceptions';
-import { XmConfig } from '@xm-ngx/interfaces';
-import { XmDynamicWithConfig, XmDynamicWithSelector } from '../src/interfaces/xm-dynamic-selector';
+import {
+    XmDynamicControllerInjectorFactoryService,
+} from '../src/services/xm-dynamic-controller-injector-factory.service';
+import { XmDynamicWidget } from './xm-dynamic-widget';
 
 export interface XmDynamicWidgetConfig<C = XmConfig, S = any> extends XmDynamicWithConfig<C>, XmDynamicWithSelector {
     /** @deprecated use selector instead */
@@ -36,16 +38,15 @@ export interface XmDynamicWidgetConfig<C = XmConfig, S = any> extends XmDynamicW
 
 @Directive({
     selector: 'xm-dynamic-widget, [xm-dynamic-widget]',
-    providers: [XmDynamicControllerInjectorFactoryService]
+    standalone: false,
 })
 export class XmDynamicWidgetDirective implements OnChanges {
 
     @Input() public class: string;
     @Input() public style: string;
     public compRef: ComponentRef<XmDynamicWidget>;
-    private _layout: XmDynamicWidgetConfig & { controllers?: XmDynamicControllerDeclaration[], injector: Injector };
-
     protected dynamicControllerInjectorFactory = inject(XmDynamicControllerInjectorFactoryService);
+    private _layout: XmDynamicWidgetConfig & { controllers?: XmDynamicControllerDeclaration[], injector: Injector };
 
     constructor(private dynamicComponents: XmDynamicComponentRegistry,
                 private renderer: Renderer2,
@@ -58,7 +59,10 @@ export class XmDynamicWidgetDirective implements OnChanges {
     }
 
     @Input()
-    public set init(value: XmDynamicWidgetConfig & { controllers?: XmDynamicControllerDeclaration[], injector: Injector }) {
+    public set init(value: XmDynamicWidgetConfig & {
+        controllers?: XmDynamicControllerDeclaration[],
+        injector: Injector
+    }) {
         if (!value) {
             return;
         }

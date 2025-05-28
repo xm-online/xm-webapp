@@ -26,6 +26,7 @@ export const XM_SIDEBAR_PRESENTATION_STATE_CLASSES = {
     styleUrls: ['./sidebar.component.scss', './xm-sidebar-state.component.scss'],
     templateUrl: './sidebar.component.html',
     changeDetection: ChangeDetectionStrategy.Default,
+    standalone: false,
 })
 export class XmSidebarComponent implements OnInit, OnDestroy {
     public config: SidebarConfig;

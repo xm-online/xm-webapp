@@ -23,6 +23,7 @@ export const CURRENCY_DEFAULT: ICurrencyOptions = {
     template: '{{ value | currency : config.currencyCode : config.display : config.digitsInfo : config.locale }}',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
+    standalone: false,
 })
 export class CurrencyValueComponent implements XmDynamicPresentation<string, ICurrencyOptions> {
 

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { XmLinkViewCopyOptions, XmLinkViewOptions } from '@xm-ngx/components/link';
-import { XmLinkOptions } from '@xm-ngx/components/link';
+import { XmLinkOptions, XmLinkViewCopyOptions, XmLinkViewOptions } from '@xm-ngx/components/link';
 
 @Component({
     selector: 'xm-link-example',
     templateUrl: './xm-link-example.component.html',
+    standalone: false,
 })
 export class XmLinkExampleComponent {
     public linkValue: unknown = {
@@ -17,7 +17,7 @@ export class XmLinkExampleComponent {
         valueIcon: 'history',
         valueTitle: 'ID Title. ',
         routerLink: '/dashboard/example page',
-        queryParamsFromEntityFields: { key: 'key' },
+        queryParamsFromEntityFields: {key: 'key'},
     };
 
     public linkViewOptions: XmLinkViewOptions = {

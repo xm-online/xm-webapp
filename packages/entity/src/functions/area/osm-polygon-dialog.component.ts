@@ -6,6 +6,7 @@ import { OverpassApiService } from './overpass-api.service';
 @Component({
     selector: 'xm-osm-polygon-dialog',
     templateUrl: './osm-polygon-dialog.component.html',
+    standalone: false,
 })
 export class OsmPolygonDialogComponent {
 

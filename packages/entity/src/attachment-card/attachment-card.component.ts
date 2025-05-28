@@ -3,18 +3,17 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
-import { XmToasterService } from '@xm-ngx/toaster';
+import { Attachment, AttachmentService, AttachmentSpec } from '@xm-ngx/core/entity';
+import { Principal } from '@xm-ngx/core/user';
 
 import { saveFile, saveFileFromUrl } from '@xm-ngx/operators';
-import { AttachmentSpec } from '@xm-ngx/core/entity';
-import { Attachment } from '@xm-ngx/core/entity';
-import { AttachmentService } from '@xm-ngx/core/entity';
-import { Principal } from '@xm-ngx/core/user';
+import { XmToasterService } from '@xm-ngx/toaster';
 
 @Component({
     selector: 'xm-attachment-card',
     templateUrl: './attachment-card.component.html',
     styleUrls: ['./attachment-card.component.scss'],
+    standalone: false,
 })
 export class AttachmentCardComponent implements OnInit {
 

@@ -6,6 +6,7 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
     templateUrl: './style-guide.component.html',
     styleUrls: ['./style-guide.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false,
 })
 export class StyleGuideComponent implements OnInit {
 

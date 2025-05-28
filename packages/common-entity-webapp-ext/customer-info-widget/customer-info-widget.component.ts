@@ -2,20 +2,22 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
+
+import { Principal } from '@xm-ngx/core/user';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { Attachment, AttachmentDetailDialogComponent, AttachmentService, XmEntityService } from '@xm-ngx/entity';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { interval, Observable, of, Subscription } from 'rxjs';
 import { catchError, finalize, map, mergeMap, startWith, take } from 'rxjs/operators';
 
-import { Principal } from '@xm-ngx/core/user';
-import { Attachment, AttachmentDetailDialogComponent, AttachmentService, XmEntityService } from '@xm-ngx/entity';
-import { XmDynamicWidget } from '@xm-ngx/dynamic';
-
 const ATTACHMENT_EVENT = 'attachmentListModification';
 const XM_UNAUTHORIZED = 'xm.unauthorized';
+
 @Component({
     selector: 'xm-customer-info-widget',
     templateUrl: './customer-info-widget.component.html',
     styleUrls: ['./customer-info-widget.component.scss'],
+    standalone: false,
 })
 export class CustomerInfoWidgetComponent implements OnInit, OnDestroy, XmDynamicWidget {
 

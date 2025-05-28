@@ -3,7 +3,6 @@ import {
     FiltersControlValue,
     XmTableFilterButtonDialogControlComponent
 } from './xm-table-filter-button-dialog-control.component';
-import { JsonPipe } from '@angular/common';
 import { XmTableQuickFilterControl } from '../components/xm-quick-filters-control.component';
 import { MatChipsModule } from '@angular/material/chips';
 
@@ -24,7 +23,6 @@ import { MatChipsModule } from '@angular/material/chips';
     standalone: true,
     imports: [
         XmTableFilterButtonDialogControlComponent,
-        JsonPipe,
         XmTableQuickFilterControl,
         MatChipsModule
     ]

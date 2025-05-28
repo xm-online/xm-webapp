@@ -1,20 +1,21 @@
-import {AfterViewInit, Directive, ElementRef, EventEmitter, Input, NgZone, Output} from '@angular/core';
-import {Address} from './objects/address';
-import {Options} from './objects/options/options';
+import { AfterViewInit, Directive, ElementRef, EventEmitter, Input, NgZone, Output } from '@angular/core';
+import { Address } from './objects/address';
+import { Options } from './objects/options/options';
 
 declare let google: any;
 
 @Directive({
     selector: '[ngx-google-places-autocomplete]',
     exportAs: 'ngx-places',
+    standalone: false,
 })
 
 export class GooglePlaceDirective implements AfterViewInit {
     @Input() public options: Options;
     // eslint-disable-next-line @angular-eslint/no-output-on-prefix
     @Output() public onAddressChange: EventEmitter<Address> = new EventEmitter();
-    private autocomplete: any;
     public place: Address;
+    private autocomplete: any;
 
     constructor(private el: ElementRef, private ngZone: NgZone) {
     }
@@ -24,6 +25,11 @@ export class GooglePlaceDirective implements AfterViewInit {
             this.options = new Options();
 
         this.initialize();
+    }
+
+    public reset(): void {
+        this.autocomplete.setComponentRestrictions(this.options.componentRestrictions);
+        this.autocomplete.setTypes(this.options.types);
     }
 
     private isGoogleLibExists(): boolean {
@@ -46,7 +52,7 @@ export class GooglePlaceDirective implements AfterViewInit {
         }
 
         this.el.nativeElement.addEventListener('keydown', (event: KeyboardEvent) => {
-            if(!event.key) {
+            if (!event.key) {
                 return;
             }
 
@@ -80,11 +86,6 @@ export class GooglePlaceDirective implements AfterViewInit {
                 }
             }, 500);
         }
-    }
-
-    public reset(): void {
-        this.autocomplete.setComponentRestrictions(this.options.componentRestrictions);
-        this.autocomplete.setTypes(this.options.types);
     }
 
     private handleChangeEvent(): void {

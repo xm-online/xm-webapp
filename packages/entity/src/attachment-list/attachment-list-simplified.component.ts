@@ -7,9 +7,9 @@ import { AttachmentListBaseComponent } from './attachment-list-base.component';
         <div class="card">
             <div class="card-header card-header-icon card-header-primary">
                 <div class="card-icon">
-                    <mat-icon>{{'attach_file'}}</mat-icon>
+                    <mat-icon>{{ 'attach_file' }}</mat-icon>
                 </div>
-                <h4 class="card-title">{{'xm-entity.attachment-card.title'|translate}}</h4>
+                <h4 class="card-title">{{ 'xm-entity.attachment-card.title'|translate }}</h4>
             </div>
 
             <div class="card-body">
@@ -20,11 +20,11 @@ import { AttachmentListBaseComponent } from './attachment-list-base.component';
 
                     <mat-menu #entityListActions="matMenu">
                         <button mat-menu-item class="btn-sm" (click)="onRefresh()">
-                            {{'xm-entity.entity-list-card.refresh' | translate}}
+                            {{ 'xm-entity.entity-list-card.refresh' | translate }}
                         </button>
                         <button mat-menu-item class="btn-sm" (click)="onAddAttachment()"
                                 *xmPermitted="['ATTACHMENT.CREATE']; context: xmAttachmentContext()">
-                            {{'xm-entity.common.add' | translate}}
+                            {{ 'xm-entity.common.add' | translate }}
                         </button>
                     </mat-menu>
                 </div>
@@ -36,8 +36,8 @@ import { AttachmentListBaseComponent } from './attachment-list-base.component';
                             <thead>
                             <tr>
                                 <th scope="col"></th>
-                                <th scope="col"><span>{{'xm-entity.common.fields.name'|translate}}</span></th>
-                                <th scope="col"><span>{{'xm-entity.common.fields.description'|translate}}</span></th>
+                                <th scope="col"><span>{{ 'xm-entity.common.fields.name'|translate }}</span></th>
+                                <th scope="col"><span>{{ 'xm-entity.common.fields.description'|translate }}</span></th>
                                 <th scope="col"></th>
                                 <th scope="col"></th>
                             </tr>
@@ -51,9 +51,9 @@ import { AttachmentListBaseComponent } from './attachment-list-base.component';
                                         <mat-icon class="xm-avatar-icon">attach_file</mat-icon>
                                     </div>
                                 </td>
-                                <td>{{attachment.name}}</td>
-                                <td>{{getAttachmentSpec(attachment)?.name | translate}}</td>
-                                <td>{{getFileSize(attachment, 2)}} ({{attachment.valueContentType}})</td>
+                                <td>{{ attachment.name }}</td>
+                                <td>{{ getAttachmentSpec(attachment)?.name | translate }}</td>
+                                <td>{{ getFileSize(attachment, 2) }} ({{ attachment.valueContentType }})</td>
                                 <td>
                                     <a href="javascript: void(0);"
                                        (click)="onDownload(attachment)"
@@ -78,6 +78,7 @@ import { AttachmentListBaseComponent } from './attachment-list-base.component';
             </div>
         </div>`,
     styleUrls: ['./attachment-list.component.scss'],
+    standalone: false,
 })
 export class AttachmentListSimplifiedComponent extends AttachmentListBaseComponent implements OnInit {
 

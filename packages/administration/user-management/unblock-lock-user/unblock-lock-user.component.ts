@@ -1,10 +1,10 @@
 import { Component, Inject, Input, Optional } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
+import { User, UserService } from '@xm-ngx/core/user';
 import { XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { Translate, XmTranslateService } from '@xm-ngx/translation';
 import { defaultsDeep } from 'lodash';
-import { User, UserService } from '@xm-ngx/core/user';
 
 export interface UnblockLockUserOptions {
     title?: Translate;
@@ -19,19 +19,10 @@ const DEFAULT_OPTIONS = {
 @Component({
     selector: 'xm-unblock-lock-user',
     templateUrl: './unblock-lock-user.component.html',
+    standalone: false,
 })
 export class UnblockLockUserComponent {
-    public get config(): UnblockLockUserOptions {
-        return this._config;
-    }
-
-    @Input()
-    public set config(value: UnblockLockUserOptions) {
-        this._config = defaultsDeep(value, DEFAULT_OPTIONS);
-    }
-
     @Input() public user: User;
-    private _config: UnblockLockUserOptions = DEFAULT_OPTIONS;
 
     constructor(
         protected alertService: XmAlertService,
@@ -41,6 +32,17 @@ export class UnblockLockUserComponent {
         @Optional() @Inject(XM_DYNAMIC_TABLE_ROW) row: User,
     ) {
         this.user = row;
+    }
+
+    private _config: UnblockLockUserOptions = DEFAULT_OPTIONS;
+
+    public get config(): UnblockLockUserOptions {
+        return this._config;
+    }
+
+    @Input()
+    public set config(value: UnblockLockUserOptions) {
+        this._config = defaultsDeep(value, DEFAULT_OPTIONS);
     }
 
     public changeState(user: User): void {

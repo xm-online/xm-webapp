@@ -18,7 +18,7 @@
  */
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'capitalize' })
+@Pipe({standalone: false, name: 'capitalize'})
 export class JhiCapitalizePipe implements PipeTransform {
     public transform(input: string): string {
         if (input !== null) {

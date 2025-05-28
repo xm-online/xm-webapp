@@ -1,10 +1,10 @@
-import { DataQa, Primitive } from '@xm-ngx/interfaces';
-import { Translate } from '@xm-ngx/translation';
 import { ChangeDetectionStrategy, Component, Inject, Input, Optional, Self, ViewEncapsulation } from '@angular/core';
-import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { FormControl, NgControl, Validators } from '@angular/forms';
 import { XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
+import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
+import { XmDynamicControl } from '@xm-ngx/dynamic';
+import { DataQa, Primitive } from '@xm-ngx/interfaces';
+import { Translate } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
 
 
@@ -51,7 +51,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumbersRangeControlOptions = {
         <div class="d-flex" [class.flex-column]="options.direction === 'vertical'">
 
             <mat-form-field class="flex-fill">
-                <mat-label>{{options.titleFrom | translate}}</mat-label>
+                <mat-label>{{ options.titleFrom | translate }}</mat-label>
 
                 <input matInput
                        [formControl]="controlFrom"
@@ -65,14 +65,14 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumbersRangeControlOptions = {
                        type="number">
 
                 <mat-error *xmControlErrors="controlFrom.errors; translates options?.errorsFrom; message as message">
-                    {{message}}
+                    {{ message }}
                 </mat-error>
 
             </mat-form-field>
 
 
             <mat-form-field class="flex-fill">
-                <mat-label>{{options.titleTo | translate}}</mat-label>
+                <mat-label>{{ options.titleTo | translate }}</mat-label>
 
                 <input matInput
                        [formControl]="controlTo"
@@ -86,7 +86,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumbersRangeControlOptions = {
                        type="number">
 
                 <mat-error *xmControlErrors="controlTo.errors; translates options?.errorsTo; message as message">
-                    {{message}}
+                    {{ message }}
                 </mat-error>
 
             </mat-form-field>
@@ -95,14 +95,21 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumbersRangeControlOptions = {
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
+    standalone: false,
 })
 export class NumbersRangeControlComponent extends NgFormAccessor<Primitive> implements XmDynamicControl<Primitive, XmNumbersRangeControlOptions> {
+    public controlFrom: FormControl = new FormControl();
+    public controlTo: FormControl = new FormControl();
+
     constructor(@Optional() @Self() public ngControl: NgControl | null,
-                @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: { [errorKey: string]: Translate }) {
+                @Inject(XM_CONTROL_ERRORS_TRANSLATES) protected xmControlErrorsTranslates: {
+                    [errorKey: string]: Translate
+                }) {
         super(ngControl);
     }
 
     private _valueFrom: number;
+
     public get valueFrom(): number {
         return this._valueFrom;
     }
@@ -113,6 +120,7 @@ export class NumbersRangeControlComponent extends NgFormAccessor<Primitive> impl
     }
 
     private _valueTo: number;
+
     public get valueTo(): number {
         return this._valueTo;
     }
@@ -121,9 +129,6 @@ export class NumbersRangeControlComponent extends NgFormAccessor<Primitive> impl
         this._valueTo = value;
         this.controlFrom.setValidators([Validators.max(this.valueTo)]);
     }
-
-    public controlFrom: FormControl = new FormControl();
-    public controlTo: FormControl = new FormControl();
 
     private _options: XmNumbersRangeControlOptions = XM_NUMBER_CONTROL_DEFAULT_OPTIONS;
 

@@ -1,8 +1,8 @@
 import { Directive, Inject, Input, OnChanges, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
-import { XM_CONTROL_ERRORS_TRANSLATES, XmControlErrorsTranslates } from './xm-control-errors-translates';
 import { Translate, TranslatePipe } from '@xm-ngx/translation';
 import * as _ from 'lodash';
+import { XM_CONTROL_ERRORS_TRANSLATES, XmControlErrorsTranslates } from './xm-control-errors-translates';
 
 interface ControlErrorsContext<T = unknown> {
     error: T;
@@ -35,6 +35,7 @@ interface ControlErrorsContext<T = unknown> {
  */
 @Directive({
     selector: '[xmControlErrors]',
+    standalone: false,
 })
 export class ControlErrorsDirective implements OnInit, OnChanges {
     @Input() public xmControlErrors: ValidationErrors | null;
@@ -90,7 +91,7 @@ export class ControlErrorsDirective implements OnInit, OnChanges {
         this.viewContainer.clear();
         _.forIn(this.xmControlErrors, (error, errorKey) => {
             const message = this.getErrorMessage(error, errorKey);
-            this.viewContainer.createEmbeddedView(this.thenTemplateRef, { error, message });
+            this.viewContainer.createEmbeddedView(this.thenTemplateRef, {error, message});
         });
     }
 }

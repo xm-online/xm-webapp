@@ -19,6 +19,7 @@ export const XM_IMAGE_OPTIONS_DEFAULT: XmImageOptions = {
     selector: 'xm-image',
     templateUrl: './xm-image.component.html',
     styleUrls: ['./xm-image.component.scss'],
+    standalone: false,
 })
 export class XmImageComponent {
     @Input() public value: string;

@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'xm-password-needed',
     templateUrl: './xm-password-needed.component.html',
+    standalone: false,
 })
 export class XmPasswordNeededComponent implements OnInit, OnDestroy {
 
@@ -17,6 +18,7 @@ export class XmPasswordNeededComponent implements OnInit, OnDestroy {
     public incorrect: boolean;
     public event: any;
     private eventManagerSubscription: Subscription;
+
     constructor(private fb: UntypedFormBuilder,
                 private modalService: MatDialog,
                 private eventManager: XmEventManager) {

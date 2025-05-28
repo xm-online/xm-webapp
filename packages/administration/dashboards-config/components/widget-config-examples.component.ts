@@ -15,7 +15,6 @@ import {
 } from 'rxjs';
 import { AsyncPipe, NgForOf } from '@angular/common';
 import { WidgetCollection } from '../injectors';
-import { XmBoolComponent } from '@xm-ngx/components/bool';
 import { MarkdownModule } from 'ngx-markdown';
 import _ from 'lodash';
 import { DashboardWidget } from '@xm-ngx/core/dashboard';
@@ -100,7 +99,6 @@ export class WidgetCollectionStore extends WidgetCollection {
         ReactiveFormsModule,
         AsyncPipe,
         NgForOf,
-        XmBoolComponent,
         XmCodeContainerModule,
         MarkdownModule,
         XmLoadingModule,

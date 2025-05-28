@@ -10,6 +10,7 @@ import { ButtonSpinnerDirective } from './button-spinner.directive';
         <button [mat-button] [loading]="false"></button>
         <button [mat-button] [loading]="false" [disabled]="false"></button>
     `,
+    standalone: false,
 })
 class MockTestComponent {
 }

@@ -1,15 +1,13 @@
+import { JsonSchemaFormService } from '@ajsf/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-
-import { LinkSpec } from '@xm-ngx/core/entity';
-import { Spec } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { JsonSchemaFormService } from '@ajsf/core';
+import { LinkSpec, Spec, XmEntity } from '@xm-ngx/core/entity';
 
 @Component({
     selector: 'xm-link-detail-dialog',
     templateUrl: './link-detail-dialog.component.html',
     providers: [JsonSchemaFormService],
+    standalone: false,
 })
 export class LinkDetailDialogComponent implements OnInit {
 

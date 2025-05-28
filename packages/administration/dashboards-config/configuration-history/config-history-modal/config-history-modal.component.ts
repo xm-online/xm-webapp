@@ -12,7 +12,6 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { MatListModule } from '@angular/material/list';
 import { HistoryEvent, HistoryModalData } from '../models/config-history.model';
 import { AceDiffControlComponent, XmAceEditorControlModeEnum, XmAceEditorControlOptions, XmAceEditorControlTypeEnum } from '@xm-ngx/components/ace-editor';
-import { XmDateTimePipe } from '@xm-ngx/translation/pipes';
 import { MatCardModule } from '@angular/material/card';
 import { MatBadgeModule } from '@angular/material/badge';
 import { XmDateComponent } from '@xm-ngx/components/date';
@@ -34,9 +33,7 @@ import { DashboardsConfigHistoryService } from '../../services/dashboards-config
         ReactiveFormsModule,
         XmTranslationModule,
         MatListModule,
-        XmDateTimePipe,
         MatCardModule,
-        XmDateTimePipe,
         MatBadgeModule,
         XmDateComponent,
         AceDiffControlComponent,

@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { XmAlertService } from '@xm-ngx/alert';
-import { XmToasterService } from '@xm-ngx/toaster';
 import { Client, ClientService, ClientState } from '@xm-ngx/core/client';
+import { XmToasterService } from '@xm-ngx/toaster';
 
 @Component({
     selector: 'xm-toggle-lock-client',
     templateUrl: './toggle-lock-client.component.html',
+    standalone: false,
 })
 export class ToggleLockClientComponent {
     public ClientState: typeof ClientState = ClientState;

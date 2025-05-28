@@ -2,15 +2,16 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { finalize, map, share } from 'rxjs/operators';
 
 import { JhiHealthService } from '@xm-ngx/administration/health';
+import { finalize, map, share } from 'rxjs/operators';
 import { Log } from './log.model';
 import { LogsService } from './logs.service';
 
 @Component({
     selector: 'xm-logs',
     templateUrl: './logs.component.html',
+    standalone: false,
 })
 export class LogsComponent implements OnInit {
 

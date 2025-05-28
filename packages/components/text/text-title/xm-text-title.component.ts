@@ -15,6 +15,7 @@ export const XM_TEXT_TITLE_OPTIONS_DEFAULT = {
     selector: 'xm-text-title',
     template: '{{config.title | translate}}',
     changeDetection: ChangeDetectionStrategy.Default,
+    standalone: false,
 })
 export class XmTextTitleComponent implements XmDynamicPresentation<undefined, XmTextTitleOptions> {
     @Input() public value: undefined;

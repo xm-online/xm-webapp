@@ -4,9 +4,10 @@ import { XmCopyIconOptions } from '@xm-ngx/components/copy';
 @Component({
     selector: 'xm-copy-example',
     templateUrl: './xm-copy-example.component.html',
+    standalone: false,
 })
 export class XmCopyExampleComponent {
-    public copyIconValue: unknown = { text: 'Copy text' };
+    public copyIconValue: unknown = {text: 'Copy text'};
 
     public copyIconOptions: XmCopyIconOptions = {
         template: {

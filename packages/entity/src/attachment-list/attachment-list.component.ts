@@ -12,6 +12,7 @@ import { AttachmentListBaseComponent } from './attachment-list-base.component';
         </div>
     `,
     styleUrls: ['./attachment-list.component.scss'],
+    standalone: false,
 })
 export class AttachmentListComponent extends AttachmentListBaseComponent {
 

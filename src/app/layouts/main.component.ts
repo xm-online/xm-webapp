@@ -1,14 +1,13 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { MenuService } from '@xm-ngx/components/menu';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
+import { XmApplicationConfigService, XmUIConfig } from '@xm-ngx/core/config';
+import { XmLoggerService } from '@xm-ngx/logger';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Observable, Subscription } from 'rxjs';
-import { XmApplicationConfigService, XmUIConfig } from '@xm-ngx/core/config';
 import { VERSION } from '../xm.constants';
-import { XmLoggerService } from '@xm-ngx/logger';
-import { MenuService } from '@xm-ngx/components/menu';
 
-
-export interface XmMainConfig extends XmUIConfig{
+export interface XmMainConfig extends XmUIConfig {
     fullWidth?: boolean;
 }
 
@@ -16,15 +15,16 @@ export interface XmMainConfig extends XmUIConfig{
     selector: 'xm-main',
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss'],
+    standalone: false,
 })
 export class XmMainComponent implements OnInit, AfterViewInit, OnDestroy {
     public resolved$: Observable<boolean> = this.xmConfigService.isResolved();
     public isGuestLayout: boolean = true;
     public config: XmMainConfig = this.xmConfigService.getAppConfig();
     public isSidenavOpen$: Observable<boolean>;
-    private rightSidebarSubscription: Subscription = Subscription.EMPTY;
     public showSidebarBackdrop: boolean = false;
     public sidebarContentSpacer: string = '0';
+    private rightSidebarSubscription: Subscription = Subscription.EMPTY;
 
     constructor(
         private xmConfigService: XmApplicationConfigService<XmMainConfig>,
@@ -33,7 +33,7 @@ export class XmMainComponent implements OnInit, AfterViewInit, OnDestroy {
         private menuService: MenuService,
         private eventManager: XmEventManager,
     ) {
-        const logger = this.loggerService.create({ name: 'XmMainComponent' });
+        const logger = this.loggerService.create({name: 'XmMainComponent'});
         logger.info(`Application version. version="${VERSION}".`);
     }
 

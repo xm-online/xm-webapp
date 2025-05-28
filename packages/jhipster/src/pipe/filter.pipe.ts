@@ -18,7 +18,7 @@
  */
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'filter', pure: false })
+@Pipe({name: 'filter', standalone: false, pure: false})
 export class JhiFilterPipe implements PipeTransform {
     public transform(input: any[], filter: any, field?: string): any {
         if (typeof filter === 'undefined' || filter === '') {

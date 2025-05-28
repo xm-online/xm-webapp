@@ -16,7 +16,39 @@
               "moment-timezone",
               "moment",
               "lodash",
-              "lodash/fp"
+              "lodash/fp",
+              "ieee754",
+              "file-saver",
+              "nomnoml",
+              "html2canvas",
+              "heatmap.js",
+              "ajv",
+              "ajv-formats",
+              "angular2-uuid",
+              "file-type/core",
+              "string-template",
+              "dayjs",
+              "unraw",
+              "minim",
+              "process",
+              "deepmerge",
+              "base64-js",
+              "classnames",
+              "css.escape",
+              "immutable",
+              "js-file-download",
+              "prop-types",
+              "randexp",
+              "react-copy-to-clipboard",
+              "react-debounce-input",
+              "react-immutable-proptypes",
+              "redux-immutable",
+              "serialize-error",
+              "url-parse",
+              "xml-but-prettier",
+              "zenscroll",
+              "sdp",
+              "transliteration"
             ],
             "outputPath": "dist",
             "index": "src/index.html",
@@ -127,26 +159,26 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "xm-webapp:build:development",
+            "buildTarget": "xm-webapp:build:development",
             "proxyConfig": "proxy.conf.js",
             "host": "0.0.0.0"
           },
           "configurations": {
             "production": {
-              "browserTarget": "xm-webapp:build:production"
+              "buildTarget": "xm-webapp:build:production"
             },
             "serve-production": {
-              "browserTarget": "xm-webapp:build:serve-production"
+              "buildTarget": "xm-webapp:build:serve-production"
             },
             "idp": {
-              "browserTarget": "xm-webapp:build:idp"
+              "buildTarget": "xm-webapp:build:idp"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "xm-webapp:build"
+            "buildTarget": "xm-webapp:build"
           }
         },
         "test": {
@@ -156,7 +188,9 @@
             "karmaConfig": "karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
-            "include": ["**/*.spec.ts"],
+            "include": [
+              "**/*.spec.ts"
+            ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
               "node_modules/popper.js/dist/umd/popper.js",
@@ -231,7 +265,7 @@
           "builder": "@storybook/angular:start-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "xm-webapp:build",
+            "buildTarget": "xm-webapp:build",
             "compodoc": true,
             "compodocArgs": [
               "-e",
@@ -246,7 +280,7 @@
           "builder": "@storybook/angular:build-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "xm-webapp:build",
+            "buildTarget": "xm-webapp:build",
             "compodoc": true,
             "compodocArgs": [
               "-e",

@@ -19,7 +19,7 @@ export enum ActionDecision {
 }
 
 const DEFAULT_CONFIG: LoadingDialogConfig = {
-    title:'',
+    title: '',
     buttons: {
         decline: 'global.common.cancel',
         accept: 'global.common.accept',
@@ -30,6 +30,7 @@ const DEFAULT_CONFIG: LoadingDialogConfig = {
     selector: 'xm-confirm-action',
     templateUrl: './confirm-action.component.html',
     styleUrls: ['./confirm-action.component.scss'],
+    standalone: false,
 })
 /**
  * Reusable request form with loading indicator, should be used in material dialog window
@@ -40,16 +41,17 @@ export class ConfirmActionComponent {
     @Input() public loading: boolean;
     /** Emit EMITTER_EVENTS value when button pressed*/
     @Output() public decisionEvent: EventEmitter<ActionDecision> = new EventEmitter<ActionDecision>();
-    @Input()
-    public set config(value: LoadingDialogConfig) {
-        this._config = defaultsDeep(value, DEFAULT_CONFIG) as LoadingDialogConfig;
-    }
+
+    private _config: LoadingDialogConfig = cloneDeep(DEFAULT_CONFIG);
 
     public get config(): LoadingDialogConfig {
         return this._config;
     }
 
-    private _config: LoadingDialogConfig = cloneDeep(DEFAULT_CONFIG);
+    @Input()
+    public set config(value: LoadingDialogConfig) {
+        this._config = defaultsDeep(value, DEFAULT_CONFIG) as LoadingDialogConfig;
+    }
 
     public onDecline(): void {
         this.decisionEvent.emit(ActionDecision.DECLINE);

@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
+import { HintText } from '@xm-ngx/components/hint';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmTextTitleOptions } from '@xm-ngx/components/text';
 import { DataQa } from '@xm-ngx/interfaces';
 import * as _ from 'lodash';
 import { clone, defaults } from 'lodash';
-import { HintText } from '@xm-ngx/components/hint';
 
 export interface XmFileControlOptions extends XmTextTitleOptions, DataQa {
     hint: HintText;
@@ -21,6 +21,7 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
     accept: '*',
     required: false,
 };
+
 /**
  * For required you need to use validators
  * @example
@@ -36,7 +37,7 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
     selector: 'xm-file-control',
     template: `
         <mat-form-field>
-            <mat-label>{{config.title | translate}}</mat-label>
+            <mat-label>{{ config.title | translate }}</mat-label>
 
             <input #input
                    (change)="change($event.target.files)"
@@ -55,15 +56,15 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
                    [attr.multiple]="config.multiple? '' : null"
                    [attr.accept]="config.accept">
 
-            <mat-error *xmControlErrors="control?.errors; message as message">{{message}}</mat-error>
+            <mat-error *xmControlErrors="control?.errors; message as message">{{ message }}</mat-error>
 
             <button
-                class="me-2"
-                matSuffix
-                mat-button
-                color="primary"
-                (click)="input.click()">
-                {{'ext-entity.image-widget.change-image' | translate}}
+                    class="me-2"
+                    matSuffix
+                    mat-button
+                    color="primary"
+                    (click)="input.click()">
+                {{ 'ext-entity.image-widget.change-image' | translate }}
 
                 <mat-icon>attach_file</mat-icon>
             </button>
@@ -71,6 +72,7 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
     `,
+    standalone: false,
 })
 export class FileControlComponent extends NgFormAccessor<File[]> {
     private _config: XmFileControlOptions = clone(XM_FILE_CONTROL_OPTIONS_DEFAULT);

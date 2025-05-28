@@ -8,7 +8,8 @@ import { filter, startWith } from 'rxjs/operators';
 
 @Directive({
     selector: '[xmGuestBackground]',
-    host: { class: 'xmGuestBackground' },
+    host: {class: 'xmGuestBackground'},
+    standalone: false,
 })
 export class GuestBackgroundDirective implements OnInit, OnDestroy {
 

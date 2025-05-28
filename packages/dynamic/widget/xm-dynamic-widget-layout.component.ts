@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { XmDynamicLayoutBase } from './xm-dynamic-layout.base';
 import { XmDynamicLayout } from '../src/interfaces';
+import { XmDynamicLayoutBase } from './xm-dynamic-layout.base';
 
 @Component({
     selector: 'xm-dynamic-widget-layout, [xm-dynamic-widget-layout]',
@@ -16,12 +16,13 @@ import { XmDynamicLayout } from '../src/interfaces';
         </ng-template>
 
         <ng-template #dynamicRef let-item="item">
-            <ng-template [xmPermission]="item?.customParams?.permission" [strategy]="item?.customParams?.permissionStrategy">
+            <ng-template [xmPermission]="item?.customParams?.permission"
+                         [strategy]="item?.customParams?.permissionStrategy">
                 <ng-container
-                    xm-dynamic-widget
-                    [class]="item.layout.class"
-                    [style]="item.layout.style"
-                    [init]="item.customParams">
+                        xm-dynamic-widget
+                        [class]="item.layout.class"
+                        [style]="item.layout.style"
+                        [init]="item.customParams">
                 </ng-container>
             </ng-template>
         </ng-template>
@@ -34,6 +35,7 @@ import { XmDynamicLayout } from '../src/interfaces';
             </ng-container>
         </ng-template>
     `,
+    standalone: false,
 })
 export class XmDynamicWidgetLayoutComponent extends XmDynamicLayoutBase<XmDynamicWidgetLayout> {
 }

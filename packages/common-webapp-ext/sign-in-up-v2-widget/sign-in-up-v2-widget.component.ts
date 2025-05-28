@@ -8,10 +8,8 @@ import { LoaderModule } from '@xm-ngx/components/loader';
 import { MatButtonModule } from '@angular/material/button';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { SignInMarketingComponent } from './sign-in-marketing/sign-in-marketing.component';
-import { LoginV2Component } from './login-v2/login-v2.component';
 import { SignInUpFooterComponent } from './sign-in-up-footer/sign-in-up-footer.component';
 import { XmNavbarLanguageMenuWidget } from '@xm-ngx/components/language-menu';
-import { LoginTfaComponent } from './login-tfa/login-tfa.component';
 import { SignInUpService } from './sign-in-up.service';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { SignPageConfig } from './sign-in-up-v2.model';
@@ -27,10 +25,8 @@ import { SignPageConfig } from './sign-in-up-v2.model';
         MatButtonModule,
         XmSharedModule,
         SignInMarketingComponent,
-        LoginV2Component,
         SignInUpFooterComponent,
         XmNavbarLanguageMenuWidget,
-        LoginTfaComponent,
         XmDynamicModule,
     ],
 })

@@ -1,4 +1,4 @@
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, UntypedFormControl} from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
@@ -24,7 +24,6 @@ import {FormGroupFields, FormLayoutConfig} from './form-layout.model';
         NgIf,
         ReactiveFormsModule,
         NgForOf,
-        AsyncPipe,
         ConditionModule,
     ],
     providers: [DashboardStore],

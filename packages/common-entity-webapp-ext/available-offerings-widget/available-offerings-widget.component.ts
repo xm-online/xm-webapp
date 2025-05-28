@@ -3,12 +3,12 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
-import { Subscription } from 'rxjs';
+import { Principal } from '@xm-ngx/core/user';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { FunctionCallDialogComponent, FunctionService, XmEntity, XmEntityService } from '@xm-ngx/entity';
 
 import { I18nNamePipe } from '@xm-ngx/translation';
-import { Principal } from '@xm-ngx/core/user';
-import { FunctionCallDialogComponent, FunctionService, XmEntity, XmEntityService } from '@xm-ngx/entity';
-import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { Subscription } from 'rxjs';
 
 const XM_FUNCTION_CALL_SUCCESS = 'xm.functionCall.success';
 
@@ -16,6 +16,7 @@ const XM_FUNCTION_CALL_SUCCESS = 'xm.functionCall.success';
     selector: 'xm-available-offerings-widget',
     templateUrl: './available-offerings-widget.component.html',
     styleUrls: ['./available-offerings-widget.component.scss'],
+    standalone: false,
 })
 export class AvailableOfferingsWidgetComponent implements OnInit, OnDestroy, XmDynamicWidget {
 

@@ -7,29 +7,23 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { LanguageModule } from '@xm-ngx/translation';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmEventManager } from '@xm-ngx/core';
-import { JsfAttributes } from '@xm-ngx/json-schema-form';
-import { XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form';
-import { XmTranslationModule } from '@xm-ngx/translation';
+import { Spec, XmEntity, XmEntityService, XmEntitySpec } from '@xm-ngx/core/entity';
+import { JsfAttributes, XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form';
+import { JsfComponentRegistryService, nullSafe } from '@xm-ngx/json-schema-form/components';
+import { stringSubstitute } from '@xm-ngx/operators';
+import { LanguageModule, XmTranslationModule } from '@xm-ngx/translation';
 
 import { UUID } from 'angular2-uuid';
 import { finalize } from 'rxjs/operators';
-import { stringSubstitute } from '@xm-ngx/operators';
-import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
-
-import { nullSafe } from '@xm-ngx/json-schema-form/components';
-import { Spec } from '@xm-ngx/core/entity';
-import { XmEntitySpec } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { XmEntityService } from '@xm-ngx/core/entity';
 import { XM_ENTITY_EVENT_LIST } from '../constants';
 
 @Component({
     selector: 'xm-entity-detail-dialog',
     templateUrl: './entity-detail-dialog.component.html',
+    standalone: false,
 })
 export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
 
@@ -51,7 +45,7 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
                 private changeDetector: ChangeDetectorRef,
                 private xmEntityService: XmEntityService,
                 private eventManager: XmEventManager,
-                protected widgetService: JsfComponentRegistryService
+                protected widgetService: JsfComponentRegistryService,
     ) {
         this.nameValidPattern = null;
     }

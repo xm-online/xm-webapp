@@ -49,6 +49,7 @@ function permissionContextFactory(): PermissionContext {
  */
 @Directive({
     selector: '[xmPermission]',
+    standalone: false,
 })
 export class PermissionDirective
     extends IfElseThenBaseDirective<PermissionContext>

@@ -1,19 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
-
-import { XmToasterService } from '@xm-ngx/toaster';
+import { Comment, CommentService, CommentSpec, XmEntity } from '@xm-ngx/core/entity';
 
 import { Principal } from '@xm-ngx/core/user';
-import { CommentSpec } from '@xm-ngx/core/entity';
-import { Comment } from '@xm-ngx/core/entity';
-import { CommentService } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
+
+import { XmToasterService } from '@xm-ngx/toaster';
 
 
 @Component({
     selector: 'xm-comment-detail-dialog',
     templateUrl: './comment-detail-dialog.component.html',
+    standalone: false,
 })
 export class CommentDetailDialogComponent implements OnInit {
 

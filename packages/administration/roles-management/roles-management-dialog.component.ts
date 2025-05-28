@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
-import { Role } from '@xm-ngx/core/role';
-import { RoleService } from '@xm-ngx/core/role';
+import { Role, RoleService } from '@xm-ngx/core/role';
 
 @Component({
     selector: 'xm-role-mgmt-dialog',
     templateUrl: './roles-management-dialog.component.html',
+    standalone: false,
 })
 export class RoleMgmtDialogComponent implements OnInit {
 

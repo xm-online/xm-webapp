@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { XmAceEditorControl } from '@xm-ngx/components/ace-editor';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { IXmTableCollectionController } from '@xm-ngx/components/table';
 import { injectByKey, XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
@@ -21,7 +20,6 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
     imports: [
         CommonModule,
         MatFormFieldModule,
-        XmAceEditorControl,
         XmTranslationModule,
         ControlErrorModule,
         MatButtonModule,

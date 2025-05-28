@@ -4,9 +4,9 @@ import { UntypedFormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmTextControlOptions, XmTextViewOptions } from '@xm-ngx/components/text';
 import { Dashboard, DashboardStore } from '@xm-ngx/core/dashboard';
+import { Permission } from '@xm-ngx/core/role';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Translate } from '@xm-ngx/translation';
-import { Permission } from '@xm-ngx/core/role';
 
 interface ConditionDashboardDialogConfig {
     privilegeKeyField: XmTextViewOptions,
@@ -39,8 +39,28 @@ const DEFAULT_CONFIG: ConditionDashboardDialogConfig = {
 @Component({
     selector: 'xm-condition-dashboard-detail',
     templateUrl: './condition-dashboard-dialog.component.html',
+    standalone: false,
 })
 export class ConditionDashboardDialogComponent implements OnInit, OnDestroy {
+    public condition: string;
+    public dataSource: Dashboard[];
+    public initialSelection = [];
+    public allowMultiSelect = true;
+    public selection = new SelectionModel<Dashboard>(this.allowMultiSelect, this.initialSelection);
+    public searchControl: UntypedFormControl = new UntypedFormControl();
+    public activeControl: UntypedFormControl = new UntypedFormControl(false);
+    public columns: string[] = ['typeKey', 'select'];
+    public defaultConfig = DEFAULT_CONFIG;
+    private dashboards: Dashboard[];
+
+    constructor(
+        public activeModal: MatDialogRef<ConditionDashboardDialogComponent>,
+        private dashboardWrapperService: DashboardStore,
+    ) {
+    }
+
+    private _permission: Permission;
+
     public get permission(): Permission {
         return this._permission;
     }
@@ -49,22 +69,9 @@ export class ConditionDashboardDialogComponent implements OnInit, OnDestroy {
         this._permission = value;
     }
 
-    public condition: string;
-    private _permission: Permission;
-    public dataSource: Dashboard[];
-    public initialSelection = [];
-    public allowMultiSelect = true;
-    public selection = new SelectionModel<Dashboard>(this.allowMultiSelect, this.initialSelection);
-    public searchControl: UntypedFormControl = new UntypedFormControl();
-    public activeControl: UntypedFormControl = new UntypedFormControl(false);
-    public columns: string[] = ['typeKey', 'select'];
-    private dashboards: Dashboard[];
-    public defaultConfig = DEFAULT_CONFIG;
-
-    constructor(
-        public activeModal: MatDialogRef<ConditionDashboardDialogComponent>,
-        private dashboardWrapperService: DashboardStore,
-    ) {
+    private static transformToSPELL(selectedData: Dashboard[]): string {
+        const typeKeys = [...new Set(selectedData.map(dashboard => dashboard.typeKey))];
+        return typeKeys.map(key => `#returnObject.typeKey == '${key}'`).join(' || ');
     }
 
     public ngOnInit(): void {
@@ -82,6 +89,20 @@ export class ConditionDashboardDialogComponent implements OnInit, OnDestroy {
 
     public onSave(): void {
         this.activeModal.close(ConditionDashboardDialogComponent.transformToSPELL(this.selection.selected));
+    }
+
+    /** Whether the number of selected elements matches the total number of rows. */
+    public isAllSelected(): boolean {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource.length;
+        return numSelected == numRows;
+    }
+
+    /** Selects all rows if they are not all selected; otherwise clear selection. */
+    public masterToggle(): void {
+        this.isAllSelected() ?
+            this.selection.clear() :
+            this.dataSource.forEach(row => this.selection.select(row));
     }
 
     private getAllowedDashboards() {
@@ -104,24 +125,5 @@ export class ConditionDashboardDialogComponent implements OnInit, OnDestroy {
         this.activeControl.valueChanges
             .pipe(takeUntilOnDestroy(this))
             .subscribe((value: boolean) => this.dataSource = this.dashboards.filter(dashboard => value ? this.selection.isSelected(dashboard) : true));
-    }
-
-    /** Whether the number of selected elements matches the total number of rows. */
-    public isAllSelected(): boolean {
-        const numSelected = this.selection.selected.length;
-        const numRows = this.dataSource.length;
-        return numSelected == numRows;
-    }
-
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
-    public masterToggle(): void {
-        this.isAllSelected() ?
-            this.selection.clear() :
-            this.dataSource.forEach(row => this.selection.select(row));
-    }
-
-    private static transformToSPELL(selectedData: Dashboard[]): string {
-        const typeKeys = [...new Set(selectedData.map(dashboard => dashboard.typeKey))];
-        return typeKeys.map(key => `#returnObject.typeKey == '${key}'`).join(' || ');
     }
 }

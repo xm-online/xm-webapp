@@ -1,28 +1,28 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, forwardRef, NO_ERRORS_SCHEMA } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { DashboardEditorService } from '../../services/dashboard-editor.service';
-import { DashboardCollection, DashboardConfig, WidgetCollection } from '../../injectors';
+import { RouterTestingModule } from '@angular/router/testing';
 import { XmAlertService } from '@xm-ngx/alert';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { MockEntityCollection } from '@xm-ngx/repositories/testing';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
-import { XmEventManager } from '@xm-ngx/core';
-import { Principal } from '@xm-ngx/core/user';
-import { XmToasterService } from '@xm-ngx/toaster';
-import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
-
-import { DashboardEditComponent } from './dashboard-edit.component';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
-import { DashboardStore } from '@xm-ngx/dashboard';
-import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { XmEventManager } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { MockUiConfigService } from '@xm-ngx/core/config/testing';
+import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
+import { Principal } from '@xm-ngx/core/user';
+import { DashboardStore } from '@xm-ngx/dashboard';
+import { MockEntityCollection } from '@xm-ngx/repositories/testing';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
+import { DashboardCollection, DashboardConfig, WidgetCollection } from '../../injectors';
+import { DashboardEditorService } from '../../services/dashboard-editor.service';
 import { DashboardsManagerService } from '../../services/dashboards-manager.service';
+
+import { DashboardEditComponent } from './dashboard-edit.component';
 
 @Component({
     selector: 'xm-text-control, xm-ace-editor-control',
@@ -54,8 +54,8 @@ describe('DashboardEditComponent', () => {
                 RouterTestingModule,
                 ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
                 MatDialogModule,
+                MockXmTextControlComponent,
             ],
-            declarations: [MockXmTextControlComponent],
             providers: [
                 {provide: DashboardCollection, useClass: MockEntityCollection},
                 {provide: XmUiConfigService, useClass: MockUiConfigService},
@@ -67,7 +67,7 @@ describe('DashboardEditComponent', () => {
                 {provide: XmToasterService, useValue: null},
                 {provide: DashboardStore, useClass: MockDashboardStore},
                 {provide: WidgetCollection, useClass: MockEntityCollection},
-                {provide: DashboardsManagerService, useValue: null}
+                {provide: DashboardsManagerService, useValue: null},
             ],
             schemas: [NO_ERRORS_SCHEMA],
         })

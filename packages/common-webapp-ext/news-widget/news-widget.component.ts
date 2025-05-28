@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { Feed } from './feed.model';
 import { FeedService } from './feed.service';
-import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-news-widget',
     templateUrl: './news-widget.component.html',
+    standalone: false,
 })
 export class NewsWidgetComponent implements OnInit, XmDynamicWidget {
 

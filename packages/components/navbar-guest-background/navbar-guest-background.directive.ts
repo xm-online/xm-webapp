@@ -7,7 +7,8 @@ import { startWith } from 'rxjs/operators';
 
 @Directive({
     selector: '[xmNavbarGuestBackground]',
-    host: { class: 'xmNavbarGuestBackground' },
+    host: {class: 'xmNavbarGuestBackground'},
+    standalone: false,
 })
 export class NavbarGuestBackgroundDirective {
     @HostBinding('class.xmGuestBackground-active') public background: boolean;
