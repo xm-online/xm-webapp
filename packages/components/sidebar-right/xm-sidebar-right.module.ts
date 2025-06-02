@@ -83,6 +83,16 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
         }
     }
 
+    @HostListener('document:click', ['$event'])
+    public onDocumentClick(event: MouseEvent): void {
+        const clickedInsideSidebar = this.elementRef.nativeElement.contains(event.target);
+        const clickedOnResizer = this.resizerElement?.nativeElement.contains(event.target);
+
+        if (!clickedInsideSidebar && !clickedOnResizer) {
+            this.remove();
+        }
+    }
+
     public mode: string;
 
     private mousePressedOnResizer: boolean;
@@ -90,6 +100,7 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     constructor(private sidebarRightService: SidebarRightService,
                 private moduleRef: NgModuleRef<unknown>,
                 private eventManager: XmEventManager,
+                private elementRef: ElementRef
     ) {
     }
 
