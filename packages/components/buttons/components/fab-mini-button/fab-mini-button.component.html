@@ -1,0 +1,24 @@
+@let disabled = (disabled$ | async) || (loading$ | async);
+@let loading = loading$ | async;
+
+<ng-container *xmPermission="config?.permissions">
+  <button
+    mat-mini-fab
+    [color]="'primary'"
+    [matTooltip]="config.tooltip"
+    [matTooltipDisabled]="!config.tooltip"
+    [class]="config.class"
+    [style]="config.style"
+    [disabled]="disabled"
+    [xm-loading]="loading"
+    [attr.data-qa]="config.dataQa"
+    (click)="executeControllerMethod()">
+
+    @if (config.icon) {
+      <mat-icon>{{ config.icon }}</mat-icon>
+    }
+
+    {{ config.title | xmTranslate }}
+
+  </button>
+</ng-container>
