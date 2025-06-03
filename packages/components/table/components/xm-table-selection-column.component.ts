@@ -32,7 +32,7 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: XmTableSelectTableColumn = {
     width: '',
     name: '_selectColumn',
     sticky: false,
-    selectionKey: ''
+    selectionKey: '',
 };
 
 @Component({

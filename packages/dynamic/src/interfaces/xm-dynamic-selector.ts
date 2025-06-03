@@ -4,7 +4,7 @@ import { XmDynamic } from './xm-dynamic';
 export type XmDynamicSelector = string;
 
 export interface XmDynamicWithSelector {
-    selector: XmDynamicSelector
+    selector: XmDynamicSelector;
 }
 
 /**
