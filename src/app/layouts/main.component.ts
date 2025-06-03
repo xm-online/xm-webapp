@@ -10,9 +10,6 @@ import { MenuService } from '@xm-ngx/components/menu';
 
 export interface XmMainConfig extends XmUIConfig{
     fullWidth?: boolean;
-    sidebar?: {
-        isOutsideClickHideMenu?: boolean
-    }
 }
 
 @Component({
