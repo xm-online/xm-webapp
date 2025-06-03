@@ -20,7 +20,7 @@ import { Container } from './container';
 import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
-import { XmMainConfig } from 'src/app/layouts';
+import { XmMainConfig } from '@xm-ngx/core/config';
 import { switchMap, tap, filter } from 'rxjs/operators';
 import { fromEvent, of } from 'rxjs';
 
