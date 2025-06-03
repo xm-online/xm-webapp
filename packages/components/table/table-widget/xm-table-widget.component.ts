@@ -135,13 +135,18 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
 
     private observeTableResize(): void {
         try {
+            const {nativeElement} = this.tableRef || {};
+            if (!nativeElement) {
+                console.error('Table reference is not available for resize observer');
+                return;
+            }
             const subject = new Subject();
             this.resizeObserver = new ResizeObserver(() => {
                 this.zone.run(() => {
                     subject.next(null);
                 });
             });
-            this.resizeObserver.observe(this.tableRef?.nativeElement);
+            this.resizeObserver.observe(nativeElement);
             merge(this.tableColumnsSettingStorageService.getStore(), subject).pipe(
                 takeUntilOnDestroy(this),
                 debounceTime(50),
