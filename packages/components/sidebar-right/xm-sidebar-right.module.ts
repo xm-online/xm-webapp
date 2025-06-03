@@ -5,6 +5,7 @@ import {
     ElementRef,
     HostBinding,
     HostListener,
+    inject,
     NgModule,
     NgModuleRef,
     OnDestroy,
@@ -18,6 +19,10 @@ import * as _ from 'lodash';
 import { Container } from './container';
 import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service';
 import { XmEventManager } from '@xm-ngx/core';
+import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmMainConfig } from 'src/app/layouts';
+import { switchMap, tap, filter } from 'rxjs/operators';
+import { fromEvent, of } from 'rxjs';
 
 @Directive({selector: '[xmContainerOutlet]'})
 export class ContainerOutletDirective {
@@ -86,16 +91,40 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     public mode: string;
 
     private mousePressedOnResizer: boolean;
-
+    private uiConfigService: XmUiConfigService<XmMainConfig> = inject(XmUiConfigService);
     constructor(private sidebarRightService: SidebarRightService,
                 private moduleRef: NgModuleRef<unknown>,
                 private eventManager: XmEventManager,
+                private elementRef: ElementRef
     ) {
     }
 
     public ngOnInit(): void {
         this.sidebarRightService.setContainer(this as Container);
+        this.observeClicksOutsideSidebar();
     }
+
+    private observeClicksOutsideSidebar(): void {
+        this.uiConfigService.config$().pipe(
+            switchMap((config: XmMainConfig) => {
+              const isOutsideClickHideMenu = config?.sidebar.isOutsideClickHideMenu;
+              if (!isOutsideClickHideMenu) {
+                return of(null);
+              }
+              return fromEvent<MouseEvent>(document, 'click').pipe(
+                    filter(Boolean),
+                    tap((event) => {
+                      const clickedInsideSidebar = this.elementRef.nativeElement.contains(event.target);
+                      const clickedOnResizer = this.resizerElement?.nativeElement.contains(event.target);
+                      if (!clickedInsideSidebar && !clickedOnResizer) {
+                        this.remove();
+                      }
+                    })
+                  );
+            })
+        ).subscribe();
+    }
+
 
     public ngOnDestroy(): void {
         this.sidebarRightService.removeContainer();
