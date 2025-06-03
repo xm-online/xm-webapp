@@ -9,9 +9,6 @@ import { VERSION } from '../xm.constants';
 
 export interface XmMainConfig extends XmUIConfig {
     fullWidth?: boolean;
-    sidebar?: {
-        isOutsideClickHideMenu?: boolean
-    }
 }
 
 @Component({
