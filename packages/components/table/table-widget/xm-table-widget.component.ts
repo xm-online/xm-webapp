@@ -113,7 +113,7 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
 
     constructor(
         private collectionControllerResolver: XmTableCollectionControllerResolver,
-        private tableColumnsSettingStorageService: XmTableColumnsSettingStorageService
+        private tableColumnsSettingStorageService: XmTableColumnsSettingStorageService,
     ) {
     }
 
@@ -130,21 +130,29 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
     }
 
     public ngAfterViewInit(): void {
-        const subject = new Subject();
-        this.resizeObserver = new ResizeObserver(() => {
-            this.zone.run(() => {
-                subject.next(null);
+        this.observeTableResize();
+    }
+
+    private observeTableResize(): void {
+        try {
+            const subject = new Subject();
+            this.resizeObserver = new ResizeObserver(() => {
+                this.zone.run(() => {
+                    subject.next(null);
+                });
             });
-        });
-        this.resizeObserver.observe(this.tableRef?.nativeElement);
-        merge(this.tableColumnsSettingStorageService.getStore(), subject).pipe(
-            takeUntilOnDestroy(this),
-            debounceTime(50)
-        ).subscribe(() => {
-            if (this.hasSticky) {
-                this.table.updateStickyColumnStyles();
-            }
-        });
+            this.resizeObserver.observe(this.tableRef?.nativeElement);
+            merge(this.tableColumnsSettingStorageService.getStore(), subject).pipe(
+                takeUntilOnDestroy(this),
+                debounceTime(50),
+            ).subscribe(() => {
+                if (this.hasSticky) {
+                    this.table.updateStickyColumnStyles();
+                }
+            });
+        } catch (e) {
+            console.error('Can\'t run resize observer', e);
+        }
     }
 
     public ngOnDestroy(): void {

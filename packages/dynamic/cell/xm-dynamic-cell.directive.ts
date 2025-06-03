@@ -10,13 +10,13 @@ import {
     OnInit,
     SimpleChanges,
 } from '@angular/core';
+import {
+    XmDynamicControllerInjectorFactoryService,
+} from '../src/services/xm-dynamic-controller-injector-factory.service';
 import { getValue } from '@xm-ngx/operators';
 import * as _ from 'lodash';
 import { XmDynamicPresentationBase } from '../presentation';
 import { XmDynamicLayoutNode } from '../src/interfaces';
-import {
-    XmDynamicControllerInjectorFactoryService,
-} from '../src/services/xm-dynamic-controller-injector-factory.service';
 
 
 export const XM_DYNAMIC_TABLE_ROW = new InjectionToken<unknown>('XM_DYNAMIC_TABLE_ROW');
@@ -48,9 +48,12 @@ export interface XmDynamicCell<C = unknown> extends XmDynamicLayoutNode<C> {
 export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
     extends XmDynamicPresentationBase<V, O>
     implements OnInit, OnChanges, DoCheck {
+    private readonly SKELETON_SELECTOR = '@xm-ngx/components/skeleton';
 
     /** Component row value */
     @Input() public row: unknown;
+    @Input() public isLoading: boolean = false;
+    @Input() public isSkeletonLoading: boolean = false;
 
     private _cell: O;
 
@@ -62,9 +65,9 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
     @Input()
     public set cell(value: O) {
         this._cell = value;
-        this.selector = value?.selector;
+        this.selector = this.getSelector(value);
         this.options = value?.options;
-        this.config = value?.config;
+        this.config = this.getConfig(value);
         this.style = this.getStyle(value?.style);
         this.class = this.getClass(value?.class);
     }
@@ -83,6 +86,30 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
     @Input()
     public getCellValue(): V | null {
         return getValue(this.row, this._cell.field);
+    }
+
+    private getStyle(style?: string): string {
+        if (style?.includes('${')) {
+            try {
+                style = _.template(style ?? '')(this.row as object ?? {});
+            } catch (e) {
+                console.warn(e);
+            }
+        }
+
+        return style;
+    }
+
+    private getClass(classNames?: string): string {
+        if (classNames?.includes('${')) {
+            try {
+                classNames = _.template(classNames ?? '')(this.row as object ?? {});
+            } catch (e) {
+                console.warn(e);
+            }
+        }
+
+        return classNames;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
@@ -109,6 +136,18 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
         }));
     }
 
+    private isSkeleton(): boolean {
+        return this.isLoading && this.isSkeletonLoading;
+    }
+
+    private getSelector(value?: O): string {
+        return this.isSkeleton() ? this.SKELETON_SELECTOR : value?.selector || this.cell?.selector;
+    }
+
+    private getConfig(value?: O): any {
+        return this.isSkeleton() ? value?.skeleton || this.cell?.skeleton : value?.config || this.cell?.config;
+    }
+
     public ngDoCheck(): void {
         const newValue = this.getCellValue();
 
@@ -116,30 +155,6 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
             this.value = newValue;
             this.updateValue();
         }
-    }
-
-    private getStyle(style?: string): string {
-        if (style?.includes('${')) {
-            try {
-                style = _.template(style ?? '')(this.row as object ?? {});
-            } catch (e) {
-                console.warn(e);
-            }
-        }
-
-        return style;
-    }
-
-    private getClass(classNames?: string): string {
-        if (classNames?.includes('${')) {
-            try {
-                classNames = _.template(classNames ?? '')(this.row as object ?? {});
-            } catch (e) {
-                console.warn(e);
-            }
-        }
-
-        return classNames;
     }
 
 }

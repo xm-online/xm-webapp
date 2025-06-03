@@ -557,6 +557,7 @@
     },
     "new": "New",
     "noData": "No data!",
+    "loading-data": "Please wait. Data is loading...",
     "perPage": "items per page",
     "rest-select-none-option": "None",
     "rest-select-placeholder-noresults": "No results found",

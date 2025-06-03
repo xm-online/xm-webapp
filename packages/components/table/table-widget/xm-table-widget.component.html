@@ -60,7 +60,7 @@
 
           <xm-table-empty [config]="config.noRows"
                           [colspan]="context.settings.displayedColumns.length"
-                          [type]="'initial'"></xm-table-empty>
+                          [type]="context.collection.loading || xmTable.xmTableController['loading'] ? 'loading' : 'initial'"></xm-table-empty>
 
           <xm-table-selection-column
             *ngIf="config.selection"
@@ -71,12 +71,17 @@
           </xm-table-selection-column>
 
           <xm-table-column-dynamic-cell *ngFor="let column of xmTableSelection.dynamicColumns"
+                                        [isLoading]="context.collection.loading || xmTable.xmTableController['loading']"
+                                        [isSkeletonLoading]="config.isSkeletonLoading"
                                         [column]="column"></xm-table-column-dynamic-cell>
 
           <tr *matHeaderRowDef="context.settings.displayedColumns; sticky: config.isStickyHeader" mat-header-row [ngClass]="{'remove-border-top': config.isTitleHidden}"></tr>
 
-          <xm-table-loading [isLoading]="context.collection.loading || xmTable.xmTableController['loading']"
-                            [colspan]="context.settings.displayedColumns.length"></xm-table-loading>
+          <xm-table-loading
+            *ngIf="!config.isSkeletonLoading"
+            [isLoading]="context.collection.loading || xmTable.xmTableController['loading']"
+            [colspan]="context.settings.displayedColumns.length"
+          ></xm-table-loading>
 
           <tr *matRowDef="let row; columns: context.settings.displayedColumns"
               class="xm-table-hoverable-row xm-table-row-background"
