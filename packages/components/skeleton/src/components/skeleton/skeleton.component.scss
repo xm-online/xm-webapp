@@ -1,0 +1,14 @@
+.xm-skeleton {
+  background: linear-gradient(90deg, #DADADA 25%, #F2F2F2 50%, #DADADA 75%);
+  background-size: 400% 100%;
+  animation: xm-skeleton-pulse 1s infinite ease-in-out;
+}
+
+@keyframes xm-skeleton-pulse {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}

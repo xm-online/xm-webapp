@@ -1,4 +1,4 @@
-import { AsyncPipe, JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import {
     AfterViewInit,
     Component,
@@ -17,7 +17,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { injectByKey, XM_DYNAMIC_COMPONENT_CONFIG } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { XmTranslatePipe } from '@xm-ngx/translation';
 import { defaultsDeep } from 'lodash';
 import { merge, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -29,16 +28,13 @@ import {
 } from '../collections';
 import { XmTableColumnsSettingStorageService } from '../controllers/config/xm-table-columns-setting-storage.service';
 import { XmTableColumnDynamicCellComponent } from '../columns/xm-table-column-dynamic-cell.component';
-import { XmTableDynamicColumnComponent } from '../columns/xm-table-dynamic-column.component';
 import { XmTableSelectionHeaderComponent } from '../components/selection-header/xm-table-selection-header.component';
-import { XmTableActionsButtonsComponent } from '../components/xm-table-actions-buttons.component';
 import { XmTableEmptyComponent } from '../components/xm-table-empty.component';
 import { XmTableExpandPanelButtonComponent } from '../components/xm-table-expand-panel-button.component';
 import { XmTableFilterButtonComponent } from '../components/xm-table-filter-button.component';
 import { XmTableFilterChipsComponent } from '../components/xm-table-filter-chips.component';
 import { XmTableFilterInlineComponent } from '../components/xm-table-filter-inline.component';
 import { XmTableHeaderComponent } from '../components/xm-table-header.component';
-import { XmTableLoadingColumnComponent } from '../components/xm-table-loading-column.component';
 import { XmTableLoadingComponent } from '../components/xm-table-loading.component';
 import { XmTableQuickFilterInlineComponent } from '../components/xm-table-quick-filter-inline.component';
 import { XmTableSelectionColumnComponent } from '../components/xm-table-selection-column.component';
@@ -67,13 +63,10 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     host: {class: 'xm-table-widget'},
     imports: [
         MatCardModule,
-        XmTranslatePipe,
         NgIf,
         XmTableDirective,
-        JsonPipe,
         XmTableFilterButtonComponent,
         XmTableFilterChipsComponent,
-        XmTableActionsButtonsComponent,
         XmTableSelectionHeaderComponent,
         XmTableSelectionDirective,
         MatPaginatorModule,
@@ -81,16 +74,13 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         MatTableModule,
         MatSortModule,
         AsyncPipe,
-        XmTableDynamicColumnComponent,
         XmTableColumnDynamicCellComponent,
         NgForOf,
         XmTableSelectionColumnComponent,
-        XmTableLoadingColumnComponent,
         NgClass,
         XmTableHeaderComponent,
         XmTableMatPaginatorAdapterDirective,
         XmTableMatSortAdapterDirective,
-        XmTableLoadingColumnComponent,
         XmTableLoadingComponent,
         XmTableExpandPanelButtonComponent,
         XmTableFilterInlineComponent,
@@ -123,7 +113,7 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
 
     constructor(
         private collectionControllerResolver: XmTableCollectionControllerResolver,
-        private tableColumnsSettingStorageService: XmTableColumnsSettingStorageService
+        private tableColumnsSettingStorageService: XmTableColumnsSettingStorageService,
     ) {
     }
 
@@ -140,21 +130,34 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
     }
 
     public ngAfterViewInit(): void {
-        const subject = new Subject();
-        this.resizeObserver = new ResizeObserver(() => {
-            this.zone.run(() => {
-                subject.next(null);
-            });
-        });
-        this.resizeObserver.observe(this.tableRef?.nativeElement);
-        merge(this.tableColumnsSettingStorageService.getStore(), subject).pipe(
-            takeUntilOnDestroy(this),
-            debounceTime(50)
-        ).subscribe(() => {
-            if (this.hasSticky) {
-                this.table.updateStickyColumnStyles();
+        this.observeTableResize();
+    }
+
+    private observeTableResize(): void {
+        try {
+            const {nativeElement} = this.tableRef || {};
+            if (!nativeElement) {
+                console.error('Table reference is not available for resize observer');
+                return;
             }
-        });
+            const subject = new Subject();
+            this.resizeObserver = new ResizeObserver(() => {
+                this.zone.run(() => {
+                    subject.next(null);
+                });
+            });
+            this.resizeObserver.observe(nativeElement);
+            merge(this.tableColumnsSettingStorageService.getStore(), subject).pipe(
+                takeUntilOnDestroy(this),
+                debounceTime(50),
+            ).subscribe(() => {
+                if (this.hasSticky) {
+                    this.table.updateStickyColumnStyles();
+                }
+            });
+        } catch (e) {
+            console.error('Can\'t run resize observer', e);
+        }
     }
 
     public ngOnDestroy(): void {

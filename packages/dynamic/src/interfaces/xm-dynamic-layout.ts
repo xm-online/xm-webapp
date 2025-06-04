@@ -11,11 +11,12 @@ export interface XmLayoutWithPermission {
     permissionStrategy?: string;
 }
 
-export interface XmDynamicLayoutNode<C = XmConfig> extends
-    XmDynamicWithConfig<C>,
+export interface XmDynamicLayoutNode<C = XmConfig> extends XmDynamicWithConfig<C>,
     XmDynamicWithSelector,
     XmLayoutNode,
-    XmLayoutWithPermission {}
+    XmLayoutWithPermission,
+    XmSkeleton {
+}
 
 /**
  * @deprecated use XmDynamicLayout instead. will be remove in 6.0.0 version.
@@ -38,4 +39,22 @@ export interface XmSanitizedLayout {
     layout: XmDynamicLayout;
     isCustomElement: boolean;
     customParams: unknown;
+}
+
+export interface XmSkeleton {
+    skeleton?: XmSkeletonConfig;
+}
+
+export interface XmSkeletonConfig {
+    styles?: XmSkeletonStyles;
+}
+
+export interface XmSkeletonStyles {
+    /** CSS properties that will be applied as inline styles for the skeleton element */
+    width?: string;
+    height?: string;
+    radius?: string;
+    margin?: string;
+
+    [key: string]: string;
 }

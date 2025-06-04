@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {
     Component,
     Directive,
@@ -16,15 +16,15 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { Container } from './container';
-import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service';
-import { XmEventManager } from '@xm-ngx/core';
-import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
-import { switchMap, tap, filter } from 'rxjs/operators';
-import { fromEvent, of } from 'rxjs';
+import {Container} from './container';
+import {SidebarRightConfig, SidebarRightService} from './sidebar-right.service';
+import {XmEventManager} from '@xm-ngx/core';
+import {XmUIConfig, XmUiConfigService} from '@xm-ngx/core/config';
+import {switchMap, tap, filter} from 'rxjs/operators';
+import {fromEvent, of} from 'rxjs';
 
 
-interface XmMainConfig extends XmUIConfig{
+interface XmMainConfig extends XmUIConfig {
     sidebar?: {
         isOutsideClickHideMenu?: boolean
     }
@@ -98,6 +98,7 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
 
     private mousePressedOnResizer: boolean;
     private uiConfigService: XmUiConfigService<XmMainConfig> = inject(XmUiConfigService);
+
     constructor(private sidebarRightService: SidebarRightService,
                 private moduleRef: NgModuleRef<unknown>,
                 private eventManager: XmEventManager,
@@ -113,23 +114,23 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     private observeClicksOutsideSidebar(): void {
         this.uiConfigService.config$().pipe(
             switchMap((config: XmMainConfig) => {
-              const isOutsideClickHideMenu = config?.sidebar.isOutsideClickHideMenu;
-              if (!isOutsideClickHideMenu) {
-                return of(null);
-              }
-              return fromEvent<MouseEvent>(document, 'click').pipe(
+                const isOutsideClickHideMenu = config?.sidebar.isOutsideClickHideMenu;
+                if (!isOutsideClickHideMenu) {
+                    return of(null);
+                }
+                return fromEvent<MouseEvent>(document, 'click').pipe(
                     filter(Boolean),
                     tap((event) => {
                         if (this.sidebarRightService.wasJustOpened()) {
                             return;
                         }
-                      const clickedInsideSidebar = this.elementRef.nativeElement.contains(event.target);
-                      const clickedOnResizer = this.resizerElement?.nativeElement.contains(event.target);
-                      if (!clickedInsideSidebar && !clickedOnResizer) {
-                        this.remove();
-                      }
+                        const clickedInsideSidebar = this.elementRef.nativeElement.contains(event.target);
+                        const clickedOnResizer = this.resizerElement?.nativeElement.contains(event.target);
+                        if (!clickedInsideSidebar && !clickedOnResizer) {
+                            this.remove();
+                        }
                     })
-                  );
+                );
             })
         ).subscribe();
     }
@@ -184,7 +185,7 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     }
 
     private changeMainElementMarginBy(width: string): void {
-        this.eventManager.broadcast({ name: 'rightSidebarToggle', data: { mode: this.mode, width } });
+        this.eventManager.broadcast({name: 'rightSidebarToggle', data: {mode: this.mode, width}});
     }
 
     private getWidthStorageKey(): string {
