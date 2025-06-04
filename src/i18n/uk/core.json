@@ -557,6 +557,7 @@
     },
     "new": "Новий",
     "noData": "Немає даних!",
+    "loading-data": "Зачекайте, будь ласка. Завантаження даних...",
     "perPage": "елементів на сторінці",
     "rest-select-none-option": "Нічого",
     "rest-select-placeholder-noresults": "Нічого не знайдено",

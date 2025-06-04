@@ -11,7 +11,7 @@ import {
     SimpleChanges,
 } from '@angular/core';
 import {
-    XmDynamicControllerInjectorFactoryService
+    XmDynamicControllerInjectorFactoryService,
 } from '../src/services/xm-dynamic-controller-injector-factory.service';
 import { getValue } from '@xm-ngx/operators';
 import * as _ from 'lodash';
@@ -42,14 +42,17 @@ export interface XmDynamicCell<C = unknown> extends XmDynamicLayoutNode<C> {
  */
 @Directive({
     selector: 'xm-dynamic-cell, [xmDynamicCell]',
-    providers: [XmDynamicControllerInjectorFactoryService]
+    providers: [XmDynamicControllerInjectorFactoryService],
 })
 export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
     extends XmDynamicPresentationBase<V, O>
     implements OnInit, OnChanges, DoCheck {
+    private readonly SKELETON_SELECTOR = '@xm-ngx/components/skeleton';
 
     /** Component row value */
     @Input() public row: unknown;
+    @Input() public isLoading: boolean = false;
+    @Input() public isSkeletonLoading: boolean = false;
 
     private _cell: O;
 
@@ -61,9 +64,9 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
     @Input()
     public set cell(value: O) {
         this._cell = value;
-        this.selector = value?.selector;
+        this.selector = this.getSelector(value);
         this.options = value?.options;
-        this.config = value?.config;
+        this.config = this.getConfig(value);
         this.style = this.getStyle(value?.style);
         this.class = this.getClass(value?.class);
     }
@@ -130,6 +133,18 @@ export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>
             ],
             parent: injector,
         }));
+    }
+
+    private isSkeleton(): boolean {
+        return this.isLoading && this.isSkeletonLoading;
+    }
+
+    private getSelector(value?: O): string {
+        return this.isSkeleton() ? this.SKELETON_SELECTOR : value?.selector || this.cell?.selector;
+    }
+
+    private getConfig(value?: O): any {
+        return this.isSkeleton() ? value?.skeleton || this.cell?.skeleton : value?.config || this.cell?.config;
     }
 
     public ngDoCheck(): void {
