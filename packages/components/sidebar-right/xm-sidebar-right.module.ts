@@ -1,4 +1,4 @@
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
     Component,
     Directive,
@@ -16,12 +16,12 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import * as _ from 'lodash';
-import {Container} from './container';
-import {SidebarRightConfig, SidebarRightService} from './sidebar-right.service';
-import {XmEventManager} from '@xm-ngx/core';
-import {XmUIConfig, XmUiConfigService} from '@xm-ngx/core/config';
-import {switchMap, tap, filter} from 'rxjs/operators';
-import {fromEvent, of} from 'rxjs';
+import { Container } from './container';
+import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service';
+import { XmEventManager } from '@xm-ngx/core';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
+import { switchMap, tap, filter } from 'rxjs/operators';
+import { fromEvent, of } from 'rxjs';
 
 
 interface XmMainConfig extends XmUIConfig {
