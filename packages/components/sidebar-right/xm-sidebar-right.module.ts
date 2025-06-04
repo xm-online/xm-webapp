@@ -185,7 +185,7 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     }
 
     private changeMainElementMarginBy(width: string): void {
-        this.eventManager.broadcast({name: 'rightSidebarToggle', data: {mode: this.mode, width}});
+        this.eventManager.broadcast({ name: 'rightSidebarToggle', data: { mode: this.mode, width } });
     }
 
     private getWidthStorageKey(): string {
