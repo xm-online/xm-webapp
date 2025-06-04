@@ -113,20 +113,20 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     private observeClicksOutsideSidebar(): void {
         this.uiConfigService.config$().pipe(
             switchMap((config: XmMainConfig) => {
-              const isOutsideClickHideMenu = config?.sidebar.isOutsideClickHideMenu;
-              if (!isOutsideClickHideMenu) {
-                return of(null);
-              }
-              return fromEvent<MouseEvent>(document, 'click').pipe(
+                const isOutsideClickHideMenu = config?.sidebar.isOutsideClickHideMenu;
+                if (!isOutsideClickHideMenu) {
+                    return of(null);
+                }
+                return fromEvent<MouseEvent>(document, 'click').pipe(
                     filter(Boolean),
                     tap((event) => {
-                      const clickedInsideSidebar = this.elementRef.nativeElement.contains(event.target);
-                      const clickedOnResizer = this.resizerElement?.nativeElement.contains(event.target);
-                      if (!clickedInsideSidebar && !clickedOnResizer) {
-                        this.remove();
-                      }
+                        const clickedInsideSidebar = this.elementRef.nativeElement.contains(event.target);
+                        const clickedOnResizer = this.resizerElement?.nativeElement.contains(event.target);
+                        if (!clickedInsideSidebar && !clickedOnResizer) {
+                            this.remove();
+                        }
                     })
-                  );
+                );
             })
         ).subscribe();
     }
