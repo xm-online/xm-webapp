@@ -120,6 +120,9 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
               return fromEvent<MouseEvent>(document, 'click').pipe(
                     filter(Boolean),
                     tap((event) => {
+                        if (this.sidebarRightService.wasJustOpened()) {
+                            return;
+                        }
                       const clickedInsideSidebar = this.elementRef.nativeElement.contains(event.target);
                       const clickedOnResizer = this.resizerElement?.nativeElement.contains(event.target);
                       if (!clickedInsideSidebar && !clickedOnResizer) {
@@ -143,7 +146,7 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
         }
 
         this.mode = config.mode || 'side';
-
+        this.sidebarRightService.markJustOpened();
         if (templateRef instanceof TemplateRef) {
             viewContainerRef.createEmbeddedView(templateRef);
             this.openStyles(localStorage.getItem(this.getWidthStorageKey()) || config.width || this.sidebarRightService.width);
