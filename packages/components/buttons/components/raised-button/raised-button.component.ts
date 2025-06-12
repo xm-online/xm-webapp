@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ButtonBase } from '@xm-ngx/components/buttons/components/button-base';
+import { ButtonBase } from '../button-base';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltip } from '@angular/material/tooltip';
 import { AsyncPipe, NgIf } from '@angular/common';
