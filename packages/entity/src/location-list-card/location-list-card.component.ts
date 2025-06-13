@@ -1,27 +1,15 @@
+import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular/animations';
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
+import { Location, LocationService, LocationSpec, XmEntity, XmEntityService, XmEntitySpec } from '@xm-ngx/core/entity';
 import { XmToasterService } from '@xm-ngx/toaster';
 
 import { Subscription } from 'rxjs';
 import { LocationDetailDialogComponent } from '../location-detail-dialog/location-detail-dialog.component';
-import { LocationSpec } from '@xm-ngx/core/entity';
-import { Location } from '@xm-ngx/core/entity';
-import { LocationService } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { XmEntityService } from '@xm-ngx/core/entity';
-import { XmEntitySpec } from '@xm-ngx/core/entity';
-import {
-    AUTO_STYLE,
-    animate,
-    state,
-    style,
-    transition,
-    trigger,
-} from '@angular/animations';
 
 const ANIMATION_DURATION = 300;
 
@@ -40,8 +28,30 @@ declare let google: any;
             transition('true => false', animate(ANIMATION_DURATION + 'ms ease-out')),
         ]),
     ],
+    standalone: false,
 })
 export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
+
+    @Input() public xmEntityId: number;
+    @Input() public locationSpecs: LocationSpec[];
+    @Input() public entityUiConfig: any;
+    @Input() public xmEntitySpec: XmEntitySpec;
+    public xmEntity: XmEntity;
+    public locations: Location[];
+    public locationMaps: any;
+    public noDataText: any;
+    public collapsedAddLocation = true;
+    public openedLocation = false;
+    private modificationSubscription: Subscription;
+
+    constructor(private xmEntityService: XmEntityService,
+                private locationService: LocationService,
+                private modalService: MatDialog,
+                private eventManager: XmEventManager,
+                private alertService: XmAlertService,
+                private toasterService: XmToasterService,
+                private translateService: TranslateService) {
+    }
 
     private static loadMap(location: Location): any {
         if (location.latitude && location.longitude) {
@@ -61,27 +71,6 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
             return map;
         }
         return null;
-    }
-
-    @Input() public xmEntityId: number;
-    @Input() public locationSpecs: LocationSpec[];
-    @Input() public entityUiConfig: any;
-    @Input() public xmEntitySpec: XmEntitySpec;
-    public xmEntity: XmEntity;
-    public locations: Location[];
-    public locationMaps: any;
-    public noDataText: any;
-    private modificationSubscription: Subscription;
-    public collapsedAddLocation = true;
-    public openedLocation = false;
-
-    constructor(private xmEntityService: XmEntityService,
-                private locationService: LocationService,
-                private modalService: MatDialog,
-                private eventManager: XmEventManager,
-                private alertService: XmAlertService,
-                private toasterService: XmToasterService,
-                private translateService: TranslateService) {
     }
 
     public ngOnInit(): void {
@@ -161,15 +150,19 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
         });
     }
 
-    private registerListModify(): void {
-        this.modificationSubscription = this.eventManager.subscribe('locationListModification',
-            () => this.load());
-    }
-
     public onAddALocation(): void {
         this.openDialog(LocationDetailDialogComponent, (modalRef) => {
             modalRef.componentInstance.locationSpecs = this.xmEntitySpec.locations;
         }, {size: 'lg', backdrop: 'static'});
+    }
+
+    public collapseAddLocationBlock(): void {
+        this.collapsedAddLocation = !this.collapsedAddLocation;
+    }
+
+    private registerListModify(): void {
+        this.modificationSubscription = this.eventManager.subscribe('locationListModification',
+            () => this.load());
     }
 
     private openDialog(dialogClass: any, operation: any, options?: any): MatDialogRef<any> {
@@ -178,11 +171,6 @@ export class LocationListCardComponent implements OnInit, OnChanges, OnDestroy {
         operation(modalRef);
         return modalRef;
     }
-
-    public collapseAddLocationBlock(): void {
-        this.collapsedAddLocation = !this.collapsedAddLocation;
-    }
-
 
     private load(): void {
         this.locations = [];

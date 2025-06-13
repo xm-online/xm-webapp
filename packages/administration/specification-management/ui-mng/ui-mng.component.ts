@@ -1,16 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
 import {
     XmAceEditorControlModeEnum,
     XmAceEditorControlOptions,
-    XmAceEditorControlTypeEnum
+    XmAceEditorControlTypeEnum,
 } from '@xm-ngx/components/ace-editor';
-import { finalize } from 'rxjs/operators';
 import { XmConfigService } from '@xm-ngx/core/config';
+import { finalize } from 'rxjs/operators';
+import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
 
 @Component({
     selector: 'xm-ui-mng',
     templateUrl: './ui-mng.component.html',
+    standalone: false,
 })
 export class UiMngComponent implements OnInit {
 
@@ -61,7 +62,7 @@ export class UiMngComponent implements OnInit {
     public validateUiSpecification(): void {
         const errors = ConfigValidatorUtil.validateYAML(this.uiSpecificationOut);
         if (errors && errors.length) {
-            this.uiValidation = { errorMessage: '' };
+            this.uiValidation = {errorMessage: ''};
             for (const err of errors) {
                 this.uiValidation.errorMessage += err.message + (err.path ? ' path: ' + err.path : '') + '<br/>';
             }

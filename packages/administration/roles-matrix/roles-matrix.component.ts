@@ -5,14 +5,13 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { RoleMatrix, RoleMatrixPermission, RoleService } from '@xm-ngx/core/role';
 import { Principal } from '@xm-ngx/core/user';
+import { JhiOrderByPipe } from '@xm-ngx/jhipster';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { JhiOrderByPipe } from '@xm-ngx/jhipster';
 import { finalize } from 'rxjs/operators';
-import { XmConfigService } from '@xm-ngx/core/config';
-import { RoleMatrix, RoleMatrixPermission } from '@xm-ngx/core/role';
-import { RoleService } from '@xm-ngx/core/role';
 
 export interface TableDisplayColumn {
     key: string,
@@ -24,10 +23,11 @@ export interface TableDisplayColumn {
     templateUrl: './roles-matrix.component.html',
     providers: [JhiOrderByPipe],
     styleUrls: ['./roles-matrix.component.scss'],
+    standalone: false,
 })
 export class RolesMatrixComponent implements OnInit, OnDestroy {
 
-    @ViewChild('table', { static: false }) public table: ElementRef;
+    @ViewChild('table', {static: false}) public table: ElementRef;
 
     public options: {
         pageSizeOptions: number[],
@@ -50,9 +50,9 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
     public hasChanges: boolean;
     public permittedFilter: any[] = [
         {},
-        { trans: 'permitted', value: 'allset' },
-        { trans: 'notPermitted', value: 'notset' },
-        { trans: 'permittedAny', value: 'anyset' },
+        {trans: 'permitted', value: 'allset'},
+        {trans: 'notPermitted', value: 'notset'},
+        {trans: 'permittedAny', value: 'anyset'},
     ];
     public originalColumns: TableDisplayColumn[];
 
@@ -61,8 +61,8 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
         new MatTableDataSource<RoleMatrixPermission>([]);
     public readOnlyMode: boolean;
 
-    @ViewChild(MatSort, { static: true }) public sort: MatSort;
-    @ViewChild(MatPaginator, { static: true }) public paginator: MatPaginator;
+    @ViewChild(MatSort, {static: true}) public sort: MatSort;
+    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
 
     constructor(
         private principal: Principal,
@@ -100,18 +100,18 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
                             item.roles = item.roles || [];
                             item.roles = result.roles.map((el) => {
                                 const value = item.roles.indexOf(el) !== -1;
-                                item.data = { ...item.data, [el]: { checked: value, valueOrg: value } };
-                                return { value, valueOrg: value };
+                                item.data = {...item.data, [el]: {checked: value, valueOrg: value}};
+                                return {value, valueOrg: value};
                             });
                         });
                         result.permissions = this.orderByPipe.transform(result.permissions, this.options.sortBy, this.options.sortDirection === 'asc');
                     }
                     this.hiddenRoles = [];
-                    this.matrix = { ...result };
+                    this.matrix = {...result};
                     this.originalColumns = [
-                        { key: 'privilegeKey', hidden: false },
-                        { key: 'permissionDescription', hidden: false },
-                        { key: 'msName', hidden: false },
+                        {key: 'privilegeKey', hidden: false},
+                        {key: 'permissionDescription', hidden: false},
+                        {key: 'msName', hidden: false},
                         ...this.matrix.roles.map(r => ({
                             key: r,
                             hidden: false,
@@ -145,7 +145,7 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
     }
 
     public onHideRole(role: string, indx: number): void {
-        this.hiddenRoles.push({ role, indx });
+        this.hiddenRoles.push({role, indx});
         this.originalColumns.map(c => {
             if (c.key === role) {
                 c.hidden = true;
@@ -173,7 +173,7 @@ export class RolesMatrixComponent implements OnInit, OnDestroy {
     public onSave(): void {
         this.showLoader = true;
         const permissions = this.dataSource.data;
-        const matrix: RoleMatrix = { ...Object.assign({}, this.matrix), permissions };
+        const matrix: RoleMatrix = {...Object.assign({}, this.matrix), permissions};
         matrix.permissions = matrix.permissions.map((perm, index) => {
             const item = Object.assign({}, perm);
             const newRoles: string[] = [];

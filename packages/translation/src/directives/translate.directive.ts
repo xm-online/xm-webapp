@@ -3,6 +3,7 @@ import { TranslateDirective as NgxTranslateDirective, TranslateService } from '@
 
 @Directive({
     selector: '[jhiTranslate], [xmTranslate], [translate], [ngx-translate]',
+    standalone: false,
 })
 export class TranslateDirective extends NgxTranslateDirective implements OnDestroy {
     constructor(public _translateService: TranslateService, element: ElementRef, _ref: ChangeDetectorRef) {
@@ -14,7 +15,8 @@ export class TranslateDirective extends NgxTranslateDirective implements OnDestr
         this.translateParams = value;
     }
 
-    @Input() public set translate(value: string) {
+    @Input()
+    public set translate(value: string) {
         if (value) {
             if (typeof value === 'object') {
                 value = value && value[this._translateService.currentLang];

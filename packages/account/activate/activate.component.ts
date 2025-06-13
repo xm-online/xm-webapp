@@ -7,6 +7,7 @@ import { Activate } from './activate.service';
 @Component({
     selector: 'xm-activate',
     templateUrl: './activate.component.html',
+    standalone: false,
 })
 export class ActivateComponent implements OnInit {
     public error: string;

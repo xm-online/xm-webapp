@@ -21,6 +21,7 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Directive({
     selector: '[jhiSort]',
+    standalone: false,
 })
 export class JhiSortDirective {
     @Input() public predicate: string;
@@ -31,7 +32,9 @@ export class JhiSortDirective {
     @Output() public ascendingChange: EventEmitter<boolean> = new EventEmitter();
 
     public activeIconComponent: FaIconComponent;
-    constructor() {}
+
+    constructor() {
+    }
 
     public sort(field: string): void {
         this.ascending = field !== this.predicate ? true : !this.ascending;

@@ -1,19 +1,20 @@
-import {XmDynamicCellDirective, XmDynamicModule, XM_DYNAMIC_EXTENSIONS} from '@xm-ngx/dynamic';
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-
-import {Component, DebugElement} from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { XM_DYNAMIC_EXTENSIONS, XmDynamicCellDirective, XmDynamicModule } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'mock-xm-dynamic-cell',
     template: `
-      <xm-dynamic-cell
-          [row]="{c: true}"
-          [cell]="{field: 'c', selector: '@xm-ngx/components/xm-bool-view'}"
-      ></xm-dynamic-cell>
-    `
+        <xm-dynamic-cell
+                [row]="{c: true}"
+                [cell]="{field: 'c', selector: '@xm-ngx/components/xm-bool-view'}"
+        ></xm-dynamic-cell>
+    `,
+    standalone: false,
 })
-class MockXmDynamicCellComponent {}
+class MockXmDynamicCellComponent {
+}
 
 describe('XmDynamicCellDirective', () => {
     let directive: XmDynamicCellDirective<unknown, any>;
@@ -23,14 +24,14 @@ describe('XmDynamicCellDirective', () => {
         fixture = TestBed.configureTestingModule({
             declarations: [
                 MockXmDynamicCellComponent,
-                XmDynamicCellDirective
+                XmDynamicCellDirective,
             ],
             imports: [
-                XmDynamicModule.forRoot([])
+                XmDynamicModule.forRoot([]),
             ],
             providers: [
-                {provide: XM_DYNAMIC_EXTENSIONS, useValue: XM_DYNAMIC_EXTENSIONS}
-            ]
+                {provide: XM_DYNAMIC_EXTENSIONS, useValue: XM_DYNAMIC_EXTENSIONS},
+            ],
         }).createComponent(MockXmDynamicCellComponent);
 
         const el: DebugElement = fixture.debugElement.query(By.directive(XmDynamicCellDirective));
@@ -44,16 +45,16 @@ describe('XmDynamicCellDirective', () => {
 
     describe('getCellValue', () => {
         it('{field: \'test\'} should return row field', () => {
-            const row = { test: 1 };
+            const row = {test: 1};
             directive.row = row;
-            directive.cell = { field: 'test', selector: null, options: null, style: null, class: null };
+            directive.cell = {field: 'test', selector: null, options: null, style: null, class: null};
             expect(directive.getCellValue()).toEqual(row.test);
         });
 
         it('{field: null} should return row', () => {
-            const row = { test: 1 };
+            const row = {test: 1};
             directive.row = row;
-            directive.cell = { field: null, selector: null, options: null, style: null, class: null };
+            directive.cell = {field: null, selector: null, options: null, style: null, class: null};
             expect(directive.getCellValue()).toEqual(row);
         });
     });

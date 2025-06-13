@@ -1,28 +1,31 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { finalize } from 'rxjs/operators';
-import { dayjs } from '@xm-ngx/operators';
-
-import { XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
-import { Principal } from '@xm-ngx/core/user';
-import { CalendarSpec } from '@xm-ngx/core/entity';
-import { Calendar } from '@xm-ngx/core/entity';
-import { CalendarService } from '@xm-ngx/core/entity';
-import { Event } from '@xm-ngx/core/entity';
-import { EventService } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { buildJsfAttributes, nullSafe } from '@xm-ngx/json-schema-form/components';
-import { UUID } from 'angular2-uuid';
 import { MatDialogRef } from '@angular/material/dialog';
-import { XmUiConfigService } from '@xm-ngx/core/config';
-import { firstValueFrom } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
+import { XmUiConfigService } from '@xm-ngx/core/config';
+
+import {
+    Calendar,
+    CalendarService,
+    CalendarSpec,
+    Event,
+    EventService,
+    XmEntity,
+    XmEntitySpecWrapperService,
+} from '@xm-ngx/core/entity';
+import { Principal } from '@xm-ngx/core/user';
+import { buildJsfAttributes, nullSafe } from '@xm-ngx/json-schema-form/components';
+import { dayjs } from '@xm-ngx/operators';
+import { UUID } from 'angular2-uuid';
+import { firstValueFrom } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'xm-calendar-event-dialog',
     templateUrl: './calendar-event-dialog.component.html',
     styleUrls: ['./calendar-event-dialog.component.scss'],
+    standalone: false,
 })
 export class CalendarEventDialogComponent implements OnInit {
 
@@ -49,11 +52,12 @@ export class CalendarEventDialogComponent implements OnInit {
         public principal: Principal,
         private publicUiSpecService: XmUiConfigService,
         private alertService: XmAlertService,
-    ) {}
+    ) {
+    }
 
     public ngOnInit(): void {
         const event: any = (this.calendarSpec.events.length && this.calendarSpec.events[0]) || {};
-        if(!this.event.typeKey && (this.calendarSpec?.events?.length === 1)) {
+        if (!this.event.typeKey && (this.calendarSpec?.events?.length === 1)) {
             this.event.typeKey = event.key;
         }
         event.dataTypeKey && this.xmEntitySpecWrapperService
@@ -74,7 +78,7 @@ export class CalendarEventDialogComponent implements OnInit {
             key: UUID.UUID(),
             name: 'Event eventDataRef',
         } as XmEntity;
-        Object.assign(this.event.eventDataRef, { data });
+        Object.assign(this.event.eventDataRef, {data});
     }
 
     public onConfirmSave(): void {
@@ -91,6 +95,22 @@ export class CalendarEventDialogComponent implements OnInit {
                     (err) => console.info(err),
                     () => this.showLoader = false);
         }
+    }
+
+    public onCancel(): void {
+        this.dialogRef.close('cancel');
+    }
+
+    public onRemove(): void {
+        this.onRemoveEvent(this.event, () => this.onCancel());
+    }
+
+    public eventEndDateChange(event: { value: string }): void {
+        this.event.endDate = dayjs(event.value).format('YYYY-MM-DDTHH:mm:ss');
+    }
+
+    public eventStartDateChange(event: { value: string }): void {
+        this.event.startDate = dayjs(event.value).format('YYYY-MM-DDTHH:mm:ss');
     }
 
     private loadJSFAttributes(): void {
@@ -114,22 +134,6 @@ export class CalendarEventDialogComponent implements OnInit {
                     (err) => console.info(err),
                     () => this.showLoader = false);
         }
-    }
-
-    public onCancel(): void {
-        this.dialogRef.close('cancel');
-    }
-
-    public onRemove(): void {
-        this.onRemoveEvent(this.event, () => this.onCancel());
-    }
-
-    public eventEndDateChange(event: { value: string }): void {
-        this.event.endDate = dayjs(event.value).format('YYYY-MM-DDTHH:mm:ss');
-    }
-
-    public eventStartDateChange(event: { value: string }): void {
-        this.event.startDate = dayjs(event.value).format('YYYY-MM-DDTHH:mm:ss');
     }
 
     private onSaveSuccess(calendarId: number): void {
@@ -163,7 +167,7 @@ export class CalendarEventDialogComponent implements OnInit {
                 title: '###',
             };
         }
-        if(this.calendarUiSpec?.hideDescription) {
+        if (this.calendarUiSpec?.hideDescription) {
             this.event = {
                 ...this.event,
                 description: '',

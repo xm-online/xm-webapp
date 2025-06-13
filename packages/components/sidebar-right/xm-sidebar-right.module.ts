@@ -30,7 +30,7 @@ interface XmMainConfig extends XmUIConfig {
     }
 }
 
-@Directive({selector: '[xmContainerOutlet]'})
+@Directive({standalone: false, selector: '[xmContainerOutlet]'})
 export class ContainerOutletDirective {
     constructor(public viewContainerRef: ViewContainerRef) {
     }
@@ -46,6 +46,7 @@ export class ContainerOutletDirective {
         <div class="resize-divider" #resizer></div>
         <ng-container xmContainerOutlet></ng-container>
     `,
+    standalone: false,
 })
 export class XmSidebarRightComponent implements OnInit, OnDestroy {
 

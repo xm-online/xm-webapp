@@ -1,13 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { Spec } from '@xm-ngx/entity';
 
 import { LIST_DEFAULT_FIELDS } from '@xm-ngx/translation';
-import { Spec } from '@xm-ngx/entity';
-import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-entity-list-widget',
     templateUrl: './entity-list-widget.component.html',
+    standalone: false,
 })
 export class EntityListWidgetComponent implements OnInit, XmDynamicWidget {
 

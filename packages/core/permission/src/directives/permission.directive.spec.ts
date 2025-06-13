@@ -1,10 +1,10 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { MockPermissionService } from '@xm-ngx/core/permission/testing';
+import { BehaviorSubject, of } from 'rxjs';
 import { XmPermissionService } from '../xm-permission.service';
 import { PermissionDirective } from './permission.directive';
-import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 
 @Component({
     template: `
@@ -12,6 +12,7 @@ import { MockPermissionService } from '@xm-ngx/core/permission/testing';
             {{ content }}
         </div>
     `,
+    standalone: false,
 })
 class HostComponent {
     public content = '';
@@ -20,10 +21,11 @@ class HostComponent {
 
 @Component({
     template: `
-        <ng-template #noPermittedRef>{{falseContent}}</ng-template>
-        <ng-template #hasPermittedRef>{{trueContent}}</ng-template>
+        <ng-template #noPermittedRef>{{ falseContent }}</ng-template>
+        <ng-template #hasPermittedRef>{{ trueContent }}</ng-template>
         <ng-container *xmPermission="permissions; then hasPermittedRef; else noPermittedRef"></ng-container>
     `,
+    standalone: false,
 })
 class HostThenComponent {
     public trueContent = 'trueContent';

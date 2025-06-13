@@ -2,7 +2,7 @@ import { Directive, Host, NgModule } from '@angular/core';
 import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { LoaderComponent } from '@xm-ngx/components/loader';
 
-@Directive({ selector: '[routerLoading]' })
+@Directive({standalone: false, selector: '[routerLoading]'})
 export class RouteLoadingDirective {
     public loading: boolean = false;
 

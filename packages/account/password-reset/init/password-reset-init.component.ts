@@ -5,6 +5,7 @@ import { AccountService } from '@xm-ngx/core/user';
 @Component({
     selector: 'xm-password-reset-init',
     templateUrl: './password-reset-init.component.html',
+    standalone: false,
 })
 export class PasswordResetInitComponent implements OnInit, AfterViewInit {
     public error: string;

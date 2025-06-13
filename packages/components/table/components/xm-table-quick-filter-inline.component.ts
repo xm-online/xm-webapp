@@ -3,7 +3,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import {
-    XmTableFilterButtonDialogControlsComponent,
     XmTableFiltersControlRequestConfig,
 } from './xm-table-filter-button-dialog-controls.component';
 import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
@@ -81,7 +80,6 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
     `],
     imports: [
         MatButtonModule,
-        XmTableFilterButtonDialogControlsComponent,
         XmEmptyPipe,
         NgIf,
         MatIconModule,

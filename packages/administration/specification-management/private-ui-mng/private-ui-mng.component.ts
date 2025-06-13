@@ -1,17 +1,18 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ConfigValidatorUtil} from '../config-validator/config-validator.util';
+import { Component, Input, OnInit } from '@angular/core';
 import {
     XmAceEditorControlModeEnum,
     XmAceEditorControlOptions,
-    XmAceEditorControlTypeEnum
+    XmAceEditorControlTypeEnum,
 } from '@xm-ngx/components/ace-editor';
-import {finalize} from 'rxjs/operators';
-import {XmConfigService} from '@xm-ngx/core/config';
-import {Principal} from '@xm-ngx/core/user';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { Principal } from '@xm-ngx/core/user';
+import { finalize } from 'rxjs/operators';
+import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
 
 @Component({
     selector: 'xm-private-ui-mng',
     templateUrl: './private-ui-mng.component.html',
+    standalone: false,
 })
 export class PrivateUiMngComponent implements OnInit {
     @Input() public disabled: boolean;
@@ -65,7 +66,7 @@ export class PrivateUiMngComponent implements OnInit {
     public validatePrivateUiSpecification(): void {
         const errors = ConfigValidatorUtil.validateYAML(this.uiPrivateSpecificationOut);
         if (errors && errors.length) {
-            this.uiPrivateValidation = { errorMessage: '' };
+            this.uiPrivateValidation = {errorMessage: ''};
             for (const err of errors) {
                 this.uiPrivateValidation.errorMessage += err.message + (err.path ? ' path: ' + err.path : '') + '<br/>';
             }

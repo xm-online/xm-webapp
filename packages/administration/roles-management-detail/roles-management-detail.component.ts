@@ -5,27 +5,27 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { ConditionDashboardDialogComponent } from './condition-dashboard-dialog/condition-dashboard-dialog.component';
-import { JhiLanguageHelper } from '@xm-ngx/translation';
 import { TABLE_CONFIG_DEFAULT } from '@xm-ngx/components/table';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { Permission, Role, RoleService } from '@xm-ngx/core/role';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
+import { JhiLanguageHelper } from '@xm-ngx/translation';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { Role, RoleService } from '@xm-ngx/core/role';
-import { XmConfigService } from '@xm-ngx/core/config';
-import { Permission } from '@xm-ngx/core/role';
+import { ConditionDashboardDialogComponent } from './condition-dashboard-dialog/condition-dashboard-dialog.component';
 import { RoleConditionDialogComponent } from './roles-management-condition-dialog.component';
 
 @Component({
     selector: 'xm-role-mgmt-datail',
     templateUrl: './roles-management-detail.component.html',
     styles: [`
-        :host .role-details-table ::ng-deep th {
-            padding: 4px 10px;
-            white-space: nowrap;
-        }
+      :host .role-details-table ::ng-deep th {
+        padding: 4px 10px;
+        white-space: nowrap;
+      }
     `],
+    standalone: false,
 })
 export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
 
@@ -40,13 +40,13 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
     public forbids: string[] = ['', 'EXCEPTION', 'SKIP'];
     public permits: any[] = [
         {},
-        { trans: 'permitted', value: true },
-        { trans: 'notPermitted', value: false },
+        {trans: 'permitted', value: true},
+        {trans: 'notPermitted', value: false},
     ];
     public resourceConditions: any[] = [
         {},
-        { trans: 'permitted', value: true },
-        { trans: 'notPermitted', value: false },
+        {trans: 'permitted', value: true},
+        {trans: 'notPermitted', value: false},
     ];
     public showLoader: boolean;
     public sortBy: any = {};
@@ -58,8 +58,8 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
     public dataSource: MatTableDataSource<Permission> =
         new MatTableDataSource<Permission>([]);
     public readOnlyMode: boolean;
-    @ViewChild(MatSort, { static: true }) public sort: MatSort;
-    @ViewChild(MatPaginator, { static: true }) public paginator: MatPaginator;
+    @ViewChild(MatSort, {static: true}) public sort: MatSort;
+    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
     private routeParamsSubscription: Subscription;
     private routeDataSubscription: Subscription;
 
@@ -162,7 +162,7 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
 
     public onEditResource(item: Permission): void {
         if (item.privilegeKey === 'DASHBOARD.GET_LIST' || item.privilegeKey === 'DASHBOARD.GET_LIST.ITEM') {
-            const modalRef = this.modalService.open(ConditionDashboardDialogComponent, { width: '500px' });
+            const modalRef = this.modalService.open(ConditionDashboardDialogComponent, {width: '500px'});
             modalRef.componentInstance.condition = item.resourceCondition;
             modalRef.componentInstance.permission = item;
             modalRef.afterClosed()
@@ -250,7 +250,7 @@ export class RoleMgmtDetailComponent implements OnInit, OnDestroy {
         variables: string[],
         transInfo: string,
     ): MatDialogRef<any> {
-        const modalRef = this.modalService.open(component, { width: '500px' });
+        const modalRef = this.modalService.open(component, {width: '500px'});
         modalRef.componentInstance.condition = condition;
         modalRef.componentInstance.variables = variables;
         modalRef.componentInstance.transInfo = transInfo;

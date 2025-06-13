@@ -2,6 +2,7 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
     selector: '[xmInputPattern]',
+    standalone: false,
 })
 export class XmInputPatternDirective {
     @Input() public regexp: string;

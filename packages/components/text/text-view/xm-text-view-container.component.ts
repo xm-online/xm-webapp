@@ -11,6 +11,7 @@ import { Component, HostBinding, Input } from '@angular/core';
         </p>
     `,
     styleUrls: ['./xm-text-view-container.component.scss'],
+    standalone: false,
 })
 export class XmTextViewContainerComponent {
     @Input() @HostBinding('class.inline') public styleInline: boolean;

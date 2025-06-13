@@ -1,7 +1,7 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FunctionSpec, XmEntityService } from '@xm-ngx/core/entity';
-import { tap, take } from 'rxjs';
 import { saveFile } from '@xm-ngx/operators';
+import { take, tap } from 'rxjs';
 
 export interface XmEntityTableMenuConfig {
     typeKey: string;
@@ -19,34 +19,35 @@ export interface XmEntityTableMenuConfig {
 
             <mat-menu #entityListActions="matMenu">
                 <ng-container *ngIf="config?.functions && config?.functions.length">
-                    <xm-function-list-section [functionSpecs]="config?.functions" [listView]="true"></xm-function-list-section>
+                    <xm-function-list-section [functionSpecs]="config?.functions"
+                                              [listView]="true"></xm-function-list-section>
                 </ng-container>
 
                 <button *xmPermitted="['XMENTITY.EXPORT.FILE']"
                         [matMenuTriggerFor]="entityListActionDownloads"
                         class="btn-sm"
                         mat-menu-item>
-                    {{'xm-entity.entity-list-card.export.action.downloads' | translate}}
+                    {{ 'xm-entity.entity-list-card.export.action.downloads' | translate }}
                 </button>
             </mat-menu>
 
             <mat-menu #entityListActionDownloads="matMenu">
                 <button (click)="onFileExport('xlsx')" class="btn-sm" mat-menu-item>
-                    {{'xm-entity.entity-list-card.export.action.xls' | translate}}
+                    {{ 'xm-entity.entity-list-card.export.action.xls' | translate }}
                 </button>
-                
+
                 <button (click)="onFileExport('csv');" class="btn-sm" mat-menu-item>
-                    {{'xm-entity.entity-list-card.export.action.csv' | translate}}
+                    {{ 'xm-entity.entity-list-card.export.action.csv' | translate }}
                 </button>
             </mat-menu>
         </div>
     `,
+    standalone: false,
 })
 export class XmEntityTableMenuComponent {
-    private xmEntityService = inject(XmEntityService);
-    
     @Input() public config: XmEntityTableMenuConfig;
-    
+    private xmEntityService = inject(XmEntityService);
+
     public onFileExport(exportType: string): void {
         if (!this.config.typeKey) {
             console.warn('Missing typeKey');

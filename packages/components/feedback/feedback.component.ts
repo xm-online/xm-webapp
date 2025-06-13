@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { XmCoreConfig } from '@xm-ngx/core';
+import { Permissible } from '@xm-ngx/interfaces';
 
 import { XmToasterService } from '@xm-ngx/toaster';
 import html2canvas from 'html2canvas';
@@ -8,8 +10,6 @@ import { filter, finalize, switchMap } from 'rxjs/operators';
 
 import { FeedbackDialogComponent } from './feedback-dialog/feedback-dialog.component';
 import { FeedbackService, IFeedbackRequest } from './feedback.service';
-import { Permissible } from '@xm-ngx/interfaces';
-import { XmCoreConfig } from '@xm-ngx/core';
 
 export function screenshot(): Observable<string> {
     return new Observable((subject) => {
@@ -41,6 +41,7 @@ export interface FeedbackConfig extends Permissible {
             </button>
         </ng-container>
     `,
+    standalone: false,
 })
 export class FeedbackComponent {
 

@@ -1,16 +1,15 @@
 import { HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { fromEvent, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, finalize, map, tap } from 'rxjs/operators';
 
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
+import { UIConfig, XmConfigService } from '@xm-ngx/core/config';
+import { Link, LinkService, LinkSpec, Spec, XmEntity, XmEntitySpec } from '@xm-ngx/core/entity';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 import { XmToasterService } from '@xm-ngx/toaster';
-import { UIConfig, XmConfigService } from '@xm-ngx/core/config';
-import { XmEntitySpec } from '@xm-ngx/core/entity';
-import { Link, LinkService, LinkSpec, Spec, XmEntity } from '@xm-ngx/core/entity';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { fromEvent, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, finalize, map, tap } from 'rxjs/operators';
 
 const DEBOUNCE_DELAY = 500;
 
@@ -18,6 +17,7 @@ const DEBOUNCE_DELAY = 500;
     selector: 'xm-link-detail-search-section',
     templateUrl: './link-detail-search-section.component.html',
     styleUrls: ['./link-detail-search-section.component.scss'],
+    standalone: false,
 })
 export class LinkDetailSearchSectionComponent implements OnInit, OnDestroy, AfterViewInit {
     @Input() public linkSpec: LinkSpec;
@@ -87,7 +87,7 @@ export class LinkDetailSearchSectionComponent implements OnInit, OnDestroy, Afte
 
         this.linkService.create(link).subscribe(
             () => {
-                this.eventManager.broadcast({ name: 'linkListModification' });
+                this.eventManager.broadcast({name: 'linkListModification'});
                 this.toasterService.success('xm-entity.link-detail-dialog.add.success');
             },
             (err) => {
