@@ -56,8 +56,8 @@ lerna-debug.log*
 # xm-ngx dynamic-specification
 /src/assets/specification/
 
-
-package-lock.json
+#
+#package-lock.json
 
 # cache
 .angular
