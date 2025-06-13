@@ -1,0 +1,28 @@
+{
+  "name": "pipes",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/pipes/src",
+  "prefix": "xm",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "outputs": [
+        "{workspaceRoot}/lib/pipes"
+      ],
+      "options": {
+        "project": "packages/pipes/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "{workspaceRoot}/tsconfig.ngc.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

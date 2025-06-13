@@ -1,0 +1,28 @@
+{
+  "name": "dashboard",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/dashboard",
+  "prefix": "xm",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "outputs": [
+        "{workspaceRoot}/lib/dashboard"
+      ],
+      "options": {
+        "project": "packages/dashboard/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "{workspaceRoot}/tsconfig.ngc.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

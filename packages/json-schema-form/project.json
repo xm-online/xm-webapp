@@ -1,0 +1,28 @@
+{
+  "name": "json-schema-form",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/json-schema-form",
+  "prefix": "xm",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "outputs": [
+        "{workspaceRoot}/lib/json-schema-form"
+      ],
+      "options": {
+        "project": "packages/json-schema-form/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "{workspaceRoot}/tsconfig.ngc.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

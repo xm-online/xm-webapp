@@ -1,0 +1,22 @@
+{
+  "name": "jhipster",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/jhipster/src",
+  "prefix": "xm",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "outputs": [
+        "{workspaceRoot}/lib/jhipster"
+      ],
+      "options": {
+        "project": "packages/jhipster/ng-package.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
