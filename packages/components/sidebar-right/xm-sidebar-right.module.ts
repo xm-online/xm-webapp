@@ -127,7 +127,8 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
                         }
                         const clickedInsideSidebar = this.elementRef.nativeElement.contains(event.target);
                         const clickedOnResizer = this.resizerElement?.nativeElement.contains(event.target);
-                        if (!clickedInsideSidebar && !clickedOnResizer) {
+                        const activeModalWindow = !!(event.target as HTMLElement)?.closest('.cdk-overlay-container');
+                        if (!clickedInsideSidebar && !clickedOnResizer && !activeModalWindow) {
                             this.remove();
                         }
                     })
