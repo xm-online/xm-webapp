@@ -25,7 +25,7 @@
     "xm-ngx": "xm-ngx",
     "clean-install": "chmod 755 ./scripts/clean_install.sh && ./scripts/clean_install.sh",
     "postinstall": "node ./scripts/conditional-postinstall.js",
-    "build:packages": "node ./scripts/build-packages_copy-dist-package.js && nx run-many -t build --all --exclude=xm-webapp --ci --verbose --project=account",
+    "build:packages": "node ./scripts/build-packages_copy-dist-package.js && nx run-many -t build --all --exclude=xm-webapp --ci --verbose --projects=account",
     "prebuild": "xm-ngx ext-lazy-module && xm-ngx ext-assets && xm-ngx ext-i18n && xm-ngx ext-theming && xm-ngx ext-themes && npm run import-jsf-exts && xm-ngx ext-config",
     "start": "npm run prebuild && rm -rf angular.json && nx serve xm-webapp --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0",
     "start:minimal": "nx serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0",
