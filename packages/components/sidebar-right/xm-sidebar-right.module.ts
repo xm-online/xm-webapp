@@ -103,7 +103,6 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     constructor(private sidebarRightService: SidebarRightService,
                 private moduleRef: NgModuleRef<unknown>,
                 private eventManager: XmEventManager,
-                private elementRef: ElementRef
     ) {
     }
 
@@ -125,10 +124,10 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
                         if (this.sidebarRightService.wasJustOpened()) {
                             return;
                         }
-                        const clickedInsideSidebar = this.elementRef.nativeElement.contains(event.target);
-                        const clickedOnResizer = this.resizerElement?.nativeElement.contains(event.target);
-                        const activeModalWindow = !!(event.target as HTMLElement)?.closest('.cdk-overlay-container');
-                        if (!clickedInsideSidebar && !clickedOnResizer && !activeModalWindow) {
+
+                        const clickedMenuCategories = (event.target as HTMLElement)?.closest('.menu-categories');
+
+                        if (clickedMenuCategories) {
                             this.remove();
                         }
                     })
