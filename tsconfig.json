@@ -44,7 +44,10 @@
         "packages/entity/pipes/index.ts"
       ],
       "@xm-ngx/entity": [
-        "packages/entity/src/index.ts"
+        "packages/entity/index.ts"
+      ],
+      "@xm-ngx/entity/*": [
+        "packages/entity/*"
       ],
       "@xm-ngx/json-schema-form/core": [
         "node_modules/@xm-ngx/json-schema-form"
@@ -65,6 +68,10 @@
         "node_modules/@angular/*"
       ]
     },
+    "include": [
+      "src/**/*.ts",
+      "packages/**/*.ts"
+    ],
     "inlineSources": true,
     "module": "esnext",
     "stripInternal": false,
