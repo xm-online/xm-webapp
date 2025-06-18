@@ -3,6 +3,7 @@ import { MenuCategoriesComponent } from './menu-categories.component';
 import { Principal } from '@xm-ngx/core/user';
 import { AccountService } from '@xm-ngx/core/user';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('MenuCategoriesComponent', () => {
     let component: MenuCategoriesComponent;
@@ -10,7 +11,7 @@ describe('MenuCategoriesComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [MenuCategoriesComponent],
+            imports: [MenuCategoriesComponent, HttpClientTestingModule],
             providers: [
                 { provide: Principal, useValue: {} },
                 { provide: AccountService, useValue: {} },
