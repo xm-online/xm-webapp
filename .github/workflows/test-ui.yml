@@ -22,7 +22,7 @@ jobs:
       - name: Setup Nodejs
         uses: actions/setup-node@v2
         with:
-          node-version: '20.9.0'
+          node-version: '20.18.3'
 
       - name: Install dependencies and test
         run: |
