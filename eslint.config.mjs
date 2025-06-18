@@ -1,7 +1,7 @@
 import globals from "globals";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import tsdoc from "eslint-plugin-tsdoc";
-import xmNgxEslintPlugin from "@xm-ngx/eslint-plugin";
+import * as xmNgxEslintPlugin from "@xm-ngx/eslint-plugin";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
