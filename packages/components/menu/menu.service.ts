@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, from, Observable, of, Subject, switchMap, take } from 'rxjs';
+import { BehaviorSubject, combineLatest, from, map, Observable, of, Subject, switchMap, take, filter } from 'rxjs';
 import { BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem } from './menu.interface';
 import { MatDrawerMode, MatDrawerToggleResult, MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { cloneDeep, groupBy, orderBy, uniqBy } from 'lodash';
+import _ from 'lodash';
 import { Router } from '@angular/router';
 import { MenuCategoriesClassesEnum, MenuPositionEnum } from './menu.model';
+import { ContextService } from '@xm-ngx/core/context';
+import { XmUserService } from '@xm-ngx/core/user';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
+import { Principal } from '@xm-ngx/core/user';
+import { buildMenuTree } from './nested-menu';
+import { ConditionDirective } from '@xm-ngx/components/condition';
+import { filterByConditionDashboards } from './flat-menu';
 
 @Injectable({providedIn: 'root'})
 export class MenuService {
@@ -27,7 +35,11 @@ export class MenuService {
     public categories: Record<string, MenuCategory>;
 
     constructor(
-        private breakpointObserver: BreakpointObserver,
+        private readonly breakpointObserver: BreakpointObserver,
+        private readonly principal: Principal,
+        private readonly userService: XmUserService,
+        private readonly dashboardService: DashboardStore,
+        private readonly contextService: ContextService,
         private router: Router,
     ) {
         this.isCategoriesHidden$ = this.getHiddenCategoriesObserver();
@@ -100,6 +112,32 @@ export class MenuService {
 
     public setSidenavOpenedChange(isOpened: boolean): void {
         this._sidenavOpenedChange.next(isOpened);
+    }
+
+    public getActiveDashboards$(): Observable<MenuItem[]> {
+        return from(this.principal.identity()).pipe(
+            switchMap(() => this.userService.user$()),
+            switchMap((user) => {
+                const hasPrivilegesInline = this.principal.hasPrivilegesInline(
+                    ['DASHBOARD.GET_LIST', 'WIDGET.GET_LIST.ITEM', 'DASHBOARD.GET_LIST.ITEM'],
+                    'AND'
+                );
+                if (hasPrivilegesInline !== true && Array.isArray(hasPrivilegesInline) && hasPrivilegesInline.length !== 0) {
+                    return of([] as MenuItem[]);
+                }
+                return this.dashboardService.dashboards$().pipe(
+                    filter((dashboards) => Boolean(dashboards)),
+                    map((i) => filterByConditionDashboards(i, this.contextService)),
+                    map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
+                    map((dashboards) => {
+                        if (dashboards?.length) {
+                            return buildMenuTree(dashboards, ConditionDirective.checkCondition, { user });
+                        }
+                        return [] as MenuItem[];
+                    }),
+                );
+            }),
+        );
     }
 
 
