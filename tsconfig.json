@@ -68,10 +68,6 @@
         "node_modules/@angular/*"
       ]
     },
-    "include": [
-      "src/**/*.ts",
-      "packages/**/*.ts"
-    ],
     "inlineSources": true,
     "module": "esnext",
     "stripInternal": false,
@@ -86,5 +82,9 @@
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "useDefineForClassFields": false
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "packages/**/*.ts"
+  ]
 }
