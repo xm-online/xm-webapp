@@ -8,7 +8,7 @@ $custom-dialog-button-theme: (
   container-shape: 30px
 );
 
-$custom-dialog-border-radius: 30px;
+$custom-dialog-border-radius: 20px;
 
 @mixin xm-alert-theme($xm-theme) {
   .xm-alert {
@@ -18,6 +18,7 @@ $custom-dialog-border-radius: 30px;
 
     .mdc-dialog__title {
       padding-bottom: 16px;
+      padding-top: 24px;
     }
 
     .mdc-dialog__actions {

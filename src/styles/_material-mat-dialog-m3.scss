@@ -1,0 +1,42 @@
+.mat-mdc-dialog-container {
+  --mdc-dialog-container-shape: 20px;
+}
+
+.mat-mdc-dialog-surface {
+  padding: 0;
+}
+
+.mat-mdc-dialog-title {
+  padding: 24px 24px 16px 24px !important;
+}
+
+.mat-mdc-dialog-title .mat-dialog-title .mdc-dialog__title{
+  position: relative;
+  padding: 24px 24px 16px 24px !important;
+  height: 1rem !important;
+  --mat-dialog-headline-padding: 24px 24px 16px 24px !important;
+}
+
+.mat-mdc-dialog-title::before {
+  display: none !important;
+  padding: 24px 24px 16px 24px !important;
+  width: 0;
+  height: 0 !important;
+  margin-bottom: 0;
+  content: "";
+  vertical-align: 0;
+}
+
+.heading-title .heading-title__content {
+  margin-bottom: 0;
+}
+
+.mdc-dialog__content {
+  padding: 16px 24px 0 24px !important;
+}
+
+.mat-mdc-dialog-actions {
+  padding: 24px !important;
+}
+
+

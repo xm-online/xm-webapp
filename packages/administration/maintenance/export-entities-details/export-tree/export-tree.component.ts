@@ -2,44 +2,30 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { ExportEntitiesService, ExportEntityFlatNode, ExportEntityItemNode } from '../../export-entities.service';
 import { ExportConfig } from '../export-entities-details.component';
-import {
-    ExportEntitiesService,
-    ExportEntityFlatNode,
-    ExportEntityItemNode,
-} from '../../export-entities.service';
 
 @Component({
     selector: 'xm-export-tree',
     templateUrl: './export-tree.component.html',
     providers: [ExportEntitiesService],
+    standalone: false,
 })
 export class ExportTreeComponent implements OnDestroy {
 
-    @Input() public set selectedSpec(spec: ExportConfig) {
-        this.currentSpec = spec;
-        if (spec && spec.treeModel) {
-            this.exportEntitiesService.initialize(spec.treeModel);
-        }
-    }
     @Output() public nodesSelected: EventEmitter<unknown> = new EventEmitter<unknown>();
-
     public currentSpec: ExportConfig;
-
     /** Map from flat node to nested node. This helps us finding the nested node to be modified */
     public flatNodeMap: Map<ExportEntityFlatNode, ExportEntityItemNode> =
         new Map<ExportEntityFlatNode, ExportEntityItemNode>();
-
     /** Map from nested node to flattened node. This helps us to keep the same object for selection */
     public nestedNodeMap: Map<ExportEntityItemNode, ExportEntityFlatNode> =
         new Map<ExportEntityItemNode, ExportEntityFlatNode>();
-
     /** A selected parent node to be inserted */
     public selectedParent: ExportEntityFlatNode | null = null;
     public treeControl: FlatTreeControl<ExportEntityFlatNode>;
     public treeFlattener: MatTreeFlattener<ExportEntityItemNode, ExportEntityFlatNode>;
     public dataSource: MatTreeFlatDataSource<ExportEntityItemNode, ExportEntityFlatNode>;
-
     /** The selection for checklist */
     public checklistSelection: SelectionModel<ExportEntityFlatNode> =
         new SelectionModel<ExportEntityFlatNode>(true /* multiple */);
@@ -53,6 +39,14 @@ export class ExportTreeComponent implements OnDestroy {
         this.exportEntitiesService.dataChange.subscribe(data => {
             this.dataSource.data = data;
         });
+    }
+
+    @Input()
+    public set selectedSpec(spec: ExportConfig) {
+        this.currentSpec = spec;
+        if (spec && spec.treeModel) {
+            this.exportEntitiesService.initialize(spec.treeModel);
+        }
     }
 
     public getLevel: (node: ExportEntityFlatNode) => number = (node: ExportEntityFlatNode) => node.level;

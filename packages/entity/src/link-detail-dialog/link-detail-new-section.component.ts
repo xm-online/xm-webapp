@@ -1,20 +1,13 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
+import { Link, LinkSpec, Spec, XmEntity, XmEntityService, XmEntitySpec } from '@xm-ngx/core/entity';
 import { JsfAttributes } from '@xm-ngx/json-schema-form';
+import { JsfComponentRegistryService, nullSafe } from '@xm-ngx/json-schema-form/components';
 
 import { XmToasterService } from '@xm-ngx/toaster';
 import { UUID } from 'angular2-uuid';
 import { finalize } from 'rxjs/operators';
-import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
-
-import { nullSafe } from '@xm-ngx/json-schema-form/components';
-import { LinkSpec } from '@xm-ngx/core/entity';
-import { Link } from '@xm-ngx/core/entity';
-import { Spec } from '@xm-ngx/core/entity';
-import { XmEntitySpec } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { XmEntityService } from '@xm-ngx/core/entity';
 
 declare let $: any;
 
@@ -22,6 +15,7 @@ declare let $: any;
     selector: 'xm-link-detail-new-section',
     templateUrl: './link-detail-new-section.component.html',
     styleUrls: ['./link-detail-new-section.component.scss'],
+    standalone: false,
 })
 export class LinkDetailNewSectionComponent implements OnInit, OnDestroy, AfterViewInit {
 
@@ -42,7 +36,7 @@ export class LinkDetailNewSectionComponent implements OnInit, OnDestroy, AfterVi
                 private changeDetector: ChangeDetectorRef,
                 private eventManager: XmEventManager,
                 private toasterService: XmToasterService,
-                private widgetService: JsfComponentRegistryService
+                private widgetService: JsfComponentRegistryService,
     ) {
         $.isAddNewLink = true;
     }

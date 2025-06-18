@@ -28,7 +28,7 @@ export interface XmEnumOptions {
             @if (config?.layout?.selector) {
                 <ng-container
                         xmDynamicPresentation
-                        [value]="(titles[value + ''] || value) | translate"
+                        [value]="(titles?.[value + '']?.title || titles?.[value + ''] || value) | translate"
                         [class]="config?.layout?.class"
                         [style]="config?.layout?.style"
                         [selector]="config.layout.selector"

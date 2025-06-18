@@ -25,8 +25,10 @@ function extendsComponent(interfaceDeclaration: InterfaceDeclaration, componentK
 
     return baseTypes.some(baseType => {
         const symbol = baseType.getSymbol();
-        return symbol?.getName() === componentKey
-            || extendsComponent(baseType.getSymbolOrThrow().getDeclarations()[0] as InterfaceDeclaration, componentKey);
+        const baseInterface = symbol?.getDeclarations?.()[0] as InterfaceDeclaration | undefined;
+
+        return symbol?.getName() === componentKey ||
+            (baseInterface && extendsComponent(baseInterface, componentKey));
     });
 }
 
@@ -81,7 +83,7 @@ function getObjectProperties(nonNullableType: Type, ctx: Ctx): JsfNode {
         .map((i: any) => {
             const key = i.getSymbol()?.getName() || 'UnknownObjectKeyType';
             const value = getSchema(i.getType(), ctx, key);
-            return ({ [key]: value });
+            return ({[key]: value});
         })
         .reduce((p: any, c: any) => (Object.assign(p, c)), {});
 }
@@ -93,7 +95,7 @@ export function getSchema(type: Type, ctx: Ctx, key: string): JsfNode {
         return {
             title: key || 'UnknownArrayType',
             type: 'array',
-            items: getSchema(nonNullableType.getArrayElementTypeOrThrow(), ctx, type?.getSymbol()?.getName() || 'UnknownArrayType')
+            items: getSchema(nonNullableType.getArrayElementTypeOrThrow(), ctx, type?.getSymbol()?.getName() || 'UnknownArrayType'),
         };
     } else if (nonNullableType.isBoolean()) {
         return {
@@ -139,12 +141,12 @@ export function getSchema(type: Type, ctx: Ctx, key: string): JsfNode {
         const name = nonNullableType.getSymbol()?.getName() + '';
         if (!ctx.definitions[name]) {
             // WORKAROUND: to mark property as a defined for recursion
-            ctx.definitions[name] = { '__mock__': '__mock__' } as any;
+            ctx.definitions[name] = {'__mock__': '__mock__'} as any;
             ctx.definitions[name] = {
                 title: key || 'UnknownObjectType',
                 isSelectorConfig: isConfig(nonNullableType),
                 type: 'object',
-                properties: getObjectProperties(nonNullableType, ctx)
+                properties: getObjectProperties(nonNullableType, ctx),
             };
         }
 
@@ -159,7 +161,7 @@ export function getSchema(type: Type, ctx: Ctx, key: string): JsfNode {
             title: key || 'UnknownObjectType',
             isSelectorConfig: isConfig(nonNullableType),
             type: 'object',
-            properties: getObjectProperties(nonNullableType, ctx)
+            properties: getObjectProperties(nonNullableType, ctx),
         };
     } else if (nonNullableType.isEnum()) {
         return {

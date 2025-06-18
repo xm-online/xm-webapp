@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
+import { XmConfig } from '@xm-ngx/interfaces';
 import { XmDynamicLayout } from '../src/interfaces';
 import { XmDynamicLayoutBase } from '../widget/xm-dynamic-layout.base';
 import { XmDynamicPresentation } from './xm-dynamic-presentation-base.directive';
-import { XmConfig } from '@xm-ngx/interfaces';
 
 export interface XmDynamicPresentationLayout<V = unknown, C = XmConfig> extends XmDynamicLayout<C>, XmDynamicPresentation<V, C> {
     content?: XmDynamicPresentationLayout[];
@@ -29,15 +29,16 @@ export interface XmDynamicPresentationLayout<V = unknown, C = XmConfig> extends 
         </ng-template>
 
         <ng-template #dynamicRef let-item="item">
-            <ng-template [xmPermission]="item?.customParams?.permission" [strategy]="item?.customParams?.permissionStrategy">
+            <ng-template [xmPermission]="item?.customParams?.permission"
+                         [strategy]="item?.customParams?.permissionStrategy">
                 <ng-container
-                    xmDynamicPresentation
-                    [class]="item.layout.class"
-                    [style]="item.layout.style"
-                    [selector]="item.customParams.selector"
-                    [value]="item.customParams.value"
-                    [config]="item.customParams.config"
-                    [options]="item.customParams.config || item.customParams.options">
+                        xmDynamicPresentation
+                        [class]="item.layout.class"
+                        [style]="item.layout.style"
+                        [selector]="item.customParams.selector"
+                        [value]="item.customParams.value"
+                        [config]="item.customParams.config"
+                        [options]="item.customParams.config || item.customParams.options">
                 </ng-container>
             </ng-template>
         </ng-template>
@@ -50,6 +51,7 @@ export interface XmDynamicPresentationLayout<V = unknown, C = XmConfig> extends 
             </ng-container>
         </ng-template>
     `,
+    standalone: false,
 })
 export class XmDynamicPresentationLayoutComponent extends XmDynamicLayoutBase<XmDynamicPresentationLayout> {
 }

@@ -5,6 +5,7 @@ import {
     ElementRef,
     HostBinding,
     HostListener,
+    inject,
     NgModule,
     NgModuleRef,
     OnDestroy,
@@ -18,8 +19,18 @@ import * as _ from 'lodash';
 import { Container } from './container';
 import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service';
 import { XmEventManager } from '@xm-ngx/core';
+import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
+import { switchMap, tap, filter } from 'rxjs/operators';
+import { fromEvent, of } from 'rxjs';
 
-@Directive({selector: '[xmContainerOutlet]'})
+
+interface XmMainConfig extends XmUIConfig {
+    sidebar?: {
+        isOutsideClickHideMenu?: boolean
+    }
+}
+
+@Directive({standalone: false, selector: '[xmContainerOutlet]'})
 export class ContainerOutletDirective {
     constructor(public viewContainerRef: ViewContainerRef) {
     }
@@ -35,6 +46,7 @@ export class ContainerOutletDirective {
         <div class="resize-divider" #resizer></div>
         <ng-container xmContainerOutlet></ng-container>
     `,
+    standalone: false,
 })
 export class XmSidebarRightComponent implements OnInit, OnDestroy {
 
@@ -86,6 +98,7 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     public mode: string;
 
     private mousePressedOnResizer: boolean;
+    private uiConfigService: XmUiConfigService<XmMainConfig> = inject(XmUiConfigService);
 
     constructor(private sidebarRightService: SidebarRightService,
                 private moduleRef: NgModuleRef<unknown>,
@@ -95,7 +108,34 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.sidebarRightService.setContainer(this as Container);
+        this.observeClicksOutsideSidebar();
     }
+
+    private observeClicksOutsideSidebar(): void {
+        this.uiConfigService.config$().pipe(
+            switchMap((config: XmMainConfig) => {
+                const isOutsideClickHideMenu = config?.sidebar.isOutsideClickHideMenu;
+                if (!isOutsideClickHideMenu) {
+                    return of(null);
+                }
+                return fromEvent<MouseEvent>(document, 'click').pipe(
+                    filter(Boolean),
+                    tap((event) => {
+                        if (this.sidebarRightService.wasJustOpened()) {
+                            return;
+                        }
+
+                        const clickedMenuCategories = (event.target as HTMLElement)?.closest('.menu-categories');
+
+                        if (clickedMenuCategories) {
+                            this.remove();
+                        }
+                    })
+                );
+            })
+        ).subscribe();
+    }
+
 
     public ngOnDestroy(): void {
         this.sidebarRightService.removeContainer();
@@ -108,7 +148,7 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
         }
 
         this.mode = config.mode || 'side';
-
+        this.sidebarRightService.markJustOpened();
         if (templateRef instanceof TemplateRef) {
             viewContainerRef.createEmbeddedView(templateRef);
             this.openStyles(localStorage.getItem(this.getWidthStorageKey()) || config.width || this.sidebarRightService.width);

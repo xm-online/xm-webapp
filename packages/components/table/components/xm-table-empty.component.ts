@@ -13,9 +13,11 @@ export interface TableNoDataRawManager<T extends CdkNoDataRow = CdkNoDataRow> {
 
 export interface XmTableEmptyConfig {
     /** case , when table initially loaded empty */
-    initial: XmTableEmptyTypeConfig,
+    initial: XmTableEmptyTypeConfig;
     /** case, when table filtered empty */
-    filter: XmTableEmptyTypeConfig
+    filter: XmTableEmptyTypeConfig;
+    /** case, when table is loading data */
+    loading: XmTableEmptyTypeConfig;
 }
 
 export const XM_TABLE_EMPTY_DEFAULT_CONFIG: XmTableEmptyConfig = {
@@ -26,6 +28,10 @@ export const XM_TABLE_EMPTY_DEFAULT_CONFIG: XmTableEmptyConfig = {
     initial: {
         image: '',
         message: null,
+    },
+    loading: {
+        image: '../assets/icons/search.svg',
+        message: 'global.loading-data',
     },
 };
 
@@ -54,13 +60,13 @@ export class XmTableEmptyComponent implements OnInit {
     public text: Translate;
     @Input() public colspan: number;
     @Input() @Defaults(XM_TABLE_EMPTY_DEFAULT_CONFIG) public config: XmTableEmptyConfig;
-    @ViewChild(MatNoDataRow, { static: true }) public cell: MatNoDataRow;
+    @ViewChild(MatNoDataRow, {static: true}) public cell: MatNoDataRow;
 
     constructor(@Inject(CDK_TABLE) protected noDataRowManager: TableNoDataRawManager) {
     }
 
     @Input()
-    public set type(value: 'initial' | 'filter') {
+    public set type(value: 'initial' | 'filter' | 'loading') {
         this.image = this.config[value].image;
         this.text = this.config[value].message;
     }

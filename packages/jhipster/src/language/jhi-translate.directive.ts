@@ -16,7 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import { Input, Directive, ElementRef, OnChanges, OnInit, Optional, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, Input, OnChanges, OnDestroy, OnInit, Optional } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -28,6 +28,7 @@ import { JhiConfigService } from '../config.service';
  */
 @Directive({
     selector: '[jhiTranslate]',
+    standalone: false,
 })
 export class JhiTranslateDirective implements OnChanges, OnInit, OnDestroy {
     @Input() public jhiTranslate: string;
@@ -35,7 +36,8 @@ export class JhiTranslateDirective implements OnChanges, OnInit, OnDestroy {
 
     private readonly directiveDestroyed = new Subject<void>();
 
-    constructor(private configService: JhiConfigService, private el: ElementRef, @Optional() private translateService: TranslateService) {}
+    constructor(private configService: JhiConfigService, private el: ElementRef, @Optional() private translateService: TranslateService) {
+    }
 
     public ngOnInit(): void {
         const enabled = this.configService.getConfig().i18nEnabled;

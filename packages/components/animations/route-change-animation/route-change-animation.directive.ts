@@ -6,6 +6,7 @@ import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 @Directive({
     selector: '[xmRouteChangeAnimation]',
+    standalone: false,
 })
 export class RouteChangeAnimationDirective implements OnInit, OnDestroy {
 
@@ -21,8 +22,8 @@ export class RouteChangeAnimationDirective implements OnInit, OnDestroy {
 
     private static fadeIn(): AnimationMetadata[] {
         return [
-            style({ opacity: 0 }),
-            animate('300ms ease-out', style({ opacity: 1 })),
+            style({opacity: 0}),
+            animate('300ms ease-out', style({opacity: 1})),
             style({}),
         ];
     }

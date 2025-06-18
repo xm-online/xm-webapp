@@ -1,17 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, OnChanges, Output, ViewChild, SimpleChanges } from '@angular/core';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { Location } from '@angular/common';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { XmAlertService } from '@xm-ngx/alert';
 import { SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS, XmEventManager } from '@xm-ngx/core';
-import { JsfAttributes } from '@xm-ngx/json-schema-form';
-import { XmToasterService } from '@xm-ngx/toaster';
-import { finalize, take } from 'rxjs/operators';
-import { Principal, UserService } from '@xm-ngx/core/user';
-import { nullSafe } from '@xm-ngx/json-schema-form/components';
-import { EntityCardComponent } from '../entity-card/entity-card.component';
-import { RatingListSectionComponent } from '../rating-list-section/rating-list-section.component';
-import { XmEntityService } from '@xm-ngx/core/entity';
-import { catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
 
 /**
  *
@@ -19,16 +11,22 @@ import { of } from 'rxjs';
  * transferred from entity-detail-fab
  */
 import { EntityDetailDisplayMode, EntityUiConfig } from '@xm-ngx/core/config';
+import { XmEntityService } from '@xm-ngx/core/entity';
+import { Principal, UserService } from '@xm-ngx/core/user';
+import { JsfAttributes } from '@xm-ngx/json-schema-form';
+import { JsfComponentRegistryService, nullSafe } from '@xm-ngx/json-schema-form/components';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { of } from 'rxjs';
+import { catchError, finalize, take } from 'rxjs/operators';
+import { EntityCardComponent } from '../entity-card/entity-card.component';
 import { EntityDetailDialogComponent } from '../entity-detail-dialog/entity-detail-dialog.component';
-
-import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
-import { Location } from '@angular/common';
-import { XmAlertService } from '@xm-ngx/alert';
+import { RatingListSectionComponent } from '../rating-list-section/rating-list-section.component';
 
 @Component({
     selector: 'xm-entity-card-compact',
     templateUrl: './entity-card-compact.component.html',
     styleUrls: ['./entity-card-compact.component.scss'],
+    standalone: false,
 })
 export class EntityCardCompactComponent extends EntityCardComponent implements OnInit, OnChanges {
 
@@ -111,39 +109,11 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
      * @privateRemarks
      * transferred from entity-detail-fab
      */
-    private checkEntityEditPermission(config: EntityUiConfig): void {
-        if (config.editButtonPermission) {
-            this.showEditButton = false;
-            this.principal.hasPrivileges([config.editButtonPermission]).then((result) => {
-                if (result) {
-                    this.showEditButton = true;
-                }
-            });
-        }
-    }
-
-    /**
-     *
-     * @privateRemarks
-     * transferred from entity-detail-fab
-     */
     public onEdit(): void {
         this.openDialog(EntityDetailDialogComponent, (modalRef) => {
             modalRef.componentInstance.xmEntity = Object.assign({}, this.xmEntity);
             modalRef.componentInstance.xmEntitySpec = this.xmEntitySpec;
         });
-    }
-
-    /**
-     *
-     * @privateRemarks
-     * transferred from entity-detail-fab
-     */
-    private openDialog(dialogClass: any, operation: any, options?: any): MatDialogRef<any> {
-        const modalRef = this.modalService.open<any>(dialogClass, options ? options : {width: '500px'});
-        modalRef.componentInstance.xmEntity = this.xmEntity;
-        operation(modalRef);
-        return modalRef;
     }
 
     /**
@@ -158,7 +128,6 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
             return this.showEditOptions;
         };
     }
-
 
     public onSubmitForm(data: any): void {
         this.showLoader = true;
@@ -196,6 +165,34 @@ export class EntityCardCompactComponent extends EntityCardComponent implements O
             type,
             text: this.translateService.instant(key),
         }).pipe(take(1)).subscribe();
+    }
+
+    /**
+     *
+     * @privateRemarks
+     * transferred from entity-detail-fab
+     */
+    private checkEntityEditPermission(config: EntityUiConfig): void {
+        if (config.editButtonPermission) {
+            this.showEditButton = false;
+            this.principal.hasPrivileges([config.editButtonPermission]).then((result) => {
+                if (result) {
+                    this.showEditButton = true;
+                }
+            });
+        }
+    }
+
+    /**
+     *
+     * @privateRemarks
+     * transferred from entity-detail-fab
+     */
+    private openDialog(dialogClass: any, operation: any, options?: any): MatDialogRef<any> {
+        const modalRef = this.modalService.open<any>(dialogClass, options ? options : {width: '500px'});
+        modalRef.componentInstance.xmEntity = this.xmEntity;
+        operation(modalRef);
+        return modalRef;
     }
 
 }

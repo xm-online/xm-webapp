@@ -1,19 +1,14 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { XmToasterService } from '@xm-ngx/toaster';
 
 // import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
-import { RatingSpec } from '@xm-ngx/core/entity';
-import { Rating } from '@xm-ngx/core/entity';
-import { RatingService } from '@xm-ngx/core/entity';
-import { Vote } from '@xm-ngx/core/entity';
-import { VoteService } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { XmEntityService } from '@xm-ngx/core/entity';
+import { Rating, RatingService, RatingSpec, Vote, VoteService, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
+import { XmToasterService } from '@xm-ngx/toaster';
 
 @Component({
     selector: 'xm-rating-list-section',
     templateUrl: './rating-list-section.component.html',
+    standalone: false,
 })
 export class RatingListSectionComponent implements OnChanges {
 
@@ -80,9 +75,9 @@ export class RatingListSectionComponent implements OnChanges {
 
             for (const rating of this.ratings) {
                 this.ratingService.countVotes(rating.id).subscribe(
-                    (response: {count: number}) => {
+                    (response: { count: number }) => {
                         this.votesNumber[rating.typeKey] = response.count;
-                    }
+                    },
                 );
             }
         });

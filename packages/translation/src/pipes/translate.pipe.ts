@@ -6,6 +6,7 @@ import { ITranslate, LanguageService, Translate } from '../services/language.ser
 export interface ITrKeyTranslates {
     trKey: string;
 }
+
 /** @deprecated solution. Use {@link XmTranslatePipe} instead. Will be removed in v8.0.0.
  * TODO Before remove add to XmTranslationService logic related to default language in case if translation empty and handle trKey.
  */
@@ -13,6 +14,7 @@ export interface ITrKeyTranslates {
 @Pipe({
     name: 'translate',
     pure: false,
+    standalone: false,
 })
 
 export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDestroy {
@@ -57,8 +59,8 @@ export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDest
             return super.transform(map.trKey, ...args);
         }
         return map[this.languageService.locale]
-                || map[this.languageService.getDefaultLocale()]
-                || map[Object.keys(map)[0]];
+            || map[this.languageService.getDefaultLocale()]
+            || map[Object.keys(map)[0]];
 
     }
 }
@@ -69,4 +71,5 @@ export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDest
     pure: false,
     standalone: true,
 })
-export class XmTranslatePipe extends TranslatePipe implements PipeTransform {}
+export class XmTranslatePipe extends TranslatePipe implements PipeTransform {
+}

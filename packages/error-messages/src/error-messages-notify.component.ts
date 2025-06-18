@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { NgbAlertConfig } from '@ng-bootstrap/ng-bootstrap';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {NgbAlertConfig} from '@ng-bootstrap/ng-bootstrap';
 
 declare const $: any;
 
@@ -33,6 +33,7 @@ export class XmErrorMessagesNotifyComponent implements OnInit {
                 {
                     type: this.type,
                     timer: 5000,
+                    allow_dismiss: true,
                     z_index: 2000,
                     placement: {
                         from: 'top',

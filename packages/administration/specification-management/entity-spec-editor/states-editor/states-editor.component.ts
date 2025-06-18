@@ -1,13 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { StateSpec, XmEntitySpec } from '@xm-ngx/entity';
-import { MATERIAL_ICONS } from '../material-icons';
-import { EditorUtils } from '../editor-utils';
 import { MatSelectionListChange } from '@angular/material/list';
+import { StateSpec, XmEntitySpec } from '@xm-ngx/entity';
+import { EditorUtils } from '../editor-utils';
+import { MATERIAL_ICONS } from '../material-icons';
 
 @Component({
     selector: 'xm-states-editor',
     templateUrl: './states-editor.component.html',
     styleUrls: ['./states-editor.component.scss'],
+    standalone: false,
 })
 export class StatesEditorComponent extends EditorUtils {
 

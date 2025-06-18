@@ -1,25 +1,31 @@
 import {
-    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    computed,
     ElementRef,
+    inject,
     Input,
     NgZone,
     OnDestroy,
+    signal,
     TemplateRef,
-    ViewChild,
+    viewChild,
     ViewContainerRef,
 } from '@angular/core';
 import { merge, Subject } from 'rxjs';
 import { PortalModule, TemplatePortal } from '@angular/cdk/portal';
 import { Overlay, OverlayModule, OverlayRef, ViewportRuler } from '@angular/cdk/overlay';
-import { filter, map, startWith, takeUntil } from 'rxjs/operators';
+import { filter, startWith, takeUntil } from 'rxjs/operators';
 import { ESCAPE } from '@angular/cdk/keycodes';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {XmEventManagerService} from '@xm-ngx/core';
+
+export const DIALOG_OPENED_ACTION = 'DIALOG_OPENED_ACTION';
 
 @Component({
     selector: 'xm-hint-popover',
@@ -45,7 +51,7 @@ import { MatIconModule } from '@angular/material/icon';
 
         <button class="hint-toggle"
                 mat-icon-button
-                *ngIf="isTextOverflow && !panelOpen"
+                *ngIf="isTextOverflow() && !panelOpen()"
                 [title]="title | translate"
                 (click)="show()">
             <mat-icon class="hint-toggle__icon">visibility</mat-icon>
@@ -67,7 +73,7 @@ import { MatIconModule } from '@angular/material/icon';
             padding: 4px 8px;
             width: 100%;
         }
-        
+
         .hint-text {
             white-space: nowrap;
             overflow: hidden;
@@ -75,7 +81,7 @@ import { MatIconModule } from '@angular/material/icon';
             max-width: 100%;
             width: 100%;
         }
-        
+
         .hint-toggle {
             width: 18px;
             height: 18px;
@@ -86,7 +92,7 @@ import { MatIconModule } from '@angular/material/icon';
     `],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HintPopoverComponent implements AfterViewInit, OnDestroy {
+export class HintPopoverComponent implements OnDestroy {
     private unsubscribe = new Subject<void>();
 
     public title = {
@@ -107,22 +113,31 @@ export class HintPopoverComponent implements AfterViewInit, OnDestroy {
     }
 
     public get attachTo(): ElementRef {
-        return this._attachTo ?? this.hint;
+        return this._attachTo ?? this.hint();
     }
 
     public get hintElement(): HTMLElement {
-        return this.ngZone.runOutsideAngular(() => this.hint.nativeElement);
+        return this.ngZone.runOutsideAngular(() => this.hint().nativeElement);
     }
 
     public get hostElement(): HTMLElement {
         return this.ngZone.runOutsideAngular(() => this.elementRef.nativeElement);
     }
 
-    public panelOpen = false;
-    public isTextOverflow = false;
-
-    @ViewChild('popover', { read: TemplateRef, static: true }) public content: TemplateRef<unknown>;
-    @ViewChild('hint', { read: ElementRef, static: true }) public hint: ElementRef<HTMLElement>;
+    public panelOpen = signal(false);
+    public content = viewChild.required<TemplateRef<unknown>>('popover');
+    public hint = viewChild.required<ElementRef<HTMLElement>>('hint');
+    private resizeObserver = toSignal(this.viewportRuler.change(300).pipe(
+        startWith(false),
+    ));
+    private dialogWasOpened = toSignal(inject(XmEventManagerService).listenTo(DIALOG_OPENED_ACTION));
+    public isTextOverflow = computed(() => {
+        if((this.resizeObserver() || this.dialogWasOpened()) && this.hint()) {
+            const { offsetWidth, scrollWidth } = this.hint().nativeElement;
+            return scrollWidth > offsetWidth;
+        }
+        return false;
+    });
 
     private portal: TemplatePortal<unknown>;
     private overlayRef: OverlayRef;
@@ -135,17 +150,6 @@ export class HintPopoverComponent implements AfterViewInit, OnDestroy {
         private elementRef: ElementRef,
         private viewportRuler: ViewportRuler,
     ) {
-    }
-
-    public ngAfterViewInit(): void {
-        this.viewportRuler.change(300).pipe(
-            startWith(false),
-            map(() => this.overflowText()),
-            takeUntil(this.unsubscribe),
-        ).subscribe((isTextOverflow) => {
-            this.isTextOverflow = isTextOverflow;
-            this.cdr.detectChanges();
-        });
     }
 
     public ngOnDestroy(): void {
@@ -205,12 +209,6 @@ export class HintPopoverComponent implements AfterViewInit, OnDestroy {
         return this.overlayRef;
     }
 
-    private overflowText(): boolean {
-        const { offsetWidth, scrollWidth } = this.hintElement;
-
-        return scrollWidth > offsetWidth;
-    }
-
     public close(): void {
         if (this.overlayRef && this.overlayRef.hasAttached()) {
             this.ngZone.run(() => {
@@ -218,7 +216,7 @@ export class HintPopoverComponent implements AfterViewInit, OnDestroy {
             });
         }
 
-        this.panelOpen = false;
+        this.panelOpen.set(false);
         this.overlayRef = null;
         this.portal = null;
 
@@ -228,7 +226,7 @@ export class HintPopoverComponent implements AfterViewInit, OnDestroy {
     public show(): void {
         const overlayRef = this.createOverlay();
 
-        this.portal = new TemplatePortal(this.content, this.vcr);
+        this.portal = new TemplatePortal(this.content(), this.vcr);
 
         if (overlayRef && !overlayRef.hasAttached()) {
             this.ngZone.run(() => {
@@ -237,12 +235,12 @@ export class HintPopoverComponent implements AfterViewInit, OnDestroy {
             });
         }
 
-        this.panelOpen = true;
+        this.panelOpen.set(true);
 
         this.cdr.markForCheck();
     }
 
     public toggle(): void {
-        this.panelOpen ? this.close() : this.show();
+        this.panelOpen() ? this.close() : this.show();
     }
 }

@@ -1,15 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SpecificationManagementComponent } from '../specification-management.component';
 import {
     XmAceEditorControlModeEnum,
     XmAceEditorControlOptions,
-    XmAceEditorControlTypeEnum
+    XmAceEditorControlTypeEnum,
 } from '@xm-ngx/components/ace-editor';
 import { XmConfigService } from '@xm-ngx/core/config';
+import { SpecificationManagementComponent } from '../specification-management.component';
 
 @Component({
     selector: 'xm-uaa-login-mng',
     templateUrl: './uaa-login-mng.component.html',
+    standalone: false,
 })
 export class UaaLoginMngComponent implements OnInit {
 

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, Optional, ViewEncapsulation } from '@angular/core';
+import { NgControl } from '@angular/forms';
+import { MatRadioChange } from '@angular/material/radio';
+import { HintText } from '@xm-ngx/components/hint';
 import { NgControlAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import { clone, defaults } from 'lodash';
-import { HintText } from '@xm-ngx/components/hint';
-import { NgControl } from '@angular/forms';
-import { MatRadioChange } from '@angular/material/radio';
 
 export type XmRadioValue = boolean | string | number;
 export type XmRadioLayout = 'stack' | 'line';
@@ -39,24 +39,24 @@ export const XM_RADIO_CONTROL_OPTIONS_DEFAULT: XmRadioControlOptions = {
     selector: 'xm-radio-group-control',
     template: `
         <mat-radio-group
-            [ngModel]="value"
-            [ngClass]="{
+                [ngModel]="value"
+                [ngClass]="{
                 'xm-radio-group--line': config.layout === 'line',
                 'xm-radio-group--stack': config.layout === 'stack'
             }"
-            (change)="radioChange($event)">
+                (change)="radioChange($event)">
             <ng-container *ngFor="let item of config.items">
                 <mat-radio-button
-                    class="xm-radio-button"
-                    color="primary"
-                    [value]="item.value"
-                    *xmPermission="item.permission">
-                    {{item?.title | translate}}
+                        class="xm-radio-button"
+                        color="primary"
+                        [value]="item.value"
+                        *xmPermission="item.permission">
+                    {{ item?.title | translate }}
                 </mat-radio-button>
             </ng-container>
         </mat-radio-group>
 
-        <mat-error *xmControlErrors="ngControl?.errors; message as message">{{message}}</mat-error>
+        <mat-error *xmControlErrors="ngControl?.errors; message as message">{{ message }}</mat-error>
     `,
     styleUrls: ['./radio-group-control.component.scss'],
     encapsulation: ViewEncapsulation.None,
@@ -64,18 +64,14 @@ export const XM_RADIO_CONTROL_OPTIONS_DEFAULT: XmRadioControlOptions = {
     host: {
         class: 'xm-radio-group',
     },
+    standalone: false,
 })
 export class XmRadioGroupControlComponent extends NgControlAccessor<XmRadioValue> implements XmDynamicControl<XmRadioValue, XmRadioControlOptions> {
+    constructor(@Optional() public ngControl: NgControl) {
+        super(ngControl);
+    }
+
     private _config: XmRadioControlOptions = clone(XM_RADIO_CONTROL_OPTIONS_DEFAULT);
-
-    public get value(): XmRadioValue {
-        return this._value;
-    }
-
-    @Input()
-    public set value(value: XmRadioValue) {
-        this._value = value;
-    }
 
     public get config(): XmRadioControlOptions {
         return this._config;
@@ -86,8 +82,13 @@ export class XmRadioGroupControlComponent extends NgControlAccessor<XmRadioValue
         this._config = defaults({}, value, XM_RADIO_CONTROL_OPTIONS_DEFAULT);
     }
 
-    constructor(@Optional() public ngControl: NgControl) {
-        super(ngControl);
+    public get value(): XmRadioValue {
+        return this._value;
+    }
+
+    @Input()
+    public set value(value: XmRadioValue) {
+        this._value = value;
     }
 
     public radioChange(radio: MatRadioChange): void {

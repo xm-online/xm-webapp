@@ -5,6 +5,7 @@ import { switchMap, take, tap } from 'rxjs/operators';
 @Directive({
     selector: '[counter]',
     exportAs: 'counter',
+    standalone: false,
 })
 export class CounterDirective implements OnChanges, OnDestroy {
 
@@ -13,7 +14,10 @@ export class CounterDirective implements OnChanges, OnDestroy {
     public count: number;
     @Output() public valueChange: EventEmitter<number> = new EventEmitter<number>();
     @Output() public finish: EventEmitter<number> = new EventEmitter<number>();
-    private counterSource$: Subject<{ count: number, interval: number }> = new Subject<{ count: number, interval: number }>();
+    private counterSource$: Subject<{ count: number, interval: number }> = new Subject<{
+        count: number,
+        interval: number
+    }>();
     private subscription: Subscription = Subscription.EMPTY;
 
     constructor() {

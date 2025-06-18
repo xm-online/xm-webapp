@@ -1,12 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { XmEventManager } from '@xm-ngx/core';
-import { Subscription } from 'rxjs';
+import { XmConfigService, XmUIConfig } from '@xm-ngx/core/config';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 import { LanguageService } from '@xm-ngx/translation';
-import { XmConfigService } from '@xm-ngx/core/config';
-import { XmUIConfig } from '@xm-ngx/core/config';
-import { XmDynamicWidget } from '@xm-ngx/dynamic';
+import { Subscription } from 'rxjs';
 
 enum XM_EVENT_LIST {
     XM_REGISTRATION = 'xmRegistration',
@@ -17,6 +16,7 @@ enum XM_EVENT_LIST {
     selector: 'xm-sign-in-up-widget',
     templateUrl: './sign-in-up-widget.component.html',
     styleUrls: ['./sign-in-up-widget.component.scss'],
+    standalone: false,
 })
 export class SignInUpWidgetComponent implements OnInit, OnDestroy, XmDynamicWidget {
 

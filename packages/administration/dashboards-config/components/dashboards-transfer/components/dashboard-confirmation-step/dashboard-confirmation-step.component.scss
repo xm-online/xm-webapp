@@ -1,0 +1,30 @@
+.viewport {
+  width: 100%;
+}
+
+.position {
+  padding: 0 5px;
+  width: 30px;
+}
+
+.grey-color {
+  color: #666666;
+}
+
+xm-dashboard-option {
+  flex-grow: 1;
+}
+
+mat-list {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0;
+  
+  mat-list-item {
+    height: 56px;
+
+    &:not(:last-of-type) {
+      border-bottom: 1px solid #ccc;
+    }
+  }
+}

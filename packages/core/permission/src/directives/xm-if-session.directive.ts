@@ -1,10 +1,11 @@
 import { Directive, Input, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
-import { IfElseThenBaseContext, IfElseThenBaseDirective } from './if-else-then-base.directive';
 import { XmSessionService } from '@xm-ngx/core';
 import { switchMap } from 'rxjs/operators';
+import { IfElseThenBaseContext, IfElseThenBaseDirective } from './if-else-then-base.directive';
 
 @Directive({
     selector: '[xmIfSession]',
+    standalone: false,
 })
 export class XmIfSessionDirective
     extends IfElseThenBaseDirective<IfElseThenBaseContext>
@@ -18,7 +19,7 @@ export class XmIfSessionDirective
         super();
         this.thenTemplateRef = templateRef;
         this.viewContainer = viewContainer;
-        this.context = { allow: false };
+        this.context = {allow: false};
     }
 
     @Input()

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { ImportEntitiesService } from '../import-entities.service';
 import { finalize } from 'rxjs/operators';
+import { ImportEntitiesService } from '../import-entities.service';
 
 interface HTMLInputEvent extends Event {
     target: HTMLInputElement & EventTarget;
@@ -11,6 +11,7 @@ interface HTMLInputEvent extends Event {
     selector: 'xm-import-entities-details',
     templateUrl: './import-entities-details.component.html',
     styleUrls: ['./import-entities-details.component.scss'],
+    standalone: false,
 })
 export class ImportEntitiesDetailsComponent {
 

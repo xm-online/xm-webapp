@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
+import { XmAuthTargetUrlService } from '@xm-ngx/core/auth';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { DashboardBase, DashboardWidget } from '@xm-ngx/dashboard';
 import { XmDynamicLayout } from '@xm-ngx/dynamic';
+import { XmLoggerService } from '@xm-ngx/logger';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { cloneDeep } from 'lodash';
 import { combineLatest, Observable, of } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
-import { XmLoggerService } from '@xm-ngx/logger';
-import { XmAuthTargetUrlService } from '@xm-ngx/core/auth';
 
 interface HomeLayout extends XmDynamicLayout {
     content?: HomeLayout[];
@@ -32,6 +32,7 @@ interface HomeConfig extends XmUIConfig {
     selector: 'xm-home',
     styleUrls: ['./home.component.scss'],
     templateUrl: './home.component.html',
+    standalone: false,
 })
 export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
 
@@ -43,7 +44,7 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
         private xmAuthTargetUrlService: XmAuthTargetUrlService,
         loggerService: XmLoggerService,
     ) {
-        super(loggerService.create({ name: 'HomeComponent' }));
+        super(loggerService.create({name: 'HomeComponent'}));
     }
 
     public ngOnInit(): void {
@@ -96,7 +97,7 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
                     selector: el.selector || 'div',
                     class: el.class,
                     config: row.config,
-                    content: [{ selector: widget.selector, config: widget.config }],
+                    content: [{selector: widget.selector, config: widget.config}],
                 };
             }),
         })));
@@ -104,7 +105,7 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
 
     protected getFromConfigDefaultWidget(config?: HomeConfig): HomeLayout[] {
         const dLeft = this.getWidgetComponent(config?.defaultWidget);
-        const dRight = this.getWidgetComponent({ selector: 'ext-common/xm-widget-sign-in-up' });
+        const dRight = this.getWidgetComponent({selector: 'ext-common/xm-widget-sign-in-up'});
         return ([
             {
                 selector: 'div',
@@ -113,11 +114,11 @@ export class HomeComponent extends DashboardBase implements OnInit, OnDestroy {
                     {
                         selector: 'div',
                         class: 'col-md-6 default-lef-col',
-                        content: [{ selector: dLeft.selector, config: dLeft.config }],
+                        content: [{selector: dLeft.selector, config: dLeft.config}],
                     },
                     {
                         selector: 'div',
-                        content: [{ selector: dRight.selector, config: dRight.config }],
+                        content: [{selector: dRight.selector, config: dRight.config}],
                         class: 'col-md-6 default-right-col',
                     },
                 ],

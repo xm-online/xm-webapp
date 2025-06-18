@@ -6,6 +6,7 @@ import { XmDynamicWidget } from '@xm-ngx/dynamic';
 @Component({
     selector: 'xm-iframe-widget',
     templateUrl: './iframe-widget.component.html',
+    standalone: false,
 })
 export class IframeWidgetComponent implements OnInit, XmDynamicWidget {
 

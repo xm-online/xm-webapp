@@ -1,15 +1,13 @@
+import { JsonSchemaFormService } from '@ajsf/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { XmAlertService } from '@xm-ngx/alert';
+import { NextSpec, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
 import { JsfAttributes } from '@xm-ngx/json-schema-form';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
-import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
-import { NextSpec } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { XmEntityService } from '@xm-ngx/core/entity';
-import { JsonSchemaFormService } from '@ajsf/core';
 
 declare let $: any;
 
@@ -17,6 +15,7 @@ declare let $: any;
     selector: 'xm-state-change-dialog',
     templateUrl: './state-change-dialog.component.html',
     providers: [JsonSchemaFormService],
+    standalone: false,
 })
 export class StateChangeDialogComponent implements OnInit {
 
@@ -34,7 +33,7 @@ export class StateChangeDialogComponent implements OnInit {
                 private xmEntityService: XmEntityService,
                 private alertService: XmAlertService,
                 private toasterService: XmToasterService,
-                private widgetService: JsfComponentRegistryService
+                private widgetService: JsfComponentRegistryService,
     ) {
     }
 
