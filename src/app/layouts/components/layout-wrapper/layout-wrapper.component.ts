@@ -11,7 +11,7 @@ import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 
 interface XmMainConfig extends XmUIConfig {
     main: { layout: XmDynamicLayout[] };
-    navbar: { hidden: boolean };
+    sidebar: { hidden: boolean };
 }
 
 @Component({
@@ -33,7 +33,7 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
     public isMobileScreen: boolean;
     public menuCategories$: Observable<MenuCategory[]>;
     public mainLayout: XmDynamicLayout[];
-    public isNavbarHidden: boolean;
+    public isSidebarHidden: boolean;
 
     @ViewChild('sidenav') public sidenav: MatSidenav;
 
@@ -55,7 +55,7 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
             takeUntilOnDestroy(this),
         ).subscribe((config) => {
             this.mainLayout = config.main?.layout || null;
-            this.isNavbarHidden = config.navbar?.hidden || false;
+            this.isSidebarHidden = config.sidebar?.hidden || false;
         });
     }
 
