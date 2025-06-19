@@ -17,6 +17,7 @@ import { XmApplicationConfigService } from '@xm-ngx/core/config';
 import { XmMainComponent } from './main.component';
 import { XmLoggerService } from '@xm-ngx/logger';
 import { MockXmLogger } from '@xm-ngx/logger/testing';
+import { DashboardStore } from '@xm-ngx/core/dashboard';
 
 class Mock {
 }
@@ -84,6 +85,7 @@ describe('XmMainComponent', () => {
                     useClass: Mock,
                 },
                 { provide: XmLoggerService, useClass: MockXmLogger },
+                { provide: DashboardStore, useClass: Mock },
             ],
         }).compileComponents();
     }));
