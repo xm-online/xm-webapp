@@ -11,7 +11,7 @@
                  [opened]="false"
                  [fixedInViewport]="true"
     >
-      <xm-sidebar *ngIf="!isGuestLayout"></xm-sidebar>
+      <xm-sidebar *ngIf="!isGuestLayout && !isNavbarHidden"></xm-sidebar>
     </mat-sidenav>
     <mat-sidenav-content class="menu-sidenav-container__content">
       <ng-content></ng-content>
