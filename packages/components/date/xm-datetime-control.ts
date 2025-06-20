@@ -41,7 +41,7 @@ import { clone, isDate, isEmpty } from 'lodash';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { parseTime } from './shared/parse-time';
 import { DateAdapter } from '@angular/material/core';
-import { CustomDateAdapter } from '@xm-ngx/components/date/shared/custom-date-adapter';
+import { CustomDateAdapter } from './shared/custom-date-adapter';
 
 export interface XmDateTimeControlConfig {
     title?: Translate;
