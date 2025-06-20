@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { XmUserService } from "@xm-ngx/core/user";
+import { XmUserService } from '@xm-ngx/core/user';
 import _ from 'lodash';
 
 @Injectable({ providedIn: 'root' })
