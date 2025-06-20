@@ -1,12 +1,35 @@
 import { CommonModule, formatDate } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, inject, Input, LOCALE_ID, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormsModule, NgControl, ReactiveFormsModule, ValidationErrors } from '@angular/forms';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    inject,
+    Input,
+    LOCALE_ID,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
+import {
+    AbstractControl,
+    ControlValueAccessor,
+    FormBuilder,
+    FormControl,
+    FormsModule,
+    NgControl,
+    ReactiveFormsModule,
+    ValidationErrors,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerInput, MatDatepickerModule, MatDatepickerPanel } from '@angular/material/datepicker';
 import { MatFormField, MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ControlErrorModule, XmControlErrorsTranslates, XM_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/control-error';
+import {
+    ControlErrorModule,
+    XM_CONTROL_ERRORS_TRANSLATES,
+    XmControlErrorsTranslates,
+} from '@xm-ngx/components/control-error';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { HintModule } from '@xm-ngx/components/hint';
@@ -17,6 +40,8 @@ import { NgxMaskModule } from 'ngx-mask';
 import { clone, isDate, isEmpty } from 'lodash';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { parseTime } from './shared/parse-time';
+import { DateAdapter } from '@angular/material/core';
+import { CustomDateAdapter } from './shared/custom-date-adapter';
 
 export interface XmDateTimeControlConfig {
     title?: Translate;
@@ -80,6 +105,10 @@ const dateTimeValidator = (localeId: string) => {
             provide: MatFormFieldControl,
             useExisting: XmDateTimeControlFieldComponent,
         },
+        {
+            provide: DateAdapter,
+            useClass: CustomDateAdapter,
+        },
     ],
     template: `
         <div
@@ -93,7 +122,7 @@ const dateTimeValidator = (localeId: string) => {
                 <input
                     matInput
                     formControlName="date"
-                    placeholder="DD/MM/YYYY"
+                    placeholder="DD.MM.YYYY"
                     [matDatepicker]="picker"
                     [matDatepickerFilter]="pickerFilter"
                     (focus)="picker.open()"
