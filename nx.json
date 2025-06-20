@@ -33,7 +33,14 @@
     }
   },
   "namedInputs": {
-    "sharedGlobals": [],
+    "sharedGlobals": [
+      "{workspaceRoot}/package.json",
+      "{workspaceRoot}/nx.json",
+      "{workspaceRoot}/project.json",
+      "{workspaceRoot}/tsconfig.json",
+      "{workspaceRoot}/tsconfig.ngc.json",
+      "{workspaceRoot}/eslint.config.mjs"
+    ],
     "default": [
       "{projectRoot}/**/*",
       "sharedGlobals"
