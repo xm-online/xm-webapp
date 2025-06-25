@@ -1,8 +1,9 @@
-import { XmTableCollectionControllerType, } from '../collections/xm-table-collection-controller-resolver.service';
+import { XmTableCollectionControllerType } from '../collections/xm-table-collection-controller-resolver.service';
 import { PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
 import {
-    XmTableQueryParamsFilter, XmTableSelectionConfig,
+    XmTableQueryParamsFilter,
+    XmTableSelectionConfig,
     XmTableWithColumnDynamicCellOptionsPagination,
 } from '../table-widget/xm-table-widget.config';
 
@@ -24,6 +25,7 @@ export interface XmTableConfig {
     navigation?: XmTableNavigation;
     selection?: XmTableSelectionConfig;
     skipLoadOnInit?: boolean;
+    isSkeletonLoading?: boolean;
 }
 
 export interface XmTableNavigation {

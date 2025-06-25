@@ -1,11 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { UntypedFormControl, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 
 @Component({
     selector: 'test-accessor',
     template: '',
+    standalone: false,
 })
 export class TestAccessorComponent extends NgFormAccessor<unknown> {
 }
@@ -13,6 +14,7 @@ export class TestAccessorComponent extends NgFormAccessor<unknown> {
 @Component({
     selector: 'test-container',
     template: '',
+    standalone: false,
 })
 export class TestContainer {
     @ViewChild(TestAccessorComponent) public child: TestAccessorComponent;
@@ -23,7 +25,7 @@ export class TestContainer {
 
 function createTestComponent(template: string): ComponentFixture<TestContainer> {
     return TestBed
-        .overrideComponent(TestContainer, { set: { template: template } })
+        .overrideComponent(TestContainer, {set: {template: template}})
         .createComponent(TestContainer);
 }
 
@@ -180,7 +182,7 @@ describe('NgFormAccessorUI', () => {
             const fixture = createTestComponent(template);
             const container = fixture.componentInstance;
             const control = new UntypedFormControl();
-            container.testGroup = new UntypedFormGroup({ control });
+            container.testGroup = new UntypedFormGroup({control});
             fixture.detectChanges();
             const child = fixture.componentInstance.child;
             container.testGroup.controls.control.patchValue(value);
@@ -198,7 +200,7 @@ describe('NgFormAccessorUI', () => {
 
             const container = fixture.componentInstance;
             const control = new UntypedFormControl();
-            container.testGroup = new UntypedFormGroup({ control });
+            container.testGroup = new UntypedFormGroup({control});
             fixture.detectChanges();
             const child = fixture.componentInstance.child;
             const spy = spyOn(child.valueChange, 'emit');

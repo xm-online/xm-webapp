@@ -9,23 +9,24 @@ import { XmTranslationModule } from '@xm-ngx/translation';
     selector: 'xm-per-page',
     templateUrl: './xm-per-page.component.html',
     styles: [`
-        .form-group {
-            display: inline-block;
-            margin: 0;
-            padding: 0;
-        }
+      .form-group {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+      }
 
-        .form-control {
-            display: inline-block;
-            width: auto;
-        }
+      .form-control {
+        display: inline-block;
+        width: auto;
+      }
 
-        .pager-wrapper {
-            display: inline-block;
-            width: 50px;
-            padding-top: 6px;
-        }
+      .pager-wrapper {
+        display: inline-block;
+        width: 50px;
+        padding-top: 6px;
+      }
     `],
+    standalone: false,
 })
 export class PerPageComponent {
 

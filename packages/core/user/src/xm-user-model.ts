@@ -44,4 +44,5 @@ export interface XmUser<D = any> {
     tfaEnabled?: boolean;
     imageUrl?: string;
     data?: D;
+    context?: any;
 }

@@ -10,6 +10,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
         </ng-container>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false,
 })
 /**
  * Wrapper for Angular material progress bar with indeterminate mode.

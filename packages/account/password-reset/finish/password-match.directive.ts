@@ -1,9 +1,10 @@
-import { FormGroup, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 import { Directive, Input } from '@angular/core';
+import { FormGroup, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 @Directive({
     selector: '[matchPassword]',
-    providers: [{ provide: NG_VALIDATORS, useExisting: PasswordMatchDirective, multi: true }]
+    standalone: false,
+    providers: [{provide: NG_VALIDATORS, useExisting: PasswordMatchDirective, multi: true}],
 })
 export class PasswordMatchDirective implements Validator {
     @Input('matchPassword') public MatchPassword: string[] = [];
@@ -23,7 +24,7 @@ export class PasswordMatchDirective implements Validator {
                 }
 
                 if (passwordControl.value !== confirmPasswordControl.value) {
-                    confirmPasswordControl.setErrors({ passwordMismatch: true });
+                    confirmPasswordControl.setErrors({passwordMismatch: true});
                 } else {
                     confirmPasswordControl.setErrors(null);
                 }

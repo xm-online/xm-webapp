@@ -3,7 +3,7 @@ import { Principal } from '@xm-ngx/core/user';
 
 import { I18nNamePipe } from './i18n-name.pipe';
 
-@Pipe({name: 'i18nJsf'})
+@Pipe({standalone: false, name: 'i18nJsf'})
 export class I18nJsfPipe implements PipeTransform {
 
     constructor(private pipe: I18nNamePipe,
@@ -34,6 +34,14 @@ export class I18nJsfPipe implements PipeTransform {
         return obj;
     }
 
+    public transformValidationMessages(obj: any, principal: Principal): void {
+        for (const property in obj) {
+            if (obj.hasOwnProperty(property)) {
+                obj[property] = this.pipe.transform(obj[property], principal);
+            }
+        }
+    }
+
     private fieldsToTranslate(property: string) {
         return property === 'title' || property === 'label' || property === 'name' || property === 'helpvalue' || property === 'placeholder';
     }
@@ -43,14 +51,6 @@ export class I18nJsfPipe implements PipeTransform {
             // assign to title this is not are mistake, from different properties to title
             // reason: title can be only string, for store object we are using label field
             obj.title = this.pipe.transform(obj[property], principal);
-        }
-    }
-
-    public transformValidationMessages(obj: any, principal: Principal): void {
-        for (const property in obj) {
-            if (obj.hasOwnProperty(property)) {
-                obj[property] = this.pipe.transform(obj[property], principal);
-            }
         }
     }
 

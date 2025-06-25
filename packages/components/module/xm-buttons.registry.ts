@@ -9,4 +9,8 @@ export const XM_BUTTON_ELEMENTS: XmDynamicEntry[] = [
         selector: 'fab-mini-button',
         loadChildren: () => import('@xm-ngx/components/buttons').then(m => m.FabMiniButtonComponent),
     },
+    {
+        selector: 'raised-button',
+        loadChildren: () => import('@xm-ngx/components/buttons').then(m => m.RaisedButtonComponent),
+    }
 ];

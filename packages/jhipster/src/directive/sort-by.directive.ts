@@ -25,10 +25,11 @@ import { JhiSortDirective } from './sort.directive';
 
 @Directive({
     selector: '[jhiSortBy]',
+    standalone: false,
 })
 export class JhiSortByDirective implements AfterContentInit {
     @Input() public jhiSortBy: string;
-    @ContentChild(FaIconComponent, { static: true }) public iconComponent: FaIconComponent;
+    @ContentChild(FaIconComponent, {static: true}) public iconComponent: FaIconComponent;
 
     public sortIcon: IconDefinition;
     public sortAscIcon: IconDefinition;

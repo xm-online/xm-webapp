@@ -1,17 +1,17 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl, NgForm } from '@angular/forms';
+import { NgForm, UntypedFormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
-import { Observable } from 'rxjs';
-import { finalize, map, startWith } from 'rxjs/operators';
 
 import { Client, ClientService } from '@xm-ngx/core/client';
-import { Role, RoleService } from '@xm-ngx/core/role';
 import { XmConfigService } from '@xm-ngx/core/config';
+import { Role, RoleService } from '@xm-ngx/core/role';
 import { JhiLanguageHelper } from '@xm-ngx/translation';
+import { Observable } from 'rxjs';
+import { finalize, map, startWith } from 'rxjs/operators';
 
 export const CLIENT_UNIQUE_ID_ERROR_CODE = 'client.already.exists';
 
@@ -19,16 +19,17 @@ export const CLIENT_UNIQUE_ID_ERROR_CODE = 'client.already.exists';
     selector: 'xm-client-mgmt-dialog',
     styleUrls: ['./client-management-dialog.component.scss'],
     templateUrl: './client-management-dialog.component.html',
+    standalone: false,
 })
 export class ClientMgmtDialogComponent implements OnInit {
 
     @Input() public selectedClient: Client;
 
-    @ViewChild('editForm', { static: false }) public editForm: NgForm;
+    @ViewChild('editForm', {static: false}) public editForm: NgForm;
     public client: Client;
-    @ViewChild('scopeInput', { static: false })
+    @ViewChild('scopeInput', {static: false})
     public scopeInput: ElementRef<HTMLInputElement>;
-    @ViewChild('auto', { static: false })
+    @ViewChild('auto', {static: false})
     public matAutocomplete: MatAutocomplete;
 
     public languages: any[];
@@ -139,7 +140,7 @@ export class ClientMgmtDialogComponent implements OnInit {
     }
 
     private onSaveSuccess(result: any): void {
-        this.eventManager.broadcast({ name: 'clientListModification', content: 'OK' });
+        this.eventManager.broadcast({name: 'clientListModification', content: 'OK'});
         this.activeModal.close(result);
     }
 
@@ -148,7 +149,7 @@ export class ClientMgmtDialogComponent implements OnInit {
         const ctrlKey = 'clientId';
         if (this.clientIdNotUnique) {
             const ctrl = this.editForm.form.controls[ctrlKey];
-            ctrl.setErrors(['valueNotUnique'], { emitEvent: true });
+            ctrl.setErrors(['valueNotUnique'], {emitEvent: true});
         }
     }
 

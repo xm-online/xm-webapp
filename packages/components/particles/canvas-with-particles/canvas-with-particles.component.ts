@@ -9,8 +9,8 @@ import {
     OnInit,
     ViewChild,
 } from '@angular/core';
-import { LineTrailParticlesOptions } from '../line-trail-particles-options';
 import { LineTrailParticles } from '../line-trail-particles';
+import { LineTrailParticlesOptions } from '../line-trail-particles-options';
 
 
 export interface CanvasWithParticlesOptions {
@@ -22,12 +22,13 @@ export interface CanvasWithParticlesOptions {
     templateUrl: './canvas-with-particles.component.html',
     styleUrls: ['./canvas-with-particles.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false,
 })
 export class CanvasWithParticlesComponent implements OnInit, OnDestroy {
 
     @Input() public options: CanvasWithParticlesOptions;
 
-    @ViewChild('signInCanvas', { static: true }) public signInCanvas: ElementRef<HTMLCanvasElement>;
+    @ViewChild('signInCanvas', {static: true}) public signInCanvas: ElementRef<HTMLCanvasElement>;
     private updateUI: boolean = true;
     private lineTrailParticles: LineTrailParticles;
 

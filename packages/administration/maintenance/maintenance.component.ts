@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ExportEntitiesDetailsComponent } from './export-entities-details/export-entities-details.component';
-import { ImportEntitiesDetailsComponent } from './import-entities-details/import-entities-details.component';
 import { XmAlertService } from '@xm-ngx/alert';
-import { XmToasterService } from '@xm-ngx/toaster';
 
 import { XmConfigService } from '@xm-ngx/core/config';
+import { XmToasterService } from '@xm-ngx/toaster';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ExportEntitiesDetailsComponent } from './export-entities-details/export-entities-details.component';
+import { ImportEntitiesDetailsComponent } from './import-entities-details/import-entities-details.component';
 
 /** Default settings for mat-dialogs */
 export const XM_MAT_DIALOG_DEFAULT_OPTIONS: MatDialogConfig = {
@@ -31,6 +31,7 @@ export const XM_MAT_DIALOG_DEFAULT_OPTIONS: MatDialogConfig = {
     selector: 'xm-maintenance',
     templateUrl: './maintenance.component.html',
     styles: [],
+    standalone: false,
 })
 export class MaintenanceComponent {
 
@@ -46,7 +47,7 @@ export class MaintenanceComponent {
         private dialog: MatDialog,
     ) {
         this.showRefreshAll$ = service.isUpdateTenantsConfigAvailable().pipe(
-            map(it => it.available)
+            map(it => it.available),
         );
     }
 

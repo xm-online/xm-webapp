@@ -1,18 +1,19 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { XmEventManager, XmPublicUiConfigService } from '@xm-ngx/core';
-import { LanguageService } from '@xm-ngx/translation';
-import { filter, take } from 'rxjs/operators';
-import { XmConfigService } from '@xm-ngx/core/config';
-import { User, UserService } from '@xm-ngx/core/user';
-import { Role, RoleService } from '@xm-ngx/core/role';
 
 // import { XM_EVENT_LIST } from '../../../../src/app/xm.constants';
 import { XmLanguageUiConfig } from '@xm-ngx/administration/translations';
+import { XmEventManager, XmPublicUiConfigService } from '@xm-ngx/core';
+import { XmConfigService } from '@xm-ngx/core/config';
+import { Role, RoleService } from '@xm-ngx/core/role';
+import { User, UserService } from '@xm-ngx/core/user';
+import { LanguageService } from '@xm-ngx/translation';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
     selector: 'xm-user-mgmt-dialog',
     templateUrl: './user-management-dialog.component.html',
+    standalone: false,
 })
 export class UserMgmtDialogComponent implements OnInit {
 
@@ -23,7 +24,7 @@ export class UserMgmtDialogComponent implements OnInit {
     public authoritiesMap: Record<string, Role> = {};
     public showLoader: boolean;
     public isMultiRole: boolean = false;
-    @ViewChild('userLoginForm', { static: false }) public userLoginForm: any;
+    @ViewChild('userLoginForm', {static: false}) public userLoginForm: any;
     @Input() public selectedUser: User;
 
     constructor(
@@ -93,7 +94,7 @@ export class UserMgmtDialogComponent implements OnInit {
     }
 
     private onSaveSuccess(result: any): void {
-        this.eventManager.broadcast({ name: 'userListModification', content: 'OK' });
+        this.eventManager.broadcast({name: 'userListModification', content: 'OK'});
         this.activeModal.close(result);
     }
 

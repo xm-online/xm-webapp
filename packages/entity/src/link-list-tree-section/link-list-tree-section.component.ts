@@ -2,10 +2,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
-import { LinkSpec } from '@xm-ngx/core/entity';
-import { Link } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { XmEntityService } from '@xm-ngx/core/entity';
+import { Link, LinkSpec, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
 
 declare let $: any;
 
@@ -13,6 +10,7 @@ declare let $: any;
     selector: 'xm-link-list-tree-section',
     templateUrl: './link-list-tree-section.component.html',
     styleUrls: ['./link-list-tree-section.component.scss'],
+    standalone: false,
 })
 export class LinkListTreeSectionComponent implements OnInit {
 
@@ -27,7 +25,7 @@ export class LinkListTreeSectionComponent implements OnInit {
     public ngOnInit(): void {
         $('.xm-link-tree li:has(ul)').addClass('parent_li').find(' > span')
             .attr('title', this.translateService.instant('xm-entity.link-list-tree-section.collapse'));
-        $('.xm-link-tree ul > li.parent_li > span').on('click', function(this: HTMLElement, e: any): void {
+        $('.xm-link-tree ul > li.parent_li > span').on('click', function (this: HTMLElement, e: any): void {
             const children = $(this).parent('li.parent_li').find(' > xm-link-list-tree-section > ul > li');
             if (children.is(':visible')) {
                 children.hide('fast');

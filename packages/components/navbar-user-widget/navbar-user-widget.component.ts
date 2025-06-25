@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { SidebarUserComponent, SidebarUserSubtitle, UserWidgetBase } from '@xm-ngx/components/sidebar-user';
+import { SidebarUserSubtitle, UserWidgetBase } from '@xm-ngx/components/sidebar-user';
 import { UserNavBar } from './navbar-user-widget.model';
 import { CommonModule } from '@angular/common';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
@@ -7,7 +7,6 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { Router, RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MenuComponent } from '@xm-ngx/components/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { XmUserService } from '@xm-ngx/core/user';
@@ -22,7 +21,6 @@ import { DashboardStore } from '@xm-ngx/core/dashboard';
     imports: [
         CommonModule,
         XmPermissionModule,
-        MenuComponent,
         MatMenuModule,
         MatIconModule,
         RouterModule,
@@ -30,7 +28,6 @@ import { DashboardStore } from '@xm-ngx/core/dashboard';
         MatDividerModule,
         SidebarUserSubtitle,
         MatButtonModule,
-        SidebarUserComponent,
     ],
     standalone: true,
     encapsulation: ViewEncapsulation.None,

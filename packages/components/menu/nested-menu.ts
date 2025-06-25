@@ -1,12 +1,12 @@
-import { Dashboard } from '@xm-ngx/core/dashboard';
-import { MenuItem } from './menu.interface';
-import * as _ from 'lodash';
 import { ConditionDirective } from '@xm-ngx/components/condition';
+import { Dashboard } from '@xm-ngx/core/dashboard';
+import * as _ from 'lodash';
+import { MenuItem } from './menu.interface';
 
 const DEFAULT_DASHBOARD_KEY = 'DASHBOARD';
 
 export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof ConditionDirective.checkCondition, conditionArgs: Record<string, unknown> = {}): MenuItem[] {
-    const result = _.orderBy(dashboards, [ 'config.orderIndex', 'config.slug' ]).reduce(
+    const result = _.orderBy(dashboards, ['config.orderIndex', 'config.slug']).reduce(
         (data, {
             id,
             name: dashboardName,
@@ -21,18 +21,18 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                 activeItemPathPatterns,
                 categoryKey,
                 category,
-                dataQa
+                dataQa,
             } = {},
         }) => {
             if (hidden) {
-                if(!checkCondition || checkCondition(hidden.toString(), conditionArgs)){
+                if (!checkCondition || checkCondition(hidden.toString(), conditionArgs)) {
                     return data;
                 }
             }
 
             const {
                 name: menuName,
-                group: { icon: groupIcon, key = DEFAULT_DASHBOARD_KEY, name: groupName, orderIndex: groupOrder } = {},
+                group: {icon: groupIcon, key = DEFAULT_DASHBOARD_KEY, name: groupName, orderIndex: groupOrder} = {},
             } = configMenu;
 
             if (!slug) {
@@ -45,7 +45,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         icon: 'dashboard',
                         title: 'Dashboards',
                         permission: permission || 'DASHBOARD.GET_LIST',
-                        url: [ 'dashboard', `${id}` ],
+                        url: ['dashboard', `${id}`],
                         parent: null,
                         children: [],
                         activeItemPathPatterns,
@@ -57,7 +57,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         icon: groupIcon || configIcon,
                         title: dashboardName,
                         permission: permission || 'DASHBOARD.GET_LIST',
-                        url: [ 'dashboard', `${id}` ],
+                        url: ['dashboard', `${id}`],
                         parent: null,
                         children: [],
                         activeItemPathPatterns,
@@ -82,13 +82,13 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         icon: groupIcon || configIcon,
                         title: groupName,
                         permission: permission || 'DASHBOARD.GET_LIST',
-                        url: [ 'dashboard', groupKey ],
+                        url: ['dashboard', groupKey],
                         parent: null,
                         children: [],
                         activeItemPathPatterns,
                         categoryKey,
                         category,
-                        dataQa
+                        dataQa,
                     });
                 }
 
@@ -101,7 +101,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                 // Skip route which has a required param
                 // It will display if parent route have not been added
                 if (path.startsWith(':')) {
-                    return { path, children: [] };
+                    return {path, children: []};
                 }
 
                 let node = (tree.children = tree.children || []).find(child => child.path === path);
@@ -113,14 +113,14 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                         icon: configIcon,
                         title: menuName || configName || dashboardName,
                         permission: permission || 'DASHBOARD.GET_LIST',
-                        url: [ 'dashboard', ...slug.split('/') ],
+                        url: ['dashboard', ...slug.split('/')],
                         slug: `dashboard/${slug}`,
                         parent: tree,
                         children: [],
                         activeItemPathPatterns,
                         categoryKey,
                         category,
-                        dataQa
+                        dataQa,
                     };
 
                     tree.children.push(node);
@@ -128,9 +128,9 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
 
                 return node;
 
-            }, { children: data });
+            }, {children: data});
 
             return data;
         }, []);
-    return _.orderBy(result, [ 'position' ], 'asc');
+    return _.orderBy(result, ['position'], 'asc');
 }

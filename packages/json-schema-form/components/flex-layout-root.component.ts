@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
 import { FlexLayoutRootComponent } from '@ajsf/material';
 import { CdkDrag, CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Component, Input } from '@angular/core';
 import { XmJsonSchemaFormService } from '../src/xm-json-schema-form.service';
 
 export function isNodeDraggable(node: Record<string, any>): boolean {
@@ -47,45 +47,46 @@ export function isNodeDraggable(node: Record<string, any>): boolean {
         </div>
     `,
     styles: [`
-        .cdk-drop-list {
-            /*width: 100%;*/
-        }
+      .cdk-drop-list {
+        /*width: 100%;*/
+      }
 
-        .cdk-drop-list-dragging:not(.cdk-drag-placeholder) {
-            transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-        }
+      .cdk-drop-list-dragging:not(.cdk-drag-placeholder) {
+        transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+      }
 
-        .cdk-drag {
-            background: var(--surface);
-        }
+      .cdk-drag {
+        background: var(--surface);
+      }
 
-        .cdk-drag-preview {
-            box-sizing: border-box;
-            border-radius: 4px;
-            box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-            0 8px 10px 1px rgba(0, 0, 0, 0.14),
-            0 3px 14px 2px rgba(0, 0, 0, 0.12);
-        }
+      .cdk-drag-preview {
+        box-sizing: border-box;
+        border-radius: 4px;
+        box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+        0 8px 10px 1px rgba(0, 0, 0, 0.14),
+        0 3px 14px 2px rgba(0, 0, 0, 0.12);
+      }
 
-        .cdk-drag-placeholder {
-            opacity: 0;
-        }
+      .cdk-drag-placeholder {
+        opacity: 0;
+      }
 
-        .cdk-drag-animating {
-            transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-        }
+      .cdk-drag-animating {
+        transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+      }
 
-        .cdk-drag-handle {
-            background: #f2f2f2;
-            justify-content: center;
-            display: flex;
-            padding: 4px 8px;
-            border: 1px dashed #ccc;
-            border-radius: 4px;
-            cursor: move;
-            color: var(--gray);
-        }
+      .cdk-drag-handle {
+        background: #f2f2f2;
+        justify-content: center;
+        display: flex;
+        padding: 4px 8px;
+        border: 1px dashed #ccc;
+        border-radius: 4px;
+        cursor: move;
+        color: var(--gray);
+      }
     `],
+    standalone: false,
 })
 export class XmFlexLayoutRootComponent extends FlexLayoutRootComponent {
     @Input() public flexLayout: string;

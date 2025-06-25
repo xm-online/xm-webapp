@@ -1,9 +1,9 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { XmIfSessionDirective } from './xm-if-session.directive';
+import { By } from '@angular/platform-browser';
 import { XmSessionService } from '@xm-ngx/core';
 import { BehaviorSubject, of } from 'rxjs';
-import { By } from '@angular/platform-browser';
+import { XmIfSessionDirective } from './xm-if-session.directive';
 
 @Component({
     template: `
@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
             {{ content }}
         </div>
     `,
+    standalone: false,
 })
 class HostComponent {
     public content = '';
