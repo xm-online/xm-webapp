@@ -42,6 +42,7 @@ export interface XmDynamicCell<C = unknown> extends XmDynamicLayoutNode<C> {
  */
 @Directive({
     selector: 'xm-dynamic-cell, [xmDynamicCell]',
+    standalone: false,
     providers: [XmDynamicControllerInjectorFactoryService],
 })
 export class XmDynamicCellDirective<V, O extends XmDynamicCell<O>>

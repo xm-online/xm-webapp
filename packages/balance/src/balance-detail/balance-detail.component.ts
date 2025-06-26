@@ -8,6 +8,7 @@ import { PocketService } from '../shared/pocket.service';
 @Component({
     selector: 'xm-balance-detail',
     templateUrl: './balance-detail.component.html',
+    standalone: false,
 })
 export class BalanceDetailComponent implements OnInit {
     @Input() public balanceId: number;

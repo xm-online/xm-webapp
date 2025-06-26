@@ -16,8 +16,21 @@ import { Spec } from '../shared/spec.model';
     selector: 'xm-balance-list-card',
     templateUrl: './balance-list-card.component.html',
     styleUrls: ['./balance-list-card.component.scss'],
+    standalone: false,
 })
 export class BalanceListCardComponent implements OnInit {
+
+    @Input() public xmEntityId: number;
+    @Input() public typeKey: string;
+    @ViewChildren('balanceSections') public balanceSections: QueryList<any>;
+    public balances: Balance[];
+    public spec: Spec;
+
+    constructor(protected balanceService: BalanceService,
+                protected balanceSpecWrapperService: BalanceSpecWrapperService,
+                protected metricService: MetricService,
+                protected modalService: MatDialog) {
+    }
 
     protected static buildBalancePie(balance: Balance): PieChart {
         const max = balance.metrics.filter((m) => m.typeKey === 'MAX').shift();
@@ -41,18 +54,6 @@ export class BalanceListCardComponent implements OnInit {
                 className: 'ct-series-d',
             }],
         }, options);
-    }
-
-    @Input() public xmEntityId: number;
-    @Input() public typeKey: string;
-    @ViewChildren('balanceSections') public balanceSections: QueryList<any>;
-    public balances: Balance[];
-    public spec: Spec;
-
-    constructor(protected balanceService: BalanceService,
-                protected balanceSpecWrapperService: BalanceSpecWrapperService,
-                protected metricService: MetricService,
-                protected modalService: MatDialog) {
     }
 
     public ngOnInit(): void {

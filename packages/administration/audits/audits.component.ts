@@ -5,11 +5,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { Link } from '@xm-ngx/entity';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-
-import { dayjs } from '@xm-ngx/operators';
 
 import { JhiOrderByPipe, JhiParseLinks } from '@xm-ngx/jhipster';
+import { dayjs, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { merge } from 'rxjs';
 import { Audit } from './audit.model';
 import { AuditsService } from './audits.service';
@@ -18,6 +16,7 @@ import { AuditsService } from './audits.service';
     selector: 'xm-audits',
     templateUrl: './audits.component.html',
     providers: [JhiOrderByPipe],
+    standalone: false,
 })
 export class AuditsComponent implements OnInit, OnDestroy {
     public fromDate: string;
@@ -28,8 +27,8 @@ export class AuditsComponent implements OnInit, OnDestroy {
 
     public dataSource: MatTableDataSource<Audit> = new MatTableDataSource([]);
     public displayedColumns: string[] = ['timestamp', 'principal', 'type', 'data.remoteAddress'];
-    @ViewChild(MatPaginator, { static: true }) private paginator: MatPaginator;
-    @ViewChild(MatSort, { static: true }) private sort: MatSort;
+    @ViewChild(MatPaginator, {static: true}) private paginator: MatPaginator;
+    @ViewChild(MatSort, {static: true}) private sort: MatSort;
 
     constructor(
         private auditsService: AuditsService,

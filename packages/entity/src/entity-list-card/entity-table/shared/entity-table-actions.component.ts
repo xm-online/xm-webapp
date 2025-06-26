@@ -12,7 +12,6 @@ import { FunctionCallDialogComponent } from '../../../function-call-dialog';
 import { Router } from '@angular/router';
 import { flattenEntityWithPath } from '../../../../entity-list-helper';
 import { FunctionSpec, XmEntity } from '@xm-ngx/core/entity';
-import { XmEmptyPipe } from '@xm-ngx/pipes';
 
 export interface XmEntityTableActionsConfig {
     actions?: ActionOptions[];
@@ -28,7 +27,6 @@ export interface XmEntityTableActionsConfig {
         NgTemplateOutlet,
         MatMenuModule,
         XmPermissionModule,
-        XmEmptyPipe,
         XmTranslationModule,
         MatIconModule,
         MatButtonModule,

@@ -2,11 +2,11 @@ import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 
 import { FunctionService, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 import * as _ from 'lodash';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 interface IStatFunction {
     type: 'query' | 'function';
@@ -29,6 +29,7 @@ interface IStat {
     selector: 'xm-stats-widget',
     templateUrl: './stats-widget.component.html',
     styleUrls: ['./stats-widget.component.scss'],
+    standalone: false,
 })
 export class StatsWidgetComponent implements OnInit, XmDynamicWidget {
 
@@ -47,7 +48,7 @@ export class StatsWidgetComponent implements OnInit, XmDynamicWidget {
                 this.callFunction(el.function).subscribe(el.value);
             } else if (el.query) {
                 el.value = new BehaviorSubject<string | number>('?');
-                this.callFunction({ type: 'query', query: el.query, errorValue: '?' }).subscribe(el.value);
+                this.callFunction({type: 'query', query: el.query, errorValue: '?'}).subscribe(el.value);
             } else {
                 el.value = new BehaviorSubject<string | number>('?');
             }

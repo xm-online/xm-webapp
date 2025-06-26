@@ -5,6 +5,7 @@ import { flattenObj } from '../services/helpers';
     selector: 'xm-keys-view',
     templateUrl: './keys-view.component.html',
     styleUrls: ['./keys-view.component.scss'],
+    standalone: false,
 })
 export class KeysViewComponent {
     public translationKeys: [string, string][] = [];
@@ -16,7 +17,8 @@ export class KeysViewComponent {
         byKey: '',
         byValue: '',
     };
-
+    @Output() public updateTranslate: EventEmitter<{ key: string; value: string }> = new EventEmitter();
+    @Output() public deleteTranslate: EventEmitter<string> = new EventEmitter();
 
     @Input() set json(json: {}) {
         if (!json) {
@@ -27,10 +29,6 @@ export class KeysViewComponent {
         this.translationKeys = Object.entries(flattenObj(json));
         this.resetState();
     }
-
-    @Output() public updateTranslate: EventEmitter<{ key: string; value: string }> = new EventEmitter();
-    @Output() public deleteTranslate: EventEmitter<string> = new EventEmitter();
-
 
     public changeTranslate(key: string): void {
         this.updateTranslate.emit({key, value: this.unSave[key]});

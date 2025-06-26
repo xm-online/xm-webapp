@@ -3,10 +3,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { XmAlertService } from '@xm-ngx/alert';
-import { XmToasterService } from '@xm-ngx/toaster';
-import { finalize } from 'rxjs/operators';
 
 import { XmConfigService } from '@xm-ngx/core/config';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { finalize } from 'rxjs/operators';
 import { GatewayRoute } from './gateway-route.model';
 
 import { GatewayRoutesService } from './gateway-routes.service';
@@ -15,6 +15,7 @@ import { GatewayRoutesService } from './gateway-routes.service';
     selector: 'xm-gateway',
     templateUrl: './gateway.component.html',
     providers: [GatewayRoutesService],
+    standalone: false,
 })
 export class JhiGatewayComponent implements OnInit {
 

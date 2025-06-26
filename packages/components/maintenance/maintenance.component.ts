@@ -1,29 +1,27 @@
 import { Component, inject, Injector, OnDestroy, OnInit, Signal } from '@angular/core';
-import { MaintenanceMode, MaintenanceService } from './maintenance.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { XmDynamicComponentRegistry } from '@xm-ngx/dynamic';
 import { NotFoundException } from '@xm-ngx/exceptions';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { LanguageService } from '@xm-ngx/translation';
 import { Observable } from 'rxjs';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { first } from 'rxjs/operators';
+import { MaintenanceMode, MaintenanceService } from './maintenance.service';
 
 @Component({
     selector: 'xm-maintenance-view',
     templateUrl: './maintenance.component.html',
     styleUrls: ['./maintenance.component.scss'],
+    standalone: false,
 })
 export class MaintenanceComponent implements OnInit, OnDestroy {
 
-    protected readonly SELECTOR = 'xm-general/maintenance';
-
     public isMaintenanceProgress$: Observable<boolean>;
     public maintenanceMode$: Signal<MaintenanceMode>;
-
     public componentInjector = inject(Injector);
-    private registry = inject(XmDynamicComponentRegistry);
-
     public componentInRegistry: boolean = null;
+    protected readonly SELECTOR = 'xm-general/maintenance';
+    private registry = inject(XmDynamicComponentRegistry);
 
     constructor(
         private maintenanceService: MaintenanceService,
@@ -35,7 +33,7 @@ export class MaintenanceComponent implements OnInit, OnDestroy {
         );
 
         this.isMaintenanceProgress$.pipe(
-            first(it => it === true)
+            first(it => it === true),
         ).subscribe(() => {
             this.languageService.refresh();
         });

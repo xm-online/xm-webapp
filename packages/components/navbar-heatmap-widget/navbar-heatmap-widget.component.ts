@@ -1,11 +1,11 @@
-import {Component, NgModule, NgZone, Type} from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {NavigationEnd, Router} from '@angular/router';
-import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
-import {HeatmapService} from './heatmap.service';
-import {CommonModule} from '@angular/common';
-import {Principal} from '@xm-ngx/core/user';
+import { CommonModule } from '@angular/common';
+import { Component, NgModule, NgZone, Type } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { NavigationEnd, Router } from '@angular/router';
+import { Principal } from '@xm-ngx/core/user';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { HeatmapService } from './heatmap.service';
 
 @Component({
     selector: 'xm-navbar-heatmap-widget',
@@ -19,6 +19,7 @@ import {Principal} from '@xm-ngx/core/user';
         </button>
     `,
     providers: [HeatmapService],
+    standalone: false,
 })
 export class NavbarHeatmapWidgetComponent {
 

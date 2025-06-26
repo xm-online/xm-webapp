@@ -7,18 +7,20 @@ import { Component } from '@angular/core';
                 type="button"
                 tabindex="-1"
                 mat-icon-button>
-          <mat-icon>close</mat-icon>
+            <mat-icon>close</mat-icon>
         </button>
     `,
     styles: [
         `
-            :host {
-                position: absolute;
-                display: block;
-                top: 0.5rem;
-                right: 0.5rem;
-            }
+          :host {
+            position: absolute;
+            display: block;
+            top: 0.5rem;
+            right: 0.5rem;
+          }
         `,
     ],
+    standalone: false,
 })
-export class ModalCloseComponent {}
+export class ModalCloseComponent {
+}

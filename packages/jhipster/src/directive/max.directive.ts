@@ -22,12 +22,14 @@ import { FormControl, NG_VALIDATORS, ValidationErrors } from '@angular/forms';
 @Directive({
     selector: '[jhiMax][ngModel]',
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    providers: [{ provide: NG_VALIDATORS, useExisting: forwardRef(() => JhiMaxValidatorDirective), multi: true }],
+    providers: [{provide: NG_VALIDATORS, useExisting: forwardRef(() => JhiMaxValidatorDirective), multi: true}],
+    standalone: false,
 })
 export class JhiMaxValidatorDirective {
     @Input() public jhiMax: number;
 
-    constructor() {}
+    constructor() {
+    }
 
     public validate(c: FormControl): ValidationErrors | null {
         return c.value === undefined || c.value === null || c.value <= this.jhiMax

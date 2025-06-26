@@ -1,12 +1,13 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { LoginService } from '@xm-ngx/components/login';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { take } from 'rxjs/operators';
-import { LoginService } from '@xm-ngx/components/login';
 
 @Component({
     selector: 'xm-login-error',
     templateUrl: './login-error.component.html',
+    standalone: false,
 })
 export class LoginErrorComponent implements OnDestroy {
 

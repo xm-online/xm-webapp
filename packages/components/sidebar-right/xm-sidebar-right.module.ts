@@ -30,7 +30,7 @@ interface XmMainConfig extends XmUIConfig {
     }
 }
 
-@Directive({selector: '[xmContainerOutlet]'})
+@Directive({standalone: false, selector: '[xmContainerOutlet]'})
 export class ContainerOutletDirective {
     constructor(public viewContainerRef: ViewContainerRef) {
     }
@@ -46,6 +46,7 @@ export class ContainerOutletDirective {
         <div class="resize-divider" #resizer></div>
         <ng-container xmContainerOutlet></ng-container>
     `,
+    standalone: false,
 })
 export class XmSidebarRightComponent implements OnInit, OnDestroy {
 
@@ -102,7 +103,6 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     constructor(private sidebarRightService: SidebarRightService,
                 private moduleRef: NgModuleRef<unknown>,
                 private eventManager: XmEventManager,
-                private elementRef: ElementRef
     ) {
     }
 
@@ -124,9 +124,10 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
                         if (this.sidebarRightService.wasJustOpened()) {
                             return;
                         }
-                        const clickedInsideSidebar = this.elementRef.nativeElement.contains(event.target);
-                        const clickedOnResizer = this.resizerElement?.nativeElement.contains(event.target);
-                        if (!clickedInsideSidebar && !clickedOnResizer) {
+
+                        const clickedMenuCategories = (event.target as HTMLElement)?.closest('.menu-categories');
+
+                        if (clickedMenuCategories) {
                             this.remove();
                         }
                     })

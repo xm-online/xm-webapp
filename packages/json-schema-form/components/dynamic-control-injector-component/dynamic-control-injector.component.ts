@@ -15,13 +15,14 @@ interface JsfLayoutNode {
     template: `
         @if (formControl) {
             <ng-container
-                [formControl]="formControl"
-                [selector]="layoutNode.options?.selector"
-                [options]="layoutNode.options"
-                [config]="layoutNode.options?.config"
-                xmDynamicControl></ng-container>
+                    [formControl]="formControl"
+                    [selector]="layoutNode.options?.selector"
+                    [options]="layoutNode.options"
+                    [config]="layoutNode.options?.config"
+                    xmDynamicControl></ng-container>
         }
     `,
+    standalone: false,
 })
 export class DynamicControlInjectorComponent implements OnInit {
     @Input() public layoutNode: JsfLayoutNode;

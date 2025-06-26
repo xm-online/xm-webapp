@@ -1,43 +1,29 @@
-import {
-    Component,
-    Input,
-    OnChanges, OnDestroy,
-    OnInit,
-    SimpleChanges,
-    ViewChild,
-} from '@angular/core';
-import {
-    Calendar,
-    CalendarService,
-    CalendarSpec, EventService,
-    XmEntity,
-} from '@xm-ngx/core/entity';
-import { EntityCalendarUiConfig } from '@xm-ngx/core/config';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import { I18nNamePipe } from '@xm-ngx/translation';
-import { LanguageService } from '@xm-ngx/translation';
+import { CalendarOptions } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
+import momentTimezonePlugin from '@fullcalendar/moment-timezone';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import { TranslateService } from '@ngx-translate/core';
+import { XmAlertService } from '@xm-ngx/alert';
+import { EntityCalendarUiConfig } from '@xm-ngx/core/config';
+import { Calendar, CalendarService, CalendarSpec, Event, EventService, XmEntity } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
+import { dayjs } from '@xm-ngx/operators';
+import { I18nNamePipe, LanguageService } from '@xm-ngx/translation';
+import timezone from 'dayjs/plugin/timezone';
+import { ReplaySubject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { CalendarChangeService } from '../../calendar-card/calendar-view/calendar-change.service';
+import { CalendarEventDialogComponent } from '../../calendar-event-dialog/calendar-event-dialog.component';
 // import {
 //     CALENDAR_VIEW,
 //     DEFAULT_CALENDAR_VIEW,
 // } from 'src/app/xm.constants';
 import { DEFAULT_CALENDAR_EVENT_FETCH_SIZE } from '../calendar-card.component';
-import { Event } from '@xm-ngx/core/entity';
-import { CalendarEventDialogComponent } from '../../calendar-event-dialog/calendar-event-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { CalendarOptions } from '@fullcalendar/core';
-import { CalendarChangeService } from '../../calendar-card/calendar-view/calendar-change.service';
-import { ReplaySubject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import listPlugin from '@fullcalendar/list';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import momentTimezonePlugin from '@fullcalendar/moment-timezone';
-import interactionPlugin from '@fullcalendar/interaction';
-import { XmAlertService } from '@xm-ngx/alert';
-import { dayjs } from '@xm-ngx/operators';
-import timezone from 'dayjs/plugin/timezone';
 
 // import { XM_CALENDAR_VIEW } from '../../../../../src/app/xm.constants';
 
@@ -61,6 +47,7 @@ dayjs.extend(timezone);
     selector: 'xm-calendar-view',
     templateUrl: './calendar-view.component.html',
     styleUrls: ['./calendar-view.component.scss'],
+    standalone: false,
 })
 export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
     public calendarOptions: CalendarOptions;
@@ -101,6 +88,11 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
         }
     }
 
+    public ngOnDestroy(): void {
+        this.destroyed$.next(true);
+        this.destroyed$.complete();
+    }
+
     private initCalendar(): void {
         this.calendarOptions = {
             contentHeight: 700,
@@ -109,7 +101,7 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
                 center: 'month,agendaWeek,agendaDay,listDay,listWeek',
                 right: 'prev,next,today',
             },
-            plugins:[
+            plugins: [
                 dayGridPlugin,
                 listPlugin,
                 timeGridPlugin,
@@ -256,10 +248,5 @@ export class CalendarViewComponent implements OnChanges, OnInit, OnDestroy {
             icon,
             text: this.translateService.instant(key),
         });
-    }
-
-    public ngOnDestroy(): void {
-        this.destroyed$.next(true);
-        this.destroyed$.complete();
     }
 }

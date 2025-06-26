@@ -15,7 +15,6 @@ import { Dashboard, DashboardStore, PageService } from '@xm-ngx/core/dashboard';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { skip, take } from 'rxjs/operators';
-import { AsyncPipe } from '@angular/common';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { MatButtonModule } from '@angular/material/button';
@@ -50,7 +49,6 @@ export enum NavbarDashboardEditState {
         XmPermissionModule,
         MatButtonModule,
         MatTooltipModule,
-        AsyncPipe,
         MatIconModule,
     ],
     providers: [

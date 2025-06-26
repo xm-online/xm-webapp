@@ -6,6 +6,7 @@ import { JhiHealth, JhiHealthService } from './health.service';
 @Component({
     selector: 'xm-health-modal',
     templateUrl: './health-modal.component.html',
+    standalone: false,
 })
 export class JhiHealthModalComponent implements OnInit {
 
@@ -37,8 +38,8 @@ export class JhiHealthModalComponent implements OnInit {
         const val = value / 1073741824;
         if (val > 1) { // Value
             return val.toFixed(2) + ' GB';
-        } 
+        }
         return (value / 1048576).toFixed(2) + ' MB';
-        
+
     }
 }

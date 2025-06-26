@@ -1,4 +1,5 @@
 export * from './activate';
+export * from './context';
 export * from './help';
 export * from './password';
 export * from './password-settings';

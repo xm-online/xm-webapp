@@ -22,8 +22,7 @@ import { Principal, XmUserService } from '@xm-ngx/core/user';
 import { getDefaultMenuList } from './default-menu-list';
 import { CdkTreeModule, NestedTreeControl } from '@angular/cdk/tree';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy, treeNodeSearch } from '@xm-ngx/operators';
-import { buildMenuTree } from './nested-menu';
-import { applicationsToCategory, filterByConditionDashboards } from './flat-menu';
+import { applicationsToCategory } from './flat-menu';
 import { HoveredMenuCategory, MenuCategory, MenuItem, MenuOptions } from './menu.interface';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { MatIconModule } from '@angular/material/icon';
@@ -31,7 +30,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { Translate, XmTranslateService, XmTranslationModule } from '@xm-ngx/translation';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { ConditionDirective } from '@xm-ngx/components/condition';
 import { XmEventManager, XmEventManagerAction } from '@xm-ngx/core';
 import { showHideSubCategories } from './menu.animation';
 import { MenuService } from './menu.service';
@@ -133,7 +131,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private assignSubCategories(): void {
-        this.subCategories$ = combineLatest([this.activeDashboards$, this.applications$, this.defaultMenuItems$, this.context$]).pipe(
+        this.subCategories$ = combineLatest([this.menuService.getActiveDashboards$(), this.applications$, this.defaultMenuItems$, this.context$]).pipe(
             debounceTime(300),
             map(([dashboards, applications, defaultMenu]) => {
                 const mainMenu = _.orderBy([...dashboards, ...applications], ['position'], 'asc');
@@ -149,32 +147,6 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
             }),
             takeUntilOnDestroy(this),
             shareReplay(1),
-        );
-    }
-
-    private get activeDashboards$(): Observable<MenuItem[]> {
-        return from(this.principal.identity()).pipe(
-            switchMap(() => this.userService.user$())
-        ).pipe(
-            switchMap((user) => {
-
-                const hasPrivilegesInline = this.principal.hasPrivilegesInline(['DASHBOARD.GET_LIST', 'WIDGET.GET_LIST.ITEM', 'DASHBOARD.GET_LIST.ITEM'], 'AND');
-                if (hasPrivilegesInline !== true && Array.isArray(hasPrivilegesInline) && hasPrivilegesInline.length !== 0) {
-                    return of([]);
-                }
-
-                return this.dashboardService.dashboards$().pipe(
-                    filter((dashboards) => Boolean(dashboards)),
-                    map((i) => filterByConditionDashboards(i, this.contextService)),
-                    map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
-                    map((dashboards) => {
-                        if (dashboards?.length) {
-                            return buildMenuTree(dashboards, ConditionDirective.checkCondition, {user});
-                        }
-                        return [];
-                    }),
-                );
-            }),
         );
     }
 
