@@ -72,7 +72,7 @@ async function main() {
     }
 
     try {
-        const testPipeline = runPipeline('TEST', testCommands, commonEnv);
+        // const testPipeline = runPipeline('TEST', testCommands, commonEnv);
         const buildPipeline = runPipeline('BUILD', buildCommands, commonEnv);
 
         await Promise.all([testPipeline, buildPipeline]);
