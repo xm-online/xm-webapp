@@ -9,7 +9,7 @@ const testCommands = [
 const buildCommands = [
     'ls -la',
     'export https_proxy="http://proxy.itsf.dc:3128"',
-    'export IMAGE_TAG=`cat .ci_status/version`',
+    'export IMAGE_TAG=`$(git describe --tags --always --dirty)`',
     'echo "Release version: $IMAGE_TAG"',
     'curl -vsS --fail --header "Private-Token: ${gitlab_deploy_token}" --request GET "http://gitlab.dc/api/v4/projects/83/repository/files/gitlab-ci%2Fbuild-update_package_release.sh/raw?ref=ci_k8s" -o  build-update_package_release.sh',
     'chmod +x ./build-update_package_release.sh',
