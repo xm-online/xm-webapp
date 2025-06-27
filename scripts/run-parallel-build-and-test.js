@@ -4,7 +4,7 @@ const testCommands = [
     'export https_proxy="http://proxy.itsf.dc:3128"',
     'export HTTP_PROXY=http://proxy.itsf.dc:3128',
     'npm run prebuild',
-    'ng test --code-coverage=true --source-map=false --watch=false',
+    'ng test --code-coverage=true --source-map=false --watch=false --browsers ChromeHeadless',
 ];
 const buildCommands = [
     'ls -la',
