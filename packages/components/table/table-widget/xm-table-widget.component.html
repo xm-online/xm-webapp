@@ -22,11 +22,11 @@
   >
 
     <xm-table-header
+      *ngIf="!config.isTitleHidden"
       [style]="config?.headerStyle"
       [config]="config"
       [loading]="context.collection.loading"
       [showQuickFilterInsteadOfTitle]="showQuickFilterInsteadOfTitle"
-      *ngIf="!config.isTitleHidden"
     >
       <xm-table-quick-filter-inline *ngIf="showQuickFilterInsteadOfTitle && showQuickFilters" [config]="config"></xm-table-quick-filter-inline>
       <ng-container *ngIf="!xmTable.config.isCollapsed">
