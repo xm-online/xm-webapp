@@ -17,7 +17,7 @@ export interface XmTableHeaderConfig {
     selector: 'xm-table-header',
     host: {class: 'xm-table-header'},
     template: `
-        @if (config?.title) {
+        @if (config?.title && !showQuickFilterInsteadOfTitle) {
             <div class="d-flex align-items-center header-title">
                 @if (config.titleIcon) {
                     <div class="header-title__icon">
@@ -104,4 +104,5 @@ export class XmTableHeaderComponent {
     }
 
     @Input() public loading: boolean;
+    @Input() public showQuickFilterInsteadOfTitle: boolean;
 }

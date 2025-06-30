@@ -20,6 +20,7 @@ export interface XmTableConfig {
     isCollapsed: boolean;
     isExpandable: boolean;
     showFilterChips?: boolean;
+    showQuickFilterInsteadOfTitle?: boolean;
     popUpFilter?: boolean;
     showQuickFilters?: boolean;
     navigation?: XmTableNavigation;

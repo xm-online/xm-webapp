@@ -9,6 +9,9 @@
               [xmTableController]="collectionController"
 >
 
+  @let showQuickFilters = xmTable.config.showQuickFilters;
+  @let showQuickFilterInsteadOfTitle = xmTable.config.showQuickFilterInsteadOfTitle;
+
   <mat-card *ngIf="xmTable.context$ | async as context"
             class="overflow-hidden no-horizontal-paddings"
             [ngClass]="{
@@ -18,7 +21,14 @@
             [attr.data-qa]="config?.dataQa"
   >
 
-    <xm-table-header [style]="config?.headerStyle" [config]="config" [loading]="context.collection.loading" *ngIf="!config.isTitleHidden">
+    <xm-table-header
+      [style]="config?.headerStyle"
+      [config]="config"
+      [loading]="context.collection.loading"
+      [showQuickFilterInsteadOfTitle]="showQuickFilterInsteadOfTitle"
+      *ngIf="!config.isTitleHidden"
+    >
+      <xm-table-quick-filter-inline *ngIf="showQuickFilterInsteadOfTitle && showQuickFilters" [config]="config"></xm-table-quick-filter-inline>
       <ng-container *ngIf="!xmTable.config.isCollapsed">
         <xm-table-filter-button *ngIf="xmTable.config.popUpFilter"
                                 [config]="config"
@@ -35,9 +45,7 @@
     </xm-table-header>
 
     <div class="xm-table-wrapper" [@tableExpand]="xmTable.config.isCollapsed ? 'collapsed' : 'expanded'">
-      <ng-container>
-        <xm-table-quick-filter-inline *ngIf="xmTable.config.showQuickFilters" [config]="config"></xm-table-quick-filter-inline>
-      </ng-container>
+      <xm-table-quick-filter-inline *ngIf="!showQuickFilterInsteadOfTitle && showQuickFilters" [config]="config"></xm-table-quick-filter-inline>
 
       <xm-table-filter-inline *ngIf="!xmTable.config.popUpFilter"
                               [config]="config"
