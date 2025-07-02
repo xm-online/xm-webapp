@@ -3,8 +3,7 @@ const testCommands = [
     'export http_proxy="http://proxy.itsf.dc:3128"',
     'export https_proxy="http://proxy.itsf.dc:3128"',
     'export HTTP_PROXY=http://proxy.itsf.dc:3128',
-    'npm run prebuild',
-    'ng test --code-coverage=true --source-map=false --watch=false --browsers ChromeHeadless',
+    'ng test --code-coverage=true --source-map=false --watch=false --browsers=ChromeHeadlessNoSandbox',
 ];
 const buildCommands = [
     'ls -la',
@@ -19,7 +18,6 @@ const buildCommands = [
     'npm config set proxy http://proxy.itsf.dc:3128',
     'npm config set https-proxy http://proxy.itsf.dc:3128',
     'npm run translations',
-    'npm run build:prod',
     'mkdir -p -- "documentation"',
 ];
 ;
@@ -72,10 +70,10 @@ async function main() {
     }
 
     try {
-        // const testPipeline = runPipeline('TEST', testCommands, commonEnv);
+        const testPipeline = runPipeline('TEST', testCommands, commonEnv);
         const buildPipeline = runPipeline('BUILD', buildCommands, commonEnv);
 
-        await Promise.all([buildPipeline]);
+        await Promise.all([buildPipeline, testPipeline]);
         // await Promise.all([buildPipeline]);
         console.log("\n🎉 Both pipelines completed successfully!");
         process.exit(0);
