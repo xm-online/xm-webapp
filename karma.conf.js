@@ -4,16 +4,6 @@
 module.exports = function (config) {
     const diagnosticFramework = function (emitter) {
         emitter.on('run_complete', async function (browsers, results) {
-            console.log('\n-----------------------------------------------------------------');
-            console.log('--- run_complete EVENT FIRED! Analyzing why process is still running... ---');
-            console.log('-----------------------------------------------------------------');
-
-            try {
-                const {default: logWhyIsNodeRunning} = await import('why-is-node-running');
-                logWhyIsNodeRunning();
-            } catch (err) {
-                console.error('Error during diagnostic analysis:', err);
-            }
             if (!config.autoWatch) {
                 const exitCode = results.failed > 0 ? 1 : 0;
                 console.log(`\nForcing exit with code ${exitCode} in 2 seconds.`);
