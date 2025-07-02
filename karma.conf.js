@@ -8,10 +8,12 @@ module.exports = function (config) {
         this.onRunComplete = function (browsers, results) {
             const exitCode = results.failed ? 1 : 0;
             if (!config.autoWatch) {
-                console.log(`\nTest run finished. Forcing exit with code ${exitCode}.`);
-                process.exit(exitCode);
+                console.log(`\nTest run finished. Forcing exit with code ${exitCode} in 500ms.`);
+                setTimeout(() => process.exit(exitCode), 500);
             }
         };
+
+        // Пустые обработчики, чтобы избежать ошибок
         this.onBrowserError = function () {
         };
         this.onBrowserStart = function () {
@@ -60,6 +62,10 @@ module.exports = function (config) {
         logLevel: config.LOG_INFO,
         autoWatch: true,
         browsers: ['Chrome'],
+        browserDisconnectTimeout: 10000,
+        browserDisconnectTolerance: 1,
+        browserNoActivityTimeout: 60000,
+
         customLaunchers: {
             ChromeHeadlessNoSandbox: {
                 base: 'ChromeHeadless',
