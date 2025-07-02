@@ -7,12 +7,8 @@ module.exports = function (config) {
 
         this.onRunComplete = function (browsers, results) {
             const exitCode = results.failed ? 1 : 0;
-            if (exitCode !== 0) {
-                console.log(`\nTests failed. Forcing exit with code ${exitCode}.`);
-                process.exit(exitCode);
-            } else if (config.singleRun) {
-                // Завершаем процесс только если singleRun=true
-                console.log(`\nAll tests passed. Forcing exit with code ${exitCode}.`);
+            if (!config.autoWatch) {
+                console.log(`\nTest run finished. Forcing exit with code ${exitCode}.`);
                 process.exit(exitCode);
             }
         };
@@ -46,10 +42,10 @@ module.exports = function (config) {
             {'reporter:force-exit': ['factory', ForceExitReporter]}
         ],
         client: {
-            clearContext: false,
+            clearContext: false, // leave Jasmine Spec Runner output visible in browser
         },
         jasmineHtmlReporter: {
-            suppressAll: true,
+            suppressAll: true, // removes the duplicated traces
         },
         coverageReporter: {
             dir: require('path').join(__dirname, '/coverage/'),
