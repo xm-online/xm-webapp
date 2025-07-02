@@ -35,7 +35,7 @@
     "build:prod": "npm run prebuild && nx build xm-webapp --configuration production --stats-json",
     "build-aot": "echo 'DEPRICATED use build:prod instead. will be removed in v6.0.0.' && npm run build:prod",
     "test": "nx test --source-map=false",
-    "test:prod": "nx test --source-map=false --code-coverage=true --no-progress --watch=false --browsers=ChromeHeadlessNoSandbox",
+    "test:prod": "ng test --source-map=false --code-coverage=true --no-progress --watch=false --browsers=ChromeHeadlessNoSandbox",
     "e2e": "nx e2e",
     "lint": "npm run lint:js",
     "lint:js": "eslint . --quiet",
