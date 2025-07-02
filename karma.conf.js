@@ -1,44 +1,6 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 module.exports = function (config) {
-    const DiagnosticReporter = function (baseReporterDecorator) {
-        baseReporterDecorator(this);
-        this.onRunComplete = async function (browsers, results) {
-            console.log('\n-----------------------------------------------------------------');
-            console.log('--- Tests finished. Analyzing why the process is still running... ---');
-            console.log('-----------------------------------------------------------------');
-
-            try {
-                const {default: logWhyIsNodeRunning} = await import('why-is-node-running');
-                logWhyIsNodeRunning();
-            } catch (err) {
-                console.error('Error during diagnostic analysis:', err);
-            }
-
-            if (!config.autoWatch) {
-                const exitCode = results.failed ? 1 : 0;
-                console.log(`\nForcing exit with code ${exitCode} in 2 seconds as a fallback.`);
-                setTimeout(() => process.exit(exitCode), 2000);
-            }
-        };
-
-        this.onBrowserError = function () {
-        };
-        this.onBrowserStart = function () {
-        };
-        this.onBrowserComplete = function () {
-        };
-        this.specSuccess = function () {
-        };
-        this.specFailure = function () {
-        };
-        this.specSkipped = function () {
-        };
-    };
-
-    DiagnosticReporter.$inject = ['baseReporterDecorator'];
-
-
     config.set({
         execArgv: ['--max_old_space_size=8096'],
         basePath: '',
@@ -49,7 +11,6 @@ module.exports = function (config) {
             require('karma-jasmine-html-reporter'),
             require('karma-coverage'),
             require('@angular-devkit/build-angular/plugins/karma'),
-            {'reporter:diagnostic': ['factory', DiagnosticReporter]}
         ],
         client: {
             clearContext: false, // leave Jasmine Spec Runner output visible in browser
@@ -64,7 +25,7 @@ module.exports = function (config) {
                 {type: 'lcov'},
             ],
         },
-        reporters: ['progress', 'kjhtml', 'diagnostic'],
+        reporters: ['progress', 'kjhtml'],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
@@ -85,5 +46,22 @@ module.exports = function (config) {
         },
         singleRun: false,
         restartOnFileChange: true,
+    });
+    config.on('run_complete', async function (browsers, results) {
+        console.log('\n-----------------------------------------------------------------');
+        console.log('--- run_complete EVENT FIRED! Analyzing why process is still running... ---');
+        console.log('-----------------------------------------------------------------');
+
+        try {
+            const {default: logWhyIsNodeRunning} = await import('why-is-node-running');
+            logWhyIsNodeRunning();
+        } catch (err) {
+            console.error('Error during diagnostic analysis:', err);
+        }
+        if (!config.autoWatch) {
+            const exitCode = results.failed > 0 ? 1 : 0;
+            console.log(`\nForcing exit with code ${exitCode} in 2 seconds.`);
+            setTimeout(() => process.exit(exitCode), 2000);
+        }
     });
 };
