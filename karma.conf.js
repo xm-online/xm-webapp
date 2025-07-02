@@ -1,15 +1,21 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
+const logWhyIsNodeRunning = require('why-is-node-running');
 
 module.exports = function (config) {
-    const ForceExitReporter = function (baseReporterDecorator) {
+    const DiagnosticReporter = function (baseReporterDecorator) {
         baseReporterDecorator(this);
 
         this.onRunComplete = function (browsers, results) {
-            const exitCode = results.failed ? 1 : 0;
+            console.log('\n-----------------------------------------------------------------');
+            console.log('--- Tests finished. Analyzing why the process is still running... ---');
+            console.log('-----------------------------------------------------------------');
+            logWhyIsNodeRunning();
             if (!config.autoWatch) {
-                console.log(`\nTest run finished. Forcing exit with code ${exitCode} in 500ms.`);
-                setTimeout(() => process.exit(exitCode), 500);
+                const exitCode = results.failed ? 1 : 0;
+                console.log(`\nForcing exit with code ${exitCode} in 2 seconds as a fallback.`);
+                // Оставляем принудительный выход как запасной вариант для CI
+                setTimeout(() => process.exit(exitCode), 2000);
             }
         };
 
@@ -28,7 +34,7 @@ module.exports = function (config) {
         };
     };
 
-    ForceExitReporter.$inject = ['baseReporterDecorator'];
+    DiagnosticReporter.$inject = ['baseReporterDecorator'];
 
 
     config.set({
@@ -41,7 +47,7 @@ module.exports = function (config) {
             require('karma-jasmine-html-reporter'),
             require('karma-coverage'),
             require('@angular-devkit/build-angular/plugins/karma'),
-            {'reporter:force-exit': ['factory', ForceExitReporter]}
+            {'reporter:diagnostic': ['factory', DiagnosticReporter]}
         ],
         client: {
             clearContext: false, // leave Jasmine Spec Runner output visible in browser
@@ -56,7 +62,7 @@ module.exports = function (config) {
                 {type: 'lcov'},
             ],
         },
-        reporters: ['progress', 'kjhtml', 'force-exit'],
+        reporters: ['progress', 'kjhtml', 'diagnostic'],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
@@ -65,7 +71,6 @@ module.exports = function (config) {
         browserDisconnectTimeout: 10000,
         browserDisconnectTolerance: 1,
         browserNoActivityTimeout: 60000,
-
         customLaunchers: {
             ChromeHeadlessNoSandbox: {
                 base: 'ChromeHeadless',
