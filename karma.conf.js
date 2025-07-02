@@ -1,25 +1,27 @@
 // Karma configuration file, see link for more information
 // https://karma-runner.github.io/1.0/config/configuration-file.html
-const logWhyIsNodeRunning = require('why-is-node-running');
-
 module.exports = function (config) {
     const DiagnosticReporter = function (baseReporterDecorator) {
         baseReporterDecorator(this);
-
-        this.onRunComplete = function (browsers, results) {
+        this.onRunComplete = async function (browsers, results) {
             console.log('\n-----------------------------------------------------------------');
             console.log('--- Tests finished. Analyzing why the process is still running... ---');
             console.log('-----------------------------------------------------------------');
-            logWhyIsNodeRunning();
+
+            try {
+                const {default: logWhyIsNodeRunning} = await import('why-is-node-running');
+                logWhyIsNodeRunning();
+            } catch (err) {
+                console.error('Error during diagnostic analysis:', err);
+            }
+
             if (!config.autoWatch) {
                 const exitCode = results.failed ? 1 : 0;
                 console.log(`\nForcing exit with code ${exitCode} in 2 seconds as a fallback.`);
-                // Оставляем принудительный выход как запасной вариант для CI
                 setTimeout(() => process.exit(exitCode), 2000);
             }
         };
 
-        // Пустые обработчики, чтобы избежать ошибок
         this.onBrowserError = function () {
         };
         this.onBrowserStart = function () {
