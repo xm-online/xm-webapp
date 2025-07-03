@@ -111,6 +111,14 @@ form {
   right: 0;
 }
 
+.alert {
+  .alert-icon {
+    min-width: 24px;
+    margin-right: 8px;
+    color: #EA4027;
+  }
+}
+
 
 @media only screen and (min-width: 1018px) {
   .registration {
