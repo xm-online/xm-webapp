@@ -25,7 +25,7 @@ export interface XmDateControlOptions {
     name?: string;
     required?: boolean;
     useUtc?: boolean;
-    disableClear?: boolean;
+    hideClear?: boolean;
     errors?: XmControlErrorsTranslates;
     disableFutureDates?: boolean;
     intervalFromMinDateInDays?: number;
@@ -63,7 +63,7 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
                    (click)="picker.open()">
 
             <div matSuffix class="d-flex">
-                <button *ngIf="value && !disabled && !config?.disableClear"
+                <button *ngIf="value && !disabled && !config?.hideClear"
                         mat-icon-button
                         [disabled]="control.disabled"
                         aria-label="Clear"
