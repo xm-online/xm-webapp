@@ -49,7 +49,7 @@ export function cli(terminalArgs: string[]): void {
             break;
         }
         case 'ext-themes': {
-            new ExtThemesCommand(config).execute();
+            new ExtThemesCommand(config).execute(terminalArgs.slice(1));
             break;
         }
         case 'ext-config': {
