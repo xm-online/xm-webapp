@@ -1,4 +1,4 @@
-import { ContentChild, Directive, Input, OnDestroy, OnInit } from '@angular/core';
+import { ContentChild, Directive, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { Params } from '@angular/router';
@@ -18,6 +18,9 @@ import {
     XmTableQueryParamsStoreService,
 } from '../controllers';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, XmTableEventType } from './xm-table.model';
+import { XmUiConfigService } from '@xm-ngx/core/config';
+import { XmMainConfig } from '../../../../src/app/layouts';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 export interface IXmTableContext {
     collection: IXmTableCollectionState<unknown>,
@@ -54,6 +57,9 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
     standalone: true,
 })
 export class XmTableDirective implements OnInit, OnDestroy {
+    private readonly xmConfigService = inject(XmUiConfigService<XmMainConfig>);
+
+    public useSkeletonLoading: boolean = toSignal(this.xmConfigService.config$())()?.skeleton?.table?.isSkeletonLoading || false;
     public context$: Observable<IXmTableContext>;
     public pageableAndSortable$ = new Subject<PageableAndSortable>();
     @ContentChild(MatPaginator, {static: false}) public paginator: MatPaginator | null;
@@ -179,18 +185,18 @@ export class XmTableDirective implements OnInit, OnDestroy {
     }
 
     private getCollection(state: IXmTableCollectionState<unknown>, displayedColumns: string[]): IXmTableCollectionState<unknown> {
-        if (!state?.loading || !this._config.isSkeletonLoading) {
-            return state;
+        if (state?.loading && (this._config.isSkeletonLoading || this.useSkeletonLoading)) {
+            const pageSize: number = state.pageableAndSortable?.pageSize ?? 10;
+            const expectedItem: Record<string, string> = Object.fromEntries(displayedColumns.map((colName: string) => [colName, '']));
+            const skeletonRows: Record<string, string>[] = Array.from({length: pageSize}, () => ({...expectedItem}));
+
+            return {
+                ...state,
+                items: skeletonRows,
+            };
         }
 
-        const pageSize: number = state.pageableAndSortable?.pageSize ?? 10;
-        const expectedItem: Record<string, string> = Object.fromEntries(displayedColumns.map((colName: string) => [colName, '']));
-        const skeletonRows: Record<string, string>[] = Array.from({length: pageSize}, () => ({...expectedItem}));
-
-        return {
-            ...state,
-            items: skeletonRows,
-        };
+        return state;
     }
 
     private mapPageableAndSortable(filterParams: FiltersControlValue, pageableAndSortable: PageableAndSortable): PageableAndSortable {
