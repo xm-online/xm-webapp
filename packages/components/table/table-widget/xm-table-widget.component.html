@@ -20,6 +20,7 @@
             }"
             [attr.data-qa]="config?.dataQa"
   >
+    @let isLoading = context.collection.loading || xmTable.xmTableController['loading'];
 
     <xm-table-header
       *ngIf="!config.isTitleHidden"
@@ -68,7 +69,7 @@
 
           <xm-table-empty [config]="config.noRows"
                           [colspan]="context.settings.displayedColumns.length"
-                          [type]="context.collection.loading || xmTable.xmTableController['loading'] ? 'loading' : 'initial'"></xm-table-empty>
+                          [type]="isLoading ? 'loading' : 'initial'"></xm-table-empty>
 
           <xm-table-selection-column
             *ngIf="config.selection"
@@ -78,16 +79,18 @@
           >
           </xm-table-selection-column>
 
+          @let isSkeletonLoading = xmTable.useSkeletonLoading || config.isSkeletonLoading || false;
           <xm-table-column-dynamic-cell *ngFor="let column of xmTableSelection.dynamicColumns"
-                                        [isLoading]="context.collection.loading || xmTable.xmTableController['loading']"
-                                        [isSkeletonLoading]="config.isSkeletonLoading"
+                                        [isLoading]="isLoading"
+                                        [isSkeletonLoading]="isSkeletonLoading"
                                         [column]="column"></xm-table-column-dynamic-cell>
 
           <tr *matHeaderRowDef="context.settings.displayedColumns; sticky: config.isStickyHeader" mat-header-row [ngClass]="{'remove-border-top': config.isTitleHidden}"></tr>
 
+
           <xm-table-loading
-            *ngIf="!config.isSkeletonLoading"
-            [isLoading]="context.collection.loading || xmTable.xmTableController['loading']"
+            *ngIf="!isSkeletonLoading"
+            [isLoading]="isLoading"
             [colspan]="context.settings.displayedColumns.length"
           ></xm-table-loading>
 
