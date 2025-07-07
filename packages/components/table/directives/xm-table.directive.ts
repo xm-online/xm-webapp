@@ -19,7 +19,6 @@ import {
 } from '../controllers';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig, XmTableEventType } from './xm-table.model';
 import { XmUiConfigService } from '@xm-ngx/core/config';
-import { XmMainConfig } from '../../../../src/app/layouts';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 export interface IXmTableContext {
@@ -57,7 +56,7 @@ function getDisplayedColumns(config: XmTableConfig): ColumnsSettingStorageItem[]
     standalone: true,
 })
 export class XmTableDirective implements OnInit, OnDestroy {
-    private readonly xmConfigService = inject(XmUiConfigService<XmMainConfig>);
+    private readonly xmConfigService = inject(XmUiConfigService);
 
     public useSkeletonLoading: boolean = toSignal(this.xmConfigService.config$())()?.skeleton?.table?.isSkeletonLoading || false;
     public context$: Observable<IXmTableContext>;
