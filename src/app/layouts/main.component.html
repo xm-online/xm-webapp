@@ -1,6 +1,8 @@
 <xm-maintenance-view></xm-maintenance-view>
 <xm-page-ribbon></xm-page-ribbon>
-<xm-error-messages></xm-error-messages>
+@if (!config?.hideErrorMessages) {
+  <xm-error-messages></xm-error-messages>
+}
 <xm-password-needed></xm-password-needed>
 
 <xm-heatmap-container>
