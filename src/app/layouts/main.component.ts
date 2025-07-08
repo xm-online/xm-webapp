@@ -9,7 +9,6 @@ import { VERSION } from '../xm.constants';
 
 export interface XmMainConfig extends XmUIConfig {
     fullWidth?: boolean;
-    hideErrorMessages?: boolean;
 }
 
 @Component({
