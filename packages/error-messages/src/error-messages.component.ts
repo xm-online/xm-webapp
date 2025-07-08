@@ -2,10 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { I18nNamePipe, XmTranslationModule } from '@xm-ngx/translation';
+import { I18nNamePipe, TranslatePipe, XmTranslationModule } from '@xm-ngx/translation';
 import { ErrorHandlerEventName, ErrorHandlerEventPayload, XmEventManager, XmPublicUiConfigService } from '@xm-ngx/core';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { TranslatePipe } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { JhiAlertService } from '@xm-ngx/jhipster';
 import { Subscription } from 'rxjs';
@@ -24,7 +23,8 @@ interface ErrorHandlerEventPayloadProcessed extends ErrorHandlerEventPayload {
 interface UIResponseConfig extends XmUIConfig {
     responseConfig: {
         responses: UIResponseConfigResponses[];
-    }
+        hideErrorMessages?: boolean;
+    };
 }
 
 interface UIResponseConfigResponses {
@@ -37,7 +37,7 @@ interface UIResponseConfigResponses {
     outputMessage: {
         type: string;
         value: string;
-    }
+    };
     condition: string;
     requestPathPattern: string;
     redirectUrl: string;
@@ -141,7 +141,9 @@ export class JhiAlertErrorComponent implements OnDestroy {
             }
             case 'validation': {
 
-                const errors: { [key: string]: { type: string, value: string } } = new Function('rc', config.validationFieldsExtractor)(this.responseContext);
+                const errors: {
+                    [key: string]: { type: string, value: string }
+                } = new Function('rc', config.validationFieldsExtractor)(this.responseContext);
                 for (const key in errors) {
                     errors[key] = this.processMessage(errors[key] ? errors[key] : null, response);
                 }
@@ -229,7 +231,10 @@ export class JhiAlertErrorComponent implements OnDestroy {
         }).subscribe());
     }
 
-    private defaultErrorHandler(res: HttpErrorResponse | { title?: string, error: { error_description: string, error: string, detail: any, params } }): void {
+    private defaultErrorHandler(res: HttpErrorResponse | {
+        title?: string,
+        error: { error_description: string, error: string, detail: any, params }
+    }): void {
         if (!res) {
             return;
         }
@@ -256,12 +261,15 @@ export class JhiAlertErrorComponent implements OnDestroy {
         } else if (res.error?.detail) {
             this.showError(res.error.detail);
             // TODO: handle type incompatibility
-        } else if ((res as {title: string}).title) {
-            this.showError((res as {title: string}).title);
+        } else if ((res as { title: string }).title) {
+            this.showError((res as { title: string }).title);
         }
     }
 
-    private processMessage(config: { type: string, value: string } | null, response: ErrorHandlerEventPayloadProcessed): string | null | any {
+    private processMessage(config: {
+        type: string,
+        value: string
+    } | null, response: ErrorHandlerEventPayloadProcessed): string | null | any {
         if (!config) {
             return null;
         }
