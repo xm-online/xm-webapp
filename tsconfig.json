@@ -66,9 +66,6 @@
       ],
       "@angular/*": [
         "node_modules/@angular/*"
-      ],
-      "janus-gateway": [
-        "node_modules/janus-gateway-js"
       ]
     },
     "inlineSources": true,
