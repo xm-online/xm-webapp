@@ -13,4 +13,11 @@
     <span class="label">typeKey</span>
     <span class="text-primary value">{{ dashboard.typeKey }}</span>
   </div>
+
+  @if (showActionColumn) {
+    <div class="column">
+      <span class="label">action</span>
+      <span class="text-primary value">{{ dashboard.targetId ? 'Update' : 'Create'  }}</span>
+    </div>
+  }
 </div>

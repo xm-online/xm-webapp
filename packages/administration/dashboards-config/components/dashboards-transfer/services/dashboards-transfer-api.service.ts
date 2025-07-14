@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, forkJoin, Observable, of } from 'rxjs';
 import { DashboardWidget, DashboardWithWidgets } from '@xm-ngx/core/dashboard';
 import { Role } from '@xm-ngx/core/role';
 
@@ -31,6 +31,24 @@ export class DashboardsTransferApiService {
         const { host, headers } = this.getRequestData(env);
 
         return this.http.post(`${host}/${this.DASHBOARD_BULK_URL}`, dashboards, { headers });
+    }
+
+    public updateDashboards(dashboards: DashboardWithWidgetsPayloadType[], env: TransferEnv): Observable<any> {
+        const { host, headers } = this.getRequestData(env);
+
+        return this.http.put(`${host}/${this.DASHBOARD_BULK_URL}`, dashboards, { headers });
+    }
+
+    public updateDashboardsWidgets(widgets: DashboardWidget[], env: TransferEnv): Observable<unknown> {
+        const { host, headers } = this.getRequestData(env);
+
+        const observables = widgets.map((widget) => {
+            return this.http.put(`${host}/${this.WIDGET_URL}`, widget, { headers }).pipe(
+                catchError(() => of(null))
+            );
+        });
+
+        return forkJoin(observables);
     }
 
     public getRoles(queryParams: QueryParams = {}, env?: TransferEnv): Observable<Role[]> {
