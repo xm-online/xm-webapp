@@ -77,10 +77,26 @@ export class DashboardsStateService {
         return this.getFullDashboards(dashboards, targetEnv).pipe(
             filter(Boolean),
             map((targetDashboards: DashboardWithWidgets[]) => this.mapDashboardsWidgets(dashboards, targetDashboards)),
-            switchMap(({ dashboards, widgetsToUpdate }) => {
+            switchMap(({ dashboards, widgetsToUpdate, widgetsToDelete }) => {
                 return this.api.updateDashboards(dashboards, targetEnv).pipe(
                     switchMap(() => {
-                        return this.api.updateDashboardsWidgets(widgetsToUpdate, targetEnv).pipe(
+                        const observables: Observable<unknown>[] = [];
+
+                        if (widgetsToUpdate && widgetsToUpdate.length) {
+                            const observable = this.api.updateDashboardsWidgets(widgetsToUpdate, targetEnv).pipe(
+                                catchError(() => of(null))
+                            );
+                            observables.push(observable);
+                        }
+
+                        if (widgetsToDelete && widgetsToDelete.length) {
+                            const observable = this.api.deleteDashboardWidgets(widgetsToDelete, targetEnv).pipe(
+                                catchError(() => of(null))
+                            );
+                            observables.push(observable);
+                        }
+
+                        return forkJoin(observables).pipe(
                             catchError(() => of(null))
                         );
                     })
@@ -92,11 +108,12 @@ export class DashboardsStateService {
     private mapDashboardsWidgets(
         dashboards: DashboardWithWidgets[],
         targetDashboards: DashboardWithWidgets[]
-    ): { dashboards: DashboardWithWidgets[]; widgetsToUpdate: DashboardWidget[] } {
+    ): { dashboards: DashboardWithWidgets[]; widgetsToUpdate: DashboardWidget[]; widgetsToDelete: number[] } {
         const targetDashboardsMap = new Map<string, DashboardWithWidgets>(
             targetDashboards.map(d => [d.typeKey, d])
         );
         const widgetsToUpdate: DashboardWidget[] = [];
+        const widgetsToDelete: number[] = [];
 
         const mappedDashboards = dashboards.map((dashboard) => {
             const targetDashboard = targetDashboardsMap.get(dashboard.typeKey);
@@ -104,6 +121,17 @@ export class DashboardsStateService {
             const targetWidgetMap = new Map<string, DashboardWidget>(
                 targetWidgets.map(w => [w.name, w])
             );
+
+            if (targetDashboard?.widgets?.length && dashboard?.widgets?.length) {
+                const dashboardWidgets = dashboard?.widgets || [];
+                const targetDashboardWidgets = targetDashboard?.widgets || [];
+                const dashboardsNameSet = new Set<string>(dashboardWidgets.map(w => w.name));
+                const missingIds: number[] = targetDashboardWidgets
+                    .filter(tdw => !dashboardsNameSet.has(tdw.name))
+                    .map(tdw => tdw.id);
+                widgetsToDelete.push(...missingIds);
+
+            }
 
             const mappedWidgets = dashboard.widgets.map(({ name, ...rest }) => {
                 const targetWidgetId = targetWidgetMap.get(name)?.id ?? null;
@@ -124,6 +152,7 @@ export class DashboardsStateService {
         return {
             dashboards: mappedDashboards,
             widgetsToUpdate: widgetsToUpdate,
+            widgetsToDelete: widgetsToDelete,
         };
     }
 

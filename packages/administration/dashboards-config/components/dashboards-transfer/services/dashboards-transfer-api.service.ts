@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, forkJoin, Observable, of } from 'rxjs';
+import { catchError, from, mergeMap, Observable, of, toArray } from 'rxjs';
 import { DashboardWidget, DashboardWithWidgets } from '@xm-ngx/core/dashboard';
 import { Role } from '@xm-ngx/core/role';
 
@@ -42,13 +42,27 @@ export class DashboardsTransferApiService {
     public updateDashboardsWidgets(widgets: DashboardWidget[], env: TransferEnv): Observable<unknown> {
         const { host, headers } = this.getRequestData(env);
 
-        const observables = widgets.map((widget) => {
-            return this.http.put(`${host}/${this.WIDGET_URL}`, widget, { headers }).pipe(
-                catchError(() => of(null))
-            );
-        });
+        return from(widgets).pipe(
+            mergeMap((widget: DashboardWidget) => {
+                return this.http.put(`${host}/${this.WIDGET_URL}`, widget, { headers }).pipe(
+                    catchError(() => of(null))
+                );
+            }, 5),
+            toArray()
+        );
+    }
 
-        return forkJoin(observables);
+    public deleteDashboardWidgets(ids: number[], env: TransferEnv): Observable<unknown> {
+        const { host, headers } = this.getRequestData(env);
+
+        return from(ids).pipe(
+            mergeMap((id: number) => {
+                return this.http.delete(`${host}/${this.WIDGET_URL}/${id}`, { headers }).pipe(
+                    catchError(() => of(null))
+                );
+            }, 5),
+            toArray()
+        );
     }
 
     public getRoles(queryParams: QueryParams = {}, env?: TransferEnv): Observable<Role[]> {
