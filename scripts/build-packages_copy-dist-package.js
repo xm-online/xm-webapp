@@ -25,7 +25,7 @@ async function getFoldersWithFile(baseDir, searchFile) {
                     await fs.access(filePath);
 
                     foundFolders.push(entryPath);
-                } catch (error) {
+                } catch {
                     await scanDirectory(entryPath);
                 }
             }
@@ -48,7 +48,6 @@ async function run() {
         const foldersWithPackageJson = nestedFolders.flat();
 
         if (foldersWithPackageJson.length === 0) {
-            console.log('No package.json files found. Exiting.');
             return;
         }
 
@@ -73,9 +72,8 @@ async function run() {
         });
         await Promise.all(copyPromises);
 
-        console.log('\nAll operations completed successfully!');
-
     } catch (error) {
+        /* eslint-disable no-console */
         console.error('\nA critical error occurred:', error);
     }
 }

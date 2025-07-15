@@ -6,7 +6,6 @@ module.exports = function (config) {
         emitter.on('run_complete', async function (browsers, results) {
             if (!config.autoWatch) {
                 const exitCode = results.failed > 0 ? 1 : 0;
-                console.log(`\nForcing exit with code ${exitCode} in 2 seconds.`);
                 setTimeout(() => process.exit(exitCode), 2000);
             }
         });
