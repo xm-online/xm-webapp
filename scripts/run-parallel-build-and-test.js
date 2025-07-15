@@ -25,8 +25,7 @@ const buildCommands = [
 function runPipeline(name, commands, env) {
     return new Promise((resolve, reject) => {
         const commandString = commands.join(' && ');
-        /* eslint-disable no-console */
-        console.log(`\n▶️  [${name}] Starting pipeline...`);
+        console.info(`\n▶️  [${name}] Starting pipeline...`);
 
         const proc = spawn(commandString, [], {
             shell: '/bin/bash',
@@ -46,8 +45,7 @@ function runPipeline(name, commands, env) {
 
         proc.on('close', (code) => {
             if (code === 0) {
-                /* eslint-disable no-console */
-                console.log(`\n✅  [${name}] Pipeline finished successfully.`);
+                console.info(`\n✅  [${name}] Pipeline finished successfully.`);
                 resolve();
             } else {
                 const errorMsg = `\n❌  [${name}] Pipeline failed with exit code ${code}.`;
@@ -64,8 +62,7 @@ function runPipeline(name, commands, env) {
 }
 
 async function main() {
-    /* eslint-disable no-console */
-    console.log('🚀 Starting parallel execution of BUILD and TEST pipelines.');
+    console.info('🚀 Starting parallel execution of BUILD and TEST pipelines.');
     const commonEnv = {...process.env};
     if (!commonEnv.gitlab_deploy_token) {
         console.warn('⚠️  Warning: gitlab_deploy_token is not set in the environment!');
@@ -77,8 +74,7 @@ async function main() {
 
         await Promise.all([buildPipeline, testPipeline]);
         // await Promise.all([buildPipeline]);
-        /* eslint-disable no-console */
-        console.log('\n🎉 Both pipelines completed successfully!');
+        console.info('\n🎉 Both pipelines completed successfully!');
         process.exit(0);
     } catch (error) {
         console.error('\n🔥 One or more pipelines failed.', error);

@@ -7,6 +7,5 @@ if (!process.env.SKIP_POSTINSTALL) {
         process.exit(1);
     }
 } else {
-    /* eslint-disable no-console */
-    console.log('NX_RUN is not set, skipping build:packages');
+    console.info('NX_RUN is not set, skipping build:packages');
 }

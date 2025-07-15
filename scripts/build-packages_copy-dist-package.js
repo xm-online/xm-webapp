@@ -73,7 +73,6 @@ async function run() {
         await Promise.all(copyPromises);
 
     } catch (error) {
-        /* eslint-disable no-console */
         console.error('\nA critical error occurred:', error);
     }
 }
