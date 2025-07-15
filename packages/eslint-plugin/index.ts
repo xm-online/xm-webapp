@@ -1,5 +1,5 @@
-export = {
-    rules: {
-        'angular-selector-unique-rule': require('./angular-selector-unique-rule'),
-    },
+import angularSelectorUniqueRule from './angular-selector-unique-rule';
+
+export const rules = {
+    'angular-selector-unique-rule': angularSelectorUniqueRule,
 };
