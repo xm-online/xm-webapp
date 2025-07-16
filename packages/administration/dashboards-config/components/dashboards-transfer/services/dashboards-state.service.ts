@@ -30,7 +30,6 @@ export class DashboardsStateService {
             map(clearDashboardIds),
             map(this.splitEntitiesByActionMethod),
             switchMap((data: [DashboardWithWidgetsPayloadType[], DashboardWithWidgetsPayloadType[]]) => this.createOrUpdateDashboards(data, url, token)),
-            filter((response => typeof response !== 'boolean')),
             map(() => {
                 this.dashboardTransferDataService.loading = false;
                 return true;
@@ -60,7 +59,7 @@ export class DashboardsStateService {
         const createDashboards$ = toCreate && toCreate.length ? this.catchErrors(this.api.createDashboards(toCreate, { url, token })) : null;
         const updateDashboards$ = toUpdate && toUpdate.length ? this.catchErrors(this.updateDashboards(toUpdate, { url, token })) : null;
 
-        return forkJoin([createDashboards$, updateDashboards$].filter(Boolean)).pipe(map(() => ({})));
+        return forkJoin([createDashboards$, updateDashboards$].filter(Boolean));
     };
 
     private catchErrors(observable: Observable<unknown>): Observable<unknown> {
