@@ -12,7 +12,7 @@ import { MatStep, MatStepper, MatStepperNext, MatStepperPrevious } from '@angula
 import { MatButton } from '@angular/material/button';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { filter, Observable, tap } from 'rxjs';
+import { delay, Observable, take, tap } from 'rxjs';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { DashboardWithWidgets } from '@xm-ngx/core/dashboard';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
@@ -20,8 +20,6 @@ import { LoaderModule } from '@xm-ngx/components/loader';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { NgTemplateOutlet } from '@angular/common';
 import { XmTranslatePipe } from '@xm-ngx/translation';
-
-import { delay } from 'rxjs/operators';
 import { Role } from '@xm-ngx/core/role';
 
 import { DashboardsTransferDataService } from './services/dashboards-transfer-data.service';
@@ -43,6 +41,12 @@ import {
 } from './components/roles-confirmation-step/roles-confirmation-step.component';
 import { DashboardsStateService } from './services/dashboards-state.service';
 import { RolesStateService } from './services/roles-state.service';
+import { ACTION_TYPES } from './constants/action-type.enum';
+import { ProcessActionStrategyFactoryService } from './services/process-action-strategy-factory.service';
+import { DashboardsTransferStrategyService } from './services/dashboards-transfer-strategy.service';
+import { ProcessActionStrategy } from './types/process-action-strategy.interface';
+import { TargetDashboardsService } from './services/target-dashboards.service';
+import { UpdateRolesStrategyService } from './services/update-roles-strategy.service';
 
 @Component({
     selector: 'xm-dashboards-transfer',
@@ -68,7 +72,7 @@ import { RolesStateService } from './services/roles-state.service';
     ],
     templateUrl: './dashboards-transfer.component.html',
     styleUrl: './dashboards-transfer.component.scss',
-    providers: [DashboardsTransferApiService, DashboardsTransferDataService, RolesStateService, DashboardsStateService],
+    providers: [DashboardsTransferApiService, DashboardsTransferDataService, RolesStateService, DashboardsStateService, ProcessActionStrategyFactoryService, DashboardsTransferStrategyService, UpdateRolesStrategyService, TargetDashboardsService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardsTransferComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -89,29 +93,10 @@ export class DashboardsTransferComponent implements OnInit, AfterViewInit, OnDes
     private readonly transferDataService = inject(DashboardsTransferDataService);
     private readonly dashboardsStateService = inject(DashboardsStateService);
     private readonly rolesStateService = inject(RolesStateService);
+    private readonly processActionStrategyFactory = inject(ProcessActionStrategyFactoryService);
 
     public roles$: Observable<Role[]> = this.rolesStateService.getRoles();
     public dashboards$: Observable<DashboardWithWidgets[]> = this.dashboardsStateService.getDashboards();
-
-    public get actionTypeGroup(): FormGroup {
-        return this.rootGroup.get('actionTypeGroup') as FormGroup;
-    }
-
-    public get action(): string {
-        return this.actionTypeGroup.get('selectedAction').value as string;
-    }
-
-    public get envGroup(): FormGroup {
-        return this.rootGroup.get('envGroup') as FormGroup;
-    }
-
-    public get dashboardsGroup(): FormGroup {
-        return this.rootGroup.get('dashboardsGroup') as FormGroup;
-    }
-
-    public get rolesGroup(): FormGroup {
-        return this.rootGroup.get('rolesGroup') as FormGroup;
-    }
 
     public ngOnInit(): void {
         this.buildFormGroups();
@@ -125,79 +110,6 @@ export class DashboardsTransferComponent implements OnInit, AfterViewInit, OnDes
 
     public ngAfterViewInit(): void {
         this.listenStepperChange();
-    }
-
-    public processEnvStep(): void {
-        if (this.envGroup.invalid) {
-            this.envGroup.markAllAsTouched();
-            return;
-        }
-
-        this.stepperRef.next();
-    }
-
-    public processDashboardsStep(): void {
-        if (this.dashboardsGroup.invalid) {
-            this.dashboardsGroup.markAllAsTouched();
-            this.notify.create({ type: 'danger', msg: this.translates.errors.atLeastOneDashboardRequired }).subscribe();
-            return;
-        }
-
-        this.stepperRef.next();
-    }
-
-    public processDashboardsConfirmationStep(): void {
-        const { envUrl: url, token } = this.envGroup.value as { envUrl: string; token: string };
-        const { selected } = this.dashboardsGroup.value as { selected: DashboardWithWidgets[] };
-        const selectedDashboards = selected.filter((d: DashboardWithWidgets) => d?.id);
-
-        this.dashboardsStateService.transferDashboards(url, token, selectedDashboards).pipe(
-            filter(Boolean),
-            tap(() => {
-                this.notify.create({
-                    type: 'success',
-                    msg: this.translates.successMessages.dashboardSuccessfullyCreated,
-                    timeout: 5000,
-                });
-                this.actionDone = true;
-            }),
-            delay(500),
-            tap(() => {
-                this.stepperRef.next();
-            }),
-        ).subscribe();
-    }
-
-    public processRolesStep(): void {
-        if (this.rolesGroup.invalid) {
-            this.rolesGroup.markAllAsTouched();
-            this.notify.create({ type: 'danger', msg: this.translates.errors.atLeastOneRoleRequired }).subscribe();
-            return;
-        }
-
-        this.stepperRef.next();
-    }
-
-    public processRolesConfirmationStep(): void {
-        const { envUrl: url, token } = this.envGroup.value as { envUrl: string; token: string };
-        const { selected } = this.rolesGroup.value as { selected: Role[] };
-        const selectedRoles: Role[] = selected.filter((role: Role) => role?.roleKey);
-
-        this.rolesStateService.updateRoles(selectedRoles, { url, token }).pipe(
-            filter(Boolean),
-            tap(() => {
-                this.notify.create({
-                    type: 'success',
-                    msg: this.translates.successMessages.rolesSuccessfullyUpdated,
-                    timeout: 5000,
-                });
-                this.actionDone = true;
-            }),
-            delay(500),
-            tap(() => {
-                this.stepperRef.next();
-            }),
-        ).subscribe();
     }
 
     public buildFormGroups(): void {
@@ -216,6 +128,71 @@ export class DashboardsTransferComponent implements OnInit, AfterViewInit, OnDes
                 selected: [[], oneItemInArrayRequired()],
             }),
         });
+    }
+
+    public processEnvStep(): void {
+        if (this.envGroup.invalid) {
+            this.envGroup.markAllAsTouched();
+            return;
+        }
+
+        const STEP_NAME = 'environment';
+        this.processAction(STEP_NAME).subscribe();
+    }
+
+    public processDashboardsStep(): void {
+        if (this.dashboardsGroup.invalid) {
+            this.dashboardsGroup.markAllAsTouched();
+            this.notify.create({ type: 'danger', msg: this.translates.errors.atLeastOneDashboardRequired }).subscribe();
+            return;
+        }
+
+        const STEP_NAME = 'dashboardsSelection';
+        this.processAction(STEP_NAME).subscribe();
+    }
+
+    public processDashboardsConfirmationStep(): void {
+        const STEP_NAME = 'dashboardsConfirmation';
+
+        this.processAction(STEP_NAME).pipe(
+            tap(() => {
+                this.actionDone = true;
+            }),
+            delay(500),
+            tap(() => {
+                this.stepperRef.next();
+            }),
+        ).subscribe();
+    }
+
+    public processRolesStep(): void {
+        if (this.rolesGroup.invalid) {
+            this.rolesGroup.markAllAsTouched();
+            this.notify.create({ type: 'danger', msg: this.translates.errors.atLeastOneRoleRequired }).subscribe();
+            return;
+        }
+
+        const STEP_NAME = 'rolesSelection';
+        this.processAction(STEP_NAME).subscribe();
+    }
+
+    public processRolesConfirmationStep(): void {
+        const STEP_NAME = 'rolesConfirmation';
+
+        this.processAction(STEP_NAME).pipe(
+            tap(() => {
+                this.actionDone = true;
+            })
+        ).subscribe();
+    }
+
+    private processAction(stepName: string): Observable<unknown> {
+        const processActionStrategy: ProcessActionStrategy = this.processActionStrategyFactory.getStrategy(this.action);
+        const processActionFn = processActionStrategy.getHandler(stepName);
+
+        return processActionFn(this.stepperRef, this.rootGroup).pipe(
+            take(1)
+        );
     }
 
     private resetStepInteraction(event: StepperSelectionEvent): void {
@@ -259,5 +236,25 @@ export class DashboardsTransferComponent implements OnInit, AfterViewInit, OnDes
             }),
             takeUntilOnDestroy(this),
         ).subscribe();
+    }
+
+    public get actionTypeGroup(): FormGroup {
+        return this.rootGroup.get('actionTypeGroup') as FormGroup;
+    }
+
+    public get action(): ACTION_TYPES {
+        return this.actionTypeGroup.get('selectedAction').value as ACTION_TYPES;
+    }
+
+    public get envGroup(): FormGroup {
+        return this.rootGroup.get('envGroup') as FormGroup;
+    }
+
+    public get dashboardsGroup(): FormGroup {
+        return this.rootGroup.get('dashboardsGroup') as FormGroup;
+    }
+
+    public get rolesGroup(): FormGroup {
+        return this.rootGroup.get('rolesGroup') as FormGroup;
     }
 }
