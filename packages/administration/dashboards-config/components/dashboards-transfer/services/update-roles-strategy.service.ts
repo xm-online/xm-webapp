@@ -46,7 +46,7 @@ export class UpdateRolesStrategyService implements ProcessActionStrategy {
                 tap(() => {
                     stepperRef.next();
                 }),
-            )
+            );
         }
     };
 
