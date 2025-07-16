@@ -6,7 +6,7 @@ import { IEnvironment } from './models';
 export const environment: IEnvironment = {
     environment: 'prod',
     notFoundUrl: '/not-found',
-    serverApiUrl: '',
+    serverApiUrl: '/xm-api',
     version: npmPackage.version,
     release: npmPackage.release,
     production: true,
