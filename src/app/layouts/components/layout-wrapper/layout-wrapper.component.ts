@@ -1,13 +1,14 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MenuCategoriesComponent, MenuCategory, MenuService } from '@xm-ngx/components/menu';
-import { Observable, combineLatest, switchMap, from, of } from 'rxjs';
+import { combineLatest, from, Observable, of, switchMap } from 'rxjs';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmSidebarModule } from '@xm-ngx/components/sidebar';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { XmDynamicLayout, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
+import { XmIdleService } from '@xm-ngx/core/user';
 
 interface XmMainConfig extends XmUIConfig {
     main: { layout: XmDynamicLayout[] };
@@ -28,6 +29,12 @@ interface XmMainConfig extends XmUIConfig {
     styleUrl: './layout-wrapper.component.scss',
 })
 export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
+    private menuService: MenuService = inject(MenuService);
+    private eventManager: XmEventManager = inject(XmEventManager);
+    private sessionService: XmSessionService = inject(XmSessionService);
+    private uiConfigService: XmUiConfigService<XmMainConfig> = inject(XmUiConfigService);
+    private xmIdleService: XmIdleService = inject(XmIdleService);
+
     @Input() public isGuestLayout: boolean;
     public isMaterial3Menu: boolean;
     public isMobileScreen: boolean;
@@ -37,18 +44,11 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
 
     @ViewChild('sidenav') public sidenav: MatSidenav;
 
-    constructor(
-        private menuService: MenuService,
-        private eventManager: XmEventManager,
-        private sessionService: XmSessionService,
-        private uiConfigService: XmUiConfigService<XmMainConfig>,
-    ) {
-    }
-
     public ngOnInit(): void {
         this.observeLogoutEvent();
         this.observeIsMaterial3Menu();
         this.observeIsMobileScreen();
+        this.xmIdleService.init();
         this.menuCategories$ = this.menuService.menuCategories;
 
         this.uiConfigService.config$().pipe(

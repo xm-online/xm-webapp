@@ -8,3 +8,5 @@ export * from './src/account.model';
 export * from './src/user.model';
 export * from './src/auth-jwt.service';
 export { AuthService } from './src/auth.service';
+export { XmIdleService } from './src/xm-idle.service';
+
