@@ -93,6 +93,16 @@ export class DashboardsTransferApiService {
         );
     }
 
+    public createRole(role: Role, env: TransferEnv): Observable<any> {
+        const { host, headers } = this.getRequestData(env);
+
+        return this.http.post(
+            `${host}/${this.ROLES_URL}`,
+            role,
+            { headers },
+        );
+    }
+
     public getWidgets(queryParams: QueryParams = {}, env?: TransferEnv): Observable<DashboardWidget[]> {
         const { host, headers } = this.getRequestData(env);
 

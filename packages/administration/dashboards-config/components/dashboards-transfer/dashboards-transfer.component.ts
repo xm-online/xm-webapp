@@ -182,7 +182,11 @@ export class DashboardsTransferComponent implements OnInit, AfterViewInit, OnDes
         this.processAction(STEP_NAME).pipe(
             tap(() => {
                 this.actionDone = true;
-            })
+            }),
+            delay(500),
+            tap(() => {
+                this.stepperRef.next();
+            }),
         ).subscribe();
     }
 
