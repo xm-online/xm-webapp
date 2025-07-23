@@ -8,7 +8,6 @@ import { XmSidebarModule } from '@xm-ngx/components/sidebar';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { XmDynamicLayout, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
-import { XmIdleService } from '@xm-ngx/core/user';
 
 interface XmMainConfig extends XmUIConfig {
     main: { layout: XmDynamicLayout[] };
@@ -33,7 +32,6 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
     private eventManager: XmEventManager = inject(XmEventManager);
     private sessionService: XmSessionService = inject(XmSessionService);
     private uiConfigService: XmUiConfigService<XmMainConfig> = inject(XmUiConfigService);
-    private xmIdleService: XmIdleService = inject(XmIdleService);
 
     @Input() public isGuestLayout: boolean;
     public isMaterial3Menu: boolean;
@@ -48,7 +46,6 @@ export class LayoutWrapperComponent implements OnInit, AfterViewInit, OnDestroy 
         this.observeLogoutEvent();
         this.observeIsMaterial3Menu();
         this.observeIsMobileScreen();
-        this.xmIdleService.init();
         this.menuCategories$ = this.menuService.menuCategories;
 
         this.uiConfigService.config$().pipe(

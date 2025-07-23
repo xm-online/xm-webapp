@@ -1,3 +1,11 @@
+import { XmUser } from '@xm-ngx/core/user';
+
+export interface XmIdleTimeConfig {
+    /** @deprecated use idleTime property instead*/
+    idleLogout?: number; // Timeout in seconds for idle logout
+    idleTime?: XmIdleTime;
+}
+
 /**
  * Interface representing idle time configuration for session management.
  */
@@ -41,4 +49,10 @@ export interface XmIdleTimeBeforeLogoutRequest {
      * URL endpoint for the request.
      */
     url: string;
+}
+
+export interface XmIdleTimeSessionInfo {
+    isActiveSession: boolean;
+    config: XmIdleTimeConfig;
+    user: XmUser;
 }
