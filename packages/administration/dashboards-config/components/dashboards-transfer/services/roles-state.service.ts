@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, from, map, mergeMap, Observable, of, shareReplay, switchMap } from 'rxjs';
+import { BehaviorSubject, forkJoin, from, map, mergeMap, Observable, of, shareReplay, switchMap } from 'rxjs';
 import { Role } from '@xm-ngx/core/role';
 import { catchError, toArray } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { DashboardsTransferApiService } from './dashboards-transfer-api.service';
 import { DashboardsTransferDataService } from './dashboards-transfer-data.service';
 import { QueryParams, RoleError, TransferEnv } from '../types';
+import { omit } from 'lodash';
 
 @Injectable()
 export class RolesStateService {
@@ -27,27 +28,48 @@ export class RolesStateService {
         return this.api.getRoles(queryParams, env);
     }
 
+    public getRole(roleKey: string, env?: TransferEnv): Observable<Role> {
+        return this.api.getRole(roleKey, env).pipe(
+            catchError(() => {
+                return of(null);
+            })
+        );
+    }
+
     public updateRoles(roles: Role[], env?: TransferEnv): Observable<any> {
         this.errors = [];
         this.dashboardTransferDataService.loading = true;
 
         return from(roles).pipe(
             mergeMap((role: Role) => {
-                return this.api.getRole(role.roleKey).pipe(
-                    switchMap((role: Role) => {
-                        return this.api.updateRole(role, env).pipe(
+                const getLocalRole$ = this.getRole(role.roleKey);
+                const getTargetRole$ = this.getRole(role.roleKey, env);
+
+                return forkJoin({
+                    localRole: getLocalRole$,
+                    targetRole: getTargetRole$,
+                }).pipe(
+                    switchMap(({ localRole, targetRole }) => {
+                        if (targetRole) {
+                            return this.api.updateRole(localRole, env).pipe(
+                                catchError((err: HttpErrorResponse) => {
+                                    this.addError(err, localRole);
+
+                                    return of(null);
+                                }),
+                            );
+                        }
+
+                        const payload = this.prepareRoleCreationData(localRole);
+
+                        return this.api.createRole(payload, env).pipe(
                             catchError((err: HttpErrorResponse) => {
-                                this.addError(err, role);
+                                this.addError(err, localRole);
 
                                 return of(null);
                             }),
                         );
-                    }),
-                    catchError((err: HttpErrorResponse) => {
-                        this.addError(err, role);
-
-                        return of(null);
-                    }),
+                    })
                 );
             }, 10),
             toArray(),
@@ -56,6 +78,10 @@ export class RolesStateService {
                 return true;
             }),
         );
+    }
+
+    private prepareRoleCreationData(role: Role): Partial<Role> {
+        return omit(role, ['createdBy', 'updatedBy', 'createdDate', 'updatedDate']);
     }
 
     private addError(err: HttpErrorResponse, role: Role): void {
