@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "8.0.20",
+  "version": "8.0.21",
   "release": "6.0.0",
   "private": true,
   "description": "Xm-webapp",
@@ -116,7 +116,6 @@
     "gsap": "3.11.3",
     "heatmap.js": "2.0.5",
     "html2canvas": "1.4.1",
-    "idlejs": "3.0.0",
     "immutable": "4.3.7",
     "jquery": "3.6.3",
     "jquery-validation": "^1.19.5",
