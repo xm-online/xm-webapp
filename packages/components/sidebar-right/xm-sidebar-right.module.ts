@@ -31,9 +31,15 @@ interface XmMainConfig extends XmUIConfig {
 }
 
 enum DomEventType {
-    Mousedown = 'mousedown',
-    Mousemove = 'mousemove',
-    Mouseup = 'mouseup',
+    MOUSEDOWN = 'mousedown',
+    MOUSEMOVE = 'mousemove',
+    MOUSEUP = 'mouseup',
+}
+
+enum ResizeConfig {
+    MAX_WIDTH_VW = 95,
+    VIEWPORT_UNIT_DIVISOR = 100,
+    WIDTH_UNIT = 'vw',
 }
 
 @Directive({standalone: false, selector: '[xmContainerOutlet]'})
@@ -96,9 +102,9 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
 
     private initMouseResize(): void {
         this.ngZone.runOutsideAngular(() => {
-            const mousedown$: Observable<MouseEvent> = fromEvent<MouseEvent>(document, DomEventType.Mousedown).pipe(takeUntil(this.destroy$));
-            const mousemove$: Observable<MouseEvent> = fromEvent<MouseEvent>(document, DomEventType.Mousemove).pipe(takeUntil(this.destroy$));
-            const mouseup$: Observable<MouseEvent> = fromEvent<MouseEvent>(document, DomEventType.Mouseup).pipe(takeUntil(this.destroy$));
+            const mousedown$: Observable<MouseEvent> = fromEvent<MouseEvent>(document, DomEventType.MOUSEDOWN).pipe(takeUntil(this.destroy$));
+            const mousemove$: Observable<MouseEvent> = fromEvent<MouseEvent>(document, DomEventType.MOUSEMOVE).pipe(takeUntil(this.destroy$));
+            const mouseup$: Observable<MouseEvent> = fromEvent<MouseEvent>(document, DomEventType.MOUSEUP).pipe(takeUntil(this.destroy$));
 
             mousedown$
                 .pipe(
@@ -111,18 +117,18 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
                                     tap(() => this.ngZone.run((): boolean => (this.mousePressedOnResizer = false)))
                                 )
                             ),
-                            tap(event => {
+                            tap((event: MouseEvent) => {
                                 event.stopPropagation?.();
                                 event.preventDefault?.();
 
-                                const vw: number = window.innerWidth / 100;
+                                const vw: number = window.innerWidth / ResizeConfig.VIEWPORT_UNIT_DIVISOR;
                                 const newWidthInPx: number = window.innerWidth - event.x;
                                 const newWidth: number = newWidthInPx / vw;
                                 const min: number = this.minVW();
-                                const clamped: number = Math.min(Math.max(newWidth, min), 95);
+                                const clamped: number = Math.min(Math.max(newWidth, min), ResizeConfig.MAX_WIDTH_VW);
 
                                 this.ngZone.run(() => {
-                                    this.width = `${clamped}vw`;
+                                    this.width = `${clamped}${ResizeConfig.WIDTH_UNIT}`;
                                     localStorage.setItem(this.getWidthStorageKey(), this.width);
                                 });
                             })
