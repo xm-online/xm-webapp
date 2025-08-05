@@ -1,11 +1,27 @@
+//{
+//  "extends": "../../tsconfig.ngc.json",
+//  "compilerOptions": {
+//    "module": "ESNext",
+//    "outDir": "../../lib/eslint-plugin"
+//  },
+//  "include": [
+//    ".",
+//    "./package.json"
+//  ]
+//}
 {
-  "extends": "../../tsconfig.ngc.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "outDir": "../../lib/eslint-plugin"
+    "outDir": "../../lib/eslint-plugin",
+    "module": "commonjs",
+    "types": [
+      "node"
+    ]
   },
   "include": [
-    ".",
-    "./package.json"
+    "**/*.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts"
   ]
 }
