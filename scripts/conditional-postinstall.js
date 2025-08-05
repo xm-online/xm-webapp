@@ -9,7 +9,6 @@ if (!NEW_VERSION_BUILD) {
         process.exit(1);
     }
 } else if (NEW_VERSION_BUILD && !IS_CI) {
-    console.log('xxxxxx NEW_VERSION_BUILD is set, skipping build:packages');
     try {
         execSync('npm run build:nx-packages', {stdio: 'inherit'});
     } catch (error) {
