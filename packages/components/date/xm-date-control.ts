@@ -107,7 +107,7 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
     ],
 })
 export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDestroy {
-    private availableDates: Date[] = [];
+    private availableDates: Date[];
 
     constructor(
         @Optional() @Self() public ngControl: NgControl | null,
@@ -133,15 +133,17 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
             errors: this.xmControlErrorsTranslates,
         });
 
-        if (this._config?.availableDaysController) {
-            this.getAvailableDaysFromController();
-        }
+        this.getAvailableDaysFromController();
 
         this.maxDate = this.disableFutureDates();
         this.minDate = this.defineStartDate();
     }
 
     private getAvailableDaysFromController(): void {
+        if (!this.config?.availableDaysController) {
+            return;
+        }
+
         const { key, method } = this.config.availableDaysController;
         const controller = this.dynamicInstanceService.getControllerByKey(key, this.dynamicInjector);
 
@@ -150,10 +152,10 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
             return;
         }
 
-        (controller[method] as () => Observable<string[]>)()
+        (controller[method] as () => Observable<Date[]>)()
             .pipe(takeUntilOnDestroy(this))
-            .subscribe((dates: string[]) => {
-                this.availableDates = dates?.map((date: string) => new Date(date));
+            .subscribe((dates: Date[]) => {
+                this.availableDates = dates;
             });
     }
 
@@ -178,7 +180,7 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
     };
 
     public datepickerFilter = (selectedDate: Date = new Date()): boolean => {
-        if (this.availableDates?.length > 0) {
+        if (this.availableDates) {
             return this.availableDates.some((d) =>
                 d.toDateString() === selectedDate.toDateString(),
             );
