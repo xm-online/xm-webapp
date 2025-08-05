@@ -2,6 +2,7 @@
   "name": "@xm-ngx/eslint-plugin",
   "version": "1.0.0",
   "type": "module",
+  "main": "lib/index.js",
   "scripts": {
     "build": "tsc"
   },
