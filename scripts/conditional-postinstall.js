@@ -1,7 +1,7 @@
 const NEW_VERSION_BUILD = process.env.NEW_VERSION_BUILD ?? false;
-const IS_CI = process.env.CI
+const IS_CI = process.env.CI;
 const {execSync} = require('child_process');
-if (!NEW_VERSION_BUILD) {
+if (NEW_VERSION_BUILD === 'false' || !NEW_VERSION_BUILD) {
     try {
         execSync('npm run build:packages', {stdio: 'inherit'});
     } catch (error) {
