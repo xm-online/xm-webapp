@@ -31,6 +31,7 @@ export interface XmDateRangeControlConfig {
         separator: string;
     }
     intervalFromMinDateInDays?: number;
+    maxRangeInDays?: number;
     hideClear?: boolean;
     defaultValues?: {
         from?: number,
@@ -70,9 +71,10 @@ export const XM_DATE_RANGE_CONTROL_CONFIG_DEFAULT: XmDateRangeControlConfig = {
             <mat-label>{{ config.title | xmTranslate }}</mat-label>
             <mat-date-range-input [formGroup]="group"
                                   [min]="minDate"
+                                  [max]="maxDate"
                                   [rangePicker]="picker">
                 <input matStartDate
-                       (dateChange)="dateChanged()"
+                       (dateChange)="dateChanged(); checkMaxRange()"
                        (focus)="picker.open()"
                        [name]="config.fromName ?? 'from'"
                        formControlName="from">
@@ -124,6 +126,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
     });
     private refreshDate = new Subject<void>();
     public minDate: Date | null;
+    public maxDate: Date | null;
 
     constructor(
         private transformDateStringCodec: TransformDateStringCodec,
@@ -201,10 +204,43 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         this.group.markAllAsTouched();
         this.change({from: '', to: ''});
         this.validDateFields();
+
+        if (this.config.maxRangeInDays) {
+            this.minDate = this.maxDate = null;
+        }
     }
 
     public dateChanged(): void {
         this.refreshDate.next();
+    }
+
+    public checkMaxRange(): void {
+        if (!this.config.maxRangeInDays) return;
+
+        const from = this.group.get('from').value;
+        const to = this.group.get('to').value;
+
+        if (!from) return;
+
+        const maxDate = new Date(from);
+        maxDate.setHours(23, 59, 59);
+        maxDate.setDate(maxDate.getDate() + this.config.maxRangeInDays);
+
+        this.maxDate = maxDate;
+
+        if (to) {
+            const MS_PER_DAY = 24 * 60 * 60 * 1000;
+            const FROM_DATE = new Date(from);
+            const TO_DATE = new Date(to);
+            const diff = Math.floor((TO_DATE.getTime() - FROM_DATE.getTime()) / MS_PER_DAY);
+
+            if (diff > this.config.maxRangeInDays) {
+                const updatedToDate = new Date(to);
+                updatedToDate.setDate(updatedToDate.getDate() - (diff - this.config.maxRangeInDays));
+                this.group.get('to').patchValue(updatedToDate);
+                this.dateChanged();
+            }
+        }
     }
 
     public defineStartDate(): Date | undefined {
@@ -243,6 +279,8 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         } else if (typeof model !== 'string') {
             this.group.patchValue(model, {emitEvent: false});
         }
+
+        this.checkMaxRange();
     }
 
     private getDefaultModel(): XmDateRangeControlValue {
