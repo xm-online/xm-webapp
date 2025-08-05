@@ -16,30 +16,19 @@ import {
     ViewContainerRef,
     NgZone,
 } from '@angular/core';
+import { takeUntilOnDestroy } from '@xm-ngx/operators';
 import * as _ from 'lodash';
 import { Container } from './container';
 import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
-import { switchMap, tap, filter, takeUntil } from 'rxjs/operators';
-import { fromEvent, Observable, of, Subject } from 'rxjs';
+import { switchMap, tap, filter } from 'rxjs/operators';
+import { fromEvent, of } from 'rxjs';
 
 interface XmMainConfig extends XmUIConfig {
     sidebar?: {
         isOutsideClickHideMenu?: boolean
     }
-}
-
-enum DomEventType {
-    MOUSEDOWN = 'mousedown',
-    MOUSEMOVE = 'mousemove',
-    MOUSEUP = 'mouseup',
-}
-
-enum ResizeConfig {
-    MAX_WIDTH_VW = 95,
-    VIEWPORT_UNIT_DIVISOR = 100,
-    WIDTH_UNIT = 'vw',
 }
 
 @Directive({standalone: false, selector: '[xmContainerOutlet]'})
@@ -82,7 +71,6 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     }
 
     public mode: string;
-    private destroy$: Subject<void> = new Subject<void>();
     private mousePressedOnResizer: boolean;
     private uiConfigService: XmUiConfigService<XmMainConfig> = inject(XmUiConfigService);
 
@@ -97,45 +85,72 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.sidebarRightService.setContainer(this as Container);
         this.observeClicksOutsideSidebar();
-        this.initMouseResize();
+        this.observeMouseDownEvents();
+        this.observeMouseMoveEvents();
+        this.observeMouseUpEvents();
+        this.observeWindowResizeEvents();
     }
 
-    private initMouseResize(): void {
+    private observeMouseDownEvents(): void {
         this.ngZone.runOutsideAngular(() => {
-            const mousedown$: Observable<MouseEvent> = fromEvent<MouseEvent>(document, DomEventType.MOUSEDOWN).pipe(takeUntil(this.destroy$));
-            const mousemove$: Observable<MouseEvent> = fromEvent<MouseEvent>(document, DomEventType.MOUSEMOVE).pipe(takeUntil(this.destroy$));
-            const mouseup$: Observable<MouseEvent> = fromEvent<MouseEvent>(document, DomEventType.MOUSEUP).pipe(takeUntil(this.destroy$));
+            fromEvent<MouseEvent>(document, 'mousedown').pipe(
+                takeUntilOnDestroy(this),
+            ).subscribe((event: MouseEvent) => {
+                if (this.resizerElement?.nativeElement?.contains(event.target)) {
+                    this.mousePressedOnResizer = true;
+                }
+            });
+        });
+    }
 
-            mousedown$
-                .pipe(
-                    filter(event => this.resizerElement.nativeElement.contains(event.target)),
-                    tap(() => this.ngZone.run((): boolean => (this.mousePressedOnResizer = true))),
-                    switchMap(() =>
-                        mousemove$.pipe(
-                            takeUntil(
-                                mouseup$.pipe(
-                                    tap(() => this.ngZone.run((): boolean => (this.mousePressedOnResizer = false)))
-                                )
-                            ),
-                            tap((event: MouseEvent) => {
-                                event.stopPropagation?.();
-                                event.preventDefault?.();
+    private observeMouseMoveEvents(): void {
+        this.ngZone.runOutsideAngular(() => {
+            fromEvent<MouseEvent>(document, 'mousemove').pipe(
+                takeUntilOnDestroy(this),
+            ).subscribe((event: MouseEvent) => {
+                if (this.mousePressedOnResizer) {
+                    if (event.stopPropagation) event.stopPropagation();
+                    if (event.preventDefault) event.preventDefault();
+                    const vw = window.innerWidth / 100;
+                    const newWidthInPx = window.innerWidth - event.x;
+                    const newWidth = newWidthInPx / vw;
+                    const min = this.minVW();
+                    const calculatedWidth = newWidth < min ? `${min}vw` : newWidth > 95 ? '95vw' : `${newWidth}vw`;
 
-                                const vw: number = window.innerWidth / ResizeConfig.VIEWPORT_UNIT_DIVISOR;
-                                const newWidthInPx: number = window.innerWidth - event.x;
-                                const newWidth: number = newWidthInPx / vw;
-                                const min: number = this.minVW();
-                                const clamped: number = Math.min(Math.max(newWidth, min), ResizeConfig.MAX_WIDTH_VW);
+                    this.ngZone.run(() => {
+                        this.width = calculatedWidth;
+                    });
 
-                                this.ngZone.run(() => {
-                                    this.width = `${clamped}${ResizeConfig.WIDTH_UNIT}`;
-                                    localStorage.setItem(this.getWidthStorageKey(), this.width);
-                                });
-                            })
-                        )
-                    )
-                )
-                .subscribe();
+                    localStorage.setItem(this.getWidthStorageKey(), calculatedWidth);
+                }
+            });
+        });
+    }
+
+    private observeMouseUpEvents(): void {
+        this.ngZone.runOutsideAngular(() => {
+            fromEvent<MouseEvent>(document, 'mouseup').pipe(
+                takeUntilOnDestroy(this),
+            ).subscribe(() => {
+                this.mousePressedOnResizer = false;
+            });
+        });
+    }
+
+    private observeWindowResizeEvents(): void {
+        this.ngZone.runOutsideAngular(() => {
+            fromEvent(window, 'resize').pipe(
+                takeUntilOnDestroy(this),
+            ).subscribe(() => {
+                if (this.xmContainerOutlet.viewContainerRef.length > 0) {
+                    const min = this.minVW();
+                    this.changeMainElementMarginBy(`${min}vw`);
+
+                    this.ngZone.run(() => {
+                        this.width = `${Math.min(95, Math.max(parseFloat(this.width), min))}vw`;
+                    });
+                }
+            });
         });
     }
 
@@ -164,12 +179,10 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
         ).subscribe();
     }
 
-
     public ngOnDestroy(): void {
         this.sidebarRightService.removeContainer();
 
-        this.destroy$.next();
-        this.destroy$.complete();
+        takeUntilOnDestroy(this);
     }
 
     public create<T, D>(templateRef: TemplateRef<D> | Type<T>, config: SidebarRightConfig<D>): T | null {
