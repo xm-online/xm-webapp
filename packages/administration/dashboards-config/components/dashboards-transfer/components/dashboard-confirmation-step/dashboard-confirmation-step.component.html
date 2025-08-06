@@ -9,7 +9,10 @@
         <div class="position grey-color">
           {{ i + 1 }}.
         </div>
-        <xm-dashboard-option [dashboard]="dashboard"></xm-dashboard-option>
+        <xm-dashboard-option
+          [showActionColumn]="true"
+          [dashboard]="dashboard">
+        </xm-dashboard-option>
       </div>
     </mat-list-item>
   </cdk-virtual-scroll-viewport>
