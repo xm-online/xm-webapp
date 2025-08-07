@@ -48,7 +48,7 @@ export class XmUserService<T = XmUser> implements OnDestroy {
 
     private getUser(): Observable<any> {
         return this.account.get().pipe(map((user) => {
-            const {body: data} = user;
+            const {body: data} = user || {};
             if (data) {
                 this.appStore.updateUser(data);
                 return data;
