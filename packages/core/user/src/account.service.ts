@@ -24,11 +24,11 @@ export class AccountService {
         });
     }
 
-    public get(): Observable<HttpResponse<Account>> {
+    public get(): Observable<HttpResponse<any>> {
         return this.cache$.get();
     }
 
-    public getAccount(): Observable<HttpResponse<Account>> {
+    public getAccount(): Observable<HttpResponse<any>> {
         return this.http.get<Account>(this.accountUrl, {observe: 'response'});
     }
 
