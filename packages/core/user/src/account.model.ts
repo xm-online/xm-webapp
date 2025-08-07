@@ -1,5 +1,3 @@
-import { Permission } from '@xm-ngx/core/role';
-
 export class Account {
     constructor(
         public activated: boolean,
@@ -10,7 +8,7 @@ export class Account {
         public lastName: string,
         public login: string,
         public imageUrl: string,
-        public permissions: Permission[],
+        public permissions: any[],
         public privileges: string[],
         public timeZoneOffset: string,
     ) {
