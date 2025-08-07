@@ -2,9 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUserService } from './xm-user.service';
 import { OnInitialize } from '@xm-ngx/interfaces';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-
-import { dayjs } from '@xm-ngx/operators';
+import { dayjs, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Observable, Subject } from 'rxjs';
 import { filter, shareReplay, takeUntil, tap } from 'rxjs/operators';
 
@@ -12,11 +10,12 @@ import { filter, shareReplay, takeUntil, tap } from 'rxjs/operators';
 import { AccountService } from './account.service';
 import { SUPER_ADMIN, XmAuthenticationService } from '@xm-ngx/core/auth';
 import { ContextService } from '@xm-ngx/core/context';
+import { Account } from '@xm-ngx/core/user';
 
 const CACHE_SIZE = 1;
 
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class Principal implements OnDestroy, OnInitialize {
     private userIdentity: any;
     private loadInProgress: boolean = false;
@@ -33,7 +32,7 @@ export class Principal implements OnDestroy, OnInitialize {
                 private contextService: ContextService,
     ) {
         this.authenticationState.pipe(
-            takeUntilOnDestroy(this)
+            takeUntilOnDestroy(this),
         ).subscribe(it => {
             this.contextService.put('user', it);
             this.contextService.put('principal', this);
@@ -100,7 +99,7 @@ export class Principal implements OnDestroy, OnInitialize {
         } else if (privilegesOperation === 'AND') {
             return privileges.filter((el) => this.userIdentity.privileges.indexOf(el) === -1);
         }
-        console.warn('error.privilegeOperationWrong', { name: privilegesOperation });
+        console.warn('error.privilegeOperationWrong', {name: privilegesOperation});
         return false;
 
     }
@@ -145,57 +144,60 @@ export class Principal implements OnDestroy, OnInitialize {
                 resolve(this.userIdentity);
                 return;
             }
-
             // Retrieve the userIdentity data from the server, update the identity object, and then resolve.
             this.account
                 .get()
-                .toPromise()
-                .then((response) => {
-                    const account = response.body;
-                    this.promise = null;
-                    this.resetCachedProfile();
-                    if (account) {
-                        if (account.permissions) {
-                            account.privileges = account.permissions.reduce((result, el) => {
-                                if (el.enabled) {
-                                    result.push(el.privilegeKey);
-                                }
-                                return result;
-                            }, []);
+                .subscribe({
+                    next: (response: Account) => {
+                        const account = response;
+                        this.promise = null;
+                        this.resetCachedProfile();
+                        if (account) {
+                            if (account.permissions) {
+                                account.privileges = account.permissions.reduce((result, el) => {
+                                    if (el.enabled) {
+                                        result.push(el.privilegeKey);
+                                    }
+                                    return result;
+                                }, []);
+                            }
+                            this.sessionService.create();
+                            this.userIdentity = account;
+                            this.authenticated = true;
+                            account.timeZoneOffset = this.setTimezoneOffset();
+                        } else {
+                            this.sessionService.clear();
+                            this.userIdentity = null;
+                            this.authenticated = false;
                         }
-                        this.sessionService.create();
-                        this.userIdentity = account;
-                        this.authenticated = true;
-                        account.timeZoneOffset = this.setTimezoneOffset();
-                    } else {
-                        this.sessionService.clear();
-                        this.userIdentity = null;
-                        this.authenticated = false;
-                    }
-                    this.authenticationState.next(this.userIdentity);
-                    resolve(this.userIdentity);
-                })
-                .catch(() => {
-                    this.promise = null;
-                    this.resetCachedProfile();
-                    if (mockUser) {
-                        this.userIdentity = {
-                            firstName: 'NoName',
-                            lastName: 'NoName',
-                            roleKey: 'ROLE_USER',
-                        };
-                        this.authenticated = true;
                         this.authenticationState.next(this.userIdentity);
                         resolve(this.userIdentity);
-                    } else {
-                        this.sessionService.clear();
-                        this.userIdentity = null;
-                        this.authenticated = false;
-                        this.authenticationState.next(this.userIdentity);
-                        resolve(this.userIdentity);
-                    }
+                    },
+                    error: () => {
+                        this.promise = null;
+                        this.resetCachedProfile();
+                        if (mockUser) {
+                            this.userIdentity = {
+                                firstName: 'NoName',
+                                lastName: 'NoName',
+                                roleKey: 'ROLE_USER',
+                            };
+                            this.authenticated = true;
+                            this.authenticationState.next(this.userIdentity);
+                            resolve(this.userIdentity);
+                        } else {
+                            this.sessionService.clear();
+                            this.userIdentity = null;
+                            this.authenticated = false;
+                            this.authenticationState.next(this.userIdentity);
+                            resolve(this.userIdentity);
+                        }
+                    },
+                    complete: () => {
+                        this.loadInProgress = false;
+                    },
                 });
-        }).finally(() => this.loadInProgress = false);
+        });
     }
 
     /**
@@ -291,7 +293,7 @@ export class Principal implements OnDestroy, OnInitialize {
 
     private loadProfile(): Observable<any> {
         return this.account.getProfile().pipe(
-            tap(profile => this.contextService.put('profile', profile))
+            tap(profile => this.contextService.put('profile', profile)),
         );
     }
 

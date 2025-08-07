@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { createRequestOption } from '@xm-ngx/operators';
 
 import { ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL } from '@xm-ngx/core/auth';
-import { ACCOUNT_URL } from '@xm-ngx/core';
+import { ACCOUNT_URL, RequestCache, RequestCacheFactoryService } from '@xm-ngx/core';
 import { Account } from './account.model';
 
 @Injectable({providedIn: 'root'})
@@ -15,12 +15,21 @@ export class AccountService {
     private resourceProfileUrl: string = 'entity/api/profile';
     private resourceLogins: string = 'uaa/api/account/logins';
     private accountUrl: string = inject(ACCOUNT_URL);
+    private cache$?: RequestCache<Account>;
 
-    constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
+    constructor(private http: HttpClient, private dateUtils: JhiDateUtils, private cacheFactoryService: RequestCacheFactoryService) {
+        this.cache$ = this.cacheFactoryService.create<Account>({
+            request: () => this.getAccount(),
+            onlyWithUserSession: true,
+        });
     }
 
-    public get(): Observable<HttpResponse<any>> {
-        return this.http.get<Account>(this.accountUrl, {observe: 'response'});
+    public get(): Observable<Account> {
+        return this.cache$.get();
+    }
+
+    public getAccount(): Observable<Account> {
+        return this.http.get<Account>(this.accountUrl);
     }
 
     public save(account: any): Observable<HttpResponse<any>> {
