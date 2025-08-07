@@ -10,7 +10,6 @@ import { filter, shareReplay, takeUntil, tap } from 'rxjs/operators';
 import { AccountService } from './account.service';
 import { SUPER_ADMIN, XmAuthenticationService } from '@xm-ngx/core/auth';
 import { ContextService } from '@xm-ngx/core/context';
-import { Account } from '@xm-ngx/core/user';
 
 const CACHE_SIZE = 1;
 
@@ -148,7 +147,7 @@ export class Principal implements OnDestroy, OnInitialize {
             this.account
                 .get()
                 .subscribe({
-                    next: (response: Account) => {
+                    next: (response) => {
                         const account = response;
                         this.promise = null;
                         this.resetCachedProfile();
