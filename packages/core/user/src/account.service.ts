@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { JhiDateUtils } from '@xm-ngx/jhipster';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { createRequestOption } from '@xm-ngx/operators';
 
@@ -25,7 +25,7 @@ export class AccountService {
     }
 
     public get(): Observable<HttpResponse<any>> {
-        return this.cache$.get().pipe(r => r ?? of(new HttpResponse<Account>({})));
+        return this.cache$.get().pipe(map((res) => res ?? new HttpResponse<Account>({})));
     }
 
     public getAccount(): Observable<HttpResponse<any>> {
