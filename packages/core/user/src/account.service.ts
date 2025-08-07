@@ -15,21 +15,21 @@ export class AccountService {
     private resourceProfileUrl: string = 'entity/api/profile';
     private resourceLogins: string = 'uaa/api/account/logins';
     private accountUrl: string = inject(ACCOUNT_URL);
-    private cache$?: RequestCache<Account>;
+    private cache$?: RequestCache<HttpResponse<Account>>;
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils, private cacheFactoryService: RequestCacheFactoryService) {
-        this.cache$ = this.cacheFactoryService.create<Account>({
+        this.cache$ = this.cacheFactoryService.create<HttpResponse<Account>>({
             request: () => this.getAccount(),
             onlyWithUserSession: true,
         });
     }
 
-    public get(): Observable<Account> {
+    public get(): Observable<HttpResponse<Account>> {
         return this.cache$.get();
     }
 
-    public getAccount(): Observable<Account> {
-        return this.http.get<Account>(this.accountUrl);
+    public getAccount(): Observable<HttpResponse<Account>> {
+        return this.http.get<Account>(this.accountUrl, {observe: 'response'});
     }
 
     public save(account: any): Observable<HttpResponse<any>> {

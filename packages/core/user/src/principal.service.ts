@@ -148,7 +148,7 @@ export class Principal implements OnDestroy, OnInitialize {
                 .get()
                 .subscribe({
                     next: (response) => {
-                        const account = response;
+                        const account = response.body;
                         this.promise = null;
                         this.resetCachedProfile();
                         if (account) {

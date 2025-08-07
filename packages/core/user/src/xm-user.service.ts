@@ -4,7 +4,7 @@ import { RequestCache, RequestCacheFactoryService, XmCoreConfig, XmSessionServic
 import { Observable } from 'rxjs';
 import { XmUser } from './xm-user-model';
 import { AppStore } from '@xm-ngx/ngrx-store';
-import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { AppStoreSource } from '@xm-ngx/ngrx-store/src/models/app-store.model';
 import { AccountService } from './account.service';
 
@@ -47,6 +47,13 @@ export class XmUserService<T = XmUser> implements OnDestroy {
     }
 
     private getUser(): Observable<any> {
-        return this.account.get().pipe(tap((user) => user && this.appStore.updateUser(user)));
+        return this.account.get().pipe(map((user) => {
+            const {body: data} = user;
+            if (data) {
+                this.appStore.updateUser(data);
+                return data;
+            }
+            return {};
+        }));
     }
 }
