@@ -1,9 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { IIdpClient, TOKEN_URL, XmSessionService } from '@xm-ngx/core';
+import { IIdpClient, TOKEN_URL, XmEventManagerService, XmSessionService } from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import {
     AuthRefreshTokenService,
@@ -45,6 +45,7 @@ export interface AuthTokenResponse extends GuestTokenResponse {
 @Injectable({providedIn: 'root'})
 export class AuthServerProvider {
     private TOKEN_URL: string = inject(TOKEN_URL);
+    private skipRefreshTokenRequest: boolean;
 
     constructor(
         private principal: Principal,
@@ -57,6 +58,7 @@ export class AuthServerProvider {
         private stateStorageService: StateStorageService,
         private xmAuthTargetUrlService: XmAuthTargetUrlService,
         private router: Router,
+        private xmEventManagerService: XmEventManagerService,
     ) {
     }
 
@@ -158,7 +160,7 @@ export class AuthServerProvider {
 
     public logout(saveIdpConfig?: boolean): Observable<any> {
         return new Observable((observer) => {
-            this.storeService.clear(saveIdpConfig);
+            !this.skipRefreshTokenRequest && this.storeService.clear(saveIdpConfig);
             this.refreshTokenService.clear();
             this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
             this.$sessionStorage.clear(WIDGET_DATA);
@@ -166,6 +168,11 @@ export class AuthServerProvider {
             observer.complete();
         }).pipe(
             switchMap(() => {
+                if (this.skipRefreshTokenRequest) {
+                    this.skipRefreshTokenRequest = false;
+                    return EMPTY;
+                }
+
                 this.sessionService.clear();
                 return this.getGuestAccessToken();
             }),
@@ -266,8 +273,18 @@ export class AuthServerProvider {
                 }
             });
         } else {
-            // TODO: move to interceptor
-            this.getGuestAccessToken().subscribe(() => this.sessionService.create({active: false}));
+            // // TODO: move to interceptor
+            this.skipRefreshTokenRequest = true;
+            this.sessionService.create({active: false});
+            this.getGuestAccessToken().pipe(
+                tap(() => {
+                    this.xmEventManagerService.broadcast({
+                        name: 'SET-AUTO-REFRESH-TOKEN-DONE',
+                        payload: {isDone: true},
+                    });
+                    this.sessionService.create({active: false});
+                }),
+            ).subscribe();
         }
     }
 }

@@ -15,7 +15,7 @@ import { XmAuthTargetUrlService } from './xm-auth-target-url.service';
 
 export const ROLE_ANONYMOUS = 'ROLE_ANONYMOUS';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class XmAuthenticationService {
 
     constructor(
@@ -25,7 +25,7 @@ export class XmAuthenticationService {
         private refreshTokenService: AuthRefreshTokenService,
         private sessionService: XmSessionService,
         private xmAuthTargetUrlService: XmAuthTargetUrlService,
-        private router: Router
+        private router: Router,
     ) {
     }
 
@@ -57,7 +57,7 @@ export class XmAuthenticationService {
     }
 
     public getHeaders(token: string): { [name: string]: string | string[] } {
-        return { Authorization: `Bearer ${token}` };
+        return {Authorization: `Bearer ${token}`};
     }
 
     // return true when it's guest, and return false when not sure
