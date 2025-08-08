@@ -108,7 +108,7 @@ export class IdleLogoutService implements OnInitialize {
         return activeSession$.pipe(
             switchMap((isActiveSession: boolean) => this.mapActiveSessionAndConfigs$(isActiveSession)),
             tap(({config, user}: XmIdleTimeSessionInfo) => {
-                const shouldCloseSubscription = !Boolean(config?.idleTime?.checkIdleTime || config?.idleLogout || user.autoLogoutTimeoutSeconds);
+                const shouldCloseSubscription = !Boolean(config?.idleTime?.checkIdleTime || config?.idleLogout || user?.autoLogoutTimeoutSeconds);
                 if (shouldCloseSubscription) {
                     /** Close the subscription if idle time check is not specified */
                     this.activitySubscription && !this.activitySubscription.closed && this.activitySubscription.unsubscribe();
