@@ -141,7 +141,7 @@ export class Principal implements OnDestroy, OnInitialize {
                         this.clearSession();
                     }
                 }),
-                catchError((error) => {
+                catchError(() => {
                     if (mockUser) {
                         this.setMockUser();
                     } else {
