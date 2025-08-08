@@ -3,8 +3,8 @@ import { XmSessionService } from '@xm-ngx/core';
 import { XmUserService } from './xm-user.service';
 import { OnInitialize } from '@xm-ngx/interfaces';
 import { dayjs, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { Observable, Subject } from 'rxjs';
-import { filter, shareReplay, takeUntil, tap } from 'rxjs/operators';
+import { firstValueFrom, Observable, of, Subject } from 'rxjs';
+import { catchError, filter, finalize, shareReplay, takeUntil, tap } from 'rxjs/operators';
 
 
 import { AccountService } from './account.service';
@@ -17,7 +17,6 @@ const CACHE_SIZE = 1;
 @Injectable({providedIn: 'root'})
 export class Principal implements OnDestroy, OnInitialize {
     private userIdentity: any;
-    private loadInProgress: boolean = false;
     private authenticated: boolean = false;
     private authenticationState: Subject<any> = new Subject<any>();
     private promise: Promise<any>;
@@ -116,87 +115,82 @@ export class Principal implements OnDestroy, OnInitialize {
     }
 
     public identity(force: boolean = false, mockUser: boolean = false): Promise<any> {
-        if (!force && this.promise && (this.userIdentity || this.loadInProgress)) {
-            return this.promise;
+        if (force) {
+            this.userService.forceReload();
+            this.resetIdentityState();
         }
+        if (this.userIdentity) {
+            return Promise.resolve(this.userIdentity);
+        }
+        this.promise = this.fetchAndSetIdentity(mockUser);
+        return this.promise;
+    }
 
-        this.loadInProgress = true;
-        return this.promise = new Promise((resolve, reject) => {
-            if (force === true) {
-                this.userService.forceReload();
-                this.authenticated = false;
-                this.userIdentity = undefined;
-            }
+    private fetchAndSetIdentity(mockUser: boolean): Promise<any> {
+        if (this.xmAuthenticationService.isSureGuestSession()) {
+            this.resetIdentityState();
+            return Promise.resolve(null);
+        }
+        return firstValueFrom(
+            this.account.get().pipe(
+                tap(response => {
+                    const account = response?.body;
+                    if (account) {
+                        this.setSuccessfulIdentity(account);
+                    } else {
+                        this.clearSession();
+                    }
+                }),
+                catchError((error) => {
+                    if (mockUser) {
+                        this.setMockUser();
+                    } else {
+                        this.clearSession();
+                    }
+                    return of(null);
+                }),
+                finalize(() => {
+                    this.authenticationState.next(this.userIdentity);
+                    this.promise = null;
+                }),
+            ),
+        );
+    }
 
-            /*
-                 * Check and see if we have retrieved the userIdentity data from the server.
-                 * if we have, reuse it by immediately resolving
-                 */
-            if (this.userIdentity) {
-                this.promise = null;
-                resolve(this.userIdentity);
-                return;
-            }
+    private setMockUser(): void {
+        const mockUser = {
+            firstName: 'NoName',
+            lastName: 'NoName',
+            roleKey: 'ROLE_USER',
+        };
+        this.userIdentity = mockUser;
+        this.authenticated = true;
+    }
 
-            if (this.xmAuthenticationService.isSureGuestSession()) {
-                this.promise = null;
-                resolve(this.userIdentity);
-                return;
-            }
-            // Retrieve the userIdentity data from the server, update the identity object, and then resolve.
-            this.account
-                .get()
-                .subscribe({
-                    next: (response) => {
-                        const account = response?.body;
-                        this.promise = null;
-                        this.resetCachedProfile();
-                        if (account) {
-                            if (account.permissions) {
-                                account.privileges = account.permissions.reduce((result, el) => {
-                                    if (el.enabled) {
-                                        result.push(el.privilegeKey);
-                                    }
-                                    return result;
-                                }, []);
-                            }
-                            this.sessionService.create();
-                            this.userIdentity = account;
-                            this.authenticated = true;
-                            account.timeZoneOffset = this.setTimezoneOffset();
-                        } else {
-                            this.sessionService.clear();
-                            this.userIdentity = null;
-                            this.authenticated = false;
-                        }
-                        this.authenticationState.next(this.userIdentity);
-                        resolve(this.userIdentity);
-                    },
-                    error: () => {
-                        this.promise = null;
-                        this.resetCachedProfile();
-                        if (mockUser) {
-                            this.userIdentity = {
-                                firstName: 'NoName',
-                                lastName: 'NoName',
-                                roleKey: 'ROLE_USER',
-                            };
-                            this.authenticated = true;
-                            this.authenticationState.next(this.userIdentity);
-                            resolve(this.userIdentity);
-                        } else {
-                            this.sessionService.clear();
-                            this.userIdentity = null;
-                            this.authenticated = false;
-                            this.authenticationState.next(this.userIdentity);
-                            resolve(this.userIdentity);
-                        }
-                    },
-                    complete: () => {
-                        this.loadInProgress = false;
-                    },
-                });
-        });
+    private setSuccessfulIdentity(account: any): void {
+        if (account.permissions) {
+            account.privileges = account.permissions
+                .filter(el => el.enabled)
+                .map(el => el.privilegeKey);
+        }
+        account.timeZoneOffset = this.setTimezoneOffset();
+        this.userIdentity = account;
+        this.authenticated = true;
+        this.sessionService.create();
+        this.resetCachedProfile();
+    }
+
+    private clearSession(): void {
+        this.sessionService.clear();
+        this.userIdentity = null;
+        this.authenticated = false;
+        this.resetCachedProfile();
+    }
+
+    private resetIdentityState(): void {
+        this.authenticated = false;
+        this.userIdentity = null;
+        this.promise = null;
     }
 
     /**
