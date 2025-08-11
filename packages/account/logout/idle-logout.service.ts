@@ -1,6 +1,6 @@
 import { inject, Injectable, NgZone } from '@angular/core';
 import { XmEventManager, XmPublicUiConfigService, XmSessionService } from '@xm-ngx/core';
-import { combineLatest, EMPTY, fromEvent, merge, Observable, Subject, Subscription, switchMap, timer } from 'rxjs';
+import { combineLatest, EMPTY, fromEvent, Observable, Subject, Subscription, switchMap, timer } from 'rxjs';
 import { map, startWith, take, takeUntil, tap, throttleTime } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -72,6 +72,7 @@ export class IdleLogoutService implements OnInitialize {
                 takeUntil(fromEvent(window, 'beforeunload')),
             ).subscribe();
         });
+
     }
 
     private getTimeout(config: XmIdleTimeConfig, user: XmUser, idleTime: XmIdleTime): number {
@@ -107,7 +108,7 @@ export class IdleLogoutService implements OnInitialize {
         return activeSession$.pipe(
             switchMap((isActiveSession: boolean) => this.mapActiveSessionAndConfigs$(isActiveSession)),
             tap(({config, user}: XmIdleTimeSessionInfo) => {
-                const shouldCloseSubscription = !Boolean(config?.idleTime?.checkIdleTime || config?.idleLogout || user.autoLogoutTimeoutSeconds);
+                const shouldCloseSubscription = !Boolean(config?.idleTime?.checkIdleTime || config?.idleLogout || user?.autoLogoutTimeoutSeconds);
                 if (shouldCloseSubscription) {
                     /** Close the subscription if idle time check is not specified */
                     this.activitySubscription && !this.activitySubscription.closed && this.activitySubscription.unsubscribe();
@@ -136,10 +137,22 @@ export class IdleLogoutService implements OnInitialize {
             return EMPTY;
         }
 
-        return merge(
-            ...activityEvents.map(e => fromEvent(document, e)),
-            this.activityDetected.pipe(startWith(null)),
-        ).pipe(throttleTime(1000));
+        return new Observable(observer => {
+            this.ngZone.runOutsideAngular(() => {
+                const eventSubs: Subscription[] = activityEvents.map(e =>
+                    fromEvent(document, e).subscribe(event => {
+                        this.ngZone.runOutsideAngular(() => observer.next(event));
+                    }),
+                );
+                const activityDetectedSub: Subscription = this.activityDetected.pipe(startWith(null)).subscribe(event => {
+                    this.ngZone.runOutsideAngular(() => observer.next(event));
+                });
+                return () => {
+                    eventSubs.forEach(sub => sub.unsubscribe());
+                    activityDetectedSub.unsubscribe();
+                };
+            });
+        }).pipe(throttleTime(1000));
     }
 
     private doIdleAction(doLogout: boolean, httpRequestBeforeLogout: XmIdleTimeBeforeLogoutRequest): Observable<unknown> {
