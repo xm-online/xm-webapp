@@ -1,21 +1,21 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
     HttpClientRest,
     PageableAndSortable,
     QueryParams,
     QueryParamsPageable,
-    XmRepositoryConfig
+    XmRepositoryConfig,
 } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
-import {Observable} from 'rxjs';
-import {XmEntity} from '@xm-ngx/core/entity';
+import { Observable } from 'rxjs';
+import { XmEntity } from '@xm-ngx/core/entity';
 import { Defaults, interpolate, uuid } from '@xm-ngx/operators';
 import { inject, Injectable } from '@angular/core';
 import { XmDynamicInstanceService, XmDynamicService } from '@xm-ngx/dynamic';
-import {XmFilterQueryParams} from '../collections/i-xm-table-collection-controller';
-import {XmEntityRepositoryConfig} from '../controllers/elastic/xm-elastic-search-repository.service';
-import {XmElasticRequestBuilder} from '../controllers/elastic/xm-elastic-request-builder.service';
+import { XmFilterQueryParams } from '../collections/i-xm-table-collection-controller';
+import { XmEntityRepositoryConfig } from '../controllers/elastic/xm-elastic-search-repository.service';
+import { XmElasticRequestBuilder } from '../controllers/elastic/xm-elastic-request-builder.service';
 import { Id } from '@xm-ngx/interfaces';
 
 export interface XmEntityRepositoryExtra {
@@ -70,8 +70,8 @@ export class XmEntityRepository<T extends XmEntity>
         return super.getAll(this.getParams(params));
     }
 
-    public query(params: XmFilterQueryParams): Observable<HttpResponse<T[] & PageableAndSortable>> {
-        return super.query(this.getParams(params));
+    public query(params: XmFilterQueryParams, headers?: HttpHeaders): Observable<HttpResponse<T[] & PageableAndSortable>> {
+        return super.query(this.getParams(params), headers);
     }
 
     public update(entity: Partial<T>, params?: QueryParams, headers?: HttpHeaders): Observable<HttpResponse<T>> {
