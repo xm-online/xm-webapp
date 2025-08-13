@@ -1,5 +1,5 @@
 <xm-loader [showLoader]="showLoader"></xm-loader>
-
+<ng-container *ngIf="show$ | async">
 <div [style]="dashboard?.layout?.style" class="dashboard-container {{dashboard?.layout?.class}}">
   @for (item of dashboard?.layout?.grid; track item) {
     <ng-container *ngTemplateOutlet="dashboardItem; context: {item: item}"></ng-container>
@@ -56,3 +56,4 @@
 } @else {
   <no-data [show]="!dashboard?.layout?.grid?.length"></no-data>
 }
+</ng-container>

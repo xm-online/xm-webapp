@@ -7,10 +7,11 @@ import { XmDynamicControllerInjectorFactoryService } from '@xm-ngx/dynamic';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { XmLoggerService } from '@xm-ngx/logger';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { from, of } from 'rxjs';
-import { mapTo, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, from, of, merge } from 'rxjs';
+import { map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
 import { DashboardBase } from './dashboard-base';
 import { PageTitleService } from './page-title.service';
+import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 
 
 @Component({
@@ -27,6 +28,13 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     public showLoader: boolean;
     public spec: Spec;
     public injector: Injector;
+    private readonly loggingOut$ = new BehaviorSubject<boolean>(false);
+    public readonly show$ = combineLatest([
+        this.session.isActive().pipe(startWith(false)),
+        this.loggingOut$,
+    ]).pipe(
+        map(([active, loggingOut]) => active && !loggingOut)
+    );
     protected dynamicControllerInjectorFactory = inject(XmDynamicControllerInjectorFactoryService);
     private componentInjector = inject(Injector);
 
@@ -36,6 +44,8 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                 private dashboardStore: DashboardStore,
                 private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private pageService: PageService<Page<{ slug?: string }>>,
+                private session: XmSessionService,
+                private eventManager: XmEventManager,
                 loggerService: XmLoggerService,
                 pageTitleService: PageTitleService,
     ) {
@@ -45,7 +55,14 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
 
     public ngOnInit(): void {
         this.xmEntitySpecWrapperService.spec().then((spec) => this.spec = spec);
-
+        this.eventManager.listenTo('USER-LOGOUT-INIT')
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(() => this.loggingOut$.next(true));
+      
+        merge(
+            this.eventManager.listenTo('USER-LOGOUT'),
+            this.eventManager.listenTo('authenticationSuccess'),
+        ).pipe(takeUntilOnDestroy(this)).subscribe(() => this.loggingOut$.next(false));
         this.route.params
             .pipe(takeUntilOnDestroy(this))
             .subscribe(() => {
