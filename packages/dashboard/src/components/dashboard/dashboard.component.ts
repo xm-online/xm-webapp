@@ -55,14 +55,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
 
     public ngOnInit(): void {
         this.xmEntitySpecWrapperService.spec().then((spec) => this.spec = spec);
-        this.eventManager.listenTo('USER-LOGOUT-INIT')
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe(() => this.loggingOut$.next(true));
-      
-        merge(
-            this.eventManager.listenTo('USER-LOGOUT'),
-            this.eventManager.listenTo('authenticationSuccess'),
-        ).pipe(takeUntilOnDestroy(this)).subscribe(() => this.loggingOut$.next(false));
+        this.observeSessionEvents();
         this.route.params
             .pipe(takeUntilOnDestroy(this))
             .subscribe(() => {
@@ -130,5 +123,16 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
             config: layout.widget.config,
             spec: this.spec,
         };
+    }
+
+    private observeSessionEvents(): void {
+        this.eventManager.listenTo('USER-LOGOUT-INIT')
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(() => this.loggingOut$.next(true));
+
+        merge(
+            this.eventManager.listenTo('USER-LOGOUT'),
+            this.eventManager.listenTo('authenticationSuccess'),
+        ).pipe(takeUntilOnDestroy(this)).subscribe(() => this.loggingOut$.next(false));
     }
 }
