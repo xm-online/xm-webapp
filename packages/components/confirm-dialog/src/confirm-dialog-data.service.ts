@@ -3,7 +3,12 @@ import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { ValidatorProcessingService } from '@xm-ngx/components/validator-processing';
 import _ from 'lodash';
 import { BehaviorSubject, filter, map, Observable, of, shareReplay, startWith, Subject, switchMap } from 'rxjs';
-import { XmConfirmDialogComputedData, XmConfirmDialogControls, XmConfirmDialogData, XmConfirmDialogGroup } from './confirm-dialog.interface';
+import {
+    XmConfirmDialogComputedData,
+    XmConfirmDialogControls,
+    XmConfirmDialogData,
+    XmConfirmDialogGroup
+} from './confirm-dialog.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -13,6 +18,9 @@ export class XmConfirmDialogDataService {
     private validatorsService = inject(ValidatorProcessingService);
 
     public form = this.fb.group({});
+
+    // A condition to manipulate manually the form disabled state from groupControl configuration.
+    public isFormDisabledSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
     private _manualClosed = new Subject<unknown>();
 
@@ -43,7 +51,8 @@ export class XmConfirmDialogDataService {
     public hasFormDisabled(): Observable<boolean> {
         return this.form.statusChanges.pipe(
             startWith(true),
-            map(() => this.form.invalid),
+            switchMap(() => this.isFormDisabledSubject),
+            map((state) => state || this.form.invalid),
         );
     }
 
@@ -101,6 +110,10 @@ export class XmConfirmDialogDataService {
         return Object.entries(controls)
             .reduce((group, [key, { type, control: groupControl }]) => {
                 const { value, disabled = false, config: { validators = [], asyncValidators = [] } = {} } = groupControl;
+
+                if (groupControl.config.isFormDisabledSubject) {
+                    this.isFormDisabledSubject = <BehaviorSubject<boolean>>groupControl.config.isFormDisabledSubject;
+                }
 
                 const control = this.fb.control({ value, disabled });
 
