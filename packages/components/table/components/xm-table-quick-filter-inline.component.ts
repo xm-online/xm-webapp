@@ -3,7 +3,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
 import {
-    XmTableFilterButtonDialogControlsComponent,
     XmTableFiltersControlRequestConfig,
 } from './xm-table-filter-button-dialog-controls.component';
 import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
@@ -20,16 +19,17 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
     selector: 'xm-table-quick-filter-inline',
     standalone: true,
     template: `
-        <div class="d-flex quick-filter-block">
-        <span *ngIf="!config?.isOnlyExpand" class="xm-filters-btn">
-            <button (click)="toggleFilters()"
-                    class="ms-2 mb-2 filter-btn"
-                    color="accent"
-                    mat-icon-button
-                    type="button">
-                <mat-icon>filter_list</mat-icon>
-            </button>
-        </span>
+        <div class="d-flex quick-filter-block" [style]="config?.quickFilterInlineContainerStyle">
+            <span *ngIf="!config?.isOnlyExpand" class="xm-filters-btn">
+                <button (click)="toggleFilters()"
+                        class="ms-2 mb-2 filter-btn"
+                        color="accent"
+                        mat-icon-button
+                        type="button">
+                    <mat-icon>filter_list</mat-icon>
+                </button>
+            </span>
+
             <ng-container *ngIf="!(config?.quickFilters | xmEmpty)">
                 <div class="quick-filter-holder">
                     <xm-quick-filters-control-request
@@ -40,7 +40,7 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
                         [ngClass]="{'xm-filters-control-hidden': filterExpand}">
                     </xm-quick-filters-control-request>
 
-                    <button mat-button *ngIf="hasActiveFilters"
+                    <button mat-button *ngIf="!config?.hideResetButton && hasActiveFilters"
                             class="me-3"
                             (click)="reset()">
                         {{ 'table.filter.button.reset' | xmTranslate }}
@@ -80,7 +80,6 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
     `],
     imports: [
         MatButtonModule,
-        XmTableFilterButtonDialogControlsComponent,
         XmEmptyPipe,
         NgIf,
         MatIconModule,

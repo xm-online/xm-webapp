@@ -1,19 +1,19 @@
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { CommonModule } from '@angular/common';
 import { Component, Input, NgModule, OnInit, Type, ViewChild } from '@angular/core';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
-import * as _ from 'lodash';
-import { HintModule, HintText } from '@xm-ngx/components/hint';
-import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
-import { CommonModule } from '@angular/common';
+import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { ControlErrorModule } from '@xm-ngx/components/control-error';
-import { XmTranslationModule } from '@xm-ngx/translation';
-import { XmDynamicEntryModule } from '@xm-ngx/dynamic';
-import { MatSelect, MatSelectModule } from '@angular/material/select';
-import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
+import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
+import { XmDynamicEntryModule } from '@xm-ngx/dynamic';
+import { XmTranslationModule } from '@xm-ngx/translation';
+import * as _ from 'lodash';
 
 export interface XmMultiSelectConfig {
     title?: string;
@@ -62,7 +62,7 @@ type XmMultiSelectItemOrString = XmMultiSelectItem | string;
                     <ng-template #someSelected>
                         {{ (selectedLength ? selectedValues[0] : '') | translate }}
                         <span *ngIf="selectedLength > 1" class="small">
-          (+{{selectedLength - 1}} {{(selectedLength === 2 ? 'xm-enum.other' : 'xm-enum.others')  | translate}}
+          (+{{ selectedLength - 1 }} {{ (selectedLength === 2 ? 'xm-enum.other' : 'xm-enum.others')  | translate }}
                             )
         </span>
                     </ng-template>
@@ -77,9 +77,9 @@ type XmMultiSelectItemOrString = XmMultiSelectItem | string;
                      (click)="toggleAll()">
 
                     <mat-pseudo-checkbox
-                        class="mat-option-pseudo-checkbox"
-                        [disabled]="disabled"
-                        [state]="allItemsSelected() ? 'checked' : 'unchecked'"></mat-pseudo-checkbox>
+                            class="mat-option-pseudo-checkbox"
+                            [disabled]="disabled"
+                            [state]="allItemsSelected() ? 'checked' : 'unchecked'"></mat-pseudo-checkbox>
 
                     <span class="mat-option-text">{{ 'xm-enum.all' | translate }}</span>
                 </div>
@@ -88,7 +88,7 @@ type XmMultiSelectItemOrString = XmMultiSelectItem | string;
                             class="multiselect-option"
                             [disabled]="disabled"
                             [value]="item?.valueKey">
-                    {{ item?.titleKey | translate  }}
+                    {{ item?.titleKey | translate }}
                 </mat-option>
 
             </mat-select>
@@ -100,9 +100,17 @@ type XmMultiSelectItemOrString = XmMultiSelectItem | string;
         </mat-error>
     `,
     styleUrls: ['./multi-select.component.scss'],
+    standalone: false,
 })
 export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> implements OnInit {
+    @ViewChild(MatSelect, {static: false}) public matSelect: MatSelect;
+    public items: XmMultiSelectItem[] = [];
+
     private _config: XmMultiSelectConfigOptional;
+
+    get config(): XmMultiSelectConfigOptional {
+        return this._config;
+    }
 
     @Input() set config(config: XmMultiSelectConfigOptional) {
         this._config = _.defaultsDeep(config, {
@@ -115,22 +123,15 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
 
         this._syncControl();
     }
-    get config(): XmMultiSelectConfigOptional {
-        return this._config;
+
+    get required(): boolean {
+        return this.control.hasValidator(Validators.required);
     }
 
     @Input() set required(value: boolean) {
         value
             ? this.control.addValidators(Validators.required)
             : this.control.removeValidators(Validators.required);
-    }
-    get required(): boolean {
-        return this.control.hasValidator(Validators.required);
-    }
-
-    @Input()
-    public selected(value: XmMultiSelectItemOrString[]): void {
-        this.change(this._toModel(value));
     }
 
     public get selectedValues(): string[] {
@@ -141,9 +142,10 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
         return this.selectedValues?.length;
     }
 
-    @ViewChild(MatSelect, {static: false}) public matSelect: MatSelect;
-
-    public items: XmMultiSelectItem[] = [];
+    @Input()
+    public selected(value: XmMultiSelectItemOrString[]): void {
+        this.change(this._toModel(value));
+    }
 
     public ngOnInit(): void {
         this._syncControl();
@@ -219,8 +221,8 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
 }
 
 @NgModule({
-    declarations: [ XmMultiSelectControlComponent ],
-    exports: [ XmMultiSelectControlComponent ],
+    declarations: [XmMultiSelectControlComponent],
+    exports: [XmMultiSelectControlComponent],
     imports: [
         CommonModule,
         MatFormFieldModule,

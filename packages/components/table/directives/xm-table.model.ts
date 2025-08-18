@@ -1,8 +1,9 @@
-import { XmTableCollectionControllerType, } from '../collections/xm-table-collection-controller-resolver.service';
+import { XmTableCollectionControllerType } from '../collections/xm-table-collection-controller-resolver.service';
 import { PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
 import {
     XmTableQueryParamsFilter,
+    XmTableSelectionConfig,
     XmTableWithColumnDynamicCellOptionsPagination,
 } from '../table-widget/xm-table-widget.config';
 
@@ -19,9 +20,13 @@ export interface XmTableConfig {
     isCollapsed: boolean;
     isExpandable: boolean;
     showFilterChips?: boolean;
+    showQuickFilterInsteadOfTitle?: boolean;
     popUpFilter?: boolean;
     showQuickFilters?: boolean;
     navigation?: XmTableNavigation;
+    selection?: XmTableSelectionConfig;
+    skipLoadOnInit?: boolean;
+    isSkeletonLoading?: boolean;
 }
 
 export interface XmTableNavigation {
@@ -37,6 +42,7 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
         ...{
             pageSizeOptions: [],
             hidePagination: false,
+            showFirstLastButtons: true,
         },
     },
     storageKey: '',

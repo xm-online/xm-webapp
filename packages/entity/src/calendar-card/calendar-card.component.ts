@@ -1,22 +1,11 @@
-import {
-    Component,
-    Input,
-    OnChanges,
-    SimpleChanges,
-} from '@angular/core';
-import {
-    Calendar,
-    CalendarSpec,
-    XmEntity,
-    XmEntityService,
-} from '@xm-ngx/core/entity';
-import { EntityCalendarUiConfig, EntityUiConfig } from '@xm-ngx/core/config';
 // import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
 import { HttpResponse } from '@angular/common/http';
-import { UUID } from 'angular2-uuid';
-import { I18nNamePipe } from '@xm-ngx/translation';
-import { XmConfigService } from '@xm-ngx/core/config';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { EntityCalendarUiConfig, EntityUiConfig, XmConfigService } from '@xm-ngx/core/config';
+import { Calendar, CalendarSpec, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
+import { I18nNamePipe } from '@xm-ngx/translation';
+import { UUID } from 'angular2-uuid';
 import { switchMap, tap } from 'rxjs/operators';
 import { CalendarChangeService } from './calendar-view/calendar-change.service';
 
@@ -26,6 +15,7 @@ export const DEFAULT_CALENDAR_EVENT_FETCH_SIZE = 2500;
     selector: 'xm-calendar-card',
     templateUrl: './calendar-card.component.html',
     styleUrls: ['./calendar-card.component.scss'],
+    standalone: false,
 })
 export class CalendarCardComponent implements OnChanges {
 
@@ -54,6 +44,15 @@ export class CalendarCardComponent implements OnChanges {
 
     public onCalendarChange(): void {
         this.calendarChangeService.changeCalendar();
+    }
+
+    public getCalendarConfig(calendar: Calendar): EntityCalendarUiConfig {
+        return this.calendarConfig
+            .find((el) => el.typeKey === calendar.typeKey) || {} as EntityCalendarUiConfig;
+    }
+
+    public getCalendarSpec(calendar: Calendar): CalendarSpec {
+        return this.calendarSpecs.filter(spec => spec.key === calendar.typeKey).shift();
     }
 
     private load(): void {
@@ -108,15 +107,6 @@ export class CalendarCardComponent implements OnChanges {
                 });
                 this.currentCalendar = this.calendars[0];
             });
-    }
-
-    public getCalendarConfig(calendar: Calendar): EntityCalendarUiConfig {
-        return this.calendarConfig
-            .find((el) => el.typeKey === calendar.typeKey) || {} as EntityCalendarUiConfig;
-    }
-
-    public getCalendarSpec(calendar: Calendar): CalendarSpec {
-        return this.calendarSpecs.filter(spec => spec.key === calendar.typeKey).shift();
     }
 
     private getReadonly(calendar: Calendar, specs: CalendarSpec[]): boolean {

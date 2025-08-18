@@ -1,18 +1,17 @@
 import { ChangeDetectorRef, Component, inject, Injector, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Dashboard, DashboardStore, Page, PageService } from '@xm-ngx/core/dashboard';
+import { XmDynamicControllerInjectorFactoryService } from '@xm-ngx/dynamic';
 
 // import { environment } from '@xm-ngx/core/environment';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { XmLoggerService } from '@xm-ngx/logger';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { Page, PageService } from '@xm-ngx/core/dashboard';
-import { Dashboard } from '@xm-ngx/core/dashboard';
+import { BehaviorSubject, combineLatest, from, of, merge } from 'rxjs';
+import { map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
 import { DashboardBase } from './dashboard-base';
 import { PageTitleService } from './page-title.service';
-import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { from, of } from 'rxjs';
-import { mapTo, switchMap, tap } from 'rxjs/operators';
-import { XmDynamicControllerInjectorFactoryService } from '@xm-ngx/dynamic';
+import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 
 
 @Component({
@@ -20,6 +19,7 @@ import { XmDynamicControllerInjectorFactoryService } from '@xm-ngx/dynamic';
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
     providers: [PageTitleService],
+    standalone: false,
 })
 export class DashboardComponent extends DashboardBase implements OnInit, OnDestroy {
     public childrenDashboards: Dashboard[] = [];
@@ -28,6 +28,13 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     public showLoader: boolean;
     public spec: Spec;
     public injector: Injector;
+    private readonly loggingOut$ = new BehaviorSubject<boolean>(false);
+    public readonly show$ = combineLatest([
+        this.session.isActive().pipe(startWith(false)),
+        this.loggingOut$,
+    ]).pipe(
+        map(([active, loggingOut]) => active && !loggingOut)
+    );
     protected dynamicControllerInjectorFactory = inject(XmDynamicControllerInjectorFactoryService);
     private componentInjector = inject(Injector);
 
@@ -37,6 +44,8 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                 private dashboardStore: DashboardStore,
                 private xmEntitySpecWrapperService: XmEntitySpecWrapperService,
                 private pageService: PageService<Page<{ slug?: string }>>,
+                private session: XmSessionService,
+                private eventManager: XmEventManager,
                 loggerService: XmLoggerService,
                 pageTitleService: PageTitleService,
     ) {
@@ -46,7 +55,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
 
     public ngOnInit(): void {
         this.xmEntitySpecWrapperService.spec().then((spec) => this.spec = spec);
-
+        this.observeSessionEvents();
         this.route.params
             .pipe(takeUntilOnDestroy(this))
             .subscribe(() => {
@@ -114,5 +123,16 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
             config: layout.widget.config,
             spec: this.spec,
         };
+    }
+
+    private observeSessionEvents(): void {
+        this.eventManager.listenTo('USER-LOGOUT-INIT')
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(() => this.loggingOut$.next(true));
+
+        merge(
+            this.eventManager.listenTo('USER-LOGOUT'),
+            this.eventManager.listenTo('authenticationSuccess'),
+        ).pipe(takeUntilOnDestroy(this)).subscribe(() => this.loggingOut$.next(false));
     }
 }

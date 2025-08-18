@@ -1,16 +1,14 @@
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {HttpClient} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
-import {UntypedFormControl} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { UntypedFormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import {
     XmAceEditorControlModeEnum,
     XmAceEditorControlOptions,
-    XmAceEditorControlTypeEnum
+    XmAceEditorControlTypeEnum,
 } from '@xm-ngx/components/ace-editor';
-import {FunctionSpec, XmEntitySpec, XmEntitySpecWrapperService} from '@xm-ngx/entity';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {map, startWith, tap} from 'rxjs/operators';
+import { FunctionSpec, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 
 import {
     addValidationComponent,
@@ -19,7 +17,9 @@ import {
     getJsfWidgets,
     processValidationMessages,
 } from '@xm-ngx/json-schema-form';
-import {EXAMPLES} from './example-schemas.model';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map, startWith, tap } from 'rxjs/operators';
+import { EXAMPLES } from './example-schemas.model';
 
 interface FormsConfig {
     key: string;
@@ -33,16 +33,17 @@ interface FormsConfig {
     templateUrl: './form-playground.component.html',
     animations: [
         trigger('expandSection', [
-            state('in', style({ height: '*' })),
+            state('in', style({height: '*'})),
             transition(':enter', [
-                style({ height: 0 }), animate(100),
+                style({height: 0}), animate(100),
             ]),
             transition(':leave', [
-                style({ height: '*' }),
-                animate(100, style({ height: 0 })),
+                style({height: '*'}),
+                animate(100, style({height: 0})),
             ]),
         ]),
     ],
+    standalone: false,
 })
 export class FormPlaygroundComponent implements OnInit {
 
@@ -72,7 +73,7 @@ export class FormPlaygroundComponent implements OnInit {
     public jsonFormOptions: any = {
         addSubmit: true, // Add a submit button if layout does not have one
         loadExternalAssets: true, // Load external css and JavaScript for frameworks
-        formDefaults: { feedback: true }, // Show inline feedback icons
+        formDefaults: {feedback: true}, // Show inline feedback icons
         debug: false,
         returnEmptyFields: false,
     };
@@ -283,7 +284,7 @@ export class FormPlaygroundComponent implements OnInit {
         if (spec.dataSpec || spec.dataForm) {
             const dataSpec = spec.dataSpec ? spec.dataSpec : '{}';
             const dataForm = spec.dataForm ? spec.dataForm : '[]';
-            const item = { key: 'dataForm', title: 'dataForm', dataSpec, dataForm };
+            const item = {key: 'dataForm', title: 'dataForm', dataSpec, dataForm};
             xmForms.push(item);
         }
         xmForms.push(...spec.functions.map((item) => this.functionSpecToFormConfig(item)));
@@ -300,7 +301,7 @@ export class FormPlaygroundComponent implements OnInit {
     }
 
     private getSchemaTemplate(file: string): Observable<string> {
-        return this.http.get(`assets/example-schemas/${file}.json`, { responseType: 'text' });
+        return this.http.get(`assets/example-schemas/${file}.json`, {responseType: 'text'});
     }
 
     private _filterSpec(value: string): XmEntitySpec[] {

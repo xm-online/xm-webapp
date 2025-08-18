@@ -1,21 +1,20 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { PageableAndSortable, QueryParamsPageable } from '@xm-ngx/repositories';
-import { get, isFunction, merge } from 'lodash';
+import { get, merge } from 'lodash';
 import {
     XmTableQueryParamsFilter,
-    XmTableQueryParamsFilterValue,
     XmTableWithColumnDynamicCellOptionsPagination,
 } from '../../table-widget/xm-table-widget.config';
 import { flattenObjectDeep, unFlattenObjectDeep } from '@xm-ngx/operators';
 import { XmTableConfig } from '../../directives/xm-table.model';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map, BehaviorSubject, distinctUntilChanged, filter } from 'rxjs';
 
 @Injectable()
 export class XmTableQueryParamsStoreService {
     private router = inject(Router);
     private route = inject(ActivatedRoute);
+    private queryParamsSub: BehaviorSubject<QueryParamsPageable> = new BehaviorSubject(null as QueryParamsPageable);
 
     private _key: string;
 
@@ -43,6 +42,8 @@ export class XmTableQueryParamsStoreService {
             ...flattenedParams,
         };
 
+        this.queryParamsSub.next(queryParams);
+
         this.router.navigate(
             [],
             {
@@ -66,50 +67,42 @@ export class XmTableQueryParamsStoreService {
     }
 
     public listenQueryParamsToFilter(queryParamsFilter?: XmTableQueryParamsFilter): Observable<Params> {
+        const filterParams = Object.entries(queryParamsFilter ?? {});
+
         return this.route.queryParams.pipe(
-            map((queryParams) => {
-                return this.filterParams(
-                    queryParams,
-                    queryParamsFilter,
-                    (filter) => coerceBooleanProperty(filter.update),
-                );
+            filter((queryParams) => {
+                return filterParams
+                    .filter(([key]) => queryParams[key] != null)
+                    .length > 0;
             }),
-        );
-    }
+            distinctUntilChanged((prev, curr) => {
+                const changedKeys = filterParams.filter(([key]) => prev[key] !== curr[key]);
 
-    public queryParamsToFilter(queryParamsFilter?: XmTableQueryParamsFilter): Observable<Params> {
-        return of(this.route.snapshot.queryParams).pipe(
-            map((queryParams) => {
-                return this.filterParams(queryParams, queryParamsFilter);
-            }),
-        );
-    }
-
-    public filterParams(
-        queryParams: Params,
-        queryParamsFilter: XmTableQueryParamsFilter,
-        queryParamsCriteria?: (value: XmTableQueryParamsFilterValue) => boolean,
-    ): Params {
-        return Object.entries(queryParamsFilter ?? {})
-            .filter(([, filter]) => {
-                if (isFunction(queryParamsCriteria)) {
-                    return queryParamsCriteria(filter);
+                // Keys changed, so allow emission
+                if (changedKeys.length > 0) {
+                    return false;
                 }
 
                 return true;
-            })
-            .reduce((acc, [key, filter]) => {
-                const param = queryParams[key] as string;
+            }),
+            map((queryParams) => {
+                const combineParams = filterParams
+                    .reduce((acc, [key, filter]) => {
+                        const param = queryParams[key] as string;
 
-                if (!param) {
-                    return acc;
-                }
+                        if (!param) {
+                            return acc;
+                        }
 
-                return {
-                    ...acc,
-                    [filter.name]: param,
-                };
-            }, this.getByKey('filterParams'));
+                        return {
+                            ...acc,
+                            [filter.name]: param,
+                        };
+                    }, this.getByKey('filterParams'));
+
+                return combineParams;
+            }),
+        );
     }
 
     public get(): QueryParamsPageable {
@@ -131,5 +124,9 @@ export class XmTableQueryParamsStoreService {
             }
         });
         return changedValues;
+    }
+
+    public getQueryParamsValue(): QueryParamsPageable {
+        return this.queryParamsSub.getValue();
     }
 }

@@ -3,18 +3,18 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
-import { XmToasterService } from '@xm-ngx/toaster';
-import { ReplaySubject, Subscription } from 'rxjs';
 import { Principal } from '@xm-ngx/core/user';
 
 import {
     EntityDetailDialogComponent,
+    FunctionCallDialogComponent,
     Spec,
     XmEntity,
     XmEntitySpec,
     XmEntitySpecWrapperService,
 } from '@xm-ngx/entity';
-import { FunctionCallDialogComponent } from '@xm-ngx/entity';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { ReplaySubject, Subscription } from 'rxjs';
 import { pluck, takeUntil } from 'rxjs/operators';
 
 const XM_EVENT_LIST = {
@@ -30,6 +30,7 @@ const ENTITY_SELECTED = 'xm-entity-selected';
     selector: 'xm-entity-fab-actions',
     templateUrl: './entity-fab-actions.component.html',
     styleUrls: ['./entity-fab-actions.component.scss'],
+    standalone: false,
 })
 export class EntityFabActionsComponent implements OnInit, OnDestroy {
 

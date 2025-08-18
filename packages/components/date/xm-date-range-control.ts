@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Inject, Input, LOCALE_ID, OnDestroy, Optional, Self } from '@angular/core';
-import { FormControl, FormGroup, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, NgControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,6 +17,7 @@ import { TransformDateStringCodec } from './transform-date-string-codec.service'
 import { cloneDeep, defaultsDeep } from 'lodash';
 import { DateAdapter } from '@angular/material/core';
 import { CustomDateAdapter } from './shared/custom-date-adapter';
+import { coerceNumberProperty } from '@angular/cdk/coercion';
 
 export interface XmDateRangeControlConfig {
     hint?: HintText;
@@ -30,7 +31,14 @@ export interface XmDateRangeControlConfig {
         separator: string;
     }
     intervalFromMinDateInDays?: number;
+    maxRangeInDays?: number;
     hideClear?: boolean;
+    defaultValues?: {
+        from?: number,
+        to?: number,
+    }
+    required?: boolean,
+
 }
 
 export type XmDateRangeValue = XmDateValue | string | number;
@@ -60,12 +68,13 @@ export const XM_DATE_RANGE_CONTROL_CONFIG_DEFAULT: XmDateRangeControlConfig = {
     selector: 'xm-date-range-control',
     template: `
         <mat-form-field>
-            <mat-label>{{config.title | xmTranslate}}</mat-label>
+            <mat-label>{{ config.title | xmTranslate }}</mat-label>
             <mat-date-range-input [formGroup]="group"
                                   [min]="minDate"
+                                  [max]="maxDate"
                                   [rangePicker]="picker">
                 <input matStartDate
-                       (dateChange)="dateChanged()"
+                       (dateChange)="dateChanged(); checkMaxRange()"
                        (focus)="picker.open()"
                        [name]="config.fromName ?? 'from'"
                        formControlName="from">
@@ -78,7 +87,8 @@ export const XM_DATE_RANGE_CONTROL_CONFIG_DEFAULT: XmDateRangeControlConfig = {
 
             <span matSuffix class="d-flex">
                 <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
-                <button mat-icon-button *ngIf="(value !== null) && !config?.hideClear" [disabled]="group.disabled" (click)="clear($event)">
+                <button mat-icon-button *ngIf="(value !== null) && !config?.hideClear" [disabled]="group.disabled"
+                        (click)="clear($event)">
                     <mat-icon>close</mat-icon>
                 </button>
             </span>
@@ -86,13 +96,14 @@ export const XM_DATE_RANGE_CONTROL_CONFIG_DEFAULT: XmDateRangeControlConfig = {
             <mat-date-range-picker #picker></mat-date-range-picker>
 
             <mat-error
-                *xmControlErrors="group?.errors || group?.controls.from?.errors || group?.controls.to?.errors; message as message">{{message}}</mat-error>
+                *xmControlErrors="group?.errors || group?.controls.from?.errors || group?.controls.to?.errors; message as message">{{ message }}
+            </mat-error>
             <mat-hint [hint]="config?.hint"></mat-hint>
         </mat-form-field>
     `,
     providers: [
         TransformDateStringCodec,
-        { provide: DateAdapter, useClass: CustomDateAdapter },
+        {provide: DateAdapter, useClass: CustomDateAdapter},
     ],
     imports: [
         CommonModule,
@@ -115,6 +126,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
     });
     private refreshDate = new Subject<void>();
     public minDate: Date | null;
+    public maxDate: Date | null;
 
     constructor(
         private transformDateStringCodec: TransformDateStringCodec,
@@ -139,14 +151,21 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
 
     @Input()
     public set value(value: XmDateRangeValueOrString) {
-        this._value = defaultsDeep(cloneDeep(value), { from: '', to: '' });
+        this._value = defaultsDeep(cloneDeep(value), {from: '', to: ''});
         this.syncValue(value);
     }
 
     public ngAfterViewInit(): void {
+        this.validDateFields();
+        const defaultModel = this.getDefaultModel();
+        if (defaultModel.from != '' && defaultModel.to != '') {
+            this.syncValue(defaultModel);
+            this.change(defaultModel);
+        }
+
         this.refreshDate.pipe(
             map(() => this.group.value),
-            filter(({ to }) => !!to),
+            filter(({to}) => !!to),
             takeUntilOnDestroy(this),
         ).subscribe((dates) => {
             let value: XmDateRangeValueOrString;
@@ -154,7 +173,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
             if (this._config.valueType === 'string') {
                 value = this.transformDateStringCodec.fromModel(dates as XmDateRangeControlValue);
             } else {
-                value = { from: dates.from, to: dates.to };
+                value = {from: dates?.from, to: dates?.to};
             }
 
             this.change(value);
@@ -163,8 +182,8 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
 
     public setDisabledState(isDisabled: boolean): void {
         isDisabled
-            ? this.group.disable({ emitEvent: false })
-            : this.group.enable({ emitEvent: false });
+            ? this.group.disable({emitEvent: false})
+            : this.group.enable({emitEvent: false});
     }
 
     public writeValue(value: XmDateRangeValueOrString): void {
@@ -174,6 +193,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
     }
 
     public change(value: XmDateRangeValueOrString): void {
+        this.validDateFields();
         this._onChange(value);
         this.valueChange.next(value);
     }
@@ -181,18 +201,53 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
     public clear(event: MouseEvent): void {
         event.stopPropagation();
         this.group.reset(null, {emitEvent: true});
-        this.change(null);
+        this.group.markAllAsTouched();
+        this.change({from: '', to: ''});
+        this.validDateFields();
+
+        if (this.config.maxRangeInDays) {
+            this.minDate = this.maxDate = null;
+        }
     }
 
     public dateChanged(): void {
         this.refreshDate.next();
     }
 
+    public checkMaxRange(): void {
+        if (!this.config.maxRangeInDays) return;
+
+        const from = this.group.get('from').value;
+        const to = this.group.get('to').value;
+
+        if (!from) return;
+
+        const maxDate = new Date(from);
+        maxDate.setHours(23, 59, 59);
+        maxDate.setDate(maxDate.getDate() + this.config.maxRangeInDays);
+
+        this.maxDate = maxDate;
+
+        if (to) {
+            const MS_PER_DAY = 24 * 60 * 60 * 1000;
+            const FROM_DATE = new Date(from);
+            const TO_DATE = new Date(to);
+            const diff = Math.floor((TO_DATE.getTime() - FROM_DATE.getTime()) / MS_PER_DAY);
+
+            if (diff > this.config.maxRangeInDays) {
+                const updatedToDate = new Date(to);
+                updatedToDate.setDate(updatedToDate.getDate() - (diff - this.config.maxRangeInDays));
+                this.group.get('to').patchValue(updatedToDate);
+                this.dateChanged();
+            }
+        }
+    }
+
     public defineStartDate(): Date | undefined {
         if (this.config?.intervalFromMinDateInDays) {
             const startDate = new Date();
-            const midNightHours = this.config?.intervalFromMinDateInDays*24;
-            startDate.setHours( midNightHours,0,0,0);
+            const midNightHours = this.config?.intervalFromMinDateInDays * 24;
+            startDate.setHours(midNightHours, 0, 0, 0);
             return new Date(startDate);
         }
 
@@ -222,7 +277,55 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         if (!model) {
             this.group.reset();
         } else if (typeof model !== 'string') {
-            this.group.patchValue(model, { emitEvent: false });
+            this.group.patchValue(model, {emitEvent: false});
         }
+
+        this.checkMaxRange();
+    }
+
+    private getDefaultModel(): XmDateRangeControlValue {
+        if (!this.config.defaultValues) {
+            return {
+                from: '',
+                to: ''
+            };
+        }
+        const {
+            from: rawFrom,
+            to: rawTo
+        } = this.config.defaultValues;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const from = coerceNumberProperty(rawFrom);
+        const to = coerceNumberProperty(rawTo);
+        const fromDate = new Date();
+        const toDate = new Date();
+        if (!isNaN(from)) {
+            fromDate.setDate(today.getDate() - from);
+        }
+        if (!isNaN(to)) {
+            toDate.setDate(today.getDate() + to);
+        }
+        return {
+            from: fromDate,
+            to: toDate,
+        };
+    }
+
+
+    public validDateFields(): void {
+        if (this.config?.required) {
+            const fromControl = this.group.get('from');
+            const toControl = this.group.get('to');
+            fromControl?.setValidators(Validators.required);
+            toControl?.setValidators(Validators.required);
+            if (!fromControl.value || !toControl.value) {
+                this.group.setErrors({required: true});
+            } else {
+                this.group.setErrors(null);
+            }
+        }
+        this.group.markAllAsTouched();
+        this.group.updateValueAndValidity();
     }
 }

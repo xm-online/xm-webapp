@@ -19,3 +19,5 @@ export {
 } from './elastic/xm-table-filters-elastic-string-query.model';
 
 export * from './repository/xm-repository-request-builder.service';
+
+export * from './export-button/xm-table-export-button.controller.service';

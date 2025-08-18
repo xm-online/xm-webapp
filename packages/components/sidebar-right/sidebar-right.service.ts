@@ -4,6 +4,7 @@ import { Container } from './container';
 
 export interface SidebarRightConfig<D> {
     width?: string;
+    mode?: 'side' | 'over'
     data: D;
     injector: Injector;
 }
@@ -14,6 +15,16 @@ export class SidebarRightService {
     private container: Container | null | undefined;
 
     public width: string = '300px';
+    private justOpened = false;
+
+    public markJustOpened(): void {
+        this.justOpened = true;
+        setTimeout(() => (this.justOpened = false), 100);
+    }
+    
+    public wasJustOpened(): boolean {
+        return this.justOpened;
+    }
 
     public setContainer(container: Container): void {
         this.container = container;

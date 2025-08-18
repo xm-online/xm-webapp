@@ -9,6 +9,7 @@ export interface TableData {
     selector: 'xm-md-table',
     templateUrl: './md-table.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false,
 })
 export class MdTableComponent {
 

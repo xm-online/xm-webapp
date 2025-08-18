@@ -1,20 +1,21 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {
     XmAceEditorControlModeEnum,
     XmAceEditorControlOptions,
-    XmAceEditorControlTypeEnum
+    XmAceEditorControlTypeEnum,
 } from '@xm-ngx/components/ace-editor';
-import {StatesManagementDialogComponent} from '@xm-ngx/entity';
 import { XmConfigService, XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
-
-import {ConfigValidatorUtil} from '../config-validator/config-validator.util';
-import {ConfigVisualizerDialogComponent} from '../config-visualizer-dialog/config-visualizer-dialog.component';
+import { StatesManagementDialogComponent } from '@xm-ngx/entity';
 import { firstValueFrom } from 'rxjs';
+
+import { ConfigValidatorUtil } from '../config-validator/config-validator.util';
+import { ConfigVisualizerDialogComponent } from '../config-visualizer-dialog/config-visualizer-dialog.component';
 
 @Component({
     selector: 'xm-entity-spec-mng',
     templateUrl: './entity-spec-management.component.html',
+    standalone: false,
 })
 export class EntitySpecManagementComponent implements OnInit {
 
@@ -65,7 +66,7 @@ export class EntitySpecManagementComponent implements OnInit {
     public validateXmEntitySpec(): void {
         const errors = ConfigValidatorUtil.validate(this.entitySpecificationOut);
         if (errors && errors.length) {
-            this.entityValidation = { errorMessage: '' };
+            this.entityValidation = {errorMessage: ''};
             for (const err of errors) {
                 this.entityValidation.errorMessage += err.message + (err.path ? ` path: ${err.path}` : '') + '<br/>';
                 if (err.line) {
@@ -80,12 +81,12 @@ export class EntitySpecManagementComponent implements OnInit {
     public onShowConfigVisualizerDialog(): void {
         const modalRef = this.modalService
             .open(ConfigVisualizerDialogComponent,
-                { width: '80vw' });
+                {width: '80vw'});
         modalRef.componentInstance.entitySpecification = this.entitySpecificationOut;
     }
 
     public onShowConfigStatesManagementDialog(): void {
-        this.modalService.open(StatesManagementDialogComponent, { width: '500px' });
+        this.modalService.open(StatesManagementDialogComponent, {width: '500px'});
     }
 
 

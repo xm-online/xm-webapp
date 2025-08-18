@@ -14,6 +14,7 @@ declare let skanaar: any;
 @Component({
     selector: 'xm-architecture',
     templateUrl: './architecture.component.html',
+    standalone: false,
 })
 export class ArchitectureComponent implements OnInit {
 
@@ -152,14 +153,13 @@ export class ArchitectureComponent implements OnInit {
     private typeToString(type: string): string {
         return type ? `<${type}> ` : '';
     }
-
 }
 
 @NgModule({
     imports: [CommonModule, XmSharedModule],
     exports: [ArchitectureComponent],
     declarations: [ArchitectureComponent],
-    providers: []
+    providers: [],
 })
 export class HighLevelArchitectureWidgetModule {
     public entry: Type<ArchitectureComponent> = ArchitectureComponent;

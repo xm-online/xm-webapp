@@ -11,6 +11,15 @@ export class XmTableSelectionService<T> {
     public selection: SelectionModel<T> = new SelectionModel<T>(true, []);
     private selections$ = new BehaviorSubject({});
 
+    private selections: Record<string, SelectionModel<T>> = {};
+    public getSelectionModel(key: string): SelectionModel<T> {
+        if (!this.selections[key]) {
+            this.selections[key] = new SelectionModel<T>(true, []);
+        }
+
+        return this.selections[key];
+    }
+
     public push<T>(key: string = 'table-selection', value: SelectionModel<T>): void {
         this.selections$.next({...this.selections$.value, [key]: value});
     }
@@ -26,5 +35,9 @@ export class XmTableSelectionService<T> {
         const state = this.selections$.value;
         unset(state, key);
         this.selections$.next(state);
+    }
+
+    public getSelection<T>(key: string = 'table-selection'): SelectionModel<T> {
+        return this.selections$.value[key];
     }
 }

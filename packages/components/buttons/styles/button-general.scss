@@ -1,0 +1,7 @@
+:host {
+  button[disabled] {
+    pointer-events: none;
+    color: var(--mdc-protected-button-disabled-label-text-color) !important;
+    background-color: var(--mdc-protected-button-disabled-container-color) !important;
+  }
+}

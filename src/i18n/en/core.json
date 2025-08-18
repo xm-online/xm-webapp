@@ -212,7 +212,7 @@
     "id": "Id",
     "info": "Info",
     "editor": "Editor",
-    "samples":  "Samples",
+    "samples": "Samples",
     "import": "Import",
     "delete-existing-dashboards": "Delete existing dashboards?",
     "layout": "Layout",
@@ -557,6 +557,7 @@
     },
     "new": "New",
     "noData": "No data!",
+    "loading-data": "Please wait. Data is loading...",
     "perPage": "items per page",
     "rest-select-none-option": "None",
     "rest-select-placeholder-noresults": "No results found",
@@ -1038,7 +1039,8 @@
       "min": "The minimum value is {{min}}.",
       "minlength": "Must be at least {{requiredLength}} characters.",
       "pattern": "Field filled incorrectly.",
-      "required": "The field is required."
+      "required": "The field is required.",
+      "invalidUrl": "Invalid URL format"
     }
   },
   "xm-entity": {
@@ -1686,8 +1688,72 @@
       "code-valid": "The code is valid for 2 minutes. Do not share this code with anyone.",
       "no-sms": "Didn't receive an SMS?",
       "more-sms": "Send again",
-      "signUp":"Registration",
+      "signUp": "Registration",
       "signUp-no-account": "No account?"
+    }
+  },
+  "transfer-dashboards": {
+    "actions": {
+      "next": "Next",
+      "back": "Back",
+      "transfer": "Transfer",
+      "nextWithoutUpdatingRoles": "Next (without update roles)",
+      "updateRoles": "Update roles",
+      "doItAgain": "Do it again"
+    },
+    "steps": {
+      "actionTypeStepLabel": "What do you want to do?",
+      "actionTypeStepTitle": "Select action",
+      "environmentStepLabel": "Enter environment data",
+      "environmentStepTitle": "Environment data",
+      "dashboardsStepLabel": "What dashboards you want to transfer?",
+      "dashboardsStepTitle": "Dashboards",
+      "dashboardsConfirmationStepLabel": "Confirm your dashboards selection",
+      "dashboardsConfirmationStepTitle": "Confirm your dashboards selection",
+      "rolesStepLabel": "What roles you want to update?",
+      "rolesStepTitle": "Roles",
+      "rolesConfirmationStepLabel": "Confirm your roles selection",
+      "rolesConfirmationStepTitle": "Confirm your roles selection",
+      "doneStepLabel": "Done"
+    },
+    "actionTypeStep": {
+      "transferDashboards": "Transfer dashboards",
+      "updateRoles": "Update roles"
+    },
+    "envStep": {
+      "urlLabel": "Environment url",
+      "urlPlaceholder": "Enter environment url",
+      "tokenLabel": "Token",
+      "tokenPlaceholder": "Enter token"
+    },
+    "dashboardsStep": {
+      "searchLabel": "Search dashboards by name",
+      "searchPlaceholder": "Enter dashboard name",
+      "selectAllDashboards": "Select all dashboards"
+    },
+    "rolesStep": {
+      "searchLabel": "Search roles by roleKey",
+      "searchPlaceholder": "Enter role roleKey",
+      "selectAllRoles": "Select all roles"
+    },
+    "doneStep": {
+      "title": "Congratulations!",
+      "successTransferredDashboards": "You have successfully transferred dashboards",
+      "successUpdatedRoles": "You have successfully updated roles",
+      "inEnvironment": "in the environment",
+      "pleaseNote": "please note!",
+      "errorsOccurredWhileUpdating": "Errors occurred while updating",
+      "roles": "roles",
+      "statusCode": "Status code",
+      "errorDescription": "Error description"
+    },
+    "errors": {
+      "atLeastOneDashboardRequired": "At least one dashboard required",
+      "atLeastOneRoleRequired": "At least one role required"
+    },
+    "successMessages": {
+      "dashboardSuccessfullyCreated": "Dashboards successfully created",
+      "rolesSuccessfullyUpdated": "Roles successfully updated"
     }
   }
 }

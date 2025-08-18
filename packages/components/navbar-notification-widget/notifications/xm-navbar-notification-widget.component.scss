@@ -23,6 +23,14 @@
   white-space: normal;
   outline: none;
 
+  &.prevent-navigation {
+    cursor: default;
+
+    ::ng-deep .mat-mdc-menu-ripple {
+      display: none !important;
+    }
+  }
+
   ::ng-deep {
     .alert-status {
       margin-top: 3px;

@@ -1,10 +1,8 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { FunctionContext, FunctionContextService, XmEntity } from '@xm-ngx/core/entity';
 
 import { buildMapId } from '@xm-ngx/operators';
-import { FunctionContext } from '@xm-ngx/core/entity';
-import { FunctionContextService } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
 import { OsmPolygonDialogComponent } from './osm-polygon-dialog.component';
 
 declare let L: any;
@@ -13,6 +11,7 @@ declare let L: any;
     selector: 'xm-area',
     templateUrl: './area.component.html',
     styleUrls: ['./area.component.scss'],
+    standalone: false,
 })
 export class AreaComponent implements AfterViewInit {
 

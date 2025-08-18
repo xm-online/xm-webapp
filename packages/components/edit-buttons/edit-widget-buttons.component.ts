@@ -3,7 +3,7 @@ import {
     EDIT_ACTION,
     EDIT_EVENT,
     EDIT_STATE,
-    EditStateStoreService
+    EditStateStoreService,
 } from '@xm-ngx/controllers/features/edit-state-store';
 import { XmEventManager } from '@xm-ngx/core';
 import { injectByKey, XM_DYNAMIC_COMPONENT_CONFIG } from '@xm-ngx/dynamic';
@@ -26,23 +26,21 @@ export interface EditWidgetButtonsEvent {
 @Component({
     selector: 'xm-edit-widget-buttons',
     templateUrl: './edit-widget-buttons.component.html',
+    standalone: false,
 })
 export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
-    public config = inject<EditWidgetButtonsConfig>(XM_DYNAMIC_COMPONENT_CONFIG, { optional: true });
-
-    private editStateStore = injectByKey<EditStateStoreService>('edit-state-store', { optional: true });
-
+    public config = inject<EditWidgetButtonsConfig>(XM_DYNAMIC_COMPONENT_CONFIG, {optional: true});
     public isHidden: boolean = false;
     @Input() public isEdit: boolean = false;
     @Input() public disableSubmit: boolean = false;
     @Input() public disabled: boolean = false;
-
     @Output() public isEditChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() public edit: EventEmitter<void> = new EventEmitter<void>();
     @Output() public save: EventEmitter<void> = new EventEmitter<void>();
     // eslint-disable-next-line @angular-eslint/no-output-native
     @Output() public cancel: EventEmitter<void> = new EventEmitter<void>();
     @Output() public changeEvent: EventEmitter<EditWidgetButtonsEvent> = new EventEmitter<EditWidgetButtonsEvent>();
+    private editStateStore = injectByKey<EditStateStoreService>('edit-state-store', {optional: true});
 
     constructor(
         private eventManager: XmEventManager,
@@ -88,23 +86,6 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
         this.cancel.emit();
     }
 
-    private changeIsEdit(event: EditWidgetButtonsEventType): void {
-        if (this.editStateStore) {
-            this.editStateStore.change(event === EditWidgetButtonsEventType.EDIT ? EDIT_STATE.EDIT : EDIT_STATE.VIEW);
-        }
-        this.isEdit = !this.isEdit;
-        this.isEditChange.emit(this.isEdit);
-        const payload = {
-            isEdit: this.isEdit,
-            event,
-        };
-        this.changeEvent.emit(payload);
-        this.eventManager.broadcast<EditWidgetButtonsEvent>({
-            name: XM_EDIT_WIDGET_BUTTONS_CHANGE_EVENT,
-            payload,
-        });
-    }
-
     public isSaveDisabled(): boolean {
         if (this.editStateStore) {
             return this.disabled || this.editStateStore.isDisabled(EDIT_ACTION.SAVE);
@@ -124,5 +105,22 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
             return this.disabled || this.editStateStore.isDisabled(EDIT_ACTION.CANCEL);
         }
         return this.disabled;
+    }
+
+    private changeIsEdit(event: EditWidgetButtonsEventType): void {
+        if (this.editStateStore) {
+            this.editStateStore.change(event === EditWidgetButtonsEventType.EDIT ? EDIT_STATE.EDIT : EDIT_STATE.VIEW);
+        }
+        this.isEdit = !this.isEdit;
+        this.isEditChange.emit(this.isEdit);
+        const payload = {
+            isEdit: this.isEdit,
+            event,
+        };
+        this.changeEvent.emit(payload);
+        this.eventManager.broadcast<EditWidgetButtonsEvent>({
+            name: XM_EDIT_WIDGET_BUTTONS_CHANGE_EVENT,
+            payload,
+        });
     }
 }

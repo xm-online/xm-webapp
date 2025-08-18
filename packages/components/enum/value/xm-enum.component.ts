@@ -3,18 +3,20 @@ import { XmDynamicModule, XmDynamicPresentation, XmDynamicPresentationLayout } f
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { keyBy, mapValues } from 'lodash';
 
-type Titles = { [value: string]: Translate } | Translate[];
+type Titles = { [value: string]: {title: Translate; style?: string; } } | Translate[];
 
 export type XmEnumValue = boolean | string | number;
 
 export interface XmEnumOptionsItem {
     title: Translate;
     value: XmEnumValue;
+    style?: string;
 }
 
 export interface XmEnumOptions {
     /** @deprecated use {@link items} instead */
     titles?: Titles;
+    dataQa?: string;
     items: XmEnumOptionsItem[];
     layout?: XmDynamicPresentationLayout;
 }
@@ -22,16 +24,22 @@ export interface XmEnumOptions {
 @Component({
     selector: 'xm-enum',
     template: `
-        @if (config?.layout?.selector) {
-            <ng-container
-                xmDynamicPresentation
-                [value]="(titles[value + ''] || value) | translate"
-                [class]="config?.layout?.class"
-                [style]="config?.layout?.style"
-                [selector]="config.layout.selector"
-                [config]="config?.layout?.config">
+        <span [attr.data-qa]="config?.dataQa">
+            @if (config?.layout?.selector) {
+                <ng-container
+                        xmDynamicPresentation
+                        [value]="(titles?.[value + '']?.title || titles?.[value + ''] || value) | translate"
+                        [class]="config?.layout?.class"
+                        [style]="config?.layout?.style"
+                        [selector]="config.layout.selector"
+                        [config]="config?.layout?.config">
             </ng-container>
-        } @else {{{(titles[value + ''] || value) | translate}}}
+            } @else {
+                <span [style]="titles[value + '']?.style">
+                    {{(titles?.[value + '']?.title || titles?.[value + ''] || value) | translate }}
+                </span>
+            }
+        </span>
     `,
     imports: [XmTranslationModule, XmDynamicModule],
     standalone: true,
@@ -54,7 +62,9 @@ export class XmEnumComponent implements XmDynamicPresentation<XmEnumValue, XmEnu
             this.titles = config?.titles;
             console.warn('"titles" is deprecated use "items" instead!');
         } else if (config?.items) {
-            this.titles = mapValues(keyBy(config.items, 'value'), 'title');
+            this.titles = mapValues(
+                keyBy(config.items, 'value'),
+                item => ({ title: item.title, style: item.style }));
         }
         this._config = config;
     }

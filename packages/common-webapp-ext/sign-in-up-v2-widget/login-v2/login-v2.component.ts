@@ -4,7 +4,7 @@ import { XmUIConfig } from '@xm-ngx/core/config';
 import { CommonModule } from '@angular/common';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { finalize, take } from 'rxjs/operators';
-import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmTranslatePipe, XmTranslationModule } from '@xm-ngx/translation';
 import { MatInputModule } from '@angular/material/input';
 import { XmSharedModule } from '@xm-ngx/shared';
 import { SignInUpService } from '../sign-in-up.service';
@@ -32,7 +32,8 @@ export interface XmLoginFormUIConfig extends XmUIConfig {
         XmPasswordControl,
         XmEmailControl,
         ReactiveFormsModule,
-        MatFormFieldModule
+        MatFormFieldModule,
+        XmTranslatePipe,
     ],
 
 })

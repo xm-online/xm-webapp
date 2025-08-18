@@ -10,6 +10,7 @@ import { DOC_EXAMPLES, DocsExample } from './xm-doc-examples';
     selector: 'xm-doc-examples',
     styleUrls: ['./xm-doc-examples.component.scss'],
     templateUrl: './xm-doc-examples.component.html',
+    standalone: false,
 })
 export class XmDocExamplesComponent implements OnDestroy {
     public active: DocsExample | null = null;

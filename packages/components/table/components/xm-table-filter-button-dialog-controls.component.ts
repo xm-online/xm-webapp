@@ -4,6 +4,7 @@ import {
     XmTableFilterButtonDialogControlComponent
 } from './xm-table-filter-button-dialog-control.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
+import { Translate } from '@xm-ngx/translation';
 
 export interface XmTableFiltersControlRequestConfig {
     submitInvalidForm?: boolean;
@@ -14,6 +15,10 @@ export interface XmTableFiltersControlRequestConfig {
     filterStoreKey?: string;
     quickFilters?: FormLayoutItem[];
     hideDefaultFilters?: boolean;
+    hideResetButton?: boolean;
+    quickFilterInlineContainerStyle?: string;
+    requestOnlyOnSubmit?: boolean;
+    searchFilterBtnText?: Translate;
 }
 
 @Component({
@@ -23,7 +28,7 @@ export interface XmTableFiltersControlRequestConfig {
                             (filtersChanged)="filtersChanged.emit($event)"
                             [containerClass]="options?.filtersClass"
                             [disabled]="disabled"
-                            (validStatusChange)="valid = $event"
+                            (validStatusChange)="blockBtn($event)"
                             [options]="options?.filters"
                             [submitInvalidForm]="options?.submitInvalidForm"
                             [value]="value">
@@ -41,6 +46,7 @@ export class XmTableFilterButtonDialogControlsComponent implements OnChanges {
     @Input() public request: FiltersControlValue;
     @Output() public requestChange: EventEmitter<FiltersControlValue> = new EventEmitter<FiltersControlValue>();
     @Output() public filtersChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() public validStatusChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     @Input() public disabled: boolean;
     @Input() public loading: boolean;
@@ -66,6 +72,11 @@ export class XmTableFilterButtonDialogControlsComponent implements OnChanges {
         }
 
         return values;
+    }
+
+    public blockBtn(valid: boolean): void {
+        this.valid = valid;
+        this.validStatusChange.emit(valid);
     }
 
 }

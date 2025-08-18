@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-
-import * as nomnoml from 'nomnoml';
+import { Link } from '@xm-ngx/entity';
 
 import { saveFile } from '@xm-ngx/operators';
-import { Link } from '@xm-ngx/entity';
+
+import * as nomnoml from 'nomnoml';
 
 declare let YAML: any;
 declare let skanaar: any;
@@ -13,6 +13,7 @@ declare let skanaar: any;
     selector: 'xm-config-visualizer-dialog',
     templateUrl: './config-visualizer-dialog.component.html',
     styleUrls: ['./config-visualizer-dialog.component.scss'],
+    standalone: false,
 })
 export class ConfigVisualizerDialogComponent implements OnInit, AfterViewInit {
 
@@ -35,7 +36,9 @@ export class ConfigVisualizerDialogComponent implements OnInit, AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        setTimeout(() => {this.sourceChanged(); }, 100);
+        setTimeout(() => {
+            this.sourceChanged();
+        }, 100);
     }
 
     public onCancel(): void {

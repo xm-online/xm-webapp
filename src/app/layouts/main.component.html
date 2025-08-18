@@ -1,6 +1,10 @@
+@let hideErrorMessages = config?.responseConfig?.hideErrorMessages;
+
 <xm-maintenance-view></xm-maintenance-view>
 <xm-page-ribbon></xm-page-ribbon>
-<xm-error-messages></xm-error-messages>
+@if (!hideErrorMessages) {
+  <xm-error-messages></xm-error-messages>
+}
 <xm-password-needed></xm-password-needed>
 
 <xm-heatmap-container>
@@ -14,6 +18,8 @@
       >
         <div *ngIf="resolved$ | async"
              class="main-panel xm-main-panel"
+             [ngClass]="{'has-backdrop': showSidebarBackdrop}"
+             [style.margin-right]="sidebarContentSpacer"
              id="main">
 
           <xm-top-panel *ngIf="config?.topPanel?.position === 'on-top'"></xm-top-panel>
@@ -32,7 +38,6 @@
           <router-outlet name="popup"></router-outlet>
 
           <xm-footer></xm-footer>
-
         </div>
 
       </xm-layout-wrapper>

@@ -16,13 +16,16 @@
       <button class="xm-notification-item"
               (click)="onNavigate(item, $event)"
               [class.custom-menu-item]="config.showAsHtml"
+              [class.prevent-navigation]="config.preventNavigation"
               [class.hasDate]="item.updateDate"
               mat-menu-item
               *ngIf="i <= showCount">
         <span *ngIf="!config.showAsHtml">{{ item.label }}</span>
         <span *ngIf="config.showAsHtml" [innerHTML]="item.label"></span>
         <span *ngIf="item.updateDate" class="update-date">{{ item.updateDate | date}}</span>
-        <mat-icon class="close-btn" (click)="onRemoveItem($event, item);">close</mat-icon>
+        <mat-icon class="close-btn"
+                  (click)="onRemoveItem($event, item);"
+                  *ngIf="config.changeStateName">close</mat-icon>
       </button>
     </ng-container>
 

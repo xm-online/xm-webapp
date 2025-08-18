@@ -1,5 +1,16 @@
+@let header = config.header;
+
 <div class="block">
-  <h3 class="card-title pb-mob">{{config?.title| translate}}</h3>
+  @if (header) {
+    <div class="login-header" [class]="header.class" [style]="header.style">
+      <img class="login-header__logo" [src]="header.logo" alt="logo" />
+      <h3 class="login-header__title">{{header.title | xmTranslate}}</h3>
+      <p class="login-header__description">{{header.description | xmTranslate}}</p>
+    </div>
+  }
+  @if (config?.title && !header) {
+    <h3 class="card-title pb-mob">{{config?.title | translate}}</h3>
+  }
   <xm-loader [absolute]="true" [showLoader]="loading"></xm-loader>
   <form [formGroup]="group" class="form-block pb-mob" role="form" *ngIf="!checkOTP" autocomplete="off" (submit)="login()">
     <xm-email-control [config]="config?.config?.username"
@@ -18,9 +29,18 @@
       </div>
     </div>
     <div class="text-end-block">
-      <div class="alert alert-danger"
-           *ngIf="authenticationError"
-           [innerHTML]="(config?.error| translate)||('login.messages.error.authentication' | translate)"></div>
+      @if (authenticationError) {
+        <div
+          class="alert alert-danger d-flex align-items-center"
+          [attr.data-qa]="'login-error-message'"
+        >
+          @let errorIcon = config.errorIcon;
+          @if (errorIcon) {
+            <mat-icon class="alert-icon">{{ errorIcon }}</mat-icon>
+          }
+          <span [innerHTML]="(config?.error| translate)||('login.messages.error.authentication' | translate)"></span>
+        </div>
+      }
       <div class="row">
         <div class="col-12 pb-1">
           <button mat-flat-button type="submit" color="primary"

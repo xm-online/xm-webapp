@@ -1,9 +1,9 @@
 import { Component, Injector, NgModule, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Locale, TitleService, XmTranslateService, XmTranslationModule } from '@xm-ngx/translation';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
 import { XmUIConfig } from '@xm-ngx/core/config';
 import { XmDynamicModule, XmDynamicSelector } from '@xm-ngx/dynamic';
+import { Locale, TitleService, XmTranslateService, XmTranslationModule } from '@xm-ngx/translation';
 import { firstValueFrom } from 'rxjs';
 
 interface PublicUiErrorConfig {
@@ -22,7 +22,7 @@ interface XmErrorConfig extends XmUIConfig {
 @Component({
     selector: 'xm-error',
     template: `
-        @if(dynamicErrorComponent) {
+        @if (dynamicErrorComponent) {
             <ng-template
                     xm-dynamic-widget
                     [init]="{
@@ -33,29 +33,30 @@ interface XmErrorConfig extends XmUIConfig {
             }">
             </ng-template>
         } @else {
-        <div>
-            <div class="row">
-                <div class="col-md-4">
-                    <span class="hipster img-fluid img-rounded"></span>
-                </div>
-                <div class="col-md-8">
-                    <h1>{{'error.title'|translate}}</h1>
+            <div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="hipster img-fluid img-rounded"></span>
+                    </div>
+                    <div class="col-md-8">
+                        <h1>{{ 'error.title'|translate }}</h1>
 
-                    <div [hidden]="!errorMessage">
-                        <div class="alert alert-danger">{{errorMessage}}
+                        <div [hidden]="!errorMessage">
+                            <div class="alert alert-danger">{{ errorMessage }}
+                            </div>
                         </div>
-                    </div>
-                    <div [hidden]="!error403" class="alert alert-danger">
-                        {{'error.403'|translate}}
-                    </div>
-                    <div [hidden]="!error404" class="alert alert-danger">
-                        {{'error.notfound'|translate}}
+                        <div [hidden]="!error403" class="alert alert-danger">
+                            {{ 'error.403'|translate }}
+                        </div>
+                        <div [hidden]="!error404" class="alert alert-danger">
+                            {{ 'error.notfound'|translate }}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         }
     `,
+    standalone: false,
 })
 export class ErrorComponent implements OnInit {
     public errorMessage: string;
@@ -70,7 +71,8 @@ export class ErrorComponent implements OnInit {
         private titleService: TitleService,
         private xmTranslateService: XmTranslateService,
         public componentInjector: Injector,
-    ) { }
+    ) {
+    }
 
     public async ngOnInit(): Promise<void> {
         const routeData = await firstValueFrom(this.route.data);
@@ -113,7 +115,7 @@ export class ErrorComponent implements OnInit {
     ],
     exports: [ErrorComponent],
     declarations: [ErrorComponent],
-    providers: []
+    providers: [],
 })
 export class ErrorModule {
 }

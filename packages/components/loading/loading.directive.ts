@@ -8,6 +8,7 @@ import { Directive, HostBinding, Input } from '@angular/core';
         '[class.xm-loading-center]': 'xmLoadingPosition === "center"',
         '[class.xm-loading-end]': 'xmLoadingPosition === "end"',
     },
+    standalone: false,
 })
 export class LoadingDirective {
     @HostBinding('class.xm-loading-active')

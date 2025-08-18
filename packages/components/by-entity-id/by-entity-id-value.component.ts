@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnChanges, OnInit } from '@angular/core';
-import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
+import { Component, Input, NgModule, OnChanges } from '@angular/core';
 import {
     XmDynamicPresentation,
     XmDynamicPresentationConstructor,
     XmDynamicPresentationEntryModule,
 } from '@xm-ngx/dynamic';
 import { Id } from '@xm-ngx/interfaces';
+import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { get } from 'lodash';
 import { clone } from 'lodash/fp';
 import { Subscription } from 'rxjs';
@@ -32,11 +32,12 @@ export const BY_ENTITY_ID_VALUE_OPTIONS: ByEntityIdValueOptions = {
  */
 @Component({
     selector: 'xm-by-entity-id-value',
-    host: { class: 'xm-by-entity-id-value' },
+    host: {class: 'xm-by-entity-id-value'},
     template: '<span>{{fieldValue}}</span>',
+    standalone: false,
 })
 export class ByEntityIdValueComponent
-implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnInit, OnChanges {
+implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnChanges {
 
     /** {@inheritDoc XmDynamicPresentation.config} */
     @Input() public config: ByEntityIdValueOptions;
@@ -58,11 +59,6 @@ implements XmDynamicPresentation<Id, ByEntityIdValueOptions>, OnInit, OnChanges 
 
     /** {@inheritDoc OnChanges.ngOnChanges} */
     public ngOnChanges(): void {
-        this.update();
-    }
-
-    /** {@inheritDoc OnInit.ngOnInit} */
-    public ngOnInit(): void {
         this.update();
     }
 

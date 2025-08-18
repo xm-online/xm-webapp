@@ -2,15 +2,12 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { TranslateService } from '@ngx-translate/core';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
+import { FullLinkSpec, Link, LinkService, XmEntity } from '@xm-ngx/core/entity';
+import { Principal } from '@xm-ngx/core/user';
 import { XmToasterService } from '@xm-ngx/toaster';
 
 import { getFieldValue } from '../../entity-list-helper';
 import { FieldOptions } from '../entity-list-card/entity-list-card-options.model';
-import { FullLinkSpec } from '@xm-ngx/core/entity';
-import { Link } from '@xm-ngx/core/entity';
-import { LinkService } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { Principal } from '@xm-ngx/core/user';
 
 const LINK_DELETE_PERMISSION = 'LINK.DELETE';
 
@@ -18,6 +15,7 @@ const LINK_DELETE_PERMISSION = 'LINK.DELETE';
     selector: 'xm-link-list-card',
     templateUrl: './link-list-card.component.html',
     styleUrls: ['./link-list-card.component.scss'],
+    standalone: false,
 })
 export class LinkListCardComponent implements OnInit, OnChanges {
 

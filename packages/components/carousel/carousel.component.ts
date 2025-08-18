@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor, NgIf, NgStyle } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { AfterViewInit, Component, ContentChild, ContentChildren, ElementRef, inject, Input, NgZone, OnDestroy, QueryList, ViewChild } from '@angular/core';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { defaults, sortBy } from 'lodash';
@@ -25,10 +25,7 @@ const isTouchDevice = ('ontouchstart' in window || navigator.maxTouchPoints);
 @Component({
     standalone: true,
     imports: [
-        NgFor,
-        NgIf,
         NgStyle,
-        AsyncPipe,
     ],
     selector: 'xm-carousel',
     template: `

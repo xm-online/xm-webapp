@@ -1,13 +1,16 @@
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {TestBed} from '@angular/core/testing';
-import {JhiDateUtils} from '@xm-ngx/jhipster';
-import {AccountService} from './account.service';
-import {ACCOUNT_LOGIN_UPDATE_URL, ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL, ACCOUNT_URL} from '@xm-ngx/core/auth';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { JhiDateUtils } from '@xm-ngx/jhipster';
+import { AccountService } from './account.service';
+import { ACCOUNT_LOGIN_UPDATE_URL, ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL } from '@xm-ngx/core/auth';
+import { ACCOUNT_URL, XmSessionService } from '@xm-ngx/core';
 
 describe('AccountService', () => {
 
     let service: AccountService;
     let httpTestingController: HttpTestingController;
+    let sessionService: XmSessionService;
+    let accountUrl: string;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -19,12 +22,15 @@ describe('AccountService', () => {
         });
         httpTestingController = TestBed.inject<HttpTestingController>(HttpTestingController);
         service = TestBed.inject<AccountService>(AccountService);
+        accountUrl = TestBed.inject<string>(ACCOUNT_URL);
+        sessionService = TestBed.inject<XmSessionService>(XmSessionService);
     });
 
     describe('get()', () => {
         it('should call with correct URL', (done) => {
+            sessionService.update();
             service.get().subscribe(() => done());
-            const req = httpTestingController.expectOne(ACCOUNT_URL);
+            const req = httpTestingController.expectOne(accountUrl);
             req.flush({id: 1});
             httpTestingController.verify();
         });
@@ -34,11 +40,10 @@ describe('AccountService', () => {
     describe('save()', () => {
         it('should call with correct URL', (done) => {
             service.save({id: 100}).subscribe(() => done());
-            const req = httpTestingController.expectOne(ACCOUNT_URL);
+            const req = httpTestingController.expectOne(accountUrl);
             req.flush({id: 1});
             httpTestingController.verify();
         });
-
     });
 
     describe('updateLogins()', () => {

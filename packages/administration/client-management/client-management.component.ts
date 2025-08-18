@@ -4,36 +4,41 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BaseAdminListComponent } from '@xm-ngx/administration';
 import { XmAlertService } from '@xm-ngx/alert';
 import { XmTableColumn } from '@xm-ngx/components/table';
 import { XmEventManager } from '@xm-ngx/core';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { XmToasterService } from '@xm-ngx/toaster';
-import { JhiParseLinks } from '@xm-ngx/jhipster';
-import { merge, Observable, Subscription } from 'rxjs';
-import { finalize, map, startWith, switchMap } from 'rxjs/operators';
 
 import { Client, ClientService } from '@xm-ngx/core/client';
-import { BaseAdminListComponent } from '@xm-ngx/administration';
+import { Role, RoleService } from '@xm-ngx/core/role';
+import { JhiParseLinks } from '@xm-ngx/jhipster';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { XmToasterService } from '@xm-ngx/toaster';
+import { merge, Observable, Subscription } from 'rxjs';
+import { finalize, map, startWith, switchMap } from 'rxjs/operators';
 import { ClientMgmtDeleteDialogComponent } from './client-management-delete-dialog.component';
 import { ClientMgmtDialogComponent } from './client-management-dialog.component';
-import { Role, RoleService } from '@xm-ngx/core/role';
 
 
 @Component({
     selector: 'xm-client-mgmt',
     templateUrl: './client-management.component.html',
+    styles: `
+      .search-button {
+        margin-bottom: 22px;
+      }
+    `,
+    standalone: false,
 })
 export class ClientMgmtComponent extends BaseAdminListComponent implements OnInit, OnDestroy {
-
     public list: Client[];
     public eventModify: string = 'clientListModification';
     public basePredicate: string = 'lastModifiedDate';
     public clientId: string;
     public authoritiesMap: Record<string, Role> = {};
     public dataSource: MatTableDataSource<Client> = new MatTableDataSource<Client>([]);
-    @ViewChild(MatSort, { static: true }) public matSort: MatSort;
-    @ViewChild(MatPaginator, { static: true }) public paginator: MatPaginator;
+    @ViewChild(MatSort, {static: true}) public matSort: MatSort;
+    @ViewChild(MatPaginator, {static: true}) public paginator: MatPaginator;
     public displayedColumns: string[] = [
         'id',
         'clientId',
@@ -45,8 +50,10 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
         'lastModifiedDate',
         'actions',
     ];
-    private eventSubscriber: Subscription;
     @Input() public config: { columns: XmTableColumn[] };
+    private readonly DIALOG_WIDTH = '80%';
+    private readonly DIALOG_MAX_WIDTH = '1000px';
+    private eventSubscriber: Subscription;
 
     constructor(
         protected clientService: ClientService,
@@ -127,17 +134,32 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
     }
 
     public onDelete(client: Client): void {
-        const modalRef = this.modalService.open(ClientMgmtDeleteDialogComponent, { width: '500px' });
+        const modalRef = this.modalService.open(ClientMgmtDeleteDialogComponent, {width: '500px'});
         modalRef.componentInstance.selectedClient = client;
     }
 
     public onEdit(client: Client): void {
-        const modalRef = this.modalService.open(ClientMgmtDialogComponent, { width: '500px' });
+        const modalRef = this.modalService.open(ClientMgmtDialogComponent, {
+            width: this.DIALOG_WIDTH,
+            maxWidth: this.DIALOG_MAX_WIDTH,
+        });
         modalRef.componentInstance.selectedClient = client;
     }
 
     public onAdd(): void {
-        this.modalService.open(ClientMgmtDialogComponent, { width: '500px' });
+        this.modalService.open(ClientMgmtDialogComponent, {width: this.DIALOG_WIDTH, maxWidth: this.DIALOG_MAX_WIDTH});
+    }
+
+    protected updateRoute(): void {
+        this.router.navigate(this.options.navigateUrl, {
+            queryParams: {
+                pageSize: this.pagination.pageSize,
+                pageIndex: this.pagination.pageIndex,
+                sortBy: this.pagination.sortBy,
+                sortOrder: this.pagination.sortOrder,
+                clientId: this.clientId,
+            },
+        });
     }
 
     private loadClients(): Observable<Client[]> {
@@ -180,17 +202,5 @@ export class ClientMgmtComponent extends BaseAdminListComponent implements OnIni
                         this.dataSource = new MatTableDataSource(list);
                     });
             });
-    }
-
-    protected updateRoute(): void {
-        this.router.navigate(this.options.navigateUrl, {
-            queryParams: {
-                pageSize: this.pagination.pageSize,
-                pageIndex: this.pagination.pageIndex,
-                sortBy: this.pagination.sortBy,
-                sortOrder: this.pagination.sortOrder,
-                clientId: this.clientId,
-            },
-        });
     }
 }

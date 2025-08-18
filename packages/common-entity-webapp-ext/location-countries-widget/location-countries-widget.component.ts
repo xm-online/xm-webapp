@@ -1,13 +1,14 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 import { TableData } from './md-table.component';
-import { XmDynamicWidget } from '@xm-ngx/dynamic';
 
 declare const $: any;
 
 @Component({
     selector: 'xm-location-countries-widget',
     templateUrl: './location-countries-widget.component.html',
+    standalone: false,
 })
 export class LocationCountriesWidgetComponent implements OnInit, AfterViewInit, XmDynamicWidget {
 
@@ -69,9 +70,9 @@ export class LocationCountriesWidgetComponent implements OnInit, AfterViewInit, 
         const breakCards = true;
         if (breakCards === true) {
             // We break the cards headers if there is too much stress on them :-)
-            $('[data-header-animation="true"]').each(function(this: HTMLElement) {
+            $('[data-header-animation="true"]').each(function (this: HTMLElement) {
                 const $card = $(this).parent('.card');
-                $card.find('.fix-broken-card').click(function(this: HTMLElement) {
+                $card.find('.fix-broken-card').click(function (this: HTMLElement) {
                     const $header = $(this).parent().parent().siblings('.card-header, .card-image');
                     $header.removeClass('hinge').addClass('fadeInDown');
 
@@ -82,7 +83,7 @@ export class LocationCountriesWidgetComponent implements OnInit, AfterViewInit, 
                     }, 480);
                 });
 
-                $card.mouseenter(function(this: HTMLElement) {
+                $card.mouseenter(function (this: HTMLElement) {
                     const $this = $(this);
                     const hoverCount = parseInt($this.attr('data-count'), 10) + 1 || 0;
                     $this.attr('data-count', hoverCount);

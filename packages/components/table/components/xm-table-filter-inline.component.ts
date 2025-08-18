@@ -7,7 +7,7 @@ import {
     XmTableFiltersControlRequestConfig,
 } from './xm-table-filter-button-dialog-controls.component';
 import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
-import { XmTranslationModule } from '@xm-ngx/translation';
+import { XmTranslatePipe } from '@xm-ngx/translation';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { matExpansionAnimations } from '@angular/material/expansion';
@@ -27,6 +27,7 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
                         [options]="config"
                         [request]="value"
                         (requestChange)="requestChange($event)"
+                        (validStatusChange)="setValid($event)"
                         #formContainer
                         class="w-100"
                         [ngClass]="{'xm-filters-control-hidden': filterExpand}"
@@ -47,15 +48,15 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
                     <button mat-button
                             class="me-3"
                             (click)="reset()">
-                        {{ 'table.filter.button.reset' | translate }}
+                        {{ 'table.filter.button.reset' | xmTranslate }}
                     </button>
 
                     <button mat-button
                             mat-raised-button
                             color="primary"
-                            [disabled]="formContainer.disabled"
+                            [disabled]="formContainer.disabled || !isValid"
                             (click)="submit()">
-                        {{ 'table.filter.button.search' | translate }}
+                        {{ (config?.searchFilterBtnText || 'table.filter.button.search') | xmTranslate }}
                     </button>
                 </div>
             </ng-container>
@@ -74,12 +75,11 @@ import { XmEmptyPipe } from '@xm-ngx/pipes';
     imports: [
         MatButtonModule,
         XmTableFilterButtonDialogControlsComponent,
-        XmTranslationModule,
         XmEmptyPipe,
         NgIf,
-        XmTranslationModule,
         MatIconModule,
         NgClass,
+        XmTranslatePipe,
     ],
     animations: [
         matExpansionAnimations.bodyExpansion,
@@ -90,6 +90,7 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
     @Input() public loading: boolean;
 
     public value: FiltersControlValue;
+    public isValid = null;
     public filterExpand: boolean = true;
     private cacheFilters: FiltersControlValue;
     private DELAY = 400;
@@ -97,8 +98,10 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
 
     private tableFilterController: XmTableFilterController = inject(XmTableFilterController);
     public isFilterVisible: boolean = true;
+    private requestOnlyOnSubmit: boolean = false;
 
     public ngOnInit(): void {
+        this.requestOnlyOnSubmit = this.config?.requestOnlyOnSubmit;
         this.isFilterVisible = !this.config?.hideDefaultFilters;
         this.initFilers();
     }
@@ -158,7 +161,15 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
             debounceTime(this.DELAY),
             takeUntilOnDestroy(this)
         ).subscribe(() => {
+            if (this.requestOnlyOnSubmit) {
+                return;
+            }
             this.submit();
         });
+    }
+
+    public setValid(event: boolean): void {
+        this.isValid = event;
+
     }
 }

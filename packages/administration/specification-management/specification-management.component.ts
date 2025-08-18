@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Principal } from '@xm-ngx/core/user';
 
 import { XmConfigService } from '@xm-ngx/core/config';
-
+import { Principal } from '@xm-ngx/core/user';
 
 @Component({
     selector: 'xm-specification-management',
     templateUrl: './specification-management.component.html',
+    standalone: false,
 })
 export class SpecificationManagementComponent implements OnInit {
 
     public specificationTypes: any[] = [
-        { slug: 'ui', icon: 'view_quilt' },
-        { slug: 'entity', icon: 'build' },
-        { slug: 'uaa', icon: 'security' },
-        { slug: 'uaa-login', icon: 'fingerprint' },
-        { slug: 'tenant', icon: 'ballot' },
+        {slug: 'ui', icon: 'view_quilt'},
+        {slug: 'entity', icon: 'build'},
+        {slug: 'uaa', icon: 'security'},
+        {slug: 'uaa-login', icon: 'fingerprint'},
+        {slug: 'tenant', icon: 'ballot'},
     ];
     public currentSpecificationSlug: string;
 
@@ -50,12 +50,12 @@ export class SpecificationManagementComponent implements OnInit {
             if (!allow) {
                 return;
             }
-            this.specificationTypes.push({ slug: 'privateui', icon: 'view_quilt' });
+            this.specificationTypes.push({slug: 'privateui', icon: 'view_quilt'});
         });
 
         this.service.getUiConfig().subscribe(result => {
             if (!result?.disableTimeline) {
-                this.specificationTypes.push({ slug: 'timeline', icon: 'history' });
+                this.specificationTypes.push({slug: 'timeline', icon: 'history'});
             }
             this.disabled = result.readOnlyConfig;
         });

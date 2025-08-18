@@ -1,24 +1,37 @@
 $mat-header-row-height: 48px !default;
 
-.header-container {
-  height:              $mat-header-row-height;
-
+.selection-header-container {
+  height: $mat-header-row-height;
+  background: var(--primary-primary-container, rgba(252, 229, 229, 1));
   overflow: hidden;
-  border-width:        0;
-  border-bottom-width: 1px;
-  border-style:        solid;
-  display:             flex;
-  align-items:         center;
-  border-bottom-color: rgba(0, 0, 0, 0.12);
-  position:            absolute;
-  top:                 0;
-  width:               100%;
-  padding-left:        24px;
-  padding-right:       24px;
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+  padding-right: 24px;
+  color: var(--surface-outline, rgba(161, 163, 162, 1));
 
-  &::after {
-    display:    inline-block;
-    min-height: inherit;
-    content:    '';
+  .close {
+    cursor: pointer;
+  }
+
+  .selected-items-text {
+    margin-left: 40px;
+    color: var(--primary-on-primary-container, #5C0000);
+  }
+
+  .total-count {
+    margin-left: 10px;
+    color: var(--primary-primary, rgba(230, 0, 0, 1));
+  }
+}
+
+::ng-deep .selection-menu {
+  width: 200px;
+
+  .mat-mdc-button:not(:disabled) {
+    margin: 5px 0;
+    width: 100%;
+    justify-content: left;
+    border-radius: 0 !important;
   }
 }

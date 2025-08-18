@@ -1,0 +1,10 @@
+<ng-container [formGroup]="formGroup">
+  <mat-radio-group [color]="'primary'" [formControlName]="'selectedAction'" class="action-group">
+    @for (action of actions; track action.translateKey) {
+      <mat-radio-button
+        [value]="action.value">
+        {{ action.translateKey | xmTranslate }}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
+</ng-container>

@@ -6,13 +6,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ConditionModule } from '@xm-ngx/components/condition';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import { XmTheme, XmThemeController } from '@xm-ngx/core/theme';
+import { ThemeSchemeType, XmTheme, XmThemeController } from '@xm-ngx/core/theme';
+import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { JavascriptCode } from '@xm-ngx/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
-import { XmDynamicWidget } from '@xm-ngx/dynamic';
-import { ThemeSchemeType } from '@xm-ngx/core/theme';
 
 interface SwitchThemeOptionsTheme {
     theme: string,
@@ -40,11 +39,12 @@ interface SwitchThemeOptions {
                         [disabled]="loading"
                         [matTooltip]="nextTheme.tooltip | translate"
                         mat-icon-button>
-                    <mat-icon>{{nextTheme.icon}}</mat-icon>
+                    <mat-icon>{{ nextTheme.icon }}</mat-icon>
                 </button>
             </ng-container>
         </ng-container>
     `,
+    standalone: false,
 })
 export class SwitchThemeWidget implements OnInit, XmDynamicWidget {
     @Input() public config: SwitchThemeOptions;
@@ -56,7 +56,7 @@ export class SwitchThemeWidget implements OnInit, XmDynamicWidget {
 
     public ngOnInit(): void {
         const fromStore = this.themeService.get();
-        const current = _.find(this.config?.themes, { theme: fromStore.name });
+        const current = _.find(this.config?.themes, {theme: fromStore?.name});
         this.changeTheme(current);
         this.nextTheme = this.getNext(current);
     }

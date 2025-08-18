@@ -1,9 +1,9 @@
 import { Component, ElementRef } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
 import { XmPermissionService, XmPermittedDirective } from '@xm-ngx/core/permission';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';
+import { of } from 'rxjs';
 import SpyObj = jasmine.SpyObj;
 
 @Component({
@@ -89,10 +89,12 @@ describe('XmPermittedDirective', () => {
         TestBed.configureTestingModule({
             declarations: [
                 XmPermittedDirective,
+            ],
+            imports: [
                 TestComponent,
             ],
             providers: [
-                { provide: XmPermissionService, useValue: mockPrincipalService },
+                {provide: XmPermissionService, useValue: mockPrincipalService},
             ],
         });
 

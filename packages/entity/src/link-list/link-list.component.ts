@@ -1,17 +1,15 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { XmEventManager } from '@xm-ngx/core';
+import { FullLinkSpec, Link, LinkSpec, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
 import { Observable, of, Subscription } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { FullLinkSpec, LinkSpec } from '@xm-ngx/core/entity';
-import { Link } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { XmEntityService } from '@xm-ngx/core/entity';
 
 @Component({
     selector: 'xm-link-list',
     templateUrl: './link-list.component.html',
+    standalone: false,
 })
 export class LinkListComponent implements OnDestroy, OnChanges {
 

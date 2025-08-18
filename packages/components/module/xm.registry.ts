@@ -111,5 +111,9 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
     {
         selector: 'render-layouts',
         loadChildren: () => import('@xm-ngx/components/render-layouts').then(m => m.XmRenderLayoutsComponent),
-    }
+    },
+    {
+        selector: 'skeleton',
+        loadChildren: () => import('@xm-ngx/components/skeleton').then(m => m.SkeletonComponent),
+    },
 ];

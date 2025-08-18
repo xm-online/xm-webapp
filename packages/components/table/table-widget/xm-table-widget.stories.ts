@@ -107,6 +107,13 @@ export default {
 export const Config: StoryObj<XmTableWidget> = {
     args: {
         config: {
+            selection: {
+                controller: {
+                    key: 'repository'
+                },
+                key: 'test-key',
+                menuMode: false
+            },
             collection: {
                 type: 'config',
                 path: 'staticData',

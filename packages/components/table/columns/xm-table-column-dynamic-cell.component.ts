@@ -1,20 +1,14 @@
 import { CDK_TABLE } from '@angular/cdk/table';
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Inject,
-    Input,
-    OnDestroy,
-    OnInit,
-    ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCellDef, MatColumnDef, MatFooterCellDef, MatHeaderCellDef, MatTableModule } from '@angular/material/table';
 import { XmTableColumnsManager } from './xm-table-columns-manager';
 import { XmDynamicCell, XmDynamicCellModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { CommonModule } from '@angular/common';
-import { ShowHideColumnsSettingsComponent } from '../cells/show-hide-columns-settings/show-hide-columns-settings.component';
+import {
+    ShowHideColumnsSettingsComponent,
+} from '../cells/show-hide-columns-settings/show-hide-columns-settings.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 export interface XmTableColumn<C = unknown> extends XmDynamicCell<C> {
@@ -38,7 +32,8 @@ export interface XmTableColumn<C = unknown> extends XmDynamicCell<C> {
         options: unknown;
         config: unknown;
     },
-    body?: XmDynamicCell
+    body?: XmDynamicCell;
+    hideExport?: boolean;
 }
 
 @Component({
@@ -56,7 +51,7 @@ export interface XmTableColumn<C = unknown> extends XmDynamicCell<C> {
                 [style]="column.headStyle"
                 [matTooltip]="column.tooltip | translate"
                 [disabled]="isSortable()">
-                {{column.title | translate}}
+                {{ column.title | translate }}
 
                 <xm-show-hide-columns-settings *ngIf="column.storageColumn"></xm-show-hide-columns-settings>
 
@@ -66,20 +61,28 @@ export interface XmTableColumn<C = unknown> extends XmDynamicCell<C> {
                               [config]="column.head.config || column.head.options"
                               [options]="column.head.options"></ng-container>
             </th>
+
             <td mat-cell
                 [class]="column.dataClass"
                 [style]="column.dataStyle"
-                *matCellDef="let value">
+                *matCellDef="let value;">
                 <ng-template
                     #defaultColumn
                     xmDynamicCell
                     [row]="value"
-                    [column]="column"></ng-template>
+                    [isLoading]="isLoading"
+                    [isSkeletonLoading]="isSkeletonLoading"
+                    [column]="column">
+
+                </ng-template>
 
                 <ng-container *ngIf="column.body; else defaultColumn"
                               xmDynamicCell
                               [row]="value"
+                              [isLoading]="isLoading"
+                              [isSkeletonLoading]="isSkeletonLoading"
                               [cell]="column.body"></ng-container>
+
             </td>
             <td mat-footer-cell *matFooterCellDef="let value"></td>
         </ng-container>
@@ -92,7 +95,7 @@ export interface XmTableColumn<C = unknown> extends XmDynamicCell<C> {
         MatSortModule,
         ShowHideColumnsSettingsComponent,
         MatTooltipModule,
-        XmDynamicModule
+        XmDynamicModule,
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
@@ -101,6 +104,8 @@ export interface XmTableColumn<C = unknown> extends XmDynamicCell<C> {
  * @beta
  */
 export class XmTableColumnDynamicCellComponent implements OnDestroy, OnInit {
+    @Input() public isLoading: boolean = false;
+    @Input() public isSkeletonLoading: boolean = false;
     @ViewChild(MatCellDef, {static: true}) public cell: MatCellDef;
     @ViewChild(MatColumnDef, {static: true}) public columnDef: MatColumnDef;
     @ViewChild(MatHeaderCellDef, {static: true}) public headerCell: MatHeaderCellDef;

@@ -3,14 +3,11 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
-import { XmToasterService } from '@xm-ngx/toaster';
-import { JhiDataUtils } from '@xm-ngx/jhipster';
+import { Attachment, AttachmentService, AttachmentSpec, XmEntity } from '@xm-ngx/core/entity';
 
 import { Principal } from '@xm-ngx/core/user';
-import { AttachmentSpec } from '@xm-ngx/core/entity';
-import { Attachment } from '@xm-ngx/core/entity';
-import { AttachmentService } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
+import { JhiDataUtils } from '@xm-ngx/jhipster';
+import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
 import { FileTypeFallback } from './file-type-fallback';
 
@@ -20,6 +17,7 @@ const ATTACHMENT_EVENT = 'attachmentListModification';
     selector: 'xm-attachment-detail-dialog',
     templateUrl: './attachment-detail-dialog.component.html',
     styleUrls: ['./attachment-detail-dialog.component.scss'],
+    standalone: false,
 })
 export class AttachmentDetailDialogComponent implements OnInit {
 
@@ -69,6 +67,30 @@ export class AttachmentDetailDialogComponent implements OnInit {
         }
     }
 
+    public byteSize(field: any, size: any): string {
+        return !field ? `${size} ${this.translateService.instant('xm-entity.attachment-card.volume.bytes')}`
+            : this.dataUtils.byteSize(field);
+    }
+
+    public onConfirmSave(): void {
+        this.showLoader = true;
+        this.attachment.xmEntity = {};
+        this.attachment.xmEntity.id = this.xmEntity.id;
+        this.attachment.xmEntity.typeKey = this.xmEntity.typeKey;
+        this.attachment.startDate = new Date().toISOString();
+
+        this.attachmentService.create(this.attachment)
+            .pipe(
+                finalize(() => this.showLoader = false),
+            )
+            .subscribe(() => this.onSaveSuccess(),
+                (err) => console.warn(err));
+    }
+
+    public onCancel(): void {
+        this.activeModal.close(false);
+    }
+
     private async createAttachment(files: File[], nameCtrl: any): Promise<void> {
         const file = files[0];
 
@@ -112,34 +134,10 @@ export class AttachmentDetailDialogComponent implements OnInit {
         }
     }
 
-    public byteSize(field: any, size: any): string {
-        return !field ? `${size} ${this.translateService.instant('xm-entity.attachment-card.volume.bytes')}`
-            : this.dataUtils.byteSize(field);
-    }
-
-    public onConfirmSave(): void {
-        this.showLoader = true;
-        this.attachment.xmEntity = {};
-        this.attachment.xmEntity.id = this.xmEntity.id;
-        this.attachment.xmEntity.typeKey = this.xmEntity.typeKey;
-        this.attachment.startDate = new Date().toISOString();
-
-        this.attachmentService.create(this.attachment)
-            .pipe(
-                finalize(() => this.showLoader = false),
-            )
-            .subscribe(() => this.onSaveSuccess(),
-                (err) => console.warn(err));
-    }
-
-    public onCancel(): void {
-        this.activeModal.close(false);
-    }
-
     private onSaveSuccess(): void {
         // TODO: use constant for the broadcast and analyse listeners
         console.info('Fire %s', ATTACHMENT_EVENT);
-        this.eventManager.broadcast({ name: ATTACHMENT_EVENT });
+        this.eventManager.broadcast({name: ATTACHMENT_EVENT});
         this.activeModal.close(true);
         this.toasterService.success('xm-entity.attachment-detail-dialog.add.success');
     }

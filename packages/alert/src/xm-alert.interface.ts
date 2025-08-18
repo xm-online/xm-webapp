@@ -20,4 +20,5 @@ export interface XmAlertConfig {
     confirmButtonText?: Translate;
     cancelButtonText?: Translate;
     className?: string;
+    iconClassName?: string;
 }

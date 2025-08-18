@@ -1,14 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
-import { XmToasterService } from '@xm-ngx/toaster';
 
-import { RoleService } from '@xm-ngx/core/role';
-import { Role } from '@xm-ngx/core/role';
+import { Role, RoleService } from '@xm-ngx/core/role';
+import { XmToasterService } from '@xm-ngx/toaster';
 
 @Component({
     selector: 'xm-role-mgmt-delete-dialog',
     templateUrl: './roles-management-delete-dialog.component.html',
+    standalone: false,
 })
 export class RoleMgmtDeleteDialogComponent implements OnInit {
 

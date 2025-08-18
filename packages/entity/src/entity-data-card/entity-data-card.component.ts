@@ -1,20 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { XmEventManager } from '@xm-ngx/core';
+import { XmEntity, XmEntityService, XmEntitySpec } from '@xm-ngx/core/entity';
 import { JsfAttributes } from '@xm-ngx/json-schema-form';
+import { JsfComponentRegistryService, nullSafe } from '@xm-ngx/json-schema-form/components';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
-import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
-
-import { nullSafe } from '@xm-ngx/json-schema-form/components';
-import { XmEntitySpec } from '@xm-ngx/core/entity';
-import { XmEntity } from '@xm-ngx/core/entity';
-import { XmEntityService } from '@xm-ngx/core/entity';
 
 
 @Component({
     selector: 'xm-entity-data-card',
     templateUrl: './entity-data-card.component.html',
     styleUrls: ['./entity-data-card.component.scss'],
+    standalone: false,
 })
 export class EntityDataCardComponent implements OnInit {
 
@@ -31,7 +28,7 @@ export class EntityDataCardComponent implements OnInit {
         private xmEntityService: XmEntityService,
         private toasterService: XmToasterService,
         private eventManager: XmEventManager,
-        protected widgetService: JsfComponentRegistryService
+        protected widgetService: JsfComponentRegistryService,
     ) {
     }
 
@@ -41,11 +38,11 @@ export class EntityDataCardComponent implements OnInit {
 
     public onSubmitForm(data: any): void {
         this.showLoader = true;
-        this.xmEntity.data = { ...data };
+        this.xmEntity.data = {...data};
         this.xmEntityService.update(this.xmEntity).pipe(finalize(() => this.showLoader = false))
             .subscribe(
                 (res) => {
-                    this.eventManager.broadcast({ name: 'xmEntityDetailModification', content: { entity: res.body } });
+                    this.eventManager.broadcast({name: 'xmEntityDetailModification', content: {entity: res.body}});
                     this.xmEntity = Object.assign(this.xmEntity, res.body);
                     if (!this.preventDefaultUpdateSuccess) {
                         this.toasterService.success('xm-entity.entity-data-card.update-success');

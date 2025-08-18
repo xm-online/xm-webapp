@@ -36,6 +36,7 @@ import { tap } from 'rxjs';
                     }"
                     [mask]="mask[$index] ?? '0'"
                     [formControlName]="$index"
+                    [placeholder]="config?.placeholder || ''"
                     (keyup)="handleKeyboardEvent($event, $index)"
                     (input)="handleInputEvent($event, $index)" />
             }
@@ -103,9 +104,13 @@ export class LettersControl extends NgModelWrapper<string> implements OnInit, On
         type?: string,
         width?: number,
         height?: number,
+        placeholder?: string,
     };
 
     @Output() public submitEvent: EventEmitter<string> = new EventEmitter<string>();
+
+    // An output for handling a raw boxes values, for easily generating a mask with empty values.
+    @Output() public submitRawValuesEvent: EventEmitter<string[]> = new EventEmitter<string[]>();
 
     @ViewChildren('letter') public components: QueryList<ElementRef<HTMLInputElement>>;
 
@@ -250,6 +255,7 @@ export class LettersControl extends NgModelWrapper<string> implements OnInit, On
 
                     if (this.boxes.valid) {
                         // Compatibility
+                        this.submitRawValuesEvent.emit(boxes);
                         this.submitEvent.emit(value);
                     }
                 }),

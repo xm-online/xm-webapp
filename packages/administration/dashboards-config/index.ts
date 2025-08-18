@@ -15,3 +15,4 @@ export * from './components/dashboards-list/dashboards-import.service';
 export * from './components/dashboards-list/dashboards-list.component';
 export * from './services/dashboards-manager.service';
 export * from './components/xm-dynamic-list.module';
+export * from './components/dashboards-transfer/dashboards-transfer.component';
