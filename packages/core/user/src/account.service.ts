@@ -20,7 +20,7 @@ export class AccountService {
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils, private cacheFactoryService: RequestCacheFactoryService) {
         this.cache$ = this.cacheFactoryService.create<HttpResponse<Account>>({
             request: () => this.getAccount(),
-            onlyWithUserSession: true,
+            onlyWithUserSession: false,
         });
     }
 
