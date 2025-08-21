@@ -10,7 +10,7 @@ import { TOKEN_URL } from '@xm-ngx/core';
 const DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded';
 const DEFAULT_AUTH_TOKEN = 'Basic d2ViYXBwOndlYmFwcA==';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class XmAuthenticationRepository {
     private TOKEN_URL: string = inject(TOKEN_URL);
 

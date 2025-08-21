@@ -14,7 +14,9 @@ import {
     Type,
     ViewChild,
     ViewContainerRef,
+    NgZone,
 } from '@angular/core';
+import { takeUntilOnDestroy } from '@xm-ngx/operators';
 import * as _ from 'lodash';
 import { Container } from './container';
 import { SidebarRightConfig, SidebarRightService } from './sidebar-right.service';
@@ -22,7 +24,6 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { switchMap, tap, filter } from 'rxjs/operators';
 import { fromEvent, of } from 'rxjs';
-
 
 interface XmMainConfig extends XmUIConfig {
     sidebar?: {
@@ -69,46 +70,88 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
         }
     }
 
-    @HostListener('document:mousemove', ['$event'])
-    public onMouseMove(event: MouseEvent): void {
-        if (this.mousePressedOnResizer) {
-            if (event.stopPropagation) event.stopPropagation();
-            if (event.preventDefault) event.preventDefault();
-            const vw = window.innerWidth / 100;
-            const newWidthInPx = window.innerWidth - event.x;
-            const newWidth = newWidthInPx / vw;
-            const min = this.minVW();
-            this.width = newWidth < min ? `${min}vw` : newWidth > 95 ? '95vw' : `${newWidth}vw`;
-            localStorage.setItem(this.getWidthStorageKey(), this.width);
-        }
-    }
-
-    @HostListener('document:mouseup', ['$event'])
-    public onMouseUp(): void {
-        this.mousePressedOnResizer = false;
-    }
-
-    @HostListener('document:mousedown', ['$event'])
-    public onMouseDown(event: MouseEvent): void {
-        if (this.resizerElement.nativeElement.contains(event.target)) {
-            this.mousePressedOnResizer = true;
-        }
-    }
-
     public mode: string;
-
     private mousePressedOnResizer: boolean;
     private uiConfigService: XmUiConfigService<XmMainConfig> = inject(XmUiConfigService);
 
     constructor(private sidebarRightService: SidebarRightService,
                 private moduleRef: NgModuleRef<unknown>,
                 private eventManager: XmEventManager,
+                private ngZone: NgZone
     ) {
     }
+
 
     public ngOnInit(): void {
         this.sidebarRightService.setContainer(this as Container);
         this.observeClicksOutsideSidebar();
+        this.observeMouseDownEvents();
+        this.observeMouseMoveEvents();
+        this.observeMouseUpEvents();
+        this.observeWindowResizeEvents();
+    }
+
+    private observeMouseDownEvents(): void {
+        this.ngZone.runOutsideAngular(() => {
+            fromEvent<MouseEvent>(document, 'mousedown').pipe(
+                takeUntilOnDestroy(this),
+            ).subscribe((event: MouseEvent) => {
+                if (this.resizerElement?.nativeElement?.contains(event.target)) {
+                    this.mousePressedOnResizer = true;
+                }
+            });
+        });
+    }
+
+    private observeMouseMoveEvents(): void {
+        this.ngZone.runOutsideAngular(() => {
+            fromEvent<MouseEvent>(document, 'mousemove').pipe(
+                takeUntilOnDestroy(this),
+            ).subscribe((event: MouseEvent) => {
+                if (this.mousePressedOnResizer) {
+                    if (event.stopPropagation) event.stopPropagation();
+                    if (event.preventDefault) event.preventDefault();
+                    const vw = window.innerWidth / 100;
+                    const newWidthInPx = window.innerWidth - event.x;
+                    const newWidth = newWidthInPx / vw;
+                    const min = this.minVW();
+                    const calculatedWidth = newWidth < min ? `${min}vw` : newWidth > 95 ? '95vw' : `${newWidth}vw`;
+
+                    this.ngZone.run(() => {
+                        this.width = calculatedWidth;
+                    });
+
+                    localStorage.setItem(this.getWidthStorageKey(), calculatedWidth);
+                }
+            });
+        });
+    }
+
+    private observeMouseUpEvents(): void {
+        this.ngZone.runOutsideAngular(() => {
+            fromEvent<MouseEvent>(document, 'mouseup').pipe(
+                takeUntilOnDestroy(this),
+            ).subscribe(() => {
+                this.mousePressedOnResizer = false;
+            });
+        });
+    }
+
+    private observeWindowResizeEvents(): void {
+        this.ngZone.runOutsideAngular(() => {
+            fromEvent(window, 'resize').pipe(
+                takeUntilOnDestroy(this),
+            ).subscribe(() => {
+                if (this.xmContainerOutlet.viewContainerRef.length > 0) {
+                    const min = this.minVW();
+                    this.changeMainElementMarginBy(`${min}vw`);
+
+                    this.ngZone.run(() => {
+                        this.width = `${Math.min(95, Math.max(parseFloat(this.width), min))}vw`;
+                    });
+                }
+            });
+        });
     }
 
     private observeClicksOutsideSidebar(): void {
@@ -136,9 +179,10 @@ export class XmSidebarRightComponent implements OnInit, OnDestroy {
         ).subscribe();
     }
 
-
     public ngOnDestroy(): void {
         this.sidebarRightService.removeContainer();
+
+        takeUntilOnDestroy(this);
     }
 
     public create<T, D>(templateRef: TemplateRef<D> | Type<T>, config: SidebarRightConfig<D>): T | null {
