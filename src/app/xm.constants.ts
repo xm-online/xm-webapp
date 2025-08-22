@@ -56,7 +56,7 @@ export const XM_MAT_DIALOG_DEFAULT_OPTIONS: MatDialogConfig = {
     minWidth: '120px',
     minHeight: '50px',
     width: '680px',
-    maxWidth: '80vw',
+    maxWidth: '95vw',
     data: null,
     direction: 'ltr',
     ariaDescribedBy: null,
