@@ -111,7 +111,7 @@ export class XmConfirmDialogDataService {
             .reduce((group, [key, { type, control: groupControl }]) => {
                 const { value, disabled = false, config: { validators = [], asyncValidators = [] } = {} } = groupControl;
 
-                if (groupControl.config.isFormDisabledSubject) {
+                if (groupControl.config?.isFormDisabledSubject) {
                     this.isFormDisabledSubject = <BehaviorSubject<boolean>>groupControl.config.isFormDisabledSubject;
                 }
 
