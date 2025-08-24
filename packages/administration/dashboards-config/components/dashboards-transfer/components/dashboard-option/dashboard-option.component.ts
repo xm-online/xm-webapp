@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Dashboard } from '@xm-ngx/core/dashboard';
+import { DashboardWithWidgets } from '@xm-ngx/core/dashboard';
 
 @Component({
     selector: 'xm-dashboard-option',
@@ -10,5 +10,6 @@ import { Dashboard } from '@xm-ngx/core/dashboard';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardOptionComponent {
-    @Input() public dashboard!: Dashboard;
+    @Input() public showActionColumn: boolean = false;
+    @Input() public dashboard!: DashboardWithWidgets;
 }

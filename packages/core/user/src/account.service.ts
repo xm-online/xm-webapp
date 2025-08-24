@@ -1,12 +1,12 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { JhiDateUtils } from '@xm-ngx/jhipster';
-import { Observable } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { createRequestOption } from '@xm-ngx/operators';
 
 import { ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL } from '@xm-ngx/core/auth';
-import { ACCOUNT_URL } from '@xm-ngx/core';
+import { ACCOUNT_URL, RequestCache, RequestCacheFactoryService } from '@xm-ngx/core';
 import { Account } from './account.model';
 
 @Injectable({providedIn: 'root'})
@@ -15,11 +15,20 @@ export class AccountService {
     private resourceProfileUrl: string = 'entity/api/profile';
     private resourceLogins: string = 'uaa/api/account/logins';
     private accountUrl: string = inject(ACCOUNT_URL);
+    private cache$?: RequestCache<HttpResponse<Account>>;
 
-    constructor(private http: HttpClient, private dateUtils: JhiDateUtils) {
+    constructor(private http: HttpClient, private dateUtils: JhiDateUtils, private cacheFactoryService: RequestCacheFactoryService) {
+        this.cache$ = this.cacheFactoryService.create<HttpResponse<Account>>({
+            request: () => this.getAccount(),
+            onlyWithUserSession: false,
+        });
     }
 
     public get(): Observable<HttpResponse<any>> {
+        return this.cache$.get().pipe(filter(res => Boolean(res)));
+    }
+
+    public getAccount(): Observable<HttpResponse<any>> {
         return this.http.get<Account>(this.accountUrl, {observe: 'response'});
     }
 

@@ -1,17 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import {
-    RequestCache,
-    RequestCacheFactoryService,
-    SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS,
-    XmCoreConfig,
-    XmSessionService,
-} from '@xm-ngx/core';
+import { RequestCache, RequestCacheFactoryService, XmCoreConfig, XmSessionService } from '@xm-ngx/core';
 import { Observable } from 'rxjs';
 import { XmUser } from './xm-user-model';
 import { AppStore } from '@xm-ngx/ngrx-store';
-import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { AppStoreSource } from '@xm-ngx/ngrx-store/src/models/app-store.model';
+import { AccountService } from './account.service';
 
 @Injectable({
     providedIn: 'root',
@@ -26,6 +21,7 @@ export class XmUserService<T = XmUser> implements OnDestroy {
         private cacheFactoryService: RequestCacheFactoryService,
         protected xmCoreConfig: XmCoreConfig,
         protected sessionService: XmSessionService,
+        private account: AccountService,
     ) {
         this.requestCache = this.cacheFactoryService.create<T>({
             request: () => this.getUser(),
@@ -50,10 +46,14 @@ export class XmUserService<T = XmUser> implements OnDestroy {
         this.requestCache.forceReload();
     }
 
-    private getUser(): Observable<T> {
-        return this.httpClient.get<T>(
-            this.xmCoreConfig.USER_URL,
-            {headers: SKIP_ERROR_HANDLER_INTERCEPTOR_HEADERS},
-        ).pipe(tap((user) => user && this.appStore.updateUser(user)));
+    private getUser(): Observable<any> {
+        return this.account.get().pipe(map((user) => {
+            const {body: data} = user || {};
+            if (data) {
+                this.appStore.updateUser(data);
+                return data;
+            }
+            return {};
+        }));
     }
 }

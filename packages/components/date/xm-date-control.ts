@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, Input, Optional, Self } from '@angular/core';
+import { Component, Inject, Injector, Input, OnDestroy, Optional, Self } from '@angular/core';
 import { NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
@@ -12,8 +12,11 @@ import {
     XmControlErrorsTranslates,
 } from '@xm-ngx/components/control-error';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
+import { XmDynamicInstanceService } from '@xm-ngx/dynamic';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { defaults } from 'lodash';
+import { Observable } from 'rxjs';
 import { XmDateValue } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { DateAdapter } from '@angular/material/core';
@@ -25,6 +28,7 @@ export interface XmDateControlOptions {
     name?: string;
     required?: boolean;
     useUtc?: boolean;
+    hideClear?: boolean;
     errors?: XmControlErrorsTranslates;
     disableFutureDates?: boolean;
     intervalFromMinDateInDays?: number;
@@ -32,6 +36,10 @@ export interface XmDateControlOptions {
     useIsoString?: boolean;
     disableWeekends?: boolean;
     daysAhead?: number;
+    availableDaysController?: {
+        key?: string;
+        method?: string;
+    };
 }
 
 const DEFAULT_CONFIG: XmDateControlOptions = {
@@ -62,7 +70,7 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
                    (click)="picker.open()">
 
             <div matSuffix class="d-flex">
-                <button *ngIf="value && !disabled"
+                <button *ngIf="value && !disabled && !config?.hideClear"
                         mat-icon-button
                         [disabled]="control.disabled"
                         aria-label="Clear"
@@ -98,11 +106,18 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
         {provide: DateAdapter, useClass: CustomDateAdapter},
     ],
 })
-export class XmDateControl extends NgFormAccessor<XmDateValue> {
-    constructor(@Optional() @Self() public ngControl: NgControl | null,
-                @Inject(XM_CONTROL_ERRORS_TRANSLATES) private xmControlErrorsTranslates: {
-                    [errorKey: string]: Translate
-                }) {
+export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDestroy {
+    private availableDates: Date[];
+
+    constructor(
+        @Optional() @Self() public ngControl: NgControl | null,
+        @Inject(XM_CONTROL_ERRORS_TRANSLATES) private xmControlErrorsTranslates: {
+            [errorKey: string]: Translate
+        },
+        public dynamicInjector: Injector,
+        private dynamicInstanceService: XmDynamicInstanceService,
+
+    ) {
         super(ngControl);
     }
 
@@ -118,8 +133,30 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
             errors: this.xmControlErrorsTranslates,
         });
 
+        this.getAvailableDaysFromController();
+
         this.maxDate = this.disableFutureDates();
         this.minDate = this.defineStartDate();
+    }
+
+    private getAvailableDaysFromController(): void {
+        if (!this.config?.availableDaysController) {
+            return;
+        }
+
+        const { key, method } = this.config.availableDaysController;
+        const controller = this.dynamicInstanceService.getControllerByKey(key, this.dynamicInjector);
+
+        if (!controller) {
+            console.warn('XmDateControl: cant get available days controller!');
+            return;
+        }
+
+        (controller[method] as () => Observable<Date[]>)()
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((dates: Date[]) => {
+                this.availableDates = dates;
+            });
     }
 
     private isWithinDaysAhead = (selectedDate: Date): boolean => {
@@ -143,6 +180,12 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
     };
 
     public datepickerFilter = (selectedDate: Date = new Date()): boolean => {
+        if (this.availableDates) {
+            return this.availableDates.some((d) =>
+                d.toDateString() === selectedDate.toDateString(),
+            );
+        }
+
         return this.isWithinDaysAhead(selectedDate) && this.isWeekDay(selectedDate);
     };
 
@@ -192,5 +235,10 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> {
             this.control.markAsTouched();
             this.control.markAsDirty();
         }
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+        super.ngOnDestroy();
     }
 }

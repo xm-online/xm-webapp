@@ -3,8 +3,6 @@ import { Injector, ModuleWithProviders, NgModule } from '@angular/core';
 import { AuthRefreshTokenService } from './auth-refresh-token.service';
 import { AuthInterceptor } from './auth.interceptor';
 import { XmAuthenticationStoreService } from './xm-authentication-store.service';
-import { XmAuthenticationService } from './xm-authentication.service';
-import { XmAuthenticationRepository } from './xm-authentication-repository.service';
 import { XmAuthenticationConfig } from './xm-authentication-config.service';
 import { XmAuthTargetUrlService } from './xm-auth-target-url.service';
 
@@ -21,8 +19,6 @@ export class XmCoreAuthModule {
                     deps: [Injector],
                 },
                 AuthRefreshTokenService,
-                XmAuthenticationRepository,
-                XmAuthenticationService,
                 XmAuthTargetUrlService,
                 XmAuthenticationStoreService,
             ],

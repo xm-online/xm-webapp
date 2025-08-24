@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { XmToasterService } from '@xm-ngx/toaster';
-import { filter, map, Observable, of, switchMap } from 'rxjs';
-import { DashboardWithWidgets } from '@xm-ngx/core/dashboard';
+import { filter, forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { DashboardWidget, DashboardWithWidgets } from '@xm-ngx/core/dashboard';
 import { catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -9,12 +9,14 @@ import { clearDashboardIds, createWidgetDictionary, mapDashboardWidgets } from '
 import { DashboardsTransferApiService } from './dashboards-transfer-api.service';
 import { DashboardsTransferDataService } from './dashboards-transfer-data.service';
 import { DashboardWithWidgetsPayloadType, QueryParams, TransferEnv } from '../types';
+import { TargetDashboardsService } from './target-dashboards.service';
 
 @Injectable()
 export class DashboardsStateService {
     private readonly api = inject(DashboardsTransferApiService);
     private readonly notify = inject(XmToasterService);
     private readonly dashboardTransferDataService = inject(DashboardsTransferDataService);
+    private readonly targetDashboardsService = inject(TargetDashboardsService);
 
     public getDashboards(queryParams: QueryParams = {}, env?: TransferEnv): Observable<DashboardWithWidgets[]> {
         return this.api.getDashboards(queryParams, env);
@@ -26,16 +28,8 @@ export class DashboardsStateService {
         return this.getFullDashboards(dashboards).pipe(
             filter(Boolean),
             map(clearDashboardIds),
-            switchMap((dashboards: DashboardWithWidgetsPayloadType[]) => {
-                return this.api.createDashboards(dashboards, { url, token }).pipe(
-                    catchError((err: HttpErrorResponse) => {
-                        this.handleError(err);
-
-                        return of(false);
-                    }),
-                );
-            }),
-            filter((response => typeof response !== 'boolean')),
+            map(this.splitEntitiesByActionMethod),
+            switchMap((data: [DashboardWithWidgetsPayloadType[], DashboardWithWidgetsPayloadType[]]) => this.createOrUpdateDashboards(data, url, token)),
             map(() => {
                 this.dashboardTransferDataService.loading = false;
                 return true;
@@ -43,8 +37,8 @@ export class DashboardsStateService {
         );
     }
 
-    public getFullDashboards(dashboards: DashboardWithWidgets[]): Observable<DashboardWithWidgets[]> {
-        return this.api.getWidgets().pipe(
+    public getFullDashboards(dashboards: DashboardWithWidgets[], env?: TransferEnv): Observable<DashboardWithWidgets[]> {
+        return this.api.getWidgets({}, env).pipe(
             map(createWidgetDictionary),
             map(mapDashboardWidgets(dashboards)),
             catchError((err: HttpErrorResponse) => {
@@ -60,4 +54,125 @@ export class DashboardsStateService {
         this.dashboardTransferDataService.resetStepper();
         this.dashboardTransferDataService.loading = false;
     }
+
+    private createOrUpdateDashboards = ([toCreate, toUpdate]: [DashboardWithWidgetsPayloadType[], DashboardWithWidgetsPayloadType[]], url: string, token: string): Observable<unknown> => {
+        const createDashboards$ = toCreate && toCreate.length ? this.catchErrors(this.api.createDashboards(toCreate, { url, token })) : null;
+        const updateDashboards$ = toUpdate && toUpdate.length ? this.catchErrors(this.updateDashboards(toUpdate, { url, token })) : null;
+
+        return forkJoin([createDashboards$, updateDashboards$].filter(Boolean));
+    };
+
+    private catchErrors(observable: Observable<unknown>): Observable<unknown> {
+        return observable.pipe(
+            catchError((err: HttpErrorResponse) => {
+                this.handleError(err);
+
+                return of(false);
+            }),
+        );
+    }
+
+    private updateDashboards(dashboards: DashboardWithWidgets[], targetEnv: TransferEnv): Observable<unknown> {
+        return this.getFullDashboards(dashboards, targetEnv).pipe(
+            filter(Boolean),
+            map((targetDashboards: DashboardWithWidgets[]) => this.mapDashboardsWidgets(dashboards, targetDashboards)),
+            switchMap(({ dashboards, widgetsToUpdate, widgetsToDelete }) => {
+                return this.api.updateDashboards(dashboards, targetEnv).pipe(
+                    switchMap(() => {
+                        const observables: Observable<unknown>[] = [];
+
+                        if (widgetsToUpdate && widgetsToUpdate.length) {
+                            const observable = this.api.updateDashboardsWidgets(widgetsToUpdate, targetEnv).pipe(
+                                catchError(() => of(null))
+                            );
+                            observables.push(observable);
+                        }
+
+                        if (widgetsToDelete && widgetsToDelete.length) {
+                            const observable = this.api.deleteDashboardWidgets(widgetsToDelete, targetEnv).pipe(
+                                catchError(() => of(null))
+                            );
+                            observables.push(observable);
+                        }
+
+                        return forkJoin(observables).pipe(
+                            catchError(() => of(null))
+                        );
+                    })
+                );
+            }),
+        );
+    }
+
+    private mapDashboardsWidgets(
+        dashboards: DashboardWithWidgets[],
+        targetDashboards: DashboardWithWidgets[]
+    ): { dashboards: DashboardWithWidgets[]; widgetsToUpdate: DashboardWidget[]; widgetsToDelete: number[] } {
+        const targetDashboardsMap = new Map<string, DashboardWithWidgets>(
+            targetDashboards.map(d => [d.typeKey, d])
+        );
+        const widgetsToUpdate: DashboardWidget[] = [];
+        const widgetsToDelete: number[] = [];
+
+        const mappedDashboards = dashboards.map((dashboard) => {
+            const targetDashboard = targetDashboardsMap.get(dashboard.typeKey);
+            const targetWidgets = targetDashboard?.widgets ?? [];
+            const targetWidgetMap = new Map<string, DashboardWidget>(
+                targetWidgets.map(w => [w.name, w])
+            );
+
+            if (targetDashboard?.widgets?.length && dashboard?.widgets?.length) {
+                const dashboardWidgets = dashboard?.widgets || [];
+                const targetDashboardWidgets = targetDashboard?.widgets || [];
+                const dashboardsNameSet = new Set<string>(dashboardWidgets.map(w => w.name));
+                const missingIds: number[] = targetDashboardWidgets
+                    .filter(tdw => !dashboardsNameSet.has(tdw.name))
+                    .map(tdw => tdw.id);
+                widgetsToDelete.push(...missingIds);
+
+            }
+
+            const mappedWidgets = dashboard.widgets.map(({ name, ...rest }) => {
+                const targetWidgetId = targetWidgetMap.get(name)?.id ?? null;
+
+                if (targetWidgetId) {
+                    widgetsToUpdate.push({ ...rest, name, id: targetWidgetId, dashboard: { id: dashboard.id } });
+                }
+
+                return !targetWidgetId ? { ...rest, name } : null;
+            }).filter(Boolean);
+
+            return {
+                ...dashboard,
+                widgets: mappedWidgets,
+            };
+        });
+
+        return {
+            dashboards: mappedDashboards,
+            widgetsToUpdate: widgetsToUpdate,
+            widgetsToDelete: widgetsToDelete,
+        };
+    }
+
+    private splitEntitiesByActionMethod = (dashboards: DashboardWithWidgetsPayloadType[]): [DashboardWithWidgetsPayloadType[], DashboardWithWidgetsPayloadType[]] => {
+        const dashboardsToCreate: DashboardWithWidgetsPayloadType[] = [];
+        const dashboardsToUpdate: DashboardWithWidgetsPayloadType[] = [];
+
+        dashboards.forEach(({ typeKey, ...rest }) => {
+            const targetId: number | undefined = this.targetDashboardsService.getDashboardTargetId(typeKey);
+
+            if (targetId) {
+                dashboardsToUpdate.push({
+                    ...rest,
+                    typeKey,
+                    id: targetId
+                });
+            } else {
+                dashboardsToCreate.push({ ...rest, typeKey });
+            }
+        });
+
+        return [dashboardsToCreate, dashboardsToUpdate];
+    };
 }

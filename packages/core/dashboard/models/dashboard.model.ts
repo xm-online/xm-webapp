@@ -71,4 +71,5 @@ export interface Dashboard<C = DashboardConfig, L = DashboardLayout> extends Bas
 
 export interface DashboardWithWidgets<C = DashboardConfig, L = DashboardLayout> extends Dashboard<C, L> {
     widgets?: DashboardWidget[];
+    targetId?: number;
 }
