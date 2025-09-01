@@ -7,7 +7,7 @@ import { OnInitialize } from '@xm-ngx/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { SessionStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, first, map } from 'rxjs/operators';
+import { filter, first, map, take } from 'rxjs/operators';
 import { dayjs } from '@xm-ngx/operators';
 import utc from 'dayjs/plugin/utc';
 import { getBrowserLocale } from '../operators/getBrowserLocale';
@@ -159,7 +159,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
     }
 
     public init(): void {
-        this.languages$().subscribe((languages: Locale[]) => {
+        this.languages$().pipe(take(1)).subscribe((languages: Locale[]) => {
             this.localeList = languages;
         });
 
