@@ -32,7 +32,7 @@ export class LogoutComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        const isForce = this.route.snapshot.queryParamMap.get('force');
+        const isForce = this.route?.snapshot?.queryParamMap?.get('force');
 
         if (isForce) {
             this.logout();
@@ -55,7 +55,7 @@ export class LogoutComponent implements OnInit, OnDestroy {
     public logout(): void {
         const idpClient: IIdpClient = this.$sessionStorage.retrieve(IDP_CLIENT);
         const idpLogoutUri = idpClient?.openIdConfig?.endSessionEndpoint?.uri;
-        const idpSkip = this.route.snapshot.queryParamMap.get('idp-skip');
+        const idpSkip = this.route?.snapshot?.queryParamMap?.get('idp-skip');
         combineLatest(
             this.loginService.logout$(),
             this.xmUiConfigService.config$(),
