@@ -6,13 +6,15 @@ import { MenuItem } from './menu.interface';
 import { XmEntitySpec } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
 import { ISideBarConfig } from './menu.component';
-import { AccountContextService } from '@xm-ngx/account/context';
+import { AccountContextService } from '@xm-ngx/account/context/context.service';
 import { Principal } from '@xm-ngx/core/user';
 
 function checkCondition(item: { config?: { condition?: JavascriptCode } }, contextService: ContextService, accountContextService: AccountContextService, principal: Principal): boolean {
     if (!item.config || !item.config.condition) {
         return true;
     }
+
+    console.log(accountContextService);
 
     try {
         const code = transpilingForIE(item.config.condition, contextService);
