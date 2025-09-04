@@ -3,7 +3,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { Directive, Input, OnDestroy, OnInit } from '@angular/core';
 import { SidebarUserSubtitleOptions } from './sidebar-user-subtitle';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { XmUser, XmUserService } from '@xm-ngx/core/user';
+import { Principal, XmUser, XmUserService, AccountContextService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
 import { ActivationEnd, Router } from '@angular/router';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
@@ -98,6 +98,8 @@ export class UserWidgetBase implements OnInit, OnDestroy {
         protected readonly userService: XmUserService,
         protected readonly contextService: ContextService,
         protected readonly router: Router,
+        protected readonly principal: Principal,
+        protected readonly accountContext: AccountContextService,
     ) {
     }
 
@@ -105,7 +107,7 @@ export class UserWidgetBase implements OnInit, OnDestroy {
         this.menu$ = this.dashboardService.dashboards$().pipe(
             takeUntilOnDestroy(this),
             filter((dashboards) => Boolean(dashboards)),
-            map((i) => filterByConditionDashboards(i, this.contextService)),
+            map((i) => filterByConditionDashboards(i, this.contextService, this.accountContext, this.principal)),
             map((i) => _.filter(i, (j) => (j.config?.menu?.section === 'xm-user'))),
             map(dashboards => buildMenuTree(dashboards)),
             map(tree => flatTree(tree)),
