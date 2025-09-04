@@ -6,7 +6,7 @@ import { MenuItem } from './menu.interface';
 import { XmEntitySpec } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
 import { ISideBarConfig } from './menu.component';
-import { AccountContextService } from '@xm-ngx/account';
+import { AccountContextService } from '@xm-ngx/account/context';
 import { Principal } from '@xm-ngx/core/user';
 
 function checkCondition(item: { config?: { condition?: JavascriptCode } }, contextService: ContextService, accountContextService: AccountContextService, principal: Principal): boolean {

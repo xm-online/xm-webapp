@@ -14,7 +14,7 @@ import { Principal } from '@xm-ngx/core/user';
 import { buildMenuTree } from './nested-menu';
 import { ConditionDirective } from '@xm-ngx/components/condition';
 import { filterByConditionDashboards } from './flat-menu';
-import { AccountContextService } from '@xm-ngx/account';
+import { AccountContextService } from '@xm-ngx/account/context';
 
 @Injectable({providedIn: 'root'})
 export class MenuService {
