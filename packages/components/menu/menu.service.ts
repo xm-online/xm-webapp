@@ -14,6 +14,7 @@ import { Principal } from '@xm-ngx/core/user';
 import { buildMenuTree } from './nested-menu';
 import { ConditionDirective } from '@xm-ngx/components/condition';
 import { filterByConditionDashboards } from './flat-menu';
+import { AccountContextService } from '@xm-ngx/account';
 
 @Injectable({providedIn: 'root'})
 export class MenuService {
@@ -41,6 +42,7 @@ export class MenuService {
         private readonly dashboardService: DashboardStore,
         private readonly contextService: ContextService,
         private router: Router,
+        private accountContext: AccountContextService,
     ) {
         this.isCategoriesHidden$ = this.getHiddenCategoriesObserver();
     }
@@ -127,7 +129,7 @@ export class MenuService {
                 }
                 return this.dashboardService.dashboards$().pipe(
                     filter((dashboards) => Boolean(dashboards)),
-                    map((i) => filterByConditionDashboards(i, this.contextService)),
+                    map((i) => filterByConditionDashboards(i, this.contextService, this.accountContext, this.principal)),
                     map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
                     map((dashboards) => {
                         if (dashboards?.length) {
