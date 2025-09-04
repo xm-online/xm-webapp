@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { MenuItem } from '@xm-ngx/components/menu';
 import { UserWidgetBase } from './user-widget.base';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { Principal, XmUserService } from '@xm-ngx/core/user';
+import { Principal, XmUserService, AccountContextService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -13,7 +13,6 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { SidebarUserSubtitle } from './sidebar-user-subtitle';
 import { MenuLinkComponent } from '@xm-ngx/components/menu';
-import { AccountContextService } from '@xm-ngx/account';
 
 
 @Component({

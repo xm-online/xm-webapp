@@ -3,7 +3,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { Directive, Input, OnDestroy, OnInit } from '@angular/core';
 import { SidebarUserSubtitleOptions } from './sidebar-user-subtitle';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { Principal, XmUser, XmUserService } from '@xm-ngx/core/user';
+import { Principal, XmUser, XmUserService, AccountContextService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
 import { ActivationEnd, Router } from '@angular/router';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
@@ -13,7 +13,6 @@ import {
     filterByConditionDashboards } from '@xm-ngx/components/menu';
 import { buildMenuTree } from '@xm-ngx/components/menu';
 import * as _ from 'lodash';
-import { AccountContextService } from '@xm-ngx/account';
 
 interface UserOptions {
     roleKey: string;

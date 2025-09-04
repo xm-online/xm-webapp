@@ -10,11 +10,10 @@ import { MenuCategoriesClassesEnum, MenuPositionEnum } from './menu.model';
 import { ContextService } from '@xm-ngx/core/context';
 import { XmUserService } from '@xm-ngx/core/user';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { Principal } from '@xm-ngx/core/user';
+import { Principal, AccountContextService } from '@xm-ngx/core/user';
 import { buildMenuTree } from './nested-menu';
 import { ConditionDirective } from '@xm-ngx/components/condition';
 import { filterByConditionDashboards } from './flat-menu';
-import { AccountContextService } from '@xm-ngx/account/context/context.service';
 
 @Injectable({providedIn: 'root'})
 export class MenuService {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { XmUserService } from '@xm-ngx/core/user';
 import _ from 'lodash';
+import { XmUserService } from './xm-user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AccountContextService {

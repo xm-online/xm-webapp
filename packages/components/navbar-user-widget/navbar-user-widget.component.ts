@@ -9,10 +9,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-import { Principal, XmUserService } from '@xm-ngx/core/user';
+import { Principal, XmUserService, AccountContextService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { AccountContextService } from '@xm-ngx/account';
 
 @Component({
     selector: 'xm-navbar-user-widget',
