@@ -37,3 +37,7 @@ $material-icons-font-path: '/assets/fonts/material-design-icons-v6.woff2';
 // Backward compatibility
 @import 'styles/backward-compatibility';
 
+.date-range-picker-container .mat-datepicker-actions {
+  padding: 0 !important;
+  flex-direction: column;
+}
