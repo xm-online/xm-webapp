@@ -33,8 +33,8 @@ export class AccountService {
     }
 
     public save(account: any): Observable<HttpResponse<any>> {
-        return this.http.post(this.accountUrl, account, {observe: 'response'})
-            .pipe(tap(() => this.cache$?.forceReload()));
+        return this.http.post<Account>(this.accountUrl, account, {observe: 'response'})
+            .pipe(tap((response: HttpResponse<Account>) => this.cache$?.next(response)));
     }
 
     public updateLogins(account: any): Observable<HttpResponse<any>> {
