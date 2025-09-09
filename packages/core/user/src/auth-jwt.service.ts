@@ -276,6 +276,9 @@ export class AuthServerProvider {
             // // TODO: move to interceptor
             this.skipRefreshTokenRequest = true;
             this.sessionService.create({active: false});
+            if (this.authStoreService.getAuthenticationToken()) {
+                return;
+            }
             this.getGuestAccessToken().pipe(
                 tap(() => {
                     this.xmEventManagerService.broadcast({
