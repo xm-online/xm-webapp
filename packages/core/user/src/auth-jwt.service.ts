@@ -46,7 +46,7 @@ export interface AuthTokenResponse extends GuestTokenResponse {
 export class AuthServerProvider {
     private TOKEN_URL: string = inject(TOKEN_URL);
     private skipRefreshTokenRequest: boolean;
-
+    private readonly authStoreService: XmAuthenticationStoreService = inject(XmAuthenticationStoreService);
     constructor(
         private principal: Principal,
         private http: HttpClient,
@@ -279,6 +279,8 @@ export class AuthServerProvider {
             if (this.authStoreService.getAuthenticationToken()) {
                 return;
             }
+
+            
             this.getGuestAccessToken().pipe(
                 tap(() => {
                     this.xmEventManagerService.broadcast({
