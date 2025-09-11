@@ -7,7 +7,7 @@ import { OnInitialize } from '@xm-ngx/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { SessionStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, first, map, take } from 'rxjs/operators';
+import { filter, first, map } from 'rxjs/operators';
 import { dayjs } from '@xm-ngx/operators';
 import utc from 'dayjs/plugin/utc';
 import { getBrowserLocale } from '../operators/getBrowserLocale';
@@ -66,7 +66,6 @@ export class LanguageService implements OnDestroy, OnInitialize {
     protected configLocale: string | undefined;
 
     private logger: XmLogger;
-    private localeList: Locale[] = [];
     private isLocaleUpdating: boolean = false;
 
     constructor(
@@ -86,14 +85,13 @@ export class LanguageService implements OnDestroy, OnInitialize {
     }
 
     public get locale(): Locale {
-        const locale = this.getUserLocale()
+        return this.getUserLocale()
             || this.getSessionLocale()
             // TODO: if BrowserLocale isn't supported by our app when return null
             || this.getBrowserLocale()
             || this.getConfigLocale()
             || this.getDefaultLocale()
             || this.$locale.getValue();
-        return this.localeList.includes(locale) ? locale : this.getDefaultLocale();
     }
 
     public refresh(): void {
@@ -159,10 +157,6 @@ export class LanguageService implements OnDestroy, OnInitialize {
     }
 
     public init(): void {
-        this.languages$().pipe(take(1)).subscribe((languages: Locale[]) => {
-            this.localeList = languages;
-        });
-
         (
             this.getSessionLocale()
                 ? of(this.locale)
