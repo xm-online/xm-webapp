@@ -96,6 +96,7 @@
           "namedChunks": false,
           "extractLicenses": true,
           "vendorChunk": false,
+          "statsJson": true,
           "buildOptimizer": true,
           "serviceWorker": true,
           "ngswConfigPath": "ngsw-config.json"
