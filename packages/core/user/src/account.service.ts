@@ -2,7 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { JhiDateUtils } from '@xm-ngx/jhipster';
 import { filter, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { createRequestOption } from '@xm-ngx/operators';
 
 import { ACCOUNT_TFA_DISABLE_URL, ACCOUNT_TFA_ENABLE_URL } from '@xm-ngx/core/auth';
@@ -33,7 +33,8 @@ export class AccountService {
     }
 
     public save(account: any): Observable<HttpResponse<any>> {
-        return this.http.post(this.accountUrl, account, {observe: 'response'});
+        return this.http.post<Account>(this.accountUrl, account, {observe: 'response'})
+            .pipe(tap((response: HttpResponse<Account>) => this.cache$?.next(response)));
     }
 
     public updateLogins(account: any): Observable<HttpResponse<any>> {
