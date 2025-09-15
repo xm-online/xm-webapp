@@ -56,7 +56,7 @@
     "nx-start:minimal": "nx serve xm-webapp --proxy-config local.proxy.conf.js --watch=false --host=0.0.0.0 --disable-host-check",
     "nx-start:prod": "npm run prebuild && nx serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0 --configuration serve-production",
     "nx-build": "nx build --stats-json",
-    "build:nx-prod": "npm run prebuild && nx build xm-webapp --configuration production --stats-json"
+    "build:nx-prod": "npm run prebuild && nx affected --target=build --configuration=production --stats-json"
   },
   "dependencies": {
     "@ajsf/core": "0.8.0",
