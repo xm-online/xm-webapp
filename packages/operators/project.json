@@ -4,7 +4,9 @@
   "sourceRoot": "packages/operators/src",
   "prefix": "xm",
   "projectType": "library",
-  "tags": [],
+  "tags": [
+    "type:lib"
+  ],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",

@@ -4,6 +4,9 @@
   "sourceRoot": "src",
   "prefix": "xm",
   "projectType": "application",
+  "tags": [
+    "type:app"
+  ],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",

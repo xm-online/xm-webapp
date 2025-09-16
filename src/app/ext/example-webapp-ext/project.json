@@ -4,7 +4,9 @@
   "sourceRoot": "src/app/ext/example-webapp-ext",
   "prefix": "xm",
   "projectType": "library",
-  "tags": [],
+  "tags": [
+    "type:app"
+  ],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
