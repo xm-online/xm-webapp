@@ -43,7 +43,8 @@
     ],
     "default": [
       "{projectRoot}/**/*",
-      "sharedGlobals"
+      "sharedGlobals",
+      "{workspaceRoot}/src/app/ext/crmotb-webapp-ext/**/*"
     ],
     "production": [
       "default",
