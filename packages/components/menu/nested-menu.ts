@@ -1,5 +1,5 @@
 import { ConditionDirective } from '@xm-ngx/components/condition';
-import { Dashboard } from '@xm-ngx/core/dashboard';
+import { Dashboard, DashboardConfig } from '@xm-ngx/core/dashboard';
 import * as _ from 'lodash';
 import { MenuItem } from './menu.interface';
 
@@ -7,10 +7,9 @@ const DEFAULT_DASHBOARD_KEY = 'DASHBOARD';
 
 export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof ConditionDirective.checkCondition, conditionArgs: Record<string, unknown> = {}): MenuItem[] {
     const result = _.orderBy(dashboards, ['config.orderIndex', 'config.slug']).reduce(
-        (data, {
-            id,
-            name: dashboardName,
-            config: {
+        (data, dashboard) => {
+            const {id, name: dashboardName, config = {}} = dashboard;
+            const {
                 slug,
                 hidden = false,
                 menu: configMenu = {},
@@ -19,11 +18,16 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                 name: configName,
                 permission,
                 activeItemPathPatterns,
-                categoryKey,
-                category,
-                dataQa,
-            } = {},
-        }) => {
+            } = config;
+
+            let categoryKey, category, dataQa;
+            if ('categoryKey' in config) {
+                const typedConfig = config as DashboardConfig;
+                categoryKey = typedConfig.categoryKey;
+                category = typedConfig.category;
+                dataQa = typedConfig.dataQa;
+            }
+
             if (hidden) {
                 if (!checkCondition || checkCondition(hidden.toString(), conditionArgs)) {
                     return data;
@@ -70,8 +74,6 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
             const groupKey = key.toLowerCase();
             const parts = slug.replace(/^\/|\/$/g, '').split('/');
 
-            // Add menu item from group object
-            // In future it will deprecated
             if (parts.length === 1 && key !== DEFAULT_DASHBOARD_KEY) {
                 const group = data.find(r => r.path == groupKey);
 
@@ -92,14 +94,10 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                     });
                 }
 
-                // Prepend config key to nested slug
                 parts.unshift(groupKey);
             }
 
-            // Support nested slug
             parts.reduce((tree, path) => {
-                // Skip route which has a required param
-                // It will display if parent route have not been added
                 if (path.startsWith(':')) {
                     return {path, children: []};
                 }
