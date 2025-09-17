@@ -20,8 +20,6 @@ src/i18n/it.json
 
 src/assets/mock-data
 
-src/app/ext/*
-!src/app/ext/example-webapp-ext
 !src/app/ext/.gitkeep
 !src/assets/css/ext/
 src/assets/img/ext/
