@@ -47,7 +47,6 @@
     ],
     "production": [
       "default",
-      "{workspaceRoot}/src/**/*",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/**/*.spec.[jt]s",
       "!{projectRoot}/karma.conf.js",
