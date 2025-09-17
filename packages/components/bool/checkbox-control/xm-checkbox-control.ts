@@ -55,7 +55,7 @@ export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
                     }
                 </div>
             </mat-checkbox>
-            <mat-hint class="config?.hintClass || 'small'" [hint]="config?.hint"></mat-hint>
+            <mat-hint [class]="config?.hintClass || 'small'" [hint]="config?.hint"></mat-hint>
     `,
     imports: [
         MatCheckboxModule,
