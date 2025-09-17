@@ -49,6 +49,12 @@
       "@xm-ngx/entity/*": [
         "packages/entity/*"
       ],
+      "@xm-ngx/ext/crmotb-webapp-ext": [
+        "src/app/ext/crmotb-webapp-ext"
+      ],
+      "@xm-ngx/ext/crmotb-webapp-ext/*": [
+        "src/app/ext/crmotb-webapp-ext/*"
+      ],
       "@xm-ngx/json-schema-form/core": [
         "node_modules/@xm-ngx/json-schema-form"
       ],
