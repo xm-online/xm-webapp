@@ -4,7 +4,7 @@ import { XmUserService } from './xm-user.service';
 import { OnInitialize } from '@xm-ngx/interfaces';
 import { dayjs, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { firstValueFrom, Observable, of, Subject } from 'rxjs';
-import { catchError, filter, finalize, shareReplay, takeUntil, tap } from 'rxjs/operators';
+import { catchError, finalize, shareReplay, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 
 import { AccountService } from './account.service';
@@ -39,8 +39,17 @@ export class Principal implements OnDestroy, OnInitialize {
 
     public init(): void {
         this.sessionService.isActive().pipe(
-            filter(i => i === false),
-        ).subscribe(() => this.logout());
+            takeUntilOnDestroy(this),
+            switchMap((isActive: boolean) => {
+                if (!isActive) {
+                    this.logout();
+                    return of(null);
+                }
+
+                return this.account.getCachedAccount()
+                    .pipe(tap((account: any)=> account === null && this.account.forceReload()));
+            })
+        ).subscribe();
     }
 
     public ngOnDestroy(): void {
@@ -60,6 +69,7 @@ export class Principal implements OnDestroy, OnInitialize {
         this.authenticated = false;
         this.promise = null;
         this.authenticationState.next(this.userIdentity);
+        this.account.resetCache();
         this.resetCachedProfile();
     }
 
@@ -117,6 +127,7 @@ export class Principal implements OnDestroy, OnInitialize {
     public identity(force: boolean = false, mockUser: boolean = false): Promise<any> {
         if (force) {
             this.userService.forceReload();
+            this.account.forceReload();
             this.resetIdentityState();
         }
         if (this.userIdentity) {

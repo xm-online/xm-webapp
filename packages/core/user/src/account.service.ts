@@ -90,4 +90,15 @@ export class AccountService {
         return copy;
     }
 
+    public resetCache(): void {
+        this.cache$?.clear();
+    }
+
+    public forceReload(): void {
+        this.cache$?.forceReload();
+    }
+
+    public getCachedAccount(): Observable<any> {
+        return this.cache$?.getCache().asObservable();
+    }
 }

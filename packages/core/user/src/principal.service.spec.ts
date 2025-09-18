@@ -25,7 +25,7 @@ describe('PrincipalService', () => {
     };
 
     beforeEach(() => {
-        mockAccountService = jasmine.createSpyObj(['get']);
+        mockAccountService = jasmine.createSpyObj(['get', 'forceReload', 'resetCache']);
         mockAccountService.get.and.returnValue(of(cloneDeep(mockedUser)));
         mockXmAuthenticationService = new MockXmAuthenticationService();
 
