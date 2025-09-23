@@ -1,0 +1,90 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": false,
+    "strict": false,
+    "importHelpers": true,
+    "outDir": "./dist/out-tsc",
+    "baseUrl": "./",
+    "sourceMap": true,
+    "declaration": true,
+    "downlevelIteration": true,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "target": "es2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2020",
+      "dom",
+      "ES2021.String"
+    ],
+    "paths": {
+      "@xm-ngx/*": [
+        "lib/*"
+      ],
+      "@xm-ngx/core/environment": [
+        "src/environments"
+      ],
+      "@xm-ngx/ext/*": [
+        "src/app/ext/*"
+      ],
+      "@xm-ngx-ext/*": [
+        "src/app/ext/*"
+      ],
+      "@xm-ngx/entity/card": [
+        "lib/entity/card/index.ts"
+      ],
+      "@xm-ngx/entity/search": [
+        "lib/entity/search/index.ts"
+      ],
+      "@xm-ngx/entity/pipes": [
+        "lib/entity/pipes/index.ts"
+      ],
+      "@xm-ngx/entity": [
+        "lib/entity/index.ts"
+      ],
+      "@xm-ngx/entity/*": [
+        "lib/entity/*"
+      ],
+      "@xm-ngx/json-schema-form/core": [
+        "node_modules/@xm-ngx/json-schema-form"
+      ],
+      "@xm-ngx/json-schema-form/components": [
+        "node_modules/@xm-ngx/json-schema-form"
+      ],
+      "@xm-ngx/json-schema-form/components/*": [
+        "node_modules/@xm-ngx/json-schema-form"
+      ],
+      "rxjs": [
+        "node_modules/rxjs"
+      ],
+      "rxjs/*": [
+        "node_modules/rxjs/*"
+      ],
+      "@angular/*": [
+        "node_modules/@angular/*"
+      ]
+    },
+    "inlineSources": true,
+    "module": "esnext",
+    "stripInternal": false,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "newLine": "lf",
+    "types": [
+      "jasmine"
+    ],
+    "strictFunctionTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "useDefineForClassFields": false
+  },
+  "include": [
+    "src/**/*.ts",
+    "lib/**/*.ts"
+  ]
+}
