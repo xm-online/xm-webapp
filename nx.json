@@ -9,10 +9,7 @@
       "inputs": [
         "production",
         "^production"
-      ],
-      "options": {
-        "tsConfig": "tsconfig.production.json"
-      }
+      ]
     },
     "test": {
       "cache": true,
