@@ -1,11 +1,11 @@
-import globals from "globals";
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import tsdoc from "eslint-plugin-tsdoc";
-import * as xmNgxEslintPlugin from "@xm-ngx/eslint-plugin";
-import path from "node:path";
-import {fileURLToPath} from "node:url";
-import js from "@eslint/js";
-import {FlatCompat} from "@eslint/eslintrc";
+import globals from 'globals';
+import typescriptEslint from '@typescript-eslint/eslint-plugin';
+import tsdoc from 'eslint-plugin-tsdoc';
+import * as xmNgxEslintPlugin from '@xm-ngx/eslint-plugin';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import js from '@eslint/js';
+import {FlatCompat} from '@eslint/eslintrc';
 import stylistic from '@stylistic/eslint-plugin';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,6 +27,7 @@ export default [{
     "**/test.ts",
     "**/*.d.ts",
     "**/.storybook/**",
+    "**/src/app/xm-jsf-ext.module.ts"
   ],
 }, ...compat.extends("eslint:recommended").map(config => ({
   ...config,
