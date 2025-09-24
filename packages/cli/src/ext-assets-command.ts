@@ -5,7 +5,7 @@ import { getDirectories, readAsJson, saveAsJson } from './fs-utils';
 
 export class ExtAssetsCommand implements Command {
 
-    public angularConfigAssetsPath: string = 'projects.xm-webapp.architect.build.options.assets';
+    public angularConfigAssetsPath: string = 'targets.build.options.assets';
     public extAssetsMask: string = this.config.extDir + '/*/assets';
 
     constructor(private config: Config) {
@@ -23,7 +23,7 @@ export class ExtAssetsCommand implements Command {
 
         _.forEach(extAssets, (i) => {
             assets.push({ glob: '**/*', input: i, output: '/assets' });
-            console.info('Update angular.json assets:', i);
+            console.info('Update project.json assets:', i);
         });
 
         assets = _.uniq(assets);
