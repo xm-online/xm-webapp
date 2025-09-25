@@ -34,18 +34,6 @@
       "@xm-ngx-ext/*": [
         "src/app/ext/*"
       ],
-      "@xm-ngx/entity/card": [
-        "packages/entity/card/index.ts"
-      ],
-      "@xm-ngx/entity/search": [
-        "packages/entity/search/index.ts"
-      ],
-      "@xm-ngx/entity/pipes": [
-        "packages/entity/pipes/index.ts"
-      ],
-      "@xm-ngx/entity": [
-        "packages/entity/index.ts"
-      ],
       "@xm-ngx/entity/*": [
         "packages/entity/*"
       ],
