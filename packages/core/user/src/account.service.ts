@@ -25,6 +25,7 @@ export class AccountService {
     }
 
     public get(): Observable<HttpResponse<any>> {
+        console.info('Account');
         return this.cache$.get().pipe(filter(res => Boolean(res)));
     }
 
