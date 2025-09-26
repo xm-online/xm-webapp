@@ -40,7 +40,7 @@ export class EntityDetailComponent implements OnInit, OnDestroy {
         this.routeParamsSubscription = this.route.params.subscribe((params) => {
             if (params.key) {
                 this.xmEntitySpecWrapperService.spec().then((spec) => {
-                    const type = spec.types.filter((t) => t.key === params.key).shift() || {};
+                    const type = spec.types?.filter((t) => t.key === params.key).shift() || {};
                     if (type && type.name) {
                         this.routeData.pageSubTitle = this.i18nNamePipe.transform(type.name, this.principal);
                     }

@@ -9,7 +9,7 @@ import { XmAuthenticationConfig } from './xm-authentication-config.service';
 const DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded';
 const DEFAULT_AUTH_TOKEN = 'Basic d2ViYXBwOndlYmFwcA==';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class XmAuthenticationRepository {
     constructor(
         private httpClient: HttpClient,

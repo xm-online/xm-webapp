@@ -20,8 +20,8 @@ export class XmAuthTargetUrlService {
          * since login is succesful, go to stored previousState and clear previousState
          */
         const redirect = this.stateStorageService.getUrl();
-        if (redirect) {
-            this.router.navigateByUrl(redirect);
+        if (redirect && redirect !== '/') {
+            this.router.navigateByUrl(this.router.parseUrl(redirect));
         } else {
             this.router.navigate(['dashboard']);
         }

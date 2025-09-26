@@ -50,6 +50,10 @@ export const applicationRoute: Routes = [
         component: EntityDetailComponent,
         data: {
             authorities: ['ROLE_USER'],
+            privileges: {
+                condition: 'AND',
+                value: ['XMENTITY_SPEC.GET'],
+            },
             pageTitle: 'global.menu.applications.application',
         },
         canActivate: [UserRouteAccessService],
