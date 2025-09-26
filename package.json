@@ -56,7 +56,7 @@
     "nx-start:minimal": "nx serve xm-webapp --proxy-config local.proxy.conf.js --watch=false --host=0.0.0.0 --disable-host-check",
     "nx-start:prod": "npm run prebuild && nx serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0 --configuration serve-production",
     "nx-build": "nx build --stats-json",
-    "build:nx-prod": "npm run prebuild && nx build xm-webapp --configuration=production --stats-json --skip-nx-cache",
+    "build:nx-prod": "npm run prebuild && nx build xm-webapp --configuration=production --skip-nx-cache",
     "build:nx-prod-new": "node ./scripts/build-packages_copy-dist-package.js && npm i --ignore-scripts && nx run-many --target=build --projects={tag:type:lib} --all"
   },
   "dependencies": {
