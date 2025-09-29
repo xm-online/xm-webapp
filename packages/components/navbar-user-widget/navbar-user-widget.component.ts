@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-import { Principal, XmUserService, AccountContextService } from '@xm-ngx/core/user';
+import { XmUserService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 
@@ -36,15 +36,8 @@ export class NavbarUserWidgetComponent extends UserWidgetBase {
     public selectedFile: File = null;
     public declare config: UserNavBar;
 
-    constructor(
-        dashboardService: DashboardStore,
-        userService: XmUserService,
-        contextService: ContextService,
-        router: Router,
-        principal: Principal,
-        accountContext: AccountContextService,
-    ) {
-        super(dashboardService, userService, contextService, router, principal, accountContext);
+    constructor(dashboardService: DashboardStore, userService: XmUserService, contextService: ContextService, router: Router) {
+        super(dashboardService, userService, contextService, router);
 
     }
 

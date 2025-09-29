@@ -4,7 +4,7 @@ import * as _ from 'lodash';
 import { MenuItem } from '@xm-ngx/components/menu';
 import { UserWidgetBase } from './user-widget.base';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { Principal, XmUserService, AccountContextService } from '@xm-ngx/core/user';
+import { XmUserService } from '@xm-ngx/core/user';
 import { ContextService } from '@xm-ngx/core/context';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -42,10 +42,8 @@ export class SidebarUserComponent extends UserWidgetBase {
         protected readonly userService: XmUserService,
         protected readonly contextService: ContextService,
         protected readonly router: Router,
-        protected readonly principal: Principal,
-        protected readonly accountContext: AccountContextService,
     ) {
-        super(dashboardService, userService, contextService, router, principal, accountContext);
+        super(dashboardService, userService, contextService, router);
     }
 
     public getState(): string {

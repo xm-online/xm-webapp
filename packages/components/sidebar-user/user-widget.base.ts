@@ -1,6 +1,6 @@
 import { MenuItem } from '@xm-ngx/components/menu';
 import { combineLatest, Observable } from 'rxjs';
-import { Directive, Input, OnDestroy, OnInit } from '@angular/core';
+import { Directive, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { SidebarUserSubtitleOptions } from './sidebar-user-subtitle';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { Principal, XmUser, XmUserService, AccountContextService } from '@xm-ngx/core/user';
@@ -89,6 +89,9 @@ export class UserWidgetBase implements OnInit, OnDestroy {
     public user: UserOptions;
     public menu$: Observable<MenuItem[]>;
 
+    protected principal = inject(Principal);
+    protected accountContext = inject(AccountContextService);
+
     @Input() public config: {
         subtitles: SidebarUserSubtitleOptions[]
     };
@@ -98,8 +101,6 @@ export class UserWidgetBase implements OnInit, OnDestroy {
         protected readonly userService: XmUserService,
         protected readonly contextService: ContextService,
         protected readonly router: Router,
-        protected readonly principal: Principal,
-        protected readonly accountContext: AccountContextService,
     ) {
     }
 
