@@ -180,7 +180,6 @@ export class LanguageService implements OnDestroy, OnInitialize {
             tap(([user, config]) => {
                 this.userLocale = user && user.langKey ? user.langKey : null;
                 this.configLocale = config && config.langs && config.langs[0] ? config.langs[0] : null;
-                debugger
                 this.update(this.userLocale || this.configLocale || this.locale);
             }),
         ).subscribe();
