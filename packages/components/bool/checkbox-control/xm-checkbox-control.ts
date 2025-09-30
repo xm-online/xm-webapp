@@ -9,12 +9,15 @@ import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { HintModule, HintText } from '@xm-ngx/components/hint';
 
 export interface XmCheckboxControlOptions extends DataQa {
     title: Translate;
     id: string | null;
     class: string;
-    cancelable: boolean; // It looks like this prop doesn't use anymore
+    cancelable: boolean;// It looks like this prop doesn't use anymore
+    hint?: HintText
+    hintClass?: string
 }
 
 export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
@@ -29,29 +32,30 @@ export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
     standalone: true,
     selector: 'xm-checkbox-control',
     template: `
-        <mat-checkbox
-            [attr.data-qa]="config.dataQa"
-            [class]="config.class || 'pt-2'"
-            [indeterminate]="config.cancelable && value === false"
-            [id]="config.id"
-            [disabled]="disabled"
-            [ngModel]="value"
-            (change)="change($event.checked)">
-            <div class="d-flex align-items-center">
-                {{ config.title | translate }}
+            <mat-checkbox
+                [attr.data-qa]="config.dataQa"
+                [class]="config.class || 'pt-2'"
+                [indeterminate]="config.cancelable && value === false"
+                [id]="config.id"
+                [disabled]="disabled"
+                [ngModel]="value"
+                (change)="change($event.checked)">
+                <div class="d-flex align-items-center">
+                    {{ config.title | translate }}
 
-                @if (config.cancelable && (value === true || value === false)) {
-                    <button
-                        class="ms-1"
-                        mat-icon-button
-                        [disabled]="disabled"
-                        aria-label="Clear"
-                        (click)="change(null)">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                }
-            </div>
-        </mat-checkbox>
+                    @if (config.cancelable && (value === true || value === false)) {
+                        <button
+                            class="ms-1"
+                            mat-icon-button
+                            [disabled]="disabled"
+                            aria-label="Clear"
+                            (click)="change(null)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    }
+                </div>
+            </mat-checkbox>
+            <mat-hint [class]="config?.hintClass || 'small'" [hint]="config?.hint"></mat-hint>
     `,
     imports: [
         MatCheckboxModule,
@@ -60,6 +64,7 @@ export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
         ReactiveFormsModule,
         MatButtonModule,
         MatIconModule,
+        HintModule,
     ],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
