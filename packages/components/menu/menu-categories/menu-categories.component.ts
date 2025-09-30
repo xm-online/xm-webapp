@@ -68,7 +68,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
         this.observeHoveredCategory();
     }
 
-    public ngAfterViewInit() {
+    public ngAfterViewInit(): void {
         combineLatest([
             this.categories$,
             this.menuCategories.changes.pipe(
@@ -83,7 +83,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
         });
     }
 
-    public initListeners(elements: ElementRef[], items: MenuCategory[]) {
+    public initListeners(elements: ElementRef[], items: MenuCategory[]): void {
         this.ngZone.runOutsideAngular(() => {
             const enterStream$ = elements.map((elRef, i) => {
                 return fromEvent(elRef.nativeElement, 'mouseenter').pipe(map(() => ({
@@ -155,7 +155,6 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
                     this.ngZone.run(() => {
                         this.menuService.setHoveredCategory(category);
                     });
-                    this.menuService.setHoveredCategory(category);
 
                     return of(null);
                 }
