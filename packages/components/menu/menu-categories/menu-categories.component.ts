@@ -1,15 +1,37 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ElementRef, inject, NgZone,
+    OnDestroy,
+    OnInit, QueryList,
+    ViewChildren,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { BrandLogo, MenuCategory } from '../menu.interface';
+import { BrandLogo, HoveredMenuCategory, MenuCategory } from '../menu.interface';
 import { MenuService } from '../menu.service';
-import { concatMap, from, Observable, of, Subscription, take, timer } from 'rxjs';
+import {
+    concatMap,
+    from,
+    fromEvent,
+    Observable,
+    of,
+    Subscription,
+    take,
+    timer,
+    merge,
+    combineLatest,
+    startWith,
+} from 'rxjs';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
 import { hideCategories } from '../menu.animation';
 import { MenuCategoriesClassesEnum } from '../menu.model';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'xm-menu-categories',
@@ -19,16 +41,18 @@ import { MenuCategoriesClassesEnum } from '../menu.model';
     animations: [hideCategories],
     imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLink],
 })
-export class MenuCategoriesComponent implements OnInit, OnDestroy {
+export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit {
     public readonly DEFAULT_LOGO_SIZE: number = 32;
     public readonly menuCategoriesClassesEnum: typeof MenuCategoriesClassesEnum = MenuCategoriesClassesEnum;
     public categories$: Observable<MenuCategory[]>;
     public selectedCategory: MenuCategory;
+    public hoveredCategory: MenuCategory;
     public isSidenavPinned: boolean;
     public isCategoriesHidden$: Observable<boolean>;
     public brandLogo$: Observable<BrandLogo>;
     private hoverSubscription: Subscription;
-
+    @ViewChildren('menuCategory', {read: ElementRef}) private menuCategories: QueryList<ElementRef>;
+    private ngZone: NgZone = inject(NgZone);
 
     constructor(
         private menuService: MenuService,
@@ -41,6 +65,53 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy {
         this.assignSidenavObservers();
         this.observeSelectedCategory();
         this.observeIsSidenavPinned();
+        this.observeHoveredCategory();
+    }
+
+    public ngAfterViewInit() {
+        combineLatest([
+            this.categories$,
+            this.menuCategories.changes.pipe(
+                startWith(this.menuCategories),
+                takeUntilOnDestroy(this),
+            ),
+        ]).subscribe(([items, list]) => {
+            if (!list.length) {
+                return;
+            }
+            this.initListeners(list.toArray(), items);
+        });
+    }
+
+    public initListeners(elements: ElementRef[], items: MenuCategory[]) {
+        this.ngZone.runOutsideAngular(() => {
+            const enterStream$ = elements.map((elRef, i) => {
+                return fromEvent(elRef.nativeElement, 'mouseenter').pipe(map(() => ({
+                    category: items[i],
+                    isEnter: true,
+                })));
+            });
+
+            const leaveStream$ = elements.map((elRef) => {
+                return fromEvent(elRef.nativeElement, 'mouseleave').pipe(map(() => ({
+                    isEnter: false,
+                    category: null,
+                })));
+            });
+
+            const all$ = merge(...enterStream$, ...leaveStream$);
+            all$
+                .pipe(
+                    takeUntilOnDestroy(this),
+                )
+                .subscribe(({isEnter, category}) => {
+                    if (isEnter) {
+                        this.onHoverCategory(category);
+                    } else {
+                        this.closeHoverSubscription();
+                    }
+                });
+        });
     }
 
     private assignSidenavObservers(): void {
@@ -67,12 +138,25 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy {
             });
     }
 
+    private observeHoveredCategory(): void {
+        this.menuService.hoveredCategory
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((res: HoveredMenuCategory) => {
+                this.hoveredCategory = res.hoveredCategory;
+                this.cdr.markForCheck();
+            });
+    }
+
     public onHoverCategory(category?: MenuCategory): void {
         this.closeHoverSubscription();
         this.hoverSubscription = timer(200).pipe(
             concatMap(() => {
                 if (!category.isLinkWithoutSubcategories || category?.hasChildren) {
+                    this.ngZone.run(() => {
+                        this.menuService.setHoveredCategory(category);
+                    });
                     this.menuService.setHoveredCategory(category);
+
                     return of(null);
                 }
 
