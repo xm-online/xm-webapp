@@ -202,7 +202,7 @@ export class XmDateRangeControl extends NgControlAccessor<XmDateRangeValueOrStri
         event.stopPropagation();
         this.group.reset(null, {emitEvent: true});
         this.group.markAllAsTouched();
-        this.change({from: '', to: ''});
+        this.change(null);
         this.validDateFields();
 
         if (this.config.maxRangeInDays) {
