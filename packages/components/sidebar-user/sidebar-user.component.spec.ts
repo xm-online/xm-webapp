@@ -2,11 +2,11 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MockUserService } from '@xm-ngx/core/user/testing';
+import { MockPrincipalService, MockUserService } from '@xm-ngx/core/user/testing';
 import { SidebarUserComponent } from './sidebar-user.component';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
-import { XmUserService } from '@xm-ngx/core/user';
+import { Principal, XmUserService } from '@xm-ngx/core/user';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 
@@ -25,6 +25,7 @@ describe('SidebarUserComponent', () => {
             providers: [
                 { provide: DashboardStore, useClass: MockDashboardStore },
                 { provide: XmUserService, useClass: MockUserService },
+                { provide: Principal, useClass: MockPrincipalService },
             ],
             schemas: [NO_ERRORS_SCHEMA],
         })
