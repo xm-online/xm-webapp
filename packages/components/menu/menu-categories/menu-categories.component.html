@@ -3,7 +3,8 @@
     <ng-container *ngIf="isCategoriesHidden$ | async">
       <div class="menu-categories-spacer"></div>
       <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES" [@hideCategories]>
-        <a *ngIf="brandLogo$ | async as brandLogo" class="menu-categories__logo" [routerLink]="brandLogo?.navigationSlug || '/dashboards'">
+        <a *ngIf="brandLogo$ | async as brandLogo" class="menu-categories__logo"
+           [routerLink]="brandLogo?.navigationSlug || '/dashboards'">
           <img *ngIf="brandLogo?.url"
                [src]="brandLogo?.url"
                [width]="brandLogo?.size || DEFAULT_LOGO_SIZE"
@@ -12,17 +13,19 @@
         </a>
         <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES_CONTAINER">
           <div
+            #menuCategory
             *ngFor="let category of categories"
             [class]="menuCategoriesClassesEnum.MENU_CATEGORY"
             [ngClass]="{'active': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()}"
             (click)="onNavigate(category)"
-            (mouseenter)="onHoverCategory(category)"
-            (mouseleave)="closeHoverSubscription()"
             [attr.data-qa]="category.dataQa || 'default-' + category.icon + 'category'"
           >
             <div *ngIf="category.icon"
                  class="menu-category__icon menu-link rounded-menu-link"
-                 [ngClass]="{'active-with-stretch': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()}">
+                 [ngClass]="{
+                  'hover-active': hoveredCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase(),
+                  'active-with-stretch': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()
+                 }">
               <mat-icon>{{ category?.icon }}</mat-icon>
             </div>
             <span *ngIf="category?.name" class="menu-category__name">{{ category?.name | translate }}</span>
@@ -33,8 +36,12 @@
                   [disabled]="selectedCategory?.isLinkWithoutSubcategories"
                   (click)="toggleSidenav()">
             <div class="d-flex">
-              <mat-icon class="action-icon action-icon__left" [ngClass]="{'rotate-chevron-left': isSidenavPinned}">chevron_left</mat-icon>
-              <mat-icon class="action-icon action-icon__right" [ngClass]="{'rotate-chevron-right': isSidenavPinned}">chevron_right</mat-icon>
+              <mat-icon class="action-icon action-icon__left" [ngClass]="{'rotate-chevron-left': isSidenavPinned}">
+                chevron_left
+              </mat-icon>
+              <mat-icon class="action-icon action-icon__right" [ngClass]="{'rotate-chevron-right': isSidenavPinned}">
+                chevron_right
+              </mat-icon>
             </div>
           </button>
         </div>
