@@ -24,7 +24,7 @@ export class AccountContextService {
 
     public hasContextPermission(path: string, key: string): boolean {
         const permissions = _.get(this.context, `${path}.permissions`);
-        return !!_.find(permissions, key);
+        return !!_.includes(permissions, key);
     }
 
 }
