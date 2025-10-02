@@ -19,6 +19,12 @@ export interface XmMatCardOptions {
     editPermission?: string[];
     collapsableContent?: boolean;
     contentHiddenByDefault?: boolean;
+    theme?: {
+        header?: {
+            class?: string;
+            style?: string;
+        };
+    };
 }
 
 @Component({

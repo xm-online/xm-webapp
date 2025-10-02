@@ -1,6 +1,7 @@
-<div class="menu-view"
+<div #menuView class="menu-view"
      [ngClass]="{'old-menu': !isMaterial3Menu}"
-     (mouseleave)="hideMenuRightSide($event)">
+>
+
   <cdk-tree *ngIf="subCategories$ | async"
             [dataSource]="filteredCategories"
             [treeControl]="treeControl"
@@ -19,9 +20,9 @@
          (click)="setSelectedCategory(node)"
          [attr.data-qa]="node.dataQa || 'default-menu-child-key'"
       >
-        <mat-icon class="menu-icon" *ngIf="!isMaterial3Menu">{{node?.icon}}</mat-icon>
+        <mat-icon class="menu-icon" *ngIf="!isMaterial3Menu">{{ node?.icon }}</mat-icon>
         <span class="xm-menu-item-text" [title]="node?.title | translate">
-        {{node?.title | translate}}
+        {{ node?.title | translate }}
       </span>
       </a>
     </cdk-tree-node>
@@ -39,8 +40,8 @@
          [href]="node.slug"
          [attr.data-qa]="node.dataQa || 'default-menu-parent-key'"
       >
-        <mat-icon class="menu-icon" *ngIf="!isMaterial3Menu">{{node.icon}}</mat-icon>
-        <span class="xm-menu-item-text">{{node?.title | translate}}</span>
+        <mat-icon class="menu-icon" *ngIf="!isMaterial3Menu">{{ node.icon }}</mat-icon>
+        <span class="xm-menu-item-text">{{ node?.title | translate }}</span>
         <span class="ms-auto"></span>
 
         <mat-icon
