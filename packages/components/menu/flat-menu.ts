@@ -6,23 +6,29 @@ import { MenuItem } from './menu.interface';
 import { XmEntitySpec } from '@xm-ngx/core/entity';
 import * as _ from 'lodash';
 import { ISideBarConfig } from './menu.component';
+import { Principal, AccountContextService } from '@xm-ngx/core/user';
 
-function checkCondition(item: { config?: { condition?: JavascriptCode } }, contextService: ContextService): boolean {
+function checkCondition(item: { config?: { condition?: JavascriptCode } }, contextService: ContextService, accountContextService: AccountContextService, principal: Principal): boolean {
     if (!item.config || !item.config.condition) {
         return true;
     }
 
     try {
         const code = transpilingForIE(item.config.condition, contextService);
-        return Boolean((new Function('context', code))(contextService));
+        const hasPrivilege = (key: string) => principal.hasPrivilegesInline([key]);
+        const hasContextPrivilege = (path: string, key: string) => accountContextService.hasContextPermission(path, key);
+        const hasContextKey = (key: string) => accountContextService.hasContextKey(key);
+        const contextValue = (key: string) => accountContextService.contextValue(key);
+
+        return Boolean((new Function('hasPrivilege', 'hasContextPrivilege', 'hasContextKey', 'contextValue', 'context', code))( hasPrivilege, hasContextPrivilege, hasContextKey, contextValue, contextService));
     } catch (e) {
         console.warn('RUNTIME JS:', e);
         return false;
     }
 }
 
-export function filterByConditionDashboards(dashboards: Dashboard[], contextService: ContextService): Dashboard[] {
-    return dashboards.filter((i) => checkCondition(i, contextService));
+export function filterByConditionDashboards(dashboards: Dashboard[], contextService: ContextService, accountContextService: AccountContextService, principal: Principal): Dashboard[] {
+    return dashboards.filter((i) => checkCondition(i, contextService, accountContextService, principal));
 }
 
 export function applicationsToCategory(applications: XmEntitySpec[], sideBarConfig?: ISideBarConfig): MenuItem[] {
