@@ -4,7 +4,7 @@ import { waitForAsync, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
-import { Principal } from '@xm-ngx/core/user';
+import { AccountContextService, Principal } from '@xm-ngx/core/user';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { LanguageService } from '@xm-ngx/translation';
 import { NgxWebstorageModule } from 'ngx-webstorage';
@@ -46,6 +46,10 @@ describe('XmMainComponent', () => {
                 XmEventManager,
                 {
                     provide: XmApplicationConfigService,
+                    useClass: Mock,
+                },
+                {
+                    provide: AccountContextService,
                     useClass: Mock,
                 },
                 {

@@ -1,4 +1,14 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component, ElementRef,
+    inject,
+    Inject,
+    Input, NgZone,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
@@ -8,12 +18,13 @@ import {
     animationFrameScheduler,
     combineLatest,
     debounceTime,
-    from,
+    from, fromEvent,
     Observable,
     observeOn,
     of,
     tap,
     timer,
+    merge,
 } from 'rxjs';
 import { filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 
@@ -96,6 +107,8 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     public hoveredCategory: MenuCategory;
     public parentCategory: MenuItem;
     public isMaterial3Menu: boolean;
+    @ViewChild('menuView', {static: true}) private menuView: ElementRef;
+    private ngZone: NgZone = inject(NgZone);
 
     constructor(
         protected readonly dashboardService: DashboardStore,
@@ -108,7 +121,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         protected readonly userService: XmUserService,
         protected readonly eventManager: XmEventManager,
         protected readonly menuService: MenuService,
-        @Inject(DOCUMENT) private document: Document
+        @Inject(DOCUMENT) private document: Document,
     ) {
     }
 
@@ -128,6 +141,27 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     public ngAfterViewInit(): void {
         this.observeSidenavOpen();
         this.observeSidenavClose();
+
+        this.ngZone.runOutsideAngular(() => {
+            const enter$ = fromEvent(this.menuView.nativeElement, 'mouseenter').pipe(map((event) => ({
+                event,
+                isEnter: true,
+            })));
+            const leave$ = fromEvent(this.menuView.nativeElement, 'mouseleave').pipe(map((event) => ({
+                event,
+                isEnter: false,
+            })));
+
+            merge(enter$, leave$)
+                .pipe(
+                    switchMap((res) => res.isEnter ? of(res) : timer(1000).pipe(map(() => res))),
+                    filter((res) => this.menuService.isOverMode && !res.isEnter),
+                    takeUntilOnDestroy(this),
+                )
+                .subscribe((res) => {
+                    this.hideMenuRightSide(res.event);
+                });
+        });
     }
 
     private assignSubCategories(): void {

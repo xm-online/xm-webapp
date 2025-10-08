@@ -4,7 +4,10 @@
             [ngClass]="options.cardClass"
             class="mb-3">
 
-    <mat-card-header class="d-flex justify-content-between">
+    <mat-card-header
+      [class]="options?.theme?.header?.class || 'd-flex justify-content-between'"
+      [style]="options?.theme?.header?.style"
+    >
 
       <div mat-card-title>
         <xm-text-header *ngIf="options.title" [value]="options.title"></xm-text-header>
