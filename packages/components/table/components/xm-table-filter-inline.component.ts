@@ -14,6 +14,7 @@ import { matExpansionAnimations } from '@angular/material/expansion';
 import { NgClass, NgIf } from '@angular/common';
 import _ from 'lodash';
 import { XmEmptyPipe } from '@xm-ngx/pipes';
+import { XmEventManagerService } from '@xm-ngx/core';
 
 @Component({
     selector: 'xm-table-filter-inline',
@@ -100,6 +101,8 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
     public isFilterVisible: boolean = true;
     private requestOnlyOnSubmit: boolean = false;
 
+    private readonly eventManagerService = inject(XmEventManagerService);
+
     public ngOnInit(): void {
         this.requestOnlyOnSubmit = this.config?.requestOnlyOnSubmit;
         this.isFilterVisible = !this.config?.hideDefaultFilters;
@@ -143,6 +146,7 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
 
     public reset(): void {
         this.tableFilterController.clearExceptFixedFilters(this.config.filters);
+        this.eventManagerService.broadcast({ name: 'TABLE_CLEAR_ALL_FILTERS' });
     }
 
     private setValueOnChangeFilter(): void {
