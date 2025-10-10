@@ -76,6 +76,7 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
         from(this.principal.identity())
             .pipe(
                 takeUntilOnDestroy(this),
+                map((resp: any) => (resp?.body ?? resp) as XmUser | null),
                 tap((account: XmUser | null) => {
                     if (account) {
                         this.accountSettings = account;
