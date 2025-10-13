@@ -38,6 +38,7 @@ export interface XmDateControlOptions {
     useAvailableDate?: boolean;
     disableWeekends?: boolean;
     daysAhead?: number;
+    dateFormat?: string;
     availableDaysController?: {
         key?: string;
         method?: string;
@@ -53,6 +54,7 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
     errors: null,
     disableWeekends: null,
     daysAhead: null,
+    dateFormat: 'YYYY-MM-DDTHH:mm:ss[Z]',
 };
 
 @Component({
@@ -237,8 +239,8 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
                 );
 
                 date = foundAvailableDate
-                    ? dayjs(foundAvailableDate).utc().format('YYYY-MM-DDTHH:mm:ss[Z]')
-                    : selectedDay.format('YYYY-MM-DDTHH:mm:ss[Z]');
+                    ? dayjs(foundAvailableDate).utc().format(this.config.dateFormat)
+                    : selectedDay.format(this.config.dateFormat);
             }
 
             this.control.setValue(date, {emitEvent: true});
