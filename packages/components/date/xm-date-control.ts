@@ -21,6 +21,7 @@ import { XmDateValue } from './xm-date.component';
 import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { DateAdapter } from '@angular/material/core';
 import { CustomDateAdapter } from './shared/custom-date-adapter';
+import dayjs from 'dayjs';
 
 export interface XmDateControlOptions {
     hint?: HintText;
@@ -34,8 +35,10 @@ export interface XmDateControlOptions {
     intervalFromMinDateInDays?: number;
     dateNow?: boolean;
     useIsoString?: boolean;
+    useAvailableDate?: boolean;
     disableWeekends?: boolean;
     daysAhead?: number;
+    dateFormat?: string;
     availableDaysController?: {
         key?: string;
         method?: string;
@@ -51,6 +54,7 @@ const DEFAULT_CONFIG: XmDateControlOptions = {
     errors: null,
     disableWeekends: null,
     daysAhead: null,
+    dateFormat: 'YYYY-MM-DDTHH:mm:ss[Z]',
 };
 
 @Component({
@@ -220,13 +224,25 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
         if (value instanceof Date) {
             let date: Date | string = value;
             if (this.config?.useUtc) {
-                date = new Date(
-                    Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()),
-                );
+                date = dayjs(value).utc().startOf('day').toDate();
             }
+
             if (this.config?.useIsoString) {
-                date = date.toISOString();
+                date = dayjs(date).toISOString();
             }
+
+            if (this.config?.useAvailableDate) {
+                const selectedDay = dayjs(value).startOf('day');
+
+                const foundAvailableDate = this.availableDates?.find(availableDate =>
+                    dayjs(availableDate).isSame(selectedDay, 'day')
+                );
+
+                date = foundAvailableDate
+                    ? dayjs(foundAvailableDate).utc().format(this.config.dateFormat)
+                    : selectedDay.format(this.config.dateFormat);
+            }
+
             this.control.setValue(date, {emitEvent: true});
             this.control.markAsTouched();
             this.control.markAsDirty();
