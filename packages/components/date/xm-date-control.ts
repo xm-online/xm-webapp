@@ -22,6 +22,8 @@ import { HintModule, HintText } from '@xm-ngx/components/hint';
 import { DateAdapter } from '@angular/material/core';
 import { CustomDateAdapter } from './shared/custom-date-adapter';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 
 export interface XmDateControlOptions {
     hint?: HintText;
