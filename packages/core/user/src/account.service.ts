@@ -37,6 +37,10 @@ export class AccountService {
             .pipe(tap((response: HttpResponse<Account>) => this.cache$?.next(response)));
     }
 
+    public saveWithoutCashe(account: any): Observable<HttpResponse<any>> {
+        return this.http.post<Account>(this.accountUrl, account, {observe: 'response'});
+    }
+
     public updateLogins(account: any): Observable<HttpResponse<any>> {
         return this.http.put(this.resourceLogins, account, {observe: 'response'});
     }
