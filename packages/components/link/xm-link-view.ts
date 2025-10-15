@@ -13,6 +13,7 @@ import { XM_LINK_DEFAULT_OPTIONS, XmLink, XmLinkOptions } from './xm-link';
 export interface XmLinkViewOptions extends XmLinkOptions {
     title: Translate;
     styleInline: boolean;
+    labelStyleInline?: string;
     icon?: string
 }
 
@@ -38,7 +39,7 @@ export const XM_LINK_VIEW_DEFAULT_OPTIONS: XmLinkViewOptions = assign(
         XmLink,
     ],
     template: `
-        <xm-text-view-container [hidden]="!fieldValue" [styleInline]="config?.styleInline">
+        <xm-text-view-container [hidden]="!fieldValue" [styleInline]="config?.styleInline" [labelStyleInline]="config?.labelStyleInline">
             <span xmLabel>{{config?.title | translate}}</span>
 
             <div xmValue>
