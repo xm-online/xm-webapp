@@ -101,7 +101,7 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
         }
 
         this.accountSettings.langKey = languageKey;
-        this.accountService.saveWithoutCashe(this.accountSettings).subscribe({
+        this.accountService.save(this.accountSettings, false).subscribe({
             next: () => {
                 this.principal.identity(true).then((resp) => {
                     const account = ((resp?.body ?? resp) as XmUser | null);
