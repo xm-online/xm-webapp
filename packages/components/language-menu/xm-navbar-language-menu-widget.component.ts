@@ -42,7 +42,7 @@ export interface XmLanguageUiConfig extends XmUIConfig {
                 <mat-icon>expand_more</mat-icon>
             </button>
         }
-
+        
         <mat-menu #menu="matMenu" xPosition="before">
             <button mat-menu-item
                     *ngFor="let language of languages"
@@ -84,12 +84,6 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
                 }),
             )
             .subscribe();
-
-        this.principal.getAuthenticationState()
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe((account) => {
-                this.accountSettings = account ?? undefined;
-            });
         this.xmUiConfigService.config$().pipe(takeUntilOnDestroy(this)).subscribe({
             next: (config) => {
                 this.languages = (config && config.langs) ? config.langs : this.languageService.languages;
@@ -107,9 +101,10 @@ export class XmNavbarLanguageMenuWidget implements OnInit, XmDynamicWidget {
         }
 
         this.accountSettings.langKey = languageKey;
-        this.accountService.save(this.accountSettings).subscribe({
+        this.accountService.save(this.accountSettings, false).subscribe({
             next: () => {
-                this.principal.identity(true).then((account) => {
+                this.principal.identity(true).then((resp) => {
+                    const account = ((resp?.body ?? resp) as XmUser | null);
                     if (account && account.langKey === languageKey) {
                         this.accountSettings = account;
                         this.languageService.locale = languageKey;
