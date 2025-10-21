@@ -8,8 +8,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarUserWidgetComponent } from './navbar-user-widget.component';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
-import { XmUserService } from '@xm-ngx/core/user';
-import { MockUserService } from '@xm-ngx/core/user/testing';
+import { Principal, XmUserService } from '@xm-ngx/core/user';
+import { MockPrincipalService, MockUserService } from '@xm-ngx/core/user/testing';
 import { MatMenuModule } from '@angular/material/menu';
 
 
@@ -31,6 +31,7 @@ describe('NavbarUserWidgetComponent', () => {
             providers: [
                 { provide: DashboardStore, useClass: MockDashboardStore },
                 { provide: XmUserService, useClass: MockUserService },
+                { provide: Principal, useClass: MockPrincipalService },
             ],
         })
             .compileComponents();

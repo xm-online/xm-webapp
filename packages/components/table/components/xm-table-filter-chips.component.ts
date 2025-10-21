@@ -2,6 +2,7 @@ import {
     AfterViewInit,
     Component,
     ElementRef,
+    inject,
     Input,
     OnDestroy,
     QueryList,
@@ -10,15 +11,12 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import {
-    XmTableFilterButtonDialogControlsComponent,
-    XmTableFiltersControlRequestConfig
-} from './xm-table-filter-button-dialog-controls.component';
+import { XmTableFiltersControlRequestConfig } from './xm-table-filter-button-dialog-controls.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import * as _ from 'lodash';
 import { cloneDeep, flatten, isArray } from 'lodash';
-import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy, } from '@xm-ngx/operators';
-import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
+import { Defaults, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { XmTableFilterController } from '../controllers';
 import { MatChipsModule } from '@angular/material/chips';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,6 +30,7 @@ import {
 } from '@xm-ngx/components/inline-control';
 import { XmTableFilterChipsControlComponent } from './xm-table-filter-chips-control.component';
 import { Primitive } from '@xm-ngx/interfaces';
+import { XmEventManagerService } from '@xm-ngx/core';
 
 export interface XmTableInlineFilterFormLayoutItem extends FormLayoutItem {
     removable?: boolean;
@@ -161,7 +160,6 @@ export interface XmTableFilterInlineFilter {
     imports: [
         CommonModule,
         MatButtonModule,
-        XmTableFilterButtonDialogControlsComponent,
         MatBadgeModule,
         MatChipsModule,
         XmTranslationModule,
@@ -181,6 +179,8 @@ export class XmTableFilterChipsComponent implements AfterViewInit, OnDestroy {
     @ViewChild('filterContainer') public filterContainer: ElementRef<HTMLElement>;
     @ViewChild('filterChipsActions') public filterChipsActions: ElementRef<HTMLElement>;
     @ViewChildren('filterItem', { read: ElementRef }) public filterItems: QueryList<ElementRef<HTMLElement>>;
+
+    private readonly eventManagerService = inject(XmEventManagerService);
 
     constructor(
         protected entitiesRequestBuilder: XmTableFilterController,
@@ -228,6 +228,7 @@ export class XmTableFilterChipsComponent implements AfterViewInit, OnDestroy {
 
     public removeAll(): void {
         this.entitiesRequestBuilder.clearExceptFixedFilters(this.config.filters);
+        this.eventManagerService.broadcast({ name: 'TABLE_CLEAR_ALL_FILTERS' });
     }
 
     private setFilters(chipsFilters: XmTableFilterInlineFilter[]): void {
