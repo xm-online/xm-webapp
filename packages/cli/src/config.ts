@@ -1,5 +1,5 @@
 export class Config {
-    public sourceAngularConfig: string = 'project.json';
+    public sourceAngularConfig: string = 'config.project.json';
     public targetAngularConfig: string = 'project.json';
     public extDir: string = 'src/app/ext';
     public extMask: string = this.extDir + '/*';
