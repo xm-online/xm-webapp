@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import { of } from 'rxjs';
-import { Principal } from '@xm-ngx/core/user';
+import { AccountContextService, Principal } from '@xm-ngx/core/user';
 import { AccountService } from '@xm-ngx/core/user';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { ImageLogoComponent } from './image-logo.component';
@@ -26,6 +26,7 @@ describe('ImageLogoComponent', () => {
                 { provide: Principal, useValue: {} },
                 { provide: AccountService, useValue: {} },
                 { provide: DashboardStore, useClass: Mock },
+                { provide: AccountContextService, useClass: Mock },
             ],
         })
             .compileComponents();

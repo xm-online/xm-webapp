@@ -4,10 +4,10 @@ import { XmEventManager } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { XmUserService } from '@xm-ngx/core/user';
 import { OnInitialize } from '@xm-ngx/interfaces';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { SessionStorageService } from 'ngx-webstorage';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { filter, first, map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { filter, first, map, tap } from 'rxjs/operators';
 import { dayjs } from '@xm-ngx/operators';
 import utc from 'dayjs/plugin/utc';
 import { getBrowserLocale } from '../operators/getBrowserLocale';
@@ -80,8 +80,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
         this.logger = this.loggerService.create({ name: 'LanguageService' });
         this.$locale = new BehaviorSubject<Locale | null>(null);
         this.locale$ = this.$locale.asObservable();
-        this.onUserLocale();
-        this.onConfigLocale();
+        this.getInitialLocale();
     }
 
     public get locale(): Locale {
@@ -173,6 +172,19 @@ export class LanguageService implements OnDestroy, OnInitialize {
         });
     }
 
+    private getInitialLocale(): void {
+        combineLatest([
+            this.userService.user$(),
+            this.configService.config$(),
+        ]).pipe(
+            tap(([user, config]) => {
+                this.userLocale = user && user.langKey ? user.langKey : null;
+                this.configLocale = config && config.langs && config.langs[0] ? config.langs[0] : null;
+                this.update(this.userLocale || this.configLocale || this.locale);
+            }),
+        ).subscribe();
+    }
+
     protected update(locale: string): void {
         if (this.isLocaleUpdating) {
             return;
@@ -191,20 +203,5 @@ export class LanguageService implements OnDestroy, OnInitialize {
         this.eventManager.broadcast({ name: EVENT_CHANGE_LOCALE, content: locale });
 
         this.isLocaleUpdating = false;
-    }
-
-    protected onUserLocale(): void {
-        this.userService.user$()
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe((u) => {
-                this.userLocale = u && u.langKey ? u.langKey : null;
-                this.update(this.locale);
-            });
-    }
-
-    protected onConfigLocale(): void {
-        this.configService.config$()
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe((c) => this.configLocale = c && c.langs && c.langs[0] ? c.langs[0] : null);
     }
 }

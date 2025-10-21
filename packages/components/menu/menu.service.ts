@@ -10,7 +10,7 @@ import { MenuCategoriesClassesEnum, MenuPositionEnum } from './menu.model';
 import { ContextService } from '@xm-ngx/core/context';
 import { XmUserService } from '@xm-ngx/core/user';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { Principal } from '@xm-ngx/core/user';
+import { Principal, AccountContextService } from '@xm-ngx/core/user';
 import { buildMenuTree } from './nested-menu';
 import { ConditionDirective } from '@xm-ngx/components/condition';
 import { filterByConditionDashboards } from './flat-menu';
@@ -41,6 +41,7 @@ export class MenuService {
         private readonly dashboardService: DashboardStore,
         private readonly contextService: ContextService,
         private router: Router,
+        private accountContext: AccountContextService,
     ) {
         this.isCategoriesHidden$ = this.getHiddenCategoriesObserver();
     }
@@ -127,7 +128,7 @@ export class MenuService {
                 }
                 return this.dashboardService.dashboards$().pipe(
                     filter((dashboards) => Boolean(dashboards)),
-                    map((i) => filterByConditionDashboards(i, this.contextService)),
+                    map((i) => filterByConditionDashboards(i, this.contextService, this.accountContext, this.principal)),
                     map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
                     map((dashboards) => {
                         if (dashboards?.length) {

@@ -32,9 +32,9 @@ export class AccountService {
         return this.http.get<Account>(this.accountUrl, {observe: 'response'});
     }
 
-    public save(account: any): Observable<HttpResponse<any>> {
+    public save(account: any, isCacheUpdate: boolean = true): Observable<HttpResponse<any>> {
         return this.http.post<Account>(this.accountUrl, account, {observe: 'response'})
-            .pipe(tap((response: HttpResponse<Account>) => this.cache$?.next(response)));
+            .pipe(tap((response: HttpResponse<Account>) => isCacheUpdate && this.cache$?.next(response)));
     }
 
     public updateLogins(account: any): Observable<HttpResponse<any>> {

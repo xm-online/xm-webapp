@@ -47,8 +47,8 @@ export class Principal implements OnDestroy, OnInitialize {
                 }
 
                 return this.account.getCachedAccount()
-                    .pipe(tap((account: any)=> account === null && this.account.forceReload()));
-            })
+                    .pipe(tap((account: any) => account === null && this.account.forceReload()));
+            }),
         ).subscribe();
     }
 

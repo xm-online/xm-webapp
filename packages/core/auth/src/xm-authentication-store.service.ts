@@ -1,22 +1,29 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 
-// TODO: move to IDP context
-export const IDP_CLIENT = 'idp_client';
-
-export const REFRESH_TOKEN = 'refresh_token';
-export const AUTH_TOKEN = 'authenticationToken';
+import {
+    AUTH_SYNC_CHANNEL_ID,
+    AUTH_SYNC_CHANNEL_NAME,
+    AUTH_TOKEN,
+    IDP_CLIENT,
+    REFRESH_TOKEN,
+} from './xm-authentication-store.constants';
 
 @Injectable()
 export class XmAuthenticationStoreService {
+    private channelId = AUTH_SYNC_CHANNEL_ID;
+    private channel: BroadcastChannel;
+
 
     constructor(
         private localStorage: LocalStorageService,
         private sessionStorage: SessionStorageService,
     ) {
+        this.setBroadcastChannelConfiguration();
     }
 
     public storeAuthenticationToken(jwt: string, rememberMe: boolean = false): void {
+        this.channel.postMessage({type: AUTH_TOKEN, payload: {jwt, rememberMe, id: this.channelId}});
         if (rememberMe) {
             this.localStorage.store(AUTH_TOKEN, jwt);
         }
@@ -24,6 +31,7 @@ export class XmAuthenticationStoreService {
     }
 
     public storeRefreshToken(jwt: string, rememberMe: boolean = false): void {
+        this.channel.postMessage({type: REFRESH_TOKEN, payload: {jwt, rememberMe, id: this.channelId}});
         if (rememberMe) {
             this.localStorage.store(REFRESH_TOKEN, jwt);
         }
@@ -50,6 +58,10 @@ export class XmAuthenticationStoreService {
         return this.sessionStorage.retrieve(REFRESH_TOKEN) || this.localStorage.retrieve(REFRESH_TOKEN);
     }
 
+    private setBroadcastChannelConfiguration(): void {
+        this.channel = new BroadcastChannel(AUTH_SYNC_CHANNEL_NAME);
+    }
+
     public clear(saveIdpConfig?: boolean): void {
         this.localStorage.clear(AUTH_TOKEN);
         this.sessionStorage.clear(AUTH_TOKEN);
@@ -60,5 +72,4 @@ export class XmAuthenticationStoreService {
             this.sessionStorage.clear(IDP_CLIENT);
         }
     }
-
 }
