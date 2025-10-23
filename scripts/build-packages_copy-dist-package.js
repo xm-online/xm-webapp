@@ -1,64 +1,80 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
-
 const foldersToScan = ['packages'];
 const packageJsonFile = 'package.json';
 const libFolder = 'lib';
 
-// Function to recursively get all folders with a specific file
-function getFoldersWithFile(baseDir, searchFile) {
+async function getFoldersWithFile(baseDir, searchFile) {
     const foundFolders = [];
 
-    function scanFolders(dir) {
-        const folders = fs.readdirSync(dir, { withFileTypes: true });
-        folders.forEach((folder) => {
-            const folderPath = path.join(dir, folder.name);
+    async function scanDirectory(currentDir) {
+        let entries;
+        try {
+            entries = await fs.readdir(currentDir, {withFileTypes: true});
+        } catch (error) {
+            console.error(`Could not read directory: ${currentDir}`, error);
+            return;
+        }
 
-            if (folder.isDirectory()) {
-                const filePath = path.join(folderPath, searchFile);
-                if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
-                    foundFolders.push(folderPath);
-                } else {
-                    scanFolders(folderPath);
+        const processingPromises = entries.map(async (entry) => {
+            const entryPath = path.join(currentDir, entry.name);
+
+            if (entry.isDirectory()) {
+                const filePath = path.join(entryPath, searchFile);
+                try {
+                    await fs.access(filePath);
+
+                    foundFolders.push(entryPath);
+                } catch {
+                    await scanDirectory(entryPath);
                 }
             }
         });
+
+        await Promise.all(processingPromises);
     }
 
-    scanFolders(baseDir);
-
+    await scanDirectory(baseDir);
     return foundFolders;
 }
 
-// Get all folders with package.json
-const foldersWithPackageJson = [];
-foldersToScan.forEach((folderPattern) => {
-    const matchingFolders = getFoldersWithFile(folderPattern, packageJsonFile);
-    foldersWithPackageJson.push(...matchingFolders);
-});
+async function run() {
+    try {
 
-// Remove lib directory if it exists
-const libFolderPath = path.join(process.cwd(), libFolder);
-if (fs.existsSync(libFolderPath)) {
-    fs.rmSync(libFolderPath, { recursive: true });
+        const scanPromises = foldersToScan.map(folder => getFoldersWithFile(folder, packageJsonFile));
+
+        const nestedFolders = await Promise.all(scanPromises);
+
+        const foldersWithPackageJson = nestedFolders.flat();
+
+        if (foldersWithPackageJson.length === 0) {
+            return;
+        }
+
+        const libFolderPath = path.join(process.cwd(), libFolder);
+
+        await fs.rm(libFolderPath, {recursive: true, force: true});
+
+        await fs.mkdir(libFolderPath);
+
+        const copyPromises = foldersWithPackageJson.map(async (folder) => {
+            const sourcePath = path.join(folder, packageJsonFile);
+            const targetFolder = path.join(libFolderPath, path.basename(folder));
+            const destinationPath = path.join(targetFolder, packageJsonFile);
+
+            try {
+                await fs.mkdir(targetFolder, {recursive: true});
+                await fs.copyFile(sourcePath, destinationPath);
+                console.info(`Copied ${sourcePath} -> ${destinationPath}`);
+            } catch (copyError) {
+                console.error(`Error copying file from ${folder}:`, copyError);
+            }
+        });
+        await Promise.all(copyPromises);
+
+    } catch (error) {
+        console.error('\nA critical error occurred:', error);
+    }
 }
 
-// Create lib directory
-fs.mkdirSync(libFolderPath);
-
-// Copy package.json to lib folder for each folder
-foldersWithPackageJson.forEach((folder) => {
-    const packageJsonPath = path.join(folder, packageJsonFile);
-    const distPackageJsonPath = path.join(libFolderPath, path.basename(folder), packageJsonFile);
-
-    // Create folder in lib directory if it doesn't exist
-    const libFolderInPath = path.dirname(distPackageJsonPath);
-    if (!fs.existsSync(libFolderInPath)) {
-        fs.mkdirSync(libFolderInPath, { recursive: true });
-    }
-
-    // Copy package.json to lib folder
-    fs.copyFileSync(packageJsonPath, distPackageJsonPath);
-
-    console.info(`Copied ${packageJsonFile} to ${distPackageJsonPath}`);
-});
+run();

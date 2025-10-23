@@ -48,7 +48,7 @@ export class ExtI18nCommand implements Command {
         glob.sync(pathMask).map(filePath => filePath.replace(/\\/g, '/')).forEach(file => {
             const [fileName, lang] = file.split('/').reverse();
             const dirpath = `${this.core}ext/${lang}`;
-            fs.mkdirSync(dirpath, { recursive: true });
+            fs.mkdirSync(dirpath, {recursive: true});
 
             fs.copyFile(file, `${dirpath}/${fileName}`, (err) => {
                 if (err) throw err;

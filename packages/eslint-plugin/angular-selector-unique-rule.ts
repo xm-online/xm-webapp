@@ -3,7 +3,7 @@ import { Rule } from 'eslint';
 let selectors = new Map();
 let isFirstIterationAnyFileMatchCache = null;
 
-module.exports = {
+export default {
     meta: {
         type: 'problem',
         docs: {
@@ -22,7 +22,7 @@ module.exports = {
         }
 
         return {
-            'ExportNamedDeclaration > ClassDeclaration > Decorator[expression.callee.name=Component] Property:matches([key.name=selector]) :matches(Literal, TemplateElement)'(node) {
+            'ExportNamedDeclaration > ClassDeclaration > Decorator[expression.callee.name=Component] Property:matches([key.name=selector]) :matches(Literal, TemplateElement)'(node: any) { // Добавлен тип any для node, чтобы избежать ошибок TypeScript
                 const fileName = `${path}:${node.loc.start.line}:${node.loc.start.column}`;
                 const existingFile = selectors.get(node.value);
                 if (existingFile && existingFile !== fileName) {

@@ -1,12 +1,14 @@
 {
   "name": "@xm-ngx/eslint-plugin",
   "version": "1.0.0",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "build": "tsc"
   },
-  "main": "./index.js",
   "peerDependencies": {
     "eslint": "9.11.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
   }
 }

@@ -8,7 +8,7 @@ import { of, Subscription } from 'rxjs';
 import { catchError, filter, map, switchMap } from 'rxjs/operators';
 
 interface XmLoggerWatcherConfig {
-    levels: XmLogLevel[]
+    levels: XmLogLevel[];
 }
 
 @Injectable()
