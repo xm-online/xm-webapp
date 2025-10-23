@@ -228,7 +228,7 @@ export class XmTableFilterChipsComponent implements AfterViewInit, OnDestroy {
 
     public removeAll(): void {
         this.entitiesRequestBuilder.clearExceptFixedFilters(this.config.filters);
-        this.eventManagerService.broadcast({ name: 'TABLE_FILTER_CHIPS_CLEAR_ALL' });
+        this.eventManagerService.broadcast({ name: 'TABLE_CLEAR_ALL_FILTERS' });
     }
 
     private setFilters(chipsFilters: XmTableFilterInlineFilter[]): void {
