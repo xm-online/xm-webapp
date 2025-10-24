@@ -29,11 +29,6 @@
             "glob": "**/*",
             "input": "./node_modules/@kolkov/angular-editor/assets/",
             "output": "./assets/fonts/"
-          },
-          {
-            "glob": "**/*",
-            "input": "src/app/ext/example-webapp-ext/assets",
-            "output": "/assets"
           }
         ],
         "styles": [
