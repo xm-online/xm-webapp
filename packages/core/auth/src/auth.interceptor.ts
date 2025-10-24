@@ -14,7 +14,7 @@ import { catchError, first, map, switchMap, tap } from 'rxjs/operators';
 
 import { XmAuthenticationStoreService } from './xm-authentication-store.service';
 import { XmAuthenticationService } from './xm-authentication.service';
-import { AUTH_TOKEN } from "@xm-ngx/core/auth";
+import { AUTH_TOKEN } from './xm-authentication-store.constants';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
