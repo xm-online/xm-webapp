@@ -159,7 +159,8 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 break;
             }
             case 'alert': {
-                const options = { ...(config.toastDuration && { toastDuration: config.toastDuration }) };
+                const { toastDuration } = config || {};
+                const options = { ...(toastDuration && { toastDuration }) };
                 this.showError(title, options);
                 response.content.handled = true;
                 break;
@@ -239,9 +240,9 @@ export class JhiAlertErrorComponent implements OnDestroy {
         }).subscribe());
     }
 
-    private convertToastDuration(duration: number) {
-        const defaultDuration = 5000;
-        return duration ? duration * 1000 : defaultDuration;
+    private convertToastDuration(duration: number = 5) {
+        const oneSecondMs = 1000;
+        return duration * oneSecondMs;
     }
 
     private defaultErrorHandler(res: HttpErrorResponse | {
