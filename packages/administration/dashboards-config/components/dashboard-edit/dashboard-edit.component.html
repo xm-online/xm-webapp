@@ -6,7 +6,7 @@
     <h4 *ngIf="editType === EditType.Create" class="pt-2">{{ TRS.createDashboard | translate }}</h4>
     <h4 *ngIf="editType === EditType.Edit" class="pt-2">{{ TRS.editDashboard | translate }}</h4>
 
-    <div class="d-flex flex-grow-1 ps-3 header-controls">
+        <div class="d-flex flex-grow-1 ps-3 header-controls align-items-center">
 
       <button (click)="onAdd()"
               *ngIf="editType === EditType.Create"
@@ -17,12 +17,19 @@
         {{ TRS.create | translate }}
       </button>
 
+      <button (click)="onPreview()"
+        [disabled]="!valid || disabled"
+        [matTooltip]="TRS.preview | translate"
+        mat-icon-button>
+        <mat-icon>visibility</mat-icon>
+      </button>
+
       <button (click)="onSave()"
-              *ngIf="editType === EditType.Edit"
-              [disabled]="!valid || disabled"
-              [matTooltip]="(TRS.save | translate) + ' Ctrl+S'"
-              color="primary"
-              mat-icon-button>
+        *ngIf="editType === EditType.Edit"
+        [disabled]="!valid || disabled"
+        [matTooltip]="(TRS.save | translate) + ' Ctrl+S'"
+        color="primary"
+        mat-icon-button>
         <mat-icon>save</mat-icon>
       </button>
 
@@ -42,11 +49,13 @@
         <mat-icon>delete_outline</mat-icon>
       </button>
 
-      <a [routerLink]="'/dashboard/admin-pages'" mat-icon-button>
+      <a [routerLink]="'/dashboard/admin-pages'"
+         class="d-flex align-items-center justify-content-center"
+         mat-icon-button>
         <mat-icon>open_in_new</mat-icon>
       </a>
 
-      <div class="ms-auto">
+      <div class="ms-auto d-flex align-items-center">
         <button *ngIf="editType === EditType.Edit"
                 [disabled]="!valid || disabled"
                 [matTooltip]="TRS.copyClipboard | translate"
@@ -83,8 +92,8 @@
 
   <div class="section-scroll">
     <div class="pb-3">
-      <div *ngIf="value.id">{{ TRS.id | translate }}: <span class="fw-bold">{{ value.id }}</span></div>
-      <div *ngIf="value.owner">{{ TRS.owner | translate }}: <span class="fw-bold">{{ value.owner }}</span>
+      <div *ngIf="value?.id">{{ TRS.id | translate }}: <span class="fw-bold">{{ value?.id }}</span></div>
+      <div *ngIf="value?.owner">{{ TRS.owner | translate }}: <span class="fw-bold">{{ value?.owner }}</span>
       </div>
     </div>
 
@@ -102,7 +111,7 @@
 
       <mat-tab [label]="TRS.widgets | translate">
         <xm-dashboards-list-expand
-          [dashboardId]="value.id"
+          [dashboardId]="value?.id"
           [widgetEditComponentType]="widgetEditComponentType"
           [dashboardWidgets]="dashboardWidgets"
         >
