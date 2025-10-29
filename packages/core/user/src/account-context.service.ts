@@ -12,8 +12,8 @@ export class AccountContextService {
         public userService: XmUserService
     ) {
         this.userService.user$().subscribe((user) => {
-            this.context = user.context;
-            this.isSuperAdmin = user.roleKey === SUPER_ADMIN;
+            this.context = user?.context;
+            this.isSuperAdmin = user?.roleKey === SUPER_ADMIN;
         });
     }
 

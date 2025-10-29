@@ -214,7 +214,7 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
     }
 
     private _toModel(value: XmMultiSelectItemOrString[]): string[] {
-        return (value ?? []).map(item => {
+        return (value || []).map(item => {
             return _.get(item, this.config?.valueKey, item) as string;
         }).filter(value => !!value);
     }

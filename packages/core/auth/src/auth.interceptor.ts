@@ -14,6 +14,7 @@ import { catchError, first, map, switchMap, tap } from 'rxjs/operators';
 
 import { XmAuthenticationStoreService } from './xm-authentication-store.service';
 import { XmAuthenticationService } from './xm-authentication.service';
+import { AUTH_TOKEN } from './xm-authentication-store.constants';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -125,7 +126,18 @@ export class AuthInterceptor implements HttpInterceptor {
             );
     }
 
+    private handleUrlQueryToken(): string | null {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get(AUTH_TOKEN);
+        if (token) {
+            console.info('Store auth token from url');
+            this.authStoreService.storeAuthenticationToken(token, false);
+        }
+        return token;
+    }
+
     private get authToken$(): Observable<string> {
+        this.handleUrlQueryToken();
         const authToken: string = this.authStoreService.getAuthenticationToken();
         const authToken$: Observable<string> = this.authService.refreshToken().pipe(
             tap(() => {
