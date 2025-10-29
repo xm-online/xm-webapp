@@ -46,6 +46,7 @@ import { XM_TABLE_CONFIG_DEFAULT } from '../directives/xm-table.model';
 import { XmTableMatPaginatorInt } from './table.mat-paginator-int';
 import { XM_TABLE_WIDGET_CONFIG_DEFAULT, XmTableWidgetConfig } from './xm-table-widget.config';
 import { XmTableSelectionDefault } from '../components/selection-header/xm-table-selection.model';
+import { XmTableUserSelectionColumnComponent } from '../components/xm-table-user-selection-column.component';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
@@ -85,6 +86,7 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         XmTableExpandPanelButtonComponent,
         XmTableFilterInlineComponent,
         XmTableQuickFilterInlineComponent,
+        XmTableUserSelectionColumnComponent,
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,

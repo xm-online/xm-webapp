@@ -50,6 +50,7 @@ export interface XmTableSelectionConfig {
     layout?: XmDynamicLayout[];
     useMultipleSelectionModels?: boolean;
     selectAllWithoutLayouts?: boolean;
+    isUserSelection?: boolean;
 }
 
 export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
