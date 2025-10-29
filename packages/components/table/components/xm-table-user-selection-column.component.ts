@@ -21,9 +21,6 @@ import { XmTableSelectionConfig } from '../table-widget/xm-table-widget.config';
 import { XmTableSelectionDefault } from './selection-header/xm-table-selection.model';
 import { XmUser } from '@xm-ngx/core/user';
 
-/**
- * Minimal shape required for selection by userKey
- */
 export interface HasUserKey {
     userKey?: string;
 }
