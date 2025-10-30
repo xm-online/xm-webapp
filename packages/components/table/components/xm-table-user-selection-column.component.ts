@@ -49,9 +49,10 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
                     (click)="$event.stopPropagation()"
                     class="select-table-column__single-line-height"
                     [disabled]="disabled()"
-                    [indeterminate]="isUserIndeterminated()"
-                    [checked]="isUserChecked()">
+                    [indeterminate]="selectionState().isIndeterminate"
+                    [checked]="selectionState().isChecked">
                 </mat-checkbox>
+                {{ selectionState().isIndeterminate }}
             </th>
             <td
                 *matCellDef="let row"
@@ -60,7 +61,7 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
                 [class]="column().dataClass"
                 [style]="column().dataStyle">
                 <xm-checkbox-control
-                    [value]="selectedUser(row)"
+                    [value]="isSelected(row)"
                     [disabled]="disabled()"
                     class="select-table-column__single-line-height"
                     (valueChange)="toggleUser($event, row)">
@@ -83,10 +84,11 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
     ],
 })
 export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> implements OnInit, AfterViewInit, OnDestroy {
-    private readonly selectionService: XmTableSelectionService<T> = inject(XmTableSelectionService);
-    private readonly _table = inject(CdkTable) as CdkTable<T>;
+    private readonly selectionService = inject(XmTableSelectionService);
+    private readonly _table = inject(CdkTable);
 
     public readonly selection = signal<SelectionModel<T>>(new SelectionModel<T>(true, []));
+    private readonly selectionVersion = signal(0);
     public readonly rows = input<T[]>([]);
     public readonly disabled = input<boolean>(false);
     public readonly column = input.required<XmTableSelectTableColumn>();
@@ -96,8 +98,8 @@ export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> 
     private readonly _cell = viewChild.required(CdkCellDef);
     private readonly _headerCell = viewChild.required(CdkHeaderCellDef);
 
-
     private readonly _selectedRowsInView = computed(() => {
+        this.selectionVersion();
         const rows = this.rows();
         const selectionModel = this.selection();
 
@@ -106,18 +108,21 @@ export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> 
         );
     });
 
-    public readonly isUserChecked = computed<boolean>(() => {
-        const selectedRows = this._selectedRowsInView();
-        const rows = this.rows();
+    public selectionState = computed(() => {
+        const total = this.rows().length;
+        const selectedCount = this._selectedRowsInView().length;
 
-        return selectedRows.length !== 0 && selectedRows.length === rows.length;
+        const isChecked = selectedCount > 0 && selectedCount === total;
+        const isIndeterminate = selectedCount > 0 && selectedCount < total;
+
+        return {isChecked, isIndeterminate};
     });
 
-    public readonly isUserIndeterminated = computed<boolean>(() => {
-        const selectedRows = this._selectedRowsInView();
-        const rows = this.rows();
-        return selectedRows.length !== 0 && selectedRows.length !== rows.length;
+    private readonly _selectedKeys = computed(() => {
+        this.selectionVersion();
+        return new Set(this.selection().selected.map(item => item.userKey));
     });
+
 
     public ngOnInit(): void {
         const initialSelection = this.config().useMultipleSelectionModels
@@ -136,7 +141,7 @@ export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> 
             .get(this.config().key)
             .pipe(
                 switchMap((selectionModel: SelectionModel<any>) => {
-                    this.selection.set(selectionModel as SelectionModel<T>);
+                    this.selection.set(selectionModel);
                     return selectionModel.changed;
                 }),
                 takeUntilOnDestroy(this)
@@ -155,12 +160,19 @@ export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> 
     public allToggle(): void {
         const rows = this.rows();
         const selectionModel = this.selection();
-        if (this.isUserChecked()) {
+        if (this.selectionState().isChecked) {
             this.deselectAll();
         } else {
-            selectionModel.select(...rows);
+            selectionModel.setSelection(...rows);
         }
+        this.selectionVersion.set(this.selectionVersion() + 1);
     }
+
+
+    public readonly isSelected = (row: T): boolean => {
+        return this._selectedKeys().has(row.userKey);
+    };
+
 
     public selectedUser(row: T): boolean {
         const selectionModel = this.selection();
@@ -169,12 +181,12 @@ export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> 
 
     public toggleUser(checked: boolean, row: T): void {
         const selectionModel = this.selection();
-        const foundSelection = selectionModel.selected.find(selectedItem => row.userKey === selectedItem.userKey);
         if (checked) {
             selectionModel.select(row);
         } else {
-            selectionModel.deselect(foundSelection);
+            selectionModel.deselect(row);
         }
+        this.selectionVersion.set(this.selectionVersion() + 1);
     }
 
     public ngOnDestroy(): void {
@@ -185,6 +197,7 @@ export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> 
     }
 
     private deselectAll(): void {
-        this.selection().clear();
+        this.selection().clear(true);
+        this.selectionVersion.set(this.selectionVersion() + 1);
     }
 }
