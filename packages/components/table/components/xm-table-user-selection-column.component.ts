@@ -52,7 +52,6 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
                     [indeterminate]="selectionState().isIndeterminate"
                     [checked]="selectionState().isChecked">
                 </mat-checkbox>
-                {{ selectionState().isIndeterminate }}
             </th>
             <td
                 *matCellDef="let row"
