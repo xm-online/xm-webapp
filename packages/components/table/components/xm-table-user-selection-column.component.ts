@@ -83,8 +83,8 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
     ],
 })
 export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> implements OnInit, AfterViewInit, OnDestroy {
-
     public readonly selection = signal<SelectionModel<T>>(new SelectionModel<T>(true, []));
+    private readonly _selectionVersion = signal(0);
 
     public readonly rows = input<T[]>([]);
     public readonly disabled = input<boolean>(false);
@@ -97,8 +97,6 @@ export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> 
 
     private readonly selectionService: XmTableSelectionService<T> = inject(XmTableSelectionService);
     private readonly _table = inject(CdkTable) as CdkTable<T>;
-
-    private readonly _selectionVersion = signal(0);
 
     public readonly isUserChecked = computed<boolean>(() => {
         this._selectionVersion();
@@ -125,7 +123,7 @@ export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> 
             ? this.selectionService.getSelectionModel(this.config().key)
             : this.selectionService.selection;
 
-        this.selection.set(initialSelection as SelectionModel<T>);
+        this.selection.set(initialSelection);
 
         this.selectionService.push(this.config().key, this.selection());
 
