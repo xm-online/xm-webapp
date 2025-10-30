@@ -42,7 +42,6 @@ export class IdpCallbackComponent implements OnDestroy {
             if (activeRouter.snapshot.data.callbackAuth && params && config?.idp?.enabled) {
                 this.loginService.loginWithIdpCallback(params).then(() => {
                     this.isTermsShown = false;
-                    this.loginService.loginSuccess();
                 }).catch((err) => {
                     this.handleErrorException(err, config, params);
                 });
