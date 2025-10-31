@@ -13,6 +13,7 @@ export type FormLayoutConfig = {
     };
     fields: FormFieldLayoutConfig[],
     updateData?: boolean;
+    ignoreFormValidationToUpdate?: boolean;
     saveData?: boolean;
 };
 
