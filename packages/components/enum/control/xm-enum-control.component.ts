@@ -20,6 +20,8 @@ import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators
 export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {
     id?: string;
     required?: boolean;
+    disabled?: boolean;
+    multiple?: boolean;
     /** @deprecated use {@link items} instead */
     enum?: XmEnumControlOptionsItem[];
     items: XmEnumControlOptionsItem[];
@@ -44,6 +46,8 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
     title: '',
     dataQa: 'enum-control',
     required: false,
+    disabled: false,
+    multiple: false,
     enum: [],
     items: [],
     showClearButton: false,
@@ -57,6 +61,8 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
             <mat-label>{{config?.title | translate}}</mat-label>
             <mat-select [formControl]="control"
                         [required]="config.required"
+                        [disabled]="config?.disabled"
+                        [multiple]="config?.multiple"
                         [id]="config.id"
                         [attr.data-qa]="config.dataQa">
                 <mat-select-trigger>
