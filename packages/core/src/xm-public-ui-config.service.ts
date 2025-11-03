@@ -5,6 +5,7 @@ import { RequestCache } from './cache/request-cache';
 import { RequestCacheFactoryService } from './cache/request-cache-factory.service';
 import { XmCoreConfig } from './xm-core-config';
 import { UIPublicConfig } from './xm-public-ui-config-model';
+import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
@@ -22,7 +23,29 @@ export class XmPublicUiConfigService<T extends UIPublicConfig = UIPublicConfig> 
     }
 
     public config$(): Observable<T | null> {
-        return this.requestCache.get();
+        return this.requestCache.get().pipe(map(c => {
+            return {
+                ...c,
+                public: {
+                    routes: [
+                        {
+                            slug: 'registration',
+                            layout: [
+                                {
+                                    selector: '@xm-ngx/components/text-title',
+                                    config: {
+                                        title: {
+                                            en: 'Test',
+                                            uk: 'Тест',
+                                        },
+                                    },
+                                },
+                            ],
+                        },
+                    ],
+                },
+            };
+        }));
     }
 
     public ngOnDestroy(): void {
