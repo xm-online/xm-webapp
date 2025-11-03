@@ -5,7 +5,7 @@ export { buildMenuTree } from './nested-menu';
 export { HoveredMenuCategory, MenuCategory, MenuItem, BrandLogo } from './menu.interface';
 export { MenuCategoriesClassesEnum, MenuPositionEnum, MenuSubcategoriesAnimationStateEnum } from './menu.model';
 export { MenuService } from './menu.service';
-export { showHideSubCategories, hideCategories } from './menu.animation';
+export { showHideSubCategoriesDesktop, showHideSubCategoriesMobile, hideCategories } from './menu.animation';
 export {
     flatTree,
     filterByConditionDashboards,

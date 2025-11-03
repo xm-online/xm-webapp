@@ -23,17 +23,34 @@ $material-icons-font-path: '/assets/fonts/material-design-icons-v6.woff2';
 @import 'packages/components/components-themes';
 @import '@xm-ngx/styles/src/_loader-dizabled-container';
 @import 'packages/alert/alert';
+//@import 'cti-panel-webapp-ext/styles/cti-panel-theme';
 
 @import 'src/app/layouts/main-theme';
 // increase css priority with xm-body class
 .xm-body {
   @include xm-components-theme($xm-theme);
   @include xm-alert-theme($xm-theme);
-
+  //@include cti-panel-theme($xm-theme);
 }
+
 @include xm-layout-sidebar-with-mini($xm-theme);
 
 // BC deps below will be removed!
 // Backward compatibility
 @import 'styles/backward-compatibility';
 
+// CRM OTB Components
+@import 'crmotb-webapp-ext/styles/components/crmotb_main';
+@import 'crmotb-webapp-ext/styles/components/crmotb_navbar';
+@import 'crmotb-webapp-ext/styles/components/crmotb_dashboard';
+@import 'crmotb-webapp-ext/styles/components/crmotb_mat-card';
+@import 'crmotb-webapp-ext/styles/components/crmotb_table';
+@import 'crmotb-webapp-ext/styles/components/crmotb_mat-form-field';
+@import 'crmotb-webapp-ext/styles/components/crmotb_link';
+@import 'crmotb-webapp-ext/styles/components/crmotb_buttons';
+@import 'crmotb-webapp-ext/styles/components/crmotb_sign-in-up';
+@import 'crmotb-webapp-ext/styles/components/crmotb_user';
+@import 'crmotb-webapp-ext/styles/components/crmotb_dashboard-edit';
+@import 'crmotb-webapp-ext/styles/components/crmotb_switch-theme';
+@import 'crmotb-webapp-ext/styles/classes/fonts';
+@import 'crmotb-webapp-ext/styles/components/crmotb_skeleton';

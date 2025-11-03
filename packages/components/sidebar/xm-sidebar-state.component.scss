@@ -1,8 +1,8 @@
 $xm-sidebar-presentation: (
-                            close: 0px,
-                            tablet: 64px,
-                            open: 256px,
-                          ) !default;
+  close: 0px,
+  tablet: 64px,
+  open: 256px,
+) !default;
 
 :host(.xm-sidebar-presentation-close) {
   width: map-get($xm-sidebar-presentation, close);
@@ -12,6 +12,11 @@ $xm-sidebar-presentation: (
 :host(.xm-sidebar-presentation-open) {
   width: map-get($xm-sidebar-presentation, open);
   height: 100%;
+
+  @media all and (max-width: 991px) {
+    width: 75vw;
+    max-width: 350px;
+  }
 }
 
 :host(.xm-sidebar-presentation-tablet) {

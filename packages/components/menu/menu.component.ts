@@ -1,10 +1,12 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
-    Component, ElementRef,
+    Component,
+    ElementRef,
     inject,
     Inject,
-    Input, NgZone,
+    Input,
+    NgZone,
     OnDestroy,
     OnInit,
     ViewChild,
@@ -18,13 +20,14 @@ import {
     animationFrameScheduler,
     combineLatest,
     debounceTime,
-    from, fromEvent,
+    from,
+    fromEvent,
+    merge,
     Observable,
     observeOn,
     of,
     tap,
     timer,
-    merge,
 } from 'rxjs';
 import { filter, map, shareReplay, startWith, switchMap } from 'rxjs/operators';
 
@@ -34,7 +37,7 @@ import { getDefaultMenuList } from './default-menu-list';
 import { CdkTreeModule, NestedTreeControl } from '@angular/cdk/tree';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy, treeNodeSearch } from '@xm-ngx/operators';
 import { applicationsToCategory } from './flat-menu';
-import { HoveredMenuCategory, MenuCategory, MenuItem, MenuOptions } from './menu.interface';
+import { HoveredMenuCategory, MenuCategory, MenuItem, MenuOptions, MobileMenuState } from './menu.interface';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -42,10 +45,12 @@ import { Translate, XmTranslateService, XmTranslationModule } from '@xm-ngx/tran
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmEventManager, XmEventManagerAction } from '@xm-ngx/core';
-import { showHideSubCategories } from './menu.animation';
+import { hideCategories, showHideSubCategoriesDesktop, showHideSubCategoriesMobile } from './menu.animation';
 import { MenuService } from './menu.service';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { MenuPositionEnum, MenuSubcategoriesAnimationStateEnum } from './menu.model';
+import { MenuCategoriesComponent } from './menu-categories/menu-categories.component';
+import { MatRipple } from '@angular/material/core';
 
 export type ISideBarConfig = {
     sidebar?: {
@@ -63,7 +68,9 @@ export type ISideBarConfig = {
     animations: [
         matExpansionAnimations.bodyExpansion,
         matExpansionAnimations.indicatorRotate,
-        showHideSubCategories,
+        showHideSubCategoriesDesktop,
+        showHideSubCategoriesMobile,
+        hideCategories,
     ],
     host: {
         class: 'xm-menu',
@@ -76,6 +83,8 @@ export type ISideBarConfig = {
         CommonModule,
         CdkTreeModule,
         XmPermissionModule,
+        MenuCategoriesComponent,
+        MatRipple,
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
@@ -107,6 +116,10 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     public hoveredCategory: MenuCategory;
     public parentCategory: MenuItem;
     public isMaterial3Menu: boolean;
+    public showMenuTree: boolean = true;
+    public isMobileScreen: boolean;
+    public mobileMenuState: MobileMenuState;
+    public menuSubcategoriesAnimationStateEnum: typeof MenuSubcategoriesAnimationStateEnum = MenuSubcategoriesAnimationStateEnum;
     @ViewChild('menuView', {static: true}) private menuView: ElementRef;
     private ngZone: NgZone = inject(NgZone);
 
@@ -136,6 +149,17 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         this.observeSectionsFiltering();
         this.assignSubCategories();
         this.observeNavigationAndSubCategories();
+        this.observeIsMobileScreen();
+        this.observeMobileMenuState();
+        combineLatest([this.menuService.isMobileView, this.menuService.isMaterial3Menu, this.menuService.mobileMenuState])
+            .pipe(
+                takeUntilOnDestroy(this),
+            )
+            .subscribe(([isMobileView, isMaterial3Menu, mobileMenuState]: [boolean, boolean, MobileMenuState]) => {
+                const {showCategories} = mobileMenuState || {};
+                const isCategorySelectedInMobileView = isMobileView && showCategories;
+                this.showMenuTree = isMaterial3Menu ? !isCategorySelectedInMobileView || !isMobileView : true;
+            });
     }
 
     public ngAfterViewInit(): void {
@@ -238,6 +262,20 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         });
     }
 
+    private observeIsMobileScreen(): void {
+        this.menuService.isMobileView
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((isMobileScreen: boolean) => this.isMobileScreen = isMobileScreen);
+    }
+
+    private observeMobileMenuState(): void {
+        this.menuService.mobileMenuState
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe((mobileMenuState: MobileMenuState) => {
+                this.mobileMenuState = mobileMenuState;
+            });
+    }
+
     private setIsActiveRoute(activeNode: MenuItem): void {
         if (activeNode) {
             if (this.previousActiveNode) {
@@ -251,7 +289,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     public observeSectionsFiltering(): void {
         this.menuService.hoveredCategory
             .pipe(
-                debounceTime(250),
+                debounceTime(this.isMobileScreen ? 0 : 250),
                 observeOn(animationFrameScheduler),
                 switchMap((category: HoveredMenuCategory) => {
                     const {hoveredCategory} = category;
@@ -263,7 +301,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                     if (!hoveredCategory) {
                         return from(this.menuService.sidenav.close());
                     }
-                    const isSetCategory: boolean = !this.menuService.sidenav.opened || this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName;
+                    const isSetCategory: boolean = !this.isMobileScreen ? (!this.menuService.sidenav.opened || this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName) : true;
                     if (isSetCategory && this.menuByCategories) {
                         return this.setStateWhenCategoryChanged(hoveredCategoryName, category);
                     }
@@ -291,7 +329,10 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                 !this.menuService.sidenav.opened && isOpenMenu ? from(this.menuService.sidenav.open()) : timer(0);
             return next$.pipe(
                 observeOn(animationFrameScheduler),
-                tap(() => this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW),
+                tap(() => {
+                    this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW;
+                    this.menuService.setMobileMenuState({showCategories: false, category: hoveredCategory});
+                }),
             );
         }
 
@@ -411,6 +452,11 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         this.treeControl.expand(node);
     }
 
+    public onBackToCategories() {
+        this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.HIDE;
+        setTimeout(() => this.menuService.setMobileMenuState({showCategories: true, category: undefined}), 120);
+    }
+
     public isNodeExpanded(node: MenuItem): string {
         return this.treeControl.isExpanded(node) ? 'expanded' : 'collapsed';
     }
@@ -430,6 +476,6 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private closeSidenavInMobileView(): void {
-        this.isMaterial3Menu && this.menuService.sidenav.mode === 'push' && this.menuService.sidenav.close();
+        this.isMaterial3Menu && this.isMobileScreen && this.menuService.sidenav.close();
     }
 }
