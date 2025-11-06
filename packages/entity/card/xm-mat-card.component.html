@@ -10,7 +10,7 @@
     >
 
       <div mat-card-title>
-        <xm-text-header *ngIf="options.title" [value]="options.title"></xm-text-header>
+        <xm-text-header *ngIf="options.title" [value]="options.title" [config]="options"></xm-text-header>
         <ng-content select="[xmHeaderTitle]"></ng-content>
       </div>
 
