@@ -19,6 +19,7 @@ export interface SignPageFormConfig {
     error?: Translate;
     errorIcon: string;
     title?: Translate;
+    extraAction?: ExtraAction,
     header: {
         logo: string;
         title: Translate;
@@ -27,6 +28,16 @@ export interface SignPageFormConfig {
         style: string;
     };
     config?: any;
+}
+
+export interface ExtraAction {
+    selector: string;
+    config?: ExtraActionConfig;
+    controllers?: unknown[];
+}
+
+export interface ExtraActionConfig {
+    title?: Translate;
 }
 
 export interface SignPageLinkConfig {
