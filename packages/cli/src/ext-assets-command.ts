@@ -11,10 +11,16 @@ export class ExtAssetsCommand implements Command {
     constructor(private config: Config) {
     }
 
-    public execute(): void {
-        const config = readAsJson(this.config.sourceAngularConfig);
+    public execute(terminalArgs?: string[]): void {
+        const [isNX = false] = terminalArgs || [];
+        const {sourceAngularConfig, sourceProjectConfig, targetAngularConfig, targetProjectConfig} = this.config || {};
+        const sourceFile: string = isNX === 'true' ? sourceProjectConfig : sourceAngularConfig;
+        const targetFile: string = isNX === 'true' ? targetProjectConfig : targetAngularConfig;
+        console.info(`Creating ${targetFile}`);
+
+        const config = readAsJson(sourceFile);
         this.updateAngularJsonAssets(config);
-        saveAsJson(this.config.targetAngularConfig, config);
+        saveAsJson(targetFile, config);
     }
 
     public updateAngularJsonAssets(config: object): void {
@@ -22,7 +28,7 @@ export class ExtAssetsCommand implements Command {
         const extAssets = getDirectories(this.extAssetsMask);
 
         _.forEach(extAssets, (i) => {
-            assets.push({ glob: '**/*', input: i, output: '/assets' });
+            assets.push({glob: '**/*', input: i, output: '/assets'});
             console.info('Update project.json assets:', i);
         });
 
