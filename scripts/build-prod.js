@@ -1,10 +1,11 @@
 const [nx = ''] = process.argv.slice(2);
 const [, isNX = 'false'] = nx.split('=');
 
-console.info('Running prod build with the following parameters:');
-console.table({isNX});
-
 const NEW_VERSION_BUILD = process.env.NEW_VERSION_BUILD ?? isNX;
+
+console.info('Running prod build with the following parameters:');
+console.table({isNX: NEW_VERSION_BUILD});
+
 const {execSync} = require('child_process');
 
 try {
@@ -15,11 +16,11 @@ try {
 }
 
 const command = () => {
-    if (isNX === 'true') {
+    if (NEW_VERSION_BUILD === 'true') {
         return 'nx build xm-webapp --configuration=production --skip-nx-cache';
-    } 
+    }
     return 'ng build --configuration production';
-    
+
 };
 
 try {
