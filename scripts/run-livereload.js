@@ -4,7 +4,7 @@ const [, isMinimal = 'false'] = minimal.split('=');
 const [, port = '4200'] = customPort.split('=');
 
 console.info('Running live reload with the following parameters:');
-console.table({isNX, isMinimal, port})
+console.table({isNX, isMinimal, port});
 
 const NEW_VERSION_BUILD = process.env.NEW_VERSION_BUILD ?? isNX;
 const {execSync} = require('child_process');
@@ -21,10 +21,10 @@ try {
 const command = () => {
     if (isNX === 'true') {
         return `rm -rf angular.json && node --max-old-space-size=12288 ./node_modules/.bin/nx serve xm-webapp --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0 --port=${port}`;
-    } else {
-        return `node --max-old-space-size=12288 ./node_modules/@angular/cli/bin/ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0 --port=${port}`;
-    }
-}
+    } 
+    return `node --max-old-space-size=12288 ./node_modules/@angular/cli/bin/ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0 --port=${port}`;
+    
+};
 
 try {
     execSync(command(), {stdio: 'inherit'});
