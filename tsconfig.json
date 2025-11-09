@@ -22,9 +22,6 @@
       "ES2021.String"
     ],
     "paths": {
-      "@xm-ngx/*": [
-        "packages/*"
-      ],
       "@xm-ngx/core/environment": [
         "src/environments"
       ],

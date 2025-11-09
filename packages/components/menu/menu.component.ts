@@ -166,26 +166,28 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         this.observeSidenavOpen();
         this.observeSidenavClose();
 
-        this.ngZone.runOutsideAngular(() => {
-            const enter$ = fromEvent(this.menuView.nativeElement, 'mouseenter').pipe(map((event) => ({
-                event,
-                isEnter: true,
-            })));
-            const leave$ = fromEvent(this.menuView.nativeElement, 'mouseleave').pipe(map((event) => ({
-                event,
-                isEnter: false,
-            })));
+        if (!this.isMobileScreen) {
+            this.ngZone.runOutsideAngular(() => {
+                const enter$ = fromEvent(this.menuView.nativeElement, 'mouseenter').pipe(map((event) => ({
+                    event,
+                    isEnter: true,
+                })));
+                const leave$ = fromEvent(this.menuView.nativeElement, 'mouseleave').pipe(map((event) => ({
+                    event,
+                    isEnter: false,
+                })));
 
-            merge(enter$, leave$)
-                .pipe(
-                    switchMap((res) => res.isEnter ? of(res) : timer(1000).pipe(map(() => res))),
-                    filter((res) => this.menuService.isOverMode && !res.isEnter),
-                    takeUntilOnDestroy(this),
-                )
-                .subscribe((res) => {
-                    this.hideMenuRightSide(res.event);
-                });
-        });
+                merge(enter$, leave$)
+                    .pipe(
+                        switchMap((res) => res.isEnter ? of(res) : timer(1000).pipe(map(() => res))),
+                        filter((res) => this.menuService.isOverMode && !res.isEnter),
+                        takeUntilOnDestroy(this),
+                    )
+                    .subscribe((res) => {
+                        this.hideMenuRightSide(res.event);
+                    });
+            });
+        }
     }
 
     private assignSubCategories(): void {
@@ -252,6 +254,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
             this.subCategories$,
             this.router.events.pipe(filter((e) => e instanceof NavigationEnd)),
         ]).pipe(
+            debounceTime(this.isMobileScreen ? 100 : 0),
             map((i) => i[0]),
             takeUntilOnDestroy(this),
         ).subscribe((subCategories: MenuItem[]) => {
@@ -299,6 +302,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                         return of(null);
                     }
                     if (!hoveredCategory) {
+                        console.log('!hoveredCategory')
                         return from(this.menuService.sidenav.close());
                     }
                     const isSetCategory: boolean = !this.isMobileScreen ? (!this.menuService.sidenav.opened || this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName) : true;
@@ -337,6 +341,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.HIDE;
+        console.log('MenuSubcategoriesAnimationStateEnum.HIDE')
         return from(this.menuService.sidenav.close()).pipe(observeOn(animationFrameScheduler));
     }
 
@@ -476,6 +481,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private closeSidenavInMobileView(): void {
+        console.log('closeSidenavInMobileView');
         this.isMaterial3Menu && this.isMobileScreen && this.menuService.sidenav.close();
     }
 }
