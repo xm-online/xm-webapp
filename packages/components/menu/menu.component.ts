@@ -302,7 +302,6 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                         return of(null);
                     }
                     if (!hoveredCategory) {
-                        console.log('!hoveredCategory')
                         return from(this.menuService.sidenav.close());
                     }
                     const isSetCategory: boolean = !this.isMobileScreen ? (!this.menuService.sidenav.opened || this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName) : true;
@@ -341,7 +340,6 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.HIDE;
-        console.log('MenuSubcategoriesAnimationStateEnum.HIDE')
         return from(this.menuService.sidenav.close()).pipe(observeOn(animationFrameScheduler));
     }
 
@@ -481,7 +479,6 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private closeSidenavInMobileView(): void {
-        console.log('closeSidenavInMobileView');
         this.isMaterial3Menu && this.isMobileScreen && this.menuService.sidenav.close();
     }
 }
