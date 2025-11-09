@@ -150,44 +150,33 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         this.assignSubCategories();
         this.observeNavigationAndSubCategories();
         this.observeIsMobileScreen();
-        this.observeMobileMenuState();
-        combineLatest([this.menuService.isMobileView, this.menuService.isMaterial3Menu, this.menuService.mobileMenuState])
-            .pipe(
-                takeUntilOnDestroy(this),
-            )
-            .subscribe(([isMobileView, isMaterial3Menu, mobileMenuState]: [boolean, boolean, MobileMenuState]) => {
-                const {showCategories} = mobileMenuState || {};
-                const isCategorySelectedInMobileView = isMobileView && showCategories;
-                this.showMenuTree = isMaterial3Menu ? !isCategorySelectedInMobileView || !isMobileView : true;
-            });
+        this.observeMobileMenu();
     }
 
     public ngAfterViewInit(): void {
         this.observeSidenavOpen();
         this.observeSidenavClose();
 
-        if (!this.isMobileScreen) {
-            this.ngZone.runOutsideAngular(() => {
-                const enter$ = fromEvent(this.menuView.nativeElement, 'mouseenter').pipe(map((event) => ({
-                    event,
-                    isEnter: true,
-                })));
-                const leave$ = fromEvent(this.menuView.nativeElement, 'mouseleave').pipe(map((event) => ({
-                    event,
-                    isEnter: false,
-                })));
+        this.ngZone.runOutsideAngular(() => {
+            const enter$ = fromEvent(this.menuView.nativeElement, 'mouseenter').pipe(map((event) => ({
+                event,
+                isEnter: true,
+            })));
+            const leave$ = fromEvent(this.menuView.nativeElement, 'mouseleave').pipe(map((event) => ({
+                event,
+                isEnter: false,
+            })));
 
-                merge(enter$, leave$)
-                    .pipe(
-                        switchMap((res) => res.isEnter ? of(res) : timer(1000).pipe(map(() => res))),
-                        filter((res) => this.menuService.isOverMode && !res.isEnter),
-                        takeUntilOnDestroy(this),
-                    )
-                    .subscribe((res) => {
-                        this.hideMenuRightSide(res.event);
-                    });
-            });
-        }
+            merge(enter$, leave$)
+                .pipe(
+                    switchMap((res) => res.isEnter ? of(res) : timer(1000).pipe(map(() => res))),
+                    filter((res) => this.menuService.isOverMode && !res.isEnter),
+                    takeUntilOnDestroy(this),
+                )
+                .subscribe((res) => {
+                    !this.isMobileScreen && this.hideMenuRightSide(res.event);
+                });
+        });
     }
 
     private assignSubCategories(): void {
@@ -271,11 +260,16 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
             .subscribe((isMobileScreen: boolean) => this.isMobileScreen = isMobileScreen);
     }
 
-    private observeMobileMenuState(): void {
-        this.menuService.mobileMenuState
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe((mobileMenuState: MobileMenuState) => {
+    private observeMobileMenu(): void {
+        combineLatest([this.menuService.isMobileView, this.menuService.isMaterial3Menu, this.menuService.mobileMenuState])
+            .pipe(
+                takeUntilOnDestroy(this),
+            )
+            .subscribe(([isMobileView, isMaterial3Menu, mobileMenuState]: [boolean, boolean, MobileMenuState]) => {
                 this.mobileMenuState = mobileMenuState;
+                const {showCategories} = mobileMenuState || {};
+                const isCategorySelectedInMobileView = isMobileView && showCategories;
+                this.showMenuTree = isMaterial3Menu ? !isCategorySelectedInMobileView || !isMobileView : true;
             });
     }
 
@@ -455,7 +449,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         this.treeControl.expand(node);
     }
 
-    public onBackToCategories() {
+    public onBackToCategories(): void {
         this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.HIDE;
         setTimeout(() => this.menuService.setMobileMenuState({showCategories: true, category: undefined}), 120);
     }

@@ -44,10 +44,7 @@ export class XmPublicComponent implements OnInit, OnDestroy {
 
         const routes$: Observable<PublicSlugLayout[]> = this.publicUiConfig.config$().pipe(
             takeUntilOnDestroy(this),
-            map((c) => {
-                console.log(_.get(c, 'public.routes', null));
-                return _.get(c, 'public.routes', null);
-            }),
+            map((c) => _.get(c, 'public.routes', null)),
         );
 
         this.layouts$ = zip(slug$, routes$).pipe(
