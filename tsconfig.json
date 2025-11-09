@@ -75,9 +75,7 @@
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "newLine": "lf",
-    "types": [
-      "jasmine"
-    ],
+    "types": ["jasmine"],
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,

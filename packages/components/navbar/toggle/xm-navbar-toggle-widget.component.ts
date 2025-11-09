@@ -54,7 +54,6 @@ export class XmNavbarToggleWidget implements OnInit, OnDestroy, XmDynamicWidget 
     }
 
     public async sidebarToggle(): Promise<void> {
-        debugger
         await this.menuService.sidenav.toggle();
     }
 
