@@ -3,9 +3,12 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    ElementRef, inject, NgZone,
+    ElementRef,
+    inject,
+    NgZone,
     OnDestroy,
-    OnInit, QueryList,
+    OnInit,
+    QueryList,
     ViewChildren,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,17 +17,17 @@ import { XmTranslationModule } from '@xm-ngx/translation';
 import { BrandLogo, HoveredMenuCategory, MenuCategory } from '../menu.interface';
 import { MenuService } from '../menu.service';
 import {
+    combineLatest,
     concatMap,
     from,
     fromEvent,
+    merge,
     Observable,
     of,
+    startWith,
     Subscription,
     take,
     timer,
-    merge,
-    combineLatest,
-    startWith,
 } from 'rxjs';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { MatButtonModule } from '@angular/material/button';
@@ -50,6 +53,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
     public isSidenavPinned: boolean;
     public isCategoriesHidden$: Observable<boolean>;
     public brandLogo$: Observable<BrandLogo>;
+    public isMobileView$: Observable<boolean> = this.menuService.isMobileView;
     private hoverSubscription: Subscription;
     @ViewChildren('menuCategory', {read: ElementRef}) private menuCategories: QueryList<ElementRef>;
     private ngZone: NgZone = inject(NgZone);
@@ -169,12 +173,21 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
         this.hoverSubscription && !this.hoverSubscription.closed && this.hoverSubscription.unsubscribe();
     }
 
-    public async toggleSidenav(): Promise<void> {
+    public async toggleSidenav(isMobileScreen?: boolean): Promise<void> {
+        if (isMobileScreen) {
+            await this.menuService.toggleSidenav();
+            return;
+        }
+
         this.isSidenavPinned = !this.isSidenavPinned;
         await this.menuService.complexToggleSidenav();
     }
 
     public async onNavigate(category: MenuCategory): Promise<void> {
+        if (!category.isLinkWithoutSubcategories) {
+            this.menuService.setMobileMenuState({showCategories: false, category});
+        }
+
         if (category.isLinkWithoutSubcategories && category.url && !category?.hasChildren) {
             this.menuService.selectedCategory.next(category);
             await this.router.navigate(category.url);

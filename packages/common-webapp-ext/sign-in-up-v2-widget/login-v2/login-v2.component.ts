@@ -13,6 +13,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { SignPageFormConfig } from '../sign-in-up-v2.model';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
 
 export interface XmLoginFormUIConfig extends XmUIConfig {
     hideRememberMe: boolean;
@@ -34,6 +35,7 @@ export interface XmLoginFormUIConfig extends XmUIConfig {
         ReactiveFormsModule,
         MatFormFieldModule,
         XmTranslatePipe,
+        XmDynamicModule,
     ],
 
 })
