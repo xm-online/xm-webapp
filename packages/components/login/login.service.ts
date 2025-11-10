@@ -146,6 +146,7 @@ export class LoginService {
     public logout$(): Observable<void> {
         this.eventManager.broadcast({name: this.LOGOUT_EVENT});
         this.sessionService.clear();
+        this.authRefreshTokenService.clear();
         return of(null);
     }
 
