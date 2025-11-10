@@ -53,7 +53,6 @@ export class XmPublicComponent implements OnInit, OnDestroy {
                 if (!r) {
                     this.router.navigateByUrl('/not-found');
                 }
-
                 return r.layout;
             }),
             shareReplay(1),

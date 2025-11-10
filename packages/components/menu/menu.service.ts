@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, from, map, Observable, of, Subject, switchMap, take, filter } from 'rxjs';
-import { BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem } from './menu.interface';
+import { BehaviorSubject, combineLatest, filter, from, map, Observable, of, Subject, switchMap, take } from 'rxjs';
+import { BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem, MobileMenuState } from './menu.interface';
 import { MatDrawerMode, MatDrawerToggleResult, MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { cloneDeep, groupBy, orderBy, uniqBy } from 'lodash';
-import _ from 'lodash';
+import _, { cloneDeep, groupBy, orderBy, uniqBy } from 'lodash';
 import { Router } from '@angular/router';
 import { MenuCategoriesClassesEnum, MenuPositionEnum } from './menu.model';
 import { ContextService } from '@xm-ngx/core/context';
-import { XmUserService } from '@xm-ngx/core/user';
+import { AccountContextService, Principal, XmUserService } from '@xm-ngx/core/user';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
-import { Principal, AccountContextService } from '@xm-ngx/core/user';
 import { buildMenuTree } from './nested-menu';
 import { ConditionDirective } from '@xm-ngx/components/condition';
 import { filterByConditionDashboards } from './flat-menu';
@@ -29,6 +27,7 @@ export class MenuService {
     private _isSidenavOpen: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private _isMaterial3Menu: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
     private _sidenavOpenedChange: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    private _mobileMenuState: BehaviorSubject<MobileMenuState> = new BehaviorSubject<MobileMenuState>({showCategories: true});
     public selectedCategory: BehaviorSubject<MenuCategory> = new BehaviorSubject<MenuCategory>(null);
     public isCategoriesHidden$: Observable<boolean>;
     public mobileMenuPositioning: MenuPositionEnum;
@@ -115,13 +114,21 @@ export class MenuService {
         this._sidenavOpenedChange.next(isOpened);
     }
 
+    public get mobileMenuState(): Observable<MobileMenuState> {
+        return this._mobileMenuState.asObservable();
+    }
+
+    public setMobileMenuState(state: MobileMenuState): void {
+        this._mobileMenuState.next(state);
+    }
+
     public getActiveDashboards$(): Observable<MenuItem[]> {
         return from(this.principal.identity()).pipe(
             switchMap(() => this.userService.user$()),
             switchMap((user) => {
                 const hasPrivilegesInline = this.principal.hasPrivilegesInline(
                     ['DASHBOARD.GET_LIST', 'WIDGET.GET_LIST.ITEM', 'DASHBOARD.GET_LIST.ITEM'],
-                    'AND'
+                    'AND',
                 );
                 if (hasPrivilegesInline !== true && Array.isArray(hasPrivilegesInline) && hasPrivilegesInline.length !== 0) {
                     return of([] as MenuItem[]);
@@ -132,7 +139,7 @@ export class MenuService {
                     map((i) => _.filter(i, (j) => (!j.config?.menu?.section || j.config.menu.section === 'xm-menu'))),
                     map((dashboards) => {
                         if (dashboards?.length) {
-                            return buildMenuTree(dashboards, ConditionDirective.checkCondition, { user });
+                            return buildMenuTree(dashboards, ConditionDirective.checkCondition, {user});
                         }
                         return [] as MenuItem[];
                     }),
@@ -148,8 +155,8 @@ export class MenuService {
         return combineLatest([windowSize$, this.isMaterial3Menu, selectedCategory$, this.menuCategories])
             .pipe(
                 switchMap(([breakpointState, isMaterial3Menu, selectedCategory, categories]: [BreakpointState, boolean, MenuCategory, MenuCategory[]]) => {
-                    const { value } = this._menuCategories;
-                    const { breakpoints } = breakpointState;
+                    const {value} = this._menuCategories;
+                    const {breakpoints} = breakpointState;
 
                     this.sidenav.mode = this.getSidenavModeForCurrentWindowSize(breakpoints, isMaterial3Menu);
                     const isMobileScreen: boolean = breakpoints[this.MOBILE_SCREEN];
@@ -187,7 +194,7 @@ export class MenuService {
         }
 
         if (breakpoints[this.MOBILE_SCREEN]) {
-            return 'push';
+            return this._isMaterial3Menu.value ? 'over' : 'push';
         }
 
         return 'side';
@@ -195,7 +202,7 @@ export class MenuService {
 
     public mapMenuCategories(menu: MenuItem[]): MenuItem[] {
         return menu.map((menuItem: MenuItem) => {
-            const { children, url } = menuItem || {};
+            const {children, url} = menuItem || {};
             const category: MenuCategory = menuItem.category || this.checkCategoryExistence(menuItem.categoryKey);
             menuItem.category = {
                 ...category,
@@ -245,6 +252,10 @@ export class MenuService {
         if (previousMode === 'over' && this.sidenav.opened) {
             return;
         }
+        await this.toggleSidenav();
+    }
+
+    public async toggleSidenav(): Promise<void> {
         await this.sidenav.toggle();
     }
 
