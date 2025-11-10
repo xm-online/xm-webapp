@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnDestroy, OnInit, ViewEncapsulation } fr
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { MatButtonModule } from '@angular/material/button';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
-import {MenuService} from '@xm-ngx/components/menu';
+import { MenuService } from '@xm-ngx/components/menu';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 @Component({

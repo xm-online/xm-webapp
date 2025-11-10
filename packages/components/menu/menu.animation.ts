@@ -10,18 +10,46 @@ import {
 } from '@angular/animations';
 import { MenuSubcategoriesAnimationStateEnum } from './menu.model';
 
-export const showHideSubCategories: AnimationTriggerMetadata = trigger('showHideSubCategories', [
+export const showHideSubCategoriesDesktop: AnimationTriggerMetadata = trigger('showHideSubCategoriesDesktop', [
     state(MenuSubcategoriesAnimationStateEnum.SHOW, style({opacity: 1})),
     state(MenuSubcategoriesAnimationStateEnum.HIDE, style({opacity: 0})),
     transition(`${MenuSubcategoriesAnimationStateEnum.HIDE} => ${MenuSubcategoriesAnimationStateEnum.SHOW}`, [
         animate('150ms 50ms'),
-        query('@*', animateChild(), { optional: true }),
+        query('@*', animateChild(), {optional: true}),
+    ]),
+]);
+
+export const showHideSubCategoriesMobile: AnimationTriggerMetadata = trigger('showHideSubCategoriesMobile', [
+    state(MenuSubcategoriesAnimationStateEnum.SHOW, style({
+        opacity: 1,
+        transform: 'translateX(0)',
+        position: 'absolute',
+    })),
+    state(MenuSubcategoriesAnimationStateEnum.HIDE, style({
+        opacity: 0,
+        transform: 'translateX(10px)',
+        position: 'absolute',
+    })),
+    transition(`${MenuSubcategoriesAnimationStateEnum.HIDE} <=> ${MenuSubcategoriesAnimationStateEnum.SHOW}`, [
+        animate('120ms'),
+        query('@*', animateChild(), {optional: true}),
+    ]),
+    transition(':leave', [
+        animate('120ms', style({
+            opacity: 0,
+            transform: 'translateX(10px)',
+            position: 'absolute',
+        })),
     ]),
 ]);
 
 export const hideCategories: AnimationTriggerMetadata = trigger('hideCategories', [
+    transition(':enter', [
+        style({opacity: 0, transform: 'translateX(-15px)', position: 'absolute'}),
+        animate('100ms', style({opacity: 1, transform: 'translateX(0)', position: 'absolute'})),
+    ]),
     transition(':leave', [
-        style({transform: 'translateX(0)'}),
-        animate('100ms 400ms', style({transform: 'translateX(-100%)'})),
+        style({opacity: 1, transform: 'translateX(0)', position: 'absolute'}),
+        animate('100ms', style({opacity: 0, transform: 'translateX(-15px)', position: 'absolute'})),
     ]),
 ]);

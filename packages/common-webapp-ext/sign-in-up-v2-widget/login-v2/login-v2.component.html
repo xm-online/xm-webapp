@@ -1,18 +1,30 @@
-@let header = config.header;
+@let header = config?.header;
+@let extraAction = config?.extraAction;
 
 <div class="block">
+
+  @if (extraAction) {
+    <ng-container
+      xmDynamicPresentation
+      [selector]="extraAction?.selector"
+      [config]="extraAction?.config"
+      [controllers]="extraAction?.controllers"
+    ></ng-container>
+  }
+
   @if (header) {
     <div class="login-header" [class]="header.class" [style]="header.style">
-      <img class="login-header__logo" [src]="header.logo" alt="logo" />
-      <h3 class="login-header__title">{{header.title | xmTranslate}}</h3>
-      <p class="login-header__description">{{header.description | xmTranslate}}</p>
+      <img class="login-header__logo" [src]="header.logo" alt="logo"/>
+      <h3 class="login-header__title">{{ header.title | xmTranslate }}</h3>
+      <p class="login-header__description">{{ header.description | xmTranslate }}</p>
     </div>
   }
   @if (config?.title && !header) {
-    <h3 class="card-title pb-mob">{{config?.title | translate}}</h3>
+    <h3 class="card-title pb-mob">{{ config?.title | translate }}</h3>
   }
   <xm-loader [absolute]="true" [showLoader]="loading"></xm-loader>
-  <form [formGroup]="group" class="form-block pb-mob" role="form" *ngIf="!checkOTP" autocomplete="off" (submit)="login()">
+  <form [formGroup]="group" class="form-block pb-mob" role="form" *ngIf="!checkOTP" autocomplete="off"
+        (submit)="login()">
     <xm-email-control [config]="config?.config?.username"
                       formControlName="username">
     </xm-email-control>
@@ -23,7 +35,7 @@
       <div class="col-xs-12 col-md-6" *ngIf="!checkOTP && config?.config?.showForgotPassword">
         <div class="form-group pb-mob p-relative">
           <a class="forgot-link" href="javascript: void(0);" (click)="requestResetPassword()">
-            {{'login.password.forgot' | translate}}
+            {{ 'login.password.forgot' | translate }}
           </a>
         </div>
       </div>
@@ -47,7 +59,7 @@
                   class="btn display-block"
                   [ngClass]="{'loading' : loading}"
                   [disabled]="isFormDisabled()">
-            <span>{{config?.primaryButton|translate}}</span>
+            <span>{{ config?.primaryButton|translate }}</span>
           </button>
         </div>
       </div>
@@ -56,7 +68,7 @@
           <mat-checkbox class="remember-me" color="primary" formControlName="rememberMe"
                         name="rememberMe"
                         [disabled]="isFormDisabled()">
-            <span>{{'login.form.rememberMe' | translate}}</span>
+            <span>{{ 'login.form.rememberMe' | translate }}</span>
           </mat-checkbox>
         </div>
       </div>
@@ -64,9 +76,9 @@
   </form>
   <div class="row" *ngIf="config?.config?.showSingUp">
     <div class="col-12 registration">
-      <p>{{'login-page.tfa.signUp-no-account' | translate}}
+      <p>{{ 'login-page.tfa.signUp-no-account' | translate }}
         <strong><a href="javascript: void(0);" (click)="registration()">
-          {{'login-page.tfa.signUp' | translate}}</a></strong>
+          {{ 'login-page.tfa.signUp' | translate }}</a></strong>
       </p>
     </div>
   </div>

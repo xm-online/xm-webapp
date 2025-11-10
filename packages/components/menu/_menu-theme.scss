@@ -66,6 +66,14 @@ $xm-menu-icon-font-size: 20px !default;
     color: $xm-menu-item-active-color;
     background: $xm-menu-item-hover;
   }
+
+  @media all and (max-width: 991px) {
+    &:hover:not(.active),
+    &:focus:not(.active),
+    &.hover-active:not(.active-with-stretch) {
+      border-radius: 100px;
+    }
+  }
 }
 
 @mixin xm-menu-theme($theme) {
@@ -73,14 +81,40 @@ $xm-menu-icon-font-size: 20px !default;
   $xm-primary: map-get($theme, primary);
   $xm-menu-item-active-color: map-get($theme, sidebar-text-active-color) or $xm-primary;
   $xm-sidebar-background: map-get($theme, sidebar-background) or transparent;
-  $xm-sidebar-width: map-get($theme, sidebar-width-m3) or 256px;
 
   .menu-view {
+    position: relative;
     display: flex;
-    min-width: $xm-sidebar-width;
-    max-width: $xm-sidebar-width;
+    flex-direction: column;
+    min-width: 256px;
+    max-width: 256px;
     background-color: $xm-sidebar-background;
     height: 100vh;
+
+    @media all and (max-width: 991px) {
+      width: 75vw;
+      max-width: 350px;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+    }
+
+    .main-menu-nav-button {
+      margin: 10px 8px 0;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      height: 48px;
+      border-radius: 100px;
+
+      &__icon {
+        margin-right: 16px;
+      }
+    }
 
     cdk-tree {
       width: 100%;
@@ -88,6 +122,10 @@ $xm-menu-icon-font-size: 20px !default;
       overflow-y: auto;
       margin: 8px 0 8px;
       @include xm-scrollbar();
+
+      @media all and (max-width: 991px) {
+        margin-top: 0;
+      }
     }
   }
 
@@ -96,6 +134,15 @@ $xm-menu-icon-font-size: 20px !default;
     border-radius: 0;
     width: 100%;
     max-width: none;
+
+    @media all and (max-width: 991px) {
+      min-width: 256px;
+      max-width: 256px;
+    }
+
+    &__content {
+      height: calc(100vh - 64px);
+    }
 
     cdk-tree {
       height: 100%;
@@ -171,6 +218,12 @@ $xm-menu-icon-font-size: 20px !default;
     margin: 2px 8px;
     border-radius: 24px;
     padding: $xm-sidebar-menu-item-padding-y $xm-sidebar-padding-x;
+
+    @media all and (max-width: 991px) {
+      margin: 0 8px 0 50px;
+      height: 48px;
+      padding: 2px $xm-sidebar-padding-x;
+    }
   }
 
   .menu-icon {

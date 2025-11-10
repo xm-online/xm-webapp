@@ -24,6 +24,7 @@ export class ResponseConfigItem {
                     type: string;
                     value: string;
                 },
+                public toastDuration?: number,
                 public condition?: any,
                 public requestPathPattern?: string,
                 public redirectUrl?: string) {
