@@ -93,7 +93,7 @@ const uniqValueInListValidator = (stream: Observable<any[]>) => (control: Abstra
         ConfigurationHistoryComponent,
         FormsModule,
         CopyDirective,
-        PasteDirective
+        PasteDirective,
     ],
     templateUrl: './dashboard-edit.component.html',
     styleUrls: ['./dashboard-edit.component.scss'],
@@ -161,6 +161,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
     );
     public dashboardWidgets: DashboardWidget[];
     public ClipboardOperations = ClipboardOperations;
+    private initialConfig: DashboardConfig | null = null;
+    private initialLayout: DashboardLayout | null = null;
 
     constructor(
         protected readonly dashboardCollection: DashboardCollection,
@@ -194,6 +196,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         this.typeKeyControl.patchValue(value.typeKey);
         this.configControl.patchValue(value.config);
         this.layoutControl.patchValue(value.layout);
+        this.saveInitialValues();
 
         if (value && value.id) {
             this.editType = EditType.Edit;
@@ -209,6 +212,11 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         if (event) {
             this.onCancel();
         }
+    }
+
+    private saveInitialValues(): void {
+        this.initialConfig = cloneDeep(this.configControl.value);
+        this.initialLayout = cloneDeep(this.layoutControl.value);
     }
 
     public ngAfterViewInit(): void {
@@ -269,6 +277,7 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
                             textOptions: {value: res.name},
                         })
                         .subscribe();
+                    this.saveInitialValues();
                 }),
             )
             .subscribe();
@@ -307,6 +316,18 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
                 tap(() => this.editorService.close()),
             )
             .subscribe();
+    }
+
+    public onPreview(): void {
+        if (!this.valid) return;
+        if (!this.hasUnsavedChanges()) {
+            this.toasterService.create({
+                type: 'info',
+                text: { en: 'No unsaved data for preview', uk: 'Немає незбережених даних для перегляду' }
+            }).subscribe();
+        } else {
+            console.log('go to preview');
+        }
     }
 
     @HostListener('keydown.control.s', ['$event'])
@@ -348,5 +369,11 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
             delete w.dashboard;
             return w;
         });
+    }
+
+    private hasUnsavedChanges(): boolean {
+        const configChanged = !_.isEqual(this.initialConfig, this.configControl.value);
+        const layoutChanged = !_.isEqual(this.initialLayout, this.layoutControl.value);
+        return configChanged || layoutChanged;
     }
 }

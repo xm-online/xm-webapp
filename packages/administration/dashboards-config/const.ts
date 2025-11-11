@@ -43,6 +43,7 @@ export const DASHBOARDS_TRANSLATES = {
     editor: `${dashboards}editor`,
     samples: `${dashboards}samples`,
     historyChangesBtnTitle: `${dashboards}historyChangesBtnTitle`,
+    preview: `${dashboards}preview`,
 };
 
 export const EDIT_DASHBOARD_EVENT = 'EDIT_DASHBOARD_EVENT';
