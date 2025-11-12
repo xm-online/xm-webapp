@@ -6,7 +6,7 @@
 // ---> ALWAYS REVERT THIS FILE TO ITS ORIGINAL STATE BEFORE COMMITTING. <---
 // Failure to do so WILL break the build in CI.
 
-const NEW_VERSION_BUILD = process.env.NEW_VERSION_BUILD ?? true;
+const NEW_VERSION_BUILD = process.env.NEW_VERSION_BUILD ?? false;
 const {execSync} = require('child_process');
 if (NEW_VERSION_BUILD === 'false' || !NEW_VERSION_BUILD) {
     try {
