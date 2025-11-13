@@ -34,11 +34,14 @@ export interface XmDateControlOptions {
     hideClear?: boolean;
     errors?: XmControlErrorsTranslates;
     disableFutureDates?: boolean;
+
     /**
-     * To move days interval forward and back positive and negative numbers can be used.
+     * To move days interval forward and back.
+     * Positive and negative numbers can be used.
      */
     intervalFromMinDateInDays?: number;
     intervalFromMaxDateInDays?: number;
+
     dateNow?: boolean;
     useIsoString?: boolean;
     useAvailableDate?: boolean;
