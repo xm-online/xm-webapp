@@ -34,7 +34,11 @@ export interface XmDateControlOptions {
     hideClear?: boolean;
     errors?: XmControlErrorsTranslates;
     disableFutureDates?: boolean;
+    /**
+     * To move days interval forward and back positive and negative numbers can be used.
+     */
     intervalFromMinDateInDays?: number;
+    intervalFromMaxDateInDays?: number;
     dateNow?: boolean;
     useIsoString?: boolean;
     useAvailableDate?: boolean;
@@ -141,8 +145,8 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
 
         this.getAvailableDaysFromController();
 
-        this.maxDate = this.disableFutureDates();
-        this.minDate = this.defineStartDate();
+        this.maxDate = this.defineTargetDate(this.config?.intervalFromMaxDateInDays) || this.disableFutureDates();
+        this.minDate = this.defineTargetDate(this.config?.intervalFromMinDateInDays);
     }
 
     private getAvailableDaysFromController(): void {
@@ -205,21 +209,21 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
         return this.config?.disableFutureDates ? maxDate : null;
     }
 
-    public defineStartDate(): Date | undefined {
+    private defineTargetDate(intervalInDays: number): Date | undefined {
         if (!this.config?.dateNow) {
             return undefined;
         }
-        let minDate: Date;
-        if (this.config?.intervalFromMinDateInDays) {
+        let targetDate: Date;
+        if (intervalInDays) {
             const startDate = new Date();
-            const midNightHours = this.config?.intervalFromMinDateInDays * 24;
+            const midNightHours = intervalInDays * 24;
             startDate.setHours(midNightHours, 0, 0, 0);
-            minDate = new Date(startDate);
+            targetDate = new Date(startDate);
         } else {
-            minDate = new Date(Date.now());
+            targetDate = new Date(Date.now());
         }
 
-        return minDate;
+        return targetDate;
     }
 
     public changeDateControl({value}: MatDatepickerInputEvent<unknown>): void {
