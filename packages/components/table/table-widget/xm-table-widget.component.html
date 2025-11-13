@@ -103,6 +103,7 @@
           <tr *matRowDef="let row; columns: context.settings.displayedColumns"
               class="xm-table-hoverable-row xm-table-row-background"
               [ngClass]="{
+                'xm-table-row-highlight': config.highlightRowOnHover,
                 'xm-table-row-loading' : context.collection.loading,
                 'remove-border-bottom': xmTable.config.pageableAndSortable.hidePagination && config.isTitleHidden
               }"
