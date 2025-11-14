@@ -1,0 +1,30 @@
+{
+  "name": "exceptions",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/exceptions/src",
+  "prefix": "xm",
+  "projectType": "library",
+  "tags": [
+    "type:lib"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "outputs": [
+        "{workspaceRoot}/lib/exceptions"
+      ],
+      "options": {
+        "project": "packages/exceptions/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "{workspaceRoot}/tsconfig.ngc.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "core",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/core",
+  "prefix": "xm",
+  "projectType": "library",
+  "tags": [
+    "type:lib"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "outputs": [
+        "{workspaceRoot}/lib/core"
+      ],
+      "options": {
+        "project": "packages/core/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "{workspaceRoot}/tsconfig.ngc.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
