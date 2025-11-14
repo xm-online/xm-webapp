@@ -21,7 +21,7 @@ export function cli(terminalArgs: string[]): void {
 
     switch (terminalArgs[0] as CliCommands) {
         case 'ext-assets': {
-            new ExtAssetsCommand(config).execute();
+            new ExtAssetsCommand(config).execute(terminalArgs.slice(1));
             break;
         }
         case 'ext-i18n': {
