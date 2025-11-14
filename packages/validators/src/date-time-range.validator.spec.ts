@@ -2,7 +2,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { dateTimeRangeValidator } from './data-time-range.validator';
 
 describe('dateTimeRangeValidator', () => {
-
     function buildForm(startDate: any, endDate: any, startTime?: any, endTime?: any) {
         const controls: any = {
             startDate: new FormControl(startDate),
@@ -24,8 +23,8 @@ describe('dateTimeRangeValidator', () => {
         const form = buildForm('2025-01-01', '2025-01-02');
 
         const validator = dateTimeRangeValidator({
-            startKey: 'startDate',
-            endKey: 'endDate',
+            startDateKey: 'startDate',
+            endDateKey: 'endDate',
         });
 
         expect(validator(form)).toBeNull();
@@ -37,8 +36,8 @@ describe('dateTimeRangeValidator', () => {
         const form = buildForm('2025-01-05', '2025-01-02');
 
         const validator = dateTimeRangeValidator({
-            startKey: 'startDate',
-            endKey: 'endDate',
+            startDateKey: 'startDate',
+            endDateKey: 'endDate',
         });
 
         const result = validator(form);
@@ -51,8 +50,8 @@ describe('dateTimeRangeValidator', () => {
         const form = buildForm('2025-01-01', '2025-01-01', '10:00', '12:00');
 
         const validator = dateTimeRangeValidator({
-            startKey: 'startDate',
-            endKey: 'endDate',
+            startDateKey: 'startDate',
+            endDateKey: 'endDate',
             startTimeKey: 'startTime',
             endTimeKey: 'endTime',
         });
@@ -64,8 +63,8 @@ describe('dateTimeRangeValidator', () => {
         const form = buildForm('2025-01-01', '2025-01-01', '15:00', '10:00');
 
         const validator = dateTimeRangeValidator({
-            startKey: 'startDate',
-            endKey: 'endDate',
+            startDateKey: 'startDate',
+            endDateKey: 'endDate',
             startTimeKey: 'startTime',
             endTimeKey: 'endTime',
         });
@@ -80,20 +79,20 @@ describe('dateTimeRangeValidator', () => {
         const form = buildForm('2025-01-01', '2025-01-01', '10:00');
 
         const validator = dateTimeRangeValidator({
-            startKey: 'startDate',
-            endKey: 'endDate',
+            startDateKey: 'startDate',
+            endDateKey: 'endDate',
             startTimeKey: 'startTime',
         });
 
-        expect(validator(form)).toBeNull();
+        expect(validator(form)).toEqual({ rangeInvalid: true });
     });
 
     it('should ignore validation if one field is missing', () => {
         const form = buildForm(null, '2025-01-01');
 
         const validator = dateTimeRangeValidator({
-            startKey: 'startDate',
-            endKey: 'endDate',
+            startDateKey: 'startDate',
+            endDateKey: 'endDate',
         });
 
         expect(validator(form)).toBeNull();

@@ -5,31 +5,31 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
  *
  * 1. startDate : endDate
  *-----------------------
- *  startKey:       'startDate',
- *  endKey:         'endDate',
+ *  startDateKey:       'startDate',
+ *  endDateKey:         'endDate',
  *
  * 2. startDate + startTime : endDate + endTime
  *---------------------------------------------
- *  startKey:       'startDate',
- *  endKey:         'endDate',
- *  startTimeKey:   'startTime',
- *  endTimeKey:     'endTime'
+ *  startDateKey:       'startDate',
+ *  endDateKey:         'endDate',
+ *  startTimeKey:       'startTime',
+ *  endTimeKey:         'endTime'
  *
  * 3. startDate + startTime : endDate
  *------------------------------------
- *  startKey:       'startDate',
- *  endKey:         'endDate',
- *  startTimeKey:   'startTime'
+ *  startDateKey:       'startDate',
+ *  endDateKey:         'endDate',
+ *  startTimeKey:       'startTime'
  */
 export function dateTimeRangeValidator(options: {
-    startKey: string;
-    endKey: string;
+    startDateKey: string;
+    endDateKey: string;
     startTimeKey?: string;
     endTimeKey?: string;
 }): ValidatorFn {
     return (group: AbstractControl): ValidationErrors | null => {
-        const startDate = <string>group.get(options.startKey)?.value;
-        const endDate = <string>group.get(options.endKey)?.value;
+        const startDate = <string>group.get(options.startDateKey)?.value;
+        const endDate = <string>group.get(options.endDateKey)?.value;
 
         if (!startDate || !endDate) return null;
 
@@ -54,13 +54,13 @@ export function dateTimeRangeValidator(options: {
 
 
         if (start > end) {
-            group.get(options.startKey)?.setErrors({ tooLate: true });
-            group.get(options.endKey)?.setErrors({ tooEarly: true });
+            group.get(options.startDateKey)?.setErrors({ tooLate: true });
+            group.get(options.endDateKey)?.setErrors({ tooEarly: true });
 
             return { rangeInvalid: true };
         }
-        group.get(options.startKey)?.setErrors(null);
-        group.get(options.endKey)?.setErrors(null);
+        group.get(options.startDateKey)?.setErrors(null);
+        group.get(options.endDateKey)?.setErrors(null);
 
 
         return null;
