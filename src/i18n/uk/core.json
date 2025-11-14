@@ -234,7 +234,8 @@
     "no-active": "Відстуня активна подія історії",
     "change-lists": "Перелік змін",
     "empty-history": "Відстуні записи в історії",
-    "show-more": "Показати більше"
+    "show-more": "Показати більше",
+    "preview": "Перегляд"
   },
   "date-time-picker": {
     "labels": {

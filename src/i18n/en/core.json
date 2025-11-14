@@ -234,7 +234,8 @@
     "change-lists": "Changes",
     "show-more": "Show more",
     "back": "Back",
-    "empty-history": "Empty for this item."
+    "empty-history": "Empty for this item.",
+    "preview": "Preview"
   },
   "date-time-picker": {
     "labels": {

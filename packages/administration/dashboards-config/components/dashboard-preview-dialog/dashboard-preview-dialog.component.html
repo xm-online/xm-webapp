@@ -1,0 +1,56 @@
+<h4 mat-dialog-title>
+    {{ TRS.preview | xmTranslate }}
+    <span *ngIf="dashboard()" class="text-muted ms-2" style="font-size: 0.9rem;">
+    {{ dashboard()?.name }}
+  </span>
+</h4>
+
+<mat-dialog-content>
+    <xm-loader [showLoader]="showLoader()"></xm-loader>
+
+    <div *ngIf="dashboard()" [style]="dashboard()?.layout?.style" class="dashboard-container {{dashboard()?.layout?.class}}">
+        @for (item of dashboard()?.layout?.grid; track item) {
+            <ng-container *ngTemplateOutlet="dashboardItem; context: {item: item}"></ng-container>
+        }
+    </div>
+
+    <ng-template #dashboardItem let-item="item">
+        @if ((item.class | xmNotEmpty) || (item.style | xmNotEmpty)) {
+            <div [class]="item?.class" [style]="item?.style">
+                <ng-container *ngTemplateOutlet="dashboardContent; context: {item: item}"></ng-container>
+            </div>
+        } @else {
+            <ng-container *ngTemplateOutlet="dashboardContent; context: {item: item}"></ng-container>
+        }
+    </ng-template>
+
+    <ng-template #dashboardContent let-item="item">
+        @for (subitem of item?.content; track subitem) {
+            <ng-container *ngTemplateOutlet="dashboardItem; context: {item: subitem}"></ng-container>
+        }
+
+        @if (item?.widget && item.widget?.selector && injector()) {
+            <ng-template
+                    xm-dynamic-widget
+                    [init]="{
+          selector: item.widget?.selector,
+          config: item.widget?.config,
+          controllers: item.controllers,
+          injector: injector()
+        }">
+            </ng-template>
+        }
+    </ng-template>
+
+    <no-data [show]="!dashboard()?.layout?.grid?.length && !showLoader()"></no-data>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button (click)="onClose()"
+            mat-button
+            color="primary"
+            class="ms-auto"
+            type="button">
+        <span>{{ TRS.close | xmTranslate }}</span>
+    </button>
+</mat-dialog-actions>
