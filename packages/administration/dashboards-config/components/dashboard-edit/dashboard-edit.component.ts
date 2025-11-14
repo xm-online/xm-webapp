@@ -1,5 +1,5 @@
 import {
-    AfterViewInit,
+    AfterViewInit, ChangeDetectorRef,
     Component,
     HostListener,
     inject,
@@ -30,9 +30,7 @@ import { XmTextControl, XmTextControlOptions } from '@xm-ngx/components/text';
 import { XmEventManager } from '@xm-ngx/core';
 import { Dashboard, DashboardConfig, DashboardLayout, DashboardStore, DashboardWidget } from '@xm-ngx/core/dashboard';
 import { Principal } from '@xm-ngx/core/user';
-import {
-    takeUntilOnDestroy, takeUntilOnDestroyDestroy
-} from '@xm-ngx/operators';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { XmTranslateService, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
@@ -40,27 +38,22 @@ import { prop } from 'lodash/fp';
 import { merge, Observable } from 'rxjs';
 import { delay, distinctUntilChanged, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { DASHBOARDS_TRANSLATES } from '../../const';
-import {
-    DashboardEditorService,
-} from '../../services/dashboard-editor.service';
+import { DashboardEditorService, } from '../../services/dashboard-editor.service';
 import { DashboardsListExpandComponent } from '../dashboards-list-expand/dashboards-list-expand.component';
 import { DashboardCollection, DashboardConfig as DashboardConfigInjector } from '../../injectors';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { LoaderModule } from '@xm-ngx/components/loader';
 import { RouterLink } from '@angular/router';
 import { ConfigurationHistoryComponent } from '../../configuration-history/configuration-history.component';
 import { DashboardsConfigHistoryService } from '../../services/dashboards-config-history.service';
 import { HistoryEvent } from '../../configuration-history/models/config-history.model';
-import {
-    CopyDirective,
-    ClipboardOperations,
-    PasteDirective
-} from '@xm-ngx/components/copy-paste-directive';
-import { cloneDeep, omit } from 'lodash';
+import { ClipboardOperations, CopyDirective, PasteDirective } from '@xm-ngx/components/copy-paste-directive';
+import { DashboardPreviewDialogComponent } from '../dashboard-preview-dialog/dashboard-preview-dialog.component';
 
 export enum EditType {
     Create = 1,
@@ -101,8 +94,8 @@ const uniqValueInListValidator = (stream: Observable<any[]>) => (control: Abstra
 export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit {
     public TRS: typeof DASHBOARDS_TRANSLATES = DASHBOARDS_TRANSLATES;
     public EditType: typeof EditType = EditType;
-    public configControl = new FormControl<DashboardConfig>({});
-    public layoutControl = new FormControl<DashboardLayout>({});
+    public configControl = new FormControl<DashboardConfig>(null);
+    public layoutControl = new FormControl<DashboardLayout>(null);
     public valid: boolean = false;
     public loading$: Observable<boolean>;
     public disabled: boolean;
@@ -161,7 +154,6 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
     );
     public dashboardWidgets: DashboardWidget[];
     public ClipboardOperations = ClipboardOperations;
-    private initialConfig: DashboardConfig | null = null;
     private initialLayout: DashboardLayout | null = null;
 
     constructor(
@@ -175,6 +167,8 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         protected readonly translateService: TranslateService,
         protected readonly toasterService: XmToasterService,
         protected readonly dashboardsConfigHistoryService: DashboardsConfigHistoryService,
+        protected readonly dialog: MatDialog,
+        private cdr: ChangeDetectorRef,
     ) {
         this.loading$ = this.dashboardCollection.loading$.pipe(
             delay(0),
@@ -190,13 +184,20 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
     @Input()
     public set value(value: Dashboard) {
-        this._value = value;
+        this._value = _.cloneDeep(value);
 
         this.nameControl.patchValue(value.name);
         this.typeKeyControl.patchValue(value.typeKey);
-        this.configControl.patchValue(value.config);
-        this.layoutControl.patchValue(value.layout);
-        this.saveInitialValues();
+        this.configControl.patchValue(_.cloneDeep(value.config));
+        this.layoutControl.patchValue(_.cloneDeep(value.layout));
+
+        if (value?.widgets) {
+            this.dashboardWidgets = this.getUnbindedWidgets(_.cloneDeep(value.widgets));
+        }
+
+        Promise.resolve().then(() => {
+            this.saveInitialValues();
+        });
 
         if (value && value.id) {
             this.editType = EditType.Edit;
@@ -212,11 +213,6 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         if (event) {
             this.onCancel();
         }
-    }
-
-    private saveInitialValues(): void {
-        this.initialConfig = cloneDeep(this.configControl.value);
-        this.initialLayout = cloneDeep(this.layoutControl.value);
     }
 
     public ngAfterViewInit(): void {
@@ -320,14 +316,46 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
     public onPreview(): void {
         if (!this.valid) return;
-        if (!this.hasUnsavedChanges()) {
+
+        const hasChanges = this.hasUnsavedChanges();
+
+        if (!hasChanges) {
             this.toasterService.create({
                 type: 'info',
-                text: { en: 'No unsaved data for preview', uk: 'Немає незбережених даних для перегляду' }
+                text: {
+                    en: 'No unsaved layout changes for preview',
+                    uk: 'Немає незбережених змін розмітки для перегляду',
+                },
             }).subscribe();
-        } else {
-            console.log('go to preview');
+            return;
         }
+
+        const previewDashboard: Dashboard = {
+            id: this._value.id,
+            name: this.nameControl.value,
+            typeKey: this.typeKeyControl.value,
+            config: _.cloneDeep(this.configControl.value),
+            layout: _.cloneDeep(this.layoutControl.value),
+            widgets: _.cloneDeep(this._value.widgets || []),
+            isPublic: this._value.isPublic,
+            owner: this._value.owner,
+        };
+
+        const dialogRef = this.dialog.open(DashboardPreviewDialogComponent, {
+            width: '90vw',
+            maxWidth: '1400px',
+            height: '90vh',
+            data: {
+                dashboard: previewDashboard,
+            },
+        });
+
+        dialogRef.afterClosed().subscribe(() => {
+            if (this._value?.widgets) {
+                this.dashboardWidgets = this.getUnbindedWidgets(_.cloneDeep(this._value.widgets));
+            }
+            this.cdr.detectChanges();
+        });
     }
 
     @HostListener('keydown.control.s', ['$event'])
@@ -359,21 +387,26 @@ export class DashboardEditComponent implements OnInit, OnDestroy, AfterViewInit 
         const data = _.cloneDeep(this.value);
         _.set(data , 'widgets', this.widgetsCompRef?.widgetsList?.data.slice());
         delete data.id;
-        data.widgets = data.widgets?.map(widget => omit(cloneDeep(widget), ['id', 'dashboard']) as DashboardWidget);
+        data.widgets = data.widgets?.map(widget => _.omit(_.cloneDeep(widget), ['id', 'dashboard']) as DashboardWidget);
         return data;
     }
 
     private getUnbindedWidgets(widgets: DashboardWidget[]): DashboardWidget[] {
-        return widgets.map(w => {
-            delete w.id;
-            delete w.dashboard;
-            return w;
+        return widgets.map(widget => {
+            const unbinded = _.cloneDeep(widget);
+            delete unbinded.id;
+            delete unbinded.dashboard;
+            return unbinded;
         });
     }
 
+    private saveInitialValues(): void {
+        this.initialLayout = _.cloneDeep(this.layoutControl.value);
+    }
+
     private hasUnsavedChanges(): boolean {
-        const configChanged = !_.isEqual(this.initialConfig, this.configControl.value);
         const layoutChanged = !_.isEqual(this.initialLayout, this.layoutControl.value);
-        return configChanged || layoutChanged;
+
+        return layoutChanged;
     }
 }
