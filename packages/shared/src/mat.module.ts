@@ -118,7 +118,7 @@ export class CustomDateAdapter extends NativeDateAdapter {
             provide: MatPaginatorIntl,
             useClass: XmMatPaginatorInt,
         },
-        { provide: DateAdapter, useClass: CustomDateAdapter },
+        {provide: DateAdapter, useClass: CustomDateAdapter},
     ],
 })
 export class MatModule {
