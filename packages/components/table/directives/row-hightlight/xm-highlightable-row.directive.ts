@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, input, InputSignal, OnDestroy, OnInit } from '@angular/core';
 import { HighlightableRow, XmRowHighlightRegistry } from './xm-row-highlight-registry.service';
 
 type Action = 'add' | 'remove';
@@ -13,13 +13,13 @@ export class XmHighlightableRowDirective implements OnInit, OnDestroy, Highlight
     public registry: XmRowHighlightRegistry = inject(XmRowHighlightRegistry, { optional: true });
     private elementRef: ElementRef<HTMLElement> = inject<ElementRef<HTMLElement>>(ElementRef);
 
-    @Input('xmHighlightableRow') public enabled: boolean = false;
-    @Input() public xmHighlightableRowIndex: number;
+    public enabled: InputSignal<boolean> = input<boolean>(false, { alias: 'xmHighlightableRow' });
+    public xmHighlightableRowIndex: InputSignal<number> = input.required<number>();
 
     public highlighted: boolean = false;
 
     @HostListener('click') public handleClick(): void {
-        if (!this.enabled) {
+        if (!this.enabled()) {
             return;
         }
 
@@ -30,7 +30,7 @@ export class XmHighlightableRowDirective implements OnInit, OnDestroy, Highlight
 
         this.highlighted
             ? this.registry.clear(this)
-            : this.registry.select(this, this.xmHighlightableRowIndex);
+            : this.registry.select(this, this.xmHighlightableRowIndex());
     }
 
     public ngOnInit(): void {
