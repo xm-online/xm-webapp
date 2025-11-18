@@ -1,0 +1,39 @@
+{
+  "name": "eslint-plugin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/eslint-plugin",
+  "prefix": "xm",
+  "projectType": "library",
+  "tags": [
+    "type:lib"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "outputs": [
+        "{workspaceRoot}/lib/eslint-plugin"
+      ],
+      "options": {
+        "project": "packages/eslint-plugin/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "packages/eslint-plugin/tsconfig.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "packages/eslint-plugin/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
