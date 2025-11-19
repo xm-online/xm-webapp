@@ -68,7 +68,10 @@ export class LoginService {
             this.authServerProvider
                 .loginIdp(opt)
                 .subscribe((data) => {
-                    this.getUserIdentity(resolve, data);
+                    this.getUserIdentity(() => {
+                        this.loginSuccess();
+                        resolve(data);
+                    }, data);
                     return cb();
                 }, err => {
                     console.info(err);
@@ -80,6 +83,8 @@ export class LoginService {
 
     public onIdpDirectLogin(config: IIdpConfig): void {
         const client = this.getIdpClient({ idp: config?.idp } as IIdpConfig);
+        const previousUrl = location.pathname + location.search + location.hash;
+        this.stateStorageService.storeUrl(previousUrl);
         this.$sessionStorage.store('idp_client', client);
         this.loginWithIdpClient(client);
     }
@@ -141,6 +146,7 @@ export class LoginService {
     public logout$(): Observable<void> {
         this.eventManager.broadcast({name: this.LOGOUT_EVENT});
         this.sessionService.clear();
+        this.authRefreshTokenService.clear();
         return of(null);
     }
 

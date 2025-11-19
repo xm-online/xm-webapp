@@ -1,34 +1,64 @@
+@let isMobileScreen = isMobileView$ | async;
+
 <ng-container *ngIf="categories$ | async as categories">
   <ng-container *ngIf="categories?.length">
     <ng-container *ngIf="isCategoriesHidden$ | async">
-      <div class="menu-categories-spacer"></div>
-      <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES" [@hideCategories]>
-        <a *ngIf="brandLogo$ | async as brandLogo" class="menu-categories__logo"
-           [routerLink]="brandLogo?.navigationSlug || '/dashboards'">
-          <img *ngIf="brandLogo?.url"
-               [src]="brandLogo?.url"
-               [width]="brandLogo?.size || DEFAULT_LOGO_SIZE"
-               [height]="brandLogo?.size || DEFAULT_LOGO_SIZE"
+      <div *ngIf="!isMobileScreen" class="menu-categories-spacer"></div>
+
+      <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES">
+        <div *ngIf="isMobileScreen" [class]="menuCategoriesClassesEnum.MENU_CATEGORIES + '__toggle-button'">
+          <button mat-icon-button (click)="toggleSidenav(isMobileScreen)">
+            <mat-icon>menu_open</mat-icon>
+          </button>
+        </div>
+        <a *ngIf="!isMobileScreen && brandLogo$ | async as brandLogo" class="menu-categories__logo"
+           [routerLink]="brandLogo?.navigationSlug || '/dashboard'">
+          @let brandLogoUrl = brandLogo?.url;
+          @let brandLogoSize = brandLogo?.size || DEFAULT_LOGO_SIZE;
+
+          <img *ngIf="brandLogoUrl"
+               [src]="brandLogoUrl"
+               [width]="brandLogoSize"
+               [height]="brandLogoSize"
                alt="brand-logo">
         </a>
         <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES_CONTAINER">
+          @let selectedCategoryNameEn = selectedCategory?.name?.en?.toLowerCase();
+          @let hoveredCategoryNameEn = hoveredCategory?.name?.en?.toLowerCase();
+
           <div
             #menuCategory
             *ngFor="let category of categories"
             [class]="menuCategoriesClassesEnum.MENU_CATEGORY"
-            [ngClass]="{'active': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()}"
+            [ngClass]="{
+              'menu-link': isMobileScreen,
+              'active': selectedCategoryNameEn === category?.name?.en?.toLowerCase(),
+              'active-with-stretch': selectedCategoryNameEn === category?.name?.en?.toLowerCase() && isMobileScreen
+            }"
             (click)="onNavigate(category)"
             [attr.data-qa]="category.dataQa || 'default-' + category.icon + 'category'"
           >
-            <div *ngIf="category.icon"
-                 class="menu-category__icon menu-link rounded-menu-link"
-                 [ngClass]="{
-                  'hover-active': hoveredCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase(),
-                  'active-with-stretch': selectedCategory?.name?.en?.toLowerCase() === category?.name?.en?.toLowerCase()
-                 }">
-              <mat-icon>{{ category?.icon }}</mat-icon>
-            </div>
-            <span *ngIf="category?.name" class="menu-category__name">{{ category?.name | translate }}</span>
+            @let categoryNameEn = category?.name?.en?.toLowerCase();
+            @let categoryIcon = category?.icon;
+            @let categoryName = category?.name;
+            @let isCategoryWithoutSubcategories = category?.isLinkWithoutSubcategories;
+
+            @if (categoryIcon) {
+              <div class="menu-category__icon menu-link rounded-menu-link"
+                   [ngClass]="{
+                      'hover-active': hoveredCategoryNameEn === categoryNameEn,
+                      'active-with-stretch': selectedCategoryNameEn === categoryNameEn && !isMobileScreen
+                   }">
+                <mat-icon>{{ categoryIcon }}</mat-icon>
+              </div>
+            }
+            @if (categoryName) {
+              <span class="menu-category__name">{{ categoryName | translate }}</span>
+            }
+
+            @if (isMobileScreen && !isCategoryWithoutSubcategories) {
+              <mat-icon class="menu-category__nav-icon">chevron_right</mat-icon>
+            }
           </div>
         </div>
         <div class="menu-categories__actions">

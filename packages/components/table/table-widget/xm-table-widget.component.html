@@ -72,12 +72,18 @@
                           [type]="isLoading ? 'loading' : 'initial'"></xm-table-empty>
 
           <xm-table-selection-column
-            *ngIf="config.selection"
+            *ngIf="config?.selection && !config?.selection?.isUserSelection"
             [column]="xmTableSelection.selectColumn"
             [rows]="context.collection.items"
-            [config]="config.selection"
-          >
+            [config]="config.selection">
           </xm-table-selection-column>
+
+          <xm-table-user-selection-column
+            *ngIf="config?.selection?.isUserSelection"
+            [column]="xmTableSelection.selectColumn"
+            [rows]="context.collection.items"
+            [config]="config.selection">
+          </xm-table-user-selection-column>
 
           @let isSkeletonLoading = xmTable.useSkeletonLoading || config.isSkeletonLoading || false;
           <xm-table-column-dynamic-cell *ngFor="let column of xmTableSelection.dynamicColumns"
@@ -97,6 +103,7 @@
           <tr *matRowDef="let row; columns: context.settings.displayedColumns"
               class="xm-table-hoverable-row xm-table-row-background"
               [ngClass]="{
+                'xm-table-row-highlight': config.highlightRowOnHover,
                 'xm-table-row-loading' : context.collection.loading,
                 'remove-border-bottom': xmTable.config.pageableAndSortable.hidePagination && config.isTitleHidden
               }"

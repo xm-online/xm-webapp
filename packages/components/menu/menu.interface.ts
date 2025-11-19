@@ -58,7 +58,7 @@ export interface MenuItem extends DataQa {
      * @deprecated
      *
      * If children empty is link
-    */
+     */
     isLink?: boolean;
     children: MenuItem[];
 
@@ -84,4 +84,9 @@ export interface BrandLogo {
 export interface HoveredMenuCategory {
     hoveredCategory: MenuCategory;
     isOpenMenu: boolean;
+}
+
+export interface MobileMenuState {
+    showCategories: boolean;
+    category?: MenuCategory;
 }

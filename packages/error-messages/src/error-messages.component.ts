@@ -38,6 +38,7 @@ interface UIResponseConfigResponses {
         type: string;
         value: string;
     };
+    toastDuration: number,
     condition: string;
     requestPathPattern: string;
     redirectUrl: string;
@@ -85,6 +86,7 @@ export class JhiAlertErrorComponent implements OnDestroy {
                             e.validationField,
                             e.validationFieldsExtractor,
                             e.outputMessage,
+                            e.toastDuration,
                             e.condition,
                             e.requestPathPattern,
                             e.redirectUrl,
@@ -157,7 +159,9 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 break;
             }
             case 'alert': {
-                this.showError(title);
+                const { toastDuration } = config || {};
+                const options = { ...(toastDuration && { toastDuration }) };
+                this.showError(title, options);
                 response.content.handled = true;
                 break;
             }
@@ -172,15 +176,15 @@ export class JhiAlertErrorComponent implements OnDestroy {
         const content = res.content;
         switch (content.status) {
             case 0: {
-                this.showError(null, 'error.server.not.reachable');
+                this.showError(null, {key: 'error.server.not.reachable'});
                 break;
             }
             case 404: {
-                this.showError(null, 'error.url.not.found');
+                this.showError(null, {key: 'error.url.not.found'});
                 break;
             }
             case 403: {
-                this.showError(null, 'error.403');
+                this.showError(null, {key: 'error.403'});
                 break;
             }
             case 400: {
@@ -196,14 +200,14 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 });
                 if (errorHeader) {
                     const entityName = this.translateService.instant(`global.menu.entities.${entityKey}`);
-                    this.showError(errorHeader, errorHeader, {entityName});
+                    this.showError(errorHeader, {key: errorHeader, data: {entityName}});
                 } else {
                     this.defaultErrorHandler(content);
                 }
                 break;
             }
             case 413: {
-                this.showError(null, 'error.413');
+                this.showError(null, {key: 'error.413'});
                 break;
             }
             default: {
@@ -212,7 +216,12 @@ export class JhiAlertErrorComponent implements OnDestroy {
         }
     }
 
-    private showError(rawMessage: string, key?: string | null, data?: unknown): void {
+    private showError(rawMessage: string, options?: {
+        key?: string | null;
+        data?: unknown;
+        toastDuration?: number
+    }): void {
+        const {key, data, toastDuration} = options || {};
         let message: string;
         if (key) {
             // TODO: At the BE exists 2 types of the errors with the error. and without,
@@ -226,9 +235,14 @@ export class JhiAlertErrorComponent implements OnDestroy {
         setTimeout(() => this.toasterService.create({
             type: 'danger',
             params: data,
-            timeout: 5000,
+            timeout: this.convertToastDuration(toastDuration),
             text,
         }).subscribe());
+    }
+
+    private convertToastDuration(duration: number = 5) {
+        const oneSecondMs = 1000;
+        return duration * oneSecondMs;
     }
 
     private defaultErrorHandler(res: HttpErrorResponse | {
@@ -248,13 +262,18 @@ export class JhiAlertErrorComponent implements OnDestroy {
                 const fieldName = this.translateService.instant(
                     `jhipsterSampleApplicationApp.${fieldError.objectName}.${convertedField}`,
                 );
-                this.showError(null, `${fieldError.message}`, {fieldName});
+                this.showError(null, {
+                    key: `${fieldError.message}`,
+                    data: {fieldName}
+                });
             }
         } else if (res.error?.error && res.error?.error_description) {
             this.showError(
                 res.error.error_description,
-                res.error.error,
-                res.error.params,
+                {
+                    key: res.error.error,
+                    data: res.error.params
+                }
             );
         } else if (res.error?.error && typeof res.error?.error === 'string') {
             this.showError(res.error.error);
