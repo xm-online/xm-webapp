@@ -22,7 +22,7 @@
   "dependencies": {
     "lodash": "4.17.21",
     "sass": "1.54.7",
-    "glob": "10.3.3",
+    "glob": "10.5.0",
     "ts-morph": "23.0.0"
   },
   "devDependencies": {
