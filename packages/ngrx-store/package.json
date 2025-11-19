@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "@ngrx/signals": "19.2.0",
-    "@angular-architects/ngrx-toolkit": "19.1.0"
+    "@angular-architects/ngrx-toolkit": "19.1.0",
+    "@ngrx/operators": "19.2.1"
   }
 }
