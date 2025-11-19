@@ -1,7 +1,7 @@
-import { Meta, moduleMetadata, applicationConfig } from '@storybook/angular';
+import { applicationConfig, Meta, moduleMetadata } from '@storybook/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { XmAlertConfig, XmAlertModule, XmAlertService } from '@xm-ngx/alert';
-import { Component, Input, importProvidersFrom } from '@angular/core';
+import { Component, importProvidersFrom, Input } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { CommonModule } from '@angular/common';
@@ -13,7 +13,6 @@ import { XmCoreModule } from '@xm-ngx/core';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { of } from 'rxjs';
 import { XmCoreAuthModule } from '@xm-ngx/core/auth';
-import { XmSharedModule } from '@xm-ngx/shared';
 
 function StaticLoaderFactory() {
     return of(require('src/i18n/en.json'));
@@ -43,7 +42,6 @@ export default {
         applicationConfig({
             providers: [
                 importProvidersFrom(NgxWebstorageModule.forRoot()),
-                importProvidersFrom(XmSharedModule.forRoot()),
                 importProvidersFrom(XmCoreModule.forRoot()),
                 importProvidersFrom(XmCoreAuthModule.forRoot()),
                 importProvidersFrom(XmLoggerModule.forRoot()),
