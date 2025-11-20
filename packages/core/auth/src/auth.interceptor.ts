@@ -181,7 +181,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     private isInAppResource(req: HttpRequest<unknown>): boolean {
-        const inAppResources: string[] = ['./i18n/'];
+        const inAppResources: string[] = ['./i18n/', this.coreConfig.UI_PUBLIC_TRANSLATIONS];
         return inAppResources.some((resource: string) => req.url.startsWith(resource));
     }
 }
