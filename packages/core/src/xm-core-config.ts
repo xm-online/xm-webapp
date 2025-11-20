@@ -11,6 +11,7 @@ export class XmCoreConfig {
     public IDP_PUBLIC_CONFIG_URL: string = `${this.SERVER_API_URL}config/api/profile/webapp/public/idp-config-public.yml?toJson&processed=true`;
     public UI_PUBLIC_CONFIG_URL: string = `${this.SERVER_API_URL}config/api/profile/webapp/settings-public.yml?toJson&processed=true`;
     public UI_PRIVATE_CONFIG_URL: string = `${this.SERVER_API_URL}config/api/profile/webapp/settings-private.yml?toJson&processed=true`;
+    public UI_PUBLIC_TRANSLATIONS: string = `${this.SERVER_API_URL}config/api/profile/webapp/public/translations`;
     public UI_PRIVATE_CONFIG_PERMISSION: string = 'CONFIG.CLIENT.WEBAPP.GET_LIST.ITEM';
     public USER_URL: string = `${this.SERVER_API_URL}${this.accountUrl}`;
     public IS_PRODUCTION: boolean = false;
