@@ -62,6 +62,7 @@
           matSort
           xmTableMatSortAdapter
           matSortDisableClear
+          xmRowHighlightTable
           [matSortActive]="(xmTable.getSortActiveAndDirection() | async).active"
           [matSortDirection]="(xmTable.getSortActiveAndDirection() | async).direction"
           [dataSource]="context.collection.items"
@@ -100,13 +101,16 @@
             [colspan]="context.settings.displayedColumns.length"
           ></xm-table-loading>
 
-          <tr *matRowDef="let row; columns: context.settings.displayedColumns"
+          <tr *matRowDef="let row; columns: context.settings.displayedColumns; let i = index;"
               class="xm-table-hoverable-row xm-table-row-background"
               [ngClass]="{
+                'xm-table-row-highlight': config.highlightRowOnHover,
                 'xm-table-row-loading' : context.collection.loading,
                 'remove-border-bottom': xmTable.config.pageableAndSortable.hidePagination && config.isTitleHidden
               }"
               mat-row
+              [xmHighlightableRow]="config.highlightRowOnClick"
+              [xmHighlightableRowIndex]="i"
               (click)="rowClicked.emit(row)"
           ></tr>
 

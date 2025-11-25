@@ -27,6 +27,8 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     headerStyle?: string,
     isTitleHidden: boolean;
     isCardMarginBottom: boolean;
+    highlightRowOnHover?: boolean;
+    highlightRowOnClick?: boolean;
     isRowSelectable: boolean,
     noRows: XmTableEmptyConfig,
     /** Actions configuration */
@@ -58,6 +60,7 @@ export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
     isTitleHidden: false,
     isCardMarginBottom: true,
     isRowSelectable: false,
+    highlightRowOnHover: false,
     noRows: XM_TABLE_EMPTY_DEFAULT_CONFIG,
     ...XM_TABLE_CONFIG_DEFAULT,
     filtersClass: 'row',

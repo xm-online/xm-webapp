@@ -3,6 +3,7 @@ import { XmConfig } from '@xm-ngx/interfaces';
 
 export type ExpandableLayoutConfig = {
     panel: DynamicLayoutThemeConfig,
+    panelHeader: DynamicLayoutThemeConfig,
     header?: {
         togglePosition?: 'before' | 'after',
         layout: DynamicLayoutConfig

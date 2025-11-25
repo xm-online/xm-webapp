@@ -34,8 +34,14 @@ export class ExtLazyModuleCommand implements Command {
         const lazyModules = this.updateAngularJsonLazyModules();
         const newSource = moduleSource.replace(matcher, '$1' + lazyModules + '$3');
         const moduleFileUrl = 'src/app/xm.module.ts';
+        const packageLockFileUrl = 'package-lock.json';
+        const projectFileUrl = 'project.json';
+        const conditionaPostinstallFileUrl = 'scripts/conditional-postinstall.js';
         fs.writeFileSync(moduleFileUrl, newSource);
         ignoreChangedFile(moduleFileUrl);
+        ignoreChangedFile(packageLockFileUrl);
+        ignoreChangedFile(projectFileUrl);
+        ignoreChangedFile(conditionaPostinstallFileUrl);
     }
 
     public addXmGeneralModules(modules: string[]): void {
