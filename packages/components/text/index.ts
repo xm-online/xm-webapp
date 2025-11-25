@@ -67,6 +67,7 @@ export { XmTextCellComponent, XmTextCellConfig } from './text-cell/text-cell.com
 export { FocusDirective } from './focus.directive';
 export { InputPreventPasteDirective } from './input-prevent-paste.directive';
 export { WordAutocompleteDirective, WordAutocompleteModule } from './word-autocomplete.directive';
+export { DynamicFocusDirective } from './dynamic-focus.directive';
 
 export {
     XmTextHeaderOptions,
