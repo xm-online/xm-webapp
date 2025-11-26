@@ -220,9 +220,8 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
         if (intervalInDays === undefined) {
             if (type === 'max') {
                 return this.disableFutureDates();
-            } else {
-                return new Date(Date.now());
             }
+            return new Date(Date.now());
         }
 
         const date = new Date();
