@@ -9,7 +9,7 @@
                      }"
                  [mode]="'side'"
                  [opened]="false"
-                 [fixedInViewport]="true"
+                 [fixedInViewport]="!isMobileScreen"
                  [autoFocus]="false"
     >
       <xm-sidebar *ngIf="!isGuestLayout && !isSidebarHidden"></xm-sidebar>
