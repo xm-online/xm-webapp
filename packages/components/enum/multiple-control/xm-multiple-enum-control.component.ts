@@ -23,7 +23,7 @@ import { DataQa } from '@xm-ngx/interfaces';
 import { takeUntilOnDestroy } from '@xm-ngx/operators';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { clone, cloneDeep, defaults, forEach, keyBy } from 'lodash';
-import { Observable } from 'rxjs';
+import { isObservable, Observable } from 'rxjs';
 import { XmEnumControlOptionsItem } from '../control/xm-enum-control.component';
 import { XmEnumValue } from '../value/xm-enum.component';
 import { XmEnumViewOptions } from '../view/xm-enum-view';
@@ -125,22 +125,14 @@ export class XmMultipleEnumControl
     implements XmDynamicControl<XmEnumValue[] | undefined, XmMultipleEnumControlOptions> {
     public itemsList: XmEnumControlOptionsItem[];
     public itemsMap: { [value: string]: XmEnumControlOptionsItem };
-    private _config: XmMultipleEnumControlOptions = clone(XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
-    private dynamicInstanceService = inject(XmDynamicInstanceService);
     public dynamicInjector = inject(Injector);
+    private dynamicInstanceService = inject(XmDynamicInstanceService);
 
     constructor(@Optional() @Self() public ngControl: NgControl) {
         super(ngControl);
     }
 
-    public get value(): XmEnumValue[] {
-        return this._value == undefined ? [] : this._value;
-    }
-
-    @Input()
-    public set value(data: XmEnumValue[] | undefined) {
-        this._value = data;
-    }
+    private _config: XmMultipleEnumControlOptions = clone(XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
 
     public get config(): XmMultipleEnumControlOptions {
         return this._config;
@@ -155,8 +147,16 @@ export class XmMultipleEnumControl
             this.setItemsFromController();
             return;
         }
-        this.itemsList = value.items;
-        this.setItems();
+        this.setItems(value.items);
+    }
+
+    public get value(): XmEnumValue[] {
+        return this._value == undefined ? [] : this._value;
+    }
+
+    @Input()
+    public set value(data: XmEnumValue[] | undefined) {
+        this._value = data;
     }
 
     public selectionsChange(res: MatSelectChange): void {
@@ -180,21 +180,25 @@ export class XmMultipleEnumControl
     }
 
     private setItemsFromController(): void {
-        const { key, method } = this.config.itemsController;
+        const {key, method} = this.config.itemsController;
         const controller = this.dynamicInstanceService.getControllerByKey(key, this.dynamicInjector);
         if (!controller) {
             console.warn('XmMultipleEnumControl: cant get items controller!');
             return;
         }
-        (controller[method] as () => Observable<XmEnumControlOptionsItem[]>)()
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe(items => {
-                this.itemsList = cloneDeep(items);
-                this.setItems();
-            });
+        const methodExecutionResult = controller[method]?.() || [];
+        if (isObservable(methodExecutionResult)) {
+            (methodExecutionResult as Observable<XmEnumControlOptionsItem[]>).pipe(takeUntilOnDestroy(this))
+                .subscribe(items => {
+                    this.setItems(cloneDeep(items));
+                });
+        } else {
+            this.setItems(cloneDeep(methodExecutionResult));
+        }
     }
 
-    private setItems(): void {
+    private setItems(items: XmEnumControlOptionsItem[]): void {
+        this.itemsList = cloneDeep(items);
         forEach(this.itemsList, item => {
             if (item.value === undefined) {
                 item.value = '';
