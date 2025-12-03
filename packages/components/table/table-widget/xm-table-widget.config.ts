@@ -25,6 +25,7 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     /** Title */
     title: Translate,
     headerStyle?: string,
+    tableWrapperStyle?: string;
     isTitleHidden: boolean;
     isCardMarginBottom: boolean;
     highlightRowOnHover?: boolean;
