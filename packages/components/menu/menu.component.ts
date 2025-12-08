@@ -9,7 +9,9 @@ import {
     NgZone,
     OnDestroy,
     OnInit,
+    signal,
     ViewChild,
+    WritableSignal,
 } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
@@ -51,6 +53,7 @@ import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { MenuPositionEnum, MenuSubcategoriesAnimationStateEnum } from './menu.model';
 import { MenuCategoriesComponent } from './menu-categories/menu-categories.component';
 import { MatRipple } from '@angular/material/core';
+import { SwitchThemeOptions, SwitchThemeWidgetModule } from '@xm-ngx/components/switch-theme-widget';
 
 export type ISideBarConfig = {
     sidebar?: {
@@ -85,6 +88,7 @@ export type ISideBarConfig = {
         XmPermissionModule,
         MenuCategoriesComponent,
         MatRipple,
+        SwitchThemeWidgetModule,
     ],
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
@@ -92,13 +96,15 @@ export type ISideBarConfig = {
 export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     private _config: MenuOptions;
     private previousActiveNode: MenuItem;
+    public themeButtonConfig: WritableSignal<SwitchThemeOptions> = signal(null);
 
     @Input() set config(value: MenuOptions | null) {
         this._config = _.defaultsDeep(value, {
             'mode': 'toggle',
         });
         this.menuService.categories = value.categories;
-        this.menuService.setBrandLogo(value.logo);
+        this.menuService.setMenuConfig(value);
+        this.themeButtonConfig.set(value.themeButton);
         this.menuService.mobileMenuPositioning = value.mobileMenuPositioning || MenuPositionEnum.END;
     }
 
