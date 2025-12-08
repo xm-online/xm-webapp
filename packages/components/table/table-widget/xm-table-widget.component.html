@@ -54,7 +54,7 @@
 
       <xm-table-selection-header [defaultCollectionController]="collectionController" [config]="config.selection"></xm-table-selection-header>
 
-      <div class="xm-table-overflow-wrap">
+      <div class="xm-table-overflow-wrap" [style]="config.tableWrapperStyle">
         <table
           #table
           [style.width]="config?.width"
