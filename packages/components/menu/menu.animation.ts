@@ -20,26 +20,14 @@ export const showHideSubCategoriesDesktop: AnimationTriggerMetadata = trigger('s
 ]);
 
 export const showHideSubCategoriesMobile: AnimationTriggerMetadata = trigger('showHideSubCategoriesMobile', [
-    state(MenuSubcategoriesAnimationStateEnum.SHOW, style({
-        opacity: 1,
-        transform: 'translateX(0)',
-        position: 'absolute',
-    })),
-    state(MenuSubcategoriesAnimationStateEnum.HIDE, style({
-        opacity: 0,
-        transform: 'translateX(10px)',
-        position: 'absolute',
-    })),
-    transition(`${MenuSubcategoriesAnimationStateEnum.HIDE} <=> ${MenuSubcategoriesAnimationStateEnum.SHOW}`, [
-        animate('120ms'),
+    transition(':enter', [
+        style({opacity: 0, transform: 'translateX(10px)'}),
+        animate('120ms', style({opacity: 1, transform: 'translateX(0)'})),
         query('@*', animateChild(), {optional: true}),
     ]),
     transition(':leave', [
-        animate('120ms', style({
-            opacity: 0,
-            transform: 'translateX(10px)',
-            position: 'absolute',
-        })),
+        style({opacity: 1, transform: 'translateX(0)'}),
+        animate('120ms', style({opacity: 0, transform: 'translateX(10px)'})),
     ]),
 ]);
 
