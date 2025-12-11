@@ -6,7 +6,7 @@
       <div *ngIf="!isMobileScreen" class="menu-categories-spacer"></div>
 
       <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES">
-        <div *ngIf="isMobileScreen" [class]="menuCategoriesClassesEnum.MENU_CATEGORIES + '__toggle-button'">
+        <div *ngIf="isMobileScreen && $isMenuToggle()" [class]="menuCategoriesClassesEnum.MENU_CATEGORIES + '__toggle-button'">
           <button mat-icon-button (click)="toggleSidenav(isMobileScreen)">
             <mat-icon>menu_open</mat-icon>
           </button>
@@ -62,6 +62,9 @@
           </div>
         </div>
         <div class="menu-categories__actions">
+          @if ($themeButtonConfig() && !isMobileScreen) {
+            <switch-theme-widget [config]="$themeButtonConfig()"></switch-theme-widget>
+          }
           <button mat-mini-fab
                   [disabled]="selectedCategory?.isLinkWithoutSubcategories"
                   (click)="toggleSidenav()">

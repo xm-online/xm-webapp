@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, filter, from, map, Observable, of, Subject, switchMap, take } from 'rxjs';
-import { BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem, MobileMenuState } from './menu.interface';
+import { BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem, MenuOptions, MobileMenuState } from './menu.interface';
 import { MatDrawerMode, MatDrawerToggleResult, MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import _, { cloneDeep, groupBy, orderBy, uniqBy } from 'lodash';
+import _, { cloneDeep, get, groupBy, orderBy, uniqBy } from 'lodash';
 import { Router } from '@angular/router';
 import { MenuCategoriesClassesEnum, MenuPositionEnum } from './menu.model';
 import { ContextService } from '@xm-ngx/core/context';
@@ -28,6 +28,7 @@ export class MenuService {
     private _isMaterial3Menu: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
     private _sidenavOpenedChange: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private _mobileMenuState: BehaviorSubject<MobileMenuState> = new BehaviorSubject<MobileMenuState>({showCategories: true});
+    private _menuConfig: BehaviorSubject<MenuOptions> = new BehaviorSubject<MenuOptions>(null);
     public selectedCategory: BehaviorSubject<MenuCategory> = new BehaviorSubject<MenuCategory>(null);
     public isCategoriesHidden$: Observable<boolean>;
     public mobileMenuPositioning: MenuPositionEnum;
@@ -120,6 +121,17 @@ export class MenuService {
 
     public setMobileMenuState(state: MobileMenuState): void {
         this._mobileMenuState.next(state);
+    }
+
+    public getMenuConfig<T>(path: string): Observable<T> {
+        return this._menuConfig.asObservable().pipe(map((config: MenuOptions) => get(config, path, config) as unknown as T));
+    }
+
+    public setMenuConfig(state: MenuOptions): void {
+        if (state === undefined) {
+            return;
+        }
+        this._menuConfig.next(state);
     }
 
     public getActiveDashboards$(): Observable<MenuItem[]> {

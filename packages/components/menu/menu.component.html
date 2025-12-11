@@ -8,79 +8,86 @@
     [@hideCategories]
   ></xm-menu-categories>
 
-  <div
-    class="menu-view__content old-menu__content"
-    [@showHideSubCategoriesMobile]="isMobileScreen ? showSubCategoriesState : null"
-    (@showHideSubCategoriesMobile.done)="onHideSubCategoriesDone()"
-  >
-    @if (isMaterial3Menu && isMobileScreen && !mobileMenuState.showCategories) {
-      <div
-        matRipple
-        class="main-menu-nav-button"
-        (click)="onBackToCategories()">
-        <mat-icon class="main-menu-nav-button__icon">arrow_back</mat-icon>
-        <span>Main menu</span>
-      </div>
-    }
-    <cdk-tree *ngIf="showMenuTree && subCategories$ | async"
-              [dataSource]="filteredCategories"
-              [treeControl]="treeControl"
-              [@showHideSubCategoriesDesktop]="!isMobileScreen ? showSubCategoriesState : null"
-              (@showHideSubCategoriesDesktop.done)="onHideSubCategoriesDone()"
+  @if (isMobileScreen ? showSubCategoriesState === menuSubcategoriesAnimationStateEnum.SHOW : true) {
+    <div
+      class="menu-view__content old-menu__content"
+      [@showHideSubCategoriesMobile]
+      (@showHideSubCategoriesMobile.done)="onHideSubCategoriesDone()"
     >
-      <cdk-tree-node *cdkTreeNodeDef="let node">
-        <a class="menu-link"
-           *permitted="node.permission"
-           [routerLink]="node.url"
-           [ngClass]="{
+      @if (isMaterial3Menu && isMobileScreen && !mobileMenuState.showCategories) {
+        <div
+          matRipple
+          class="main-menu-nav-button"
+          (click)="onBackToCategories()">
+          <mat-icon class="main-menu-nav-button__icon">arrow_back</mat-icon>
+          <span>Main menu</span>
+        </div>
+      }
+      <cdk-tree *ngIf="showMenuTree && subCategories$ | async"
+                [dataSource]="filteredCategories"
+                [treeControl]="treeControl"
+                [@showHideSubCategoriesDesktop]="!isMobileScreen ? showSubCategoriesState : null"
+                (@showHideSubCategoriesDesktop.done)="onHideSubCategoriesDone()"
+      >
+        <cdk-tree-node *cdkTreeNodeDef="let node">
+          <a class="menu-link"
+             *permitted="node.permission"
+             [routerLink]="node.url"
+             [ngClass]="{
             'active': node.isActiveRoute,
             'active-with-stretch': node.isActiveRoute && isMaterial3Menu,
             'rounded-menu-link': isMaterial3Menu
          }"
-           (click)="setSelectedCategory(node)"
-           [attr.data-qa]="node.dataQa || 'default-menu-child-key'"
-        >
-          <mat-icon class="menu-icon" *ngIf="!isMaterial3Menu">{{ node?.icon }}</mat-icon>
-          <span class="xm-menu-item-text" [title]="node?.title | translate">
+             (click)="setSelectedCategory(node)"
+             [attr.data-qa]="node.dataQa || 'default-menu-child-key'"
+          >
+            <mat-icon class="menu-icon" *ngIf="!isMaterial3Menu">{{ node?.icon }}</mat-icon>
+            <span class="xm-menu-item-text" [title]="node?.title | translate">
         {{ node?.title | translate }}
       </span>
-        </a>
-      </cdk-tree-node>
+          </a>
+        </cdk-tree-node>
 
-      <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild">
-        <a class="menu-link"
-           *permitted="node.permission"
-           (click)="toggleOrNavigate(node, $event)"
-           [ngClass]="{
+        <cdk-nested-tree-node *cdkTreeNodeDef="let node; when: hasChild">
+          <a class="menu-link"
+             *permitted="node.permission"
+             (click)="toggleOrNavigate(node, $event)"
+             [ngClass]="{
             'active-menu-category': node === parentCategory,
             'active': !isMaterial3Menu && !node.children?.length && node?.category === selectedCategory,
             'active-with-stretch': isMaterial3Menu && !node.children?.length && node?.category === selectedCategory,
             'rounded-menu-link': isMaterial3Menu,
          }"
-           [href]="node.slug"
-           [attr.data-qa]="node.dataQa || 'default-menu-parent-key'"
-        >
-          <mat-icon class="menu-icon" *ngIf="!isMaterial3Menu">{{ node.icon }}</mat-icon>
-          <span class="xm-menu-item-text">{{ node?.title | translate }}</span>
-          <span class="ms-auto"></span>
+             [href]="node.slug"
+             [attr.data-qa]="node.dataQa || 'default-menu-parent-key'"
+          >
+            <mat-icon class="menu-icon" *ngIf="!isMaterial3Menu">{{ node.icon }}</mat-icon>
+            <span class="xm-menu-item-text">{{ node?.title | translate }}</span>
+            <span class="ms-auto"></span>
 
-          <mat-icon
-            *ngIf="node.children?.length"
-            class="menu-link-icon"
-            (click)="toggle(node, $event)"
-            [@indicatorRotate]="isNodeExpanded(node)">
-            arrow_drop_down
-          </mat-icon>
-        </a>
+            <mat-icon
+              *ngIf="node.children?.length"
+              class="menu-link-icon"
+              (click)="toggle(node, $event)"
+              [@indicatorRotate]="isNodeExpanded(node)">
+              arrow_drop_down
+            </mat-icon>
+          </a>
 
-        <div
-          class="menu-list"
-          [ngClass]="{'nested-menu-list': isMaterial3Menu}"
-          role="group" [@bodyExpansion]="isNodeExpanded(node)">
-          <ng-container cdkTreeNodeOutlet></ng-container>
-        </div>
-      </cdk-nested-tree-node>
-    </cdk-tree>
-  </div>
+          <div
+            class="menu-list"
+            [ngClass]="{'nested-menu-list': isMaterial3Menu}"
+            role="group" [@bodyExpansion]="isNodeExpanded(node)">
+            <ng-container cdkTreeNodeOutlet></ng-container>
+          </div>
+        </cdk-nested-tree-node>
+      </cdk-tree>
+    </div>
+  }
 
+  @if (themeButtonConfig() && isMobileScreen) {
+    <div class="menu-view__theme-switcher">
+      <switch-theme-widget [config]="themeButtonConfig()" [showAsStrokedButton]="isMobileScreen"></switch-theme-widget>
+    </div>
+  }
 </div>
