@@ -152,6 +152,13 @@ export class LoginService {
 
     private checkTokenAndForceIdentity(): void {
         /* This method forcing identity on page load when user has token but identity does not inits */
+        const path = this.location.path();
+        if (path.startsWith('/logout')) {
+            if (!this.xmCoreConfig.IS_PRODUCTION) {
+                console.info('[LoginService] skip force identity on logout route:', path);
+            }
+            return;
+        }
         if (!this.authRefreshTokenService.isExpired()) {
             this.principal.identity();
         }
