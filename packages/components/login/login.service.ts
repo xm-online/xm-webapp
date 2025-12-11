@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import {Inject, Injectable, isDevMode} from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthServerProvider, Principal } from '@xm-ngx/core/user';
@@ -154,7 +154,7 @@ export class LoginService {
         /* This method forcing identity on page load when user has token but identity does not inits */
         const path = this.location.path();
         if (path.startsWith('/logout')) {
-            if (!this.xmCoreConfig.IS_PRODUCTION) {
+            if (isDevMode()) {
                 console.info('[LoginService] skip force identity on logout route:', path);
             }
             return;
