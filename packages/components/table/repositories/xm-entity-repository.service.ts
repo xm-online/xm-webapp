@@ -134,6 +134,10 @@ export class XmEntityRepository<T extends XmEntity>
             extra.page = params.pageIndex;
         }
 
+        if (this.config['includes']) {
+            params.includes = this.config['includes'].join(',');
+        }
+
         return _.merge(params, extra);
     }
 
