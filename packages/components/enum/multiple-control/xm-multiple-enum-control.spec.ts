@@ -10,6 +10,7 @@ import { XmMultipleEnumControl } from '@xm-ngx/components/enum';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';
+import { XmDynamicInstanceService } from '@xm-ngx/dynamic';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 
 describe('XmMultipleEnumControlComponent', () => {
@@ -19,7 +20,14 @@ describe('XmMultipleEnumControlComponent', () => {
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
             declarations: [],
-            providers: [{ provide: XmPermissionService, useClass: MockPermissionService }],
+            providers: [
+                { provide: XmPermissionService, useClass: MockPermissionService },
+                {
+                    provide: XmDynamicInstanceService, useValue: {
+                        getControllerByKey: () => null,
+                    },
+                },
+            ],
             imports: [
                 XmMultipleEnumControl,
                 CommonModule,
