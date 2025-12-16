@@ -59,6 +59,23 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
     }
 
 
+    /*
+     * How to define a custom route guard:
+     *
+     * 1. In the dashboard configuration, add the controller key to `canActivateGuards`,
+     *    for example:
+     *    "canActivateGuards": ["canActivatePage"]
+     *
+     * 2. The controller must implement the `XmCanActivate` interface.
+     *
+     * 3. Define the controller in the `controllers` section, for example:
+     *    "controllers": [
+     *      {
+     *        "key": "canActivatePage",
+     *        "selector": "path-to-implementation"
+     *      }
+     *    ]
+     */
     private async resolveCustomGuard(value: DashboardWithWidgets, next: ActivatedRouteSnapshot): Promise<boolean> {
         if (!value) {
             return false;
