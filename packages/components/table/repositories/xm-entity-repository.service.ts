@@ -45,6 +45,7 @@ export type XmEntityRepositoryCustomConfig = XmEntityRepositoryConfig & {
     requestBuilderController?: {
         key?: string,
     },
+    includes?: string[];
 }
 
 @Injectable()
@@ -132,6 +133,12 @@ export class XmEntityRepository<T extends XmEntity>
 
         if (params.pageIndex) {
             extra.page = params.pageIndex;
+        }
+
+        const {includes} = this.config || {};
+
+        if (includes) {
+            params.includes = includes.join(',');
         }
 
         return _.merge(params, extra);
