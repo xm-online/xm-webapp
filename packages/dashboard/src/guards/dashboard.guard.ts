@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, Injector } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, UrlTree } from '@angular/router';
 // import { environment } from '@xm-ngx/core/environment';
 import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
-import { Observable, of } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { DashboardStore } from '@xm-ngx/core/dashboard';
+import { DashboardStore, DashboardWithWidgets, XmCanActivate } from '@xm-ngx/core/dashboard';
 import { DefaultDashboardService } from '../services/default-dashboard.service';
+import { XmDynamicControllerDeclaration, XmDynamicControllerInjectorFactoryService, XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
 
 @Injectable({
     providedIn: 'root',
@@ -13,6 +14,9 @@ import { DefaultDashboardService } from '../services/default-dashboard.service';
 export class DashboardGuard implements CanActivate, CanActivateChild {
 
     private logger: XmLogger;
+    private dynamicControllerInjectorFactory = inject(XmDynamicControllerInjectorFactoryService);
+    private dynamicInjectionTokenStoreService = inject(XmDynamicInjectionTokenStoreService);
+    private injector = inject(Injector);
 
     constructor(
         private dashboardWrapperService: DashboardStore,
@@ -24,29 +28,59 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
     }
 
     public canActivate(next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
-        return this.resolve(next.data?.dashboard?.id || null);
+        return this.resolve(next);
     }
 
     public canActivateChild(next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
-        return this.resolve(next.data?.dashboard?.id || null);
+        return this.resolve(next);
     }
 
-    public resolve(idOrSlug: number | string | null): Observable<boolean | UrlTree> {
-        return this.isDashboardAvailable(idOrSlug).pipe(
+    public resolve(next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
+        const idOrSlug = next.data?.dashboard?.id || null;
+        return this.dashboardWrapperService.getByIdOrSlug(idOrSlug).pipe(
+            switchMap((dashboard) => {
+                return dashboard?.config?.canActivateGuards
+                    ? from(this.resolveCustomGuard(dashboard, next))
+                    : of(!!dashboard);
+            }),
             switchMap((available) => {
                 if (available) {
                     return of(available);
-                } else if (idOrSlug) {
+                }
+                if (idOrSlug) {
                     this.logger.warn(`The dashboard by the "${idOrSlug}" slag is not available. `
-                        + 'A probable reason for this is an active user don\'t have the permission '
+                        + 'A probable reason for this is an active user don\'t have the permission'
+                        + 'or didn\'t pass canActivateGuards checks if they configured'
                         + 'or this dashboard do not exist.');
                 }
                 return this.getFirstAvailableDashboard();
-            }));
+            })
+        );
     }
 
-    private isDashboardAvailable(idOrSlug: number | string): Observable<boolean> {
-        return this.dashboardWrapperService.getByIdOrSlug(idOrSlug).pipe(map(Boolean));
+
+    private async resolveCustomGuard(value: DashboardWithWidgets, next: ActivatedRouteSnapshot): Promise<boolean> {
+        if (!value) {
+            return false;
+        }
+        const { canActivateGuards, controllers } = value.config;
+        const guardKeys = ((controllers as XmDynamicControllerDeclaration[]) || [])
+            .filter(item => canActivateGuards?.includes(item.key));
+
+        if (guardKeys.length === 0) {
+            return true;
+        }
+
+        const canActivateInjector = this.dynamicControllerInjectorFactory.defineProviders(guardKeys, [], this.injector);
+
+        for(const { key } of guardKeys) {
+            const token = this.dynamicInjectionTokenStoreService.resolve(key);
+            const guard = (await canActivateInjector).get<XmCanActivate>(token);
+            if (guard && !guard.canActivate(value, next)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private getFirstAvailableDashboard(): Observable<UrlTree> {
