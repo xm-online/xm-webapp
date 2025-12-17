@@ -1,6 +1,7 @@
 import { BaseEntity } from '@xm-ngx/core/entity';
 import { JavascriptCode } from '@xm-ngx/interfaces';
 import { DashboardWidget } from './dashboard-widget.model';
+import { ActivatedRouteSnapshot } from '@angular/router';
 
 export interface DashboardConfig {
     selector?: string;
@@ -12,6 +13,11 @@ export interface DashboardConfig {
     permission?: string;
     icon?: string;
     activeItemPathPatterns?: string[];
+    canActivateGuards?: {
+        key: string,
+        config: unknown,
+        selector: string,
+    }[];
     menu?: {
         section?: string;
         name?: string;
@@ -72,4 +78,9 @@ export interface Dashboard<C = DashboardConfig, L = DashboardLayout> extends Bas
 export interface DashboardWithWidgets<C = DashboardConfig, L = DashboardLayout> extends Dashboard<C, L> {
     widgets?: DashboardWidget[];
     targetId?: number;
+}
+
+
+export interface XmCanActivate {
+    canActivate(value: DashboardConfig, route: ActivatedRouteSnapshot): boolean;
 }
