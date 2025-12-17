@@ -60,37 +60,32 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
 
 
     /*
-     * How to define a custom route guard:
-     *
-     * 1. In the dashboard configuration, add the controller key to `canActivateGuards`,
-     *    for example:
-     *    "canActivateGuards": ["canActivatePage"]
-     *
-     * 2. The controller must implement the `XmCanActivate` interface.
-     *
-     * 3. Define the controller in the `controllers` section, for example:
-     *    "controllers": [
-     *      {
-     *        "key": "canActivatePage",
-     *        "selector": "path-to-implementation"
-     *      }
-     *    ]
-     */
+    * Added an extension point for implementing route guards
+    *
+    * How to define a custom route guard:
+    * 1. In the dashboard configuration, add the guard config to canActivateGuards,
+    *   for example:
+    *   "canActivateGuards": [{
+    *       "key": "canActivatePage",
+    *       "selector": "path-to-implementation"
+    *   }]
+    *
+    * 2. The service must implement the XmCanActivate interface.
+    *
+    * */
     private async resolveCustomGuard(value: DashboardWithWidgets, next: ActivatedRouteSnapshot): Promise<boolean> {
         if (!value) {
             return false;
         }
-        const { canActivateGuards, controllers } = value.config;
-        const guardKeys = ((controllers as XmDynamicControllerDeclaration[]) || [])
-            .filter(item => canActivateGuards?.includes(item.key));
+        const { canActivateGuards } = value.config;
 
-        if (guardKeys.length === 0) {
+        if (canActivateGuards?.length === 0) {
             return true;
         }
 
-        const canActivateInjector = this.dynamicControllerInjectorFactory.defineProviders(guardKeys, [], this.injector);
+        const canActivateInjector = this.dynamicControllerInjectorFactory.defineProviders(canActivateGuards as XmDynamicControllerDeclaration[], [], this.injector);
 
-        for(const { key } of guardKeys) {
+        for(const { key } of canActivateGuards) {
             const token = this.dynamicInjectionTokenStoreService.resolve(key);
             const guard = (await canActivateInjector).get<XmCanActivate>(token);
             if (guard && !guard.canActivate(value, next)) {

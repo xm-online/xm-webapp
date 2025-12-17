@@ -13,7 +13,11 @@ export interface DashboardConfig {
     permission?: string;
     icon?: string;
     activeItemPathPatterns?: string[];
-    canActivateGuards?: string[];
+    canActivateGuards?: {
+        key: string,
+        config: unknown,
+        selector: string,
+    }[];
     menu?: {
         section?: string;
         name?: string;
