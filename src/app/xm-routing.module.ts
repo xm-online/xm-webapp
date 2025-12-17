@@ -4,6 +4,10 @@ import { UserRouteAccessService } from '@xm-ngx/core/permission';
 
 const ROUTES: Routes = [
     {
+        path: 'logout',
+        loadChildren: () => import('@xm-ngx/account').then(m => m.GateAccountModule),
+    },
+    {
         path: 'accessdenied',
         loadChildren: () => import('@xm-ngx/components/error').then((m) => m.ErrorModule),
         data: {authorities: [], pageTitle: 'error.title', error403: true},
