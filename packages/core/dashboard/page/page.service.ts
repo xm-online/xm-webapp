@@ -1,11 +1,10 @@
-import { inject, Injectable, OnDestroy } from '@angular/core';
-// import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
-import { Observable, ReplaySubject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { inject, Injectable, isDevMode, OnDestroy } from '@angular/core';
+import { filter, Observable, ReplaySubject } from 'rxjs';
 import { DashboardStore } from '../dashboard-store.service';
 import { DashboardWidget } from '../models/dashboard-widget.model';
 import { AppStore } from '@xm-ngx/ngrx-store';
 import { AppStoreSource } from '@xm-ngx/ngrx-store/src/models/app-store.model';
+import { take } from 'rxjs/operators';
 
 export interface Page<C = unknown, L = unknown> {
     id?: number;
@@ -22,24 +21,16 @@ export interface Page<C = unknown, L = unknown> {
     providedIn: 'root',
 })
 export class PageService<T extends Page = Page> implements OnDestroy {
-    private appStore = inject<AppStoreSource>(AppStore);
-    private _active$: ReplaySubject<T | null> = new ReplaySubject(1);
-
-    // private logger: XmLogger;
-
-    constructor(
-        private dashboard: DashboardStore,
-        // protected loggerService: XmLoggerService,
-    ) {
-        // this.logger = this.loggerService.create({ name: 'PageService' });
-    }
+    protected appStore = inject<AppStoreSource>(AppStore);
+    protected dashboard: DashboardStore = inject(DashboardStore);
+    protected _active$: ReplaySubject<T | null | undefined> = new ReplaySubject(1);
 
     public active$(): Observable<T | null> {
-        return this._active$.asObservable();
+        return this._active$.asObservable().pipe(filter((page) => page !== undefined));
     }
 
     public load(idOrSlug: string | null): void {
-        console.info(`Load dashboard idOrSlug="${idOrSlug}".`);
+        isDevMode() && console.info(`Load dashboard idOrSlug="${idOrSlug}".`);
         this.loadPage(idOrSlug);
     }
 
@@ -48,7 +39,7 @@ export class PageService<T extends Page = Page> implements OnDestroy {
         delete this._active$;
     }
 
-    private loadPage(idOrSlug: string | null): void {
+    protected loadPage(idOrSlug: string | null): void {
         if (idOrSlug) {
             this.dashboard.getByIdOrSlug(idOrSlug)
                 .pipe(take(1))
@@ -61,4 +52,7 @@ export class PageService<T extends Page = Page> implements OnDestroy {
         }
     }
 
+    public resetActive(): void {
+        this._active$.next(undefined);
+    }
 }

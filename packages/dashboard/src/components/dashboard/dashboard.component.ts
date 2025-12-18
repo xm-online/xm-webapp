@@ -3,11 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Dashboard, DashboardStore, Page, PageService } from '@xm-ngx/core/dashboard';
 import { XmDynamicControllerInjectorFactoryService } from '@xm-ngx/dynamic';
 
-// import { environment } from '@xm-ngx/core/environment';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { XmLoggerService } from '@xm-ngx/logger';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { BehaviorSubject, combineLatest, from, of, merge } from 'rxjs';
+import { BehaviorSubject, combineLatest, from, merge, of } from 'rxjs';
 import { map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
 import { DashboardBase } from './dashboard-base';
 import { PageTitleService } from './page-title.service';
@@ -33,7 +32,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
         this.session.isActive().pipe(startWith(false)),
         this.loggingOut$,
     ]).pipe(
-        map(([active, loggingOut]) => active && !loggingOut)
+        map(([active, loggingOut]) => active && !loggingOut),
     );
     protected dynamicControllerInjectorFactory = inject(XmDynamicControllerInjectorFactoryService);
     private componentInjector = inject(Injector);
@@ -110,6 +109,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
+        this.pageService.resetActive();
     }
 
     public isCustomElement(layout: { widget: unknown }): boolean {
