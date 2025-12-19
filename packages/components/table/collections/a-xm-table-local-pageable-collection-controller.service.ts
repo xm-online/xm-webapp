@@ -1,5 +1,5 @@
 import _, { assign, cloneDeep, defaultsDeep, indexOf } from 'lodash';
-import { PAGEABLE_AND_SORTABLE_DEFAULT, } from '@xm-ngx/repositories';
+import { PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 import { IXmTableCollectionController, XmFilterQueryParams } from './i-xm-table-collection-controller';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
 
@@ -26,9 +26,9 @@ export abstract class AXmTableLocalPageableCollectionController<T>
                 pageableAndSortable: PAGEABLE_AND_SORTABLE_DEFAULT,
                 filterParams: {},
             }));
-        const { sortOrder, sortBy } = queryParams.pageableAndSortable;
+        const {sortOrder, sortBy} = queryParams.pageableAndSortable;
         const total = rawData.length;
-        const pageSize = Math.min(queryParams.pageableAndSortable.pageSize || total, total);
+        const pageSize = Math.min(queryParams.pageableAndSortable.pageSize || total, (total > queryParams.pageableAndSortable.pageSize ? total : queryParams.pageableAndSortable.pageSize));
         const maxPageCount = Math.round(total / (pageSize || 1));
         const maxPageIndex = maxPageCount * pageSize === total
             ? maxPageCount - 1
