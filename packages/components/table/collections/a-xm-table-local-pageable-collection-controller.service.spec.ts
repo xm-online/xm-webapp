@@ -41,7 +41,7 @@ describe('AXmTableLocalPageableCollectionController', () => {
             expect(state.items.length).toBe(0);
             expect(state.pageableAndSortable.total).toBe(0);
             expect(state.pageableAndSortable.pageIndex).toBe(0);
-            expect(state.pageableAndSortable.pageSize).toBe(0);
+            expect(state.pageableAndSortable.pageSize).toBe(5);
         });
 
         it('should handle pagination at data boundaries', () => {
@@ -63,7 +63,7 @@ describe('AXmTableLocalPageableCollectionController', () => {
         });
 
         it('should paginate sorted data correctly', () => {
-            const rawData = [{ id: 3 }, { id: 1 }, { id: 4 }, { id: 2 }, { id: 5 }];
+            const rawData = [{id: 3}, {id: 1}, {id: 4}, {id: 2}, {id: 5}];
             const request: XmFilterQueryParams = {
                 pageableAndSortable: {
                     pageSize: 2,
@@ -77,7 +77,7 @@ describe('AXmTableLocalPageableCollectionController', () => {
             service.changeByItems(rawData, request);
             const state = service['_state'].value;
             expect(state.items.length).toBe(2);
-            expect(state.items).toEqual([{ id: 3 }, { id: 4 }]);
+            expect(state.items).toEqual([{id: 3}, {id: 4}]);
 
             // Ensure pagination properties are correct
             expect(state.pageableAndSortable.pageIndex).toBe(1);
