@@ -15,7 +15,6 @@ import { registerRoute } from '../sign-up/sign-up.route';
 export const accountState: Routes = [{
     path: '',
     children: [
-        { path: '', redirectTo: 'logout', pathMatch: 'full' },
         activateRoute,
         helpRoute,
         passwordRoute,
