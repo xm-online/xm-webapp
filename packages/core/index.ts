@@ -6,7 +6,10 @@ export {
     SKIP_ERROR_HANDLER_INTERCEPTOR_HEADER_KEY,
 } from './src/error-handler.interceptor';
 export {
-    XmEventManagerService, XmEventManagerAction, XmEventManagerService as XmEventManager,
+    XmEventManagerService,
+    XmEventManagerAction,
+    XmEventManagerService as XmEventManager,
+    XmEventManagerKey,
 } from './src/xm-event-manager.service';
 export { RequestCacheFactoryService } from './src/cache/request-cache-factory.service';
 export { RequestCache } from './src/cache/request-cache';

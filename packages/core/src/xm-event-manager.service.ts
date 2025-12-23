@@ -3,6 +3,7 @@ import { Observable, Observer, Subject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 type EventManagerKey = string;
+export type XmEventManagerKey = EventManagerKey;
 
 export interface XmEventManagerAction<T = any> {
     name: EventManagerKey;

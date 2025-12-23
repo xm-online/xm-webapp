@@ -6,6 +6,7 @@ import { FastSearchSpec } from '@xm-ngx/core/entity';
 import { DeepPartial } from '@xm-ngx/interfaces';
 import { XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
+import { XM_ENTITY_EVENT_LIST } from '@xm-ngx/entity';
 
 @Component({
     standalone: true,
@@ -64,6 +65,9 @@ export class XmEntityTableComponent implements OnChanges, OnInit {
             actions,
             columns,
             filters,
+            tableUpdateEvents: [
+                XM_ENTITY_EVENT_LIST.XM_ENTITY_LIST_MODIFICATION,
+            ],
             collection: {
                 type: 'repository',
                 repository: {
@@ -85,11 +89,11 @@ export class XmEntityTableComponent implements OnChanges, OnInit {
             },
         } as DeepPartial<XmTableWidgetConfig>;
     }
-    
+
     private buildTableActions(): XmDynamicPresentationLayout[] {
         const { typeKey, xmEntitySpec } = (this.adaptConfig ?? {});
         const { functions } = (xmEntitySpec ?? {});
-        
+
         const actions: XmDynamicPresentationLayout[] = [];
 
         if (!this.hideActionsMenu) {
@@ -110,7 +114,7 @@ export class XmEntityTableComponent implements OnChanges, OnInit {
     private buildTableFilters(): DeepPartial<FormLayoutItem>[] {
         const { fastSearch } = (this.adaptConfig ?? {});
 
-        const chips = fastSearch?.length > 0 
+        const chips = fastSearch?.length > 0
             ? [{
                 name: 'ALL',
                 query: '',
@@ -141,7 +145,7 @@ export class XmEntityTableComponent implements OnChanges, OnInit {
         const { functions } = (xmEntitySpec ?? {});
 
         const fieldsAsColumn =
-            !this.hideDeleteButton 
+            !this.hideDeleteButton
                 ? fields.concat({'field': 'deleteButton', sortable: false, title: '' })
                 : fields;
 
