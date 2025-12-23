@@ -6,7 +6,7 @@ import { FastSearchSpec } from '@xm-ngx/core/entity';
 import { DeepPartial } from '@xm-ngx/interfaces';
 import { XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
-import { XM_ENTITY_EVENT_LIST } from '@xm-ngx/entity';
+import { XM_ENTITY_EVENT_LIST } from '../../constants';
 
 @Component({
     standalone: true,
