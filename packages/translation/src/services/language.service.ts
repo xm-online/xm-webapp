@@ -167,7 +167,8 @@ export class LanguageService implements OnDestroy, OnInitialize {
                     )
         ).subscribe(locale => {
             dayjs.locale(locale);
-            this.translate.setDefaultLang(locale);
+            this.translate.setDefaultLang(this.getDefaultLocale());
+            this.translate.use(locale);
             this.update(locale);
         });
     }
