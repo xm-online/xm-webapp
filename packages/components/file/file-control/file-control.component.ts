@@ -42,7 +42,8 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
             <input #input
                    (change)="change($event.target.files)"
                    hidden
-                   type="file"/>
+                   type="file"
+                   [attr.accept]="config.accept"/>
 
             <input #input
                    matInput
@@ -59,11 +60,11 @@ const XM_FILE_CONTROL_OPTIONS_DEFAULT: XmFileControlOptions = {
             <mat-error *xmControlErrors="control?.errors; message as message">{{ message }}</mat-error>
 
             <button
-                    class="me-2"
-                    matSuffix
-                    mat-button
-                    color="primary"
-                    (click)="input.click()">
+                class="me-2"
+                matSuffix
+                mat-button
+                color="primary"
+                (click)="input.click()">
                 {{ 'ext-entity.image-widget.change-image' | translate }}
 
                 <mat-icon>attach_file</mat-icon>
