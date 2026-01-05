@@ -139,7 +139,7 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
     private xmTableQueryParamsStoreService = inject(XmTableQueryParamsStoreService);
 
     public ngOnInit(): void {
-        const isMultiselect = this.config.isMultiselect !== false;
+        const isMultiselect = this.config.isMultiselect;
         this.selection = this.getOrCreateSelectionModel(isMultiselect);
 
         this.initializeObservables();

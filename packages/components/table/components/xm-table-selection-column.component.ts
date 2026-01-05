@@ -116,7 +116,7 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
     }
 
     public ngOnInit(): void {
-        const isMultiselect = this.config.isMultiselect !== false;
+        const isMultiselect = this.config.isMultiselect;
         this.selection = this.getOrCreateSelectionModel(isMultiselect);
 
         this.initializeColumnDef();
