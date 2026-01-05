@@ -139,32 +139,16 @@ export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> 
 
 
     public ngOnInit(): void {
-        const isMultiselect = this.config().isMultiselect;
-        const initialSelection = this.getOrCreateSelectionModel(isMultiselect);
+        const isMultiselect = this.config().isMultiselect !== false;
+        const initialSelection = this.selectionService.getOrCreateSelection(
+            this.config().key,
+            this.config().useMultipleSelectionModels,
+            isMultiselect
+        );
 
         this.selection.set(initialSelection);
         this.selectionService.push(this.config().key, this.selection());
         this.subscribeToSelectionChanges();
-    }
-
-    private getOrCreateSelectionModel(isMultiselect: boolean): SelectionModel<T> {
-        if (this.config().useMultipleSelectionModels) {
-            return this.selectionService.getSelectionModel(this.config().key, isMultiselect);
-        }
-
-        return this.ensureGlobalSelectionMode(isMultiselect);
-    }
-
-    private ensureGlobalSelectionMode(isMultiselect: boolean): SelectionModel<T> {
-        const globalSelection = this.selectionService.selection;
-
-        if (globalSelection.isMultipleSelection() !== isMultiselect) {
-            const currentSelection = globalSelection.selected;
-            const initialItems = isMultiselect ? currentSelection : currentSelection.slice(0, 1);
-            this.selectionService.selection = new SelectionModel<T>(isMultiselect, initialItems);
-        }
-
-        return this.selectionService.selection;
     }
 
     private subscribeToSelectionChanges(): void {

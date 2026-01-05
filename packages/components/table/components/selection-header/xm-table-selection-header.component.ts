@@ -139,31 +139,15 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
     private xmTableQueryParamsStoreService = inject(XmTableQueryParamsStoreService);
 
     public ngOnInit(): void {
-        const isMultiselect = this.config.isMultiselect;
-        this.selection = this.getOrCreateSelectionModel(isMultiselect);
+        const isMultiselect = this.config.isMultiselect !== false;
+        this.selection = this.selectionService.getOrCreateSelection(
+            this.config.key,
+            this.config.useMultipleSelectionModels,
+            isMultiselect
+        );
 
         this.initializeObservables();
         this.initializeLayout();
-    }
-
-    private getOrCreateSelectionModel(isMultiselect: boolean): SelectionModel<unknown> {
-        if (this.config.useMultipleSelectionModels) {
-            return this.selectionService.getSelectionModel(this.config.key, isMultiselect);
-        }
-
-        return this.ensureGlobalSelectionMode(isMultiselect);
-    }
-
-    private ensureGlobalSelectionMode(isMultiselect: boolean): SelectionModel<unknown> {
-        const globalSelection = this.selectionService.selection;
-
-        if (globalSelection.isMultipleSelection() !== isMultiselect) {
-            const currentSelection = globalSelection.selected;
-            const initialItems = isMultiselect ? currentSelection : currentSelection.slice(0, 1);
-            this.selectionService.selection = new SelectionModel(isMultiselect, initialItems);
-        }
-
-        return this.selectionService.selection;
     }
 
     private initializeObservables(): void {

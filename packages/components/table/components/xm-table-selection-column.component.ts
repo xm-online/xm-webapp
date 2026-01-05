@@ -119,32 +119,16 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
     }
 
     public ngOnInit(): void {
-        const isMultiselect = this.config.isMultiselect;
-        this.selection = this.getOrCreateSelectionModel(isMultiselect);
+        const isMultiselect = this.config.isMultiselect !== false;
+        this.selection = this.selectionService.getOrCreateSelection(
+            this.config.key,
+            this.config.useMultipleSelectionModels,
+            isMultiselect
+        );
 
         this.initializeColumnDef();
         this.selectionService.push(this.config.key, this.selection);
         this.subscribeToSelectionChanges();
-    }
-
-    private getOrCreateSelectionModel(isMultiselect: boolean): SelectionModel<T> {
-        if (this.config.useMultipleSelectionModels) {
-            return this.selectionService.getSelectionModel(this.config.key, isMultiselect);
-        }
-
-        return this.ensureGlobalSelectionMode(isMultiselect);
-    }
-
-    private ensureGlobalSelectionMode(isMultiselect: boolean): SelectionModel<T> {
-        const globalSelection = this.selectionService.selection;
-
-        if (globalSelection.isMultipleSelection() !== isMultiselect) {
-            const currentSelection = globalSelection.selected;
-            const initialItems = isMultiselect ? currentSelection : currentSelection.slice(0, 1);
-            this.selectionService.selection = new SelectionModel<T>(isMultiselect, initialItems);
-        }
-
-        return this.selectionService.selection;
     }
 
     private initializeColumnDef(): void {
