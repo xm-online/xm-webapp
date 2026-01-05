@@ -137,23 +137,34 @@ export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> 
 
     public ngOnInit(): void {
         const isMultiselect = this.config().isMultiselect !== false;
-        let initialSelection: SelectionModel<T>;
-
-        if (this.config().useMultipleSelectionModels) {
-            initialSelection = this.selectionService.getSelectionModel(this.config().key, isMultiselect);
-        } else {
-            // For global selection, check if we need to recreate it with correct multiselect mode
-            if (this.selectionService.selection.isMultipleSelection() !== isMultiselect) {
-                const currentSelection = this.selectionService.selection.selected;
-                this.selectionService.selection = new SelectionModel<T>(isMultiselect, isMultiselect ? currentSelection : currentSelection.slice(0, 1));
-            }
-            initialSelection = this.selectionService.selection;
-        }
+        const initialSelection = this.getOrCreateSelectionModel(isMultiselect);
 
         this.selection.set(initialSelection);
-
         this.selectionService.push(this.config().key, this.selection());
+        this.subscribeToSelectionChanges();
+    }
 
+    private getOrCreateSelectionModel(isMultiselect: boolean): SelectionModel<T> {
+        if (this.config().useMultipleSelectionModels) {
+            return this.selectionService.getSelectionModel(this.config().key, isMultiselect);
+        }
+
+        return this.ensureGlobalSelectionMode(isMultiselect);
+    }
+
+    private ensureGlobalSelectionMode(isMultiselect: boolean): SelectionModel<T> {
+        const globalSelection = this.selectionService.selection;
+
+        if (globalSelection.isMultipleSelection() !== isMultiselect) {
+            const currentSelection = globalSelection.selected;
+            const initialItems = isMultiselect ? currentSelection : currentSelection.slice(0, 1);
+            this.selectionService.selection = new SelectionModel<T>(isMultiselect, initialItems);
+        }
+
+        return this.selectionService.selection;
+    }
+
+    private subscribeToSelectionChanges(): void {
         this.selection().changed
             .pipe(takeUntilOnDestroy(this))
             .subscribe();

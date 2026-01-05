@@ -139,27 +139,46 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
     private xmTableQueryParamsStoreService = inject(XmTableQueryParamsStoreService);
 
     public ngOnInit(): void {
-        const isMultiselect = this.config.isMultiselect;
+        const isMultiselect = this.config.isMultiselect !== false;
+        this.selection = this.getOrCreateSelectionModel(isMultiselect);
 
+        this.initializeObservables();
+        this.initializeLayout();
+    }
+
+    private getOrCreateSelectionModel(isMultiselect: boolean): SelectionModel<unknown> {
         if (this.config.useMultipleSelectionModels) {
-            this.selection = this.selectionService.getSelectionModel(this.config.key, isMultiselect);
-        } else {
-            if (this.selectionService.selection.isMultipleSelection() !== isMultiselect) {
-                const currentSelection = this.selectionService.selection.selected;
-                this.selectionService.selection = new SelectionModel(isMultiselect, isMultiselect ? currentSelection : currentSelection.slice(0, 1));
-            }
-            this.selection = this.selectionService.selection;
+            return this.selectionService.getSelectionModel(this.config.key, isMultiselect);
         }
 
+        return this.ensureGlobalSelectionMode(isMultiselect);
+    }
+
+    private ensureGlobalSelectionMode(isMultiselect: boolean): SelectionModel<unknown> {
+        const globalSelection = this.selectionService.selection;
+
+        if (globalSelection.isMultipleSelection() !== isMultiselect) {
+            const currentSelection = globalSelection.selected;
+            const initialItems = isMultiselect ? currentSelection : currentSelection.slice(0, 1);
+            this.selectionService.selection = new SelectionModel(isMultiselect, initialItems);
+        }
+
+        return this.selectionService.selection;
+    }
+
+    private initializeObservables(): void {
         this.totalCount$ = this.collectionController.state$()
             .pipe(
                 map((res: QueryParamsPageable) => res.pageableAndSortable?.total)
             );
+
         this.isVisible$ = this.selection.changed
             .pipe(
                 map((select) => !select.source.isEmpty()),
             );
+    }
 
+    private initializeLayout(): void {
         this.layout = this.config.layout?.map((item: any) => {
             const config = item['config'] || item['options'] || {};
             _.set(item, 'config.selectionKey', config.selectionKey || this.config.key);

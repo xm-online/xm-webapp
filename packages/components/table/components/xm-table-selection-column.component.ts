@@ -116,23 +116,42 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
     }
 
     public ngOnInit(): void {
-        const isMultiselect = this.config.isMultiselect;
+        const isMultiselect = this.config.isMultiselect !== false;
+        this.selection = this.getOrCreateSelectionModel(isMultiselect);
+
+        this.initializeColumnDef();
+        this.selectionService.push(this.config.key, this.selection);
+        this.subscribeToSelectionChanges();
+    }
+
+    private getOrCreateSelectionModel(isMultiselect: boolean): SelectionModel<T> {
         if (this.config.useMultipleSelectionModels) {
-            this.selection = this.selectionService.getSelectionModel(this.config.key, isMultiselect);
-        } else {
-            if (this.selectionService.selection.isMultipleSelection() !== isMultiselect) {
-                const currentSelection = this.selectionService.selection.selected;
-                this.selectionService.selection = new SelectionModel<T>(isMultiselect, isMultiselect ? currentSelection : currentSelection.slice(0, 1));
-            }
-            this.selection = this.selectionService.selection;
+            return this.selectionService.getSelectionModel(this.config.key, isMultiselect);
         }
 
+        return this.ensureGlobalSelectionMode(isMultiselect);
+    }
+
+    private ensureGlobalSelectionMode(isMultiselect: boolean): SelectionModel<T> {
+        const globalSelection = this.selectionService.selection;
+
+        if (globalSelection.isMultipleSelection() !== isMultiselect) {
+            const currentSelection = globalSelection.selected;
+            const initialItems = isMultiselect ? currentSelection : currentSelection.slice(0, 1);
+            this.selectionService.selection = new SelectionModel<T>(isMultiselect, initialItems);
+        }
+
+        return this.selectionService.selection;
+    }
+
+    private initializeColumnDef(): void {
         this._columnDef.name = this.column.name;
         this._columnDef.cell = this._cell;
         this._columnDef.headerCell = this._headerCell;
         this._table.addColumnDef(this._columnDef);
+    }
 
-        this.selectionService.push(this.config.key, this.selection);
+    private subscribeToSelectionChanges(): void {
         this.selectionService
             .get(this.config?.key)
             .pipe(takeUntilOnDestroy(this))
