@@ -16,6 +16,7 @@ import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component
 import { XmTableSelectionService } from '../controllers/selections/xm-table-selection.service';
 import { XmCheckboxControl } from '@xm-ngx/components/bool';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { takeUntilOnDestroy } from '@xm-ngx/operators';
@@ -45,6 +46,7 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
                 [class]="column().headClass"
                 [style]="column().headStyle">
                 <mat-checkbox
+                    *ngIf="config().isMultiselect !== false"
                     (change)="$event ? allToggle() : null"
                     (click)="$event.stopPropagation()"
                     class="select-table-column__single-line-height"
@@ -60,11 +62,20 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
                 [class]="column().dataClass"
                 [style]="column().dataStyle">
                 <xm-checkbox-control
+                    *ngIf="config().isMultiselect !== false"
                     [value]="isSelected(row)"
                     [disabled]="disabled()"
                     class="select-table-column__single-line-height"
                     (valueChange)="toggleUser($event, row)">
                 </xm-checkbox-control>
+                <mat-radio-button
+                    *ngIf="config().isMultiselect === false"
+                    [checked]="isSelected(row)"
+                    [disabled]="disabled()"
+                    class="select-table-column__single-line-height"
+                    (change)="toggleUser($event.source.checked, row)"
+                    (click)="$event.stopPropagation()">
+                </mat-radio-button>
             </td>
         </ng-container>
     `,
@@ -78,6 +89,7 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
     imports: [
         XmCheckboxControl,
         MatCheckboxModule,
+        MatRadioModule,
         MatTableModule,
         CommonModule,
     ],
@@ -124,9 +136,19 @@ export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> 
 
 
     public ngOnInit(): void {
-        const initialSelection = this.config().useMultipleSelectionModels
-            ? this.selectionService.getSelectionModel(this.config().key)
-            : this.selectionService.selection;
+        const isMultiselect = this.config().isMultiselect !== false;
+        let initialSelection: SelectionModel<T>;
+
+        if (this.config().useMultipleSelectionModels) {
+            initialSelection = this.selectionService.getSelectionModel(this.config().key, isMultiselect);
+        } else {
+            // For global selection, check if we need to recreate it with correct multiselect mode
+            if (this.selectionService.selection.isMultipleSelection() !== isMultiselect) {
+                const currentSelection = this.selectionService.selection.selected;
+                this.selectionService.selection = new SelectionModel<T>(isMultiselect, isMultiselect ? currentSelection : currentSelection.slice(0, 1));
+            }
+            initialSelection = this.selectionService.selection;
+        }
 
         this.selection.set(initialSelection);
 

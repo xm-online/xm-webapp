@@ -5,6 +5,7 @@ export const XmTableSelectionDefault = {
     key: 'table-selection',
     menuMode: false,
     pageSize: 300,
+    isMultiselect: true,
 };
 
 export const XmTableSelectionTranslates = {

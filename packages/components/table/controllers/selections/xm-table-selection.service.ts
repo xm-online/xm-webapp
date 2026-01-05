@@ -12,9 +12,12 @@ export class XmTableSelectionService<T> {
     private selections$ = new BehaviorSubject({});
 
     private selections: Record<string, SelectionModel<T>> = {};
-    public getSelectionModel(key: string): SelectionModel<T> {
+    public getSelectionModel(key: string, isMultiselect: boolean = true): SelectionModel<T> {
         if (!this.selections[key]) {
-            this.selections[key] = new SelectionModel<T>(true, []);
+            this.selections[key] = new SelectionModel<T>(isMultiselect, []);
+        } else if (this.selections[key].isMultipleSelection() !== isMultiselect) {
+            const currentSelection = this.selections[key].selected;
+            this.selections[key] = new SelectionModel<T>(isMultiselect, isMultiselect ? currentSelection : currentSelection.slice(0, 1));
         }
 
         return this.selections[key];

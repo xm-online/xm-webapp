@@ -54,6 +54,7 @@ export interface XmTableSelectionConfig {
     useMultipleSelectionModels?: boolean;
     selectAllWithoutLayouts?: boolean;
     isUserSelection?: boolean;
+    isMultiselect?: boolean;
 }
 
 export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {

@@ -41,7 +41,7 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
 
             <ng-container *ngIf="(totalCount$ | async) as totalCount">
                 <button
-                    *ngIf="(totalCount > selection.selected.length) && (config.selectAllWithoutLayouts || config.layout?.length)"
+                    *ngIf="config.isMultiselect !== false && (totalCount > selection.selected.length) && (config.selectAllWithoutLayouts || config.layout?.length)"
                     [xm-loading]="loading"
                     class="total-count"
                     mat-button
@@ -139,7 +139,18 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
     private xmTableQueryParamsStoreService = inject(XmTableQueryParamsStoreService);
 
     public ngOnInit(): void {
-        this.selection = this.config.useMultipleSelectionModels ? this.selectionService.getSelectionModel(this.config.key) : this.selectionService.selection;
+        const isMultiselect = this.config.isMultiselect !== false;
+
+        if (this.config.useMultipleSelectionModels) {
+            this.selection = this.selectionService.getSelectionModel(this.config.key, isMultiselect);
+        } else {
+            // For global selection, check if we need to recreate it with correct multiselect mode
+            if (this.selectionService.selection.isMultipleSelection() !== isMultiselect) {
+                const currentSelection = this.selectionService.selection.selected;
+                this.selectionService.selection = new SelectionModel(isMultiselect, isMultiselect ? currentSelection : currentSelection.slice(0, 1));
+            }
+            this.selection = this.selectionService.selection;
+        }
 
         this.totalCount$ = this.collectionController.state$()
             .pipe(
