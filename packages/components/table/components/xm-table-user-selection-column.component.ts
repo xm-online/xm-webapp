@@ -46,7 +46,7 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
                 [class]="column().headClass"
                 [style]="column().headStyle">
                 <mat-checkbox
-                    *ngIf="config().isMultiselect !== false"
+                    *ngIf="config().isMultiselect"
                     (change)="$event ? allToggle() : null"
                     (click)="$event.stopPropagation()"
                     class="select-table-column__single-line-height"
@@ -62,14 +62,14 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
                 [class]="column().dataClass"
                 [style]="column().dataStyle">
                 <xm-checkbox-control
-                    *ngIf="config().isMultiselect !== false"
+                    *ngIf="config().isMultiselect"
                     [value]="isSelected(row)"
                     [disabled]="disabled()"
                     class="select-table-column__single-line-height"
                     (valueChange)="toggleUser($event, row)">
                 </xm-checkbox-control>
                 <mat-radio-button
-                    *ngIf="config().isMultiselect === false"
+                    *ngIf="!config().isMultiselect"
                     [checked]="isSelected(row)"
                     [disabled]="disabled()"
                     class="select-table-column__single-line-height"
@@ -136,7 +136,7 @@ export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> 
 
 
     public ngOnInit(): void {
-        const isMultiselect = this.config().isMultiselect !== false;
+        const isMultiselect = this.config().isMultiselect;
         const initialSelection = this.getOrCreateSelectionModel(isMultiselect);
 
         this.selection.set(initialSelection);
