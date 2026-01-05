@@ -46,7 +46,7 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: XmTableSelectTableColumn = {
                 [width]="column.width"
                 [class]="column.headClass"
                 [style]="column.headStyle">
-                <mat-checkbox *ngIf="config.isMultiselect !== false"
+                <mat-checkbox *ngIf="config.isMultiselect"
                               (change)="$event ? allToggle() : null"
                               (click)="$event.stopPropagation()"
                               class="select-table-column__single-line-height"
@@ -63,14 +63,14 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: XmTableSelectTableColumn = {
                 [class]="column.dataClass"
                 [style]="column.dataStyle">
                 <xm-checkbox-control
-                    *ngIf="config.isMultiselect !== false"
+                    *ngIf="config.isMultiselect"
                     [value]="selectedEntity(row)"
                     [disabled]="disabled"
                     class="select-table-column__single-line-height"
                     (valueChange)="toggleEntity($event, row)"
                 ></xm-checkbox-control>
                 <mat-radio-button
-                    *ngIf="config.isMultiselect === false"
+                    *ngIf="!config.isMultiselect"
                     [checked]="selectedEntity(row)"
                     [disabled]="disabled"
                     class="select-table-column__single-line-height"
@@ -116,12 +116,10 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
     }
 
     public ngOnInit(): void {
-        const isMultiselect = this.config.isMultiselect !== false;
-
+        const isMultiselect = this.config.isMultiselect;
         if (this.config.useMultipleSelectionModels) {
             this.selection = this.selectionService.getSelectionModel(this.config.key, isMultiselect);
         } else {
-            // For global selection, check if we need to recreate it with correct multiselect mode
             if (this.selectionService.selection.isMultipleSelection() !== isMultiselect) {
                 const currentSelection = this.selectionService.selection.selected;
                 this.selectionService.selection = new SelectionModel<T>(isMultiselect, isMultiselect ? currentSelection : currentSelection.slice(0, 1));
