@@ -45,15 +45,16 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
                 [width]="column().width"
                 [class]="column().headClass"
                 [style]="column().headStyle">
-                <mat-checkbox
-                    *ngIf="config().isMultiselect"
-                    (change)="$event ? allToggle() : null"
-                    (click)="$event.stopPropagation()"
-                    class="select-table-column__single-line-height"
-                    [disabled]="disabled()"
-                    [indeterminate]="selectionState().isIndeterminate"
-                    [checked]="selectionState().isChecked">
-                </mat-checkbox>
+                @if (config().isMultiselect) {
+                    <mat-checkbox
+                        (change)="$event ? allToggle() : null"
+                        (click)="$event.stopPropagation()"
+                        class="select-table-column__single-line-height"
+                        [disabled]="disabled()"
+                        [indeterminate]="selectionState().isIndeterminate"
+                        [checked]="selectionState().isChecked">
+                    </mat-checkbox>
+                }
             </th>
             <td
                 *matCellDef="let row"
@@ -61,21 +62,23 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
                 [width]="column().width"
                 [class]="column().dataClass"
                 [style]="column().dataStyle">
-                <xm-checkbox-control
-                    *ngIf="config().isMultiselect"
-                    [value]="isSelected(row)"
-                    [disabled]="disabled()"
-                    class="select-table-column__single-line-height"
-                    (valueChange)="toggleUser($event, row)">
-                </xm-checkbox-control>
-                <mat-radio-button
-                    *ngIf="!config().isMultiselect"
-                    [checked]="isSelected(row)"
-                    [disabled]="disabled()"
-                    class="select-table-column__single-line-height"
-                    (change)="toggleUser($event.source.checked, row)"
-                    (click)="$event.stopPropagation()">
-                </mat-radio-button>
+                @if (config().isMultiselect) {
+                    <xm-checkbox-control
+                        [value]="isSelected(row)"
+                        [disabled]="disabled()"
+                        class="select-table-column__single-line-height"
+                        (valueChange)="toggleUser($event, row)">
+                    </xm-checkbox-control>
+                }
+                @if (!config().isMultiselect) {
+                    <mat-radio-button
+                        [checked]="isSelected(row)"
+                        [disabled]="disabled()"
+                        class="select-table-column__single-line-height"
+                        (change)="toggleUser($event.source.checked, row)"
+                        (click)="$event.stopPropagation()">
+                    </mat-radio-button>
+                }
             </td>
         </ng-container>
     `,
