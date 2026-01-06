@@ -81,10 +81,12 @@ export class LoginService {
         });
     }
 
-    public onIdpDirectLogin(config: IIdpConfig): void {
+    public onIdpDirectLogin(config: IIdpConfig, skipStoreUrl?: boolean): void {
         const client = this.getIdpClient({ idp: config?.idp } as IIdpConfig);
         const previousUrl = location.pathname + location.search + location.hash;
-        this.stateStorageService.storeUrl(previousUrl);
+        if(!skipStoreUrl){
+            this.stateStorageService.storeUrl(previousUrl);
+        }
         this.$sessionStorage.store('idp_client', client);
         this.loginWithIdpClient(client);
     }
