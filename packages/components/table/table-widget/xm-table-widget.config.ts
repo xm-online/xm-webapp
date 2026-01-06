@@ -41,6 +41,7 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     popUpFilter?: boolean;
     showFilterChips?: boolean;
     isStickyHeader?: boolean;
+    isMultiselect?: boolean;
 }
 
 export interface XmTableSelectionConfig {
@@ -54,6 +55,7 @@ export interface XmTableSelectionConfig {
     useMultipleSelectionModels?: boolean;
     selectAllWithoutLayouts?: boolean;
     isUserSelection?: boolean;
+    isMultiselect?: boolean;
 }
 
 export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
@@ -71,4 +73,5 @@ export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
     popUpFilter: false,
     showFilterChips: true,
     dataQa: 'default-xm-table-data-qa',
+    isMultiselect: true,
 };

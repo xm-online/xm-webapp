@@ -16,6 +16,7 @@ import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component
 import { XmTableSelectionService } from '../controllers/selections/xm-table-selection.service';
 import { XmCheckboxControl } from '@xm-ngx/components/bool';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { takeUntilOnDestroy } from '@xm-ngx/operators';
@@ -44,14 +45,16 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
                 [width]="column().width"
                 [class]="column().headClass"
                 [style]="column().headStyle">
-                <mat-checkbox
-                    (change)="$event ? allToggle() : null"
-                    (click)="$event.stopPropagation()"
-                    class="select-table-column__single-line-height"
-                    [disabled]="disabled()"
-                    [indeterminate]="selectionState().isIndeterminate"
-                    [checked]="selectionState().isChecked">
-                </mat-checkbox>
+                @if (config().isMultiselect) {
+                    <mat-checkbox
+                        (change)="$event ? allToggle() : null"
+                        (click)="$event.stopPropagation()"
+                        class="select-table-column__single-line-height"
+                        [disabled]="disabled()"
+                        [indeterminate]="selectionState().isIndeterminate"
+                        [checked]="selectionState().isChecked">
+                    </mat-checkbox>
+                }
             </th>
             <td
                 *matCellDef="let row"
@@ -59,12 +62,23 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
                 [width]="column().width"
                 [class]="column().dataClass"
                 [style]="column().dataStyle">
-                <xm-checkbox-control
-                    [value]="isSelected(row)"
-                    [disabled]="disabled()"
-                    class="select-table-column__single-line-height"
-                    (valueChange)="toggleUser($event, row)">
-                </xm-checkbox-control>
+                @if (config().isMultiselect) {
+                    <xm-checkbox-control
+                        [value]="isSelected(row)"
+                        [disabled]="disabled()"
+                        class="select-table-column__single-line-height"
+                        (valueChange)="toggleUser($event, row)">
+                    </xm-checkbox-control>
+                }
+                @if (!config().isMultiselect) {
+                    <mat-radio-button
+                        [checked]="isSelected(row)"
+                        [disabled]="disabled()"
+                        class="select-table-column__single-line-height"
+                        (change)="toggleUser($event.source.checked, row)"
+                        (click)="$event.stopPropagation()">
+                    </mat-radio-button>
+                }
             </td>
         </ng-container>
     `,
@@ -78,6 +92,7 @@ export interface XmTableSelectTableColumn extends XmTableColumn {
     imports: [
         XmCheckboxControl,
         MatCheckboxModule,
+        MatRadioModule,
         MatTableModule,
         CommonModule,
     ],
@@ -124,14 +139,19 @@ export class XmTableUserSelectionColumnComponent<T extends HasUserKey = XmUser> 
 
 
     public ngOnInit(): void {
-        const initialSelection = this.config().useMultipleSelectionModels
-            ? this.selectionService.getSelectionModel(this.config().key)
-            : this.selectionService.selection;
+        const isMultiselect = this.config().isMultiselect !== false;
+        const initialSelection = this.selectionService.getOrCreateSelection(
+            this.config().key,
+            this.config().useMultipleSelectionModels,
+            isMultiselect
+        );
 
         this.selection.set(initialSelection);
-
         this.selectionService.push(this.config().key, this.selection());
+        this.subscribeToSelectionChanges();
+    }
 
+    private subscribeToSelectionChanges(): void {
         this.selection().changed
             .pipe(takeUntilOnDestroy(this))
             .subscribe();

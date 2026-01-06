@@ -12,12 +12,51 @@ export class XmTableSelectionService<T> {
     private selections$ = new BehaviorSubject({});
 
     private selections: Record<string, SelectionModel<T>> = {};
-    public getSelectionModel(key: string): SelectionModel<T> {
-        if (!this.selections[key]) {
-            this.selections[key] = new SelectionModel<T>(true, []);
+
+    public getOrCreateSelection(key: string, useMultipleModels: boolean, isMultiselect: boolean = true): SelectionModel<T> {
+        if (useMultipleModels) {
+            return this.getKeyedSelectionModel(key, isMultiselect);
         }
 
+        return this.getGlobalSelectionModel(isMultiselect);
+    }
+
+    private getKeyedSelectionModel(key: string, isMultiselect: boolean): SelectionModel<T> {
+        const existing = this.selections[key];
+        if (!existing) {
+            const created = new SelectionModel<T>(isMultiselect, []);
+            this.selections[key] = created;
+            return created;
+        }
+        if (existing.isMultipleSelection() !== isMultiselect) {
+            this.recreateKeyedSelectionModel(key, isMultiselect);
+        }
         return this.selections[key];
+    }
+
+    private getGlobalSelectionModel(isMultiselect: boolean): SelectionModel<T> {
+        if (this.selection.isMultipleSelection() !== isMultiselect) {
+            this.recreateGlobalSelectionModel(isMultiselect);
+        }
+
+        return this.selection;
+    }
+
+    private recreateKeyedSelectionModel(key: string, isMultiselect: boolean): void {
+        const currentSelection = this.selections[key].selected;
+        const initialItems = isMultiselect ? currentSelection : currentSelection.slice(0, 1);
+        this.selections[key] = new SelectionModel<T>(isMultiselect, initialItems);
+    }
+
+    private recreateGlobalSelectionModel(isMultiselect: boolean): void {
+        const currentSelection = this.selection.selected;
+        const initialItems = isMultiselect ? currentSelection : currentSelection.slice(0, 1);
+        this.selection = new SelectionModel<T>(isMultiselect, initialItems);
+    }
+
+    /** @deprecated Use getOrCreateSelection() instead */
+    public getSelectionModel(key: string, isMultiselect: boolean = true): SelectionModel<T> {
+        return this.getKeyedSelectionModel(key, isMultiselect);
     }
 
     public push<T>(key: string = 'table-selection', value: SelectionModel<T>): void {
