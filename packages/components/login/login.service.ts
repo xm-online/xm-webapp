@@ -81,7 +81,7 @@ export class LoginService {
         });
     }
 
-    public onIdpDirectLogin(config: IIdpConfig, skipStoreUrl?: boolean): void {
+    public onIdpDirectLogin(config: IIdpConfig, skipStoreUrl = false): void {
         const client = this.getIdpClient({ idp: config?.idp } as IIdpConfig);
 
         if(!skipStoreUrl){
