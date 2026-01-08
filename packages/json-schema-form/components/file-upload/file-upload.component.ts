@@ -53,6 +53,10 @@ export class FileUploadComponent implements OnInit, OnDestroy {
         if (!fileData) {
             return;
         }
+
+        this.progress = 1;
+        this.registerChanges();
+
         const file = fileData;
         const formData: FormData = new FormData();
         formData.append('file', file, file.name);
@@ -78,11 +82,15 @@ export class FileUploadComponent implements OnInit, OnDestroy {
                 .subscribe((resp: any) => {
                     const headers: HttpHeaders = new HttpHeaders({
                         Authorization: resp.token_type + ' ' + resp.access_token,
+                        'ngsw-bypass': 'true'
                     });
                     this.saveFile(formData, headers);
                 });
         } else {
-            this.saveFile(formData);
+            const headers: HttpHeaders = new HttpHeaders({
+                'ngsw-bypass': 'true'
+            });
+            this.saveFile(formData, headers);
         }
 
     }
@@ -96,9 +104,13 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     }
 
     private saveFile(formData: FormData, headers?: HttpHeaders): void {
-        const apiUrl = this.options.url || null;
+        let apiUrl = this.options.url || null;
         this.uploadingError = false;
         if (apiUrl) {
+            // Add ngsw-bypass query parameter to ensure service worker skips this request
+            const separator = apiUrl.includes('?') ? '&' : '?';
+            apiUrl = `${apiUrl}${separator}ngsw-bypass=true`;
+
             this.uploadProcess = this.httpClient
                 .post(apiUrl, formData,
                     {
@@ -107,6 +119,7 @@ export class FileUploadComponent implements OnInit, OnDestroy {
                         observe: 'events',
                     },
                 ).subscribe((event) => {
+                    console.info(event.type, JSON.stringify(event));
                     if (event.type === HttpEventType.UploadProgress) {
                         this.updateProgress(event);
                     } else if (event.type === HttpEventType.Response) {
@@ -119,7 +132,8 @@ export class FileUploadComponent implements OnInit, OnDestroy {
     }
 
     private updateProgress(event: any): void {
-        this.progress = Math.round(100 * event.loaded / event.total);
+        const progress = Math.round(100 * event.loaded / event.total);
+        this.progress = progress < 1 ? 1 : progress;
         this.registerChanges();
     }
 

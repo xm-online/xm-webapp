@@ -45,7 +45,7 @@
                     type="button"
                     color="primary"
                     (click)="uploadFile(file)"
-                    [disabled]="progress || !file">
+                    [disabled]="!!progress || !file">
               <mat-icon *ngIf="!progress">cloud_upload</mat-icon>
 
               <mat-progress-spinner class="progress-indicator"
