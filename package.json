@@ -97,7 +97,7 @@
     "@ngx-translate/http-loader": "7.0.0",
     "@popperjs/core": "^2.11.6",
     "@types/google.maps": "3.54.10",
-    "ace-diff": "^3.0.3",
+    "ace-diff": "3.0.3",
     "ajv": "8.11.0",
     "angular-calendar": "0.30.1",
     "angular2-uuid": "1.1.1",
