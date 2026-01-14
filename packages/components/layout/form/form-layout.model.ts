@@ -1,5 +1,6 @@
 import {UntypedFormControl} from '@angular/forms';
 import {ValidatorProcessingOption} from '@xm-ngx/components/validator-processing';
+import { EDIT_STATE } from '@xm-ngx/controllers/features/edit-state-store';
 import {XmDynamicControllerDeclaration} from '@xm-ngx/dynamic/presentation/xm-dynamic-presentation-base.directive';
 import {JavascriptCode, XmConfig} from '@xm-ngx/interfaces';
 
@@ -11,6 +12,7 @@ export type FormLayoutConfig = {
         updateDataMethod: string;
         resetDataMethod: string;
     };
+    defaultEditState: EDIT_STATE,
     fields: FormFieldLayoutConfig[],
     updateData?: boolean;
     ignoreFormValidationToUpdate?: boolean;

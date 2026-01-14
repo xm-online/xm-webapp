@@ -46,6 +46,10 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
     public ngOnInit(): void {
         this.formGroup = this.buildFormGroup();
 
+        if (this.config.defaultEditState) {
+            this.editStateStore.change(this.config.defaultEditState);
+        }
+
         this.dataController[this.config?.controller?.getDataMethod || 'get']().pipe(
             takeUntilOnDestroy(this),
             map(data => {
