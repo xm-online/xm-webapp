@@ -54,7 +54,7 @@ export class TranslatePipe extends NgxTranslate implements PipeTransform, OnDest
         super.ngOnDestroy();
     }
 
-    private processMap(map: ITranslate | ITrKeyTranslates, ...args: any[]): string | any {
+    private processMap(map: ITranslate | ITrKeyTranslates, args: any[]): string | any {
         if (map.trKey) {
             return super.transform(map.trKey, ...args);
         }
