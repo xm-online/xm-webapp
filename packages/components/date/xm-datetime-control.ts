@@ -423,7 +423,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
 
         const date = new Date(pickerDate);
 
-        if (!isDate(date)) {
+        if (!this.isValidDate(date)) {
             this.onChange('');
             return;
         }
@@ -447,6 +447,10 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
     public reset(): void {
         this.datetime.reset({date: '', time: ''});
     }
+
+    public isValidDate(value: Date | string): boolean {
+        return isDate(value) && !isNaN(value.getTime());
+    }
 }
 
 @Component({
@@ -468,7 +472,8 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
     ],
     template: `
         <mat-form-field>
-            <mat-label (click)="field.onContainerClick()" *ngIf="config?.title">{{config.title | translate}}</mat-label>
+            <mat-label (click)="field.onContainerClick()" *ngIf="config?.title">{{ config.title | translate }}
+            </mat-label>
             <xm-datetime-control-field
                 #field="dateTimeField"
                 [picker]="picker"
@@ -491,7 +496,8 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
             <mat-hint [hint]="config?.hint"></mat-hint>
 
             <mat-error
-                *xmControlErrors="getAllErrors(field?.ngControl?.control, ngControl?.control); translates (config?.errors || messageErrors); message as message">{{message}}</mat-error>
+                *xmControlErrors="getAllErrors(field?.ngControl?.control, ngControl?.control); translates (config?.errors || messageErrors); message as message">{{ message }}
+            </mat-error>
         </mat-form-field>
     `,
 })
