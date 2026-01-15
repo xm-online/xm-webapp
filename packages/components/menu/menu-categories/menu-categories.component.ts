@@ -15,7 +15,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { XmTranslationModule } from '@xm-ngx/translation';
-import { BrandLogo, HoveredMenuCategory, MenuCategory } from '../menu.interface';
+import { BrandLogo, HoveredMenuCategory, MenuCategory, MobileHelpCenter } from '../menu.interface';
 import { MenuService } from '../menu.service';
 import {
     combineLatest,
@@ -38,6 +38,7 @@ import { MenuCategoriesClassesEnum } from '../menu.model';
 import { map } from 'rxjs/operators';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SwitchThemeWidgetModule } from '@xm-ngx/components/switch-theme-widget';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
 
 @Component({
     selector: 'xm-menu-categories',
@@ -45,7 +46,7 @@ import { SwitchThemeWidgetModule } from '@xm-ngx/components/switch-theme-widget'
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     animations: [hideCategories],
-    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLink, SwitchThemeWidgetModule],
+    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLink, SwitchThemeWidgetModule, XmDynamicModule],
 })
 export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit {
     public readonly DEFAULT_LOGO_SIZE: number = 32;
@@ -59,6 +60,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
     public isMobileView$: Observable<boolean> = this.menuService.isMobileView;
     public $isMenuToggle: Signal<boolean> = toSignal(this.menuService.getMenuConfig('isMenuToggle'));
     public $themeButtonConfig: Signal<any> = toSignal(this.menuService.getMenuConfig('themeButton'));
+    public $helpCenterConfig: Signal<MobileHelpCenter | null> = toSignal(this.menuService.getMenuConfig('helpCenter'));
     private hoverSubscription: Subscription;
     @ViewChildren('menuCategory', {read: ElementRef}) private menuCategories: QueryList<ElementRef>;
     private ngZone: NgZone = inject(NgZone);

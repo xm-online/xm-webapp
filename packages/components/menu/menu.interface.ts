@@ -32,6 +32,14 @@ export interface MenuOptions {
      * Switch theme button configuration
      */
     themeButton: SwitchThemeOptions;
+    /**
+     * if you want ad help center link component in the menu
+     */
+    helpCenter?: MobileHelpCenter;
+}
+
+export interface MobileHelpCenter {
+    selector: string;
 }
 
 export interface MenuItem extends DataQa {
