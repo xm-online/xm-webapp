@@ -48,6 +48,10 @@ export class PageService<T extends Page = Page> implements OnDestroy {
         delete this._active$;
     }
 
+    public setActive(dashboard: T | null): void {
+        this._active$.next(dashboard);
+    }
+
     private loadPage(idOrSlug: string | null): void {
         if (idOrSlug) {
             this.dashboard.getByIdOrSlug(idOrSlug)
