@@ -133,9 +133,11 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
         this.selectionService.push(this.config.key, this.selection);
         this.subscribeToSelectionChanges();
 
-        this.eventManagerService.listenTo('TABLE_CLEAR_SELECTION').subscribe(() => {
-            this.selection.clear();
-        });
+        this.eventManagerService
+            .listenTo('TABLE_CLEAR_SELECTION').pipe(takeUntilOnDestroy(this))
+            .subscribe(() => {
+                this.selection.clear();
+            });
     }
 
     private initializeColumnDef(): void {
