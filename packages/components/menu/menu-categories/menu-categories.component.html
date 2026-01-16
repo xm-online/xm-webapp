@@ -6,7 +6,8 @@
       <div *ngIf="!isMobileScreen" class="menu-categories-spacer"></div>
 
       <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES">
-        <div *ngIf="isMobileScreen && $isMenuToggle()" [class]="menuCategoriesClassesEnum.MENU_CATEGORIES + '__toggle-button'">
+        <div *ngIf="isMobileScreen && $isMenuToggle()"
+             [class]="menuCategoriesClassesEnum.MENU_CATEGORIES + '__toggle-button'">
           <button mat-icon-button (click)="toggleSidenav(isMobileScreen)">
             <mat-icon>menu_open</mat-icon>
           </button>
@@ -60,6 +61,13 @@
               <mat-icon class="menu-category__nav-icon">chevron_right</mat-icon>
             }
           </div>
+          @if ($helpCenterConfig() && isMobileScreen) {
+            <ng-container
+              xmDynamicPresentation
+              [selector]="$helpCenterConfig()?.selector"
+              [config]="$helpCenterConfig()"
+            ></ng-container>
+          }
         </div>
         <div class="menu-categories__actions">
           @if ($themeButtonConfig() && !isMobileScreen) {
