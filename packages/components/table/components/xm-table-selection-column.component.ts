@@ -13,6 +13,7 @@ import { XmEntity } from '@xm-ngx/core/entity';
 import { XmTableSelectionConfig } from '../table-widget/xm-table-widget.config';
 import { IId } from '@xm-ngx/interfaces';
 import { XmTableSelectionDefault } from './selection-header/xm-table-selection.model';
+import { XmEventManagerService } from '@xm-ngx/core';
 
 export interface XmTableSelectTableColumn extends XmTableColumn {
     width: string;
@@ -113,6 +114,8 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
 
     private selectionService: XmTableSelectionService<T> = inject(XmTableSelectionService);
 
+    private readonly eventManagerService: XmEventManagerService = inject(XmEventManagerService);
+
     constructor(
         @Inject(CdkTable) private _table: CdkTable<T>,
     ) {
@@ -129,6 +132,10 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
         this.initializeColumnDef();
         this.selectionService.push(this.config.key, this.selection);
         this.subscribeToSelectionChanges();
+
+        this.eventManagerService.listenTo('TABLE_CLEAR_SELECTION').subscribe(() => {
+            this.selection.clear();
+        });
     }
 
     private initializeColumnDef(): void {
