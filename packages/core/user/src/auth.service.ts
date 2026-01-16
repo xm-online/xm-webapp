@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { Principal } from './principal.service';
 import { StateStorageService } from '@xm-ngx/core/auth';
+import { XmSessionService } from "@xm-ngx/core";
 
 @Injectable()
 export class AuthService {
@@ -10,6 +11,7 @@ export class AuthService {
     constructor(private principal: Principal,
                 private stateStorageService: StateStorageService,
                 private router: Router,
+                protected sessionService: XmSessionService,
     ) {}
 
     public authorize(force: boolean = false): Promise<any> {
@@ -47,9 +49,7 @@ export class AuthService {
                         const toStateParamsInfo = this.stateStorageService.getDestinationState().params;
                         this.stateStorageService.storePreviousState(toStateInfo.name, toStateParamsInfo);
                         // now, send them to the signin state so they can log in
-                        this.router.navigate(['accessdenied']).then(() => {
-                            // TODO: this.loginModalService.open();
-                        });
+                        this.sessionService.clear();
                     }
                 }
                 return hasAnyAuthority;
