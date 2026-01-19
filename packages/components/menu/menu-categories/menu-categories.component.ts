@@ -38,6 +38,8 @@ import { MenuCategoriesClassesEnum } from '../menu.model';
 import { map } from 'rxjs/operators';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { SwitchThemeWidgetModule } from '@xm-ngx/components/switch-theme-widget';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { ListLayoutComponent, ListLayoutConfig } from '@xm-ngx/components/layout/list';
 
 @Component({
     selector: 'xm-menu-categories',
@@ -45,7 +47,7 @@ import { SwitchThemeWidgetModule } from '@xm-ngx/components/switch-theme-widget'
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     animations: [hideCategories],
-    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLink, SwitchThemeWidgetModule],
+    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLink, SwitchThemeWidgetModule, XmDynamicModule, ListLayoutComponent, ListLayoutComponent, ListLayoutComponent],
 })
 export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit {
     public readonly DEFAULT_LOGO_SIZE: number = 32;
@@ -59,6 +61,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
     public isMobileView$: Observable<boolean> = this.menuService.isMobileView;
     public $isMenuToggle: Signal<boolean> = toSignal(this.menuService.getMenuConfig('isMenuToggle'));
     public $themeButtonConfig: Signal<any> = toSignal(this.menuService.getMenuConfig('themeButton'));
+    public $extraOptionsConfig: Signal<ListLayoutConfig | undefined> = toSignal(this.menuService.getMenuConfig('extraOptions'));
     private hoverSubscription: Subscription;
     @ViewChildren('menuCategory', {read: ElementRef}) private menuCategories: QueryList<ElementRef>;
     private ngZone: NgZone = inject(NgZone);
