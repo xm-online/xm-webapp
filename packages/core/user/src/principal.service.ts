@@ -250,7 +250,7 @@ export class Principal implements OnDestroy, OnInitialize {
     }
 
     public getUserAuthorities(): string[] {
-        return this.isIdentityResolved() ? this.userIdentity.authorities : null;
+        return this.isIdentityResolved() ? this.userIdentity.authorities : [];
     }
 
     public getName(): string {
