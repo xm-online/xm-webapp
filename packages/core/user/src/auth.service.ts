@@ -50,10 +50,8 @@ export class AuthService {
                         const toStateParamsInfo = this.stateStorageService.getDestinationState().params;
                         this.stateStorageService.storePreviousState(toStateInfo.name, toStateParamsInfo);
                         // now, send them to the signin state so they can log in
-                        this.router.navigate(['']).then(() => {
-                            this.eventManager.broadcast({ name: this.LOGOUT_EVENT });
-                            this.sessionService.clear();
-                        });
+                        this.eventManager.broadcast({ name: this.LOGOUT_EVENT });
+                        this.sessionService.clear();
 
                     }
                 }
