@@ -3,15 +3,16 @@ import { Router } from '@angular/router';
 
 import { Principal } from './principal.service';
 import { StateStorageService } from '@xm-ngx/core/auth';
-import { XmSessionService } from "@xm-ngx/core";
+import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 
 @Injectable()
 export class AuthService {
-
+    private readonly LOGOUT_EVENT = 'USER-LOGOUT';
     constructor(private principal: Principal,
                 private stateStorageService: StateStorageService,
                 private router: Router,
                 protected sessionService: XmSessionService,
+                protected eventManager: XmEventManager,
     ) {}
 
     public authorize(force: boolean = false): Promise<any> {
@@ -49,7 +50,11 @@ export class AuthService {
                         const toStateParamsInfo = this.stateStorageService.getDestinationState().params;
                         this.stateStorageService.storePreviousState(toStateInfo.name, toStateParamsInfo);
                         // now, send them to the signin state so they can log in
-                        this.sessionService.clear();
+                        this.router.navigate(['']).then(() => {
+                            this.eventManager.broadcast({ name: this.LOGOUT_EVENT });
+                            this.sessionService.clear();
+                        });
+
                     }
                 }
                 return hasAnyAuthority;
