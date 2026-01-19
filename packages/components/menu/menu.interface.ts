@@ -39,10 +39,6 @@ export interface MenuOptions {
     extraOptions?: ListLayoutConfig;
 }
 
-export interface ExtraMenuOption {
-    selector: string;
-}
-
 export interface MenuItem extends DataQa {
     path: string;
     /**
