@@ -2,6 +2,7 @@ import { ITranslate, Translate } from '@xm-ngx/translation';
 import { MenuPositionEnum } from './menu.model';
 import { DataQa } from '@xm-ngx/interfaces';
 import { SwitchThemeOptions } from '@xm-ngx/components/switch-theme-widget';
+import { ListLayoutConfig } from '@xm-ngx/components/layout/list';
 
 export interface MenuOptions {
     /**
@@ -33,12 +34,12 @@ export interface MenuOptions {
      */
     themeButton: SwitchThemeOptions;
     /**
-     * if you want ad help center link component in the menu
+     * if you want add extra menu options
      */
-    helpCenter?: MobileHelpCenter;
+    extraOptions?: ListLayoutConfig;
 }
 
-export interface MobileHelpCenter {
+export interface ExtraMenuOption {
     selector: string;
 }
 
