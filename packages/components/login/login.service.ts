@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@angular/core';
+import {Inject, Injectable, isDevMode} from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthServerProvider, Principal } from '@xm-ngx/core/user';
@@ -81,10 +81,13 @@ export class LoginService {
         });
     }
 
-    public onIdpDirectLogin(config: IIdpConfig): void {
+    public onIdpDirectLogin(config: IIdpConfig, skipStoreUrl = false): void {
         const client = this.getIdpClient({ idp: config?.idp } as IIdpConfig);
-        const previousUrl = location.pathname + location.search + location.hash;
-        this.stateStorageService.storeUrl(previousUrl);
+
+        if(!skipStoreUrl){
+            const previousUrl = location.pathname + location.search + location.hash;
+            this.stateStorageService.storeUrl(previousUrl);
+        }
         this.$sessionStorage.store('idp_client', client);
         this.loginWithIdpClient(client);
     }
@@ -152,6 +155,13 @@ export class LoginService {
 
     private checkTokenAndForceIdentity(): void {
         /* This method forcing identity on page load when user has token but identity does not inits */
+        const path = this.location.path();
+        if (path.startsWith('/logout')) {
+            if (isDevMode()) {
+                console.info('[LoginService] skip force identity on logout route:', path);
+            }
+            return;
+        }
         if (!this.authRefreshTokenService.isExpired()) {
             this.principal.identity();
         }

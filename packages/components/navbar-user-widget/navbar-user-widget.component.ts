@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
 import { SidebarUserSubtitle, UserWidgetBase } from '@xm-ngx/components/sidebar-user';
 import { UserNavBar } from './navbar-user-widget.model';
 import { CommonModule } from '@angular/common';
@@ -34,7 +34,7 @@ import { DashboardStore } from '@xm-ngx/core/dashboard';
 })
 export class NavbarUserWidgetComponent extends UserWidgetBase {
     public selectedFile: File = null;
-    public declare config: UserNavBar;
+    @Input() public declare config: UserNavBar;
 
     constructor(dashboardService: DashboardStore, userService: XmUserService, contextService: ContextService, router: Router) {
         super(dashboardService, userService, contextService, router);

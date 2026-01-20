@@ -1778,5 +1778,12 @@
       "dashboardSuccessfullyCreated": "Дашборди успішно створено",
       "rolesSuccessfullyUpdated": "Ролі успішно оновлено"
     }
+  },
+  "theme": {
+    "switch": "Перемкнути на {{theme}} тему",
+    "themes": {
+      "dark": "темну",
+      "light": "світлу"
+    }
   }
 }

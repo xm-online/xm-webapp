@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnInit, Type } from '@angular/core';
+import { Component, input, Input, InputSignal, NgModule, OnInit, Type } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -13,15 +13,16 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
 
-interface SwitchThemeOptionsTheme {
+export interface SwitchThemeOptionsTheme {
     theme: string,
     scheme: ThemeSchemeType,
     icon: string,
     color: string,
-    tooltip: Translate
+    tooltip: Translate,
+    dataQa?: string;
 }
 
-interface SwitchThemeOptions {
+export interface SwitchThemeOptions {
     themes: SwitchThemeOptionsTheme[];
     permission: string;
     condition: JavascriptCode;
@@ -33,20 +34,43 @@ interface SwitchThemeOptions {
     template: `
         <ng-container *xmCondition="config.condition; arguments {config: config}">
             <ng-container *xmPermission="config.permission">
-                <button *ngIf="nextTheme"
-                        (click)="changeTheme(nextTheme)"
-                        [xm-loading]="loading"
-                        [disabled]="loading"
-                        [matTooltip]="nextTheme.tooltip | translate"
-                        mat-icon-button>
-                    <mat-icon>{{ nextTheme.icon }}</mat-icon>
-                </button>
+                @if (nextTheme) {
+                    @if (showAsStrokedButton()) {
+                        <button class="stroked-theme-switch-button"
+                                mat-stroked-button
+                                (click)="changeTheme(nextTheme)"
+                                [attr.data-qa]="nextTheme.dataQa || 'stroked-switch-theme-button'"
+                        >
+                            <mat-icon>{{ nextTheme.icon }}</mat-icon>
+                            <span>{{ 'theme.switch' | translate: {theme: ('theme.themes.' + nextTheme.scheme | translate)} }}</span>
+                        </button>
+                    } @else {
+                        <button (click)="changeTheme(nextTheme)"
+                                [xm-loading]="loading"
+                                [disabled]="loading"
+                                [matTooltip]="nextTheme.tooltip | translate"
+                                [attr.data-qa]="nextTheme.dataQa || 'switch-theme-button'"
+                                mat-icon-button>
+                            <mat-icon>{{ nextTheme.icon }}</mat-icon>
+                        </button>
+                    }
+                }
             </ng-container>
         </ng-container>
+    `,
+    styles: `
+        button {
+            line-height: 0
+        }
+
+        .stroked-theme-switch-button {
+            width: 100%;
+        }
     `,
     standalone: false,
 })
 export class SwitchThemeWidget implements OnInit, XmDynamicWidget {
+    public showAsStrokedButton: InputSignal<boolean> = input(false);
     @Input() public config: SwitchThemeOptions;
     public loading: boolean;
     public nextTheme: SwitchThemeOptionsTheme;

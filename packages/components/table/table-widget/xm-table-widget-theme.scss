@@ -1,5 +1,12 @@
 @use 'sass:color';
 
+@mixin xm-table-highlighted-row-styles($theme) {
+  $app-surface: map-get($theme, surface);
+  $app-on-surface: map-get($theme, on-surface);
+
+  background: color.mix($app-on-surface, $app-surface, 8%);
+}
+
 @mixin xm-table-theme($xm-theme) {
 
   .xm-table-widget .xm-table-row-background.xm-table-row-selected {
@@ -17,9 +24,11 @@
   }
 
   .xm-table-widget tr.xm-table-row-highlight:hover {
-    $xm-surface: map-get($xm-theme, surface);
-    $xm-on-surface: map-get($xm-theme, on-surface);
-    background:  color.mix($xm-on-surface, $xm-surface, 8%);
+    @include xm-table-highlighted-row-styles($xm-theme);
+  }
+
+  .xm-table-widget tr.xm-table-highlighted-row {
+    @include xm-table-highlighted-row-styles($xm-theme);
   }
 
   .header-container {

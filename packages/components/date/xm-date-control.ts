@@ -148,8 +148,8 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
 
         this.getAvailableDaysFromController();
 
-        this.maxDate = this.defineTargetDate(this.config?.intervalFromMaxDateInDays) || this.disableFutureDates();
-        this.minDate = this.defineTargetDate(this.config?.intervalFromMinDateInDays);
+        this.maxDate = this.defineTargetDate(this.config?.intervalFromMaxDateInDays, 'max');
+        this.minDate = this.defineTargetDate(this.config?.intervalFromMinDateInDays, 'min');
     }
 
     private getAvailableDaysFromController(): void {
@@ -212,21 +212,21 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
         return this.config?.disableFutureDates ? maxDate : null;
     }
 
-    private defineTargetDate(intervalInDays: number): Date | undefined {
+    private defineTargetDate(intervalInDays: number | undefined, type: 'min' | 'max'): Date | undefined {
         if (!this.config?.dateNow) {
             return undefined;
         }
-        let targetDate: Date;
-        if (intervalInDays) {
-            const startDate = new Date();
-            const midNightHours = intervalInDays * 24;
-            startDate.setHours(midNightHours, 0, 0, 0);
-            targetDate = new Date(startDate);
-        } else {
-            targetDate = new Date(Date.now());
+
+        if (intervalInDays === undefined) {
+            if (type === 'max') {
+                return this.disableFutureDates();
+            }
+            return new Date(Date.now());
         }
 
-        return targetDate;
+        const date = new Date();
+        date.setHours(intervalInDays * 24, 0, 0, 0);
+        return date;
     }
 
     public changeDateControl({value}: MatDatepickerInputEvent<unknown>): void {

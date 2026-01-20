@@ -14,6 +14,7 @@ export interface IXmTableCollectionState<T> {
 export interface XmFilterQueryParams {
     pageableAndSortable: PageableAndSortable,
     filterParams: QueryParamsPageable,
+    includes?: string,
 }
 
 export interface IXmTableCollectionController<T> {

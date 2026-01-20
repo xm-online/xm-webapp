@@ -37,7 +37,7 @@ export type PrimitiveOrTranslate = Primitive & Translate;
                   xmValue>
                 @if (isArrayValue(value)) {
                     <span>{{ transformValue(value) }}</span>
-                } @else if (value !== undefined) {
+                } @else if (value !== null && value !== undefined) {
                     <span>{{ value | translate }}</span>
                 } @else {
                     {{ config.emptyValue | translate }}

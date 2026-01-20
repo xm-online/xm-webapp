@@ -6,6 +6,7 @@ import {
     XmTableSelectionConfig,
     XmTableWithColumnDynamicCellOptionsPagination,
 } from '../table-widget/xm-table-widget.config';
+import { XmEventManagerKey } from '@xm-ngx/core';
 
 export interface XmTableConfig {
     /** Columns configuration */
@@ -27,6 +28,7 @@ export interface XmTableConfig {
     selection?: XmTableSelectionConfig;
     skipLoadOnInit?: boolean;
     isSkeletonLoading?: boolean;
+    tableUpdateEvents?: XmEventManagerKey[];
 }
 
 export interface XmTableNavigation {

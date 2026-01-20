@@ -26,6 +26,11 @@ export interface XmLinkOptions extends DataQa {
     /** See Angular queryParamsHandling routerLink parameter for more details https://next.angular.dev/api/router/QueryParamsHandling */
     queryParamsHandling?: QueryParamsHandling | null;
     isIconOnRight?: boolean;
+    /** For cases when we need to choose RouterLink based on properties */
+    dynamicRouterLink?: {
+        switchValue: string,
+        options: Record<string, string>
+    };
 }
 
 export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
@@ -90,6 +95,12 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
         this.routerLink = isString(routerLink) ? interpolate(routerLink, {
             value: this.value,
         }) : routerLink;
+
+        const { dynamicRouterLink } = this.config;
+        if (!dynamicRouterLink) return;
+
+        const key = get(this.value, dynamicRouterLink.switchValue) as string;
+        this.routerLink = dynamicRouterLink.options?.[key] ?? this.routerLink;
     }
 
     public ngOnChanges(): void {

@@ -3,7 +3,8 @@
                        [style]="config?.panel?.style"
                        [togglePosition]="config?.header?.togglePosition ?? 'before'"
                        [expanded]="!!config?.body?.expanded">
-    <mat-expansion-panel-header>
+    <mat-expansion-panel-header [class]="config?.panelHeader?.class ? config.panelHeader.class : 'mat-elevation-z mdc-elevation-z'"
+                                [style]="config?.panelHeader?.style">
       <ng-container *ngIf="config.header as header">
         <ng-container
           *ngIf="header.layout as layout"

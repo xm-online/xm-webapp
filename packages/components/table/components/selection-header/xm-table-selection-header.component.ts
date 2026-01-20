@@ -41,7 +41,7 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
 
             <ng-container *ngIf="(totalCount$ | async) as totalCount">
                 <button
-                    *ngIf="(totalCount > selection.selected.length) && (config.selectAllWithoutLayouts || config.layout?.length)"
+                    *ngIf="config.isMultiselect && (totalCount > selection.selected.length) && (config.selectAllWithoutLayouts || config.layout?.length)"
                     [xm-loading]="loading"
                     class="total-count"
                     mat-button
@@ -90,7 +90,7 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
     standalone: true,
     styleUrls: ['./xm-table-selection-header.component.scss'],
     animations: [
-        TableHeaderSelection
+        TableHeaderSelection,
     ],
     imports: [
         MatButtonModule,
@@ -102,7 +102,7 @@ import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.confi
         XmPermissionModule,
         AsyncPipe,
         XmLoadingModule,
-        XmTranslatePipe
+        XmTranslatePipe,
     ],
 })
 export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
@@ -139,17 +139,30 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
     private xmTableQueryParamsStoreService = inject(XmTableQueryParamsStoreService);
 
     public ngOnInit(): void {
-        this.selection = this.config.useMultipleSelectionModels ? this.selectionService.getSelectionModel(this.config.key) : this.selectionService.selection;
+        const isMultiselect = this.config.isMultiselect !== false;
+        this.selection = this.selectionService.getOrCreateSelection(
+            this.config.key,
+            this.config.useMultipleSelectionModels,
+            isMultiselect
+        );
 
+        this.initializeObservables();
+        this.initializeLayout();
+    }
+
+    private initializeObservables(): void {
         this.totalCount$ = this.collectionController.state$()
             .pipe(
                 map((res: QueryParamsPageable) => res.pageableAndSortable?.total)
             );
+
         this.isVisible$ = this.selection.changed
             .pipe(
                 map((select) => !select.source.isEmpty()),
             );
+    }
 
+    private initializeLayout(): void {
         this.layout = this.config.layout?.map((item: any) => {
             const config = item['config'] || item['options'] || {};
             _.set(item, 'config.selectionKey', config.selectionKey || this.config.key);
@@ -169,7 +182,7 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
                 take(1),
                 switchMap(() => {
                     const params = _.merge(this.xmTableQueryParamsStoreService.getQueryParamsValue(), {
-                        pageableAndSortable: {pageSize: this.config.pageSize, pageIndex: 0}
+                        pageableAndSortable: {pageSize: this.config.pageSize, pageIndex: 0},
                     });
 
                     return this.collectionController.repositoryController.getAll(params);

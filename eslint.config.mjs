@@ -1,7 +1,6 @@
 import globals from 'globals';
 import typescriptEslint from '@typescript-eslint/eslint-plugin';
 import tsdoc from 'eslint-plugin-tsdoc';
-import * as xmNgxEslintPlugin from '@xm-ngx/eslint-plugin';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import js from '@eslint/js';
@@ -81,7 +80,6 @@ export default [{
   plugins: {
     '@typescript-eslint': typescriptEslint,
     tsdoc,
-    '@xm-ngx': xmNgxEslintPlugin,
     '@stylistic': stylistic,
   },
 

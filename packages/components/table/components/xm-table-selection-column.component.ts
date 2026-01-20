@@ -5,6 +5,7 @@ import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component
 import { XmTableSelectionService } from '../controllers/selections/xm-table-selection.service';
 import { XmCheckboxControl } from '@xm-ngx/components/bool';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { Defaults, takeUntilOnDestroy } from '@xm-ngx/operators';
@@ -12,6 +13,7 @@ import { XmEntity } from '@xm-ngx/core/entity';
 import { XmTableSelectionConfig } from '../table-widget/xm-table-widget.config';
 import { IId } from '@xm-ngx/interfaces';
 import { XmTableSelectionDefault } from './selection-header/xm-table-selection.model';
+import { XmEventManagerService } from '@xm-ngx/core';
 
 export interface XmTableSelectTableColumn extends XmTableColumn {
     width: string;
@@ -45,14 +47,16 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: XmTableSelectTableColumn = {
                 [width]="column.width"
                 [class]="column.headClass"
                 [style]="column.headStyle">
-                <mat-checkbox (change)="$event ? allToggle() : null"
-                              (click)="$event.stopPropagation()"
-                              class="select-table-column__single-line-height"
-                              [disabled]="disabled"
-                              [indeterminate]="isEntityIndeterminated(rows)"
-                              [checked]="isEntityChecked(rows)"
-                >
-                </mat-checkbox>
+                @if (config.isMultiselect) {
+                    <mat-checkbox
+                        (change)="$event ? allToggle() : null"
+                        (click)="$event.stopPropagation()"
+                        class="select-table-column__single-line-height"
+                        [disabled]="disabled"
+                        [indeterminate]="isEntityIndeterminated(rows)"
+                        [checked]="isEntityChecked(rows)">
+                    </mat-checkbox>
+                }
             </th>
             <td
                 *matCellDef="let row"
@@ -60,12 +64,23 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: XmTableSelectTableColumn = {
                 [width]="column.width"
                 [class]="column.dataClass"
                 [style]="column.dataStyle">
-                <xm-checkbox-control
-                    [value]="selectedEntity(row)"
-                    [disabled]="disabled"
-                    class="select-table-column__single-line-height"
-                    (valueChange)="toggleEntity($event, row)"
-                ></xm-checkbox-control>
+                @if (config.isMultiselect) {
+                    <xm-checkbox-control
+                        [value]="selectedEntity(row)"
+                        [disabled]="disabled"
+                        class="select-table-column__single-line-height"
+                        (valueChange)="toggleEntity($event, row)">
+                    </xm-checkbox-control>
+                }
+                @if (!config.isMultiselect) {
+                    <mat-radio-button
+                        [checked]="selectedEntity(row)"
+                        [disabled]="disabled"
+                        class="select-table-column__single-line-height"
+                        (change)="toggleEntity($event.source.checked, row)"
+                        (click)="$event.stopPropagation()">
+                    </mat-radio-button>
+                }
             </td>
         </ng-container>
     `,
@@ -81,6 +96,7 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: XmTableSelectTableColumn = {
     imports: [
         XmCheckboxControl,
         MatCheckboxModule,
+        MatRadioModule,
         MatTableModule,
         CommonModule,
     ],
@@ -98,20 +114,40 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
 
     private selectionService: XmTableSelectionService<T> = inject(XmTableSelectionService);
 
+    private readonly eventManagerService: XmEventManagerService = inject(XmEventManagerService);
+
     constructor(
         @Inject(CdkTable) private _table: CdkTable<T>,
     ) {
     }
 
     public ngOnInit(): void {
-        this.selection = this.config.useMultipleSelectionModels ? this.selectionService.getSelectionModel(this.config.key) : this.selectionService.selection;
+        const isMultiselect = this.config.isMultiselect !== false;
+        this.selection = this.selectionService.getOrCreateSelection(
+            this.config.key,
+            this.config.useMultipleSelectionModels,
+            isMultiselect
+        );
 
+        this.initializeColumnDef();
+        this.selectionService.push(this.config.key, this.selection);
+        this.subscribeToSelectionChanges();
+
+        this.eventManagerService
+            .listenTo('TABLE_CLEAR_SELECTION').pipe(takeUntilOnDestroy(this))
+            .subscribe(() => {
+                this.selection.clear();
+            });
+    }
+
+    private initializeColumnDef(): void {
         this._columnDef.name = this.column.name;
         this._columnDef.cell = this._cell;
         this._columnDef.headerCell = this._headerCell;
         this._table.addColumnDef(this._columnDef);
+    }
 
-        this.selectionService.push(this.config.key, this.selection);
+    private subscribeToSelectionChanges(): void {
         this.selectionService
             .get(this.config?.key)
             .pipe(takeUntilOnDestroy(this))

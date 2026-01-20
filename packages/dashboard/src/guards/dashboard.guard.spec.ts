@@ -7,6 +7,8 @@ import { DashboardGuard } from './dashboard.guard';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { DefaultDashboardService } from '../services/default-dashboard.service';
 import { MockDashboardStore } from '@xm-ngx/core/dashboard/testing';
+import { XmDynamicControllerInjectorFactoryService, XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
+import { Injector } from '@angular/core';
 
 describe('DashboardGuard', () => {
     let guard: DashboardGuard;
@@ -18,6 +20,9 @@ describe('DashboardGuard', () => {
                 { provide: XmLoggerService, useClass: MockXmLogger },
                 { provide: DashboardStore, useClass: MockDashboardStore },
                 { provide: DefaultDashboardService, useValue: {} },
+                { provide: XmDynamicControllerInjectorFactoryService, useValue: {}},
+                { provide: XmDynamicInjectionTokenStoreService, useValue: {}},
+                { provide: Injector, useValue: {}},
             ],
             imports: [RouterTestingModule],
         });

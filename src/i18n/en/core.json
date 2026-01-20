@@ -1755,5 +1755,12 @@
       "dashboardSuccessfullyCreated": "Dashboards successfully created",
       "rolesSuccessfullyUpdated": "Roles successfully updated"
     }
+  },
+  "theme": {
+    "switch": "Switch to {{theme}} mode",
+    "themes": {
+      "dark": "dark",
+      "light": "light"
+    }
   }
 }

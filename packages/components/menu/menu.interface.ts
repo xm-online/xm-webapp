@@ -1,6 +1,8 @@
 import { ITranslate, Translate } from '@xm-ngx/translation';
 import { MenuPositionEnum } from './menu.model';
 import { DataQa } from '@xm-ngx/interfaces';
+import { SwitchThemeOptions } from '@xm-ngx/components/switch-theme-widget';
+import { ListLayoutConfig } from '@xm-ngx/components/layout/list';
 
 export interface MenuOptions {
     /**
@@ -23,6 +25,18 @@ export interface MenuOptions {
      * Detailed information about categories that will be shown in menu
      */
     categories: Record<string, MenuCategory>;
+    /**
+     * If true, the menu will have a toggle button to open/close the menu on mobile devices
+     */
+    isMenuToggle?: boolean;
+    /**
+     * Switch theme button configuration
+     */
+    themeButton: SwitchThemeOptions;
+    /**
+     * if you want add extra menu options
+     */
+    extraOptions?: ListLayoutConfig;
 }
 
 export interface MenuItem extends DataQa {

@@ -9,6 +9,7 @@ import {
     OnDestroy,
     OnInit,
     QueryList,
+    Signal,
     ViewChildren,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -35,6 +36,10 @@ import { Router, RouterLink } from '@angular/router';
 import { hideCategories } from '../menu.animation';
 import { MenuCategoriesClassesEnum } from '../menu.model';
 import { map } from 'rxjs/operators';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { SwitchThemeWidgetModule } from '@xm-ngx/components/switch-theme-widget';
+import { XmDynamicModule } from '@xm-ngx/dynamic';
+import { ListLayoutComponent, ListLayoutConfig } from '@xm-ngx/components/layout/list';
 
 @Component({
     selector: 'xm-menu-categories',
@@ -42,7 +47,7 @@ import { map } from 'rxjs/operators';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     animations: [hideCategories],
-    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLink],
+    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLink, SwitchThemeWidgetModule, XmDynamicModule, ListLayoutComponent, ListLayoutComponent, ListLayoutComponent],
 })
 export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit {
     public readonly DEFAULT_LOGO_SIZE: number = 32;
@@ -54,6 +59,9 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
     public isCategoriesHidden$: Observable<boolean>;
     public brandLogo$: Observable<BrandLogo>;
     public isMobileView$: Observable<boolean> = this.menuService.isMobileView;
+    public $isMenuToggle: Signal<boolean> = toSignal(this.menuService.getMenuConfig('isMenuToggle'));
+    public $themeButtonConfig: Signal<any> = toSignal(this.menuService.getMenuConfig('themeButton'));
+    public $extraOptionsConfig: Signal<ListLayoutConfig | undefined> = toSignal(this.menuService.getMenuConfig('extraOptions'));
     private hoverSubscription: Subscription;
     @ViewChildren('menuCategory', {read: ElementRef}) private menuCategories: QueryList<ElementRef>;
     private ngZone: NgZone = inject(NgZone);
@@ -121,7 +129,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
     private assignSidenavObservers(): void {
         this.categories$ = this.menuService.menuCategories;
         this.isCategoriesHidden$ = this.menuService.isCategoriesHidden$;
-        this.brandLogo$ = this.menuService.brandLogo;
+        this.brandLogo$ = this.menuService.getMenuConfig('logo');
     }
 
     private observeIsSidenavPinned(): void {
