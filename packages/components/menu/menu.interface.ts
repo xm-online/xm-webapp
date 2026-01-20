@@ -2,6 +2,7 @@ import { ITranslate, Translate } from '@xm-ngx/translation';
 import { MenuPositionEnum } from './menu.model';
 import { DataQa } from '@xm-ngx/interfaces';
 import { SwitchThemeOptions } from '@xm-ngx/components/switch-theme-widget';
+import { ListLayoutConfig } from '@xm-ngx/components/layout/list';
 
 export interface MenuOptions {
     /**
@@ -32,6 +33,10 @@ export interface MenuOptions {
      * Switch theme button configuration
      */
     themeButton: SwitchThemeOptions;
+    /**
+     * if you want add extra menu options
+     */
+    extraOptions?: ListLayoutConfig;
 }
 
 export interface MenuItem extends DataQa {
