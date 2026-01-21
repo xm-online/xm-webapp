@@ -134,7 +134,7 @@
     "leaflet": "1.9.2",
     "leaflet-draw": "1.0.4",
     "leaflet.gridlayer.googlemutant": "0.13.5",
-    "lodash": "4.17.21",
+    "lodash": "4.17.23",
     "moment": "^2.29.4",
     "moment-timezone": "0.5.40",
     "ng2-nouislider": "1.8.3",
