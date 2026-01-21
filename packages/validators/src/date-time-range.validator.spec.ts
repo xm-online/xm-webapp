@@ -1,8 +1,8 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { dateTimeRangeValidator } from './data-time-range.validator';
+import { dateTimeRangeValidator } from '@xm-ngx/validators';
 
 describe('dateTimeRangeValidator', () => {
-    function buildForm(startDate: any, endDate: any, startTime?: any, endTime?: any) {
+    function buildForm(startDate: string, endDate: string, startTime?: string, endTime?: string) {
         const controls: any = {
             startDate: new FormControl(startDate),
             endDate: new FormControl(endDate),
