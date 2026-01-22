@@ -1,5 +1,5 @@
 import { AsyncPipe, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { EDIT_STATE, EditStateStoreService } from '@xm-ngx/controllers/features/edit-state-store';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { injectByKey, XmDynamicModule } from '@xm-ngx/dynamic';
@@ -19,7 +19,7 @@ import { EditableLayoutConfig } from './editable-layout.model';
     providers: [DashboardStore],
     changeDetection: ChangeDetectionStrategy.Default, // keep OnPush
 })
-export class EditableLayoutComponent {
+export class EditableLayoutComponent implements OnInit {
 
     public config: EditableLayoutConfig;
 
@@ -27,4 +27,9 @@ export class EditableLayoutComponent {
 
     public isStateView: Observable<boolean> = this.editStateStore.state$.pipe(map(state => state === EDIT_STATE.VIEW));
 
+    public ngOnInit(): void {
+        if (this.config.defaultEditState) {
+            this.editStateStore.change(this.config.defaultEditState);
+        }
+    }
 }
