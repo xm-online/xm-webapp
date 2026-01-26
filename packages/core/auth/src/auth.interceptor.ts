@@ -8,9 +8,9 @@ import {
 } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { XmCoreConfig } from '@xm-ngx/core';
-import { Observable, of, Subject, throwError } from 'rxjs';
-import { catchError, first, map, switchMap, tap } from 'rxjs/operators';
+import {XmCoreConfig, XmEventManager} from '@xm-ngx/core';
+import { EMPTY, Observable, of, Subject, throwError } from 'rxjs';
+import { catchError, first, map, switchMap } from 'rxjs/operators';
 
 import { XmAuthenticationStoreService } from './xm-authentication-store.service';
 import { XmAuthenticationService } from './xm-authentication.service';
@@ -23,7 +23,8 @@ export class AuthInterceptor implements HttpInterceptor {
     private readonly httpClient: HttpClient = inject(HttpClient);
     private readonly router: Router = inject(Router);
     private readonly coreConfig: XmCoreConfig = inject(XmCoreConfig);
-
+    private readonly LOGOUT_EVENT = 'USER-LOGOUT';
+    protected eventManager: XmEventManager;
     private refreshInProgress: boolean = false;
     private refreshSubject: Subject<boolean> = new Subject<boolean>();
 
@@ -32,12 +33,12 @@ export class AuthInterceptor implements HttpInterceptor {
             return next.handle(request);
         }
 
+
         const clone: HttpRequest<unknown> = request.clone();
-        return this.request(clone)
-            .pipe(
-                switchMap((req: HttpRequest<unknown>) => next.handle(req)),
-                catchError((res: HttpErrorResponse) => this.responseError(clone, res)),
-            );
+        return this.request(clone).pipe(
+            switchMap((req: HttpRequest<unknown>) => next.handle(req)),
+            catchError((res: HttpErrorResponse) => this.responseError(clone, res)),
+        );
     }
 
     private request(req: HttpRequest<unknown>): Observable<HttpRequest<unknown>> {
@@ -50,9 +51,7 @@ export class AuthInterceptor implements HttpInterceptor {
     private delayRequest(req: HttpRequest<unknown>): Observable<HttpRequest<unknown>> {
         return this.refreshSubject.pipe(
             first(),
-            switchMap((status: boolean) =>
-                status ? this.updateToken(req) : throwError(() => req),
-            ),
+            switchMap((status: boolean) => status ? this.updateToken(req) : EMPTY), // CHANGED: stop pipeline
         );
     }
 
@@ -70,17 +69,28 @@ export class AuthInterceptor implements HttpInterceptor {
         res: HttpErrorResponse,
     ): Observable<HttpEvent<unknown>> {
         const refreshShouldHappen: boolean = this.authService.refreshShouldHappen(res);
+        if (refreshShouldHappen && !this.authStoreService.hasRefreshToken()) {
+            this.forceLogout();
+            return EMPTY;
+        }
 
         if (refreshShouldHappen && !this.refreshInProgress) {
             this.refreshInProgress = true;
             this.authService.refreshToken().subscribe({
                 next: () => {
                     this.refreshInProgress = false;
-                    this.refreshSubject.next(true);
+
+                    if (this.authStoreService.hasAuthenticationToken()) {
+                        this.refreshSubject.next(true);
+                    } else {
+                        this.refreshSubject.next(false);
+                        this.forceLogout();
+                    }
                 },
                 error: () => {
                     this.refreshInProgress = false;
                     this.refreshSubject.next(false);
+                    this.forceLogout();
                 },
             });
         }
@@ -98,32 +108,35 @@ export class AuthInterceptor implements HttpInterceptor {
     ): Observable<HttpEvent<unknown>> {
         return this.refreshSubject.pipe(
             first(),
-            switchMap((status: boolean) =>
-                status ? this.httpClient.request(req) : throwError(() => res || req),
-            ),
+            switchMap((status: boolean) => {
+                if (!status) return EMPTY;
+
+                return this.updateToken(req).pipe(
+                    switchMap((updatedReq) => this.httpClient.request(updatedReq)),
+                );
+            }),
         );
     }
 
     private updateToken(req: HttpRequest<unknown>): Observable<HttpRequest<unknown>> {
-        return this.authToken$
-            .pipe(
-                map((token: string) => {
-                    if (token) {
-                        let setHeaders: { [name: string]: string | string[] };
+        return this.authToken$.pipe(
+            map((token: string) => {
+                if (token) {
+                    let setHeaders: { [name: string]: string | string[] };
 
-                        if (typeof this.authService.getHeaders === 'function') {
-                            setHeaders = this.authService.getHeaders(token);
-                        } else {
-                            setHeaders = {Authorization: `Bearer ${token}`};
-                        }
-
-                        return req.clone({setHeaders});
+                    if (typeof this.authService.getHeaders === 'function') {
+                        setHeaders = this.authService.getHeaders(token);
+                    } else {
+                        setHeaders = { Authorization: `Bearer ${token}` };
                     }
 
-                    return req;
-                }),
-                first(),
-            );
+                    return req.clone({ setHeaders });
+                }
+
+                return req;
+            }),
+            first(),
+        );
     }
 
     private handleUrlQueryToken(): string | null {
@@ -138,25 +151,18 @@ export class AuthInterceptor implements HttpInterceptor {
 
     private get authToken$(): Observable<string> {
         this.handleUrlQueryToken();
+
         const authToken: string = this.authStoreService.getAuthenticationToken();
-        const authToken$: Observable<string> = this.authService.refreshToken().pipe(
-            tap(() => {
-                this.refreshInProgress = false;
-                this.refreshSubject.next(true);
-            }),
-            map((auth: unknown) => auth?.['access_token']),
-            catchError((err) => {
-                this.refreshInProgress = false;
-                this.refreshSubject.next(false);
-                return throwError(() => err);
-            }),
-        );
-
-        !authToken && (this.refreshInProgress = true);
-
-        return authToken ? of(authToken) : authToken$;
+        return of(authToken);
     }
 
+    private forceLogout(): void {
+        this.refreshInProgress = false;
+        this.refreshSubject.next(false);
+        this.authStoreService.clear();
+        this.eventManager.broadcast({name: this.LOGOUT_EVENT});
+        this.router.navigateByUrl('');
+    }
 
     private isPublicPage(): boolean {
         const stripedPath = (this.router.parseUrl(this.router.url)
