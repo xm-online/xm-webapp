@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { IIdpClient, TOKEN_URL, XmEventManagerService, XmSessionService } from '@xm-ngx/core';
+import {IIdpClient, TOKEN_URL, XmEventManager, XmEventManagerService, XmSessionService} from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -30,7 +30,6 @@ const TOKEN_STORAGE_KEY = 'WALLET-TOKEN';
 const WIDGET_DATA = 'widget:data';
 export const ACCESS_TOKEN = 'access_token';
 export const REFRESH_TOKEN = 'refresh_token';
-
 export const CONFIG_SETTINGS_API = _CONFIG_SETTINGS_API;
 
 interface GuestTokenResponse {
@@ -46,6 +45,7 @@ export interface AuthTokenResponse extends GuestTokenResponse {
 export class AuthServerProvider {
     private TOKEN_URL: string = inject(TOKEN_URL);
     private skipRefreshTokenRequest: boolean;
+    private readonly LOGOUT_EVENT = 'USER-LOGOUT';
     private readonly authStoreService: XmAuthenticationStoreService = inject(XmAuthenticationStoreService);
     constructor(
         private principal: Principal,
@@ -59,6 +59,7 @@ export class AuthServerProvider {
         private xmAuthTargetUrlService: XmAuthTargetUrlService,
         private router: Router,
         private xmEventManagerService: XmEventManagerService,
+        protected eventManager: XmEventManager,
     ) {
     }
 
@@ -162,6 +163,7 @@ export class AuthServerProvider {
         return new Observable((observer) => {
             !this.skipRefreshTokenRequest && this.storeService.clear(saveIdpConfig);
             this.refreshTokenService.clear();
+            this.eventManager.broadcast({name: this.LOGOUT_EVENT});
             this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
             this.$sessionStorage.clear(WIDGET_DATA);
             observer.next();
@@ -280,7 +282,7 @@ export class AuthServerProvider {
                 return;
             }
 
-            
+
             this.getGuestAccessToken().pipe(
                 tap(() => {
                     this.xmEventManagerService.broadcast({
