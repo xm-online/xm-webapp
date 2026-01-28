@@ -9,6 +9,7 @@
   cursor: pointer;
   transition: width 0.2s ease-in-out;
   font-weight: 500;
+  position: relative;
 
   &:hover {
     background: #f0f0f0 !important;
