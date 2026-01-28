@@ -61,6 +61,10 @@ export class ChipsFilterBtnComponent {
         this.valueCleared.emit();
     }
 
+    public closeMenu(): void {
+        this.menu?.close?.emit();
+    }
+
     public isArray<T>(value: T): boolean {
         return Array.isArray(value);
     }
