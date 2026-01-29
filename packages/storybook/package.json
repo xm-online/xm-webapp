@@ -1,14 +1,14 @@
 {
   "name": "@xm-ngx/storybook",
   "dependencies": {
-    "@storybook/addon-docs": "^8.2.9",
-    "@storybook/addon-essentials": "^8.2.9",
-    "@storybook/addon-interactions": "^8.2.9",
-    "@storybook/addon-links": "^8.2.9",
-    "@storybook/angular": "^8.2.9",
-    "@storybook/blocks": "^8.2.9",
-    "@storybook/test": "^8.2.9",
+    "@storybook/addon-docs": "8.6.15",
+    "@storybook/addon-essentials": "8.6.15",
+    "@storybook/addon-interactions": "8.6.15",
+    "@storybook/addon-links": "8.6.15",
+    "@storybook/angular": "8.6.15",
+    "@storybook/blocks": "8.6.15",
+    "@storybook/test": "8.6.15",
     "eslint-plugin-storybook": "0.10.1",
-    "storybook": "8.2.9"
+    "storybook": "8.6.15"
   }
 }
