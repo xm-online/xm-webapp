@@ -1,6 +1,6 @@
 {
   "name": "xm-webapp",
-  "version": "9.0.39",
+  "version": "9.0.40",
   "release": "6.0.0",
   "private": true,
   "description": "Xm-webapp",
@@ -226,7 +226,9 @@
     "http-cache-semantics": "4.1.1",
     "tar": "7.5.7",
     "socks": "2.7.1",
-    "jqvmap": { "jquery": "3.6.3" },
+    "jqvmap": {
+      "jquery": "3.6.3"
+    },
     "lodash-es": "4.17.23"
   }
 }
