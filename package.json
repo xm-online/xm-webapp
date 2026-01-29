@@ -114,6 +114,7 @@
     "datatables.net-bs": "1.12.1",
     "datatables.net-responsive": "2.3.0",
     "dayjs": "1.11.10",
+    "eonasdan-bootstrap-datetimepicker": "4.17.49",
     "es6-shim": "0.35.6",
     "file-saver": "2.0.5",
     "file-type": "16.5.4",
