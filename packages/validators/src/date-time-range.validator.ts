@@ -102,8 +102,7 @@ export function maxDaysRangeValidator(options: WithMaxDaysOptions): ValidatorFn 
         if (diffInDays > options.maxDays) {
             const error = { rangeTooLong: true };
 
-            group.get(options.startDateKey)?.setErrors(error);
-            group.get(options.endDateKey)?.setErrors(error);
+            group.setErrors(error);
 
             return error;
         }
