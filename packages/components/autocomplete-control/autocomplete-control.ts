@@ -57,7 +57,7 @@ import {
     isObject,
     omitBy,
     template,
-    uniqWith
+    uniqWith,
 } from 'lodash';
 import { XmDynamicInstanceService } from '@xm-ngx/dynamic';
 
@@ -119,7 +119,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     private get repositoryController(): IEntityCollectionPageable<any, PageableAndSortable> {
         return this.xmDynamicInstanceService.getControllerByKey(
             this.config.controller?.key,
-            this.injector
+            this.injector,
         );
     }
 
@@ -186,6 +186,8 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
                     if (firstFetched) {
                         this.selection.select(firstFetched);
+                    } else if (!firstFetched && this.config.changeValueOnEmptySelected) {
+                        this.change(firstFetched);
                     }
                 }
                 this.fetchedList.next(fetchedSelectedValues);
@@ -273,7 +275,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     private searchByQuery(searchQuery: string): Observable<XmAutocompleteControlListItem[]> {
-        const { queryParams, body } = this.config?.search || {};
+        const {queryParams, body} = this.config?.search || {};
 
         const httpParams = this.formatRequestParams(queryParams, this.getSearchCriteriaContext(searchQuery));
         const httpBody = this.formatRequestParams(body, this.getSearchCriteriaContext(searchQuery));
@@ -282,7 +284,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     private fetchSelectedValues(values: XmAutocompleteControlListItem[]): Observable<XmAutocompleteControlListItem[]> {
-        const { queryParams, body } = this.config?.fetchSelectedByCriteria || {};
+        const {queryParams, body} = this.config?.fetchSelectedByCriteria || {};
 
         const httpParams = this.formatRequestParams(queryParams, this.getSearchCriteriaContext(values));
         const httpBody = this.formatRequestParams(body, this.getSearchCriteriaContext(values));
@@ -299,7 +301,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     private getLocaleContext(): Record<string, string | string[]> {
-        const { locale, languages } = this.languageService;
+        const {locale, languages} = this.languageService;
 
         return {
             locale,
@@ -310,9 +312,9 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     private buildRequest(httpParams: XmAutocompleteControlParams, httpBody: XmAutocompleteControlBody): Observable<XmAutocompleteControlListItem[]> {
         this._loading.next(true);
 
-        const { resourceUrl, resourceMethod, headers } = this.config?.search || {};
+        const {resourceUrl, resourceMethod, headers} = this.config?.search || {};
 
-        if(this.repositoryController) {
+        if (this.repositoryController) {
             return this.repositoryController[this.config.controller?.method || 'query'](httpParams, new HttpHeaders(headers))
                 .pipe(
                     map((data) => this.mapBackendData(data)),
@@ -379,14 +381,14 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
     protected unwrapValues(valueOrValues: XmAutocompleteControlListItem | XmAutocompleteControlListItem[]): unknown | unknown[] {
         if (isArray(valueOrValues)) {
-            const unwrapSelected = valueOrValues?.map(({ value }) => value) ?? [];
+            const unwrapSelected = valueOrValues?.map(({value}) => value) ?? [];
 
             return this.config.multiple
                 ? unwrapSelected
                 : unwrapSelected?.[0];
         }
 
-        const { value } = valueOrValues;
+        const {value} = valueOrValues;
 
         return value;
     }
@@ -412,8 +414,8 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
     public setDisabledState(isDisabled: boolean): void {
         isDisabled
-            ? this.searchQueryControl.disable({ emitEvent: false })
-            : this.searchQueryControl.enable({ emitEvent: false });
+            ? this.searchQueryControl.disable({emitEvent: false})
+            : this.searchQueryControl.enable({emitEvent: false});
 
         super.setDisabledState(isDisabled);
     }
@@ -435,6 +437,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
         this._onChange(unwrapValues);
         this.valueChange.next(unwrapValues);
+        console.log(unwrapValues, 'unwrapValues');
         /**
          * This needed cause we use pairwise for check new values
          * Possible scenario when we set same value as previously
@@ -462,7 +465,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
      */
     private skipByKeyValue<T>(
         data: T[],
-        filter: { [K in keyof T]?: T[K] } | undefined
+        filter: { [K in keyof T]?: T[K] } | undefined,
     ): T[] {
         if (!filter) {
             return data;
