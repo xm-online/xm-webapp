@@ -437,7 +437,6 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
         this._onChange(unwrapValues);
         this.valueChange.next(unwrapValues);
-        console.log(unwrapValues, 'unwrapValues');
         /**
          * This needed cause we use pairwise for check new values
          * Possible scenario when we set same value as previously
