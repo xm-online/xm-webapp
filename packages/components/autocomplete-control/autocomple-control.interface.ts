@@ -49,7 +49,8 @@ export interface XmAutocompleteControlConfig {
         key?: string;
         method?: string;
     },
-    skipByKeyValue?: { [key: string]: unknown }
+    skipByKeyValue?: { [key: string]: unknown },
+    changeValueOnEmptySelected?: boolean;
 }
 
 export interface XmAutocompleteSearchParams {

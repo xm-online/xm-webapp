@@ -23,6 +23,7 @@ import { DateAdapter } from '@angular/material/core';
 import { CustomDateAdapter } from './shared/custom-date-adapter';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+
 dayjs.extend(utc);
 
 export interface XmDateControlOptions {
@@ -52,6 +53,7 @@ export interface XmDateControlOptions {
         key?: string;
         method?: string;
     };
+    useFormat?: string;
 }
 
 const DEFAULT_CONFIG: XmDateControlOptions = {
@@ -129,7 +131,6 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
         },
         public dynamicInjector: Injector,
         private dynamicInstanceService: XmDynamicInstanceService,
-
     ) {
         super(ngControl);
     }
@@ -157,7 +158,7 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
             return;
         }
 
-        const { key, method } = this.config.availableDaysController;
+        const {key, method} = this.config.availableDaysController;
         const controller = this.dynamicInstanceService.getControllerByKey(key, this.dynamicInjector);
 
         if (!controller) {
@@ -184,7 +185,7 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
     };
 
     private isWeekDay = (selectedDate: Date): boolean => {
-        if(!this.config.disableWeekends){
+        if (!this.config.disableWeekends) {
             return true;
         }
 
@@ -244,7 +245,7 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
                 const selectedDay = dayjs(value).startOf('day');
 
                 const foundAvailableDate = this.availableDates?.find(availableDate =>
-                    dayjs(availableDate).isSame(selectedDay, 'day')
+                    dayjs(availableDate).isSame(selectedDay, 'day'),
                 );
 
                 date = foundAvailableDate
@@ -255,6 +256,12 @@ export class XmDateControl extends NgFormAccessor<XmDateValue> implements OnDest
             this.control.setValue(date, {emitEvent: true});
             this.control.markAsTouched();
             this.control.markAsDirty();
+
+            if (this.config?.useFormat) {
+                const formattedDate = dayjs(date).format(this.config.useFormat);
+                this._onChange(formattedDate);
+                this.valueChange.next(formattedDate);
+            }
         } else if (value === null) {
             this.control.setValue('', {emitEvent: true});
             this.control.markAsTouched();
