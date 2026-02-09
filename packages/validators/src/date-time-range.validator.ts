@@ -1,5 +1,16 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
+interface DateTimeOptions {
+    startDateKey: string;
+    endDateKey: string;
+    startTimeKey?: string;
+    endTimeKey?: string;
+}
+
+interface WithMaxDaysOptions extends DateTimeOptions {
+    maxDays: number;
+}
+
 /**
  * Date range validator & Date-time range validator
  *
@@ -21,12 +32,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
  *  endDateKey:         'endDate',
  *  startTimeKey:       'startTime'
  */
-export function dateTimeRangeValidator(options: {
-    startDateKey: string;
-    endDateKey: string;
-    startTimeKey?: string;
-    endTimeKey?: string;
-}): ValidatorFn {
+export function dateTimeRangeValidator(options: DateTimeOptions): ValidatorFn {
     return (group: AbstractControl): ValidationErrors | null => {
         const startDate = <string>group.get(options.startDateKey)?.value;
         const endDate = <string>group.get(options.endDateKey)?.value;
@@ -62,6 +68,45 @@ export function dateTimeRangeValidator(options: {
         group.get(options.startDateKey)?.setErrors(null);
         group.get(options.endDateKey)?.setErrors(null);
 
+        return null;
+    };
+}
+
+/**
+ * A plugin wrapper over the base date range validator
+ * Extends the basic validator capability by adding a maximum days range available.
+ */
+export function maxDaysRangeValidator(options: WithMaxDaysOptions): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+        const baseValidator = dateTimeRangeValidator({
+            startDateKey: options.startDateKey,
+            endDateKey: options.endDateKey,
+            startTimeKey: options.startTimeKey,
+            endTimeKey: options.endTimeKey,
+        });
+
+        const baseErrors = baseValidator(group);
+
+        if (baseErrors) return baseErrors;
+
+        const startDate = <string>group.get(options.startDateKey)?.value;
+        const endDate = <string>group.get(options.endDateKey)?.value;
+
+        if (!startDate || !endDate) return null;
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        const diffInDays = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+
+        if (diffInDays > options.maxDays) {
+            const error = { rangeTooLong: true };
+
+            group.get(options.startDateKey)?.setErrors(error);
+            group.get(options.endDateKey)?.setErrors(error);
+
+            return error;
+        }
 
         return null;
     };
