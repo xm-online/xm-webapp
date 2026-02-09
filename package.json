@@ -128,7 +128,7 @@
     "immutable": "4.3.7",
     "jquery": "3.6.3",
     "jquery-validation": "^1.19.5",
-    "jqvmap": "^1.0.1",
+    "jqvmap": "1.0.1",
     "js-marker-clusterer": "1.0.0",
     "jvectormap": "2.0.4",
     "leaflet": "1.9.2",
