@@ -11,6 +11,13 @@ interface WithMaxDaysOptions extends DateTimeOptions {
     maxDays: number;
 }
 
+interface WithMinMaxDateOptions extends Partial<DateTimeOptions> {
+    startDateKey: string;
+    endDateKey?: string;
+    getMinDate: () => Date | null;
+    getMaxDate: () => Date | null;
+}
+
 /**
  * Date range validator & Date-time range validator
  *
@@ -111,3 +118,57 @@ export function maxDaysRangeValidator(options: WithMaxDaysOptions): ValidatorFn 
         return null;
     };
 }
+
+/**
+ * A plugin wrapper over the base date range validator
+ * Extends the basic validator capability by adding a minimum/maximum date boundary check.
+ */
+export function minMaxDateRangeValidator(options: WithMinMaxDateOptions): ValidatorFn {
+    return (group: AbstractControl): ValidationErrors | null => {
+        if (options.endDateKey) {
+            const baseValidator = dateTimeRangeValidator({
+                startDateKey: options.startDateKey,
+                endDateKey: options.endDateKey,
+                startTimeKey: options.startTimeKey,
+                endTimeKey: options.endTimeKey,
+            });
+
+            const baseErrors = baseValidator(group);
+            if (baseErrors) return baseErrors;
+        }
+
+        const startValue = group.get(options.startDateKey)?.value;
+        const endValue = options.endDateKey ? group.get(options.endDateKey)?.value : null;
+        const rawDate = startValue?.from ?? startValue ?? endValue?.from ?? endValue;
+        if (!rawDate) return null;
+
+        const selected = new Date(rawDate);
+        if (Number.isNaN(selected.getTime())) return null;
+
+        const minValue = options.getMinDate();
+        const maxValue = options.getMaxDate();
+        const min = minValue ? new Date(minValue) : null;
+        const max = maxValue ? new Date(maxValue) : null;
+
+        if (min && selected < min) return { tooEarly: true };
+        if (max) {
+            const normalizedMax = normalizeEndOfDay(max);
+            if (selected > normalizedMax) return { tooLate: true };
+        }
+
+        return null;
+    };
+}
+
+const normalizeEndOfDay = (value: Date): Date => {
+    const normalized = new Date(value);
+    if (
+        normalized.getHours() === 0 &&
+        normalized.getMinutes() === 0 &&
+        normalized.getSeconds() === 0 &&
+        normalized.getMilliseconds() === 0
+    ) {
+        normalized.setHours(23, 59, 59, 999);
+    }
+    return normalized;
+};
