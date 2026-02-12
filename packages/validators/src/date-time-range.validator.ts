@@ -11,12 +11,9 @@ interface WithMaxDaysOptions extends DateTimeOptions {
     maxDays: number;
 }
 
-interface WithMinMaxDateOptions extends Partial<DateTimeOptions> {
-    startDateKey: string;
-    endDateKey?: string;
+interface WithMinMaxDateOptions extends DateTimeOptions {
     getMinDate: () => Date | null;
     getMaxDate: () => Date | null;
-    includeRangeValidation?: boolean;
 }
 
 /**
@@ -126,9 +123,7 @@ export function maxDaysRangeValidator(options: WithMaxDaysOptions): ValidatorFn 
  */
 export function minMaxDateRangeValidator(options: WithMinMaxDateOptions): ValidatorFn {
     return (group: AbstractControl): ValidationErrors | null => {
-        const includeRangeValidation = options.includeRangeValidation !== false;
-
-        if (includeRangeValidation && options.endDateKey) {
+        if (options.endDateKey) {
             const baseValidator = dateTimeRangeValidator({
                 startDateKey: options.startDateKey,
                 endDateKey: options.endDateKey,
