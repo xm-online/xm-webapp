@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DatePipe } from '@angular/common';
 import { XmDateComponent, XmDateConfig, XmDateValue } from './xm-date.component';
+import { SimpleChange } from '@angular/core';
 
 describe('GIVEN XmDateComponent', () => {
     let component: XmDateComponent;
@@ -36,6 +37,12 @@ describe('GIVEN XmDateComponent', () => {
 
         component.value = testDate;
         component.config = config;
+
+        component.ngOnChanges({
+            value: new SimpleChange(undefined, testDate, true),
+            config: new SimpleChange(undefined, config, true),
+        });
+
         fixture.detectChanges();
 
         const expectedFormattedDate = datePipe.transform(testDate, config.format, config.timezone, config.locale);
@@ -46,7 +53,7 @@ describe('GIVEN XmDateComponent', () => {
     it('WHEN value date THEN should display the date', () => {
         const datePipe: DatePipe = TestBed.inject(DatePipe);
 
-        const testDate: XmDateValue = new Date('2023-07-28T12:34:56'); // Replace with your desired date
+        const testDate: XmDateValue = (new Date('2023-07-28T12:34:56')).toString(); // Replace with your desired date
 
         const config: XmDateConfig = {
             format: 'yyyy-MM-dd HH:mm:ss',
@@ -56,6 +63,12 @@ describe('GIVEN XmDateComponent', () => {
 
         component.value = testDate;
         component.config = config;
+
+        component.ngOnChanges({
+            value: new SimpleChange(undefined, testDate, true),
+            config: new SimpleChange(undefined, config, true),
+        });
+
         fixture.detectChanges();
 
         const expectedFormattedDate = datePipe.transform(testDate, config.format, config.timezone, config.locale);
@@ -76,6 +89,12 @@ describe('GIVEN XmDateComponent', () => {
 
         component.value = testDate;
         component.config = config;
+
+        component.ngOnChanges({
+            value: new SimpleChange(undefined, testDate, true),
+            config: new SimpleChange(undefined, config, true),
+        });
+
         fixture.detectChanges();
 
         const expectedFormattedDate = datePipe.transform(testDate, config.format, config.timezone, config.locale);
@@ -83,4 +102,27 @@ describe('GIVEN XmDateComponent', () => {
         void expect(element.textContent).toContain(expectedFormattedDate);
     });
 
+    it('WHEN value not date string THEN should display the this string', () => {
+        const testDate: XmDateValue = '-'; // Replace with your desired date
+
+        const config: XmDateConfig = {
+            format: 'yyyy-MM-dd HH:mm:ss',
+            timezone: 'UTC',
+            locale: 'en-US',
+        };
+
+        component.value = testDate;
+        component.config = config;
+
+        component.ngOnChanges({
+            value: new SimpleChange(undefined, testDate, true),
+            config: new SimpleChange(undefined, config, true),
+        });
+
+        fixture.detectChanges();
+
+        const expectedValue = '-';
+        const element: HTMLElement = fixture.nativeElement;
+        void expect(element.textContent).toContain(expectedValue);
+    });
 });
