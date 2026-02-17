@@ -42,6 +42,7 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     showFilterChips?: boolean;
     isStickyHeader?: boolean;
     isMultiselect?: boolean;
+    errorRowCondition?: string;
 }
 
 export interface XmTableSelectionConfig {
