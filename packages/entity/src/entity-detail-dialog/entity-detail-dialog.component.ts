@@ -92,28 +92,42 @@ export class EntityDetailDialogComponent implements OnInit, AfterViewInit {
     public onConfirmSave(): void {
         this.showLoader = true;
 
-        if (this.selectedXmEntitySpec?.namePattern) {
-            this.xmEntity.name = stringSubstitute(this.selectedXmEntitySpec.namePattern, this.xmEntity);
-        }
-        if (this.selectedXmEntitySpec?.descriptionPattern) {
-            this.xmEntity.description = stringSubstitute(this.selectedXmEntitySpec.descriptionPattern, this.xmEntity);
+        const applyPatterns = (e: XmEntity) => {
+            if (this.selectedXmEntitySpec?.namePattern) {
+                e.name = stringSubstitute(this.selectedXmEntitySpec.namePattern, e);
+            }
+            if (this.selectedXmEntitySpec?.descriptionPattern) {
+                e.description = stringSubstitute(this.selectedXmEntitySpec.descriptionPattern, e);
+            }
+        };
+
+        if (this.xmEntity.id != null) {
+            applyPatterns(this.xmEntity);
+            this.xmEntityService.update(this.xmEntity)
+                .pipe(finalize(() => this.showLoader = false))
+                .subscribe(r => this.onSaveSuccess(r.body), e => this.onConfirmError(e));
+            return;
         }
 
-        if (this.xmEntity.id !== undefined) {
-            this.xmEntityService.update(this.xmEntity).pipe(finalize(() => this.showLoader = false))
-                .subscribe((resp) => this.onSaveSuccess(resp.body),
-                    // TODO: error processing
-                    (err) => this.onConfirmError(err));
-        } else {
-            this.xmEntity.stateKey = this.selectedXmEntitySpec.states && this.selectedXmEntitySpec.states.length ?
-                Object.assign([], this.selectedXmEntitySpec.states).shift().key : null;
-            this.xmEntityService.create(this.xmEntity).pipe(finalize(() => this.showLoader = false))
-                .subscribe((resp) => this.onSaveSuccess(resp.body),
-                    // TODO: error processing
-                    (err) => this.onConfirmError(err));
-        }
+        this.xmEntity.stateKey = this.selectedXmEntitySpec.states?.length
+            ? this.selectedXmEntitySpec.states[0].key
+            : null;
+
+        this.xmEntityService.create(this.xmEntity)
+            .subscribe({
+                next: (resp) => {
+                    const created = resp.body as XmEntity;
+
+                    applyPatterns(created);
+
+                    this.xmEntityService.update(created)
+                        .pipe(finalize(() => this.showLoader = false))
+                        .subscribe(r => this.onSaveSuccess(r.body), e => this.onConfirmError(e));
+                },
+                error: (e) => this.onConfirmError(e),
+            });
     }
-
+    
     public onCancel(): void {
         this.activeModal.close(false);
     }
