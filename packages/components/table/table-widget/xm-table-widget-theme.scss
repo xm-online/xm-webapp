@@ -7,6 +7,13 @@
   background: color.mix($app-on-surface, $app-surface, 8%);
 }
 
+@mixin xm-table-error-row-styles($theme) {
+  $app-error: map-get($theme, primary);
+
+  background: mix(white, $app-error, 90%);
+}
+
+
 @mixin xm-table-theme($xm-theme) {
 
   .xm-table-widget .xm-table-row-background.xm-table-row-selected {
@@ -30,6 +37,11 @@
   .xm-table-widget tr.xm-table-highlighted-row {
     @include xm-table-highlighted-row-styles($xm-theme);
   }
+
+  .xm-table-widget tr.xm-table-row-error {
+    @include xm-table-error-row-styles($xm-theme)
+  }
+
 
   .header-container {
     $xm-surface:      map-get($xm-theme, surface);
