@@ -20,10 +20,10 @@ try {
 
 const command = () => {
     if (isNX === 'true') {
-        return `rm -rf angular.json && node --max-old-space-size=12288 ./node_modules/.bin/nx serve xm-webapp --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0 --port=${port}`;
-    } 
+        return `node --max-old-space-size=12288 ./node_modules/.bin/nx serve xm-webapp --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0 --port=${port}`;
+    }
     return `node --max-old-space-size=12288 ./node_modules/@angular/cli/bin/ng serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0 --port=${port}`;
-    
+
 };
 
 try {
