@@ -49,6 +49,7 @@ import { XmTableSelectionDefault } from '../components/selection-header/xm-table
 import { XmTableUserSelectionColumnComponent } from '../components/xm-table-user-selection-column.component';
 import { XmRowHighlightTableDirective } from '../directives/row-hightlight/xm-row-highlight-table.directive';
 import { XmHighlightableRowDirective } from '../directives/row-hightlight/xm-highlightable-row.directive';
+import { XmCondition } from '@xm-ngx/pipes';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
@@ -91,6 +92,7 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         XmTableUserSelectionColumnComponent,
         XmRowHighlightTableDirective,
         XmHighlightableRowDirective,
+        XmCondition,
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,

@@ -106,7 +106,8 @@
               [ngClass]="{
                 'xm-table-row-highlight': config.highlightRowOnHover,
                 'xm-table-row-loading' : context.collection.loading,
-                'remove-border-bottom': xmTable.config.pageableAndSortable.hidePagination && config.isTitleHidden
+                'remove-border-bottom': xmTable.config.pageableAndSortable.hidePagination && config.isTitleHidden,
+                'xm-table-row-error': config.errorRowCondition | xmCondition: row
               }"
               mat-row
               [xmHighlightableRow]="config.highlightRowOnClick"
