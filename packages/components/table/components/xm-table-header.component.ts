@@ -1,17 +1,10 @@
 import { Component, Input } from '@angular/core';
 
-import { XmDynamicModule, XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
+import { injectByKey, XmDynamicModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslatePipe, XmTranslationModule } from '@xm-ngx/translation';
 import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.component';
-import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component';
 import { MatIconModule } from '@angular/material/icon';
-
-export interface XmTableHeaderConfig {
-    actions: XmDynamicPresentationLayout[],
-    title: Translate;
-    titleIcon: string;
-    columns?: XmTableColumn[];
-}
+import { XmTableHeaderConfig, XmTableHeaderController } from './xm-table-header.model';
 
 @Component({
     selector: 'xm-table-header',
@@ -58,7 +51,7 @@ export interface XmTableHeaderConfig {
             }
 
             .header-title {
-                &__icon {
+                & __icon {
                     width: 40px;
                     height: 40px;
                     border-radius: 16px;
@@ -80,12 +73,15 @@ export interface XmTableHeaderConfig {
 })
 export class XmTableHeaderComponent {
     public _config: XmTableHeaderConfig;
+    private titleController: XmTableHeaderController = injectByKey<XmTableHeaderController>('table-title-controller', {optional: true});
 
     @Input()
     public set config(val: XmTableHeaderConfig) {
         const {title, actions, titleIcon} = val || {};
+        const enrichedTitle: Translate = this.enrichTitle(title);
+
         this._config = {
-            title,
+            title: enrichedTitle,
             titleIcon,
             actions: actions?.map(action => {
                 return {
@@ -98,6 +94,14 @@ export class XmTableHeaderComponent {
             }),
         };
     };
+
+    public enrichTitle(title: Translate): Translate {
+        if (this.titleController?.enrichTitle) {
+            return this.titleController.enrichTitle(title);
+        }
+
+        return title;
+    }
 
     public get config(): XmTableHeaderConfig {
         return this._config;
