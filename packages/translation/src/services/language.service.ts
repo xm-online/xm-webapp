@@ -2,18 +2,16 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { XmEventManager } from '@xm-ngx/core';
 import { XmUiConfigService } from '@xm-ngx/core/config';
-import { XmUserService } from '@xm-ngx/core/user';
+import { Principal, XmUserService } from '@xm-ngx/core/user';
 import { OnInitialize } from '@xm-ngx/interfaces';
-import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { dayjs, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { SessionStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, first, map, tap } from 'rxjs/operators';
-import { dayjs } from '@xm-ngx/operators';
 import utc from 'dayjs/plugin/utc';
 import { getBrowserLocale } from '../operators/getBrowserLocale';
 import { LANGUAGES } from '../language.constants';
 import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
-import { Principal } from '@xm-ngx/core/user';
 
 
 /**
@@ -56,7 +54,7 @@ export type Locale = string | 'en' | 'ru' | 'uk' | 'de' | 'it';
 
 dayjs.extend(utc);
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class LanguageService implements OnDestroy, OnInitialize {
     public locale$: Observable<Locale | null>;
 
@@ -77,7 +75,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
         private loggerService: XmLoggerService,
         protected sessionStorage: SessionStorageService,
     ) {
-        this.logger = this.loggerService.create({ name: 'LanguageService' });
+        this.logger = this.loggerService.create({name: 'LanguageService'});
         this.$locale = new BehaviorSubject<Locale | null>(null);
         this.locale$ = this.$locale.asObservable();
         this.getInitialLocale();
@@ -168,7 +166,6 @@ export class LanguageService implements OnDestroy, OnInitialize {
         ).subscribe(locale => {
             dayjs.locale(locale);
             this.translate.setDefaultLang(this.getDefaultLocale());
-            this.translate.use(locale);
             this.update(locale);
         });
     }
@@ -187,7 +184,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
     }
 
     protected update(locale: string): void {
-        if (this.isLocaleUpdating) {
+        if (this.isLocaleUpdating || this.$locale.getValue() === locale) {
             return;
         }
         this.isLocaleUpdating = true;
@@ -201,7 +198,7 @@ export class LanguageService implements OnDestroy, OnInitialize {
         this.setLangHTMLAttr(locale);
         this.principal.setLangKey(locale);
         this.$locale.next(locale);
-        this.eventManager.broadcast({ name: EVENT_CHANGE_LOCALE, content: locale });
+        this.eventManager.broadcast({name: EVENT_CHANGE_LOCALE, content: locale});
 
         this.isLocaleUpdating = false;
     }
