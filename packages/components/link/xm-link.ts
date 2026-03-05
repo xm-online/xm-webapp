@@ -21,7 +21,10 @@ export interface XmLinkOptions extends DataQa {
     valueField: string;
     /** Material icon */
     valueIcon: string;
+    /** Custom styles for link */
     style?: string;
+    /** Custom classes for link */
+    class?: string;
     newWindow?: boolean;
     /** See Angular queryParamsHandling routerLink parameter for more details https://next.angular.dev/api/router/QueryParamsHandling */
     queryParamsHandling?: QueryParamsHandling | null;
@@ -34,7 +37,7 @@ export interface XmLinkOptions extends DataQa {
 }
 
 export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
-    queryParamsFromEntityFields: { 'id': 'id' },
+    queryParamsFromEntityFields: {'id': 'id'},
     routerLink: [],
     valueField: 'id',
     valueTitle: null,
@@ -57,12 +60,17 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
            [queryParamsHandling]="config?.queryParamsHandling"
            [target]="config?.newWindow ? '_blank' : '_self'"
            [style]="config?.style || config?.config?.style"
+           [class]="config?.class || config?.config?.style"
            [attr.data-qa]="config?.dataQa || 'xm-link-default-data-qa'"
         >
-            <mat-icon *ngIf="!config?.isIconOnRight && (config?.valueIcon || config?.config?.valueIcon)">{{config.valueIcon || config?.config?.valueIcon}}</mat-icon>
-            <span *ngIf="fieldTitle">{{fieldTitle | translate}}</span>
-            <span *ngIf="fieldValue">{{fieldValue}}</span>
-            <mat-icon *ngIf="config?.isIconOnRight && (config?.valueIcon || config?.config?.valueIcon)">{{config.valueIcon || config?.config?.valueIcon}}</mat-icon>
+            <mat-icon
+                *ngIf="!config?.isIconOnRight && (config?.valueIcon || config?.config?.valueIcon)">{{ config.valueIcon || config?.config?.valueIcon }}
+            </mat-icon>
+            <span *ngIf="fieldTitle">{{ fieldTitle | translate }}</span>
+            <span *ngIf="fieldValue">{{ fieldValue }}</span>
+            <mat-icon
+                *ngIf="config?.isIconOnRight && (config?.valueIcon || config?.config?.valueIcon)">{{ config.valueIcon || config?.config?.valueIcon }}
+            </mat-icon>
         </a>
     `,
     encapsulation: ViewEncapsulation.None,
@@ -96,7 +104,7 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
             value: this.value,
         }) : routerLink;
 
-        const { dynamicRouterLink } = this.config;
+        const {dynamicRouterLink} = this.config;
         if (!dynamicRouterLink) return;
 
         const key = get(this.value, dynamicRouterLink.switchValue) as string;
