@@ -1,4 +1,4 @@
-import _, { assign, cloneDeep, defaultsDeep, indexOf } from 'lodash';
+import _, { assign, cloneDeep, defaultsDeep, indexOf, isEqual } from 'lodash';
 import { PAGEABLE_AND_SORTABLE_DEFAULT } from '@xm-ngx/repositories';
 import { IXmTableCollectionController, XmFilterQueryParams } from './i-xm-table-collection-controller';
 import { AXmTableStateCollectionController } from './a-xm-table-state-collection-controller.service';
@@ -29,12 +29,7 @@ export abstract class AXmTableLocalPageableCollectionController<T>
         const {sortOrder, sortBy} = queryParams.pageableAndSortable;
         const total = rawData.length;
         const pageSize = Math.min(queryParams.pageableAndSortable.pageSize || total, (total > queryParams.pageableAndSortable.pageSize ? total : queryParams.pageableAndSortable.pageSize));
-        const maxPageCount = Math.round(total / (pageSize || 1));
-        const maxPageIndex = maxPageCount * pageSize === total
-            ? maxPageCount - 1
-            : maxPageCount;
-        const pageIndex = Math.max(0, Math.min(queryParams.pageableAndSortable.pageIndex, maxPageIndex));
-
+        const pageIndex = Math.max(0, queryParams.pageableAndSortable.pageIndex);
         const expectedFromIndex = pageIndex * pageSize;
         const availableFromIndex = Math.min(expectedFromIndex, total);
         const expectedToIndex = (pageIndex + 1) * pageSize;
@@ -75,7 +70,7 @@ export abstract class AXmTableLocalPageableCollectionController<T>
     public abstract load(request: XmFilterQueryParams): void ;
 
     public remove(item: T): void {
-        this.items = this.items.filter((i) => i !== item);
+        this.items = this.items.filter((i) => !isEqual(i, item));
     }
 
     public reset(): void {
