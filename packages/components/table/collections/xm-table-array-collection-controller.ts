@@ -161,9 +161,9 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
 
     private getItemsOnEdit(itemsFromEntity: T[]): T[] {
         const editedItemIndexInEntity = itemsFromEntity.findIndex(entity => {
-            return this.items.some(item => this.uniqPropOf(item) === this.uniqPropOf(entity) && !isEqual(entity, item));
+            return this.items.some(item => this.isEqualByKeys(item, entity) && !isEqual(entity, item));
         });
-        const editedItem = this.items.find(item => this.uniqPropOf(item) === this.uniqPropOf(itemsFromEntity[editedItemIndexInEntity]));
+        const editedItem = this.items.find(item => this.isEqualByKeys(item, itemsFromEntity[editedItemIndexInEntity]));
         const startItems = itemsFromEntity.slice(0, editedItemIndexInEntity);
         const endItems = itemsFromEntity.slice(editedItemIndexInEntity + 1);
         return [...startItems, editedItem, ...endItems];
@@ -171,7 +171,7 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
 
     private getItemsOnRemove(itemsFromEntity: T[]): T[] {
         return itemsFromEntity.filter(item => {
-            return !this.removedItems.some(removedItem => this.uniqPropOf(item) === this.uniqPropOf(removedItem) || isEqual(removedItem, item));
+            return !this.removedItems.some(removedItem => this.isEqualByKeys(item, removedItem) || isEqual(removedItem, item));
         });
     }
 
@@ -206,7 +206,13 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
         takeUntilOnDestroyDestroy(this);
     }
 
-    private uniqPropOf(item: XmTableArrayCollectionItem): string | number {
-        return item.uuidKeyOnCloned || item.key || item.id;
-    }
+    private isEqualByKeys(obj1: XmTableArrayCollectionItem, obj2: XmTableArrayCollectionItem, keysArray = ['key', 'id']): boolean {
+        if (obj1['uuidKeyOnCloned'] || obj2['uuidKeyOnCloned']) {
+            return obj1['uuidKeyOnCloned'] === obj2['uuidKeyOnCloned'];
+        }
+
+        return keysArray.some(key => {
+            return obj1[key] != null && obj1[key] === obj2[key];
+        });
+    };
 }
