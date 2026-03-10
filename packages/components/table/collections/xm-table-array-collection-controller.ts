@@ -150,7 +150,7 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
             case 'REMOVE':
                 return this.getItemsOnRemove(itemsFromEntity);
             default:
-                return itemsFromEntity;
+                return [...itemsFromEntity];
         }
     }
 
