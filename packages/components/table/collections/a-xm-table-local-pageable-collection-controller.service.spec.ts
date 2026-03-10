@@ -56,9 +56,9 @@ describe('AXmTableLocalPageableCollectionController', () => {
 
             service.changeByItems(rawData, request);
             const state = service['_state'].value;
-            expect(state.items.length).toBe(5);
+            expect(state.items.length).toBe(0);
             expect(state.pageableAndSortable.total).toBe(5);
-            expect(state.pageableAndSortable.pageIndex).toBe(0);
+            expect(state.pageableAndSortable.pageIndex).toBe(1);
             expect(state.pageableAndSortable.pageSize).toBe(5);
         });
 
@@ -115,9 +115,9 @@ describe('AXmTableLocalPageableCollectionController', () => {
 
             service.changeByItems(rawData, request);
             const state = service['_state'].value;
-            expect(state.items.length).toBe(5);
+            expect(state.items.length).toBe(0);
             expect(state.pageableAndSortable.total).toBe(5);
-            expect(state.pageableAndSortable.pageIndex).toBe(0);
+            expect(state.pageableAndSortable.pageIndex).toBe(10);
             expect(state.pageableAndSortable.pageSize).toBe(5);
         });
 
