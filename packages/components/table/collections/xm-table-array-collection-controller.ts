@@ -17,6 +17,7 @@ export interface XmTableEntity extends XmConfig {
     // Make one item of arrays work with table-array selector (search and display)
     buildItemAsNestedKey?: string;
     uuidKeyName?: string;
+    saveWithType?: boolean;
 }
 
 export interface XmTableArrayCollectionControllerConfig extends XmTableEntity {
@@ -122,11 +123,16 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
             return;
         }
 
-        const itemsFromEntity: Array<T> = get(this.entity, this.config.path) || [];
-        const eventType = type || (!this.removedItems.length ? 'ADD' : 'REMOVE');
-        const updatedItems = this.getItemsOn(eventType, itemsFromEntity);
-
-        set(this.entity, this.config.path, cloneDeep(updatedItems));
+        if (this.config?.saveWithType) {
+            const itemsFromEntity: Array<T> = get(this.entity, this.config.path) || [];
+            const eventType = type || (!this.removedItems.length ? 'ADD' : 'REMOVE');
+            const updatedItems = this.getItemsOn(eventType, itemsFromEntity);
+            set(this.entity, this.config.path, cloneDeep(updatedItems));
+        } else {
+            const itemsFromEntity: Array<unknown> = get(this.entity, this.config.path) || [];
+            const itemsFromEntityFiltered = itemsFromEntity.filter(item => !this.isDeletedItem(item) && !this.isCurrentItem(item));
+            set(this.entity, this.config.path, cloneDeep([...itemsFromEntityFiltered, ...this.items]));
+        }
 
         if (this.config.save?.controller) {
             const saveResult = this.getEntityController(this.config?.save?.controller?.key)[this.config?.save?.controller?.method](this.entity);
@@ -139,6 +145,14 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
             this.getEntityController().update(this.entity);
         }
         this.removedItems = [];
+    }
+
+    protected isDeletedItem(item: unknown): boolean {
+        return this.removedItems.some(removedItem => isEqual(removedItem, item));
+    }
+
+    protected isCurrentItem(item: unknown): boolean {
+        return this.items.some(removedItem => isEqual(removedItem, item));
     }
 
     public getItemsOn(type: SaveType, itemsFromEntity: T[]): T[] {
@@ -160,6 +174,7 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
     }
 
     private getItemsOnEdit(itemsFromEntity: T[]): T[] {
+        debugger;
         const editedItemIndexInEntity = itemsFromEntity.findIndex(entity => {
             return this.items.some(item => this.isEqualByKeys(item, entity) && !isEqual(entity, item));
         });
