@@ -174,7 +174,6 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
     }
 
     private getItemsOnEdit(itemsFromEntity: T[]): T[] {
-        debugger;
         const editedItemIndexInEntity = itemsFromEntity.findIndex(entity => {
             return this.items.some(item => this.isEqualByKeys(item, entity) && !isEqual(entity, item));
         });
