@@ -17,7 +17,6 @@ export interface XmTableEntity extends XmConfig {
     // Make one item of arrays work with table-array selector (search and display)
     buildItemAsNestedKey?: string;
     uuidKeyName?: string;
-    saveWithType?: boolean;
 }
 
 export interface XmTableArrayCollectionControllerConfig extends XmTableEntity {
@@ -32,6 +31,7 @@ export interface XmTableArrayCollectionControllerConfig extends XmTableEntity {
             method: string;
         }
     }
+    saveWithType?: boolean;
 }
 
 export type SaveType = 'ADD' | 'EDIT' | 'REMOVE';
