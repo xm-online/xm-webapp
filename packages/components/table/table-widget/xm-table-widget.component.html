@@ -29,7 +29,8 @@
       [loading]="context.collection.loading"
       [showQuickFilterInsteadOfTitle]="showQuickFilterInsteadOfTitle"
     >
-      <xm-table-quick-filter-inline *ngIf="showQuickFilterInsteadOfTitle && showQuickFilters" [config]="config"></xm-table-quick-filter-inline>
+      <xm-table-quick-filter-inline *ngIf="showQuickFilterInsteadOfTitle && showQuickFilters"
+                                    [config]="config"></xm-table-quick-filter-inline>
       <ng-container *ngIf="!xmTable.config.isCollapsed">
         <xm-table-filter-button *ngIf="xmTable.config.popUpFilter"
                                 [config]="config"
@@ -46,13 +47,15 @@
     </xm-table-header>
 
     <div class="xm-table-wrapper" [@tableExpand]="xmTable.config.isCollapsed ? 'collapsed' : 'expanded'">
-      <xm-table-quick-filter-inline *ngIf="!showQuickFilterInsteadOfTitle && showQuickFilters" [config]="config"></xm-table-quick-filter-inline>
+      <xm-table-quick-filter-inline *ngIf="!showQuickFilterInsteadOfTitle && showQuickFilters"
+                                    [config]="config"></xm-table-quick-filter-inline>
 
       <xm-table-filter-inline *ngIf="!xmTable.config.popUpFilter"
                               [config]="config"
                               [loading]="context.collection.loading"></xm-table-filter-inline>
 
-      <xm-table-selection-header [defaultCollectionController]="collectionController" [config]="config.selection"></xm-table-selection-header>
+      <xm-table-selection-header [defaultCollectionController]="collectionController"
+                                 [config]="config.selection"></xm-table-selection-header>
 
       <div class="xm-table-overflow-wrap" [style]="config.tableWrapperStyle">
         <table
@@ -92,7 +95,8 @@
                                         [isSkeletonLoading]="isSkeletonLoading"
                                         [column]="column"></xm-table-column-dynamic-cell>
 
-          <tr *matHeaderRowDef="context.settings.displayedColumns; sticky: config.isStickyHeader" mat-header-row [ngClass]="{'remove-border-top': config.isTitleHidden}"></tr>
+          <tr *matHeaderRowDef="context.settings.displayedColumns; sticky: config.isStickyHeader" mat-header-row
+              [ngClass]="{'remove-border-top': config.isTitleHidden}"></tr>
 
 
           <xm-table-loading
@@ -123,6 +127,7 @@
                      [config]="config.pageableAndSortable"
                      [hidden]="xmTable.config.pageableAndSortable.hidePagination"
                      [pageSizeOptions]="xmTable.config.pageableAndSortable.pageSizeOptions"
+                     [disabled]="isLoading"
       >
       </mat-paginator>
     </div>

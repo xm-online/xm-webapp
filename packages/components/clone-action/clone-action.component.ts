@@ -6,14 +6,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { IXmTableCollectionController } from '@xm-ngx/components/table';
 import { injectByKey, XM_DYNAMIC_TABLE_ROW } from '@xm-ngx/dynamic';
-import { Translate, XmTranslationModule } from '@xm-ngx/translation';
+import { Translate, XmTranslatePipe, XmTranslationModule } from '@xm-ngx/translation';
+import { UUID } from 'angular2-uuid';
 
 @Component({
     standalone: true,
     selector: 'clone-entity-action',
     template: `
         <div class="mat-mdc-menu-item" (click)="clone()" *ngIf="config">
-            {{config.title | translate}}
+            {{ config.title | xmTranslate }}
         </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,6 +25,7 @@ import { Translate, XmTranslationModule } from '@xm-ngx/translation';
         ControlErrorModule,
         MatButtonModule,
         MatIconModule,
+        XmTranslatePipe,
     ],
 })
 export class CloneActionComponent {
@@ -35,7 +37,13 @@ export class CloneActionComponent {
     protected item = inject(XM_DYNAMIC_TABLE_ROW, {optional: true});
 
     public clone(): void {
-        this.collectionController.add(this.item);
+        const item = Object.assign({}, this.item);
+        this.collectionController.add(
+            {
+                ...item,
+                uuidKeyOnCloned: UUID.UUID(),
+            },
+        );
         this.collectionController.save();
     }
 }

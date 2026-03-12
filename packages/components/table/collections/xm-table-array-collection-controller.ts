@@ -1,5 +1,5 @@
 import { inject, Injectable, Injector, OnDestroy } from '@angular/core';
-import { XmDynamicInstanceService, } from '@xm-ngx/dynamic';
+import { XmDynamicInstanceService } from '@xm-ngx/dynamic';
 import { XmConfig } from '@xm-ngx/interfaces';
 import { UUID } from 'angular2-uuid';
 import { cloneDeep, get, isEqual, isFunction, set } from 'lodash';
@@ -10,6 +10,7 @@ import { IXmTableCollectionController, XmFilterQueryParams } from './i-xm-table-
 import { XmToasterService } from '@xm-ngx/toaster';
 import { XmAlertService } from '@xm-ngx/alert';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { XmEntity } from '@xm-ngx/core/entity';
 
 export interface XmTableEntity extends XmConfig {
     path: string;
@@ -30,10 +31,17 @@ export interface XmTableArrayCollectionControllerConfig extends XmTableEntity {
             method: string;
         }
     }
+    saveWithType?: boolean;
+}
+
+export type SaveType = 'ADD' | 'EDIT' | 'REMOVE';
+
+export interface XmTableArrayCollectionItem extends XmEntity {
+    uuidKeyOnCloned?: string;
 }
 
 @Injectable()
-export class XmTableArrayCollectionController<T = unknown>
+export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
     extends AXmTableLocalPageableCollectionController<T>
     implements IXmTableCollectionController<T>, OnDestroy {
     public declare config: XmTableArrayCollectionControllerConfig;
@@ -46,8 +54,7 @@ export class XmTableArrayCollectionController<T = unknown>
     private injector: Injector = inject(Injector);
 
     private syncRequest = new Subject<XmFilterQueryParams>();
-    private removedItems: Array<unknown> = [];
-
+    private removedItems: Array<T> = [];
 
     constructor() {
         super();
@@ -110,16 +117,22 @@ export class XmTableArrayCollectionController<T = unknown>
         super.add(item);
     }
 
-    public save(): void {
+    public save(type?: SaveType): void {
         if (!this.config?.path) {
             console.warn('table-array-collection-controller: add "path" property to config');
             return;
         }
-        const itemsFromEntity: Array<unknown> = get(this.entity, this.config.path) || [];
-        const itemsFromEntityFiltered = itemsFromEntity.filter(item => !this.isDeletedItem(item) && !this.isCurrentItem(item));
 
-
-        set(this.entity, this.config.path, cloneDeep([...itemsFromEntityFiltered, ...this.items]));
+        if (this.config?.saveWithType) {
+            const itemsFromEntity: Array<T> = get(this.entity, this.config.path) || [];
+            const eventType = type || (!this.removedItems.length ? 'ADD' : 'REMOVE');
+            const updatedItems = this.getItemsOn(eventType, itemsFromEntity);
+            set(this.entity, this.config.path, cloneDeep(updatedItems));
+        } else {
+            const itemsFromEntity: Array<unknown> = get(this.entity, this.config.path) || [];
+            const itemsFromEntityFiltered = itemsFromEntity.filter(item => !this.isDeletedItem(item) && !this.isCurrentItem(item));
+            set(this.entity, this.config.path, cloneDeep([...itemsFromEntityFiltered, ...this.items]));
+        }
 
         if (this.config.save?.controller) {
             const saveResult = this.getEntityController(this.config?.save?.controller?.key)[this.config?.save?.controller?.method](this.entity);
@@ -134,12 +147,46 @@ export class XmTableArrayCollectionController<T = unknown>
         this.removedItems = [];
     }
 
-    private isDeletedItem(item: unknown): boolean{
+    protected isDeletedItem(item: unknown): boolean {
         return this.removedItems.some(removedItem => isEqual(removedItem, item));
     }
 
-    private isCurrentItem(item: unknown): boolean{
+    protected isCurrentItem(item: unknown): boolean {
         return this.items.some(removedItem => isEqual(removedItem, item));
+    }
+
+    public getItemsOn(type: SaveType, itemsFromEntity: T[]): T[] {
+        switch (type) {
+            case 'ADD':
+                return this.getItemsOnAdd(itemsFromEntity);
+            case 'EDIT':
+                return this.getItemsOnEdit(itemsFromEntity);
+            case 'REMOVE':
+                return this.getItemsOnRemove(itemsFromEntity);
+            default:
+                return [...itemsFromEntity];
+        }
+    }
+
+    private getItemsOnAdd(itemsFromEntity: T[]): T[] {
+        const newItems = this.items.filter(item => !itemsFromEntity.some(entity => isEqual(item, entity)));
+        return [...itemsFromEntity, ...newItems];
+    }
+
+    private getItemsOnEdit(itemsFromEntity: T[]): T[] {
+        const editedItemIndexInEntity = itemsFromEntity.findIndex(entity => {
+            return this.items.some(item => this.isEqualByKeys(item, entity) && !isEqual(entity, item));
+        });
+        const editedItem = this.items.find(item => this.isEqualByKeys(item, itemsFromEntity[editedItemIndexInEntity]));
+        const startItems = itemsFromEntity.slice(0, editedItemIndexInEntity);
+        const endItems = itemsFromEntity.slice(editedItemIndexInEntity + 1);
+        return [...startItems, editedItem, ...endItems];
+    }
+
+    private getItemsOnRemove(itemsFromEntity: T[]): T[] {
+        return itemsFromEntity.filter(item => {
+            return !this.removedItems.some(removedItem => this.isEqualByKeys(item, removedItem) || isEqual(removedItem, item));
+        });
     }
 
     private getEntityController(key: string = this.config?.entityController?.key || 'table-entity-controller'): XmTableEntityController<object> | any {
@@ -149,7 +196,12 @@ export class XmTableArrayCollectionController<T = unknown>
         ) || this.entityController;
     }
 
-    public remove(item: T, options?: XmTableArrayCollectionControllerConfig): void {
+    public remove(item: T, options?: XmTableArrayCollectionControllerConfig, hideDialog?: boolean): void {
+        if (hideDialog) {
+            this.removedItems.push(item);
+            super.remove(item);
+            return;
+        }
         this.alert.delete(options).pipe(
             take(1),
             filter((i) => i.value),
@@ -161,10 +213,20 @@ export class XmTableArrayCollectionController<T = unknown>
 
     public edit(item: T, newItem: T): void {
         super.edit(item, newItem);
-        this.save();
+        this.save('EDIT');
     }
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
     }
+
+    private isEqualByKeys(obj1: XmTableArrayCollectionItem, obj2: XmTableArrayCollectionItem, keysArray = ['key', 'id']): boolean {
+        if (obj1['uuidKeyOnCloned'] || obj2['uuidKeyOnCloned']) {
+            return obj1['uuidKeyOnCloned'] === obj2['uuidKeyOnCloned'];
+        }
+
+        return keysArray.some(key => {
+            return obj1[key] != null && obj1[key] === obj2[key];
+        });
+    };
 }

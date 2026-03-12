@@ -1,8 +1,11 @@
-import { Directive, Inject, Input, OnChanges, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, Inject, Input, OnChanges, OnDestroy, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 import { Translate, TranslatePipe } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { XM_CONTROL_ERRORS_TRANSLATES, XmControlErrorsTranslates } from './xm-control-errors-translates';
+import { combineLatest, ReplaySubject } from 'rxjs';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { tap } from 'rxjs/operators';
 
 interface ControlErrorsContext<T = unknown> {
     error: T;
@@ -37,10 +40,13 @@ interface ControlErrorsContext<T = unknown> {
     selector: '[xmControlErrors]',
     standalone: false,
 })
-export class ControlErrorsDirective implements OnInit, OnChanges {
+export class ControlErrorsDirective implements OnInit, OnChanges, OnDestroy {
     @Input() public xmControlErrors: ValidationErrors | null;
     @Input() public xmControlErrorsExtraErrorTranslations: XmControlErrorsTranslates = {};
     private thenTemplateRef: TemplateRef<ControlErrorsContext>;
+
+    private tick$: ReplaySubject<number> = new ReplaySubject<number>(1);
+    private extraErrorsMerged$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
     constructor(
         @Inject(XM_CONTROL_ERRORS_TRANSLATES) public globalErrorsTranslates: XmControlErrorsTranslates,
@@ -68,14 +74,23 @@ export class ControlErrorsDirective implements OnInit, OnChanges {
 
     public ngOnInit(): void {
         this.setExtraErrorTranslations();
+        this.observeUpdates();
     }
 
     public ngOnChanges(): void {
-        this.updateView();
+        this.tick$.next(Date.now());
+    }
+
+    private observeUpdates(): void {
+        combineLatest([this.tick$, this.extraErrorsMerged$]).pipe(
+            tap(() => this.updateView()),
+            takeUntilOnDestroy(this)
+        ).subscribe();
     }
 
     private setExtraErrorTranslations(): void {
-        this._xmControlErrorsTranslates = {...this._xmControlErrorsTranslates, ...this.xmControlErrorsExtraErrorTranslations};
+        this._xmControlErrorsTranslates = { ...this._xmControlErrorsTranslates, ...this.xmControlErrorsExtraErrorTranslations };
+        this.extraErrorsMerged$.next(true);
     }
 
     private getErrorMessage<T>(error: T, errorKey: string): string {
@@ -91,7 +106,11 @@ export class ControlErrorsDirective implements OnInit, OnChanges {
         this.viewContainer.clear();
         _.forIn(this.xmControlErrors, (error, errorKey) => {
             const message = this.getErrorMessage(error, errorKey);
-            this.viewContainer.createEmbeddedView(this.thenTemplateRef, {error, message});
+            this.viewContainer.createEmbeddedView(this.thenTemplateRef, { error, message });
         });
+    }
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
     }
 }
