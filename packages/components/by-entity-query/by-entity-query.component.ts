@@ -1,4 +1,5 @@
 import { Component, computed, Signal } from '@angular/core';
+import { XmDynamicPresentationConstructor } from '@xm-ngx/dynamic';
 import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { XmTextViewModule } from '@xm-ngx/components/text';
@@ -9,21 +10,16 @@ import {
     ByEntityQueryValueOptions,
 } from './by-entity-query-value.component';
 
-/** {@inheritDoc ByEntityQueryValueOptions} */
 export interface ByEntityQueryOptions extends ByEntityQueryValueOptions {
-    /** Optional label/title rendered above or beside the value. */
     title?: Translate;
-    /** When true, renders the field inline instead of block. */
-    styleInline: boolean;
+    styleInline?: boolean;
 }
 
-/** {@inheritDoc BY_ENTITY_QUERY_VALUE_OPTIONS} */
 export const BY_ENTITY_QUERY_OPTIONS: ByEntityQueryOptions = {
     styleInline: false,
     ...BY_ENTITY_QUERY_VALUE_OPTIONS,
 };
 
-/** {@inheritDoc ByEntityQueryValueComponent} */
 @Component({
     selector: 'xm-by-entity-query',
     template: `
@@ -44,12 +40,10 @@ export class ByEntityQueryComponent extends ByEntityQueryValueComponent {
 
     protected override defaultOptions: ByEntityQueryOptions = clone(BY_ENTITY_QUERY_OPTIONS);
 
-    /** Typed computed view of the base `config` signal cast to {@link ByEntityQueryOptions}. */
     public readonly queryConfig: Signal<ByEntityQueryOptions> = computed(
         () => this.config() as ByEntityQueryOptions,
     );
 
-    /** True only when title is a non-empty string or an object with at least one non-empty locale value. */
     public readonly hasTitle: Signal<boolean> = computed(() => {
         const title = this.queryConfig()?.title;
         if (!title) {
@@ -66,4 +60,4 @@ export class ByEntityQueryComponent extends ByEntityQueryValueComponent {
     }
 }
 
-export const XM_BY_ENTITY_QUERY_ENTRY = ByEntityQueryComponent;
+export const XM_BY_ENTITY_QUERY_ENTRY = ByEntityQueryComponent satisfies XmDynamicPresentationConstructor;
