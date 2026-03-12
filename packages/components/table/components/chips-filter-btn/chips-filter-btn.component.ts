@@ -15,7 +15,7 @@ import { InputType } from './chips-filter-btn.model';
         MatChipsModule,
         MatIconModule,
         MatMenuModule,
-        XmTranslatePipe
+        XmTranslatePipe,
     ],
     templateUrl: './chips-filter-btn.component.html',
     styleUrl: './chips-filter-btn.component.scss',
@@ -28,10 +28,13 @@ export class ChipsFilterBtnComponent {
     @Input() public valueText: string | Translate;
     @Input() public menu: MatMenuPanel = null;
     @Input() public arrow: boolean = false;
+    @Input() public alwaysShowArrow: boolean = false;
     @Input() public disabled: boolean = false;
     @Input() public inputField: any = null;
     @Input() public type: InputType = InputType.Input;
     @Input() public textWidth: string = '120px';
+    @Input() public showClearBtn: boolean = true;
+    @Input() public showIcon: boolean = true;
     @Output() public valueCleared: EventEmitter<void> = new EventEmitter<void>();
     @Output() public valueToggle: EventEmitter<void> = new EventEmitter<void>();
     public isChecked: boolean = false;
