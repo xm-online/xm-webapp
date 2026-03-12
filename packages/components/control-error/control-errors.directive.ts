@@ -46,7 +46,7 @@ export class ControlErrorsDirective implements OnInit, OnChanges, OnDestroy {
     private thenTemplateRef: TemplateRef<ControlErrorsContext>;
 
     private tick$: ReplaySubject<number> = new ReplaySubject<number>(1);
-    private extraErrorsMerged$: ReplaySubject<boolean> = new ReplaySubject<boolean>();
+    private extraErrorsMerged$: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
     constructor(
         @Inject(XM_CONTROL_ERRORS_TRANSLATES) public globalErrorsTranslates: XmControlErrorsTranslates,
