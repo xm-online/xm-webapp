@@ -56,6 +56,14 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
         loadChildren: () => import('@xm-ngx/components/by-entity-id').then(m => m.ByEntityIdModule),
     },
     {
+        selector: 'by-entity-query',
+        loadChildren: () => import('@xm-ngx/components/by-entity-query').then(m => m.ByEntityQueryComponent),
+    },
+    {
+        selector: 'by-entity-query-cell',
+        loadChildren: () => import('@xm-ngx/components/by-entity-query').then(m => m.ByEntityQueryValueComponent),
+    },
+    {
         selector: 'by-entity-id-cell',
         loadChildren: () => import('@xm-ngx/components/by-entity-id').then(m => m.ByEntityIdValueModule),
     },
