@@ -1,5 +1,4 @@
 import { Component, computed, inject, Signal } from '@angular/core';
-import { XmDynamicPresentationConstructor } from '@xm-ngx/dynamic';
 import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmTextViewModule } from '@xm-ngx/components/text';
@@ -43,5 +42,3 @@ export class ByEntityQueryComponent extends ByEntityQueryValueComponent {
         return Object.values(title).some(v => typeof v === 'string' && v.trim().length > 0);
     });
 }
-
-export const XM_BY_ENTITY_QUERY_ENTRY = ByEntityQueryComponent satisfies XmDynamicPresentationConstructor;

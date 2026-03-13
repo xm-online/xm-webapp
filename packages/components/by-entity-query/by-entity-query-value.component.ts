@@ -1,6 +1,5 @@
 import { Component, DestroyRef, effect, inject, input, InputSignal, signal, WritableSignal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { XmDynamicPresentationConstructor } from '@xm-ngx/dynamic';
 import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { get } from 'lodash';
 import { clone } from 'lodash/fp';
@@ -25,7 +24,6 @@ export class ByEntityQueryValueComponent {
     private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
     constructor() {
-        // Effect runs automatically to react to input changes
         effect(() => this.update());
     }
 
@@ -114,5 +112,3 @@ export class ByEntityQueryValueComponent {
         });
     }
 }
-
-export const XM_BY_ENTITY_QUERY_VALUE_ENTRY = ByEntityQueryValueComponent satisfies XmDynamicPresentationConstructor;
