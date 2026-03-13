@@ -32,7 +32,9 @@
           }
         ],
         "styles": [
+          "node_modules/swagger-ui-dist/swagger-ui.css",
           "src/styles.scss"
+
         ],
         "scripts": [
           "node_modules/jquery/dist/jquery.js",
