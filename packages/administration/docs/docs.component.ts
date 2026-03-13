@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, NgZone } from '@angular/core';
 
 import { AuthServerProvider } from '@xm-ngx/core/user';
-import SwaggerUI from 'swagger-ui';
+import { SwaggerUIBundle } from 'swagger-ui-dist';
 
 interface SwaggerResource {
     location: string;
@@ -19,14 +19,14 @@ interface JhiDocsComponentConfig {
     templateUrl: './docs.component.html',
     styles: [
         `
-          :host ::ng-deep #swaggerHolder .col-12 {
-            padding-left: 0;
-            padding-right: 0;
-          }
+            :host ::ng-deep #swaggerHolder .col-12 {
+                padding-left: 0;
+                padding-right: 0;
+            }
 
-          :host ::ng-deep #swaggerHolder .scheme-container {
-            display: none;
-          }
+            :host ::ng-deep #swaggerHolder .scheme-container {
+                display: none;
+            }
         `,
     ],
     standalone: false,
@@ -68,32 +68,30 @@ export class JhiDocsComponent implements AfterViewInit {
         }
 
         this.ngZone.runOutsideAngular(() => {
-            SwaggerUI({
+            SwaggerUIBundle({
                 dom_id: '#swaggerHolder',
                 supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
                 url: `${resource}`,
                 docExpansion: 'none',
-                apisSorter: 'alpha',
-                showRequestHeaders: false,
+                tagsSorter: 'alpha',
                 validatorUrl: null,
-                configs: {
-                    preFetch: (req) => {
-                        if (prefix) {
-                            try {
-                                const url = new URL(req.url);
-                                if (!url.pathname.startsWith(prefix)) {
-                                    url.pathname = prefix + url.pathname;
-                                    req.url = url.toString();
-                                }
-                            } catch (e) {
+                requestInterceptor: (req) => {
+                    if (prefix) {
+                        try {
+                            const url = new URL(req.url);
+                            if (!url.pathname.startsWith(prefix)) {
+                                url.pathname = prefix + url.pathname;
+                                req.url = url.toString();
                             }
-                        }
+                        } catch (e) {
 
-                        if (authToken) {
-                            req.headers.Authorization = `Bearer ${authToken}`;
                         }
-                        return req;
-                    },
+                    }
+
+                    if (authToken) {
+                        req.headers.Authorization = `Bearer ${authToken}`;
+                    }
+                    return req;
                 },
             });
         });
