@@ -1,27 +1,12 @@
 import { Component, DestroyRef, effect, inject, input, InputSignal, signal, WritableSignal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { XmDynamicPresentationConstructor } from '@xm-ngx/dynamic';
 import { EntityCollectionFactoryService } from '@xm-ngx/repositories';
 import { get } from 'lodash';
 import { clone } from 'lodash/fp';
-import { Subscription } from 'rxjs';
-
-export interface ByEntityQueryValueOptions {
-    resourceUrl: string;
-    searchField: string;
-    displayField: string;
-    extraParams?: Record<string, unknown>;
-    searchUrl?: string;
-    queryTemplate?: string;
-    searchSize?: number;
-}
-
-export const BY_ENTITY_QUERY_VALUE_OPTIONS: ByEntityQueryValueOptions = {
-    resourceUrl: '/entity/api/xm-entities',
-    searchField: 'key',
-    displayField: 'name',
-    extraParams: {},
-    searchSize: 100,
-};
+import { catchError, of } from 'rxjs';
+import { ByEntityQueryValueOptions } from './by-entity-query-value.interface';
+import { BY_ENTITY_QUERY_VALUE_OPTIONS } from './by-entity-query-value.constant';
 
 @Component({
     selector: 'xm-by-entity-query-value',
@@ -30,21 +15,24 @@ export const BY_ENTITY_QUERY_VALUE_OPTIONS: ByEntityQueryValueOptions = {
     standalone: true,
 })
 export class ByEntityQueryValueComponent {
-
     public config: InputSignal<ByEntityQueryValueOptions> = input<ByEntityQueryValueOptions>();
     public value: InputSignal<unknown> = input<unknown>();
     public readonly fieldValue: WritableSignal<unknown> = signal<unknown>('');
 
-    protected defaultOptions: ByEntityQueryValueOptions = clone(BY_ENTITY_QUERY_VALUE_OPTIONS);
+    protected readonly defaultOptions: ByEntityQueryValueOptions = clone(BY_ENTITY_QUERY_VALUE_OPTIONS);
+    protected readonly factoryService: EntityCollectionFactoryService = inject(EntityCollectionFactoryService);
 
-    private subscription: Subscription | null = null;
-    private destroyRef: DestroyRef = inject(DestroyRef);
+    private readonly destroyRef: DestroyRef = inject(DestroyRef);
 
-    constructor(protected factoryService: EntityCollectionFactoryService) {
+    constructor() {
+        // Effect runs automatically to react to input changes
         effect(() => this.update());
-        this.destroyRef.onDestroy(() => this.cancelSubscription());
     }
 
+    /**
+     * Updates the field value based on the current input value and configuration.
+     * Triggers a query to fetch data when value is valid.
+     */
     protected update(): void {
         const value = this.value();
         const config = this.config();
@@ -54,54 +42,76 @@ export class ByEntityQueryValueComponent {
             const extraParams = config?.extraParams ?? this.defaultOptions.extraParams ?? {};
             const searchUrl = config?.searchUrl;
 
-            this.cancelSubscription();
-
             if (searchUrl) {
-                const queryTemplate = config?.queryTemplate ?? '';
-                const searchSize = config?.searchSize ?? this.defaultOptions.searchSize ?? 100;
-                const serializedValue = value !== null && typeof value === 'object' ? JSON.stringify(value) : (value as string | number | boolean).toString();
-                const resolvedQuery = queryTemplate.replace(/{{value}}/g, serializedValue);
-
-                const collection = this.factoryService.create<unknown>(searchUrl);
-                this.subscription = collection.query({
-                    size: searchSize,
-                    query: resolvedQuery,
-                    ...extraParams,
-                }).subscribe((res) => {
-                    const results = res.body;
-                    this.fieldValue.set(
-                        Array.isArray(results) && results.length > 0
-                            ? get(results[0], displayField)
-                            : '',
-                    );
-                });
+                this.handleSearchUrlQuery(searchUrl, value, displayField, extraParams, config);
             } else {
-                const resourceUrl = config?.resourceUrl ?? this.defaultOptions.resourceUrl;
-                const searchField = config?.searchField ?? this.defaultOptions.searchField;
-
-                const collection = this.factoryService.create<unknown>(resourceUrl);
-                this.subscription = collection.query({
-                    [searchField]: value,
-                    ...extraParams,
-                }).subscribe((res) => {
-                    const results = res.body;
-                    this.fieldValue.set(
-                        Array.isArray(results) && results.length > 0
-                            ? get(results[0], displayField)
-                            : '',
-                    );
-                });
+                this.handleResourceUrlQuery(value, displayField, extraParams, config);
             }
         } else {
             this.fieldValue.set('');
         }
     }
 
-    private cancelSubscription(): void {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-            this.subscription = null;
-        }
+    /**
+     * Handles query using searchUrl with a query template.
+     */
+    private handleSearchUrlQuery(
+        searchUrl: string,
+        value: unknown,
+        displayField: string,
+        extraParams: Record<string, unknown>,
+        config: ByEntityQueryValueOptions | undefined,
+    ): void {
+        const queryTemplate = config?.queryTemplate ?? '';
+        const searchSize = config?.searchSize ?? this.defaultOptions.searchSize ?? 100;
+        const serializedValue = value !== null && typeof value === 'object' ? JSON.stringify(value) : (value as string | number | boolean).toString();
+        const resolvedQuery = queryTemplate.replace(/{{value}}/g, serializedValue);
+
+        const collection = this.factoryService.create<unknown>(searchUrl);
+        collection.query({
+            size: searchSize,
+            query: resolvedQuery,
+            ...extraParams,
+        }).pipe(
+            catchError(() => of({ body: [] })),
+            takeUntilDestroyed(this.destroyRef),
+        ).subscribe((res) => {
+            const results = res.body;
+            this.fieldValue.set(
+                Array.isArray(results) && results.length > 0
+                    ? get(results[0], displayField)
+                    : '',
+            );
+        });
+    }
+
+    /**
+     * Handles query using resourceUrl with a search field.
+     */
+    private handleResourceUrlQuery(
+        value: unknown,
+        displayField: string,
+        extraParams: Record<string, unknown>,
+        config: ByEntityQueryValueOptions | undefined,
+    ): void {
+        const resourceUrl = config?.resourceUrl ?? this.defaultOptions.resourceUrl;
+        const searchField = config?.searchField ?? this.defaultOptions.searchField;
+
+        const collection = this.factoryService.create<unknown>(resourceUrl);
+        collection.query({
+            [searchField]: value,
+            ...extraParams,
+        }).pipe(
+            catchError(() => of({ body: [] })),
+            takeUntilDestroyed(this.destroyRef),
+        ).subscribe((res) => {
+            const results = res.body;
+            this.fieldValue.set(
+                Array.isArray(results) && results.length > 0
+                    ? get(results[0], displayField)
+                    : '',
+            );
+        });
     }
 }
 
