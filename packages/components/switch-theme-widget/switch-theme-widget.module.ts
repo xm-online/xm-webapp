@@ -79,6 +79,9 @@ export class SwitchThemeWidget implements OnInit, XmDynamicWidget {
     }
 
     public ngOnInit(): void {
+        if (!this.config?.themes?.length) {
+            return;
+        }
         const fromStore = this.themeService.get();
         const current = _.find(this.config?.themes, {theme: fromStore?.name});
         this.changeTheme(current);
@@ -86,6 +89,9 @@ export class SwitchThemeWidget implements OnInit, XmDynamicWidget {
     }
 
     public getNext(current: SwitchThemeOptionsTheme): SwitchThemeOptionsTheme | null {
+        if (!this.config?.themes?.length) {
+            return null;
+        }
         const idx = _.indexOf(this.config.themes, current);
         return this.config.themes[idx + 1] || this.config.themes[0] || null;
     }
