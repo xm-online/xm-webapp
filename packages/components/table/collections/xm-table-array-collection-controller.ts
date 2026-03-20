@@ -85,14 +85,24 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
                         this.entity = value;
 
                         const items = this.config?.path ? get(value, this.config.path, []) as T[] : value as T[];
+                        const itemsWithUniqKey = items?.map(item => {
+                            if (item['uuidKeyOnCloned'] || item['key'] || item['id']) {
+                                return item;
+                            }
+                            return {
+                                ...item,
+                                key: UUID.UUID(),
+                            } as T;
+                        });
+                        set(this.entity, this.config.path, itemsWithUniqKey);
 
                         const rawItems = this.config?.buildItemAsNestedKey?.length > 0
                             ? [
                                 {
-                                    [this.config?.buildItemAsNestedKey]: items,
+                                    [this.config?.buildItemAsNestedKey]: itemsWithUniqKey,
                                 } as T,
                             ]
-                            : items;
+                            : itemsWithUniqKey;
                         this.changeByItems(rawItems, requestData);
                     }),
                 );
@@ -220,7 +230,7 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
         takeUntilOnDestroyDestroy(this);
     }
 
-    private isEqualByKeys(obj1: XmTableArrayCollectionItem, obj2: XmTableArrayCollectionItem, keysArray = ['key', 'id']): boolean {
+    private isEqualByKeys(obj1: XmTableArrayCollectionItem = {}, obj2: XmTableArrayCollectionItem = {}, keysArray = ['key', 'id']): boolean {
         if (obj1['uuidKeyOnCloned'] || obj2['uuidKeyOnCloned']) {
             return obj1['uuidKeyOnCloned'] === obj2['uuidKeyOnCloned'];
         }
