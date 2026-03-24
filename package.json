@@ -57,7 +57,8 @@
     "nx-start:prod": "npm run prebuild && nx serve --proxy-config local.proxy.conf.js --live-reload --host=0.0.0.0 --configuration serve-production",
     "nx-build": "nx build --stats-json",
     "build:nx-prod": "node ./scripts/build-prod.js isNX=true",
-    "build:nx-prod-new": "node ./scripts/build-packages_copy-dist-package.js && npm i --ignore-scripts && nx run-many --target=build --projects={tag:type:lib} --all"
+    "build:nx-prod-new": "node ./scripts/build-packages_copy-dist-package.js && npm i --ignore-scripts && nx run-many --target=build --projects={tag:type:lib} --all",
+    "setup:hooks": "node ./scripts/setup-hooks.js"
   },
   "dependencies": {
     "@ajsf/core": "0.8.0",
@@ -171,6 +172,10 @@
     "yamljs": "0.3.0",
     "zone.js": "0.15.0"
   },
+  "lint-staged": {
+    "*.{ts,js}": "eslint --fix",
+    "*.{json,css,html,md}": "prettier --write"
+  },
   "devDependencies": {
     "@angular-devkit/build-angular": "19.2.19",
     "@angular-eslint/builder": "19.4.0",
@@ -204,6 +209,7 @@
     "eslint-plugin-tsdoc": "0.2.17",
     "eslint-stylistic": "0.0.0-0",
     "globals": "15.11.0",
+    "husky": "^9.1.7",
     "jasmine-core": "4.6.0",
     "jasmine-spec-reporter": "7.0.0",
     "karma": "6.4.2",
@@ -212,6 +218,7 @@
     "karma-coverage-istanbul-reporter": "3.0.3",
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.1.0",
+    "lint-staged": "^16.4.0",
     "marked": "9.1.6",
     "ng-packagr": "19.2.2",
     "nx": "19.8.14",

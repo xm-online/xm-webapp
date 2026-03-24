@@ -10,5 +10,9 @@
   "dependencies": {
   },
   "devDependencies": {
+  },
+  "lint-staged": {
+    "*.{ts,js}": "eslint --fix",
+    "*.{json,css,html,md}": "prettier --write"
   }
 }
