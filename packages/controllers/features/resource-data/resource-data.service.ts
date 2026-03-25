@@ -4,7 +4,7 @@ import { injectByKey } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/interfaces';
 import { cloneDeep } from 'lodash';
 import { BehaviorSubject, Observable, switchMap, throwError } from 'rxjs';
-import { catchError, distinctUntilChanged, shareReplay, tap } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, shareReplay, take, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
 import { DataResourceOptions } from './resource-data.model';
 
@@ -51,6 +51,12 @@ export class ResourceDataService<T extends IId = any> {
 
     }
 
+    public forceUpdate(): Observable<T> {
+        return this.getDataFromResource().pipe(
+            take(1)
+        );
+    }
+
     private getDataFromResource(params?: Params): Observable<T> {
         return this.resourceController.get(params || null).pipe(
             switchMap((data) => {
@@ -87,5 +93,3 @@ export class ResourceDataService<T extends IId = any> {
     }
 
 }
-
-
