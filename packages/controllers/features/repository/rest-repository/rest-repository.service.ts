@@ -6,6 +6,7 @@ import { LanguageService } from '@xm-ngx/translation';
 import { isArray } from 'lodash';
 import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { RestResourceConfig } from './rest-repository.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class RestRepositoryService<T = any> {
@@ -111,10 +112,13 @@ export class RestRepositoryService<T = any> {
             map((data) => isArray(data) ? data?.[0] : data),
             catchError((error) => {
                 console.warn(error);
-
-                return of({} as T);
+                return this.handleFetchErrors<T>(error);
             }),
         );
+    }
+
+    protected handleFetchErrors<T>(errors: HttpErrorResponse): Observable<T> {
+        return of({} as T);
     }
 
     private getRequestContext(objectTemplate: Record<string, string>, context: Params = {}): Record<string, string> {
