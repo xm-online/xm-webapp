@@ -23,6 +23,7 @@ export interface XmNumberControlOptions extends DataQa {
     errors?: { [errorKey: string]: Translate };
     type?: XmNumberSystemType;
     showUpDownControl: boolean;
+    digitsOnly: boolean;
 }
 
 const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
@@ -37,6 +38,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
     type: XmNumberSystemType.Rational,
     step: 1,
     showUpDownControl: true,
+    digitsOnly: false,
 };
 
 @Component({
@@ -55,6 +57,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
                    [pattern]="config.pattern"
                    [xm-number]="config.type"
                    [step]="config.step"
+                   [xmDigitsOnly]="config.digitsOnly"
                    type="number">
 
             <mat-error *xmControlErrors="control.errors; translates config?.errors; message as message">
