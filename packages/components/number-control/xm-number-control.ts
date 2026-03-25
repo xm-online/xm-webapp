@@ -21,7 +21,8 @@ export interface XmNumberControlOptions extends DataQa {
     required?: boolean;
     step?: number;
     errors?: { [errorKey: string]: Translate };
-    type?: XmNumberSystemType
+    type?: XmNumberSystemType;
+    showUpDownControl: boolean;
 }
 
 const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
@@ -35,6 +36,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
     required: true,
     type: XmNumberSystemType.Rational,
     step: 1,
+    showUpDownControl: true,
 };
 
 @Component({
@@ -44,6 +46,7 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
             <mat-label>{{ config.title | translate }}</mat-label>
 
             <input matInput
+                   [class]="config.showUpDownControl ? '' : 'no-up-down-controls'"
                    [formControl]="control"
                    [placeholder]="config.placeholder | translate"
                    [name]="config.name"
@@ -60,6 +63,22 @@ const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
 
             <mat-hint [hint]="config.hint"></mat-hint>
         </mat-form-field>
+    `,
+    styles: `
+        /* Chrome, Edge, Safari, Opera */
+        input[type=number].no-up-down-controls {
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        }
+
+        /* Firefox */
+        input[type='number'].no-up-down-controls {
+            appearance: textfield;
+            -moz-appearance: textfield;
+        }
     `,
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
