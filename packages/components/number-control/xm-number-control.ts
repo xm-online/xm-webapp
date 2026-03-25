@@ -22,8 +22,8 @@ export interface XmNumberControlOptions extends DataQa {
     step?: number;
     errors?: { [errorKey: string]: Translate };
     type?: XmNumberSystemType;
-    showUpDownControl: boolean;
-    digitsOnly: boolean;
+    showUpDownControl?: boolean;
+    digitsOnly?: boolean;
 }
 
 const XM_NUMBER_CONTROL_DEFAULT_OPTIONS: XmNumberControlOptions = {
