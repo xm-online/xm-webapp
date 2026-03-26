@@ -32,13 +32,13 @@ export class ResourceArrayDataService<T extends IId = any> {
         }
 
         this.useCache = true;
-        return this.getControllerByKey<RestRepositoryService>(this.key).get().pipe(
+        return this.getControllerByKey<RestRepositoryService>(this.key)[(this.config?.dataController?.method || 'get')]().pipe(
             filter(v => !isEmpty(v)),
             map(data => {
                 const fieldValue = this.config?.path ? get(data, this.config.path) : data;
                 return this.config.arrayItemIndex !== undefined ? fieldValue[this.config.arrayItemIndex] : fieldValue;
             }),
-            switchMap(data => {
+            switchMap((data: any) => {
                 this.data$.next(data);
                 this.stable = cloneDeep(data);
                 return this.data$.pipe(shareReplay(1));
