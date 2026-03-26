@@ -29,3 +29,7 @@ $elevated-box-shadow: $darkness-box-shadow, $light-box-shadow !important;
         box-shadow: $elevated-box-shadow;
     }
 }
+
+.mat-mdc-icon-button.mat-mdc-button-base {
+  line-height: 1;
+}
