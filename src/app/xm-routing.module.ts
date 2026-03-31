@@ -16,37 +16,34 @@ const ROUTES: Routes = [
     },
     {
         path: 'administration',
-        canActivate: [AuthKeycloakGuard], // <-- ДОДАЛИ
+        canActivate: [AuthKeycloakGuard],
         loadChildren: () => import('@xm-ngx/administration/route').then((m) => m.XmAdminModule),
     },
     {
         path: '',
-        canActivate: [AuthKeycloakGuard], // <-- ДОДАЛИ (тепер корінь сайту теж вимагає логін)
+        canActivate: [AuthKeycloakGuard],
         loadChildren: () => import('@xm-ngx/dashboard/home').then((m) => m.GateHomeModule),
     },
     {
         path: '',
-        canActivate: [AuthKeycloakGuard], // <-- ДОДАЛИ
+        canActivate: [AuthKeycloakGuard],
         loadChildren: () => import('@xm-ngx/account').then((m) => m.GateAccountModule),
     },
     {
         path: 'application',
-        canActivate: [AuthKeycloakGuard], // <-- ДОДАЛИ
+        canActivate: [AuthKeycloakGuard],
         loadChildren: () => import('@xm-ngx/administration/application').then((m) => m.ApplicationModule),
     },
     {path: 'search', pathMatch: 'full', redirectTo: 'application/search'},
     {
         path: 'dashboard',
         data: {privileges: {value: ['DASHBOARD.GET_LIST']}},
-        // Тут ставимо обидва: AuthGuard перевірить Keycloak, а UserRouteAccessService - права в системі
-        canActivate: [AuthKeycloakGuard, UserRouteAccessService], // <-- ДОДАЛИ AuthGuard першим
+        canActivate: [AuthKeycloakGuard, UserRouteAccessService],
         canLoad: [UserRouteAccessService],
         loadChildren: () => import('@xm-ngx/dynamic/route').then((m) => m.XmDynamicRouteModule),
     },
     {
-        // ВАШ ПУБЛІЧНИЙ РОУТ
         path: 'public',
-        // ТУТ ГВАРДІВ НЕМАЄ - сюди пускатиме всіх без редіректу!
         loadChildren: () => import('@xm-ngx/dynamic/public').then((m) => m.XmPublicModule),
     },
     {path: '**', redirectTo: '/not-found'},
