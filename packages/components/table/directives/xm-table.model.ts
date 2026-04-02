@@ -7,7 +7,7 @@ import {
     XmTableWithColumnDynamicCellOptionsPagination,
 } from '../table-widget/xm-table-widget.config';
 import { XmEventManagerKey } from '@xm-ngx/core';
-import { RefreshBtnConfig } from '../components/refresh-btn/types';
+import { RefreshBtnConfig } from '../components/refresh-btn/types/refresh-btn-config.model';
 
 export interface XmTableConfig {
     /** Columns configuration */
