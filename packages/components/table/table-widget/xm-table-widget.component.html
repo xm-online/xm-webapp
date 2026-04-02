@@ -44,6 +44,14 @@
                                       (changeCollapsed)="xmTable.config.isCollapsed = $event"></xm-table-expand-panel-button>
       </ng-container>
 
+      <ng-container refreshButton *ngIf="xmTable.config.refreshConfig">
+        <refresh-btn
+          [tableKey]="config.triggerTableKey"
+          [refreshConfig]="xmTable.config.refreshConfig"
+          [isLoading]="isLoading">
+        </refresh-btn>
+      </ng-container>
+
     </xm-table-header>
 
     <div class="xm-table-wrapper" [@tableExpand]="xmTable.config.isCollapsed ? 'collapsed' : 'expanded'">

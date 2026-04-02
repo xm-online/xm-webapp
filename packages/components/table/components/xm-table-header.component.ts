@@ -5,10 +5,11 @@ import { Translate, XmTranslatePipe, XmTranslationModule } from '@xm-ngx/transla
 import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.component';
 import { MatIconModule } from '@angular/material/icon';
 import { XmTableHeaderConfig, XmTableHeaderController } from './xm-table-header.model';
+import { NgIf } from '@angular/common';
 
 @Component({
     selector: 'xm-table-header',
-    host: {class: 'xm-table-header'},
+    host: { class: 'xm-table-header' },
     template: `
         @if (config?.title && !showQuickFilterInsteadOfTitle) {
             <div class="d-flex align-items-center header-title">
@@ -23,45 +24,54 @@ import { XmTableHeaderConfig, XmTableHeaderController } from './xm-table-header.
 
         <ng-content></ng-content>
 
-        @if (config?.actions) {
-            <xm-table-actions-buttons
-                class="push-self-right"
-                [config]="config.actions"
-            ></xm-table-actions-buttons>
-        }
+        <div
+            *ngIf="config?.actions; else emptyActions"
+            class="d-flex align-items-center flex-grow-1 justify-content-end"
+        >
+            <ng-content select="[refreshButton]"></ng-content>
+            <xm-table-actions-buttons [config]="config.actions"></xm-table-actions-buttons>
+        </div>
+
+        <ng-template #emptyActions>
+            <div class="d-flex align-items-center flex-grow-1 justify-content-end">
+                <ng-content select="[refreshButton]"></ng-content>
+            </div>
+        </ng-template>
 
         <ng-content select="[expandPanelButton]"></ng-content>
     `,
-    styles: [`
-        :host(.xm-table-header) {
-            display: flex;
-            align-items: center;
-            margin-left: 1rem;
-            margin-right: 1rem;
-            min-height: 48px;
-
-            .push-self-right {
+    styles: [
+        `
+            :host(.xm-table-header) {
                 display: flex;
                 align-items: center;
-                margin-left: auto;
-            }
+                margin-left: 1rem;
+                margin-right: 1rem;
+                min-height: 48px;
 
-            .no-margin {
-                margin: 0;
-            }
+                .push-self-right {
+                    display: flex;
+                    align-items: center;
+                    margin-left: auto;
+                }
 
-            .header-title {
-                & __icon {
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 16px;
-                    padding: 8px;
-                    margin-right: 16px;
-                    background: #ebebeb;
+                .no-margin {
+                    margin: 0;
+                }
+
+                .header-title {
+                    & __icon {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 16px;
+                        padding: 8px;
+                        margin-right: 16px;
+                        background: #ebebeb;
+                    }
                 }
             }
-        }
-    `],
+        `,
+    ],
     standalone: true,
     imports: [
         XmTableActionsButtonsComponent,
@@ -69,21 +79,25 @@ import { XmTableHeaderConfig, XmTableHeaderController } from './xm-table-header.
         XmDynamicModule,
         XmTranslationModule,
         MatIconModule,
+        NgIf,
     ],
 })
 export class XmTableHeaderComponent {
     public _config: XmTableHeaderConfig;
-    private titleController: XmTableHeaderController = injectByKey<XmTableHeaderController>('table-title-controller', {optional: true});
+    private titleController: XmTableHeaderController = injectByKey<XmTableHeaderController>(
+        'table-title-controller',
+        { optional: true },
+    );
 
     @Input()
     public set config(val: XmTableHeaderConfig) {
-        const {title, actions, titleIcon} = val || {};
+        const { title, actions, titleIcon } = val || {};
         const enrichedTitle: Translate = this.enrichTitle(title);
 
         this._config = {
             title: enrichedTitle,
             titleIcon,
-            actions: actions?.map(action => {
+            actions: actions?.map((action) => {
                 return {
                     ...action,
                     config: {
@@ -93,7 +107,7 @@ export class XmTableHeaderComponent {
                 };
             }),
         };
-    };
+    }
 
     public enrichTitle(title: Translate): Translate {
         if (this.titleController?.enrichTitle) {
