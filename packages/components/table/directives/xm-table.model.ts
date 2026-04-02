@@ -7,14 +7,15 @@ import {
     XmTableWithColumnDynamicCellOptionsPagination,
 } from '../table-widget/xm-table-widget.config';
 import { XmEventManagerKey } from '@xm-ngx/core';
+import { RefreshBtnConfig } from '@xm-ngx/components/table/components/refresh-btn/types';
 
 export interface XmTableConfig {
     /** Columns configuration */
-    columns: XmTableColumn[],
+    columns: XmTableColumn[];
     /** @deprecated use dynamic collection instead */
-    collection: XmTableCollectionControllerType,
+    collection: XmTableCollectionControllerType;
     queryParamsFilter?: XmTableQueryParamsFilter;
-    pageableAndSortable: XmTableWithColumnDynamicCellOptionsPagination,
+    pageableAndSortable: XmTableWithColumnDynamicCellOptionsPagination;
     storageKey: string;
     queryPrefixKey: string;
     triggerTableKey: string;
@@ -29,6 +30,7 @@ export interface XmTableConfig {
     skipLoadOnInit?: boolean;
     isSkeletonLoading?: boolean;
     tableUpdateEvents?: XmEventManagerKey[];
+    refreshConfig?: RefreshBtnConfig;
 }
 
 export interface XmTableNavigation {
@@ -60,5 +62,5 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
 };
 
 export enum XmTableEventType {
-    XM_TABLE_UPDATE = 'XM_TABLE_UPDATE'
+    XM_TABLE_UPDATE = 'XM_TABLE_UPDATE',
 }
