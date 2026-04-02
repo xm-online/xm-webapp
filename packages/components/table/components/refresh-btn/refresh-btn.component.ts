@@ -12,7 +12,7 @@ import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { defaultsDeep } from 'lodash';
 import { XmEventManagerService } from '@xm-ngx/core';
-import { XmTableEventType } from '@xm-ngx/components/table';
+import { XmTableEventType } from '../../directives/xm-table.model';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { DEFAULT_REFRESH_BUTTON_CONFIG } from './constants/default-refresh-btn-config.constants';
 
