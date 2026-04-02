@@ -7,11 +7,11 @@ import {
     InputSignal,
     Signal,
 } from '@angular/core';
-import { RefreshBtnConfig } from '@xm-ngx/components/table/components/refresh-btn/types';
+import { RefreshBtnConfig } from './types';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { defaultsDeep } from 'lodash';
-import { DEFAULT_REFRESH_BUTTON_CONFIG } from '@xm-ngx/components/table/components/refresh-btn/constants';
+import { DEFAULT_REFRESH_BUTTON_CONFIG } from './constants';
 import { XmEventManagerService } from '@xm-ngx/core';
 import { XmTableEventType } from '@xm-ngx/components/table';
 import { XmLoadingModule } from '@xm-ngx/components/loading';

@@ -50,7 +50,7 @@ import { XmTableUserSelectionColumnComponent } from '../components/xm-table-user
 import { XmRowHighlightTableDirective } from '../directives/row-hightlight/xm-row-highlight-table.directive';
 import { XmHighlightableRowDirective } from '../directives/row-hightlight/xm-highlightable-row.directive';
 import { XmCondition } from '@xm-ngx/pipes';
-import { RefreshBtnComponent } from '@xm-ngx/components/table/components/refresh-btn/refresh-btn.component';
+import { RefreshBtnComponent } from '../components/refresh-btn/refresh-btn.component';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep(
