@@ -29,7 +29,8 @@ import { NgIf } from '@angular/common';
             class="d-flex align-items-center flex-grow-1 justify-content-end"
         >
             <ng-content select="[refreshButton]"></ng-content>
-            <xm-table-actions-buttons [config]="config.actions"></xm-table-actions-buttons>
+            <xm-table-actions-buttons class="d-flex align-items-center" [config]="config.actions">
+            </xm-table-actions-buttons>
         </div>
 
         <ng-template #emptyActions>
