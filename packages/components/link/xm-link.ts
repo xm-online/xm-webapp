@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, Injector, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { QueryParamsHandling, RouterModule } from '@angular/router';
 import { XmDynamicInstanceService, XmDynamicPresentation } from '@xm-ngx/dynamic';
@@ -98,7 +98,15 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
     protected defaultOptions: XmLinkOptions = clone(XM_LINK_DEFAULT_OPTIONS);
 
     private dynamicInstance = inject(XmDynamicInstanceService);
+    private injector: Injector = inject(Injector);
     public canRedirectCondition$: Observable<boolean>;
+
+    private get conditionController(): Observable<boolean> {
+        return this.dynamicInstance.getControllerByKey(
+            this.config.conditionController?.key,
+            this.injector,
+        );
+    }
 
     public update(): void {
         if (!this.value) {
@@ -140,10 +148,8 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
         if (!this.config?.conditionController) {
             return of(true);
         }
-        const {key, getResultMethod} = this.config?.conditionController || {};
-        const controller = this.config?.conditionController
-            ? this.dynamicInstance.getControllerByKey(key)
-            : null;
+        const {key, getResultMethod} = this.config.conditionController || {};
+        const controller = this.conditionController;
         if (!controller) {
             console.warn(`Controller not found for ${key}`);
             return of(true);
