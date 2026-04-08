@@ -2,11 +2,15 @@ import { inject, Injectable, Injector } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanActivateChild, Router, UrlTree } from '@angular/router';
 // import { environment } from '@xm-ngx/core/environment';
 import { XmLogger, XmLoggerService } from '@xm-ngx/logger';
-import { from, Observable, of } from 'rxjs';
+import { firstValueFrom, from, isObservable, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DashboardStore, DashboardWithWidgets, XmCanActivate } from '@xm-ngx/core/dashboard';
 import { DefaultDashboardService } from '../services/default-dashboard.service';
-import { XmDynamicControllerDeclaration, XmDynamicControllerInjectorFactoryService, XmDynamicInjectionTokenStoreService } from '@xm-ngx/dynamic';
+import {
+    XmDynamicControllerDeclaration,
+    XmDynamicControllerInjectorFactoryService,
+    XmDynamicInjectionTokenStoreService,
+} from '@xm-ngx/dynamic';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +28,7 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
         loggerService: XmLoggerService,
         private router: Router,
     ) {
-        this.logger = loggerService.create({ name: 'DashboardGuard' });
+        this.logger = loggerService.create({name: 'DashboardGuard'});
     }
 
     public canActivate(next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
@@ -54,7 +58,7 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
                         + 'or this dashboard do not exist.');
                 }
                 return this.getFirstAvailableDashboard();
-            })
+            }),
         );
     }
 
@@ -77,7 +81,7 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
         if (!value) {
             return false;
         }
-        const { canActivateGuards } = value.config;
+        const {canActivateGuards} = value.config;
 
         if (canActivateGuards?.length === 0) {
             return true;
@@ -85,10 +89,21 @@ export class DashboardGuard implements CanActivate, CanActivateChild {
 
         const canActivateInjector = this.dynamicControllerInjectorFactory.defineProviders(canActivateGuards as XmDynamicControllerDeclaration[], [], this.injector);
 
-        for(const { key } of canActivateGuards) {
+        for (const {key} of canActivateGuards) {
             const token = this.dynamicInjectionTokenStoreService.resolve(key);
             const guard = (await canActivateInjector).get<XmCanActivate>(token);
-            if (guard && !guard.canActivate(value, next)) {
+
+            if (!guard) continue;
+
+            let result: boolean | Promise<boolean> | Observable<boolean> = guard.canActivate(value, next);
+
+            if (isObservable(result)) {
+                result = await firstValueFrom(result);
+            } else if (result instanceof Promise) {
+                result = await result;
+            }
+
+            if (!result) {
                 return false;
             }
         }
