@@ -11,10 +11,10 @@ import { RefreshBtnConfig } from './types/refresh-btn-config.model';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { defaultsDeep } from 'lodash';
-import { XmEventManagerService } from '@xm-ngx/core';
-import { XmTableEventType } from '../../directives/xm-table.model';
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { DEFAULT_REFRESH_BUTTON_CONFIG } from './constants/default-refresh-btn-config.constants';
+import { XmEventManagerService } from '@xm-ngx/core';
+import { XmTableEventType } from '../../directives/xm-table.model';
 
 @Component({
     selector: 'refresh-btn',
@@ -25,7 +25,7 @@ import { DEFAULT_REFRESH_BUTTON_CONFIG } from './constants/default-refresh-btn-c
     imports: [MatIconButton, MatIcon, XmLoadingModule],
 })
 export class RefreshBtnComponent {
-    private readonly eventManagerService: XmEventManagerService = inject(XmEventManagerService);
+    private readonly eventManager: XmEventManagerService = inject(XmEventManagerService);
 
     public refreshConfig: InputSignal<RefreshBtnConfig> = input<RefreshBtnConfig>();
     public tableKey: InputSignal<string | undefined> = input<string>();
@@ -37,8 +37,8 @@ export class RefreshBtnComponent {
     });
 
     public handleClick(): void {
-        this.eventManagerService.broadcast({
-            name: this.tableKey() + XmTableEventType.XM_TABLE_UPDATE,
+        this.eventManager.broadcast({
+            name: `${this.tableKey()}${XmTableEventType.XM_TABLE_REFRESH}`,
         });
     }
 }

@@ -63,4 +63,5 @@ export const XM_TABLE_CONFIG_DEFAULT: XmTableConfig = {
 
 export enum XmTableEventType {
     XM_TABLE_UPDATE = 'XM_TABLE_UPDATE',
+    XM_TABLE_REFRESH = 'XM_TABLE_REFRESH',
 }
