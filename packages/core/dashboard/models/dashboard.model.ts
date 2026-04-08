@@ -2,6 +2,7 @@ import { BaseEntity } from '@xm-ngx/core/entity';
 import { JavascriptCode } from '@xm-ngx/interfaces';
 import { DashboardWidget } from './dashboard-widget.model';
 import { ActivatedRouteSnapshot } from '@angular/router';
+import { Observable } from 'rxjs';
 
 export interface DashboardConfig {
     selector?: string;
@@ -82,5 +83,5 @@ export interface DashboardWithWidgets<C = DashboardConfig, L = DashboardLayout> 
 
 
 export interface XmCanActivate {
-    canActivate(value: DashboardConfig, route: ActivatedRouteSnapshot): boolean;
+    canActivate(value: DashboardConfig, route: ActivatedRouteSnapshot): boolean | Promise<boolean> | Observable<boolean>;
 }
