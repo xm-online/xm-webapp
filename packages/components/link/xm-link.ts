@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, Injector, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { QueryParamsHandling, RouterModule } from '@angular/router';
-import { XmDynamicPresentation } from '@xm-ngx/dynamic';
+import { XmDynamicInstanceService, XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { DataQa, IId } from '@xm-ngx/interfaces';
 import { flattenObjectDeep, interpolate, transformByMap } from '@xm-ngx/operators';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, get, isString } from 'lodash';
 import { isObservable, Observable, of, take } from 'rxjs';
-import { DynamicInstance } from '@xm-ngx/ext/common-webapp-ext/module/stepper/to-core/dynamic-instance';
 
 export interface XmLinkOptions extends DataQa {
     /** list of fields which will be transformed to queryParams */
@@ -98,8 +97,16 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
     public routerLink: string[] | string;
     protected defaultOptions: XmLinkOptions = clone(XM_LINK_DEFAULT_OPTIONS);
 
-    private dynamicInstance = new DynamicInstance();
+    private dynamicInstance = inject(XmDynamicInstanceService);
+    private injector: Injector = inject(Injector);
     public canRedirectCondition$: Observable<boolean>;
+
+    private get conditionController(): Observable<boolean> {
+        return this.dynamicInstance.getControllerByKey(
+            this.config.conditionController?.key,
+            this.injector,
+        );
+    }
 
     public update(): void {
         if (!this.value) {
@@ -141,10 +148,8 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
         if (!this.config?.conditionController) {
             return of(true);
         }
-        const {key, getResultMethod} = this.config?.conditionController || {};
-        const controller = this.config?.conditionController
-            ? this.dynamicInstance.getControllerByKey(key, {optional: true})
-            : null;
+        const {key, getResultMethod} = this.config.conditionController || {};
+        const controller = this.conditionController;
         if (!controller) {
             console.warn(`Controller not found for ${key}`);
             return of(true);
