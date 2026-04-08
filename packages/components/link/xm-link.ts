@@ -1,14 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { QueryParamsHandling, RouterModule } from '@angular/router';
-import { XmDynamicPresentation } from '@xm-ngx/dynamic';
+import { XmDynamicInstanceService, XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { DataQa, IId } from '@xm-ngx/interfaces';
 import { flattenObjectDeep, interpolate, transformByMap } from '@xm-ngx/operators';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, get, isString } from 'lodash';
 import { isObservable, Observable, of, take } from 'rxjs';
-import { DynamicInstance } from '@xm-ngx/ext/common-webapp-ext/module/stepper/to-core/dynamic-instance';
 
 export interface XmLinkOptions extends DataQa {
     /** list of fields which will be transformed to queryParams */
@@ -98,7 +97,7 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
     public routerLink: string[] | string;
     protected defaultOptions: XmLinkOptions = clone(XM_LINK_DEFAULT_OPTIONS);
 
-    private dynamicInstance = new DynamicInstance();
+    private dynamicInstance = inject(XmDynamicInstanceService);
     public canRedirectCondition$: Observable<boolean>;
 
     public update(): void {
@@ -143,7 +142,7 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
         }
         const {key, getResultMethod} = this.config?.conditionController || {};
         const controller = this.config?.conditionController
-            ? this.dynamicInstance.getControllerByKey(key, {optional: true})
+            ? this.dynamicInstance.getControllerByKey(key)
             : null;
         if (!controller) {
             console.warn(`Controller not found for ${key}`);
