@@ -1,20 +1,39 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+    Component,
+    inject,
+    InjectOptions,
+    Injector,
+    Input,
+    OnChanges,
+    OnInit,
+    ProviderToken,
+    ViewEncapsulation,
+} from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { QueryParamsHandling, RouterModule } from '@angular/router';
-import { XmDynamicPresentation } from '@xm-ngx/dynamic';
+import { XmDynamicInjectionTokenStoreService, XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { DataQa, IId } from '@xm-ngx/interfaces';
 import { flattenObjectDeep, interpolate, transformByMap } from '@xm-ngx/operators';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, get, isString } from 'lodash';
 import { isObservable, Observable, of, take } from 'rxjs';
-import { DynamicInstance } from '@xm-ngx/ext/common-webapp-ext/module/stepper/to-core/dynamic-instance';
+
+class DynamicInstanceInjector {
+
+    protected injector = inject(Injector);
+    private injectionTokenService = inject(XmDynamicInjectionTokenStoreService);
+    public getControllerByKey<T = any>(key: string, options?: InjectOptions): T {
+        const providerToken: ProviderToken<any> = this.injectionTokenService.resolve(key);
+        return this.injector.get(providerToken, undefined, options);
+    }
+}
 
 export interface XmLinkOptions extends DataQa {
     /** list of fields which will be transformed to queryParams */
-    queryParamsFromEntityFields?: { [key: string]: string };
+    queryParamsFromEntityFields?: {[key: string]: string};
     /** list of fields which will fill statically queryParams */
-    staticQueryParams?: { [key: string]: string };
+    staticQueryParams?: {[key: string]: string};
     /** string is field path or regular url */
     routerLink: string[] | string;
     /** Set field text from configuration */
@@ -91,14 +110,14 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
 })
 export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit, OnChanges {
     @Input() public value: IId;
-    @Input() public config: XmLinkOptions & { config?: XmLinkOptions };
+    @Input() public config: XmLinkOptions & {config?: XmLinkOptions};
     public fieldTitle: Translate;
     public fieldValue: unknown;
-    public queryParams: { [key: string]: unknown };
+    public queryParams: {[key: string]: unknown};
     public routerLink: string[] | string;
     protected defaultOptions: XmLinkOptions = clone(XM_LINK_DEFAULT_OPTIONS);
 
-    private dynamicInstance = new DynamicInstance();
+    private dynamicInstance = new DynamicInstanceInjector();
     public canRedirectCondition$: Observable<boolean>;
 
     public update(): void {
