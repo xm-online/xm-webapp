@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { matExpansionAnimations } from '@angular/material/expansion';
 import { EditWidgetButtonsEvent, EditWidgetButtonsEventType } from '@xm-ngx/components/edit-buttons';
 import { PageChangesStore, PageChangesStoreType } from '@xm-ngx/core/dashboard';
+import { Principal } from '@xm-ngx/core/user';
 
 import { IId, JavascriptCode } from '@xm-ngx/interfaces';
 import { Translate } from '@xm-ngx/translation';
@@ -11,6 +12,7 @@ export interface XmMatCardOptions {
     contentClass?: string;
     actionClass?: string;
     editCondition: JavascriptCode;
+    editConditionActions?: JavascriptCode;
     title: Translate;
     readonly: boolean;
     dataQa?: string;
@@ -37,6 +39,7 @@ export interface XmMatCardOptions {
     standalone: false,
 })
 export class XmMatCardComponent implements OnInit, OnChanges {
+    private principal = inject(Principal);
 
     @Input() public options: XmMatCardOptions;
     @Input() public entity: IId;
@@ -49,6 +52,7 @@ export class XmMatCardComponent implements OnInit, OnChanges {
 
     @Input() public isEdit: boolean = false;
     public contentHidden: boolean;
+    public userAuthorities: string[] = this.principal.getUserAuthorities();
 
     constructor(
         protected pageState: PageChangesStore,
