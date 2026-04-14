@@ -136,8 +136,8 @@ export class XmTableDirective implements OnInit, OnDestroy {
 
         const tableUpdateEventsObs = this.config.tableUpdateEvents
             ? this.config.tableUpdateEvents.map((event) =>
-                  this.eventManagerService.listenTo(event).pipe(startWith({} as any)),
-              )
+                this.eventManagerService.listenTo(event).pipe(startWith({} as any)),
+            )
             : [];
 
         combineLatest([
