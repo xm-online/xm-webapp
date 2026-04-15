@@ -25,6 +25,14 @@ export class ResourceDataService<T extends IId = any> {
         return cloneDeep(this.data$.value);
     }
 
+    public getStable(): T {
+        return cloneDeep(this.stable);
+    }
+
+    public updateLocaly(entity: T): void {
+        this.data$.next(entity);
+    }
+
     public get(force?: boolean): Observable<T> {
         if (this.useCache && !force) {
             return this.data$.pipe(shareReplay(1));
