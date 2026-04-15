@@ -29,7 +29,7 @@ export class ResourceDataService<T extends IId = any> {
         return cloneDeep(this.stable);
     }
 
-    public updateLocaly(entity: T): void {
+    public updateLocally(entity: T): void {
         this.data$.next(entity);
     }
 
