@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { ConditionModule } from '@xm-ngx/components/condition';
+import { Principal } from '@xm-ngx/core/user';
 
 import { injectByKey, XmDynamicModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslatePipe, XmTranslationModule } from '@xm-ngx/translation';
@@ -29,8 +31,10 @@ import { NgIf } from '@angular/common';
             class="d-flex align-items-center flex-grow-1 justify-content-end"
         >
             <ng-content select="[refreshButton]"></ng-content>
-            <xm-table-actions-buttons class="d-flex align-items-center" [config]="config.actions">
-            </xm-table-actions-buttons>
+            <ng-container *xmCondition="config.editConditionActions; arguments {userAuthorities: userAuthorities}">
+                <xm-table-actions-buttons class="d-flex align-items-center" [config]="config.actions">
+                </xm-table-actions-buttons>
+            </ng-container>
         </div>
 
         <ng-template #emptyActions>
@@ -81,23 +85,27 @@ import { NgIf } from '@angular/common';
         XmTranslationModule,
         MatIconModule,
         NgIf,
+        ConditionModule,
     ],
 })
 export class XmTableHeaderComponent {
+    private principal = inject(Principal);
     public _config: XmTableHeaderConfig;
     private titleController: XmTableHeaderController = injectByKey<XmTableHeaderController>(
         'table-title-controller',
         { optional: true },
     );
+    public userAuthorities: string[] = this.principal.getUserAuthorities();
 
     @Input()
     public set config(val: XmTableHeaderConfig) {
-        const { title, actions, titleIcon } = val || {};
+        const { title, actions, titleIcon, editConditionActions } = val || {};
         const enrichedTitle: Translate = this.enrichTitle(title);
 
         this._config = {
             title: enrichedTitle,
             titleIcon,
+            editConditionActions,
             actions: actions?.map((action) => {
                 return {
                     ...action,
