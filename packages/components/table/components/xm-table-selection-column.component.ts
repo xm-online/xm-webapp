@@ -14,6 +14,7 @@ import { XmTableSelectionConfig } from '../table-widget/xm-table-widget.config';
 import { IId } from '@xm-ngx/interfaces';
 import { XmTableSelectionDefault } from './selection-header/xm-table-selection.model';
 import { XmEventManagerService } from '@xm-ngx/core';
+import {isDisabledSelectionRowFunction} from '@xm-ngx/components/table/components/is-disabled-selection-row.function';
 
 export interface XmTableSelectTableColumn extends XmTableColumn {
     width: string;
@@ -67,7 +68,7 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: XmTableSelectTableColumn = {
                 @if (config.isMultiselect) {
                     <xm-checkbox-control
                         [value]="selectedEntity(row)"
-                        [disabled]="disabled"
+                        [disabled]="disabled || isDisabledRow(row)"
                         class="select-table-column__single-line-height"
                         (valueChange)="toggleEntity($event, row)">
                     </xm-checkbox-control>
@@ -75,7 +76,7 @@ export const XM_TABLE_SELECTION_COLUMN_DEFAULT: XmTableSelectTableColumn = {
                 @if (!config.isMultiselect) {
                     <mat-radio-button
                         [checked]="selectedEntity(row)"
-                        [disabled]="disabled"
+                        [disabled]="disabled || isDisabledRow(row)"
                         class="select-table-column__single-line-height"
                         (change)="toggleEntity($event.source.checked, row)"
                         (click)="$event.stopPropagation()">
@@ -157,10 +158,10 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
     }
 
     public allToggle(): void {
-        if (this.selection.selected.filter((selection: T) => this.rows.map((row: T) => row.id).includes(selection.id)).length == this.rows.length) {
+        if (this.selection.selected.filter((selection: T) => this.rows.map((row: T) => row.id).includes(selection.id)).length == this.rawsToCompare(this.rows).length) {
             this.deselectAll();
         } else {
-            this.rows?.filter((row: T) => !this.selection.selected.map((selection: T) => selection.id).includes(row.id))
+            this.rawsToCompare(this.rows).filter((row: T) => !this.selection.selected.map((selection: T) => selection.id).includes(row.id))
                 .forEach((row) => this.selection.select(row));
         }
     }
@@ -171,12 +172,12 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
 
     public isEntityChecked(rows: XmEntity<T>[]): boolean {
         const selectedRows = this.selection.selected.filter((selection) => rows.map((row) => row.id).includes(selection.id as number));
-        return selectedRows.length !== 0 && selectedRows.length == rows.length;
+        return selectedRows.length !== 0 && selectedRows.length == this.rawsToCompare(rows as T[]).length;
     }
 
     public isEntityIndeterminated(rows: XmEntity<T>[]): boolean {
         const selectedRows = this.selection.selected.filter((selection) => rows.map((row) => row.id).includes(selection.id as number));
-        return selectedRows.length !== 0 && selectedRows.length !== rows.length;
+        return selectedRows.length !== 0 && selectedRows.length !== this.rawsToCompare(rows as T[]).length;
     }
 
     public toggleEntity(event: boolean, row: T): void {
@@ -193,6 +194,17 @@ export class XmTableSelectionColumnComponent<T extends IId> implements OnInit, O
         this.selectionService.clear(this.column.selectionKey); //TODO: old config, will be remove
         this.selectionService.clear(this.config.key);
         this.deselectAll();
+    }
+
+    public isDisabledRow(row: T): boolean {
+        return isDisabledSelectionRowFunction(row, this.config.disabledCondition);
+    }
+
+    private rawsToCompare(rows?: T[]): T[] {
+        if (!rows) {
+            return [];
+        }
+        return rows.filter(row => !isDisabledSelectionRowFunction<T>(row, this.config.disabledCondition));
     }
 
     private deselectAll(): void {

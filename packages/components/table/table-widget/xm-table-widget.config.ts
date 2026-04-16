@@ -57,6 +57,7 @@ export interface XmTableSelectionConfig {
     selectAllWithoutLayouts?: boolean;
     isUserSelection?: boolean;
     isMultiselect?: boolean;
+    disabledCondition?: string;
 }
 
 export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
