@@ -154,7 +154,7 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
     private initializeObservables(): void {
         this.totalCount$ = this.collectionController.state$()
             .pipe(
-                map((res: QueryParamsPageable & {items?: T[]}) => res.items?.filter((item => !isDisabledSelectionRowFunction<T>(item, this.config.disabledCondition)))?.length ?? res.total)
+                map((res: QueryParamsPageable & {items?: T[]}) => res.items?.filter((item => !isDisabledSelectionRowFunction<T>(item, this.config.disabledCondition)))?.length ?? res.pageableAndSortable?.total)
             );
 
         this.isVisible$ = this.selection.changed
