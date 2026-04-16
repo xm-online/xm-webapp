@@ -1,10 +1,11 @@
 import { Primitive } from '@xm-ngx/interfaces';
-import { get, isArray, isPlainObject, findIndex } from 'lodash';
+import { get, isArray, isPlainObject, findIndex, has } from 'lodash';
 
 export interface NestedKeyFilters {
     [name: string]: {
         prop: string;
         predicate: Record<string, unknown>;
+        hasProperty?: string;
     }[];
 }
 
@@ -24,8 +25,17 @@ export function searchNestedByPredicate(data: unknown[], keyFilters?: NestedKeyF
 
         let stack = data;
 
-        for (const { prop, predicate } of filters) {
-            const searchIndex = findIndex(stack, predicate);
+        for (const { prop, predicate, hasProperty } of filters) {
+            const searchIndex = findIndex(stack, (item) => {
+                const predicateMatch = findIndex([item], predicate) === 0;
+                if (!predicateMatch) {
+                    return false;
+                }
+                if (hasProperty) {
+                    return has(item, hasProperty);
+                }
+                return true;
+            });
 
             if (searchIndex === -1) {
                 continue;
