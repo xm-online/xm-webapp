@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { ConditionModule } from '@xm-ngx/components/condition';
+import { Principal } from '@xm-ngx/core/user';
 import * as _ from 'lodash';
 import { clone } from 'lodash';
 import { MAT_FAB_DEFAULT_CONFIG, MatFabConfig } from '@xm-ngx/components/mat-fab';
@@ -33,10 +35,13 @@ export const XM_LINK_BUTTON_DEFAULT_OPTIONS = {
         RouterModule,
         MatIconModule,
         XmTranslationModule,
+        ConditionModule,
     ],
     templateUrl: './xm-link-button.component.html',
 })
 export class XmLinkButtonComponent {
+    private principal = inject(Principal);
+    public userAuthorities: string[] = this.principal.getUserAuthorities();
 
     private _config: XmLinkButtonOptions = clone(XM_LINK_BUTTON_DEFAULT_OPTIONS);
 
