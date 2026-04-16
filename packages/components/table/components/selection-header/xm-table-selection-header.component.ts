@@ -25,7 +25,7 @@ import { XmTranslatePipe } from '@xm-ngx/translation';
 import { QueryParamsPageable } from '@xm-ngx/repositories';
 import { HttpResponse } from '@angular/common/http';
 import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.config';
-import {isDisabledSelectionRowFunction} from '@xm-ngx/components/table/components/is-disabled-selection-row.function';
+import {isDisabledSelectionRowFunction} from '../is-disabled-selection-row.function';
 
 @Component({
     selector: 'xm-table-selection-header',
