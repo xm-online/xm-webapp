@@ -21,11 +21,11 @@ import { TableHeaderSelection } from '../../animations/xm-table-widget.animation
 import { XmLoadingModule } from '@xm-ngx/components/loading';
 import { XmTableSelectionDefault, XmTableSelectionTranslates } from './xm-table-selection.model';
 import _ from 'lodash';
-import { XmTranslatePipe } from '@xm-ngx/translation';
-import { QueryParamsPageable } from '@xm-ngx/repositories';
-import { HttpResponse } from '@angular/common/http';
-import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.config';
-import {isDisabledSelectionRowFunction} from '@xm-ngx/components/table/components/is-disabled-selection-row.function';
+import {XmTranslatePipe} from '@xm-ngx/translation';
+import {QueryParamsPageable} from '@xm-ngx/repositories';
+import {HttpResponse} from '@angular/common/http';
+import {XmTableSelectionConfig} from '../../table-widget/xm-table-widget.config';
+import {isDisabledSelectionRowFunction} from '../is-disabled-selection-row.function';
 
 @Component({
     selector: 'xm-table-selection-header',
