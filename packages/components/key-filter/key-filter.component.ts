@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { XmDynamicModule, XmDynamicPresentation } from '@xm-ngx/dynamic';
-import { NestedKeyFilters, searchNestedByPredicate } from '@xm-ngx/operators';
+import { searchByPropertyPath, NestedKeyFilters, searchNestedByPredicate } from '@xm-ngx/operators';
 import { get } from 'lodash';
 
 export interface XmKeyFilterConfig {
     key?: string;
     filters: NestedKeyFilters;
+    propertyPath?: string;
     dynamic?: XmDynamicPresentation;
 }
 export type XmKeyFilterValue = unknown[];
@@ -37,13 +38,18 @@ export class XmKeyFilterComponent implements XmDynamicPresentation<XmKeyFilterVa
     public data?: unknown;
 
     public ngOnChanges(): void {
-        const { filters, key } = this.config ?? {};
+        const { filters, key, propertyPath } = this.config ?? {};
 
         if (!filters) {
             return;
         }
 
-        const search = searchNestedByPredicate(this.value ?? [], this.config.filters);
+        const value = this.value ?? [];
+        const filteredValue = propertyPath
+            ? searchByPropertyPath(value, propertyPath)
+            : value;
+
+        const search = searchNestedByPredicate(filteredValue, this.config.filters);
 
         this.data = key
             ? get(search, key)

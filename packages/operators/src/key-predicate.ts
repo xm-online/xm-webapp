@@ -5,11 +5,14 @@ export interface NestedKeyFilters {
     [name: string]: {
         prop: string;
         predicate: Record<string, unknown>;
-        hasProperty?: string;
     }[];
 }
 
 export type NestedKeyResult = Record<string, unknown>;
+
+export function searchByPropertyPath(data: unknown[], path: string): unknown[] {
+    return data.filter(item => has(item, path));
+}
 
 export function searchNestedByPredicate(data: unknown[], keyFilters?: NestedKeyFilters): NestedKeyResult {
     const ret = {} as NestedKeyResult;
@@ -25,17 +28,8 @@ export function searchNestedByPredicate(data: unknown[], keyFilters?: NestedKeyF
 
         let stack = data;
 
-        for (const { prop, predicate, hasProperty } of filters) {
-            const searchIndex = findIndex(stack, (item) => {
-                const predicateMatch = findIndex([item], predicate) === 0;
-                if (!predicateMatch) {
-                    return false;
-                }
-                if (hasProperty) {
-                    return has(item, hasProperty);
-                }
-                return true;
-            });
+        for (const { prop, predicate } of filters) {
+            const searchIndex = findIndex(stack, predicate);
 
             if (searchIndex === -1) {
                 continue;
