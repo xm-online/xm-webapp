@@ -9,12 +9,12 @@ import { XmCarouselAdaptiveSettings, XmCarouselBreakpointChange, XmCarouselConfi
 export const XM_CAROUSEL_DEFAULTS = {
     swipeThreshold: 50,
     breakpoints: [
-        { max: 576, slidesCount: 1 },  
+        { max: 576, slidesCount: 1 },
         { max: 768, slidesCount: 2 },
         { max: 992, slidesCount: 3 },
         { max: 1200, slidesCount: 4 },
         { max: 1400, slidesCount: 6 },
-        { max: 1920, slidesCount: 8 }, 
+        { max: 1920, slidesCount: 8 },
     ],
     duration: 300,
     gap: 12,
@@ -90,7 +90,7 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
 
     @Input() set config(value: XmCarouselConfig) {
         this._config = defaults<XmCarouselConfig, XmCarouselConfig>(value ?? {}, XM_CAROUSEL_DEFAULTS);
-        
+
         if (this.listElement) {
             this.listElementEvent.next({
                 offsetWidth: this.listElement?.offsetWidth,
@@ -106,7 +106,7 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
     public offsetX = 0;
     public gap = 0;
     public asRows = false;
-    
+
     public ngAfterViewInit(): void {
         this.handlePrevious().pipe(
             takeUntilOnDestroy(this),
@@ -157,11 +157,21 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
         ).subscribe();
 
         this.contentChanges().pipe(
-            tap(() => {
+            withLatestFrom(
+                this.breakpointChanges(),
+                this.offsetCountEvent,
+                (__, { adaptive: { slidesCount }, contents }, offsetCount) => ({ slidesCount, offsetCount, contents }),
+            ),
+            tap(({ contents, offsetCount, slidesCount }) => {
                 this.listElementEvent.next({
                     offsetWidth: this.listElement.offsetWidth,
                     scrollWidth: this.listElement.scrollWidth,
                 });
+
+                // set max offset if offset more than content length
+                if (offsetCount > contents.length - slidesCount) {
+                    this.offsetCountEvent.next(contents.length - slidesCount);
+                }
             }),
             takeUntilOnDestroy(this),
         ).subscribe();
@@ -172,19 +182,19 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
     }
 
     private setupButtonsEvents(): Observable<PointerEvent | null> {
-        const switchButtonEvent = this.switchButton?.element 
+        const switchButtonEvent = this.switchButton?.element
             ? fromEvent<PointerEvent>(this.switchButton.element, 'click').pipe(
                 tap(() => this.toSwitch()),
             )
             : of(null);
 
-        const nextButtonEvent = this.nextButton?.element 
+        const nextButtonEvent = this.nextButton?.element
             ? fromEvent<PointerEvent>(this.nextButton.element, 'click').pipe(
                 tap(() => this.toNext()),
             )
             : of(null);
 
-        const prevButtonEvent = this.prevButton?.element 
+        const prevButtonEvent = this.prevButton?.element
             ? fromEvent<PointerEvent>(this.prevButton.element, 'click').pipe(
                 tap(() => this.toPrevious()),
             )
@@ -219,7 +229,7 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
         const startEventName = isTouchDevice ? 'touchstart' : 'pointerdown';
         const moveEventName = isTouchDevice ? 'touchmove' : 'pointermove';
         const endEventName = isTouchDevice ? 'touchend' : 'pointerup';
-    
+
         const handleEvents = (event: XmCarouselGesture): XmCarouselGestureEvent => {
             const clientX = isTouchDevice
                 ? (event as TouchEvent).touches[0].clientX
@@ -276,7 +286,7 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
     private toPrevious(): void {
         this.previous.next();
     }
-    
+
     private toNext(): void {
         this.next.next();
     }
@@ -286,10 +296,10 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
     }
 
     private handlePrevious(): Observable<XmCarouselHandleButton> {
-        return this.previous.pipe( 
+        return this.previous.pipe(
             withLatestFrom(
                 this.breakpointChanges(),
-                this.offsetCountEvent, 
+                this.offsetCountEvent,
                 (__, { adaptive: { slidesCount }, contents }, offsetCount) => ({ slidesCount, offsetCount, contents }),
             ),
             tap(({ contents, offsetCount, slidesCount }) => {
@@ -304,7 +314,7 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
         return this.next.pipe(
             withLatestFrom(
                 this.breakpointChanges(),
-                this.offsetCountEvent, 
+                this.offsetCountEvent,
                 (__, { adaptive: { slidesCount }, contents }, offsetCount) => ({ slidesCount, offsetCount, contents }),
             ),
             tap(({ contents, offsetCount, slidesCount }) => {
@@ -340,7 +350,7 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
                     content.width = slideWidth - slideGap;
                 });
 
-                return { 
+                return {
                     adaptive,
                     contents,
                     switched,
@@ -376,10 +386,10 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
     }
 
     private elementMeasure(
-        prev: XmCarouselContainerMeasure, 
+        prev: XmCarouselContainerMeasure,
         curr: XmCarouselContainerMeasure,
     ): XmCarouselAdaptiveSettings {
-        const { 
+        const {
             scrollWidth: containerScroll,
             offsetWidth: containerWidth,
         } = curr;
@@ -387,7 +397,7 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
         const direction = containerWidth <= prev.offsetWidth ? 'prev' : 'next';
         const overflow = containerWidth < containerScroll;
         const breakpoints = sortBy(this.config.breakpoints, 'max');
-        
+
         for (const breakpoint of breakpoints) {
             if (containerWidth <= breakpoint.max) {
                 const slidesCount = breakpoint.slidesCount;
@@ -413,7 +423,7 @@ export class XmCarouselComponent implements OnDestroy, AfterViewInit {
             containerScroll,
             containerWidth,
             slideWidth,
-            slideGap: 0, 
+            slideGap: 0,
             direction,
             overflow,
         };

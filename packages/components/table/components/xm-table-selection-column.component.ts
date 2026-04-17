@@ -14,7 +14,7 @@ import { XmTableSelectionConfig } from '../table-widget/xm-table-widget.config';
 import { IId } from '@xm-ngx/interfaces';
 import { XmTableSelectionDefault } from './selection-header/xm-table-selection.model';
 import { XmEventManagerService } from '@xm-ngx/core';
-import {isDisabledSelectionRowFunction} from '@xm-ngx/components/table/components/is-disabled-selection-row.function';
+import {isDisabledSelectionRowFunction} from './is-disabled-selection-row.function';
 
 export interface XmTableSelectTableColumn extends XmTableColumn {
     width: string;
