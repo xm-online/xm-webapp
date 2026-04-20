@@ -124,4 +124,8 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
         selector: 'skeleton',
         loadChildren: () => import('@xm-ngx/components/skeleton').then(m => m.SkeletonComponent),
     },
+    {
+        selector: 'filter-by-property-path-controller',
+        loadChildren: () => import('@xm-ngx/components/key-filter').then(m => m.FilterByPropertyPathController),
+    },
 ];
