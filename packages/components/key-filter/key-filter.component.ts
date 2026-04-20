@@ -1,16 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
-import { KeyFilterController } from '@xm-ngx/components/key-filter/key-filter.model';
+import { KeyFilterController, XmKeyFilterConfig, XmKeyFilterValue } from '../../components/key-filter/key-filter.model';
 import { injectByKey, XmDynamicModule, XmDynamicPresentation } from '@xm-ngx/dynamic';
-import { NestedKeyFilters, searchNestedByPredicate } from '@xm-ngx/operators';
+import { searchNestedByPredicate } from '@xm-ngx/operators';
 import { get } from 'lodash';
-
-export interface XmKeyFilterConfig {
-    key?: string;
-    filters: NestedKeyFilters;
-    propertyPath?: string;
-    dynamic?: XmDynamicPresentation;
-}
-export type XmKeyFilterValue = unknown[];
 
 @Component({
     standalone: true,

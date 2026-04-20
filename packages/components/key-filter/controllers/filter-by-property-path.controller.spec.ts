@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
+import { XmKeyFilterConfig, XmKeyFilterValue } from '../../../components/key-filter/key-filter.model';
 import { FilterByPropertyPathController } from './filter-by-property-path.controller';
-import { XmKeyFilterConfig, XmKeyFilterValue } from '@xm-ngx/components/key-filter';
 
 describe('FilterByPropertyPathController', () => {
     let controller: FilterByPropertyPathController;
