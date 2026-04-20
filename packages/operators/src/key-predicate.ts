@@ -1,5 +1,5 @@
 import { Primitive } from '@xm-ngx/interfaces';
-import { get, isArray, isPlainObject, findIndex, has } from 'lodash';
+import { get, isArray, isPlainObject, findIndex } from 'lodash';
 
 export interface NestedKeyFilters {
     [name: string]: {
@@ -9,10 +9,6 @@ export interface NestedKeyFilters {
 }
 
 export type NestedKeyResult = Record<string, unknown>;
-
-export function searchByPropertyPath(data: unknown[], path: string): unknown[] {
-    return data.filter(item => has(item, path));
-}
 
 export function searchNestedByPredicate(data: unknown[], keyFilters?: NestedKeyFilters): NestedKeyResult {
     const ret = {} as NestedKeyResult;
