@@ -38,7 +38,7 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { distinctUntilChanged, Subject, tap } from 'rxjs';
 import { NgxMaskModule } from 'ngx-mask';
 import { clone, isDate, isEmpty } from 'lodash';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { interpolate, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { parseTime } from './shared/parse-time';
 import { DateAdapter } from '@angular/material/core';
 import { CustomDateAdapter } from './shared/custom-date-adapter';
@@ -49,6 +49,7 @@ export interface XmDateTimeControlConfig {
     errors?: XmControlErrorsTranslates;
     required?: boolean;
     disableDateTimeValidator?: boolean;
+    initValue?: string;
 }
 
 export type XmDateTimePickerFilter = (date: Date | null) => boolean;
@@ -501,7 +502,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         </mat-form-field>
     `,
 })
-export class XmDateTimeControlComponent extends NgModelWrapper<XmDateTimeControlValue> {
+export class XmDateTimeControlComponent extends NgModelWrapper<XmDateTimeControlValue> implements OnInit {
     public ngControl = inject(NgControl, {optional: true, self: true});
     public messageErrors = inject<XmControlErrorsTranslates>(XM_CONTROL_ERRORS_TRANSLATES);
 
@@ -513,6 +514,13 @@ export class XmDateTimeControlComponent extends NgModelWrapper<XmDateTimeControl
 
         if (this.ngControl != null) {
             this.ngControl.valueAccessor = this;
+        }
+    }
+
+    public ngOnInit(): void {
+        if (this.config?.initValue) {
+            const value = interpolate(this.config.initValue, null);
+            this.change(value);
         }
     }
 
