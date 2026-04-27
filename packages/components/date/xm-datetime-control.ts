@@ -519,7 +519,7 @@ export class XmDateTimeControlComponent extends NgModelWrapper<XmDateTimeControl
 
     public ngOnInit(): void {
         if (this.config?.initValue) {
-            const value = interpolate(this.config.initValue, null);
+            const value = this.value || interpolate(this.config.initValue, null);
             this.change(value);
         }
     }
