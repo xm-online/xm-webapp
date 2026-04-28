@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import {
     FiltersControlValue,
-    XmTableFilterButtonDialogControlComponent
+    XmTableFilterButtonDialogControlComponent,
 } from './xm-table-filter-button-dialog-control.component';
 import { FormLayoutItem } from '@xm-ngx/components/form-layout';
 import { Translate } from '@xm-ngx/translation';
@@ -9,6 +9,7 @@ import { Translate } from '@xm-ngx/translation';
 export interface XmTableFiltersControlRequestConfig {
     submitInvalidForm?: boolean;
     isOnlyExpand?: boolean;
+    autoExpandOnSelection?: boolean;
     filters: FormLayoutItem[];
     chips: FormLayoutItem[];
     filtersClass?: string;
@@ -36,8 +37,8 @@ export interface XmTableFiltersControlRequestConfig {
     `,
     standalone: true,
     imports: [
-        XmTableFilterButtonDialogControlComponent
-    ]
+        XmTableFilterButtonDialogControlComponent,
+    ],
 })
 export class XmTableFilterButtonDialogControlsComponent implements OnChanges {
     @ViewChild(XmTableFilterButtonDialogControlComponent)
