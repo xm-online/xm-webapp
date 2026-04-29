@@ -117,6 +117,9 @@ export class XmTableFilterInlineComponent implements OnInit, OnDestroy {
     public initFilers(): void {
         this.filterExpand = !this.config.isOnlyExpand;
         this.value = this.tableFilterController.get();
+        if (this.config.autoExpandOnSelection && Object.keys(this.value).length > 0) {
+            this.filterExpand = false;
+        }
         this.tableFilterController.filterVisibility$
             .pipe(takeUntilOnDestroy(this))
             .subscribe((res) => {
