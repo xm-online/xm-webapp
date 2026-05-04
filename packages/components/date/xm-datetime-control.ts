@@ -50,6 +50,7 @@ export interface XmDateTimeControlConfig {
     required?: boolean;
     disableDateTimeValidator?: boolean;
     initValue?: string;
+    minDate?: string;
 }
 
 export type XmDateTimePickerFilter = (date: Date | null) => boolean;
@@ -125,6 +126,7 @@ const dateTimeValidator = (localeId: string) => {
                     matInput
                     formControlName="date"
                     placeholder="DD.MM.YYYY"
+                    [min]="minDate"
                     [matDatepicker]="picker"
                     [matDatepickerFilter]="pickerFilter"
                     (focus)="picker.open()"
@@ -201,6 +203,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
 
     @Input() public pickerFilter: XmDateTimePickerFilter;
     @Input() public picker: MatDatepickerPanel<MatDatepickerInput<any>, any>;
+    @Input() public minDate: Date;
 
     @Input()
     set placeholder(value: string) {
@@ -414,7 +417,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
     public onChange = (_: any): void => {
     };
 
-    // eslint-disable-next-line
+
     public onTouched = (): void => {
     };
 
@@ -485,6 +488,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
                 [disabled]="disabled"
                 [required]="config?.required"
                 [disableDateTimeValidator]="config?.disableDateTimeValidator"
+                [minDate]="minDate"
                 (ngModelChange)="change($event)">
             </xm-datetime-control-field>
 
@@ -509,6 +513,8 @@ export class XmDateTimeControlComponent extends NgModelWrapper<XmDateTimeControl
     @Input() public pickerFilter: XmDateTimePickerFilter;
     @Input() public config: XmDateTimeControlConfig;
 
+    public minDate: Date;
+
     constructor() {
         super();
 
@@ -521,6 +527,10 @@ export class XmDateTimeControlComponent extends NgModelWrapper<XmDateTimeControl
         if (this.config?.initValue) {
             const value = this.value || interpolate(this.config.initValue, null);
             this.change(value);
+        }
+
+        if (this.config?.minDate) {
+            this.minDate = new Date(this.config.minDate);
         }
     }
 
