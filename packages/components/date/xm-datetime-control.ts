@@ -511,7 +511,20 @@ export class XmDateTimeControlComponent extends NgModelWrapper<XmDateTimeControl
     public messageErrors = inject<XmControlErrorsTranslates>(XM_CONTROL_ERRORS_TRANSLATES);
 
     @Input() public pickerFilter: XmDateTimePickerFilter;
-    @Input() public config: XmDateTimeControlConfig;
+    private _config: XmDateTimeControlConfig;
+
+    @Input()
+    set config(config: XmDateTimeControlConfig) {
+        this._config = config;
+
+        if (config.minDate) {
+            this.minDate = new Date(config.minDate);
+        }
+    }
+
+    get config(): XmDateTimeControlConfig {
+        return this._config;
+    }
 
     public minDate: Date;
 
@@ -527,10 +540,6 @@ export class XmDateTimeControlComponent extends NgModelWrapper<XmDateTimeControl
         if (this.config?.initValue) {
             const value = this.value || interpolate(this.config.initValue, null);
             this.change(value);
-        }
-
-        if (this.config?.minDate) {
-            this.minDate = new Date(this.config.minDate);
         }
     }
 
