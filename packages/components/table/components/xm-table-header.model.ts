@@ -5,7 +5,7 @@ import { XmTableColumn } from '../columns/xm-table-column-dynamic-cell.component
 export interface XmTableHeaderConfig {
     actions: XmDynamicPresentationLayout[];
     title: Translate;
-    titleIcon: string;
+    titleIcon?: string;
     columns?: XmTableColumn[];
 }
 

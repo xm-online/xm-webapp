@@ -2,10 +2,12 @@ import { CdkCellDef, CdkColumnDef, CdkHeaderCellDef, CdkTable } from '@angular/c
 import {
     ChangeDetectionStrategy,
     Component,
+    EventEmitter,
     Inject,
     Input,
     OnDestroy,
     OnInit,
+    Output,
     ViewChild,
 } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
@@ -38,6 +40,7 @@ export class XmTableExpandableRowColumnComponent implements OnInit, OnDestroy {
     public readonly columnName = XM_TABLE_EXPANDABLE_COLUMN_NAME;
 
     @Input() public expandedRows: Set<unknown> = new Set();
+    @Output() public rowExpansionChanged = new EventEmitter<void>();
 
     @ViewChild(CdkColumnDef, { static: true }) private readonly _columnDef: CdkColumnDef;
     @ViewChild(CdkCellDef, { static: true }) private readonly _cell: CdkCellDef;
@@ -63,10 +66,10 @@ export class XmTableExpandableRowColumnComponent implements OnInit, OnDestroy {
         } else {
             this.expandedRows.add(row);
         }
+        this.rowExpansionChanged.emit();
     }
 
     public isExpanded(row: unknown): boolean {
         return this.expandedRows.has(row);
     }
 }
-
