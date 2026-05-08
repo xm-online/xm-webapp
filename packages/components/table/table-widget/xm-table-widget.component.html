@@ -21,6 +21,9 @@
             [attr.data-qa]="config?.dataQa"
   >
     @let isLoading = context.collection.loading || xmTable.xmTableController['loading'];
+    @let displayedColumns = config.isExpandable
+      ? context.settings.displayedColumns.concat([expandableColumnName])
+      : context.settings.displayedColumns;
 
     <xm-table-header
       *ngIf="!config.isTitleHidden"
@@ -71,6 +74,7 @@
           #table
           [style.width]="config?.width"
           mat-table
+          multiTemplateDataRows
           matSort
           xmTableMatSortAdapter
           matSortDisableClear
@@ -81,7 +85,7 @@
         >
 
           <xm-table-empty [config]="config.noRows"
-                          [colspan]="context.settings.displayedColumns.length"
+                          [colspan]="displayedColumns.length"
                           [type]="isLoading ? 'loading' : 'initial'"></xm-table-empty>
 
           <xm-table-selection-column
@@ -104,17 +108,38 @@
                                         [isSkeletonLoading]="isSkeletonLoading"
                                         [column]="column"></xm-table-column-dynamic-cell>
 
-          <tr *matHeaderRowDef="context.settings.displayedColumns; sticky: config.isStickyHeader" mat-header-row
-              [ngClass]="{'remove-border-top': config.isTitleHidden}"></tr>
+          <xm-table-expandable-row-column
+            *ngIf="config.isExpandable"
+            [expandedRows]="expandedRows">
+          </xm-table-expandable-row-column>
 
+          <ng-container *ngIf="config.isExpandable" [matColumnDef]="expandableColumnName + '_detail'">
+            <td mat-cell *matCellDef="let row"
+                [attr.colspan]="displayedColumns.length"
+                class="xm-table-expandable-detail-cell">
+              <div class="xm-table-expandable-detail-content"
+                   [@rowExpand]="isRowExpanded(row) ? 'expanded' : 'collapsed'">
+                <ng-container
+                  *ngIf="isRowExpanded(row) && config.expandableRow"
+                  xmDynamicPresentation
+                  [selector]="config.expandableRow.selector"
+                  [config]="config.expandableRow.config"
+                  [value]="row">
+                </ng-container>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: config.isStickyHeader" mat-header-row
+              [ngClass]="{'remove-border-top': config.isTitleHidden}"></tr>
 
           <xm-table-loading
             *ngIf="!isSkeletonLoading"
             [isLoading]="isLoading"
-            [colspan]="context.settings.displayedColumns.length"
+            [colspan]="displayedColumns.length"
           ></xm-table-loading>
 
-          <tr *matRowDef="let row; columns: context.settings.displayedColumns; let i = index;"
+          <tr *matRowDef="let row; columns: displayedColumns; let i = index;"
               class="xm-table-hoverable-row xm-table-row-background"
               [ngClass]="{
                 'xm-table-row-highlight': config.highlightRowOnHover,
@@ -127,6 +152,11 @@
               [xmHighlightableRowIndex]="i"
               (click)="rowClicked.emit(row)"
           ></tr>
+
+          <tr *matRowDef="let row; columns: [expandableColumnName + '_detail']; when: isExpandableRow"
+              mat-row
+              class="xm-table-expandable-detail-row">
+          </tr>
 
         </table>
       </div>

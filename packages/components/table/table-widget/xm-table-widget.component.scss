@@ -51,4 +51,21 @@
   .xm-table-wrapper {
     overflow: hidden;
   }
+
+  ::ng-deep .xm-table-expandable-detail-row {
+    height: 0;
+
+    td {
+      border-bottom: none;
+    }
+  }
+
+  ::ng-deep .xm-table-expandable-detail-cell {
+    padding: 0 !important;
+    border-bottom-width: 0;
+  }
+
+  ::ng-deep .xm-table-expandable-detail-content {
+    overflow: hidden;
+  }
 }
