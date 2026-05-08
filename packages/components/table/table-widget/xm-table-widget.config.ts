@@ -43,6 +43,9 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     isStickyHeader?: boolean;
     isMultiselect?: boolean;
     errorRowCondition?: string;
+    /** Expandable rows configuration */
+    expandable?: boolean;
+    expandableRow?: XmDynamicLayout;
 }
 
 export interface XmTableSelectionConfig {
