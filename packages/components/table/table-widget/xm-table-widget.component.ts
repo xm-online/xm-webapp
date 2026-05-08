@@ -146,12 +146,15 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
         return this._config;
     }
 
+    public get hasExpandableRows(): boolean {
+        return !!this._config?.expandableRow || this._config?.expandable === true;
+    }
+
     @Input()
     public set config(value: XmTableWidgetConfig) {
         this._config = getConfig(value);
-        this._config.isExpandable = this._config.expandable ?? this._config.isExpandable;
         this.hasSticky = this.config.columns.some((column) => column.sticky || column.stickyEnd);
-        if (!this._config.isExpandable) {
+        if (!this.hasExpandableRows) {
             this.expandedRows.clear();
         }
     }
@@ -161,8 +164,15 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
     }
 
     public isExpandableRow = (_index: number, row: unknown): boolean => {
-        return !!this._config?.isExpandable && this.isRowExpanded(row);
+        return this.hasExpandableRows && this.isRowExpanded(row);
     };
+
+    public onRowExpansionChanged(): void {
+        this.table?.renderRows();
+        if (this.hasSticky) {
+            this.table?.updateStickyColumnStyles();
+        }
+    }
 
     public ngAfterViewInit(): void {
         this.observeTableResize();
@@ -196,8 +206,9 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
-        if (this.tableRef?.nativeElement)
+        if (this.tableRef?.nativeElement) {
             this.resizeObserver?.unobserve(this.tableRef.nativeElement);
+        }
     }
 
     public getCollectionController(): IXmTableCollectionController<unknown> {
@@ -207,3 +218,4 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
         );
     }
 }
+
