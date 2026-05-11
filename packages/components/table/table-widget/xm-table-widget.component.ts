@@ -147,7 +147,7 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
     }
 
     public get hasExpandableRows(): boolean {
-        return !!this._config?.expandableRow || this._config?.expandable === true;
+        return !!this._config?.expandableRow;
     }
 
     @Input()
