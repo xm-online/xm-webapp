@@ -24,8 +24,8 @@ export const XM_TABLE_EXPANDABLE_COLUMN_NAME = '_expandColumn';
     imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule],
     template: `
         <ng-container [matColumnDef]="columnName">
-            <th *matHeaderCellDef mat-header-cell style="width: 48px;"></th>
-            <td *matCellDef="let row" mat-cell style="width: 48px;">
+            <th *matHeaderCellDef mat-header-cell class="table-expandable-row-column"></th>
+            <td *matCellDef="let row" mat-cell class="table-expandable-row-column">
                 <button mat-icon-button
                         (click)="toggleRow(row, $event)"
                         [attr.aria-expanded]="isExpanded(row)"
@@ -35,6 +35,11 @@ export const XM_TABLE_EXPANDABLE_COLUMN_NAME = '_expandColumn';
             </td>
         </ng-container>
     `,
+    styles: [`
+    .table-expandable-row-column {
+        width: 48px;
+    }
+    `]
 })
 export class XmTableExpandableRowColumnComponent implements OnInit, OnDestroy {
     public readonly columnName = XM_TABLE_EXPANDABLE_COLUMN_NAME;
