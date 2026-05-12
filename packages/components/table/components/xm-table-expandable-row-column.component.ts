@@ -29,7 +29,7 @@ export const XM_TABLE_EXPANDABLE_COLUMN_NAME = '_expandColumn';
                 <button mat-icon-button
                         (click)="toggleRow(row, $event)"
                         [attr.aria-expanded]="isExpanded(row)"
-                        aria-label="Expand row">
+                        [attr.aria-label]="isExpanded(row) ? 'Collapse row' : 'Expand row'">
                     <mat-icon>{{ isExpanded(row) ? 'expand_less' : 'expand_more' }}</mat-icon>
                 </button>
             </td>
