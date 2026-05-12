@@ -9,7 +9,6 @@
               [xmTableController]="collectionController"
 >
 
-  @let showQuickFilters = xmTable.config.showQuickFilters;
   @let showQuickFilterInsteadOfTitle = xmTable.config.showQuickFilterInsteadOfTitle;
 
   <mat-card *ngIf="xmTable.context$ | async as context"
@@ -21,6 +20,11 @@
             [attr.data-qa]="config?.dataQa"
   >
     @let isLoading = context.collection.loading || xmTable.xmTableController['loading'];
+    @let displayedColumns = hasExpandableRows
+      ? context.settings.displayedColumns.concat([expandableColumnName])
+      : context.settings.displayedColumns;
+    @let expandableRow = config.expandableRow;
+
 
     <xm-table-header
       *ngIf="!config.isTitleHidden"
@@ -30,7 +34,7 @@
       [value]="context.collection.items"
       [showQuickFilterInsteadOfTitle]="showQuickFilterInsteadOfTitle"
     >
-      <xm-table-quick-filter-inline *ngIf="showQuickFilterInsteadOfTitle && showQuickFilters"
+      <xm-table-quick-filter-inline *ngIf="showQuickFilterInsteadOfTitle && xmTable.config.showQuickFilters"
                                     [config]="config"></xm-table-quick-filter-inline>
       <ng-container *ngIf="!xmTable.config.isCollapsed">
         <xm-table-filter-button *ngIf="xmTable.config.popUpFilter"
@@ -56,7 +60,7 @@
     </xm-table-header>
 
     <div class="xm-table-wrapper" [@tableExpand]="xmTable.config.isCollapsed ? 'collapsed' : 'expanded'">
-      <xm-table-quick-filter-inline *ngIf="!showQuickFilterInsteadOfTitle && showQuickFilters"
+      <xm-table-quick-filter-inline *ngIf="!showQuickFilterInsteadOfTitle && xmTable.config.showQuickFilters"
                                     [config]="config"></xm-table-quick-filter-inline>
 
       <xm-table-filter-inline *ngIf="!xmTable.config.popUpFilter"
@@ -71,6 +75,7 @@
           #table
           [style.width]="config?.width"
           mat-table
+          multiTemplateDataRows
           matSort
           xmTableMatSortAdapter
           matSortDisableClear
@@ -80,8 +85,9 @@
           [dataSource]="context.collection.items"
         >
 
+
           <xm-table-empty [config]="config.noRows"
-                          [colspan]="context.settings.displayedColumns.length"
+                          [colspan]="displayedColumns.length"
                           [type]="isLoading ? 'loading' : 'initial'"></xm-table-empty>
 
           <xm-table-selection-column
@@ -104,17 +110,40 @@
                                         [isSkeletonLoading]="isSkeletonLoading"
                                         [column]="column"></xm-table-column-dynamic-cell>
 
-          <tr *matHeaderRowDef="context.settings.displayedColumns; sticky: config.isStickyHeader" mat-header-row
-              [ngClass]="{'remove-border-top': config.isTitleHidden}"></tr>
+          <xm-table-expandable-row-column
+            *ngIf="hasExpandableRows"
+            [expandedRows]="expandedRows"
+            (rowExpansionChanged)="onRowExpansionChanged()">
+          </xm-table-expandable-row-column>
 
+          <ng-container *ngIf="hasExpandableRows" [matColumnDef]="expandableColumnName + '_detail'">
+            <td mat-cell *matCellDef="let row"
+                [attr.colspan]="displayedColumns.length"
+                class="xm-table-expandable-detail-cell">
+              <div class="xm-table-expandable-detail-content"
+                   [@rowExpand]="isRowExpanded(row) ? 'expanded' : 'collapsed'">
+                <ng-container
+                  *ngIf="isRowExpanded(row) && expandableRow"
+                  xmDynamicPresentation
+                  [selector]="expandableRow.selector"
+                  [config]="expandableRow.config || expandableRow.options"
+                  [options]="expandableRow.options"
+                  [value]="row">
+                </ng-container>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns; sticky: config.isStickyHeader" mat-header-row
+              [ngClass]="{'remove-border-top': config.isTitleHidden}"></tr>
 
           <xm-table-loading
             *ngIf="!isSkeletonLoading"
             [isLoading]="isLoading"
-            [colspan]="context.settings.displayedColumns.length"
+            [colspan]="displayedColumns.length"
           ></xm-table-loading>
 
-          <tr *matRowDef="let row; columns: context.settings.displayedColumns; let i = index;"
+          <tr *matRowDef="let row; columns: displayedColumns; let i = index;"
               class="xm-table-hoverable-row xm-table-row-background"
               [ngClass]="{
                 'xm-table-row-highlight': config.highlightRowOnHover,
@@ -127,6 +156,12 @@
               [xmHighlightableRowIndex]="i"
               (click)="rowClicked.emit(row)"
           ></tr>
+
+          <tr *matRowDef="let row; columns: [expandableColumnName + '_detail']; when: isExpandableRow"
+              mat-row
+              [class.xm-table-expandable-detail-row-expanded]="isRowExpanded(row)"
+              class="xm-table-expandable-detail-row">
+          </tr>
 
         </table>
       </div>

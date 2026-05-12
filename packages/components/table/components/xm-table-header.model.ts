@@ -9,7 +9,7 @@ export interface XmTableTitleWidgetConfig extends XmDynamicWithConfig {
 export interface XmTableHeaderConfig {
     actions: XmDynamicPresentationLayout[];
     title: Translate;
-    titleIcon: string;
+    titleIcon?: string;
     columns?: XmTableColumn[];
     titleWidget?: XmTableTitleWidgetConfig;
 }
