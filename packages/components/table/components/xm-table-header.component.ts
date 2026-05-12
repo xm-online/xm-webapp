@@ -11,14 +11,24 @@ import { NgIf } from '@angular/common';
     selector: 'xm-table-header',
     host: { class: 'xm-table-header' },
     template: `
-        @if (config?.title && !showQuickFilterInsteadOfTitle) {
+        @if ((config?.title || config?.titleWidget) && !showQuickFilterInsteadOfTitle) {
             <div class="d-flex align-items-center header-title">
                 @if (config.titleIcon) {
                     <div class="header-title__icon">
                         <mat-icon>{{ config.titleIcon }}</mat-icon>
                     </div>
                 }
-                <h5 class="no-margin">{{ config.title | xmTranslate }}</h5>
+                @if (config?.title) {
+                    <h5 class="no-margin">{{ config.title | xmTranslate }}</h5>
+                }
+                @if (config.titleWidget?.selector) {
+                    <ng-container
+                        xmDynamicPresentation
+                        [selector]="config.titleWidget.selector"
+                        [config]="config.titleWidget.config"
+                        [value]="value">
+                    </ng-container>
+                }
             </div>
         }
 
@@ -92,12 +102,13 @@ export class XmTableHeaderComponent {
 
     @Input()
     public set config(val: XmTableHeaderConfig) {
-        const { title, actions, titleIcon } = val || {};
+        const { title, actions, titleIcon, titleWidget } = val || {};
         const enrichedTitle: Translate = this.enrichTitle(title);
 
         this._config = {
             title: enrichedTitle,
             titleIcon,
+            titleWidget,
             actions: actions?.map((action) => {
                 return {
                     ...action,
@@ -123,5 +134,6 @@ export class XmTableHeaderComponent {
     }
 
     @Input() public loading: boolean;
+    @Input() public value: unknown;
     @Input() public showQuickFilterInsteadOfTitle: boolean;
 }
