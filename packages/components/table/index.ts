@@ -46,3 +46,4 @@ export * from './components/chips-filter-btn/chips-filter-btn.component';
 export * from './components/chips-filter-btn/chips-filter-btn.model';
 export * from './components/refresh-btn/refresh-btn.component';
 export * from './components/refresh-btn/types/refresh-btn-config.model';
+export * from './components/xm-table-title-badge.component';

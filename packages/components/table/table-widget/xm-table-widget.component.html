@@ -27,6 +27,7 @@
       [style]="config?.headerStyle"
       [config]="config"
       [loading]="context.collection.loading"
+      [value]="context.collection.items"
       [showQuickFilterInsteadOfTitle]="showQuickFilterInsteadOfTitle"
     >
       <xm-table-quick-filter-inline *ngIf="showQuickFilterInsteadOfTitle && showQuickFilters"
