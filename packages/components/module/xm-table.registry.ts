@@ -65,4 +65,8 @@ export const XM_TABLE_ELEMENTS: XmDynamicEntry[] = [
         selector: 'table-export-button-controller',
         loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableExportButtonControllerService),
     },
+    {
+        selector: 'table/title-badge',
+        loadChildren: () => import('@xm-ngx/components/table').then(m => m.XmTableTitleBadgeComponent),
+    },
 ];
