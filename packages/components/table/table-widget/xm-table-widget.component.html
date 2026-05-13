@@ -157,11 +157,13 @@
               (click)="rowClicked.emit(row)"
           ></tr>
 
-          <tr *matRowDef="let row; columns: [expandableColumnName + '_detail']; when: isExpandableRow"
-              mat-row
-              [class.xm-table-expandable-detail-row-expanded]="isRowExpanded(row)"
-              class="xm-table-expandable-detail-row">
-          </tr>
+          <ng-container *ngIf="hasExpandableRows">
+            <tr *matRowDef="let row; columns: [expandableColumnName + '_detail']; when: isExpandableRow"
+                mat-row
+                [class.xm-table-expandable-detail-row-expanded]="isRowExpanded(row)"
+                class="xm-table-expandable-detail-row">
+            </tr>
+          </ng-container>
 
         </table>
       </div>
