@@ -14,19 +14,22 @@ export class DynamicDialog {
     }
 
     public async createAsync<T extends XmDynamicPresentation, R>(selector: string, value: unknown, options: unknown): Promise<MatDialogRef<T, R>> {
-        const matDialogRef = await this.getDialogRef<T, R>(selector);
+        const matDialogRef = await this.getDialogRef<T, R>(selector, options);
         matDialogRef.componentInstance.value = value;
         matDialogRef.componentInstance.options = options;
         return matDialogRef;
     }
 
-    protected async getDialogRef<T, R>(selector: string): Promise<MatDialogRef<T, R>> {
+    protected async getDialogRef<T, R>(selector: string, options: unknown): Promise<MatDialogRef<T, R>> {
         const dialogComponent = await this.dynamicComponents.find<T>(selector, this.injector);
+        const {width, minWidth} = options as {width?: string, minWidth?: string};
         return this.matDialog.open(dialogComponent.componentType,
             {
                 viewContainerRef: this.viewContainerRef,
                 injector: dialogComponent.injector,
                 componentFactoryResolver: dialogComponent.ngModuleRef?.componentFactoryResolver,
+                width,
+                minWidth,
             });
     }
 }
