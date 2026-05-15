@@ -15,7 +15,6 @@ export class DynamicDialog {
 
     public async createAsync<T extends XmDynamicPresentation, R>(selector: string, value: unknown, options: unknown): Promise<MatDialogRef<T, R>> {
         const matDialogRef = await this.getDialogRef<T, R>(selector, options);
-        debugger;
         matDialogRef.componentInstance.value = value;
         matDialogRef.componentInstance.options = options;
         return matDialogRef;
