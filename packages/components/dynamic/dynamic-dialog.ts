@@ -1,5 +1,5 @@
 import { Injectable, Injector, ViewContainerRef } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import { XmDynamicComponentRegistry, XmDynamicPresentation } from '@xm-ngx/dynamic';
 
 
@@ -20,16 +20,14 @@ export class DynamicDialog {
         return matDialogRef;
     }
 
-    protected async getDialogRef<T, R>(selector: string, options: unknown): Promise<MatDialogRef<T, R>> {
+    protected async getDialogRef<T, R>(selector: string, options: MatDialogConfig): Promise<MatDialogRef<T, R>> {
         const dialogComponent = await this.dynamicComponents.find<T>(selector, this.injector);
-        const {width, minWidth} = options as {width?: string, minWidth?: string};
         return this.matDialog.open(dialogComponent.componentType,
             {
                 viewContainerRef: this.viewContainerRef,
                 injector: dialogComponent.injector,
                 componentFactoryResolver: dialogComponent.ngModuleRef?.componentFactoryResolver,
-                width,
-                minWidth,
+                ...options,
             });
     }
 }
