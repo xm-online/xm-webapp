@@ -128,4 +128,8 @@ export const XM_COMPONENTS_ELEMENTS: XmDynamicEntry[] = [
         selector: 'filter-by-property-path-controller',
         loadChildren: () => import('@xm-ngx/components/key-filter').then(m => m.FilterByPropertyPathController),
     },
+    {
+        selector: 'wrap-to-array-controller',
+        loadChildren: () => import('@xm-ngx/components/key-filter').then(m => m.WrapToArrayController),
+    },
 ];
