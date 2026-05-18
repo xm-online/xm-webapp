@@ -3,7 +3,7 @@ import { RestRepositoryService } from '@xm-ngx/controllers/features/repository/r
 import { injectByKey } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/interfaces';
 import { cloneDeep } from 'lodash';
-import { BehaviorSubject, Observable, switchMap, throwError } from 'rxjs';
+import { BehaviorSubject, filter, Observable, switchMap, throwError } from 'rxjs';
 import { catchError, distinctUntilChanged, shareReplay, take, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
 import { DataResourceOptions } from './resource-data.model';
@@ -19,6 +19,7 @@ export class ResourceDataService<T extends IId = any> {
     private stable: T;
 
     private useCache: boolean = false;
+    private isLoaded: boolean = false;
     public config: DataResourceOptions;
 
     public getSync(): T {
@@ -35,7 +36,10 @@ export class ResourceDataService<T extends IId = any> {
 
     public get(force?: boolean): Observable<T> {
         if (this.useCache && !force) {
-            return this.data$.pipe(shareReplay(1));
+            return this.data$.pipe(
+                filter(() => this.isLoaded),
+                shareReplay(1),
+            );
         }
 
         this.useCache = this.config?.skipCache ? false : true;
@@ -68,6 +72,7 @@ export class ResourceDataService<T extends IId = any> {
     private getDataFromResource(params?: Params): Observable<T> {
         return this.resourceController.get(params || null).pipe(
             switchMap((data) => {
+                this.isLoaded = true;
                 this.data$.next(data);
                 this.stable = cloneDeep(data);
                 return this.data$.pipe(shareReplay(1));
