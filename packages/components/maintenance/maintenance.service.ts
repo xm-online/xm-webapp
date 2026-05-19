@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { XmThemeLoader } from '@xm-ngx/core/theme';
 import { XmApplicationConfigService } from '@xm-ngx/core/config';
@@ -13,10 +13,11 @@ export const SERVICE_SUSPENDED = 'SERVICE-SUSPENDED';
 export class MaintenanceService {
     private maintenance: BehaviorSubject<boolean>;
     private maintenanceMode: BehaviorSubject<MaintenanceMode>;
+    private themeLoader = inject(XmThemeLoader);
+    private applicationConfigService= inject(XmApplicationConfigService);
 
     constructor(
-        private themeLoader: XmThemeLoader,
-        private applicationConfigService: XmApplicationConfigService,
+
     ) {
         this.maintenance = new BehaviorSubject<boolean>(false);
         this.maintenanceMode = new BehaviorSubject<MaintenanceMode>(null);
