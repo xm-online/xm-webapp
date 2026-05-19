@@ -24,10 +24,10 @@ export class DynamicDialog {
         const dialogComponent = await this.dynamicComponents.find<T>(selector, this.injector);
         return this.matDialog.open(dialogComponent.componentType,
             {
+                ...options,
                 viewContainerRef: this.viewContainerRef,
                 injector: dialogComponent.injector,
                 componentFactoryResolver: dialogComponent.ngModuleRef?.componentFactoryResolver,
-                ...options,
             });
     }
 }
