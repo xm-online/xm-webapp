@@ -15,12 +15,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTable, MatTableModule } from '@angular/material/table';
-import { injectByKey, XM_DYNAMIC_COMPONENT_CONFIG } from '@xm-ngx/dynamic';
+import { injectByKey, XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicModule } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { defaultsDeep } from 'lodash';
 import { merge, Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { TableExpand } from '../animations/xm-table-widget.animation';
+import { RowExpand, TableExpand } from '../animations/xm-table-widget.animation';
 import {
     IXmTableCollectionController,
     XM_TABLE_CONTROLLERS,
@@ -50,10 +50,20 @@ import { XmTableUserSelectionColumnComponent } from '../components/xm-table-user
 import { XmRowHighlightTableDirective } from '../directives/row-hightlight/xm-row-highlight-table.directive';
 import { XmHighlightableRowDirective } from '../directives/row-hightlight/xm-highlightable-row.directive';
 import { XmCondition } from '@xm-ngx/pipes';
+import { RefreshBtnComponent } from '../components/refresh-btn/refresh-btn.component';
+import {
+    XmTableExpandableRowColumnComponent,
+    XM_TABLE_EXPANDABLE_COLUMN_NAME,
+} from '../components/xm-table-expandable-row-column.component';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
-    const config = defaultsDeep({}, value, XM_TABLE_WIDGET_CONFIG_DEFAULT, XM_TABLE_CONFIG_DEFAULT) as XmTableWidgetConfig;
-    config.columns.forEach(c => (c.name = c.name || c.field));
+    const config = defaultsDeep(
+        {},
+        value,
+        XM_TABLE_WIDGET_CONFIG_DEFAULT,
+        XM_TABLE_CONFIG_DEFAULT,
+    ) as XmTableWidgetConfig;
+    config.columns.forEach((c) => (c.name = c.name || c.field));
     config.pageableAndSortable.sortBy = config.pageableAndSortable.sortBy || config.columns[0].name;
     config.storageKey = config.storageKey || `${location.pathname}.xm-table-widget`;
     return config;
@@ -64,7 +74,7 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     templateUrl: './xm-table-widget.component.html',
     styleUrls: ['./xm-table-widget.component.scss'],
     standalone: true,
-    host: {class: 'xm-table-widget'},
+    host: { class: 'xm-table-widget' },
     imports: [
         MatCardModule,
         NgIf,
@@ -93,6 +103,9 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         XmRowHighlightTableDirective,
         XmHighlightableRowDirective,
         XmCondition,
+        RefreshBtnComponent,
+        XmTableExpandableRowColumnComponent,
+        XmDynamicModule,
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,
@@ -105,16 +118,19 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
             useValue: XmTableSelectionDefault,
         },
     ],
-    animations: [
-        TableExpand,
-    ],
+    animations: [TableExpand, RowExpand],
 })
 export class XmTableWidget implements AfterViewInit, OnDestroy {
-
-    @ViewChild('table', {read: ElementRef}) public tableRef: ElementRef;
+    @ViewChild('table', { read: ElementRef }) public tableRef: ElementRef;
     @ViewChild(MatTable) public table: MatTable<any>;
     @Output() public rowClicked = new EventEmitter<unknown>();
-    private collectionController: IXmTableCollectionController<unknown> = injectByKey<IXmTableCollectionController<unknown>>('collection', {optional: true});
+
+    public expandedRows: Set<unknown> = new Set();
+    public readonly expandableColumnName = XM_TABLE_EXPANDABLE_COLUMN_NAME;
+
+    private collectionController: IXmTableCollectionController<unknown> = injectByKey<
+        IXmTableCollectionController<unknown>
+    >('collection', { optional: true });
     private hasSticky: boolean = false;
     private zone = inject(NgZone);
     private resizeObserver: ResizeObserver;
@@ -122,8 +138,7 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
     constructor(
         private collectionControllerResolver: XmTableCollectionControllerResolver,
         private tableColumnsSettingStorageService: XmTableColumnsSettingStorageService,
-    ) {
-    }
+    ) {}
 
     private _config: XmTableWidgetConfig;
 
@@ -131,10 +146,32 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
         return this._config;
     }
 
+    public get hasExpandableRows(): boolean {
+        return !!this._config?.expandableRow;
+    }
+
     @Input()
     public set config(value: XmTableWidgetConfig) {
         this._config = getConfig(value);
-        this.hasSticky = this.config.columns.some(column => column.sticky || column.stickyEnd);
+        this.hasSticky = this.config.columns.some((column) => column.sticky || column.stickyEnd);
+        if (!this.hasExpandableRows) {
+            this.expandedRows.clear();
+        }
+    }
+
+    public isRowExpanded(row: unknown): boolean {
+        return this.expandedRows.has(row);
+    }
+
+    public isExpandableRow = (_index: number, row: unknown): boolean => {
+        return this.hasExpandableRows && this.isRowExpanded(row);
+    };
+
+    public onRowExpansionChanged(): void {
+        this.table?.renderRows();
+        if (this.hasSticky) {
+            this.table?.updateStickyColumnStyles();
+        }
     }
 
     public ngAfterViewInit(): void {
@@ -143,7 +180,7 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
 
     private observeTableResize(): void {
         try {
-            const {nativeElement} = this.tableRef || {};
+            const { nativeElement } = this.tableRef || {};
             if (!nativeElement) {
                 console.error('Table reference is not available for resize observer');
                 return;
@@ -155,25 +192,30 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
                 });
             });
             this.resizeObserver.observe(nativeElement);
-            merge(this.tableColumnsSettingStorageService.getStore(), subject).pipe(
-                takeUntilOnDestroy(this),
-                debounceTime(50),
-            ).subscribe(() => {
-                if (this.hasSticky) {
-                    this.table.updateStickyColumnStyles();
-                }
-            });
+            merge(this.tableColumnsSettingStorageService.getStore(), subject)
+                .pipe(takeUntilOnDestroy(this), debounceTime(50))
+                .subscribe(() => {
+                    if (this.hasSticky) {
+                        this.table.updateStickyColumnStyles();
+                    }
+                });
         } catch (e) {
-            console.error('Can\'t run resize observer', e);
+            console.error("Can't run resize observer", e);
         }
     }
 
     public ngOnDestroy(): void {
         takeUntilOnDestroyDestroy(this);
-        if (this.tableRef?.nativeElement) this.resizeObserver?.unobserve(this.tableRef.nativeElement);
+        if (this.tableRef?.nativeElement) {
+            this.resizeObserver?.unobserve(this.tableRef.nativeElement);
+        }
     }
 
     public getCollectionController(): IXmTableCollectionController<unknown> {
-        return this.collectionController || this.collectionControllerResolver.factory(this.config.collection);
+        return (
+            this.collectionController ||
+            this.collectionControllerResolver.factory(this.config.collection)
+        );
     }
 }
+

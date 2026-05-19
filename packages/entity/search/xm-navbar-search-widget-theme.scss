@@ -1,5 +1,7 @@
 @mixin xm-navbar-search-widget-theme($theme) {
-  .search-input {
-    background-image: linear-gradient(to top, $xm-primary 2px, rgba(0, 150, 136, 0) 2px), linear-gradient(to top, $border-color 1px, rgba(210, 210, 210, 0) 1px);
+  .xm-search-global {
+    --xm-navbar-search-icon: #{rgba(map-get($theme, on-surface), 0.58)};
+    --xm-navbar-search-placeholder: #{rgba(map-get($theme, on-surface), 0.62)};
+    --xm-navbar-search-text: #{rgba(map-get($theme, on-surface), 0.87)};
   }
 }

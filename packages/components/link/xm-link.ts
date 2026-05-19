@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, inject, Injector, Input, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { QueryParamsHandling, RouterModule } from '@angular/router';
-import { XmDynamicPresentation } from '@xm-ngx/dynamic';
+import { XmDynamicInstanceService, XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { DataQa, IId } from '@xm-ngx/interfaces';
 import { flattenObjectDeep, interpolate, transformByMap } from '@xm-ngx/operators';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, get, isString } from 'lodash';
+import { isObservable, Observable, of, take } from 'rxjs';
 
 export interface XmLinkOptions extends DataQa {
     /** list of fields which will be transformed to queryParams */
@@ -34,6 +35,10 @@ export interface XmLinkOptions extends DataQa {
         switchValue: string,
         options: Record<string, string>
     };
+    conditionController?: {
+        key: string;
+        getResultMethod?: string
+    },
 }
 
 export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
@@ -55,14 +60,7 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
         MatIconModule,
     ],
     template: `
-        <a [queryParams]="queryParams"
-           [routerLink]="routerLink"
-           [queryParamsHandling]="config?.queryParamsHandling"
-           [target]="config?.newWindow ? '_blank' : '_self'"
-           [style]="config?.style || config?.config?.style"
-           [class]="config?.class || config?.config?.style"
-           [attr.data-qa]="config?.dataQa || 'xm-link-default-data-qa'"
-        >
+        <ng-template #fieldView>
             <mat-icon
                 *ngIf="!config?.isIconOnRight && (config?.valueIcon || config?.config?.valueIcon)">{{ config.valueIcon || config?.config?.valueIcon }}
             </mat-icon>
@@ -71,7 +69,22 @@ export const XM_LINK_DEFAULT_OPTIONS: XmLinkOptions = {
             <mat-icon
                 *ngIf="config?.isIconOnRight && (config?.valueIcon || config?.config?.valueIcon)">{{ config.valueIcon || config?.config?.valueIcon }}
             </mat-icon>
-        </a>
+        </ng-template>
+
+        @if (canRedirectCondition$ | async) {
+            <a [queryParams]="queryParams"
+               [routerLink]="routerLink"
+               [queryParamsHandling]="config?.queryParamsHandling"
+               [target]="config?.newWindow ? '_blank' : '_self'"
+               [style]="config?.style || config?.config?.style"
+               [class]="config?.class || config?.config?.style"
+               [attr.data-qa]="config?.dataQa || 'xm-link-default-data-qa'"
+            >
+                <ng-container *ngTemplateOutlet="fieldView"></ng-container>
+            </a>
+        } @else {
+            <ng-container *ngTemplateOutlet="fieldView"></ng-container>
+        }
     `,
     encapsulation: ViewEncapsulation.None,
 })
@@ -84,10 +97,22 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
     public routerLink: string[] | string;
     protected defaultOptions: XmLinkOptions = clone(XM_LINK_DEFAULT_OPTIONS);
 
+    private dynamicInstance = inject(XmDynamicInstanceService);
+    private injector: Injector = inject(Injector);
+    public canRedirectCondition$: Observable<boolean>;
+
+    private get conditionController(): Observable<boolean> {
+        return this.dynamicInstance.getControllerByKey(
+            this.config.conditionController?.key,
+            this.injector,
+        );
+    }
+
     public update(): void {
         if (!this.value) {
             return;
         }
+        this.canRedirectCondition$ = this.getConditionResult();
 
         const queryParamsFromEntityFields = transformByMap<IId, object, object>(this.value, this.config?.queryParamsFromEntityFields || this.config?.config?.queryParamsFromEntityFields || this.defaultOptions.queryParamsFromEntityFields);
 
@@ -117,5 +142,25 @@ export class XmLink implements XmDynamicPresentation<IId, XmLinkOptions>, OnInit
 
     public ngOnInit(): void {
         this.update();
+    }
+
+    protected getConditionResult(): Observable<boolean> {
+        if (!this.config?.conditionController) {
+            return of(true);
+        }
+        const {key, getResultMethod} = this.config.conditionController || {};
+        const controller = this.conditionController;
+        if (!controller) {
+            console.warn(`Controller not found for ${key}`);
+            return of(true);
+        }
+
+        const hasResultMethod = getResultMethod &&
+            typeof controller[getResultMethod] === 'function' &&
+            isObservable(controller[getResultMethod]());
+
+        return hasResultMethod
+            ? controller[getResultMethod](this.value).pipe(take(1))
+            : of(null);
     }
 }

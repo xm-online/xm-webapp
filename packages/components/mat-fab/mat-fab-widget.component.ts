@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { Params } from '@angular/router';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
-import { DataQa } from '@xm-ngx/interfaces';
+import { DataQa, JavascriptCode } from '@xm-ngx/interfaces';
 import { Translate } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { clone } from 'lodash';
@@ -13,6 +13,7 @@ export interface MatFabConfigBase extends DataQa {
     indent?: boolean;
     color?: ThemePalette;
     permitted?: string | string[];
+    condition?: JavascriptCode;
     permittedByDashboardSlug?: string;
 }
 

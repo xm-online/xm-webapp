@@ -15,7 +15,10 @@
       </div>
 
       <div *ngIf="!options.readonly && entity?.id" class="flex-nowrap d-flex">
-        <ng-content select="[xmHeaderActions]"></ng-content>
+        <ng-container *xmCondition="options.editConditionActions; arguments {userAuthorities: userAuthorities}">
+          <ng-content select="[xmHeaderActions]"></ng-content>
+        </ng-container>
+
         <ng-container *xmPermission="options.editPermission">
           <xm-edit-widget-buttons (cancel)="cancel.emit($event)"
                                   (edit)="contentHidden = false"
@@ -25,7 +28,7 @@
                                   (save)="save.emit($event)"
                                   [disabled]="loading"
                                   [xm-loading]="loading"
-                                  *xmCondition="options.editCondition; arguments {entity: entity}"
+                                  *xmCondition="options.editCondition; arguments {entity: entity, userAuthorities: userAuthorities}"
                                   [(isEdit)]="isEdit">
           </xm-edit-widget-buttons>
         </ng-container>

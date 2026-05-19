@@ -3,8 +3,8 @@ import { RestRepositoryService } from '@xm-ngx/controllers/features/repository/r
 import { injectByKey } from '@xm-ngx/dynamic';
 import { IId } from '@xm-ngx/interfaces';
 import { cloneDeep } from 'lodash';
-import { BehaviorSubject, Observable, switchMap, throwError } from 'rxjs';
-import { catchError, distinctUntilChanged, shareReplay, tap } from 'rxjs/operators';
+import { BehaviorSubject, filter, Observable, switchMap, throwError } from 'rxjs';
+import { catchError, distinctUntilChanged, shareReplay, take, tap } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
 import { DataResourceOptions } from './resource-data.model';
 
@@ -19,15 +19,27 @@ export class ResourceDataService<T extends IId = any> {
     private stable: T;
 
     private useCache: boolean = false;
+    private isLoaded: boolean = false;
     public config: DataResourceOptions;
 
     public getSync(): T {
         return cloneDeep(this.data$.value);
     }
 
+    public getStable(): T {
+        return cloneDeep(this.stable);
+    }
+
+    public updateLocally(entity: T): void {
+        this.data$.next(entity);
+    }
+
     public get(force?: boolean): Observable<T> {
         if (this.useCache && !force) {
-            return this.data$.pipe(shareReplay(1));
+            return this.data$.pipe(
+                filter(() => this.isLoaded),
+                shareReplay(1),
+            );
         }
 
         this.useCache = this.config?.skipCache ? false : true;
@@ -51,9 +63,16 @@ export class ResourceDataService<T extends IId = any> {
 
     }
 
+    public forceUpdate(): Observable<T> {
+        return this.getDataFromResource().pipe(
+            take(1)
+        );
+    }
+
     private getDataFromResource(params?: Params): Observable<T> {
         return this.resourceController.get(params || null).pipe(
             switchMap((data) => {
+                this.isLoaded = true;
                 this.data$.next(data);
                 this.stable = cloneDeep(data);
                 return this.data$.pipe(shareReplay(1));
@@ -87,5 +106,3 @@ export class ResourceDataService<T extends IId = any> {
     }
 
 }
-
-

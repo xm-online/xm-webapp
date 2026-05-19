@@ -1,0 +1,10 @@
+<button
+  mat-icon-button
+  [disableRipple]="true"
+  [class]="refreshConfig().class"
+  [style]="refreshConfig().style"
+  [disabled]="isLoading()"
+  [disabledInteractive]="isLoading()"
+  (click)="handleClick()">
+  <mat-icon>{{ config().icon }}</mat-icon>
+</button>

@@ -174,7 +174,7 @@ export class AttachmentListBaseComponent implements OnInit, OnChanges, OnDestroy
             ia[i] = byteString.charCodeAt(i);
         }
         const blob = new Blob([ab], {type: body.valueContentType});
-        const filename = body.contentUrl;
+        const filename = body.name;
         saveFile(blob, filename, body.valueContentType);
     }
 

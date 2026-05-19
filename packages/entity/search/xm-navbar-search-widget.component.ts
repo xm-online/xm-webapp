@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { XmEventManager, XmSessionService } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
@@ -12,8 +12,6 @@ import { getApplicationTypeKey } from '@xm-ngx/entity';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { XmInputPatternModule } from '@xm-ngx/components/inputPattern';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 
@@ -33,21 +31,19 @@ interface SearchConfig extends XmUIConfig {
         <ng-container *xmPermission="config.permission">
             <form (submit)="search($event, searchBox.value)"
                   *ngIf="isShowSearchPanel && (isSessionActive$ | async)"
-                  class="d-flex flex-row align-items-center xm-search-global"
+                  class="xm-search-global"
                   role="search">
 
-                <mat-form-field class="xm-navbar-search-widget-control">
+                <div class="xm-navbar-search-widget-control">
+                    <mat-icon class="xm-navbar-search-widget-icon" aria-hidden="true">search</mat-icon>
                     <input #searchBox
-                           matInput
+                           class="xm-navbar-search-widget-input"
                            [regexp]="searchMask"
+                           [attr.aria-label]="'navbar.search' | translate"
                            [placeholder]="'navbar.search' | translate"
                            type="text"
                            xmInputPattern>
-                </mat-form-field>
-
-                <button mat-icon-button>
-                    <mat-icon>search</mat-icon>
-                </button>
+                </div>
             </form>
         </ng-container>
     `,
@@ -55,8 +51,6 @@ interface SearchConfig extends XmUIConfig {
         XmTranslationModule,
         CommonModule,
         XmInputPatternModule,
-        MatButtonModule,
-        MatInputModule,
         MatIconModule,
         XmPermissionModule,
     ],
@@ -64,7 +58,7 @@ interface SearchConfig extends XmUIConfig {
     styleUrls: ['./xm-navbar-search-widget.component.scss'],
 })
 
-export class XmNavbarSearchWidget implements OnInit, XmDynamicWidget {
+export class XmNavbarSearchWidget implements OnInit, XmDynamicWidget, OnDestroy {
     @Input() @Defaults({}) public config: { permission: string[] };
 
     public searchMask: string = '';

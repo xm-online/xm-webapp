@@ -10,6 +10,7 @@ import { Primitive } from '@xm-ngx/interfaces';
 
 import { XmNumberControl, XmNumberControlOptions } from './xm-number-control';
 import { XmNumberDirective } from './xm-number.directive';
+import { DigitsOnlyDirective } from './directives/xm-digits-only.directive';
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import { XmNumberDirective } from './xm-number.directive';
         ControlErrorModule,
         ReactiveFormsModule,
         HintModule,
+        DigitsOnlyDirective,
     ],
     exports: [XmNumberControl],
     declarations: [XmNumberControl, XmNumberDirective],

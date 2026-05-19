@@ -25,6 +25,7 @@ import { XmTranslatePipe } from '@xm-ngx/translation';
 import { QueryParamsPageable } from '@xm-ngx/repositories';
 import { HttpResponse } from '@angular/common/http';
 import { XmTableSelectionConfig } from '../../table-widget/xm-table-widget.config';
+import {isDisabledSelectionRowFunction} from '../is-disabled-selection-row.function';
 
 @Component({
     selector: 'xm-table-selection-header',
@@ -153,7 +154,7 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
     private initializeObservables(): void {
         this.totalCount$ = this.collectionController.state$()
             .pipe(
-                map((res: QueryParamsPageable) => res.pageableAndSortable?.total)
+                map((res: QueryParamsPageable & {items?: T[]}) => res.items?.filter((item => !isDisabledSelectionRowFunction<T>(item, this.config.disabledCondition)))?.length ?? res.pageableAndSortable?.total)
             );
 
         this.isVisible$ = this.selection.changed
@@ -191,7 +192,7 @@ export class XmTableSelectionHeaderComponent<T> implements OnInit, OnDestroy {
                 takeUntilOnDestroy(this),
             )
             .subscribe((res: HttpResponse<T[]> | any) => {
-                this.selection.setSelection(...res['body']);
+                this.selection.setSelection(...res['body'].filter((item => !isDisabledSelectionRowFunction<T>(item, this.config.disabledCondition))));
                 this.selectionService.push(this.config?.key, this.selection);
             });
     }

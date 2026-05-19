@@ -22,6 +22,7 @@ export * from './components/xm-table-header.component';
 export * from './components/xm-table-loading-column.component';
 export * from './components/xm-table-selection-column.component';
 export * from './components/xm-table-loading.component';
+export * from './components/xm-table-expandable-row-column.component';
 export * from './components/export-button/xm-table-export-button.component';
 
 export * from './configs/xm-table-config-root.service';
@@ -44,3 +45,6 @@ export * from './directives/xm-table-mat-sort-adapter.directive';
 export * from './components/xm-table-quick-filter-inline.component';
 export * from './components/chips-filter-btn/chips-filter-btn.component';
 export * from './components/chips-filter-btn/chips-filter-btn.model';
+export * from './components/refresh-btn/refresh-btn.component';
+export * from './components/refresh-btn/types/refresh-btn-config.model';
+export * from './components/xm-table-title-badge.component';

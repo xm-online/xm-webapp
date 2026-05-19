@@ -2,9 +2,7 @@ import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
-import {
-    XmTableFiltersControlRequestConfig,
-} from './xm-table-filter-button-dialog-controls.component';
+import { XmTableFiltersControlRequestConfig } from './xm-table-filter-button-dialog-controls.component';
 import { FiltersControlValue } from './xm-table-filter-button-dialog-control.component';
 import { XmTranslatePipe } from '@xm-ngx/translation';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
@@ -19,8 +17,11 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
     selector: 'xm-table-quick-filter-inline',
     standalone: true,
     template: `
-        <div class="d-flex quick-filter-block" [style]="config?.quickFilterInlineContainerStyle">
-            <span *ngIf="!config?.isOnlyExpand" class="xm-filters-btn">
+        @let isOnlyExpand = config?.isOnlyExpand;
+
+        <div class="d-flex quick-filter-block" [class]="isOnlyExpand ? 'is-only-expand' : ''"
+             [style]="config?.quickFilterInlineContainerStyle">
+            <span *ngIf="!isOnlyExpand" class="xm-filters-btn">
                 <button (click)="toggleFilters()"
                         class="ms-2 mb-2 filter-btn"
                         color="accent"
@@ -62,6 +63,10 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
             display: flex;
             align-items: center;
             justify-content: flex-start;
+
+            &.is-only-expand {
+                padding: 0 12px;
+            }
         }
 
         .quick-filter-holder {

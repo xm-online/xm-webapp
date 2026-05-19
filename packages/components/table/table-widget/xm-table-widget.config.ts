@@ -5,6 +5,7 @@ import { XmDynamicLayout, XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
 import { XM_TABLE_EMPTY_DEFAULT_CONFIG, XmTableEmptyConfig } from '../components/xm-table-empty.component';
 import { XmTableFiltersControlRequestConfig } from '../components/xm-table-filter-button-dialog-controls.component';
 import { DataQa } from '@xm-ngx/interfaces';
+import { XmTableTitleWidgetConfig } from '../components/xm-table-header.model';
 
 export interface XmTableWithColumnDynamicCellOptionsPagination extends PageableAndSortable {
     pageSizeOptions: number[],
@@ -43,6 +44,8 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     isStickyHeader?: boolean;
     isMultiselect?: boolean;
     errorRowCondition?: string;
+    titleWidget?: XmTableTitleWidgetConfig;
+    expandableRow?: XmDynamicLayout;
 }
 
 export interface XmTableSelectionConfig {
@@ -57,6 +60,7 @@ export interface XmTableSelectionConfig {
     selectAllWithoutLayouts?: boolean;
     isUserSelection?: boolean;
     isMultiselect?: boolean;
+    disabledCondition?: string;
 }
 
 export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {

@@ -38,7 +38,7 @@ import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { distinctUntilChanged, Subject, tap } from 'rxjs';
 import { NgxMaskModule } from 'ngx-mask';
 import { clone, isDate, isEmpty } from 'lodash';
-import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { interpolate, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { parseTime } from './shared/parse-time';
 import { DateAdapter } from '@angular/material/core';
 import { CustomDateAdapter } from './shared/custom-date-adapter';
@@ -49,6 +49,8 @@ export interface XmDateTimeControlConfig {
     errors?: XmControlErrorsTranslates;
     required?: boolean;
     disableDateTimeValidator?: boolean;
+    initValue?: string;
+    minDate?: string;
 }
 
 export type XmDateTimePickerFilter = (date: Date | null) => boolean;
@@ -124,6 +126,7 @@ const dateTimeValidator = (localeId: string) => {
                     matInput
                     formControlName="date"
                     placeholder="DD.MM.YYYY"
+                    [min]="minDate"
                     [matDatepicker]="picker"
                     [matDatepickerFilter]="pickerFilter"
                     (focus)="picker.open()"
@@ -200,6 +203,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
 
     @Input() public pickerFilter: XmDateTimePickerFilter;
     @Input() public picker: MatDatepickerPanel<MatDatepickerInput<any>, any>;
+    @Input() public minDate: Date;
 
     @Input()
     set placeholder(value: string) {
@@ -413,7 +417,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
     public onChange = (_: any): void => {
     };
 
-    // eslint-disable-next-line
+
     public onTouched = (): void => {
     };
 
@@ -484,6 +488,7 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
                 [disabled]="disabled"
                 [required]="config?.required"
                 [disableDateTimeValidator]="config?.disableDateTimeValidator"
+                [minDate]="minDate"
                 (ngModelChange)="change($event)">
             </xm-datetime-control-field>
 
@@ -501,18 +506,40 @@ export class XmDateTimeControlFieldComponent implements ControlValueAccessor, Ma
         </mat-form-field>
     `,
 })
-export class XmDateTimeControlComponent extends NgModelWrapper<XmDateTimeControlValue> {
+export class XmDateTimeControlComponent extends NgModelWrapper<XmDateTimeControlValue> implements OnInit {
     public ngControl = inject(NgControl, {optional: true, self: true});
     public messageErrors = inject<XmControlErrorsTranslates>(XM_CONTROL_ERRORS_TRANSLATES);
 
     @Input() public pickerFilter: XmDateTimePickerFilter;
-    @Input() public config: XmDateTimeControlConfig;
+    private _config: XmDateTimeControlConfig;
+
+    @Input()
+    set config(config: XmDateTimeControlConfig) {
+        this._config = config;
+
+        if (config.minDate) {
+            this.minDate = new Date(config.minDate);
+        }
+    }
+
+    get config(): XmDateTimeControlConfig {
+        return this._config;
+    }
+
+    public minDate: Date;
 
     constructor() {
         super();
 
         if (this.ngControl != null) {
             this.ngControl.valueAccessor = this;
+        }
+    }
+
+    public ngOnInit(): void {
+        if (this.config?.initValue) {
+            const value = this.value || interpolate(this.config.initValue, null);
+            this.change(value);
         }
     }
 

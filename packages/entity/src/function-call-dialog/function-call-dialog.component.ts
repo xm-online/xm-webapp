@@ -180,6 +180,10 @@ export class FunctionCallDialogComponent implements OnInit, AfterViewInit {
     private processLocation(location: string, data: unknown): void {
         this.activeModal.close(true);
         if (location) {
+            if (location.startsWith('http://') || location.startsWith('https://') && !location.startsWith(window.location.origin)) {
+                window.location.replace(location);
+                return;
+            }
             this.router.navigate(
                 [location],
                 {queryParams: data},
