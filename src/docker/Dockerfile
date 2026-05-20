@@ -14,7 +14,7 @@ ENV LANG=en_US.UTF-8 \
     GATE_PORT=8080 \
     BE_ENDPOINTS="v2\|management\|api\|uaa\|audit\|document\|config\/\(api\|v2\|management\)\|entity\|dashboard\/\(api\|v2\|management\)\|timeline\|balance\|wallet\|zendesk\|escrow\|ldb\|otp\|communication\|hlr\|customer\|scheduler\|stp\|activation\|foris\|websocket\|swagger-resources\|publicregistry"
 ADD entrypoint.sh /
-ENTRYPOINT /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 ADD ./dist /var/www
 RUN chown -R nginx:nginx /var/www && chmod 755 /entrypoint.sh
 ADD nginx.tmpl /etc/nginx/
