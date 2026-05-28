@@ -5,9 +5,9 @@ import {
     forwardRef,
     Input,
     OnDestroy,
-    ViewChild,
+    ViewChild, OnInit,
 } from '@angular/core';
-import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, UntypedFormControl, } from '@angular/forms';
+import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule, UntypedFormControl } from '@angular/forms';
 import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
 import { XmDynamicPresentation } from '@xm-ngx/dynamic';
 import { ITranslate, Locale, Translate, XmTranslationModule } from '@xm-ngx/translation';
@@ -62,6 +62,7 @@ export interface MultiLanguageOptions {
     excludeLang: string[];
     spellcheck?: boolean;
     sanitize?: boolean;
+    required?: boolean;
 }
 
 export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
@@ -79,31 +80,41 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
 @Component({
     selector: 'xm-multi-language-control',
     template: `
-        <mat-label *ngIf="config.title">
-            <span class="pe-2">{{ config.title | translate }}</span>
-            <mat-icon *ngIf="config.feedback" [matTooltip]="config.feedback | translate">help</mat-icon>
-        </mat-label>
+        @if (config.title) {
+            <mat-label>
+                <span class="pe-2">
+                    {{ config.title | translate }}
+                    @if (config.required) {
+                        *
+                    }
+                </span>
+                @if (config.feedback) {
+                    <mat-icon [matTooltip]="config.feedback | translate">help</mat-icon>
+                }
+            </mat-label>
+        }
 
         <mat-button-toggle-group [(ngModel)]="selectedLng">
-            <mat-button-toggle *ngFor="let k of languages" [value]="k">{{ k }}</mat-button-toggle>
+            @for (k of languages; track k) {
+                <mat-button-toggle [value]="k">{{ k }}</mat-button-toggle>
+            }
         </mat-button-toggle-group>
 
-        <ng-container [ngSwitch]="config.language?.type">
-            <ng-container *ngSwitchCase="'wysiwyg'">
-                <angular-editor
-                    *ngIf="!selectedLng || disabled;else wysiwigEditor"
-                    [config]="disabledWysiwygConfig"
-                    [ngModel]="modelToView()"></angular-editor>
-
-                <ng-template #wysiwigEditor>
+        @switch (config.language?.type) {
+            @case ('wysiwyg'){
+                @if (!selectedLng || disabled) {
+                    <angular-editor
+                        [config]="disabledWysiwygConfig"
+                        [ngModel]="modelToView()"></angular-editor>
+                } @else {
                     <angular-editor
                         [config]="wysiwygConfig"
                         [ngModel]="modelToView()"
                         (ngModelChange)="viewToModel($event)"></angular-editor>
-                </ng-template>
-            </ng-container>
+                }
+            }
 
-            <ng-container *ngSwitchCase="'textarea'">
+            @case ('textarea'){
                 <mat-form-field>
                     <textarea
                         matInput
@@ -112,6 +123,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                         [disabled]="!selectedLng || disabled"
                         [attr.name]="name"
                         [readonly]="readonly"
+                        [required]="config?.required"
                         [ngModel]="modelToView()"
                         (ngModelChange)="viewToModel($event)"></textarea>
 
@@ -119,9 +131,8 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
 
                     <mat-error *xmControlErrors="control?.errors; message as message">{{ message }}</mat-error>
                 </mat-form-field>
-            </ng-container>
-
-            <ng-container *ngSwitchDefault>
+            }
+            @default {
                 <mat-form-field>
                     <input
                         matInput
@@ -132,21 +143,23 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
                         [attr.name]="name"
                         [attr.maxlength]="config.maxLength"
                         [readonly]="readonly"
+                        [required]="config?.required"
                         (ngModelChange)="viewToModel($event)"/>
 
-                    <mat-hint
-                        *ngIf="config.maxLength"
-                        align="end"
-                        style="min-width: fit-content">
-                        {{ modelToView().length }} / {{ config.maxLength }}
-                    </mat-hint>
+                    @if (config.maxLength) {
+                        <mat-hint
+                            align="end"
+                            style="min-width: fit-content">
+                            {{ modelToView().length }} / {{ config.maxLength }}
+                        </mat-hint>
+                    }
 
                     <mat-hint [hint]="config.hint"></mat-hint>
 
                     <mat-error *xmControlErrors="control?.errors; message as message">{{ message }}</mat-error>
                 </mat-form-field>
-            </ng-container>
-        </ng-container>
+            }
+        }
     `,
     host: {
         class: 'xm-multi-language-control',
@@ -177,7 +190,7 @@ export const MULTI_LANGUAGE_DEFAULT_OPTIONS: MultiLanguageOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MultiLanguageComponent extends NgModelWrapper<MultiLanguageModel>
-    implements XmDynamicPresentation<MultiLanguageModel, MultiLanguageOptions>, AfterViewInit, OnDestroy {
+    implements XmDynamicPresentation<MultiLanguageModel, MultiLanguageOptions>, AfterViewInit, OnDestroy, OnInit {
 
     public disabledWysiwygConfig: AngularEditorConfig = {
         editable: false,
