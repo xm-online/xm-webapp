@@ -118,6 +118,9 @@ export class RestRepositoryService<T = any> {
     }
 
     protected handleFetchErrors<T>(errors: HttpErrorResponse): Observable<T> {
+        if (this.config?.propagateErrors) {
+            return throwError(() => errors);
+        }
         return of({} as T);
     }
 
