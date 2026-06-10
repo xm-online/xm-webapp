@@ -19,7 +19,7 @@
           "browser": ""
         },
         "index": "src/index.html",
-        "browser": "src/main.ts",
+        "main": "src/main.ts",
         "polyfills": [
           "src/polyfills.ts"
         ],
