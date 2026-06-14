@@ -51,8 +51,7 @@
               "transliteration"
             ],
             "outputPath": {
-              "base": "dist",
-              "browser": ""
+              "base": "dist"
             },
             "index": "src/index.html",
             "browser": "src/main.ts",
