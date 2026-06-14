@@ -215,7 +215,7 @@
     "karma-jasmine-html-reporter": "2.1.0",
     "marked": "9.1.6",
     "ng-packagr": "19.2.2",
-    "nx": "19.8.14",
+    "nx": "22.4.2",
     "storybook": "8.6.15",
     "stylelint-config-recommended": "13.0.0",
     "stylelint-declaration-use-variable": "1.7.3",
