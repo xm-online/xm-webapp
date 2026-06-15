@@ -9,29 +9,88 @@
   ],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:application",
       "outputs": [
-        "{options.outputPath}"
+        "{workspaceRoot}/dist"
       ],
       "options": {
-        "outputPath": "dist",
+        "outputPath": {
+          "base": "dist",
+          "browser": ""
+        },
         "index": "src/index.html",
-        "main": "src/main.ts",
-        "polyfills": "src/polyfills.ts",
+        "browser": "src/main.ts",
+        "polyfills": [
+          "src/polyfills.ts"
+        ],
         "tsConfig": "src/tsconfig.app.json",
         "assets": [
-          "src/manifest.webmanifest",
-          "src/assets",
-          "src/i18n",
-          "src/swagger-ui",
-          "src/robots.txt",
+          {
+            "glob": "manifest.webmanifest",
+            "input": "src",
+            "output": "/"
+          },
+          {
+            "glob": "favicon.ico",
+            "input": "src",
+            "output": "/"
+          },
+          {
+            "glob": "**/*",
+            "input": "src/assets",
+            "output": "/assets",
+            "ignore": [
+              "js/**/*"
+            ]
+          },
+          {
+            "glob": "**/*",
+            "input": "src/assets/js",
+            "output": "/assets/js"
+          },
+          {
+            "glob": "**/*",
+            "input": "src/i18n",
+            "output": "/i18n"
+          },
+          {
+            "glob": "**/*",
+            "input": "src/swagger-ui",
+            "output": "/swagger-ui"
+          },
+          {
+            "glob": "robots.txt",
+            "input": "src",
+            "output": "/"
+          },
           {
             "glob": "**/*",
             "input": "./node_modules/@kolkov/angular-editor/assets/",
             "output": "./assets/fonts/"
+          },
+          {
+            "glob": "**/*",
+            "input": "src/app/ext/vodafone-webapp-ext/assets",
+            "output": "/assets"
+          },
+          {
+            "glob": "**/*",
+            "input": "src/app/ext/example-webapp-ext/assets",
+            "output": "/assets"
+          },
+          {
+            "glob": "**/*",
+            "input": "src/app/ext/entity-webapp-ext/assets",
+            "output": "/assets"
+          },
+          {
+            "glob": "**/*",
+            "input": "src/app/ext/common-webapp-ext/assets",
+            "output": "/assets"
           }
         ],
         "styles": [
+          "node_modules/swagger-ui-dist/swagger-ui.css",
           "src/styles.scss"
         ],
         "scripts": [
@@ -58,8 +117,10 @@
           "node_modules/oboe/dist/oboe-browser.js",
           "node_modules/yamljs/dist/yaml.js"
         ],
+        "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
           "includePaths": [
+            ".",
             "src/styles",
             "src/app/ext",
             "node_modules"
@@ -69,14 +130,44 @@
           "moment-timezone",
           "moment",
           "lodash",
-          "lodash/fp"
+          "lodash/fp",
+          "ieee754",
+          "file-saver",
+          "nomnoml",
+          "html2canvas",
+          "heatmap.js",
+          "ajv",
+          "ajv-formats",
+          "angular2-uuid",
+          "file-type/core",
+          "string-template",
+          "dayjs",
+          "unraw",
+          "minim",
+          "process",
+          "deepmerge",
+          "base64-js",
+          "classnames",
+          "css.escape",
+          "immutable",
+          "js-file-download",
+          "prop-types",
+          "randexp",
+          "react-copy-to-clipboard",
+          "react-debounce-input",
+          "react-immutable-proptypes",
+          "redux-immutable",
+          "serialize-error",
+          "url-parse",
+          "xml-but-prettier",
+          "zenscroll",
+          "sdp",
+          "transliteration"
         ]
       },
       "configurations": {
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -93,10 +184,7 @@
           "sourceMap": false,
           "namedChunks": false,
           "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
-          "serviceWorker": true,
-          "ngswConfigPath": "ngsw-config.json"
+          "serviceWorker": "ngsw-config.json"
         },
         "serve-production": {
           "fileReplacements": [
@@ -109,9 +197,7 @@
           "outputHashing": "all",
           "sourceMap": true,
           "namedChunks": true,
-          "extractLicenses": true,
-          "vendorChunk": true,
-          "buildOptimizer": true
+          "extractLicenses": true
         },
         "idp": {
           "fileReplacements": [

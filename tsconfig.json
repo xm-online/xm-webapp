@@ -1,15 +1,14 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": false,
     "strict": false,
     "importHelpers": true,
+    "esModuleInterop": true,
     "outDir": "./dist/out-tsc",
     "baseUrl": "./",
     "sourceMap": true,
     "declaration": true,
-    "downlevelIteration": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "es2022",
@@ -38,22 +37,19 @@
         "packages/entity/*"
       ],
       "@xm-ngx/json-schema-form/core": [
-        "node_modules/@xm-ngx/json-schema-form"
+        "packages/json-schema-form"
       ],
       "@xm-ngx/json-schema-form/components": [
-        "node_modules/@xm-ngx/json-schema-form"
+        "packages/json-schema-form/components"
       ],
       "@xm-ngx/json-schema-form/components/*": [
-        "node_modules/@xm-ngx/json-schema-form"
+        "packages/json-schema-form/components/*"
       ],
       "rxjs": [
         "node_modules/rxjs"
       ],
       "rxjs/*": [
         "node_modules/rxjs/*"
-      ],
-      "@angular/*": [
-        "node_modules/@angular/*"
       ]
     },
     "inlineSources": true,

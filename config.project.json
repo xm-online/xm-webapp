@@ -9,22 +9,57 @@
   ],
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:browser",
+      "executor": "@angular-devkit/build-angular:application",
       "outputs": [
-        "{options.outputPath}"
+        "{workspaceRoot}/dist"
       ],
       "options": {
         "outputPath": "dist",
         "index": "src/index.html",
-        "main": "src/main.ts",
-        "polyfills": "src/polyfills.ts",
+        "browser": "src/main.ts",
+        "polyfills": [
+          "src/polyfills.ts"
+        ],
         "tsConfig": "src/tsconfig.app.json",
         "assets": [
-          "src/manifest.webmanifest",
-          "src/assets",
-          "src/i18n",
-          "src/swagger-ui",
-          "src/robots.txt",
+          {
+            "glob": "manifest.webmanifest",
+            "input": "src",
+            "output": "/"
+          },
+          {
+            "glob": "favicon.ico",
+            "input": "src",
+            "output": "/"
+          },
+          {
+            "glob": "**/*",
+            "input": "src/assets",
+            "output": "/assets",
+            "ignore": [
+              "js/**/*"
+            ]
+          },
+          {
+            "glob": "**/*",
+            "input": "src/assets/js",
+            "output": "/assets/js"
+          },
+          {
+            "glob": "**/*",
+            "input": "src/i18n",
+            "output": "/i18n"
+          },
+          {
+            "glob": "**/*",
+            "input": "src/swagger-ui",
+            "output": "/swagger-ui"
+          },
+          {
+            "glob": "robots.txt",
+            "input": "src",
+            "output": "/"
+          },
           {
             "glob": "**/*",
             "input": "./node_modules/@kolkov/angular-editor/assets/",
@@ -60,8 +95,10 @@
           "node_modules/oboe/dist/oboe-browser.js",
           "node_modules/yamljs/dist/yaml.js"
         ],
+        "inlineStyleLanguage": "scss",
         "stylePreprocessorOptions": {
           "includePaths": [
+            ".",
             "src/styles",
             "src/app/ext",
             "node_modules"
@@ -76,9 +113,7 @@
       },
       "configurations": {
         "development": {
-          "buildOptimizer": false,
           "optimization": false,
-          "vendorChunk": true,
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
@@ -95,10 +130,7 @@
           "sourceMap": false,
           "namedChunks": false,
           "extractLicenses": true,
-          "vendorChunk": false,
-          "buildOptimizer": true,
-          "serviceWorker": true,
-          "ngswConfigPath": "ngsw-config.json"
+          "serviceWorker": "ngsw-config.json"
         },
         "serve-production": {
           "fileReplacements": [
@@ -111,9 +143,7 @@
           "outputHashing": "all",
           "sourceMap": true,
           "namedChunks": true,
-          "extractLicenses": true,
-          "vendorChunk": true,
-          "buildOptimizer": true
+          "extractLicenses": true
         },
         "idp": {
           "fileReplacements": [
