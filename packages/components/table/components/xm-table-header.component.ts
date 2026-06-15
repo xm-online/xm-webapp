@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 
 import { injectByKey, XmDynamicModule } from '@xm-ngx/dynamic';
 import { Translate, XmTranslatePipe, XmTranslationModule } from '@xm-ngx/translation';
@@ -6,6 +6,7 @@ import { XmTableActionsButtonsComponent } from './xm-table-actions-buttons.compo
 import { MatIconModule } from '@angular/material/icon';
 import { XmTableHeaderConfig, XmTableHeaderController } from './xm-table-header.model';
 import { NgIf } from '@angular/common';
+import { takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 
 @Component({
     selector: 'xm-table-header',
@@ -93,8 +94,9 @@ import { NgIf } from '@angular/common';
         NgIf,
     ],
 })
-export class XmTableHeaderComponent {
+export class XmTableHeaderComponent implements OnDestroy {
     public _config: XmTableHeaderConfig;
+
     private titleController: XmTableHeaderController = injectByKey<XmTableHeaderController>(
         'table-title-controller',
         { optional: true },
@@ -102,13 +104,15 @@ export class XmTableHeaderComponent {
 
     @Input()
     public set config(val: XmTableHeaderConfig) {
-        const { title, actions, titleIcon, titleWidget } = val || {};
+        const { title, actions, titleIcon, titleWidget, triggerTableKey, tableUpdateEvents } = val || {};
         const enrichedTitle: Translate = this.enrichTitle(title);
 
         this._config = {
             title: enrichedTitle,
             titleIcon,
             titleWidget,
+            triggerTableKey,
+            tableUpdateEvents,
             actions: actions?.map((action) => {
                 return {
                     ...action,
@@ -136,4 +140,8 @@ export class XmTableHeaderComponent {
     @Input() public loading: boolean;
     @Input() public value: unknown;
     @Input() public showQuickFilterInsteadOfTitle: boolean;
+
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+    }
 }
