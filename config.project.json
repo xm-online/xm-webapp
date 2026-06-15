@@ -14,9 +14,7 @@
         "{workspaceRoot}/dist"
       ],
       "options": {
-        "outputPath": {
-          "base": "dist"
-        },
+        "outputPath": "dist",
         "index": "src/index.html",
         "browser": "src/main.ts",
         "polyfills": [
@@ -110,39 +108,7 @@
           "moment-timezone",
           "moment",
           "lodash",
-          "lodash/fp",
-          "ieee754",
-          "file-saver",
-          "nomnoml",
-          "html2canvas",
-          "heatmap.js",
-          "ajv",
-          "ajv-formats",
-          "angular2-uuid",
-          "file-type/core",
-          "string-template",
-          "dayjs",
-          "unraw",
-          "minim",
-          "process",
-          "deepmerge",
-          "base64-js",
-          "classnames",
-          "css.escape",
-          "immutable",
-          "js-file-download",
-          "prop-types",
-          "randexp",
-          "react-copy-to-clipboard",
-          "react-debounce-input",
-          "react-immutable-proptypes",
-          "redux-immutable",
-          "serialize-error",
-          "url-parse",
-          "xml-but-prettier",
-          "zenscroll",
-          "sdp",
-          "transliteration"
+          "lodash/fp"
         ]
       },
       "configurations": {
