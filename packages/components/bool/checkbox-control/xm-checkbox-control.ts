@@ -21,7 +21,7 @@ export interface XmCheckboxControlOptions extends DataQa {
     title: Translate;
     id: string | null;
     class: string;
-    style: string;
+    style?: string;
     cancelable: boolean; // It looks like this prop doesn't use anymore
     hint?: HintText;
     hintClass?: string;
