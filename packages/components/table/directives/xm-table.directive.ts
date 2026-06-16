@@ -97,6 +97,10 @@ export class XmTableDirective implements OnInit, OnDestroy {
         this.onControllerStateChangeUpdateContext();
     }
 
+    public get filterChange$(): Observable<FiltersControlValue> {
+        return this.tableFilterController.change$();
+    }
+
     public getSortActiveAndDirection(): Observable<Sort> {
         return this.xmTableController.state$().pipe(
             map((state) => {

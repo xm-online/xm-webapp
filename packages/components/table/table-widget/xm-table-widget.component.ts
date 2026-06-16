@@ -55,6 +55,7 @@ import {
     XmTableExpandableRowColumnComponent,
     XM_TABLE_EXPANDABLE_COLUMN_NAME,
 } from '../components/xm-table-expandable-row-column.component';
+import { ConditionDirective } from '@xm-ngx/components/condition';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep(
@@ -216,6 +217,13 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
             this.collectionController ||
             this.collectionControllerResolver.factory(this.config.collection)
         );
+    }
+
+    public evaluateFilterCondition(filter: unknown, condition: string | undefined): boolean {
+        if (!condition) {
+            return false;
+        }
+        return ConditionDirective.checkCondition(condition, { filter });
     }
 }
 
