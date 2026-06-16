@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation, inject } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    ViewEncapsulation,
+    inject,
+} from '@angular/core';
 import { NgModelWrapper } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl } from '@xm-ngx/dynamic';
 import { DataQa, Primitive } from '@xm-ngx/interfaces';
@@ -15,9 +21,10 @@ export interface XmCheckboxControlOptions extends DataQa {
     title: Translate;
     id: string | null;
     class: string;
-    cancelable: boolean;// It looks like this prop doesn't use anymore
-    hint?: HintText
-    hintClass?: string
+    style?: string;
+    cancelable: boolean; // It looks like this prop doesn't use anymore
+    hint?: HintText;
+    hintClass?: string;
 }
 
 export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
@@ -25,6 +32,7 @@ export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
     id: null,
     dataQa: 'checkbox-control',
     class: '',
+    style: '',
     cancelable: false,
 };
 
@@ -32,30 +40,33 @@ export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
     standalone: true,
     selector: 'xm-checkbox-control',
     template: `
-            <mat-checkbox
-                [attr.data-qa]="config.dataQa"
-                [class]="config.class || 'pt-2'"
-                [indeterminate]="config.cancelable && value === false"
-                [id]="config.id"
-                [disabled]="disabled"
-                [ngModel]="value"
-                (change)="change($event.checked)">
-                <div class="d-flex align-items-center">
-                    {{ config.title | translate }}
+        <mat-checkbox
+            [attr.data-qa]="config.dataQa"
+            [class]="config.class || 'pt-2'"
+            [style]="config.style || ''"
+            [indeterminate]="config.cancelable && value === false"
+            [id]="config.id"
+            [disabled]="disabled"
+            [ngModel]="value"
+            (change)="change($event.checked)"
+        >
+            <div class="d-flex align-items-center">
+                {{ config.title | translate }}
 
-                    @if (config.cancelable && (value === true || value === false)) {
-                        <button
-                            class="ms-1"
-                            mat-icon-button
-                            [disabled]="disabled"
-                            aria-label="Clear"
-                            (click)="change(null)">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    }
-                </div>
-            </mat-checkbox>
-            <mat-hint [class]="config?.hintClass || 'small'" [hint]="config?.hint"></mat-hint>
+                @if (config.cancelable && (value === true || value === false)) {
+                    <button
+                        class="ms-1"
+                        mat-icon-button
+                        [disabled]="disabled"
+                        aria-label="Clear"
+                        (click)="change(null)"
+                    >
+                        <mat-icon>close</mat-icon>
+                    </button>
+                }
+            </div>
+        </mat-checkbox>
+        <mat-hint [class]="config?.hintClass || 'small'" [hint]="config?.hint"></mat-hint>
     `,
     imports: [
         MatCheckboxModule,
@@ -69,7 +80,10 @@ export const XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT: XmCheckboxControlOptions = {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class XmCheckboxControl extends NgModelWrapper<Primitive | null> implements XmDynamicControl<Primitive, XmCheckboxControlOptions> {
+export class XmCheckboxControl
+    extends NgModelWrapper<Primitive | null>
+    implements XmDynamicControl<Primitive, XmCheckboxControlOptions>
+{
     private ngControl = inject(NgControl, { self: true, optional: true });
 
     private _config: XmCheckboxControlOptions = clone(XM_CHECKBOX_CONTROL_OPTIONS_DEFAULT);
