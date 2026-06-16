@@ -62,7 +62,7 @@ export interface XmTableSelectionConfig {
     isMultiselect?: boolean;
     disabledCondition?: string;
     /** Expression evaluated against `{ filter }` context to disable the entire selection column.
-     *  Example: "filter?.type?.value === 'archived'" */
+     *  Example: "filter?.type === 'archived'" */
     disabledFilterCondition?: string;
 }
 
