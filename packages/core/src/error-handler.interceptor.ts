@@ -42,7 +42,7 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
     }
 
     private handleError(err: HttpErrorResponse, request: HttpRequest<unknown>): void {
-        const isTokenRefreshError = err instanceof HttpErrorResponse && err.status === 401 && err.url.includes('/oauth/token');
+        const isTokenRefreshError = err instanceof HttpErrorResponse && err.status === 401 && err.url?.includes('/oauth/token');
         if (isTokenRefreshError || err instanceof HttpErrorResponse
             && !(err.status === 401 &&
                 (err.message === '' || (err.url && (
