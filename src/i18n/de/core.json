@@ -172,8 +172,8 @@
     "roles": "Rollen",
     "scopes-add": "Hinzufügen von Bereichen",
     "search-by-client-id": "Suche nach Client-ID",
-    "validityPeriod": "Gültigkeitsdauer des Access-Tokens",
-    "refreshTokenValidityPeriod": "Gültigkeitsdauer des Refresh-Tokens"
+    "validityPeriod": "Gültigkeitsdauer des Access-Tokens, Sekunden",
+    "refreshTokenValidityPeriod": "Gültigkeitsdauer des Refresh-Tokens, Sekunden"
   },
   "commons": {
     "required-field": ""
