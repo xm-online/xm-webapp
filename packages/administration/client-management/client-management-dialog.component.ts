@@ -95,6 +95,7 @@ export class ClientMgmtDialogComponent implements OnInit {
                 lastModifiedBy: this.selectedClient.lastModifiedBy,
                 lastModifiedDate: this.selectedClient.lastModifiedDate,
                 accessTokenValiditySeconds: this.selectedClient.accessTokenValiditySeconds,
+                refreshTokenValiditySeconds: this.selectedClient.refreshTokenValiditySeconds,
                 scopes: this.selectedClient.scopes || [],
             };
         } else {
