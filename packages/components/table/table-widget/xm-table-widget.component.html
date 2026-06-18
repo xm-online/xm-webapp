@@ -95,6 +95,7 @@
             *ngIf="config?.selection && !config?.selection?.isUserSelection"
             [column]="xmTableSelection.selectColumn"
             [rows]="context.collection.items"
+            [config]="config.selection"
             [disabled]="isSelectionDisabled">
           </xm-table-selection-column>
 
@@ -102,6 +103,7 @@
             *ngIf="config?.selection?.isUserSelection"
             [column]="xmTableSelection.selectColumn"
             [rows]="context.collection.items"
+            [config]="config.selection"
             [disabled]="isSelectionDisabled">
           </xm-table-user-selection-column>
 
