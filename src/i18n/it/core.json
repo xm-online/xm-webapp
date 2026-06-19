@@ -172,8 +172,8 @@
     "roles": "Ruoli",
     "scopes-add": "Aggiungere ambiti",
     "search-by-client-id": "Ricerca per ID cliente",
-    "validityPeriod": "Periodo di validità del token di accesso",
-    "refreshTokenValidityPeriod": "Periodo di validità del token di aggiornamento"
+    "validityPeriod": "Periodo di validità del token di accesso, secondi",
+    "refreshTokenValidityPeriod": "Periodo di validità del token di aggiornamento, secondi"
   },
   "commons": {
     "required-field": ""

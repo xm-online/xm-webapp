@@ -178,8 +178,8 @@
     "roles": "Ролі",
     "scopes-add": "Дозволи(scopes)",
     "search-by-client-id": "Пошук за ID додатку/клієнта",
-    "validityPeriod": "Термін дії access-токена",
-    "refreshTokenValidityPeriod": "Термін дії refresh-токена"
+    "validityPeriod": "Термін дії access-токена, секунди",
+    "refreshTokenValidityPeriod": "Термін дії refresh-токена, секунди"
   },
   "commons": {
     "required-field": ""
