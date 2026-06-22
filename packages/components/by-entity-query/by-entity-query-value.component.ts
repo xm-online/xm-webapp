@@ -51,6 +51,25 @@ export class ByEntityQueryValueComponent {
     }
 
     /**
+     * Resolves the display value from an entity result.
+     *
+     * If `displayCustomField` is configured it is used as a template where every
+     * `{{fieldPath}}` placeholder is replaced with the corresponding value from the
+     * entity (dot-notation is supported via lodash `get`).
+     * Falls back to `displayField` when `displayCustomField` is not set.
+     */
+    private resolveDisplayValue(entity: unknown, displayField: string, config: ByEntityQueryValueOptions | undefined): unknown {
+        const displayCustomField = config?.displayCustomField;
+        if (displayCustomField) {
+            return displayCustomField.replace(/\{\{([^}]+)\}\}/g, (_, fieldPath: string) => {
+                const fieldVal = get(entity, fieldPath.trim());
+                return fieldVal !== null && fieldVal !== undefined ? String(fieldVal) : '';
+            });
+        }
+        return get(entity, displayField);
+    }
+
+    /**
      * Handles query using searchUrl with a query template.
      */
     private handleSearchUrlQuery(
@@ -77,7 +96,7 @@ export class ByEntityQueryValueComponent {
             const results = res.body;
             this.fieldValue.set(
                 Array.isArray(results) && results.length > 0
-                    ? get(results[0], displayField)
+                    ? this.resolveDisplayValue(results[0], displayField, config)
                     : '',
             );
         });
@@ -106,7 +125,7 @@ export class ByEntityQueryValueComponent {
             const results = res.body;
             this.fieldValue.set(
                 Array.isArray(results) && results.length > 0
-                    ? get(results[0], displayField)
+                    ? this.resolveDisplayValue(results[0], displayField, config)
                     : '',
             );
         });
