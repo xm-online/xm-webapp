@@ -20,6 +20,7 @@ export class ResourceDataService<T extends IId = any> {
 
     private useCache: boolean = false;
     private isLoaded: boolean = false;
+    private requestSequence: number = 0;
     public config: DataResourceOptions;
 
     public getSync(): T {
@@ -70,11 +71,14 @@ export class ResourceDataService<T extends IId = any> {
     }
 
     private getDataFromResource(params?: Params): Observable<T> {
+        const currentSeq = ++this.requestSequence;
         return this.resourceController.get(params || null).pipe(
             switchMap((data) => {
-                this.isLoaded = true;
-                this.data$.next(data);
-                this.stable = cloneDeep(data);
+                if (currentSeq === this.requestSequence) {
+                    this.data$.next(data);
+                    this.stable = cloneDeep(data);
+                    this.isLoaded = true;
+                }
                 return this.data$.pipe(shareReplay(1));
             }),
         );
