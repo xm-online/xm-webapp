@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, Optional, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    Optional,
+    ViewEncapsulation,
+} from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
 import { HintText } from '@xm-ngx/components/hint';
@@ -23,7 +29,8 @@ export interface XmRadioControlOptions extends DataQa {
 export interface XmRadioControlOptionsItem {
     title: Translate;
     value: XmRadioValue;
-    permission?: boolean | string | string[]
+    hint?: HintText;
+    permission?: boolean | string | string[];
 }
 
 export const XM_RADIO_CONTROL_OPTIONS_DEFAULT: XmRadioControlOptions = {
@@ -39,24 +46,39 @@ export const XM_RADIO_CONTROL_OPTIONS_DEFAULT: XmRadioControlOptions = {
     selector: 'xm-radio-group-control',
     template: `
         <mat-radio-group
-                [ngModel]="value"
-                [ngClass]="{
+            [ngModel]="value"
+            [ngClass]="{
                 'xm-radio-group--line': config.layout === 'line',
-                'xm-radio-group--stack': config.layout === 'stack'
+                'xm-radio-group--stack': config.layout === 'stack',
             }"
-                (change)="radioChange($event)">
+            (change)="radioChange($event)"
+        >
             <ng-container *ngFor="let item of config.items">
                 <mat-radio-button
-                        class="xm-radio-button"
-                        color="primary"
-                        [value]="item.value"
-                        *xmPermission="item.permission">
-                    {{ item?.title | translate }}
+                    class="xm-radio-button"
+                    [class.xm-radio-button--with-hint]="!!item?.hint"
+                    color="primary"
+                    [value]="item.value"
+                    *xmPermission="item.permission"
+                >
+                    <span class="xm-radio-button__title">
+                        {{ item?.title | translate }}
+                    </span>
+
+                    <ng-container *ngIf="item?.hint">
+                        <br />
+
+                        <mat-hint class="xm-radio-button__hint" *ngIf="item?.hint">{{
+                            item.hint.title | translate
+                        }}</mat-hint>
+                    </ng-container>
                 </mat-radio-button>
             </ng-container>
         </mat-radio-group>
 
-        <mat-error *xmControlErrors="ngControl?.errors; message as message">{{ message }}</mat-error>
+        <mat-error *xmControlErrors="ngControl?.errors; message as message">{{
+            message
+        }}</mat-error>
     `,
     styleUrls: ['./radio-group-control.component.scss'],
     encapsulation: ViewEncapsulation.None,
@@ -66,7 +88,10 @@ export const XM_RADIO_CONTROL_OPTIONS_DEFAULT: XmRadioControlOptions = {
     },
     standalone: false,
 })
-export class XmRadioGroupControlComponent extends NgControlAccessor<XmRadioValue> implements XmDynamicControl<XmRadioValue, XmRadioControlOptions> {
+export class XmRadioGroupControlComponent
+    extends NgControlAccessor<XmRadioValue>
+    implements XmDynamicControl<XmRadioValue, XmRadioControlOptions>
+{
     constructor(@Optional() public ngControl: NgControl) {
         super(ngControl);
     }
