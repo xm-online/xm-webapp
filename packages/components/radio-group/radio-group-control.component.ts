@@ -65,13 +65,13 @@ export const XM_RADIO_CONTROL_OPTIONS_DEFAULT: XmRadioControlOptions = {
                         {{ item?.title | translate }}
                     </span>
 
-                    <ng-container *ngIf="item?.hint">
+                    @if (item?.hint?.title) {
                         <br />
 
-                        <mat-hint class="xm-radio-button__hint" *ngIf="item?.hint">{{
+                        <mat-hint class="xm-radio-button__hint">{{
                             item.hint.title | translate
                         }}</mat-hint>
-                    </ng-container>
+                    }
                 </mat-radio-button>
             </ng-container>
         </mat-radio-group>
