@@ -172,7 +172,8 @@
     "roles": "Роли",
     "scopes-add": "Добавить области",
     "search-by-client-id": "Поиск по ID клиента",
-    "validityPeriod": "Срок действия"
+    "validityPeriod": "Срок действия access-токена, секунды",
+    "refreshTokenValidityPeriod": "Срок действия refresh-токена, секунды"
   },
   "commons": {
     "required-field": ""

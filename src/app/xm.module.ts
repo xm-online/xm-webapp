@@ -9,10 +9,9 @@ import { XmAlertModule } from '@xm-ngx/alert';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
 import { XmCoreModule, XmPublicUiConfigService } from '@xm-ngx/core';
-import { AuthServerProvider } from '@xm-ngx/core/user';
+import { AuthServerProvider, Principal } from '@xm-ngx/core/user';
 import { XmCoreAuthModule } from '@xm-ngx/core/auth';
 import { LoginService } from '@xm-ngx/components/login';
-import { Principal } from '@xm-ngx/core/user';
 import { UserRouteAccessService } from '@xm-ngx/core/permission';
 import { XmApplicationConfigService, XmCoreConfigModule } from '@xm-ngx/core/config';
 import { environment } from '@xm-ngx/core/environment';
@@ -21,13 +20,13 @@ import { themeInitializerFactory } from '@xm-ngx/core/theme';
 import { XmDashboardDynamicRouteResolverGuard, XmDashboardModule } from '@xm-ngx/dashboard';
 import { XmDynamicExtensionModule, XmDynamicModule } from '@xm-ngx/dynamic';
 import { XmLoggerModule, XmLoggerWatcherService } from '@xm-ngx/logger';
-import { LanguageService, TitleService, XmTranslationModule,CompositeLoaderFactory } from '@xm-ngx/translation';
+import { CompositeLoaderFactory, LanguageService, TitleService, XmTranslationModule } from '@xm-ngx/translation';
 import { CookieService } from 'ngx-cookie-service';
 import { MarkdownModule } from 'ngx-markdown';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
 import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
-import { IConfig, NgxMaskModule, initialConfig } from 'ngx-mask';
+import { IConfig, initialConfig, NgxMaskModule } from 'ngx-mask';
 
 import { XmDynamicRouteModule } from '@xm-ngx/dynamic/route';
 import { XmBreadcrumbModule } from '@xm-ngx/components/breadcrumb';
@@ -53,6 +52,7 @@ import { MaintenanceService } from '@xm-ngx/components/maintenance';
 import { XmCoreEntityModule } from '@xm-ngx/core/entity';
 import { UserLoginService } from '@xm-ngx/account/user-login-widget';
 import { XmJsfExtModule } from './xm-jsf-ext.module';
+import { HIDE_VERSIONS_PROVIDER } from './providers/hide-versions.provider';
 
 const formFieldOptions: MatFormFieldDefaultOptions = {
     appearance: 'fill',
@@ -196,6 +196,7 @@ export const ngxMaskConfig = (): IConfig | object => {
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     ],
     providers: [
+        HIDE_VERSIONS_PROVIDER,
         globalErrorHandlerFactory(),
         themeInitializerFactory(),
         proxyInterceptorFactory({ url: environment.serverApiUrl, excludedUrls: ['http', 'i18n', 'assets'] }),

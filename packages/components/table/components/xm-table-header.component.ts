@@ -95,6 +95,7 @@ import { NgIf } from '@angular/common';
 })
 export class XmTableHeaderComponent {
     public _config: XmTableHeaderConfig;
+
     private titleController: XmTableHeaderController = injectByKey<XmTableHeaderController>(
         'table-title-controller',
         { optional: true },
@@ -102,13 +103,15 @@ export class XmTableHeaderComponent {
 
     @Input()
     public set config(val: XmTableHeaderConfig) {
-        const { title, actions, titleIcon, titleWidget } = val || {};
+        const { title, actions, titleIcon, titleWidget, triggerTableKey, tableUpdateEvents } = val || {};
         const enrichedTitle: Translate = this.enrichTitle(title);
 
         this._config = {
             title: enrichedTitle,
             titleIcon,
             titleWidget,
+            triggerTableKey,
+            tableUpdateEvents,
             actions: actions?.map((action) => {
                 return {
                     ...action,

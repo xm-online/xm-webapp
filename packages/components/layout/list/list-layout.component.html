@@ -1,13 +1,15 @@
 <ng-container *ngIf="config?.layouts as layouts">
   <ng-container *ngFor="let layout of layouts">
-    <ng-container
-      [class]="layout.theme?.class"
-      [style]="layout.theme?.style"
-      xmDynamicPresentation
-      [selector]="layout.selector"
-      [config]="layout.config"
-      [controllers]="layout.controllers"
-      [dataQa]="layout.dataQa"
-    ></ng-container>
+    <ng-template [xmPermission]="layout.permission" [strategy]="layout.permissionStrategy">
+      <ng-container
+        [class]="layout.theme?.class"
+        [style]="layout.theme?.style"
+        xmDynamicPresentation
+        [selector]="layout.selector"
+        [config]="layout.config"
+        [controllers]="layout.controllers"
+        [dataQa]="layout.dataQa"
+      ></ng-container>
+    </ng-template>
   </ng-container>
 </ng-container>

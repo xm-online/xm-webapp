@@ -24,7 +24,8 @@
       ? context.settings.displayedColumns.concat([expandableColumnName])
       : context.settings.displayedColumns;
     @let expandableRow = config.expandableRow;
-
+    @let filterState = xmTable.filterChange$ | async;
+    @let isSelectionDisabled = evaluateFilterCondition(filterState, config.selection?.disabledFilterCondition);
 
     <xm-table-header
       *ngIf="!config.isTitleHidden"
@@ -94,14 +95,16 @@
             *ngIf="config?.selection && !config?.selection?.isUserSelection"
             [column]="xmTableSelection.selectColumn"
             [rows]="context.collection.items"
-            [config]="config.selection">
+            [config]="config.selection"
+            [disabled]="isSelectionDisabled">
           </xm-table-selection-column>
 
           <xm-table-user-selection-column
             *ngIf="config?.selection?.isUserSelection"
             [column]="xmTableSelection.selectColumn"
             [rows]="context.collection.items"
-            [config]="config.selection">
+            [config]="config.selection"
+            [disabled]="isSelectionDisabled">
           </xm-table-user-selection-column>
 
           @let isSkeletonLoading = xmTable.useSkeletonLoading || config.isSkeletonLoading || false;

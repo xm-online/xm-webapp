@@ -61,6 +61,9 @@ export interface XmTableSelectionConfig {
     isUserSelection?: boolean;
     isMultiselect?: boolean;
     disabledCondition?: string;
+    /** Expression evaluated against `{ filter }` context to disable the entire selection column.
+     *  Example: "filter?.type === 'archived'" */
+    disabledFilterCondition?: string;
 }
 
 export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {

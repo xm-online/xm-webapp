@@ -178,7 +178,8 @@
     "roles": "Roles",
     "scopes-add": "Add scopes",
     "search-by-client-id": "Search by app/client ID",
-    "validityPeriod": "Validity period"
+    "validityPeriod": "Access token validity period, seconds",
+    "refreshTokenValidityPeriod": "Refresh token validity period, seconds"
   },
   "commons": {
     "required-field": ""

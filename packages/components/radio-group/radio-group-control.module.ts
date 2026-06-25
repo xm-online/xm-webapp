@@ -10,7 +10,11 @@ import { XmDynamicControlConstructor } from '@xm-ngx/dynamic';
 import { XmTranslationModule } from '@xm-ngx/translation';
 import { HintModule } from '@xm-ngx/components/hint';
 import { MatRadioModule } from '@angular/material/radio';
-import { XmRadioGroupControlComponent, XmRadioControlOptions, XmRadioValue } from './radio-group-control.component';
+import {
+    XmRadioGroupControlComponent,
+    XmRadioControlOptions,
+    XmRadioValue,
+} from './radio-group-control.component';
 
 @NgModule({
     imports: [
@@ -30,5 +34,6 @@ import { XmRadioGroupControlComponent, XmRadioControlOptions, XmRadioValue } fro
     declarations: [XmRadioGroupControlComponent],
 })
 export class XmRadioGroupControlModule {
-    public entry: XmDynamicControlConstructor<XmRadioValue, XmRadioControlOptions> = XmRadioGroupControlComponent;
+    public entry: XmDynamicControlConstructor<XmRadioValue, XmRadioControlOptions> =
+        XmRadioGroupControlComponent;
 }
