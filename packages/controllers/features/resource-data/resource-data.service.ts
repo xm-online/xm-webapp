@@ -10,7 +10,6 @@ import { DataResourceOptions } from './resource-data.model';
 
 @Injectable()
 export class ResourceDataService<T extends IId = any> {
-
     private resourceController = injectByKey<RestRepositoryService>('resource');
     private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
@@ -20,6 +19,7 @@ export class ResourceDataService<T extends IId = any> {
 
     private useCache: boolean = false;
     private isLoaded: boolean = false;
+    private requestSequence: number = 0;
     public config: DataResourceOptions;
 
     public getSync(): T {
@@ -60,21 +60,21 @@ export class ResourceDataService<T extends IId = any> {
             );
         }
         return this.getDataFromResource();
-
     }
 
     public forceUpdate(): Observable<T> {
-        return this.getDataFromResource().pipe(
-            take(1)
-        );
+        return this.getDataFromResource().pipe(take(1));
     }
 
     private getDataFromResource(params?: Params): Observable<T> {
+        const currentSeq = ++this.requestSequence;
         return this.resourceController.get(params || null).pipe(
             switchMap((data) => {
-                this.isLoaded = true;
-                this.data$.next(data);
-                this.stable = cloneDeep(data);
+                if (currentSeq === this.requestSequence) {
+                    this.stable = cloneDeep(data);
+                    this.isLoaded = true;
+                    this.data$.next(data);
+                }
                 return this.data$.pipe(shareReplay(1));
             }),
         );
@@ -91,7 +91,7 @@ export class ResourceDataService<T extends IId = any> {
                 catchError((err) => {
                     return throwError(() => err);
                 }),
-                tap(entity => {
+                tap((entity) => {
                     this.data$.next(entity);
                     this.stable = cloneDeep(entity);
                 }),
@@ -104,5 +104,4 @@ export class ResourceDataService<T extends IId = any> {
         this.data$.next(cloneDeep(this.stable));
         return this.data$;
     }
-
 }
