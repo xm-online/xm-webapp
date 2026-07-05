@@ -14,7 +14,10 @@
         "{workspaceRoot}/dist"
       ],
       "options": {
-        "outputPath": "dist",
+        "outputPath": {
+          "base": "dist",
+          "browser": ""
+        },
         "index": "src/index.html",
         "browser": "src/main.ts",
         "polyfills": [
