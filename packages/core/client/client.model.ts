@@ -16,5 +16,6 @@ export interface Client {
     lastModifiedBy?: string,
     lastModifiedDate?: Date,
     accessTokenValiditySeconds?: number,
+    refreshTokenValiditySeconds?: number,
     scopes?: string[],
 }

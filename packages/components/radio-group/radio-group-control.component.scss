@@ -1,18 +1,34 @@
 $radio-group-gap: 10px;
 
 .xm-radio-group {
-  &--line {
-    .xm-radio-button {
-      margin-right: $radio-group-gap;
-    }
-  }
+    .xm-radio-button--with-hint {
+        .xm-radio-button__title {
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            color: #181818;
+        }
 
-  &--stack {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    .xm-radio-button {
-      margin-bottom: $radio-group-gap;
+        .xm-radio-button__hint {
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 16px;
+            color: #4d4d4d;
+        }
     }
-  }
+
+    &--line {
+        .xm-radio-button {
+            margin-right: $radio-group-gap;
+        }
+    }
+
+    &--stack {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        .xm-radio-button {
+            margin-bottom: $radio-group-gap;
+        }
+    }
 }
