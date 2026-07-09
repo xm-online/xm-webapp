@@ -38,6 +38,17 @@ export class XmAuthenticationService {
     }
 
     public refreshToken(): Observable<unknown | null> {
+        // Single-flight across tabs: while one tab refreshes, others wait and
+        // then reuse the freshly stored token instead of issuing a duplicate
+        // (stale) refresh that a single-session backend would reject.
+        // No-op wrapper (returns performRefresh()) when the feature is disabled.
+        return this.refreshTokenService.runExclusive(
+            () => this.performRefresh(),
+            () => of(this.storeService.getAuthenticationToken()),
+        );
+    }
+
+    private performRefresh(): Observable<unknown | null> {
         return this.sessionService.isActive().pipe(
             take(1),
             switchMap((active) => {
