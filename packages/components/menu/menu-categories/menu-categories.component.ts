@@ -189,6 +189,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
 
         this.isSidenavPinned = !this.isSidenavPinned;
         await this.menuService.complexToggleSidenav();
+        this.ngZone.run(() => this.cdr.markForCheck());
     }
 
     public async onNavigate(category: MenuCategory): Promise<void> {
