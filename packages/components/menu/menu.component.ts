@@ -332,10 +332,10 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                 !this.menuService.sidenav.opened && isOpenMenu ? from(this.menuService.sidenav.open()) : timer(0);
             return next$.pipe(
                 observeOn(animationFrameScheduler),
-                tap(() => this.ngZone.run(() => {
+                tap(() => {
                     this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW;
                     this.menuService.setMobileMenuState({showCategories: false, category: hoveredCategory});
-                })),
+                }),
             );
         }
 
@@ -346,16 +346,16 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
     private observeSidenavOpen(): void {
         this.menuService.sidenav.openedStart
             .pipe(takeUntilOnDestroy(this))
-            .subscribe(() => this.ngZone.run(() => this.menuService.setIsSidenavOpen(true)));
+            .subscribe(() => this.menuService.setIsSidenavOpen(true));
     }
 
     private observeSidenavClose(): void {
         this.menuService.sidenav.closedStart
             .pipe(takeUntilOnDestroy(this))
-            .subscribe(() => this.ngZone.run(() => {
+            .subscribe(() => {
                 this.hoveredCategory = null;
                 this.menuService.setIsSidenavOpen(false);
-            }));
+            });
     }
 
     public setSelectedCategory(node: MenuItem): void {
