@@ -8,10 +8,6 @@ import { ApplicationRef, Directive, ElementRef, inject, Input, NgZone, OnDestroy
  * after an event does not flush pending animations until the next unrelated event
  * (e.g. a mouse move). In development mode the additional dev-only change detection
  * pass masks the problem, so it reproduces only on production builds (enableProdMode).
- *
- * Usage:
- *   <button xmFlushAnimationOnInteraction (click)="expanded = !expanded">...</button>
- *   <div [xmFlushAnimationOnInteraction]="['click', 'keydown']">...</div>
  */
 @Directive({
     selector: '[xmFlushAnimationOnInteraction]',
