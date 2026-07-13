@@ -8,7 +8,7 @@
       <div [class]="menuCategoriesClassesEnum.MENU_CATEGORIES">
         <div *ngIf="isMobileScreen && $isMenuToggle()"
              [class]="menuCategoriesClassesEnum.MENU_CATEGORIES + '__toggle-button'">
-          <button mat-icon-button (click)="toggleSidenav(isMobileScreen)">
+          <button mat-icon-button (click)="toggleSidenav(isMobileScreen)" xmFlushAnimationOnInteraction>
             <mat-icon>menu_open</mat-icon>
           </button>
         </div>
@@ -71,7 +71,8 @@
           }
           <button mat-mini-fab
                   [disabled]="selectedCategory?.isLinkWithoutSubcategories"
-                  (click)="toggleSidenav()">
+                  (click)="toggleSidenav()"
+                  xmFlushAnimationOnInteraction>
             <div class="d-flex">
               <mat-icon class="action-icon action-icon__left" [ngClass]="{'rotate-chevron-left': isSidenavPinned}">
                 chevron_left

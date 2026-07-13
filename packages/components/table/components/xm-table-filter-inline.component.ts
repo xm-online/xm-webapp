@@ -11,6 +11,7 @@ import { XmTranslatePipe } from '@xm-ngx/translation';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { matExpansionAnimations } from '@angular/material/expansion';
+import { FlushAnimationOnInteractionDirective } from '@xm-ngx/components/animations';
 import { NgClass, NgIf } from '@angular/common';
 import _ from 'lodash';
 import { XmEmptyPipe } from '@xm-ngx/pipes';
@@ -37,6 +38,7 @@ import { XmEventManagerService } from '@xm-ngx/core';
 
                     <div *ngIf="!config?.isOnlyExpand" class="ms-auto xm-filters-btn">
                         <button (click)="filterExpand = !filterExpand"
+                                xmFlushAnimationOnInteraction
                                 class="align-self-top ms-2"
                                 color="accent"
                                 mat-icon-button
@@ -81,6 +83,7 @@ import { XmEventManagerService } from '@xm-ngx/core';
         MatIconModule,
         NgClass,
         XmTranslatePipe,
+        FlushAnimationOnInteractionDirective,
     ],
     animations: [
         matExpansionAnimations.bodyExpansion,
