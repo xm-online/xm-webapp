@@ -3,5 +3,4 @@ export * from './appear.animation';
 export * from './route-change-animation';
 export * from './fateInOut.animation';
 export * from './fadeInUpOutDown.animation';
-export * from './flush-animation-on-interaction.directive';
 
