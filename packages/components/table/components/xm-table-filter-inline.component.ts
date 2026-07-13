@@ -109,6 +109,8 @@ export class XmTableFilterInlineComponent implements OnInit, AfterViewInit, OnDe
     public isValid = null;
     public filterExpand: boolean = true;
     private viewInitialized: boolean = false;
+    private collapseRafId: number | null = null;
+    private collapseTransitionEnd: (() => void) | null = null;
     private cacheFilters: FiltersControlValue;
     private DELAY = 400;
     private request$: Subject<FiltersControlValue> = new Subject<FiltersControlValue>();
@@ -131,6 +133,7 @@ export class XmTableFilterInlineComponent implements OnInit, AfterViewInit, OnDe
     }
 
     public ngOnDestroy(): void {
+        this.cancelPendingTransition();
         takeUntilOnDestroyDestroy(this);
     }
 
@@ -170,6 +173,8 @@ export class XmTableFilterInlineComponent implements OnInit, AfterViewInit, OnDe
             return;
         }
 
+        this.cancelPendingTransition(el);
+
         if (!animate) {
             el.style.transition = 'none';
             el.style.height = this.filterExpand ? '' : 'auto';
@@ -181,7 +186,8 @@ export class XmTableFilterInlineComponent implements OnInit, AfterViewInit, OnDe
         if (this.filterExpand) {
             el.style.height = `${inner.scrollHeight}px`;
             void el.offsetHeight;
-            requestAnimationFrame(() => {
+            this.collapseRafId = requestAnimationFrame(() => {
+                this.collapseRafId = null;
                 el.style.height = '';
             });
         } else {
@@ -189,8 +195,22 @@ export class XmTableFilterInlineComponent implements OnInit, AfterViewInit, OnDe
             const onEnd = (): void => {
                 el.style.height = 'auto';
                 el.removeEventListener('transitionend', onEnd);
+                this.collapseTransitionEnd = null;
             };
+            this.collapseTransitionEnd = onEnd;
             el.addEventListener('transitionend', onEnd);
+        }
+    }
+
+    private cancelPendingTransition(el?: HTMLElement): void {
+        const node = el ?? this.collapseRef?.nativeElement;
+        if (this.collapseRafId !== null) {
+            cancelAnimationFrame(this.collapseRafId);
+            this.collapseRafId = null;
+        }
+        if (this.collapseTransitionEnd && node) {
+            node.removeEventListener('transitionend', this.collapseTransitionEnd);
+            this.collapseTransitionEnd = null;
         }
     }
 
