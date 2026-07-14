@@ -2,7 +2,7 @@ import { inject, Injectable, NgZone, OnDestroy } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { XmCoreConfig } from '@xm-ngx/core';
 import { from, lastValueFrom, Observable } from 'rxjs';
-import { defaultIfEmpty } from 'rxjs/operators';
+import { defaultIfEmpty, take } from 'rxjs/operators';
 import { REFRESH_TOKEN } from './xm-authentication-store.constants';
 
 export const EXPIRES_DATE_FIELD = 'authenticationTokenexpiresDate';
@@ -16,6 +16,13 @@ export const DEFAULT_TIMEOUT = Math.pow(2, 31) - 1;
  */
 const REFRESH_LEADER_LOCK = 'xm_auth_refresh_leader';
 const REFRESH_SINGLE_FLIGHT_LOCK = 'xm_auth_refresh_single_flight';
+
+/** Initial retry delay in milliseconds (5 s). */
+const RETRY_BASE_MS = 5_000;
+/** Maximum retry delay in milliseconds (60 s). */
+const RETRY_CAP_MS = 60_000;
+/** Maximum number of retry attempts before giving up. */
+const MAX_RETRY_ATTEMPTS = 3;
 
 /**
  * Minimal typings for the Web Locks API so we don't depend on the DOM lib
@@ -40,10 +47,15 @@ export class AuthRefreshTokenService implements OnDestroy {
     private readonly coreConfig: XmCoreConfig = inject(XmCoreConfig);
     private readonly zone: NgZone = inject(NgZone);
 
-    private latestCallback: (() => void) | null = null;
+    private latestCallback: (() => Observable<unknown>) | null = null;
     private leadershipRequested: boolean = false;
     private isLeader: boolean = false;
     private releaseLeadership: (() => void) | null = null;
+
+    /** Tracks how many consecutive refresh failures have occurred (resets on success). */
+    private retryAttempt: number = 0;
+    /** Handle for the pending backoff-retry timer. */
+    private retryTimer: any;
 
     constructor(
         private localStorage: LocalStorageService,
@@ -64,7 +76,7 @@ export class AuthRefreshTokenService implements OnDestroy {
         this.sessionStorage.store(EXPIRES_DATE_FIELD, expirationTime);
     }
 
-    public start(expiresIn: number | null, callback: () => void): void {
+    public start(expiresIn: number | null, callback: () => Observable<unknown>): void {
         if (this.isTabSyncEnabled()) {
             this.startWithTabSync(expiresIn, callback);
             return;
@@ -114,6 +126,8 @@ export class AuthRefreshTokenService implements OnDestroy {
 
     public clear(): void {
         clearTimeout(this.updateTokenTimer);
+        clearTimeout(this.retryTimer);
+        this.retryAttempt = 0;
         this.releaseLeadershipIfHeld();
         this.sessionStorage.clear(EXPIRES_DATE_FIELD);
         this.localStorage.clear(EXPIRES_DATE_FIELD);
@@ -121,10 +135,11 @@ export class AuthRefreshTokenService implements OnDestroy {
 
     public ngOnDestroy(): void {
         clearTimeout(this.updateTokenTimer);
+        clearTimeout(this.retryTimer);
         this.releaseLeadershipIfHeld();
     }
 
-    private startLegacy(expiresIn: number | null, callback: () => void): void {
+    private startLegacy(expiresIn: number | null, callback: () => Observable<unknown>): void {
         let expirationTime: number;
         if (expiresIn) {
             expirationTime = new Date().setSeconds(expiresIn);
@@ -137,13 +152,17 @@ export class AuthRefreshTokenService implements OnDestroy {
         if (currentDate < expirationTime) {
             let timeoutTime = (expirationTime - currentDate) - (60 * 1000);
             timeoutTime = this.updateTimoutToMaxValue(timeoutTime);
-            this.updateTokenTimer = setTimeout(callback, timeoutTime);
+            this.updateTokenTimer = setTimeout(() => callback().subscribe({
+                // In legacy fallback mode, proactive refresh errors are not retried.
+                // The next API request will receive a 401 that the interceptor handles.
+                error: () => void 0,
+            }), timeoutTime);
         } else {
-            callback();
+            callback().subscribe({ error: () => void 0 });
         }
     }
 
-    private startWithTabSync(expiresIn: number | null, callback: () => void): void {
+    private startWithTabSync(expiresIn: number | null, callback: () => Observable<unknown>): void {
         if (expiresIn) {
             const expirationTime = new Date().setSeconds(expiresIn);
             // Share the expiration through localStorage so a tab that is later
@@ -203,9 +222,56 @@ export class AuthRefreshTokenService implements OnDestroy {
     }
 
     private fireCallback(): void {
-        if (this.latestCallback) {
-            this.latestCallback();
+        if (!this.latestCallback) {
+            return;
         }
+        clearTimeout(this.retryTimer);
+        this.latestCallback().pipe(take(1)).subscribe({
+            next: () => {
+                // Refresh succeeded (or was skipped because a peer tab already refreshed).
+                this.retryAttempt = 0;
+                // Re-derive the timer from the stored expiry.  This covers the "skip"
+                // path where updateTokens() was not called on this tab.
+                if (this.isLeader) {
+                    this.scheduleLeaderTimer();
+                }
+            },
+            error: () => {
+                this.scheduleRetry();
+            },
+        });
+    }
+
+    /**
+     * Schedules a retry attempt with capped exponential backoff + jitter.
+     *
+     * Retrying stops automatically when the stored token expiry has passed or
+     * when {@link MAX_RETRY_ATTEMPTS} consecutive failures have occurred —
+     * the next API request will then receive a 401 that the interceptor handles.
+     */
+    private scheduleRetry(): void {
+        const expirationTime = this.getExpirationTime();
+        if (!expirationTime || Date.now() >= expirationTime) {
+            // Token already expired — stop the retry loop.
+            this.retryAttempt = 0;
+            return;
+        }
+
+        if (this.retryAttempt >= MAX_RETRY_ATTEMPTS) {
+            // Retry budget exhausted — stop scheduling and let the next 401 handle it.
+            this.retryAttempt = 0;
+            return;
+        }
+
+        const jitter = Math.floor(Math.random() * 1_000);
+        const delay = Math.min(RETRY_BASE_MS * Math.pow(2, this.retryAttempt) + jitter, RETRY_CAP_MS);
+        this.retryAttempt++;
+
+        clearTimeout(this.retryTimer);
+        this.retryTimer = setTimeout(
+            () => this.zone.run(() => this.fireCallback()),
+            delay,
+        );
     }
 
     private releaseLeadershipIfHeld(): void {

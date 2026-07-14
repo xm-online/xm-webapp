@@ -1,11 +1,23 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import {IIdpClient, TOKEN_URL, XmEventManager, XmEventManagerService, XmSessionService} from '@xm-ngx/core';
+import {
+    AUTH_LOGOUT,
+    AuthSyncMessage,
+    BroadcastChannelService,
+    IIdpClient,
+    TOKEN_URL,
+    XmCoreConfig,
+    XmEventManager,
+    XmEventManagerService,
+    XmSessionService,
+} from '@xm-ngx/core';
 import { SessionStorageService } from 'ngx-webstorage';
 import { EMPTY, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import {
+    AUTH_SYNC_CHANNEL_ID,
+    AUTH_SYNC_CHANNEL_NAME,
     AuthRefreshTokenService,
     StateStorageService,
     XmAuthenticationRepository,
@@ -47,6 +59,8 @@ export class AuthServerProvider {
     private skipRefreshTokenRequest: boolean;
     private readonly LOGOUT_EVENT = 'USER-LOGOUT';
     private readonly authStoreService: XmAuthenticationStoreService = inject(XmAuthenticationStoreService);
+    private readonly coreConfig: XmCoreConfig = inject(XmCoreConfig);
+    private channelService: BroadcastChannelService = inject(BroadcastChannelService);
     constructor(
         private principal: Principal,
         private http: HttpClient,
@@ -166,6 +180,7 @@ export class AuthServerProvider {
             this.eventManager.broadcast({name: this.LOGOUT_EVENT});
             this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
             this.$sessionStorage.clear(WIDGET_DATA);
+            this.coreConfig?.SINGLE_SESSION_TAB_SYNC === true && this.sendMessage();
             observer.next();
             observer.complete();
         }).pipe(
@@ -181,6 +196,12 @@ export class AuthServerProvider {
         );
     }
 
+    private sendMessage(): void {
+        this.channelService.sendMessage<AuthSyncMessage>(
+            AUTH_SYNC_CHANNEL_NAME,
+            {type: AUTH_LOGOUT, payload: {id: AUTH_SYNC_CHANNEL_ID}},
+        );
+    }
 
     public updateTokens(data: AuthTokenResponse, rememberMe: boolean = this.storeService.isRememberMe()): void {
         this.storeAT(data, rememberMe);
@@ -245,7 +266,10 @@ export class AuthServerProvider {
             // Persist the refresh token first so that cross-tab coordination can
             // reliably detect a "remember me" session when scheduling the timer.
             this.storeRefreshToken(refreshToken, rememberMe);
-            this.refreshTokenService.start(resp.expires_in, () => this.refreshTokens(rememberMe));
+            this.refreshTokenService.start(resp.expires_in, () => {
+                this.refreshTokens(rememberMe);
+                return of(null);
+            });
         }
     }
 
@@ -285,6 +309,7 @@ export class AuthServerProvider {
                 if (this.getRefreshToken()) {
                     this.refreshTokens(rememberMe);
                 }
+                return of(null);
             });
         } else {
             // // TODO: move to interceptor
