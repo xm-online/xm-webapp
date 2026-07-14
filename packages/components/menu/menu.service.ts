@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { BehaviorSubject, combineLatest, filter, from, map, Observable, of, Subject, switchMap, take } from 'rxjs';
 import { BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem, MenuOptions, MobileMenuState } from './menu.interface';
 import { MatDrawerMode, MatDrawerToggleResult, MatSidenav } from '@angular/material/sidenav';
@@ -33,6 +34,9 @@ export class MenuService {
     public isCategoriesHidden$: Observable<boolean>;
     public mobileMenuPositioning: MenuPositionEnum;
     public categories: Record<string, MenuCategory>;
+
+    private readonly document: Document = inject(DOCUMENT);
+    private readonly ngZone: NgZone = inject(NgZone);
 
     constructor(
         private readonly breakpointObserver: BreakpointObserver,
@@ -268,7 +272,29 @@ export class MenuService {
     }
 
     public async toggleSidenav(): Promise<void> {
-        await this.sidenav.toggle();
+        const result: Promise<MatDrawerToggleResult> = this.sidenav.toggle();
+        this.flushSidenavTransition();
+        await result;
+    }
+
+    /**
+     * Safari (production builds) does not schedule a paint/composite frame after a
+     * discrete click handler finishes. Forcing a
+     * synchronous reflow and requesting an animation frame kicks the rendering loop
+     * immediately, so the menu opens/closes right away in every browser.
+     */
+    private flushSidenavTransition(): void {
+        if (typeof requestAnimationFrame === 'undefined') {
+            return;
+        }
+        this.ngZone.runOutsideAngular(() => {
+            const drawer: HTMLElement | null = this.document?.querySelector<HTMLElement>('.mat-drawer');
+            const target: HTMLElement | undefined = drawer ?? this.document?.documentElement;
+            void target?.offsetHeight;
+            requestAnimationFrame(() => {
+                void target?.offsetHeight;
+            });
+        });
     }
 
     public isMenuPinned(isOpen?: boolean): boolean {
