@@ -47,7 +47,7 @@ import { ListLayoutComponent, ListLayoutConfig } from '@xm-ngx/components/layout
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     animations: [hideCategories],
-    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLink, SwitchThemeWidgetModule, XmDynamicModule, ListLayoutComponent, ListLayoutComponent, ListLayoutComponent],
+    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLink, SwitchThemeWidgetModule, XmDynamicModule, ListLayoutComponent],
 })
 export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit {
     public readonly DEFAULT_LOGO_SIZE: number = 32;
