@@ -120,8 +120,7 @@ export class AuthRefreshTokenService implements OnDestroy {
 
     public isExpired(): boolean {
         const expirationTime = this.getExpirationTime();
-        const currentDate = new Date().setSeconds(0);
-        return currentDate > expirationTime;
+        return Date.now() > expirationTime;
     }
 
     public clear(): void {
@@ -148,7 +147,7 @@ export class AuthRefreshTokenService implements OnDestroy {
             expirationTime = this.getExpirationTime();
         }
 
-        const currentDate = new Date().setSeconds(0);
+        const currentDate = Date.now();
         if (currentDate < expirationTime) {
             let timeoutTime = (expirationTime - currentDate) - (60 * 1000);
             timeoutTime = this.updateTimoutToMaxValue(timeoutTime);
@@ -210,7 +209,7 @@ export class AuthRefreshTokenService implements OnDestroy {
             return;
         }
 
-        const currentDate = new Date().setSeconds(0);
+        const currentDate = Date.now();
         if (currentDate >= expirationTime) {
             this.fireCallback();
             return;
@@ -232,8 +231,17 @@ export class AuthRefreshTokenService implements OnDestroy {
                 this.retryAttempt = 0;
                 // Re-derive the timer from the stored expiry.  This covers the "skip"
                 // path where updateTokens() was not called on this tab.
+                // Guard: only reschedule if the fresh expiry is more than 60 s away.
+                // scheduleLeaderTimer() computes timeoutTime = (expiry - now) - 60_000.
+                // If that value is <= 0 the timer fires immediately (delay 0), which
+                // would re-enter fireCallback() in the same tick and create an infinite
+                // synchronous loop when the stored expiry hasn't been advanced yet
+                // (e.g. a mock that does not call setExpirationTime).
                 if (this.isLeader) {
-                    this.scheduleLeaderTimer();
+                    const freshExpiry = this.getExpirationTime();
+                    if (freshExpiry && freshExpiry - Date.now() > 60_000) {
+                        this.scheduleLeaderTimer();
+                    }
                 }
             },
             error: () => {
