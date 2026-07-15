@@ -1,5 +1,4 @@
-import { TestBed, discardPeriodicTasks, fakeAsync, flush, tick } from '@angular/core/testing';
-import { NgZone } from '@angular/core';
+import { discardPeriodicTasks, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { of, throwError } from 'rxjs';
 
@@ -89,8 +88,6 @@ describe('AuthRefreshTokenService', () => {
                 { provide: LocalStorageService, useValue: localStorageSpy },
                 { provide: SessionStorageService, useValue: sessionStorageSpy },
                 { provide: XmCoreConfig, useValue: { SINGLE_SESSION_TAB_SYNC: true } },
-                // Pass-through zone so zone.run() executes callbacks synchronously in tests.
-                { provide: NgZone, useValue: { run: (fn: () => unknown) => fn() } },
                 AuthRefreshTokenService,
             ],
         });

@@ -21,6 +21,3 @@ export { XmSessionService, ISession } from './src/xm-session.service';
 export { XmCoreModule } from './src/xm-core.module';
 export { XM_CORE_EXTERNAL_CONFIG, XmCoreConfig } from './src/xm-core-config';
 export { TOKEN_URL, ACCOUNT_URL } from './injection-tokens/auth';
-export { BroadcastChannelService } from './src/broadcast-channel.service';
-export { SyncTabsChannelService } from './src/sync-tabs-chanel/sync-tabs-channel.service';
-export { AuthSyncMessage, AUTH_LOGOUT } from './src/sync-tabs-chanel/sync-tabs-channel.model';

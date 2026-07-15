@@ -2,9 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import {
-    AUTH_LOGOUT,
-    AuthSyncMessage,
-    BroadcastChannelService,
     IIdpClient,
     TOKEN_URL,
     XmCoreConfig,
@@ -12,6 +9,11 @@ import {
     XmEventManagerService,
     XmSessionService,
 } from '@xm-ngx/core';
+import {
+    AUTH_LOGOUT,
+    AuthSyncMessage,
+    BroadcastChannelService,
+} from '@xm-ngx/core/channels';
 import { SessionStorageService } from 'ngx-webstorage';
 import { EMPTY, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -61,6 +63,7 @@ export class AuthServerProvider {
     private readonly authStoreService: XmAuthenticationStoreService = inject(XmAuthenticationStoreService);
     private readonly coreConfig: XmCoreConfig = inject(XmCoreConfig);
     private channelService: BroadcastChannelService = inject(BroadcastChannelService);
+
     constructor(
         private principal: Principal,
         private http: HttpClient,
@@ -232,7 +235,8 @@ export class AuthServerProvider {
             // tokens are broadcast into storage, so there is nothing to do here.
             () => of(null),
         ).subscribe({
-            next: () => { /* success handled in tap (or skipped by a peer) */ },
+            next: () => { /* success handled in tap (or skipped by a peer) */
+            },
             error: (error) => {
                 console.info('Refresh token fails: %o', error);
                 this.xmAuthTargetUrlService.storeCurrentUrl();

@@ -2,8 +2,6 @@ import { inject, Injectable, NgZone } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { AUTH_SYNC_CHANNEL_ID, AUTH_SYNC_CHANNEL_NAME } from '@xm-ngx/core/auth';
 import { XmSessionService } from '@xm-ngx/core';
-import { Router } from '@angular/router';
-import { Principal } from '@xm-ngx/core/user';
 import { AUTH_LOGOUT, AuthSyncMessage } from './sync-tabs-channel.model';
 import { BroadcastChannelService } from '../broadcast-channel.service';
 
@@ -12,12 +10,12 @@ import { BroadcastChannelService } from '../broadcast-channel.service';
 })
 export class SyncTabsChannelService {
     private ngZone: NgZone = inject(NgZone);
-    private principalService: Principal = inject(Principal);
+    // private principalService: Principal = inject(Principal);
     private localStorage: LocalStorageService = inject(LocalStorageService);
     private sessionStorage: SessionStorageService = inject(SessionStorageService);
     private sessionService: XmSessionService = inject(XmSessionService);
     private channelService: BroadcastChannelService = inject(BroadcastChannelService);
-    private router: Router = inject(Router);
+    // private router: Router = inject(Router);
 
 
     public initialize(): void {
@@ -55,8 +53,8 @@ export class SyncTabsChannelService {
 
     private executeLogout(): void {
         this.sessionService.clear();
-        this.principalService.logout();
-        this.router.navigate(['']);
+        // this.principalService.logout();
+        // this.router.navigate(['']);
     }
 
     private storeAuthToken(type: string, jwt: string): void {

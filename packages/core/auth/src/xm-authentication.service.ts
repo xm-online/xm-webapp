@@ -61,7 +61,7 @@ export class XmAuthenticationService {
                 }
                 return this.authenticationRepository.refreshGuestAccessToken();
             }),
-            tap((res) => this.updateTokens(res)),
+            tap((res) => this.updateTokens(res as AuthTokenResponse | GuestTokenResponse)),
         );
     }
 
