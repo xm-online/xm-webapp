@@ -15,39 +15,6 @@
       }
     }
 
-    /**
-     * Safari does not animate the drawer's `transform` transition when the element
-     * simultaneously switches from a non-rendered state to a rendered one in the same frame -
-     * which is exactly what Angular Material does on open. When closed the drawer has BOTH:
-     *   .mat-drawer:not(.mat-drawer-opened):not(.mat-drawer-animating){visibility:hidden}
-     *   .mat-drawer:not(.mat-drawer-opened):not(.mat-drawer-animating) .mat-drawer-inner-container{display:none}
-     * so on open `visibility`, the inner container's `display` and `transform` all flip in one
-     * frame. With no painted "from" state Safari skips the transform transition, which is why
-     * closing animates but opening jumps/stalls.
-     *
-     * We keep the drawer permanently rendered (it is already translated off-screen via
-     * `transform: translate3d(-100%, 0, 0)` when closed) by neutralising BOTH the `visibility`
-     * and the inner-container `display` flips. The open transition is then reduced to a pure
-     * `transform` change from a painted state, so it animates smoothly in every browser.
-     *
-     * This intentionally stays a CSS `transition` (not a keyframe animation): Material relies on
-     * the drawer's `transitionend` event to emit `openedChange` and update the content margins /
-     * focus trap. A keyframe animation would fire `animationend` instead and break that contract.
-     */
-    .mat-drawer.menu-sidenav {
-      will-change: transform;
-
-      &:not(.mat-drawer-opened):not(.mat-drawer-animating) {
-        visibility: visible;
-
-        // `.mat-drawer-inner-container` belongs to Material's own template, so it needs
-        // `::ng-deep` to be reached from this emulated-encapsulation stylesheet.
-        ::ng-deep .mat-drawer-inner-container {
-          display: block;
-        }
-      }
-    }
-
     .border-none {
       border: none;
     }
