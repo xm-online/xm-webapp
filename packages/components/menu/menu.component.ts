@@ -47,7 +47,7 @@ import { Translate, XmTranslateService, XmTranslationModule } from '@xm-ngx/tran
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmEventManager, XmEventManagerAction } from '@xm-ngx/core';
-import { hideCategories, showHideSubCategoriesMobile } from './menu.animation';
+import { hideCategories, showHideSubCategoriesDesktop, showHideSubCategoriesMobile } from './menu.animation';
 import { MenuService } from './menu.service';
 import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { MenuPositionEnum, MenuSubcategoriesAnimationStateEnum } from './menu.model';
@@ -68,48 +68,10 @@ export type ISideBarConfig = {
 @Component({
     selector: 'xm-menu',
     templateUrl: './menu.component.html',
-    styles: [`
-        /**
-         * CSS replacement for the previous Angular ':enter' animation of the categories
-         * panel. Angular's Web Animations API driven ':enter' transitions do not advance on
-         * production Safari (they only start after an unrelated user event), so the panel
-         * appeared without animation / stuck on open while closing worked. A plain CSS
-         * keyframe animation is composited natively and runs reliably in every browser.
-         */
-        .menu-categories {
-            animation: xm-menu-categories-enter 100ms linear;
-        }
-
-        @keyframes xm-menu-categories-enter {
-            from {
-                opacity: 0;
-                transform: translateX(-15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /**
-         * CSS replacement for the previous Angular 'showHideSubCategoriesDesktop' animation.
-         * The desktop subcategory list was faded in through a WAAPI-driven opacity animation
-         * which - exactly like the categories panel and the inline table filters - does not
-         * advance on production Safari until an unrelated event. A plain CSS opacity transition
-         * is honoured natively in every browser.
-         */
-        .sub-categories-tree {
-            opacity: 0;
-            transition: opacity 150ms 50ms;
-        }
-
-        .sub-categories-tree.sub-categories-tree--visible {
-            opacity: 1;
-        }
-    `],
     animations: [
         matExpansionAnimations.bodyExpansion,
         matExpansionAnimations.indicatorRotate,
+        showHideSubCategoriesDesktop,
         showHideSubCategoriesMobile,
         hideCategories,
     ],
@@ -367,7 +329,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
             this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.HIDE;
             this.hoveredCategory = hoveredCategory;
             const next$: Observable<MatDrawerToggleResult | number> =
-                !this.menuService.sidenav.opened && isOpenMenu ? from(this.menuService.openSidenav()) : timer(0);
+                !this.menuService.sidenav.opened && isOpenMenu ? from(this.menuService.sidenav.open()) : timer(0);
             return next$.pipe(
                 observeOn(animationFrameScheduler),
                 tap(() => {
@@ -507,14 +469,6 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
             behavior: 'smooth',
             block: 'center',
         });
-    }
-
-    public onSubCategoriesTransitionEnd(event: TransitionEvent): void {
-        const target: HTMLElement = event.target as HTMLElement;
-
-        if (event.propertyName === 'opacity' && target?.classList?.contains('sub-categories-tree')) {
-            this.onHideSubCategoriesDone();
-        }
     }
 
     private get isOnlyOtherCategory(): boolean {

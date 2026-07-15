@@ -26,9 +26,8 @@
       <cdk-tree *ngIf="showMenuTree && subCategories$ | async"
                 [dataSource]="filteredCategories"
                 [treeControl]="treeControl"
-                class="sub-categories-tree"
-                [class.sub-categories-tree--visible]="isMobileScreen || showSubCategoriesState === menuSubcategoriesAnimationStateEnum.SHOW"
-                (transitionend)="onSubCategoriesTransitionEnd($event)"
+                [@showHideSubCategoriesDesktop]="!isMobileScreen ? showSubCategoriesState : null"
+                (@showHideSubCategoriesDesktop.done)="onHideSubCategoriesDone()"
       >
         <cdk-tree-node *cdkTreeNodeDef="let node">
           <a class="menu-link"

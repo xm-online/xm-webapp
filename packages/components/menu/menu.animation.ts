@@ -32,6 +32,10 @@ export const showHideSubCategoriesMobile: AnimationTriggerMetadata = trigger('sh
 ]);
 
 export const hideCategories: AnimationTriggerMetadata = trigger('hideCategories', [
+    transition(':enter', [
+        style({opacity: 0, transform: 'translateX(-15px)', position: 'absolute'}),
+        animate('100ms', style({opacity: 1, transform: 'translateX(0)', position: 'absolute'})),
+    ]),
     transition(':leave', [
         style({opacity: 1, transform: 'translateX(0)', position: 'absolute'}),
         animate('100ms', style({opacity: 0, transform: 'translateX(-15px)', position: 'absolute'})),

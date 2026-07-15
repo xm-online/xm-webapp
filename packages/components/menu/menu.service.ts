@@ -1,5 +1,4 @@
-import { inject, Injectable, NgZone } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, filter, from, map, Observable, of, Subject, switchMap, take } from 'rxjs';
 import { BrandLogo, HoveredMenuCategory, MenuCategory, MenuItem, MenuOptions, MobileMenuState } from './menu.interface';
 import { MatDrawerMode, MatDrawerToggleResult, MatSidenav } from '@angular/material/sidenav';
@@ -34,9 +33,6 @@ export class MenuService {
     public isCategoriesHidden$: Observable<boolean>;
     public mobileMenuPositioning: MenuPositionEnum;
     public categories: Record<string, MenuCategory>;
-
-    private readonly document: Document = inject(DOCUMENT);
-    private readonly ngZone: NgZone = inject(NgZone);
 
     constructor(
         private readonly breakpointObserver: BreakpointObserver,
@@ -184,7 +180,7 @@ export class MenuService {
 
                     if (!categories?.length && !this.sidenav.opened && !isMaterial3Menu) {
                         this.setHoveredCategory(this.otherCategory);
-                        return selectedCategory && this.breakpointObserver.isMatched(this.DESKTOP_BIG_SCREEN) ? from(this.openSidenav()) : of(null);
+                        return selectedCategory && this.breakpointObserver.isMatched(this.DESKTOP_BIG_SCREEN) ? from(this.sidenav.open()) : of(null);
                     }
 
                     if (categories?.length && isMaterial3Menu) {
@@ -193,7 +189,7 @@ export class MenuService {
                         const isMediumAndClosed: boolean = this.isMediumScreen(breakpoints) && this.isMenuPinned(this.sidenav.opened);
                         const selectedCategoryValue: MenuCategory = this.selectedCategory.value || selectedCategory;
                         return selectedCategoryValue && (isLargeAndClosed || isMediumAndClosed) && !selectedCategoryValue.isLinkWithoutSubcategories ?
-                            from(this.openSidenav()) : of(breakpointState);
+                            from(this.sidenav.open()) : of(breakpointState);
                     }
                     return of(null);
                 }),
@@ -272,80 +268,7 @@ export class MenuService {
     }
 
     public async toggleSidenav(): Promise<void> {
-        const willOpen = !this.sidenav.opened;
-        const result: Promise<MatDrawerToggleResult> = this.sidenav.toggle();
-
-        if (willOpen) {
-            this.kickOpenTransition();
-        }
-
-        await result;
-    }
-
-    /**
-     * Opens the sidenav while applying the same Safari transition kick as {@link toggleSidenav}.
-     * The categories are opened through this direct `open()` path (not `toggle()`), so it needs
-     * the kick too - otherwise selecting a category with subcategories leaves the drawer stuck
-     * until an unrelated event flushes Safari's rendering pipeline.
-     */
-    public openSidenav(): Promise<MatDrawerToggleResult> {
-        const willOpen = !this.sidenav.opened;
-        const result: Promise<MatDrawerToggleResult> = this.sidenav.open();
-
-        if (willOpen) {
-            this.kickOpenTransition();
-        }
-
-        return result;
-    }
-
-    /**
-     * Production Safari does not start the drawer's `transform` CSS transition when Material
-     * toggles the `.mat-drawer-opened` class programmatically from a click handler: the open
-     * stays "pending" until an unrelated event (another click, scroll, etc.) flushes the
-     * rendering pipeline.
-     * Because the transition never runs, its `transitionend` never fires, Material never emits
-     * `openedChange`, and the drawer looks stuck open-less.
-     *
-     * Re-applying the closed `transform` inline, forcing a synchronous reflow and then setting
-     * the open `transform` inline starts a fresh transition in the current frame, which Safari
-     * does honour. Material's own `transitionend` listener then completes the open normally.
-     * The inline transform is cleared once the animation ends (`.mat-drawer.mat-drawer-opened`
-     * already resolves to `transform: none`), so Material keeps full control afterwards.
-     *
-     * Closing is left untouched because it already animates correctly.
-     */
-    private kickOpenTransition(): void {
-        const drawer: HTMLElement | null = this.document?.querySelector<HTMLElement>('.mat-drawer');
-
-        if (!drawer) {
-            return;
-        }
-
-        const closedTransform: string = this.sidenav.position === 'end'
-            ? 'translate3d(100%, 0, 0)'
-            : 'translate3d(-100%, 0, 0)';
-
-        this.ngZone.runOutsideAngular(() => {
-            drawer.style.transform = closedTransform;
-            void drawer.offsetHeight;
-            drawer.style.transform = 'translate3d(0, 0, 0)';
-
-            const clear: () => void = () => {
-                drawer.style.transform = '';
-                drawer.removeEventListener('transitionend', onTransitionEnd);
-                clearTimeout(fallbackTimer);
-            };
-
-            const onTransitionEnd: (event: TransitionEvent) => void = (event: TransitionEvent) => {
-                if (event.target === drawer && event.propertyName === 'transform') {
-                    clear();
-                }
-            };
-
-            drawer.addEventListener('transitionend', onTransitionEnd);
-            const fallbackTimer: ReturnType<typeof setTimeout> = setTimeout(clear, 600);
-        });
+        await this.sidenav.toggle();
     }
 
     public isMenuPinned(isOpen?: boolean): boolean {
