@@ -68,29 +68,6 @@ export type ISideBarConfig = {
 @Component({
     selector: 'xm-menu',
     templateUrl: './menu.component.html',
-    styles: [`
-        /**
-         * CSS replacement for the previous Angular ':enter' animation of the categories
-         * panel. Angular's Web Animations API driven ':enter' transitions do not advance on
-         * production Safari (they only start after an unrelated user event), so the panel
-         * appeared without animation / stuck on open while closing worked. A plain CSS
-         * keyframe animation is composited natively and runs reliably in every browser.
-         */
-        .menu-categories {
-            animation: xm-menu-categories-enter 100ms linear;
-        }
-
-        @keyframes xm-menu-categories-enter {
-            from {
-                opacity: 0;
-                transform: translateX(-15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-    `],
     animations: [
         matExpansionAnimations.bodyExpansion,
         matExpansionAnimations.indicatorRotate,
