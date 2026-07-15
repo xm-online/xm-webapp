@@ -28,7 +28,7 @@ export class SyncTabsChannelService {
 
     private handleMessage({type, payload}: AuthSyncMessage): void {
         this.ngZone.run(() => {
-            const {id, rememberMe, jwt} = payload;
+            const {id, rememberMe, jwt} = payload || {};
 
             if (this.isMessageFromSelf(id)) {
                 return;
