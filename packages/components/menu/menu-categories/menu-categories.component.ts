@@ -40,7 +40,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { SwitchThemeWidgetModule } from '@xm-ngx/components/switch-theme-widget';
 import { XmDynamicModule } from '@xm-ngx/dynamic';
 import { ListLayoutComponent, ListLayoutConfig } from '@xm-ngx/components/layout/list';
-import { FlushAnimationOnInteractionDirective } from '@xm-ngx/components/animations';
 
 @Component({
     selector: 'xm-menu-categories',
@@ -48,7 +47,7 @@ import { FlushAnimationOnInteractionDirective } from '@xm-ngx/components/animati
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
     animations: [hideCategories],
-    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLink, SwitchThemeWidgetModule, XmDynamicModule, ListLayoutComponent, ListLayoutComponent, ListLayoutComponent, FlushAnimationOnInteractionDirective],
+    imports: [CommonModule, MatIconModule, XmTranslationModule, MatButtonModule, RouterLink, SwitchThemeWidgetModule, XmDynamicModule, ListLayoutComponent],
 })
 export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit {
     public readonly DEFAULT_LOGO_SIZE: number = 32;
