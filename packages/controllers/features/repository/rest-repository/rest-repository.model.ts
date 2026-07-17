@@ -1,5 +1,6 @@
 export type RestResourceConfig = {
     resource: ResourceConfig;
+    propagateErrors?: boolean;
     byType: {
         create: ResourceConfig;
         read: ResourceConfig;
