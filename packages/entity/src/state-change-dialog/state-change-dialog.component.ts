@@ -5,7 +5,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { XmAlertService } from '@xm-ngx/alert';
 import { NextSpec, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
 import { JsfAttributes } from '@xm-ngx/json-schema-form';
-import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { finalize } from 'rxjs/operators';
 
