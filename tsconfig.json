@@ -1,16 +1,17 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": false,
     "strict": false,
     "importHelpers": true,
-    "esModuleInterop": true,
     "skipLibCheck": true,
     "outDir": "./dist/out-tsc",
     "baseUrl": "./",
     "sourceMap": true,
     "declaration": true,
-    "moduleResolution": "bundler",
+    "downlevelIteration": true,
+    "moduleResolution": "node",
     "experimentalDecorators": true,
     "target": "es2022",
     "typeRoots": [
@@ -51,6 +52,9 @@
       ],
       "rxjs/*": [
         "node_modules/rxjs/*"
+      ],
+      "@angular/*": [
+        "node_modules/@angular/*"
       ]
     },
     "inlineSources": true,
@@ -66,8 +70,7 @@
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
-    "useDefineForClassFields": false,
-    "esModuleInterop": true
+    "useDefineForClassFields": false
   },
   "include": [
     "src/**/*.ts",
