@@ -14,10 +14,17 @@
 
     &-icon {
       line-height: 1;
-      margin-bottom: 16px;
+      margin-right: 10px;
+      margin-top: 5px;
     }
 
     &-title {
+
+      &__content-wrap {
+        display: flex;
+        margin-bottom: 5px;
+      }
+
       &__above {
         font-weight: 600;
       }
