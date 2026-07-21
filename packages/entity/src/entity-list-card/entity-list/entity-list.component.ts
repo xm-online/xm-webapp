@@ -12,7 +12,7 @@ import { XmEventManager } from '@xm-ngx/core';
 import { ContextService } from '@xm-ngx/core/context';
 import { Spec, XmEntity, XmEntityService, XmEntitySpec, XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
-import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form';
 import { saveFile, takeUntilOnDestroy, transpilingForIE } from '@xm-ngx/operators';
 import { XmToasterService } from '@xm-ngx/toaster';
 import { TranslatePipe } from '@xm-ngx/translation';

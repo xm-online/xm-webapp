@@ -33,38 +33,40 @@ export class ButtonSpinnerDirective implements OnChanges {
     @Input() public color: ThemePalette;
     @Input() public height: number;
 
+    private button: MatButton | MatIconButton;
+
     constructor(
-       @Optional() private matButton: MatButton,
-       @Optional() private matIconButton: MatIconButton,
+       @Optional() matButton: MatButton,
+       @Optional() matIconButton: MatIconButton,
         private viewContainerRef: ViewContainerRef,
         private renderer: Renderer2,
     ) {
-        this.matButton = this.matButton || this.matIconButton;
+        this.button = matButton || matIconButton;
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (!changes.hasOwnProperty('loading')) {
+        if (!changes.hasOwnProperty('loading') || !this.button) {
             return;
         }
 
         if (changes.loading.currentValue) {
-            this.matButton._elementRef.nativeElement.classList.add('xm-button-spinner-loading');
-            this.matButton.disabled = true;
+            this.button._elementRef.nativeElement.classList.add('xm-button-spinner-loading');
+            this.button.disabled = true;
             this.createSpinner();
         } else if (!changes.loading.firstChange) {
-            this.matButton._elementRef.nativeElement.classList.remove('xm-button-spinner-loading');
-            this.matButton.disabled = this.disabled;
+            this.button._elementRef.nativeElement.classList.remove('xm-button-spinner-loading');
+            this.button.disabled = this.disabled;
             this.destroySpinner();
         }
     }
 
     private createSpinner(): void {
-        if (!this.spinner) {
+        if (!this.spinner && this.button) {
             this.spinner = this.viewContainerRef.createComponent(MatProgressSpinner);
             this.spinner.instance.color = this.color;
             this.spinner.instance.diameter = this.height || 20;
             this.spinner.instance.mode = 'indeterminate';
-            this.renderer.appendChild(this.matButton._elementRef.nativeElement, this.spinner.instance._elementRef.nativeElement);
+            this.renderer.appendChild(this.button._elementRef.nativeElement, this.spinner.instance._elementRef.nativeElement);
         }
     }
 

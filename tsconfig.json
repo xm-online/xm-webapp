@@ -5,6 +5,7 @@
     "strict": false,
     "importHelpers": true,
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "outDir": "./dist/out-tsc",
     "baseUrl": "./",
     "sourceMap": true,

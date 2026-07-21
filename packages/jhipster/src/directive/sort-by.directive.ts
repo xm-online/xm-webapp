@@ -16,7 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import { AfterContentInit, ContentChild, Directive, Host, HostListener, Input } from '@angular/core';
+import { AfterContentInit, ContentChild, Directive, HostListener, Input, inject } from '@angular/core';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -35,8 +35,11 @@ export class JhiSortByDirective implements AfterContentInit {
     public sortAscIcon: IconDefinition;
     public sortDescIcon: IconDefinition;
 
-    constructor(@Host() private jhiSort: JhiSortDirective, configService: JhiConfigService) {
-        this.jhiSort = jhiSort;
+    private jhiSort = inject(JhiSortDirective, { host: true, optional: true });
+
+    constructor(
+        configService: JhiConfigService
+    ) {
         const config = configService.getConfig();
         this.sortIcon = config.sortIcon;
         this.sortAscIcon = config.sortAscIcon;

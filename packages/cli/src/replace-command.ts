@@ -12,7 +12,7 @@ export class ReplaceCommand implements Command {
     public targetIndexHtml: string = 'src/index.html';
 
     public replaceFile(sourcePath: string, targetPath: string): void {
-        const source = fs.readFileSync(sourcePath);
+        const source = fs.readFileSync(sourcePath, 'utf8');
         fs.writeFileSync(targetPath, source);
     }
 
