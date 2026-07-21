@@ -1,5 +1,5 @@
 import { HttpClient, HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,6 +9,7 @@ import { XmAlertModule } from '@xm-ngx/alert';
 import { ControlErrorModule } from '@xm-ngx/components/control-error';
 import { proxyInterceptorFactory } from '@xm-ngx/components/proxy-interceptor';
 import { XmCoreModule, XmPublicUiConfigService } from '@xm-ngx/core';
+import { SyncTabsChannelService } from '@xm-ngx/core/channels';
 import { AuthServerProvider, Principal } from '@xm-ngx/core/user';
 import { XmCoreAuthModule } from '@xm-ngx/core/auth';
 import { LoginService } from '@xm-ngx/components/login';
@@ -74,6 +75,8 @@ export const ngxMaskConfig = (): IConfig | object => {
     };
 };
 
+const SINGLE_SESSION_TAB_SYNC = false;
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -90,6 +93,7 @@ export const ngxMaskConfig = (): IConfig | object => {
             IS_PRODUCTION: environment.production,
             VERSION: environment.version,
             RELEASE: environment.release,
+            SINGLE_SESSION_TAB_SYNC,
         }),
         XmCoreEntityModule.forRoot(),
         ControlErrorModule.forRoot({errorTranslates: XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES}),
@@ -211,6 +215,8 @@ export const ngxMaskConfig = (): IConfig | object => {
     bootstrap: [XmMainComponent],
 })
 export class XmModule {
+    private syncTabsChanelService: SyncTabsChannelService = inject(SyncTabsChannelService);
+
     constructor(
         languageService: LanguageService,
         maintenanceService: MaintenanceService,
@@ -231,5 +237,7 @@ export class XmModule {
         languageService.init();
         titleService.init();
         loggerWatcherService.init();
+
+        SINGLE_SESSION_TAB_SYNC && this.syncTabsChanelService.initialize();
     }
 }

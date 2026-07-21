@@ -38,6 +38,21 @@ export class XmAuthenticationService {
     }
 
     public refreshToken(): Observable<unknown | null> {
+        // Single-flight across tabs: while one tab refreshes, others wait and
+        // then reuse the freshly stored token instead of issuing a duplicate
+        // (stale) refresh that a single-session backend would reject.
+        // No-op wrapper (returns performRefresh()) when the feature is disabled.
+        return this.refreshTokenService.runExclusive(
+            () => this.performRefresh(),
+            () => of(this.storeService.getAuthenticationToken()),
+        );
+    }
+
+    /**
+     * Core refresh logic shared by both the reactive (401) and proactive (leader timer) paths.
+     * Does NOT catch errors — callers are responsible for error handling.
+     */
+    private rawRefresh(): Observable<unknown> {
         return this.sessionService.isActive().pipe(
             take(1),
             switchMap((active) => {
@@ -46,13 +61,34 @@ export class XmAuthenticationService {
                 }
                 return this.authenticationRepository.refreshGuestAccessToken();
             }),
-            tap((res) => this.updateTokens(res)),
+            tap((res) => this.updateTokens(res as AuthTokenResponse | GuestTokenResponse)),
+        );
+    }
+
+    private performRefresh(): Observable<unknown | null> {
+        return this.rawRefresh().pipe(
             catchError(() => {
                 this.sessionService.clear();
                 this.xmAuthTargetUrlService.storeCurrentUrl();
                 this.router.navigate(['']);
                 return of(null);
             }),
+        );
+    }
+
+    /**
+     * Proactive refresh callback for the leader timer.
+     *
+     * Unlike {@link refreshToken}, this does NOT catch errors or navigate to the
+     * login page on failure. Instead, {@link AuthRefreshTokenService} applies
+     * exponential backoff-retry and stops scheduling once the token is past its
+     * expiry, at which point the next API request receives a 401 that the
+     * interceptor handles in the usual way.
+     */
+    private proactiveRefresh(): Observable<unknown> {
+        return this.refreshTokenService.runExclusive(
+            () => this.rawRefresh(),
+            () => of(this.storeService.getAuthenticationToken()),
         );
     }
 
@@ -94,7 +130,10 @@ export class XmAuthenticationService {
 
         this.storeService.storeRefreshToken(data.refresh_token, rememberMe);
         // TODO: invert to listener of session change
-        this.refreshTokenService.start(data.expires_in, () => this.refreshToken());
+        // Pass proactiveRefresh (no navigation on failure) so the refresh-token
+        // service can retry with backoff without immediately sending the user to
+        // the login page on a transient network error.
+        this.refreshTokenService.start(data.expires_in, () => this.proactiveRefresh());
 
         this.sessionService.update();
 
