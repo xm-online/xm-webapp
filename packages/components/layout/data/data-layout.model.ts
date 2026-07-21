@@ -1,4 +1,4 @@
-import { XmDynamicControllerDeclaration } from '@xm-ngx/dynamic/presentation/xm-dynamic-presentation-base.directive';
+import { XmDynamicControllerDeclaration } from '@xm-ngx/dynamic';
 import { JavascriptCode, XmConfig } from '@xm-ngx/interfaces';
 
 export type DataLayoutConfig = {

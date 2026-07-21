@@ -12,7 +12,7 @@ import { ModalCloseModule } from '@xm-ngx/components/modal-close';
 import { XmEventManager } from '@xm-ngx/core';
 import { Spec, XmEntity, XmEntityService, XmEntitySpec } from '@xm-ngx/core/entity';
 import { JsfAttributes, XmJsonSchemaFormModule } from '@xm-ngx/json-schema-form';
-import { JsfComponentRegistryService, nullSafe } from '@xm-ngx/json-schema-form/components';
+import { JsfComponentRegistryService, nullSafe } from '@xm-ngx/json-schema-form';
 import { stringSubstitute } from '@xm-ngx/operators';
 import { LanguageModule, XmTranslationModule } from '@xm-ngx/translation';
 

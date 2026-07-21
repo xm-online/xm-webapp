@@ -6,6 +6,8 @@ export {
     XmSanitizedLayout,
     XmLayoutNode,
     XmDynamicLayoutNode,
+    XmSkeletonConfig,
+    XmSkeletonStyles,
 } from './xm-dynamic-layout';
 export { XmDynamicEntryModule } from './xm-dynamic-entry-module';
 export {

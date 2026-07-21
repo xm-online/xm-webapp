@@ -7,7 +7,7 @@ import { XmAlertService } from '@xm-ngx/alert';
 import { XmEventManager } from '@xm-ngx/core';
 import { FunctionService, FunctionSpec, XmEntity } from '@xm-ngx/core/entity';
 import { JsfAttributes } from '@xm-ngx/json-schema-form';
-import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form/components';
+import { JsfComponentRegistryService } from '@xm-ngx/json-schema-form';
 import { getFileNameFromResponseContentDisposition, saveFile } from '@xm-ngx/operators';
 import { BehaviorSubject, merge, Observable, of } from 'rxjs';
 import { catchError, filter, finalize, share, tap } from 'rxjs/operators';

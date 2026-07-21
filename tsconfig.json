@@ -5,6 +5,7 @@
     "forceConsistentCasingInFileNames": false,
     "strict": false,
     "importHelpers": true,
+    "skipLibCheck": true,
     "outDir": "./dist/out-tsc",
     "baseUrl": "./",
     "sourceMap": true,
@@ -38,13 +39,13 @@
         "packages/entity/*"
       ],
       "@xm-ngx/json-schema-form/core": [
-        "node_modules/@xm-ngx/json-schema-form"
+        "packages/json-schema-form"
       ],
       "@xm-ngx/json-schema-form/components": [
-        "node_modules/@xm-ngx/json-schema-form"
+        "packages/json-schema-form/components"
       ],
       "@xm-ngx/json-schema-form/components/*": [
-        "node_modules/@xm-ngx/json-schema-form"
+        "packages/json-schema-form/components/*"
       ],
       "rxjs": [
         "node_modules/rxjs"

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { XmUser } from './xm-user-model';
 import { AppStore } from '@xm-ngx/ngrx-store';
 import { map } from 'rxjs/operators';
-import { AppStoreSource } from '@xm-ngx/ngrx-store/src/models/app-store.model';
+import { AppStoreSource } from '@xm-ngx/ngrx-store';
 import { AccountService } from './account.service';
 
 @Injectable({
