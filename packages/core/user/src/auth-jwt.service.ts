@@ -1,11 +1,25 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import {IIdpClient, TOKEN_URL, XmEventManager, XmEventManagerService, XmSessionService} from '@xm-ngx/core';
+import {
+    IIdpClient,
+    TOKEN_URL,
+    XmCoreConfig,
+    XmEventManager,
+    XmEventManagerService,
+    XmSessionService,
+} from '@xm-ngx/core';
+import {
+    AUTH_LOGOUT,
+    AuthSyncMessage,
+    BroadcastChannelService,
+} from '@xm-ngx/core/channels';
 import { SessionStorageService } from 'ngx-webstorage';
-import { EMPTY, Observable } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import {
+    AUTH_SYNC_CHANNEL_ID,
+    AUTH_SYNC_CHANNEL_NAME,
     AuthRefreshTokenService,
     StateStorageService,
     XmAuthenticationRepository,
@@ -47,6 +61,9 @@ export class AuthServerProvider {
     private skipRefreshTokenRequest: boolean;
     private readonly LOGOUT_EVENT = 'USER-LOGOUT';
     private readonly authStoreService: XmAuthenticationStoreService = inject(XmAuthenticationStoreService);
+    private readonly coreConfig: XmCoreConfig = inject(XmCoreConfig);
+    private channelService: BroadcastChannelService = inject(BroadcastChannelService);
+
     constructor(
         private principal: Principal,
         private http: HttpClient,
@@ -166,6 +183,7 @@ export class AuthServerProvider {
             this.eventManager.broadcast({name: this.LOGOUT_EVENT});
             this.$sessionStorage.clear(TOKEN_STORAGE_KEY);
             this.$sessionStorage.clear(WIDGET_DATA);
+            this.coreConfig?.SINGLE_SESSION_TAB_SYNC === true && this.sendMessage();
             observer.next();
             observer.complete();
         }).pipe(
@@ -181,6 +199,12 @@ export class AuthServerProvider {
         );
     }
 
+    private sendMessage(): void {
+        this.channelService.sendMessage<AuthSyncMessage>(
+            AUTH_SYNC_CHANNEL_NAME,
+            {type: AUTH_LOGOUT, payload: {id: AUTH_SYNC_CHANNEL_ID}},
+        );
+    }
 
     public updateTokens(data: AuthTokenResponse, rememberMe: boolean = this.storeService.isRememberMe()): void {
         this.storeAT(data, rememberMe);
@@ -199,17 +223,28 @@ export class AuthServerProvider {
     }
 
     public refreshTokens(rememberMe: boolean = this.storeService.isRememberMe()): void {
-        this.refreshToken().subscribe((data) => {
-            this.storeAT(data, rememberMe);
-            this.storeRT(data, rememberMe);
-            this.sessionService.update();
-        }, (error) => {
-            console.info('Refresh token fails: %o', error);
-            this.xmAuthTargetUrlService.storeCurrentUrl();
-            this.logout().subscribe();
-            this.principal.logout();
-            this.router.navigate(['']);
-            this.sessionService.clear();
+        this.refreshTokenService.runExclusive(
+            () => this.refreshToken().pipe(
+                tap((data) => {
+                    this.storeAT(data, rememberMe);
+                    this.storeRT(data, rememberMe);
+                    this.sessionService.update();
+                }),
+            ),
+            // Another tab already refreshed while we waited for the lock: the new
+            // tokens are broadcast into storage, so there is nothing to do here.
+            () => of(null),
+        ).subscribe({
+            next: () => { /* success handled in tap (or skipped by a peer) */
+            },
+            error: (error) => {
+                console.info('Refresh token fails: %o', error);
+                this.xmAuthTargetUrlService.storeCurrentUrl();
+                this.logout().subscribe();
+                this.principal.logout();
+                this.router.navigate(['']);
+                this.sessionService.clear();
+            },
         });
     }
 
@@ -232,8 +267,13 @@ export class AuthServerProvider {
     private storeRT(resp: AuthTokenResponse, rememberMe: boolean): void {
         const refreshToken = resp[REFRESH_TOKEN];
         if (refreshToken) {
-            this.refreshTokenService.start(resp.expires_in, () => this.refreshTokens(rememberMe));
+            // Persist the refresh token first so that cross-tab coordination can
+            // reliably detect a "remember me" session when scheduling the timer.
             this.storeRefreshToken(refreshToken, rememberMe);
+            this.refreshTokenService.start(resp.expires_in, () => {
+                this.refreshTokens(rememberMe);
+                return of(null);
+            });
         }
     }
 
@@ -273,6 +313,7 @@ export class AuthServerProvider {
                 if (this.getRefreshToken()) {
                     this.refreshTokens(rememberMe);
                 }
+                return of(null);
             });
         } else {
             // // TODO: move to interceptor
