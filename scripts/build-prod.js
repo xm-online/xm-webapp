@@ -1,7 +1,8 @@
 const [nx = ''] = process.argv.slice(2);
 const [, isNX = 'false'] = nx.split('=');
 
-const NEW_VERSION_BUILD = 'true' ?? process.env.NEW_VERSION_BUILD ?? isNX;
+//const NEW_VERSION_BUILD = 'true' ?? process.env.NEW_VERSION_BUILD ?? isNX;
+const NEW_VERSION_BUILD = process.env.NEW_VERSION_BUILD ?? isNX;
 
 console.info('Running prod build with the following parameters:');
 console.table({isNX: NEW_VERSION_BUILD});
