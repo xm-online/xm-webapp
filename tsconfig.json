@@ -10,7 +10,7 @@
     "baseUrl": "./",
     "sourceMap": true,
     "declaration": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "experimentalDecorators": true,
     "target": "es2022",
     "typeRoots": [

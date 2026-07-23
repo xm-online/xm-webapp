@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { matExpansionAnimations } from '@angular/material/expansion';
+import { xmExpansionAnimations } from '@xm-ngx/components/animations';
 import { EditWidgetButtonsEvent, EditWidgetButtonsEventType } from '@xm-ngx/components/edit-buttons';
 import { PageChangesStore, PageChangesStoreType } from '@xm-ngx/core/dashboard';
 import { Principal } from '@xm-ngx/core/user';
@@ -33,8 +33,8 @@ export interface XmMatCardOptions {
     selector: 'xm-mat-card',
     templateUrl: './xm-mat-card.component.html',
     animations: [
-        matExpansionAnimations.bodyExpansion,
-        matExpansionAnimations.indicatorRotate,
+        xmExpansionAnimations.bodyExpansion,
+        xmExpansionAnimations.indicatorRotate,
     ],
     standalone: false,
 })

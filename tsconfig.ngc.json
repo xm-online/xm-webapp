@@ -14,7 +14,7 @@
     "target": "es2015",
     "module": "esnext",
     "useDefineForClassFields": false,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "outDir": "",
     "resolveJsonModule": true,
     "esModuleInterop": true,
