@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { CustomUriEncoder } from '@xm-ngx/operators';
 import { ACCESS_TOKEN, AuthTokenResponse, REFRESH_TOKEN } from '@xm-ngx/core/user';
@@ -137,7 +137,10 @@ export class SignInUpService {
     private storeRT(resp: AuthTokenResponse, rememberMe: boolean): void {
         const refreshToken = resp[REFRESH_TOKEN];
         if (refreshToken) {
-            this.refreshTokenService.start(resp.expires_in, () => this.refreshTokens(rememberMe));
+            this.refreshTokenService.start(resp.expires_in, () => {
+                this.refreshTokens(rememberMe);
+                return of(null);
+            });
             this.storeRefreshToken(refreshToken, rememberMe);
         }
     }

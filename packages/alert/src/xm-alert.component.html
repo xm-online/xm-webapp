@@ -1,12 +1,13 @@
 @if (data?.title || data?.aboveTitle || data?.belowTitle) {
     <div class="heading {{data?.className}}" mat-dialog-title [class.center]="data?.center">
-        <div class="heading-icon {{data?.iconClassName}}" *ngIf="data?.icon">
-            <mat-icon [style.color]="data?.iconColor">{{data.icon}}</mat-icon>
-        </div>
-
         <div class="heading-title">
             <h3 class="heading-title__above" *ngIf="data?.aboveTitle">{{data.aboveTitle | translate}}</h3>
-            <h2 class="heading-title__content" *ngIf="data?.title">{{data.title | translate}}</h2>
+            <div class="heading-title__content-wrap" *ngIf="data?.title || data?.icon">
+                <div class="heading-icon {{data?.iconClassName}}" *ngIf="data?.icon">
+                    <mat-icon [style.color]="data?.iconColor">{{data.icon}}</mat-icon>
+                </div>
+                <h2 class="heading-title__content" *ngIf="data?.title">{{data.title | translate}}</h2>
+            </div>
             <h3 class="heading-title__below" *ngIf="data?.belowTitle">{{data.belowTitle | translate}}</h3>
         </div>
     </div>

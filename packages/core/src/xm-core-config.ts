@@ -19,4 +19,12 @@ export class XmCoreConfig {
     public IDP_SERVER_API_URL: string = '';
     public VERSION: string = '';
     public RELEASE: string = '';
+    /**
+     * When enabled, browser tabs coordinate token refresh across each other:
+     * a single leader tab owns the proactive refresh timer and the actual
+     * refresh network call is single-flight (via the Web Locks API).
+     * Prevents concurrent/duplicate refreshes that break single-session backends.
+     * Defaults to false to preserve the legacy per-tab behavior.
+     */
+    public SINGLE_SESSION_TAB_SYNC: boolean = false;
 }

@@ -1,4 +1,4 @@
-import {Inject, Injectable, isDevMode} from '@angular/core';
+import { Inject, Injectable, isDevMode } from '@angular/core';
 import { Params, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthServerProvider, Principal } from '@xm-ngx/core/user';
