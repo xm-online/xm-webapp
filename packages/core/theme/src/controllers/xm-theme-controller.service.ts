@@ -100,14 +100,15 @@ export class XmThemeController implements OnDestroy {
     }
 
     private getThemeHref(themeStrategy: ThemeStrategy, file: string): string {
+        const defaultPath = `/assets/themes/${file}.css`;
         switch (themeStrategy) {
             case 'TENANT_ONLY':
                 return `assets/css/${file}.css`;
             case 'CUSTOM':
                 const {themePath} = this.publicConfig() || {};
-                return themePath ? `${themePath}/${file}.css` : `/assets/themes/${file}.css`;
+                return themePath ? `${themePath}/${file}.css` : defaultPath;
             default:
-                return `/assets/themes/${file}.css`;
+                return defaultPath;
         }
     }
 }
