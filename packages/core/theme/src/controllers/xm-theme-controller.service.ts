@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { inject, Injectable, OnDestroy, Signal } from '@angular/core';
 import { BehaviorSubject, map, Observable, of, Subscription } from 'rxjs';
 import { ThemeSchemeService } from '../services/theme-scheme.service';
 import { XmThemeStore } from '../stores/xm-theme-store.service';
@@ -6,6 +6,8 @@ import { ColorSchemeService } from '../services/color-scheme.service';
 import { XmTheme } from '../interfaces/xm.theme';
 import { StyleManagerService } from '../services/style-manager.service';
 import { ThemeColorService } from '../services/theme-color.service';
+import { XmPublicUiConfigService } from '@xm-ngx/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
     providedIn: 'root',
@@ -14,30 +16,31 @@ import { ThemeColorService } from '../services/theme-color.service';
  * Manages light and dark themes
  */
 export class XmThemeController implements OnDestroy {
-    private subscription: Subscription;
+    private themeSchemeService: ThemeSchemeService = inject(ThemeSchemeService);
+    private colorSchemeService: ColorSchemeService = inject(ThemeColorService);
+    private themeStore: XmThemeStore = inject(XmThemeStore);
+    private styleManager: StyleManagerService = inject(StyleManagerService);
+    private themeColorService: ThemeColorService = inject(ThemeColorService);
+    private configService: XmPublicUiConfigService<XmTheme> = inject(XmPublicUiConfigService<XmTheme>);
 
+    private subscription: Subscription;
     private activeTheme: BehaviorSubject<XmTheme | null>;
     private isBrowserDark: boolean;
+    public publicConfig: Signal<XmTheme> = toSignal<XmTheme>(this.configService.config$());
 
-    constructor(
-        private themeSchemeService: ThemeSchemeService,
-        private colorSchemeService: ColorSchemeService,
-        private themeStore: XmThemeStore,
-        private styleManager: StyleManagerService,
-        private themeColorService: ThemeColorService,
-    ) {
+
+    constructor() {
         this.activeTheme = new BehaviorSubject<XmTheme | null>(this.themeStore.get());
         this.isBrowserDark = this.themeSchemeService.getBrowserTheme() == 'dark';
+        this.observeBrowserThemeChanges();
+    }
 
+    private observeBrowserThemeChanges(): void {
         this.subscription = this.themeSchemeService.browserThemeChange$()
             .subscribe((e) => {
-                if (e === 'dark') {
-                    this.isBrowserDark = true;
-                } else {
-                    this.isBrowserDark = false;
-                }
+                this.isBrowserDark = e === 'dark';
                 const theme = this.activeTheme.value;
-                if (theme == null) {
+                if (theme === null) {
                     return;
                 }
                 this.updateStyleTheme(theme);
@@ -83,19 +86,30 @@ export class XmThemeController implements OnDestroy {
     }
 
     private updateStyleTheme(theme: XmTheme): void {
+        const {appearanceStrategy, themeStrategy, darkTheme} = theme || {};
+
         let file = theme.lightTheme;
-        const isThemeAllowDark = theme.appearanceStrategy == 'dark' || theme.appearanceStrategy == 'auto';
-        const isThemeDark = theme.appearanceStrategy == 'dark';
+        const isThemeAllowDark = appearanceStrategy === 'dark' || appearanceStrategy == 'auto';
+        const isThemeDark = appearanceStrategy === 'dark';
         if (isThemeAllowDark && (this.isBrowserDark || isThemeDark)) {
-            file = theme.darkTheme;
+            file = darkTheme;
         }
 
-        if (theme.themeStrategy === 'TENANT_ONLY') {
-            this.styleManager.set('theme', `assets/css/${file}.css`);
-        } else {
-            this.styleManager.set('theme', `/assets/themes/${file}.css`);
+        let themeHref = '';
+        switch (themeStrategy) {
+            case 'TENANT_ONLY':
+                themeHref = `assets/css/${file}.css`;
+                break;
+            case 'CUSTOM':
+                const {themePath} = this.publicConfig() || {};
+                themeHref = themePath ? `${themePath}/${file}.css` : `/assets/themes/${file}.css`;
+                break;
+            default:
+                themeHref = `/assets/themes/${file}.css`;
+                break;
         }
 
+        this.styleManager.set('theme', themeHref);
         this.activeTheme.next(theme);
     }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, input, Input, InputSignal, NgModule, OnInit, Type } from '@angular/core';
+import { Component, inject, input, Input, InputSignal, NgModule, OnInit, Signal, Type } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -12,6 +12,8 @@ import { JavascriptCode } from '@xm-ngx/interfaces';
 import { Translate, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { XmPublicUiConfigService } from '@xm-ngx/core';
 
 export interface SwitchThemeOptionsTheme {
     theme: string,
@@ -70,13 +72,14 @@ export interface SwitchThemeOptions {
     standalone: false,
 })
 export class SwitchThemeWidget implements OnInit, XmDynamicWidget {
+    private configService: XmPublicUiConfigService<XmTheme> = inject(XmPublicUiConfigService<XmTheme>);
+    private themeService: XmThemeController = inject(XmThemeController);
+
     public showAsStrokedButton: InputSignal<boolean> = input(false);
+    public publicConfig: Signal<XmTheme> = toSignal<XmTheme>(this.configService.config$());
     @Input() public config: SwitchThemeOptions;
     public loading: boolean;
     public nextTheme: SwitchThemeOptionsTheme;
-
-    constructor(private themeService: XmThemeController) {
-    }
 
     public ngOnInit(): void {
         if (!this.config?.themes?.length) {
@@ -105,7 +108,7 @@ export class SwitchThemeWidget implements OnInit, XmDynamicWidget {
             lightTheme: theme.theme,
             darkTheme: theme.theme,
             themeColor: theme.color,
-            themeStrategy: 'THEME',
+            themeStrategy: this.publicConfig()?.themeStrategy || 'THEME',
             appearanceStrategy: theme.scheme,
         };
 
