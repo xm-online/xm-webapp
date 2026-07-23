@@ -7,7 +7,7 @@ import { FiltersControlValue } from './xm-table-filter-button-dialog-control.com
 import { XmTranslatePipe } from '@xm-ngx/translation';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
-import { matExpansionAnimations } from '@angular/material/expansion';
+import { xmExpansionAnimations } from '@xm-ngx/components/animations';
 import { NgClass, NgIf } from '@angular/common';
 import _ from 'lodash';
 import { XmEmptyPipe } from '@xm-ngx/pipes';
@@ -97,7 +97,7 @@ import { XmTableInlineFilterFormLayoutItem } from './xm-table-filter-chips.compo
         XmEmptyPipe,
     ],
     animations: [
-        matExpansionAnimations.bodyExpansion,
+        xmExpansionAnimations.bodyExpansion,
     ],
 })
 export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
