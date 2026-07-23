@@ -11,7 +11,7 @@
     "sourceMap": true,
     "declaration": true,
     "downlevelIteration": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "experimentalDecorators": true,
     "target": "es2022",
     "typeRoots": [
