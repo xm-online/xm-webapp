@@ -3,7 +3,7 @@ import { BehaviorSubject, map, Observable, of, Subscription } from 'rxjs';
 import { ThemeSchemeService } from '../services/theme-scheme.service';
 import { XmThemeStore } from '../stores/xm-theme-store.service';
 import { ColorSchemeService } from '../services/color-scheme.service';
-import { XmTheme } from '../interfaces/xm.theme';
+import { ThemeStrategy, XmTheme } from '../interfaces/xm.theme';
 import { StyleManagerService } from '../services/style-manager.service';
 import { ThemeColorService } from '../services/theme-color.service';
 import { XmPublicUiConfigService } from '@xm-ngx/core';
@@ -95,21 +95,19 @@ export class XmThemeController implements OnDestroy {
             file = darkTheme;
         }
 
-        let themeHref = '';
+        this.styleManager.set('theme', this.getThemeHref(themeStrategy, file));
+        this.activeTheme.next(theme);
+    }
+
+    private getThemeHref(themeStrategy: ThemeStrategy, file: string): string {
         switch (themeStrategy) {
             case 'TENANT_ONLY':
-                themeHref = `assets/css/${file}.css`;
-                break;
+                return `assets/css/${file}.css`;
             case 'CUSTOM':
                 const {themePath} = this.publicConfig() || {};
-                themeHref = themePath ? `${themePath}/${file}.css` : `/assets/themes/${file}.css`;
-                break;
+                return themePath ? `${themePath}/${file}.css` : `/assets/themes/${file}.css`;
             default:
-                themeHref = `/assets/themes/${file}.css`;
-                break;
+                return `/assets/themes/${file}.css`;
         }
-
-        this.styleManager.set('theme', themeHref);
-        this.activeTheme.next(theme);
     }
 }
