@@ -4,7 +4,7 @@ import { XmEventManager } from '@xm-ngx/core';
 // import { DEBUG_INFO_ENABLED } from 'src/app/xm.constants';
 import { Tag, TagService, TagSpec, XmEntity, XmEntityService } from '@xm-ngx/core/entity';
 import { XmToasterService } from '@xm-ngx/toaster';
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { XM_ENTITY_EVENT_LIST } from '../constants';
 

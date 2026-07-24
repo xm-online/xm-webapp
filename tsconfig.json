@@ -70,7 +70,8 @@
     "strictFunctionTypes": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "esModuleInterop": true
   },
   "include": [
     "src/**/*.ts",

@@ -1,6 +1,6 @@
 export { XmIconEnumComponent, XmIconEnumOptions, XmIconEnumOptionsItem } from './icon/xm-icon-enum.component';
 
-export { XmEnumComponent, XmEnumOptions, XmEnumValue } from './value/xm-enum.component';
+export { XmEnumComponent, XmEnumOptions, XmEnumValue, XmEnumOptionsItem } from './value/xm-enum.component';
 
 export * from './control/xm-enum-control.component';
 
