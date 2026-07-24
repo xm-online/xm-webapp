@@ -8,7 +8,7 @@
 
     <div class="d-flex flex-grow-1 ps-3 header-controls">
 
-      <button (click)="onAdd()"
+      <button type="button" (click)="onAdd()"
               *ngIf="editType === EditType.Create"
               [disabled]="!valid || disabled"
               color="primary"
@@ -17,7 +17,7 @@
         {{ TRS.create | translate }}
       </button>
 
-      <button (click)="onSave()"
+      <button type="button" (click)="onSave()"
               *ngIf="editType === EditType.Edit"
               [disabled]="!valid || disabled"
               [matTooltip]="(TRS.save | translate) + ' Ctrl+S'"
@@ -26,7 +26,7 @@
         <mat-icon>save</mat-icon>
       </button>
 
-      <button (click)="onDuplicate()"
+      <button type="button" (click)="onDuplicate()"
               *ngIf="editType === EditType.Edit"
               [disabled]="!valid || disabled"
               [matTooltip]="TRS.duplicate | translate"
@@ -34,7 +34,7 @@
         <mat-icon>file_copy</mat-icon>
       </button>
 
-      <button (click)="onDelete()"
+      <button type="button" (click)="onDelete()"
               *ngIf="editType === EditType.Edit"
               [disabled]="!valid || disabled"
               [matTooltip]="TRS.delete | translate: { value: value.name }"
@@ -47,7 +47,7 @@
       </a>
 
       <div class="ms-auto">
-        <button *ngIf="editType === EditType.Edit"
+        <button type="button" *ngIf="editType === EditType.Edit"
                 [disabled]="!valid || disabled"
                 [matTooltip]="TRS.copyClipboard | translate"
                 mat-icon-button
@@ -58,7 +58,7 @@
           <mat-icon>content_copy</mat-icon>
         </button>
 
-        <button *ngIf="editType === EditType.Create"
+        <button type="button" *ngIf="editType === EditType.Create"
                 [disabled]="disabled"
                 [matTooltip]="TRS.paste | translate"
                 mat-icon-button
@@ -70,7 +70,7 @@
           <mat-icon>content_paste</mat-icon>
         </button>
 
-        <button (click)="onCancel()"
+        <button type="button" (click)="onCancel()"
                 [matTooltip]="TRS.cancel | translate"
                 mat-icon-button>
           <mat-icon>cancel</mat-icon>
