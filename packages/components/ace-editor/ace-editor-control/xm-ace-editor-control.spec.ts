@@ -1,12 +1,13 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
-import {XmAceEditorControl} from './xm-ace-editor-control';
-import {ControlErrorModule} from '@xm-ngx/components/control-error';
-import {XmTranslationTestingModule} from '@xm-ngx/translation/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { XmAceEditorControl } from './xm-ace-editor-control';
+import { ControlErrorModule } from '@xm-ngx/components/control-error';
+import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
 import {
     XmAceEditorControlModeEnum,
     XmAceEditorControlOptions,
-    XmAceEditorControlTypeEnum
+    XmAceEditorControlTypeEnum,
 } from '@xm-ngx/components/ace-editor';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('XmAceEditorControl', () => {
     let fixture: ComponentFixture<XmAceEditorControl>;
@@ -18,6 +19,7 @@ describe('XmAceEditorControl', () => {
                 XmAceEditorControl,
                 XmTranslationTestingModule,
                 ControlErrorModule.forRoot(null),
+                HttpClientTestingModule,
             ],
         });
 
@@ -75,7 +77,7 @@ describe('XmAceEditorControl', () => {
             mode: XmAceEditorControlModeEnum.JSON,
             type: XmAceEditorControlTypeEnum.OBJECT,
         };
-        const objectValue = { key: 'value' };
+        const objectValue = {key: 'value'};
         component.value = objectValue;
         fixture.detectChanges();
 
@@ -114,7 +116,7 @@ describe('XmAceEditorControl', () => {
             mode: XmAceEditorControlModeEnum.YAML,
             type: XmAceEditorControlTypeEnum.OBJECT,
         };
-        const objectValue = { key: 'value' };
+        const objectValue = {key: 'value'};
         component.value = objectValue;
         void expect(component.value).toEqual(objectValue);
     });
