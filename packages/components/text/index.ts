@@ -16,6 +16,7 @@ export {
 
 export {
     XmTextComponent,
+    XmTextConfig,
 } from './text';
 
 export * from './text-collapse';

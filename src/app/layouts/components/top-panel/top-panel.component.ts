@@ -4,7 +4,7 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { XmEventManager, XmEventManagerAction } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { XmDynamicComponentRegistry, XmDynamicLayout, XmDynamicModule } from '@xm-ngx/dynamic';
-import { XmDynamicComponentRecord } from '@xm-ngx/dynamic/src/loader/xm-dynamic-component-registry.service';
+import { XmDynamicComponentRecord } from '@xm-ngx/dynamic';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { filter } from 'rxjs/operators';
 import { showHideTopPanel } from './top-panel.animation';
