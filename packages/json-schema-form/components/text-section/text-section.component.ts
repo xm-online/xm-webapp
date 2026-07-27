@@ -10,7 +10,7 @@ import { I18nNamePipe } from '@xm-ngx/translation';
 import { Principal } from '@xm-ngx/core/user';
 import { JsonSchemaFormService } from '@ajsf/core';
 import { startWith } from 'rxjs/operators';
-import * as formatString from 'string-template';
+import formatString from 'string-template';
 
 @Component({
     standalone: true,

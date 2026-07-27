@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 import { XmUiConfigService } from './src/xm-ui-config.service';
 import { XmUIConfig } from './src/xm-ui-config-model';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class XmApplicationConfigService<T extends XmUIConfig = XmUIConfig> implements OnDestroy {
 
     public resolved$: BehaviorSubject<boolean>;

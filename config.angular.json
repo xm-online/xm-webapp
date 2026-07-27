@@ -10,7 +10,7 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "allowedCommonJsDependencies": [
               "moment-timezone",
@@ -50,17 +50,47 @@
               "sdp",
               "transliteration"
             ],
-            "outputPath": "dist",
+            "outputPath": {
+              "base": "dist",
+              "browser": ""
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "assets": [
-              "src/manifest.webmanifest",
-              "src/assets",
-              "src/i18n",
-              "src/swagger-ui",
-              "src/robots.txt",
+              {
+                "glob": "manifest.webmanifest",
+                "input": "src",
+                "output": "/"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "src",
+                "output": "/"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/i18n",
+                "output": "/i18n"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/swagger-ui",
+                "output": "/swagger-ui"
+              },
+              {
+                "glob": "robots.txt",
+                "input": "src",
+                "output": "/"
+              },
               {
                 "glob": "**/*",
                 "input": "./node_modules/@kolkov/angular-editor/assets/",
@@ -74,6 +104,7 @@
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
               "includePaths": [
+                ".",
                 "src/styles",
                 "src/app/ext",
                 "node_modules"
@@ -106,9 +137,7 @@
           },
           "configurations": {
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -118,10 +147,7 @@
               "outputHashing": "all",
               "sourceMap": true,
               "namedChunks": true,
-              "aot": true,
               "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -134,18 +160,14 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": true,
-              "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json"
+              "serviceWorker": "ngsw-config.json"
             },
             "idp": {
               "fileReplacements": [
@@ -239,24 +261,19 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "*.d.ts",
-              "*.json",
-              "**/*.json"
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ]
           }
         },
         "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
+          "builder": "@cypress/schematic:cypress",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "xm-webapp:serve"
+            "cypressConfig": "cypress.config.ts",
+            "devServerTarget": "xm-webapp:serve:development"
           },
           "configurations": {
             "production": {
@@ -297,7 +314,6 @@
       }
     }
   },
-  "defaultProject": "xm-webapp",
   "schematics": {
     "@schematics/angular:application": {
       "strict": true
