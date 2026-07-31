@@ -119,7 +119,7 @@
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true,
-          "namedChunks": true
+          "namedChunks": false
         },
         "production": {
           "fileReplacements": [
@@ -145,7 +145,7 @@
           "optimization": true,
           "outputHashing": "all",
           "sourceMap": true,
-          "namedChunks": true,
+          "namedChunks": false,
           "extractLicenses": true
         },
         "idp": {

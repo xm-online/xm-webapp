@@ -140,13 +140,13 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": false
             },
             "serve-production": {
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": true,
-              "namedChunks": true,
+              "namedChunks": false,
               "extractLicenses": true,
               "fileReplacements": [
                 {
@@ -159,7 +159,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "namedChunks": true,
+              "namedChunks": false,
               "extractLicenses": true,
               "fileReplacements": [
                 {
