@@ -16,7 +16,7 @@
       "options": {
         "outputPath": {
           "base": "dist",
-          "browser": ""
+          "browser": "."
         },
         "index": "src/index.html",
         "browser": "src/main.ts",
