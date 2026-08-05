@@ -194,11 +194,13 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
     public async onNavigate(category: MenuCategory): Promise<void> {
         if (!category.isLinkWithoutSubcategories) {
             this.menuService.setMobileMenuState({showCategories: false, category});
+            this.menuService.setHoveredCategory(category);
         }
 
         if (category.isLinkWithoutSubcategories && category.url && !category?.hasChildren) {
             this.menuService.selectedCategory.next(category);
             await this.router.navigate(category.url);
+            await this.menuService.sidenav?.close();
         }
     }
 
