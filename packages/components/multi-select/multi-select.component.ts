@@ -60,7 +60,7 @@ type XmMultiSelectItemOrString = XmMultiSelectItem | string;
                     </ng-container>
 
                     <ng-template #someSelected>
-                        {{ (selectedLength ? selectedValues[0] : '') | translate }}
+                        {{ (selectedLength ? selectedItemTitle : '') | translate }}
                         <span *ngIf="selectedLength > 1" class="small">
           (+{{ selectedLength - 1 }} {{ (selectedLength === 2 ? 'xm-enum.other' : 'xm-enum.others')  | translate }}
                             )
@@ -77,9 +77,9 @@ type XmMultiSelectItemOrString = XmMultiSelectItem | string;
                      (click)="toggleAll()">
 
                     <mat-pseudo-checkbox
-                            class="mat-option-pseudo-checkbox"
-                            [disabled]="disabled"
-                            [state]="allItemsSelected() ? 'checked' : 'unchecked'"></mat-pseudo-checkbox>
+                        class="mat-option-pseudo-checkbox"
+                        [disabled]="disabled"
+                        [state]="allItemsSelected() ? 'checked' : 'unchecked'"></mat-pseudo-checkbox>
 
                     <span class="mat-option-text">{{ 'xm-enum.all' | translate }}</span>
                 </div>
@@ -142,6 +142,11 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
         return this.selectedValues?.length;
     }
 
+    public get selectedItemTitle(): string {
+        const firstValue = this.selectedValues?.[0];
+        return this.items.find(item => item.valueKey === firstValue)?.titleKey ?? firstValue ?? '';
+    }
+
     @Input()
     public selected(value: XmMultiSelectItemOrString[]): void {
         this.change(this._toModel(value));
@@ -166,7 +171,7 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
             return;
         }
 
-        this.change(this.config.enum);
+        this.change(this.items.map(item => item.valueKey));
     }
 
     public deselectAll(): void {
@@ -193,12 +198,11 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
 
         this.disabled = coerceBooleanProperty(this.config?.disabled);
         this.required = coerceBooleanProperty(this.config?.required);
+        this.items = this._toView(this.config.enum);
 
         if (this.config.defaultSelectedAll) {
             this.selectAll();
         }
-
-        this.items = this._toView(this.config.enum);
     }
 
     private _toView(value: XmMultiSelectItemOrString[]): XmMultiSelectItem[] {
