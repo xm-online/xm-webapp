@@ -184,7 +184,8 @@
           "options": {
             "buildTarget": "xm-webapp:build:development",
             "proxyConfig": "proxy.conf.js",
-            "host": "0.0.0.0"
+            "host": "0.0.0.0",
+            "prebundle": false
           },
           "configurations": {
             "production": {
