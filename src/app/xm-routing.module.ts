@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserRouteAccessService } from '@xm-ngx/core/permission';
-import { AuthKeycloakGuard } from '@xm-ngx/ext/crmotb-webapp-ext/core/guards/auth-keycloak.guard';
 
 const ROUTES: Routes = [
     {
@@ -14,31 +13,18 @@ const ROUTES: Routes = [
         loadChildren: () => import('@xm-ngx/components/error').then((m) => m.ErrorModule),
         data: {authorities: [], pageTitle: 'error.title', error404: true},
     },
-    {
-        path: 'administration',
-        canActivate: [AuthKeycloakGuard],
-        loadChildren: () => import('@xm-ngx/administration/route').then((m) => m.XmAdminModule),
-    },
-    {
-        path: '',
-        canActivate: [AuthKeycloakGuard],
-        loadChildren: () => import('@xm-ngx/dashboard/home').then((m) => m.GateHomeModule),
-    },
-    {
-        path: '',
-        canActivate: [AuthKeycloakGuard],
-        loadChildren: () => import('@xm-ngx/account').then((m) => m.GateAccountModule),
-    },
+    {path: 'administration', loadChildren: () => import('@xm-ngx/administration/route').then((m) => m.XmAdminModule)},
+    {path: '', loadChildren: () => import('@xm-ngx/dashboard/home').then((m) => m.GateHomeModule)},
+    {path: '', loadChildren: () => import('@xm-ngx/account').then((m) => m.GateAccountModule)},
     {
         path: 'application',
-        canActivate: [AuthKeycloakGuard],
         loadChildren: () => import('@xm-ngx/administration/application').then((m) => m.ApplicationModule),
     },
     {path: 'search', pathMatch: 'full', redirectTo: 'application/search'},
     {
         path: 'dashboard',
         data: {privileges: {value: ['DASHBOARD.GET_LIST']}},
-        canActivate: [AuthKeycloakGuard, UserRouteAccessService],
+        canActivate: [UserRouteAccessService],
         canLoad: [UserRouteAccessService],
         loadChildren: () => import('@xm-ngx/dynamic/route').then((m) => m.XmDynamicRouteModule),
     },
