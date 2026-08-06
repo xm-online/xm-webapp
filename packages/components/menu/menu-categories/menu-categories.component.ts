@@ -59,6 +59,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
     public isCategoriesHidden$: Observable<boolean>;
     public brandLogo$: Observable<BrandLogo>;
     public isMobileView$: Observable<boolean> = this.menuService.isMobileView;
+    public $isMobileView: Signal<boolean> = toSignal(this.isMobileView$);
     public $isMenuToggle: Signal<boolean> = toSignal(this.menuService.getMenuConfig('isMenuToggle'));
     public $themeButtonConfig: Signal<any> = toSignal(this.menuService.getMenuConfig('themeButton'));
     public $extraOptionsConfig: Signal<ListLayoutConfig | undefined> = toSignal(this.menuService.getMenuConfig('extraOptions'));
@@ -194,11 +195,23 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
     public async onNavigate(category: MenuCategory): Promise<void> {
         if (!category.isLinkWithoutSubcategories) {
             this.menuService.setMobileMenuState({showCategories: false, category});
+            this.menuService.setHoveredCategory(category);
         }
 
         if (category.isLinkWithoutSubcategories && category.url && !category?.hasChildren) {
+            if (this.menuService.isActiveUrl(category)) {
+                if (this.$isMobileView()) {
+                    await this.menuService.sidenav?.close();
+                }
+                return;
+            }
+
             this.menuService.selectedCategory.next(category);
             await this.router.navigate(category.url);
+
+            if (this.$isMobileView()) {
+                await this.menuService.sidenav?.close();
+            }
         }
     }
 
