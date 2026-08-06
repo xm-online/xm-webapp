@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,22 +13,15 @@ import { Translate, XmTranslatePipe } from '@xm-ngx/translation';
 import { MatMenuModule, MatMenuPanel } from '@angular/material/menu';
 import { InputType } from './chips-filter-btn.model';
 
-
 @Component({
     selector: 'xm-chips-filter-btn',
     standalone: true,
-    imports: [
-        CommonModule,
-        MatChipsModule,
-        MatIconModule,
-        MatMenuModule,
-        XmTranslatePipe,
-    ],
+    imports: [CommonModule, MatChipsModule, MatIconModule, MatMenuModule, XmTranslatePipe],
     templateUrl: './chips-filter-btn.component.html',
     styleUrl: './chips-filter-btn.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChipsFilterBtnComponent {
+export class ChipsFilterBtnComponent implements OnInit {
     @Input() public title: string;
     @Input() public value: any;
     @Input() public customIcon: string;
@@ -35,10 +35,21 @@ export class ChipsFilterBtnComponent {
     @Input() public textWidth: string = '120px';
     @Input() public showClearBtn: boolean = true;
     @Input() public showIcon: boolean = true;
+    @Input() public showValue: boolean = true;
     @Output() public valueCleared: EventEmitter<void> = new EventEmitter<void>();
     @Output() public valueToggle: EventEmitter<void> = new EventEmitter<void>();
     public isChecked: boolean = false;
     protected readonly InputType = InputType;
+
+    public ngOnInit(): void {
+        switch (this.type) {
+            case InputType.Toggle:
+                this.isChecked = !!this.value;
+                break;
+            default:
+                break;
+        }
+    }
 
     public clickAction(): void {
         switch (this.type) {
@@ -71,5 +82,4 @@ export class ChipsFilterBtnComponent {
     public isArray<T>(value: T): boolean {
         return Array.isArray(value);
     }
-
 }
