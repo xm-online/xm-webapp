@@ -199,6 +199,13 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
         }
 
         if (category.isLinkWithoutSubcategories && category.url && !category?.hasChildren) {
+            if (this.menuService.isActiveUrl(category)) {
+                if (this.$isMobileView()) {
+                    await this.menuService.sidenav?.close();
+                }
+                return;
+            }
+
             this.menuService.selectedCategory.next(category);
             await this.router.navigate(category.url);
 
