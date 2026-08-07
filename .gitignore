@@ -60,6 +60,7 @@ lerna-debug.log*
 #package-lock.json
 
 # cache
+.claude/
 .angular
 /documentation.json
 lib
