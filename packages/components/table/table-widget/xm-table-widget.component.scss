@@ -68,4 +68,12 @@
   ::ng-deep .xm-table-expandable-detail-content {
     overflow: hidden;
   }
+
+  ::ng-deep mat-card[data-qa="tender-items-table"]:not(:has(th[mat-sort-header]:not([disabled]))) .mat-sort-header-arrow {
+    display: none !important;
+  }
+
+  &.no-sort-columns ::ng-deep mat-card[data-qa="tender-items-table"] .mat-sort-header-arrow {
+    display: none !important;
+  }
 }

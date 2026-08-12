@@ -76,7 +76,7 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     templateUrl: './xm-table-widget.component.html',
     styleUrls: ['./xm-table-widget.component.scss'],
     standalone: true,
-    host: { class: 'xm-table-widget' },
+    host: { class: 'xm-table-widget', '[class.no-sort-columns]': 'noSortableColumns' },
     imports: [
         MatCardModule,
         NgIf,
@@ -129,6 +129,7 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
     @Output() public rowClicked = new EventEmitter<unknown>();
 
     public expandedRows: Set<unknown> = new Set();
+    public noSortableColumns: boolean = false;
     public readonly expandableColumnName = XM_TABLE_EXPANDABLE_COLUMN_NAME;
 
     private collectionController: IXmTableCollectionController<unknown> = injectByKey<
@@ -157,6 +158,8 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
     public set config(value: XmTableWidgetConfig) {
         this._config = getConfig(value);
         this.hasSticky = this.config.columns.some((column) => column.sticky || column.stickyEnd);
+        this.noSortableColumns = Array.isArray(this._config.columns) && this._config.columns.length > 0
+            && this._config.columns.every((column) => column.sortable === false);
         if (!this.hasExpandableRows) {
             this.expandedRows.clear();
         }

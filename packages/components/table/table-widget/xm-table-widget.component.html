@@ -11,11 +11,11 @@
 
   @let showQuickFilterInsteadOfTitle = xmTable.config.showQuickFilterInsteadOfTitle;
 
-  <mat-card *ngIf="xmTable.context$ | async as context"
+    <mat-card *ngIf="xmTable.context$ | async as context"
             class="overflow-hidden no-horizontal-paddings"
             [ngClass]="{
               'mb-3': config.isCardMarginBottom,
-              'pb-4': xmTable.config?.pageableAndSortable?.hidePagination && !config.isTitleHidden,
+              'pb-4': xmTable.config?.pageableAndSortable?.hidePagination !== true && !config.isTitleHidden,
             }"
             [attr.data-qa]="config?.dataQa"
   >
