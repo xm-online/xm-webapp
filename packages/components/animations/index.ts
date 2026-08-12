@@ -4,3 +4,4 @@ export * from './route-change-animation';
 export * from './fateInOut.animation';
 export * from './fadeInUpOutDown.animation';
 
+export * from './xm-expansion.animations';

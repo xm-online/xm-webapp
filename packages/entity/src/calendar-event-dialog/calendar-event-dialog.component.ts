@@ -15,7 +15,7 @@ import {
     XmEntitySpecWrapperService,
 } from '@xm-ngx/core/entity';
 import { Principal } from '@xm-ngx/core/user';
-import { buildJsfAttributes, nullSafe } from '@xm-ngx/json-schema-form/components';
+import { buildJsfAttributes, nullSafe } from '@xm-ngx/json-schema-form';
 import { dayjs } from '@xm-ngx/operators';
 import { UUID } from 'angular2-uuid';
 import { firstValueFrom } from 'rxjs';

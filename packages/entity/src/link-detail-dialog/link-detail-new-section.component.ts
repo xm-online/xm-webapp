@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { XmEventManager } from '@xm-ngx/core';
 import { Link, LinkSpec, Spec, XmEntity, XmEntityService, XmEntitySpec } from '@xm-ngx/core/entity';
 import { JsfAttributes } from '@xm-ngx/json-schema-form';
-import { JsfComponentRegistryService, nullSafe } from '@xm-ngx/json-schema-form/components';
+import { JsfComponentRegistryService, nullSafe } from '@xm-ngx/json-schema-form';
 
 import { XmToasterService } from '@xm-ngx/toaster';
 import { UUID } from 'angular2-uuid';

@@ -27,7 +27,6 @@ export class DynamicDialog {
                 ...options,
                 viewContainerRef: this.viewContainerRef,
                 injector: dialogComponent.injector,
-                componentFactoryResolver: dialogComponent.ngModuleRef?.componentFactoryResolver,
             });
     }
 }
