@@ -1,11 +1,10 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
-import { XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicModule } from '@xm-ngx/dynamic';
+import { Component, inject, Injector, Input, OnInit } from '@angular/core';
+import { XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicInstanceService, XmDynamicModule } from '@xm-ngx/dynamic';
 import { isObservable, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { DynamicInstance } from '@xm-ngx/ext/common-webapp-ext/module/stepper/to-core/dynamic-instance';
 import { XmTranslatePipe } from '@xm-ngx/translation';
 import {
     XmTableWarningMessageConfig
@@ -34,12 +33,21 @@ import {
         XmTranslatePipe,
     ],
 })
-export class XmTableWarningMessage extends DynamicInstance implements OnInit {
+export class XmTableWarningMessage implements OnInit {
     @Input() public config = inject<XmTableWarningMessageConfig>(XM_DYNAMIC_COMPONENT_CONFIG);
 
     public isShow$: Observable<boolean | unknown>;
     public isClosing = false;
     public isClosed = false;
+
+    private xmDynamicInstanceService: XmDynamicInstanceService = inject(XmDynamicInstanceService);
+    private injector: Injector = inject(Injector);
+    private get controller(): any {
+        return this.xmDynamicInstanceService.getControllerByKey(
+            this.config.controller?.key,
+            this.injector
+        );
+    }
 
     public ngOnInit(): void {
         this.isShow$ = this.executeControllerMethod().pipe(
@@ -53,7 +61,7 @@ export class XmTableWarningMessage extends DynamicInstance implements OnInit {
     }
 
     public executeControllerMethod(): Observable<boolean | unknown> {
-        const controller = this.getControllerByKey(this.config.controller?.key);
+        const controller = this.controller;
         const method = controller?.[this.config.controller?.method];
         const executedMethod = method ? method.call(controller) : null;
         if (isObservable(executedMethod)) {
