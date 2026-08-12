@@ -22,6 +22,7 @@
     padding: 0;
     flex-shrink: 0;
 
+    /* stylelint-disable-next-line selector-pseudo-element-no-unknown -- ::ng-deep needed to shrink Angular Material's mat-icon-button touch target inside a 3rd-party component template */
     ::ng-deep .mat-mdc-button-touch-target {
       width: 28px;
       height: 28px;

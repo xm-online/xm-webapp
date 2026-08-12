@@ -83,4 +83,8 @@ export class ChipsFilterBtnComponent implements OnInit {
     public isArray<T>(value: T): boolean {
         return Array.isArray(value);
     }
+
+    public isString(value: unknown): boolean {
+        return typeof value === 'string';
+    }
 }

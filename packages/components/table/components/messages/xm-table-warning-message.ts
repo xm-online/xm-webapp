@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicModule } from '@xm-ngx/dynamic';
 import { isObservable, Observable, of } from 'rxjs';
-import { distinctUntilChanged, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -43,7 +43,6 @@ export class XmTableWarningMessage extends DynamicInstance implements OnInit {
 
     public ngOnInit(): void {
         this.isShow$ = this.executeControllerMethod().pipe(
-            distinctUntilChanged(),
             tap((show) => {
                 if (show) {
                     this.isClosing = false;

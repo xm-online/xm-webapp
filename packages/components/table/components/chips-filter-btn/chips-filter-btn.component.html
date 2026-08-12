@@ -137,7 +137,7 @@
                 class="value-txt"
                 [style.max-width]="textWidth ? textWidth : ''"
             >
-                : {{ skipValueTextTranslation ? (valueText || value) : ((valueText || value) | xmTranslate) }}
+                : {{ skipValueTextTranslation && isString(valueText || value) ? (valueText || value) : ((valueText || value) | xmTranslate) }}
             </span>
         </ng-container>
     </span>

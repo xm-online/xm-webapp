@@ -71,7 +71,9 @@
       <xm-table-selection-header [defaultCollectionController]="collectionController"
                                  [config]="config.selection"></xm-table-selection-header>
 
-      <xm-table-warning-message [config]="config.warningMessage"></xm-table-warning-message>
+      @if (config.warningMessage) {
+        <xm-table-warning-message [config]="config.warningMessage"></xm-table-warning-message>
+      }
 
       <div class="xm-table-overflow-wrap" [style]="config.tableWrapperStyle">
         <table
