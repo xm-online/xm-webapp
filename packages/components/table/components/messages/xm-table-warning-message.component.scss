@@ -1,0 +1,85 @@
+.table-warning-message {
+  padding: 5px 10px;
+  background: #fffbeb;
+  color: #954514;
+  border: 1px solid #feda71;
+  border-radius: 8px;
+  display: flex;
+  margin: 5px 1rem 10px;
+  align-items: center;
+  overflow: hidden;
+  animation: table-warning-message-slide-in 0.3s ease-out;
+
+  &.closing {
+    animation: table-warning-message-slide-out 0.25s ease-in forwards;
+  }
+
+  .close-icon {
+    margin-left: auto;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    flex-shrink: 0;
+
+    /* stylelint-disable-next-line selector-pseudo-element-no-unknown -- ::ng-deep needed to shrink Angular Material's mat-icon-button touch target inside a 3rd-party component template */
+    ::ng-deep .mat-mdc-button-touch-target {
+      width: 28px;
+      height: 28px;
+    }
+
+    .mat-icon {
+      margin-right: 0;
+      width: 18px;
+      height: 18px;
+      font-size: 18px;
+      line-height: 18px;
+    }
+  }
+
+  .warning-icon {
+    margin-right: 10px;
+  }
+}
+
+@keyframes table-warning-message-slide-in {
+  from {
+    opacity: 0;
+    max-height: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    max-height: 40px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    transform: translateY(0);
+  }
+}
+
+@keyframes table-warning-message-slide-out {
+  from {
+    opacity: 1;
+    max-height: 40px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    max-height: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    transform: translateY(-10px);
+  }
+}

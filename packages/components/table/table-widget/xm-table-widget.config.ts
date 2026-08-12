@@ -46,6 +46,13 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     errorRowCondition?: string;
     titleWidget?: XmTableTitleWidgetConfig;
     expandableRow?: XmDynamicLayout;
+    warningMessage?: {
+        title: Translate;
+        controller: {
+            key: string;
+            method: string;
+        };
+    };
 }
 
 export interface XmTableSelectionConfig {
