@@ -12,12 +12,39 @@
       ]
     },
     "test": {
-      "cache": true,
+      "executor": "@angular-devkit/build-angular:karma",
+      "cache": false,
       "inputs": [
         "default",
         "^production",
-        "{workspaceRoot}/karma.conf.js"
-      ]
+        "{workspaceRoot}/karma.conf.js",
+        "{workspaceRoot}/test.ts",
+        "{workspaceRoot}/tsconfig.spec.json",
+        "{workspaceRoot}/lib/components/ng-accessor/**/*"
+      ],
+      "options": {
+        "main": "test.ts",
+        "karmaConfig": "karma.conf.js",
+        "polyfills": "src/polyfills.ts",
+        "assets": [],
+        "scripts": [],
+        "styles": [],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "src/styles",
+            "src/app/ext",
+            "node_modules"
+          ]
+        }
+      },
+      "configurations": {
+        "ci": {
+          "watch": false,
+          "progress": false,
+          "browsers": "ChromeHeadlessNoSandbox",
+          "codeCoverage": true
+        }
+      }
     },
     "lint": {
       "cache": true,
