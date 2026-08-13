@@ -29,6 +29,7 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     tableWrapperStyle?: string;
     isTitleHidden: boolean;
     isCardMarginBottom: boolean;
+    hidePaginationSpacer?: boolean;
     highlightRowOnHover?: boolean;
     highlightRowOnClick?: boolean;
     isRowSelectable: boolean,

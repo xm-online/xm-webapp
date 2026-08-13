@@ -15,7 +15,7 @@
             class="overflow-hidden no-horizontal-paddings"
             [ngClass]="{
               'mb-3': config.isCardMarginBottom,
-              'pb-4': xmTable.config?.pageableAndSortable?.hidePagination && !config.isTitleHidden,
+              'pb-4': xmTable.config?.pageableAndSortable?.hidePagination && !config.isTitleHidden && !config.hidePaginationSpacer,
             }"
             [attr.data-qa]="config?.dataQa"
   >
