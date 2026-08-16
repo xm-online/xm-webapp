@@ -12,6 +12,7 @@ import { NgClass, NgIf } from '@angular/common';
 import _ from 'lodash';
 import { XmEmptyPipe } from '@xm-ngx/pipes';
 import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quick-filter-controls.component';
+import { XmTableInlineFilterFormLayoutItem } from '@xm-ngx/components/table';
 
 @Component({
     selector: 'xm-table-quick-filter-inline',
@@ -41,11 +42,13 @@ import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quic
                         [ngClass]="{'xm-filters-control-hidden': filterExpand}">
                     </xm-quick-filters-control-request>
 
-                    <button mat-button *ngIf="!config?.hideResetButton && hasActiveFilters"
-                            class="me-3"
-                            (click)="reset()">
-                        {{ 'table.filter.button.reset' | xmTranslate }}
-                    </button>
+                    @if (!config?.hideResetButton && hasActiveFilters) {
+                        <button mat-button
+                                class="me-3"
+                                (click)="reset()">
+                            {{ 'table.filter.button.reset' | xmTranslate }}
+                        </button>
+                    }
                 </div>
             </ng-container>
         </div>
@@ -148,7 +151,8 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
     }
 
     public reset(): void {
-        this.tableFilterController.clearExceptFixedFilters(this.config.filters);
+        const filters = [...(this.config.filters ?? []), ...(this.config.quickFilters?? [])];
+        this.tableFilterController.clearExceptFixedFilters(filters);
     }
 
     private setValueOnChangeFilter(): void {
@@ -179,8 +183,15 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
     }
 
     protected checkActiveFilters(): void {
-        this.hasActiveFilters = !!this.value && Object.values(this.value).some(
-            filter => filter != null && filter !== ''
+        const quickFilters = this.config?.quickFilters ?? [];
+        const removableQuickFilterKeys = new Set(
+            quickFilters
+                .filter((f: XmTableInlineFilterFormLayoutItem) => f.removable !== false)
+                .map(f => f.name)
+        );
+
+        this.hasActiveFilters = !!this.value && Object.entries(this.value).some(
+            ([key, filter]) => removableQuickFilterKeys.has(key) && filter != null && filter !== ''
         );
     }
 
