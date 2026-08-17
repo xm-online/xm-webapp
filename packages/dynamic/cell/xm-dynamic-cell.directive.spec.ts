@@ -20,7 +20,7 @@ describe('XmDynamicCellDirective', () => {
     let directive: XmDynamicCellDirective<unknown, any>;
     let fixture: ComponentFixture<MockXmDynamicCellComponent>;
 
-    beforeEach(() => {
+    beforeEach(async () => {
         fixture = TestBed.configureTestingModule({
             declarations: [
                 MockXmDynamicCellComponent,
@@ -37,6 +37,9 @@ describe('XmDynamicCellDirective', () => {
         const el: DebugElement = fixture.debugElement.query(By.directive(XmDynamicCellDirective));
         directive = el.injector.get(XmDynamicCellDirective);
         fixture.detectChanges();
+        // Let the asynchronous dynamic component resolution finish before the specs
+        // reassign `cell`, otherwise the pending resolution rejects outside of the spec.
+        await fixture.whenStable();
     });
 
     it('should create an instance', () => {

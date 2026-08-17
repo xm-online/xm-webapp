@@ -22,6 +22,12 @@ import { DashboardStore } from '@xm-ngx/core/dashboard';
 class Mock {
 }
 
+class MockXmSessionService extends Mock {
+    public isActive(): Observable<boolean> {
+        return of(false);
+    }
+}
+
 class MockedConfig extends Mock {
     public isResolved(): Observable<boolean> {
         return of(true);
@@ -54,7 +60,7 @@ describe('XmMainComponent', () => {
                 },
                 {
                     provide: XmSessionService,
-                    useClass: Mock,
+                    useClass: MockXmSessionService,
                 },
                 {
                     provide: LanguageService,
