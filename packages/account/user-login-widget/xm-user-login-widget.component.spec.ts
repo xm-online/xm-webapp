@@ -2,6 +2,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { XmUserService } from '@xm-ngx/core/user';
 import { MockUserService } from '@xm-ngx/core/user/testing';
+import { XmPermissionService } from '@xm-ngx/core/permission';
+import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 
 import { XmUserLoginWidgetComponent } from './xm-user-login-widget.component';
 
@@ -11,7 +13,10 @@ describe('XmUserLoginWidgetComponent', () => {
 
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
-            providers: [{ provide: XmUserService, useClass: MockUserService }],
+            providers: [
+                { provide: XmUserService, useClass: MockUserService },
+                { provide: XmPermissionService, useClass: MockPermissionService },
+            ],
             imports: [XmUserLoginWidgetComponent],
             schemas: [NO_ERRORS_SCHEMA],
         })

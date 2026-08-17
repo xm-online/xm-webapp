@@ -1,4 +1,4 @@
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +25,6 @@ describe('Entity detail dialog Component', () => {
     let component: EntityDetailDialogComponent;
     let fixture: ComponentFixture<EntityDetailDialogComponent>;
     let element: DebugElement;
-    let error: DebugElement;
     const PATTERN = '^(?=.*[a-z])[a-z0-9]{2,20}$';
     beforeEach(waitForAsync(() => {
         TestBed.configureTestingModule({
@@ -36,6 +35,7 @@ describe('Entity detail dialog Component', () => {
                 NoopAnimationsModule,
                 MatInputModule,
                 NgxWebstorageModule.forRoot(),
+                HttpClientTestingModule,
             ],
             declarations: [
                 EntityDetailDialogComponent,
@@ -48,8 +48,6 @@ describe('Entity detail dialog Component', () => {
                 {provide: XmEntityService, useValue: {}},
                 I18nJsfPipe,
                 I18nNamePipe,
-                HttpClient,
-                HttpHandler,
                 JhiDateUtils,
                 XmEventManager,
                 Principal,
@@ -67,7 +65,6 @@ describe('Entity detail dialog Component', () => {
         fixture = TestBed.createComponent(EntityDetailDialogComponent);
         component = fixture.debugElement.componentInstance;
         component.isEdit = false;
-        error = fixture.debugElement.query(By.css('.has-error'));
     }));
 
     it('Should create component', waitForAsync(() => {
@@ -83,23 +80,31 @@ describe('Entity detail dialog Component', () => {
     }));
 
     it('Should be no errors when no pattern', waitForAsync(() => {
-        component.nameValidPattern = null;
-        fixture.detectChanges();
-        component.xmEntity.name = '@e';
-        fixture.detectChanges();
-        expect(error).toBeFalsy();
+        // Create fresh fixture to avoid NG0100
+        const freshFixture = TestBed.createComponent(EntityDetailDialogComponent);
+        const freshComponent = freshFixture.debugElement.componentInstance;
+        freshComponent.isEdit = false;
+        freshComponent.nameValidPattern = null;
+        freshComponent.xmEntity = { name: '@e' };
+        freshFixture.detectChanges();
+        const freshError = freshFixture.debugElement.query(By.css('.has-error'));
+        expect(freshError).toBeFalsy();
     }));
 
     it('Should have error class when input value dose`t match pattern', fakeAsync(() => {
-        component.nameValidPattern = PATTERN;
-        fixture.detectChanges();
-        component.xmEntity.name = '@w';
+        // Create fresh fixture to avoid NG0100
+        const freshFixture = TestBed.createComponent(EntityDetailDialogComponent);
+        const freshComponent = freshFixture.debugElement.componentInstance;
+        freshComponent.isEdit = false;
+        freshComponent.nameValidPattern = PATTERN;
+        freshComponent.xmEntity = { name: '@w' };
+        freshFixture.detectChanges();
         for (let i = 0; i < 100; i++) {
             tick(1);
         }
-        fixture.detectChanges();
-        element = fixture.debugElement.query(By.css('#field_name'));
-        const classArr = element.nativeElement.classList;
+        freshFixture.detectChanges();
+        const freshElement = freshFixture.debugElement.query(By.css('#field_name'));
+        const classArr = freshElement.nativeElement.classList;
         let result;
         for (let i = 0; i < classArr.length; i++) {
             result = classArr[i] === 'ng-invalid';
