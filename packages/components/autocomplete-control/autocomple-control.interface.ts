@@ -59,6 +59,7 @@ export interface XmAutocompleteSearchParams {
     queryParams: XmAutocompleteControlParams;
     body: XmAutocompleteControlBody;
     headers: Record<string, string>;
+    size?: number;
 }
 
 export interface XmAutocompleteFetchParams {
