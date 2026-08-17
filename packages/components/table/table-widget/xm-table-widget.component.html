@@ -15,7 +15,7 @@
             class="overflow-hidden no-horizontal-paddings"
             [ngClass]="{
               'mb-3': config.isCardMarginBottom,
-              'pb-4': xmTable.config?.pageableAndSortable?.hidePagination && !config.isTitleHidden,
+              'pb-4': xmTable.config?.pageableAndSortable?.hidePagination && !config.isTitleHidden && !config.hidePaginationSpacer,
             }"
             [attr.data-qa]="config?.dataQa"
   >
@@ -70,6 +70,10 @@
 
       <xm-table-selection-header [defaultCollectionController]="collectionController"
                                  [config]="config.selection"></xm-table-selection-header>
+
+      @if (config.warningMessage) {
+        <xm-table-warning-message [config]="config.warningMessage"></xm-table-warning-message>
+      }
 
       <div class="xm-table-overflow-wrap" [style]="config.tableWrapperStyle">
         <table

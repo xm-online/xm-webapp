@@ -29,6 +29,7 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     tableWrapperStyle?: string;
     isTitleHidden: boolean;
     isCardMarginBottom: boolean;
+    hidePaginationSpacer?: boolean;
     highlightRowOnHover?: boolean;
     highlightRowOnClick?: boolean;
     isRowSelectable: boolean,
@@ -46,6 +47,13 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     errorRowCondition?: string;
     titleWidget?: XmTableTitleWidgetConfig;
     expandableRow?: XmDynamicLayout;
+    warningMessage?: {
+        title: Translate;
+        controller: {
+            key: string;
+            method: string;
+        };
+    };
 }
 
 export interface XmTableSelectionConfig {

@@ -275,9 +275,12 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     private searchByQuery(searchQuery: string): Observable<XmAutocompleteControlListItem[]> {
-        const {queryParams, body} = this.config?.search || {};
+        const {queryParams, body, size} = this.config?.search || {};
 
-        const httpParams = this.formatRequestParams(queryParams, this.getSearchCriteriaContext(searchQuery));
+        const httpParams = this.formatRequestParams(
+            {...(size ? {size: String(size)} : {}), ...queryParams},
+            this.getSearchCriteriaContext(searchQuery),
+        );
         const httpBody = this.formatRequestParams(body, this.getSearchCriteriaContext(searchQuery));
 
         return this.buildRequest(httpParams, httpBody);
