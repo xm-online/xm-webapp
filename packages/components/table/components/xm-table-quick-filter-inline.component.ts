@@ -12,7 +12,7 @@ import { NgClass, NgIf } from '@angular/common';
 import _ from 'lodash';
 import { XmEmptyPipe } from '@xm-ngx/pipes';
 import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quick-filter-controls.component';
-import { XmTableInlineFilterFormLayoutItem } from '@xm-ngx/components/table';
+import { XmTableInlineFilterFormLayoutItem } from './xm-table-filter-chips.component';
 
 @Component({
     selector: 'xm-table-quick-filter-inline',
