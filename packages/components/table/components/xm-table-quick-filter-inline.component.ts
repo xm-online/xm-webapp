@@ -184,15 +184,16 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
 
     protected checkActiveFilters(): void {
         const quickFilters = this.config?.quickFilters ?? [];
-        const removableQuickFilterKeys = new Set(
+        const requiredQuickFilterKeys = new Set(
             quickFilters
-                .filter((f: XmTableInlineFilterFormLayoutItem) => f.removable !== false)
+                .filter((f: XmTableInlineFilterFormLayoutItem) => f.removable === false)
                 .map(f => f.name)
         );
 
         this.hasActiveFilters = !!this.value && Object.entries(this.value).some(
-            ([key, filter]) => removableQuickFilterKeys.has(key) && filter != null && filter !== ''
-        );
+            ([key, filter]) =>
+                !requiredQuickFilterKeys.has(key) &&
+                (Array.isArray(filter) ? filter.length > 0 : filter != null && filter !== ''));
     }
 
 }
