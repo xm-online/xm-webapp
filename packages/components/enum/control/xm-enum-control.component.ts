@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Injector, Input, OnDestroy, Optional, Self, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, Injector, Input, OnDestroy, Optional, Self, signal, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl, XmDynamicInstanceService } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/interfaces';
@@ -66,19 +66,25 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
                         [id]="config.id"
                         [attr.data-qa]="config.dataQa">
                 <mat-select-trigger>
-                    <ng-container *ngIf="itemsMap && itemsMap[value + '']">
+                    <ng-container *ngIf="selectedItem()">
                         <mat-icon
                             class="align-middle"
-                            [style.background-color]="itemsMap[value + '']?.iconColor"
-                            *ngIf="itemsMap[value + '']?.icon">
-                            {{itemsMap[value + ''].icon}}
+                            [style.background-color]="selectedItem()?.iconColor"
+                            *ngIf="selectedItem()?.icon">
+                            {{selectedItem()?.icon}}
                         </mat-icon>
-                        {{(itemsMap[value + ''].title | translate) || ''}}
+                        {{(selectedItem()?.title | translate) || ''}}
                     </ng-container>
+                    <span *ngIf="config?.multiple && selectedValues().length > 1" class="small">
+                        (+{{selectedValues().length - 1}}
+                        {{(selectedValues().length === 2 ? 'xm-enum.other' : 'xm-enum.others') | translate}})
+                    </span>
                 </mat-select-trigger>
 
                 <ng-container *ngIf="config.showClearButton">
-                    <mat-option [hidden]="value === undefined || value === null || value === ''">
+                    <mat-option
+                        [hidden]="selectedValues().length === 0"
+                        (click)="clearSelection($event)">
                         <mat-icon>close</mat-icon>
                         {{ config.clearButtonText | translate}}
                     </mat-option>
@@ -114,16 +120,40 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class XmEnumControl
-    extends NgFormAccessor<XmEnumValue>
-    implements XmDynamicControl<XmEnumValue, XmEnumControlOptions>, OnDestroy {
+    extends NgFormAccessor<XmEnumValue | XmEnumValue[]>
+    implements XmDynamicControl<XmEnumValue | XmEnumValue[], XmEnumControlOptions>, OnDestroy {
     public itemsList: XmEnumControlOptionsItem[];
-    public itemsMap: { [value: string]: XmEnumControlOptionsItem };
+    public itemsMap: { [value: string]: XmEnumControlOptionsItem } = {};
+
+    public selectedValues = signal<XmEnumValue[]>([]);
+    public selectedItem = computed(() => {
+        const selectedValue = this.selectedValues()[0];
+
+        return selectedValue == null ? undefined : this.itemsMap[String(selectedValue)];
+    });
     private _config: XmEnumControlOptions = clone(XM_ENUM_CONTROL_OPTIONS_DEFAULT);
     private dynamicInstanceService = inject(XmDynamicInstanceService);
     public dynamicInjector = inject(Injector);
 
     public get config(): XmEnumControlOptions {
         return this._config;
+    }
+
+    public override get value(): XmEnumValue | XmEnumValue[] {
+        return super.value;
+    }
+
+    @Input()
+    public override set value(value: XmEnumValue | XmEnumValue[]) {
+        super.value = value;
+        this.selectedValues?.set(Array.isArray(value)
+            ? value
+            : (value === undefined || value === null ? [] : [value]));
+    }
+
+    public clearSelection(event: Event): void {
+        event.stopPropagation();
+        this.control.patchValue(this.config?.multiple ? [] : null);
     }
 
     @Input()

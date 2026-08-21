@@ -86,4 +86,23 @@ describe('XmEnumControlComponent', () => {
         expect(component.value).toBe(value);
         expect(component.itemsMap[String(value)].value).toBe(value);
     });
+
+    it('multiple values should keep the selected values and resolve the first option', () => {
+        const value = [1, 2];
+        component.config = {
+            dataQa: '',
+            multiple: true,
+            items: [
+                { value: 1, title: 'First' },
+                { value: 2, title: 'Second' },
+            ],
+        };
+        component.value = value;
+        fixture.detectChanges();
+
+        expect(component.value).toEqual(value);
+        expect(component.selectedValues()).toEqual(value);
+        expect(component.selectedItem()?.value).toBe(value[0]);
+        expect(component.selectedItem()?.title).toBe('First');
+    });
 });
