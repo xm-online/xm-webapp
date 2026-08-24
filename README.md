@@ -23,8 +23,11 @@ cd xm-webapp/
 cd src/app/ext/
 git clone <repo with extension>
 ```
-* Change API endpoint in the file `proxy.conf.js` (optional):
-value for the parameter `target`
+* Set up local proxy:
+```bash
+cp -f proxy.config.js local.proxy.conf.js
+```
+- Open `local.proxy.conf.js` and change the target for your back-end (optional)
 * Install all dependencies:
 ```
 npm install
