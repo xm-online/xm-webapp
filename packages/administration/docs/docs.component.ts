@@ -81,14 +81,19 @@ export class JhiDocsComponent implements AfterViewInit {
                     // swagger-ui uses its own fetch, so ProxyInterceptor never sees these
                     // requests and SERVER_API_URL has to be prepended here
                     const apiBase = this.coreConfig.SERVER_API_URL || '';
+                    const hasSegment = (pathname: string, segment: string): boolean =>
+                        pathname === segment || pathname.startsWith(`${segment}/`);
+                    const normalizePath = (path: string): string =>
+                        path.startsWith('/') ? path : `/${path}`;
                     try {
                         const url = new URL(req.url, location.origin);
                         if (url.origin === location.origin) {
-                            if (prefix && !url.pathname.startsWith(prefix)) {
-                                url.pathname = prefix + url.pathname;
+                            const prefixPath = prefix ? normalizePath(prefix) : '';
+                            if (prefixPath && !hasSegment(url.pathname, prefixPath)) {
+                                url.pathname = prefixPath + url.pathname;
                             }
-                            if (apiBase && !url.pathname.startsWith(apiBase)) {
-                                url.pathname = apiBase + url.pathname;
+                            if (apiBase && !hasSegment(url.pathname, normalizePath(apiBase))) {
+                                url.pathname = normalizePath(apiBase) + url.pathname;
                             }
                             req.url = url.toString();
                         }
