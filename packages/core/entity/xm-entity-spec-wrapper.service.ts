@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RequestCache, RequestCacheFactoryService } from '@xm-ngx/core';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, take } from 'rxjs/operators';
 import { Spec } from './spec.model';
 import { XmEntitySpec } from './xm-entity-spec.model';
 import { XmEntitySpecService } from './xm-entity-spec.service';
@@ -50,7 +50,15 @@ export class XmEntitySpecWrapperService {
     }
 
     private requestSpec(): Observable<XmEntitySpec[]> {
-        return this.xmEntitySpecService.getAll();
+        return this.xmEntitySpecService.getAll().pipe(
+            // The cache is a ReplaySubject: an error would terminate it permanently
+            // and poison every consumer (menu, dashboards, entity lists) for the whole
+            // session. Degrade to an empty spec instead.
+            catchError((err) => {
+                console.warn('XmEntitySpecWrapperService: failed to load entity specs, degrading to empty spec.', err);
+                return of([] as XmEntitySpec[]);
+            }),
+        );
     }
 
 }
