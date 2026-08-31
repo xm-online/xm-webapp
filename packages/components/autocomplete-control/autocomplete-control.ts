@@ -386,7 +386,22 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             : resourceUrl;
 
         if (this.repositoryController) {
-            return this.repositoryController[this.config.controller?.method || 'query'](httpParams, new HttpHeaders(headers))
+            // A repository controller instance owns a single, fixed resource (selected via
+            // `config.controller.key`), so a `resourceUrl` override has no way to be honored here.
+            // Rather than silently ignoring it (which would hide a real misconfiguration where the
+            // caller expected `fetchSelectedByCriteria.resourceUrl`/`config.search.resourceUrl` to
+            // switch the endpoint), fail fast so the mistake is caught during development.
+            if (overrides?.resourceUrl) {
+                throw new Error(
+                    'XmAutocompleteControl: "resourceUrl" override is not supported when a repository ' +
+                    'controller is configured (config.controller.key). Use config.controller.method or the ' +
+                    '"resourceMethod" override to select a different controller method instead.',
+                );
+            }
+
+            const controllerMethod = overrides?.resourceMethod || this.config.controller?.method || 'query';
+
+            return this.repositoryController[controllerMethod](httpParams, new HttpHeaders(headers))
                 .pipe(
                     map((data) => this.mapBackendData(data)),
                     map(collection => this.normalizeValues(collection)),
