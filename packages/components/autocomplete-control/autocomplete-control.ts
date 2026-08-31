@@ -285,15 +285,20 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        this.clearEmptyValue(changes?.value?.currentValue);
+        if (!changes?.value) {
+            return;
+        }
+
+        this.clearEmptyValue(changes.value.currentValue);
 
         // Prevent make another request
         if (this.list.value.length <= 0) {
-            this.setUpdatedValues(changes?.value?.currentValue);
+            this.setUpdatedValues(changes.value.currentValue);
         }
     }
 
     public writeValue(value: unknown[]): void {
+        this.value = value;
         this.clearEmptyValue(value);
         this.setUpdatedValues(value);
     }
@@ -475,7 +480,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             return isMatch(o1, o2);
         }
 
-        return option === selection;
+        return isEqual(option?.value, selection?.value);
     };
 
     public setDisabledState(isDisabled: boolean): void {
