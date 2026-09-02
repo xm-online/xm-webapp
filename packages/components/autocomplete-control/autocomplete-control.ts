@@ -14,12 +14,14 @@ import {
 } from '@angular/core';
 import { coerceArray } from '@angular/flex-layout';
 import { FormControl, NgControl } from '@angular/forms';
-import { format, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { format, interpolate, takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { LanguageService } from '@xm-ngx/translation';
 import {
     BehaviorSubject,
     catchError,
+    combineLatest,
     debounceTime,
+    defer,
     distinctUntilChanged,
     filter,
     finalize,
@@ -41,6 +43,7 @@ import {
     XmAutocompleteControlListItem,
     XmAutocompleteControlMapper,
     XmAutocompleteControlParams,
+    XmAutocompleteSearchParams,
 } from './autocomple-control.interface';
 import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/components/validator-processing';
 import { checkIfEmpty } from '@xm-ngx/pipes';
@@ -55,10 +58,12 @@ import {
     isFunction,
     isMatch,
     isObject,
+    isUndefined,
     omitBy,
     template,
     uniqWith,
 } from 'lodash';
+import * as _ from 'lodash';
 import { XmDynamicInstanceService } from '@xm-ngx/dynamic';
 
 @Directive()
@@ -66,6 +71,17 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     private _config: XmAutocompleteControlConfig = AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG;
 
     @Input() public normalizeValuesFn: (collection: unknown) => XmAutocompleteControlListItem[];
+
+    private _context = new BehaviorSubject<Record<string, unknown>>({});
+
+    @Input()
+    public set context(value: Record<string, unknown>) {
+        this._context.next(value ?? {});
+    }
+
+    public get context(): Record<string, unknown> {
+        return this._context.value;
+    }
 
     @Input()
     public set config(value: XmAutocompleteControlConfig) {
@@ -195,12 +211,24 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             takeUntilOnDestroy(this),
         ).subscribe();
 
-        this.searchQueryControl.valueChanges.pipe(
+        const searchQueryChanges$ = this.searchQueryControl.valueChanges.pipe(
+            startWith(this.searchQueryControl.value),
             distinctUntilChanged(),
+        );
+        const context$ = this._context.pipe(distinctUntilChanged(isEqual));
+        const isLocalSearch = !!this.config.localSearchKey;
+        const remoteSearchTrigger$: Observable<[string, Record<string, unknown>]> = isLocalSearch
+            ? context$.pipe(map((context) => ['', context] as [string, Record<string, unknown>]))
+            : combineLatest([searchQueryChanges$, context$]);
+
+        remoteSearchTrigger$.pipe(
             debounceTime(300),
-            filter(searchQuery => searchQuery?.length === 0 || (searchQuery?.length >= this.config.startFromCharSearch)),
-            switchMap((searchQuery) => {
-                if (this.isEmptySearchResult(searchQuery)) {
+            filter(() => !this.disabled),
+            filter(([searchQuery]) => isLocalSearch
+                || searchQuery?.length === 0
+                || (searchQuery?.length >= this.config.startFromCharSearch)),
+            switchMap(([searchQuery]) => {
+                if (!isLocalSearch && this.isEmptySearchResult(searchQuery)) {
                     return of([]);
                 }
                 return this.searchByQuery(searchQuery).pipe(
@@ -213,22 +241,51 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             takeUntilOnDestroy(this),
         ).subscribe();
 
-        this.fetchedList.pipe(
-            switchMap((fetch) => this.searchedList.pipe(
-                map((search) => [fetch, search]),
-            )),
-            map(([fetchedSelectedValues, search]) => {
-                return this.uniqByIdentity(fetchedSelectedValues, search);
+        const filteredSearchedList$ = isLocalSearch
+            ? combineLatest([
+                this.searchedList,
+                searchQueryChanges$.pipe(debounceTime(150)),
+            ]).pipe(
+                map(([searched, searchQuery]) => this.filterLocally(searched, searchQuery)),
+            )
+            : this.searchedList;
+
+        combineLatest([
+            this.fetchedList,
+            filteredSearchedList$,
+        ]).pipe(
+            map(([fetchedSelectedValues, searched]) => {
+                return this.uniqByIdentity(fetchedSelectedValues, searched);
             }),
             tap((values) => {
                 this.list.next(values);
             }),
             takeUntilOnDestroy(this),
         ).subscribe();
+    }
 
-        if (this.config.startEmptySearch) {
-            this.searchQueryControl.setValue('');
+    private filterLocally(items: XmAutocompleteControlListItem[], searchQuery: string): XmAutocompleteControlListItem[] {
+        const key = this.config.localSearchKey;
+
+        if (!key) {
+            return items;
         }
+
+        if (!searchQuery) {
+            return this.config.startEmptySearch ? items : [];
+        }
+
+        if (searchQuery.length < this.config.startFromCharSearch) {
+            return [];
+        }
+
+        const normalizedQuery = String(searchQuery).toLowerCase();
+
+        return items.filter((item) => {
+            const value = get(item.data, key, item.view);
+
+            return String(value ?? '').toLowerCase().includes(normalizedQuery);
+        });
     }
 
     private isEmptySearchResult(searchQuery: string): boolean {
@@ -237,15 +294,20 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        this.clearEmptyValue(changes?.value?.currentValue);
+        if (!changes?.value) {
+            return;
+        }
+
+        this.clearEmptyValue(changes.value.currentValue);
 
         // Prevent make another request
         if (this.list.value.length <= 0) {
-            this.setUpdatedValues(changes?.value?.currentValue);
+            this.setUpdatedValues(changes.value.currentValue);
         }
     }
 
     public writeValue(value: unknown[]): void {
+        this.value = value;
         this.clearEmptyValue(value);
         this.setUpdatedValues(value);
     }
@@ -276,30 +338,37 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
     private searchByQuery(searchQuery: string): Observable<XmAutocompleteControlListItem[]> {
         const {queryParams, body, size} = this.config?.search || {};
+        const criteriaContext = this.getSearchCriteriaContext(searchQuery);
 
         const httpParams = this.formatRequestParams(
             {...(size ? {size: String(size)} : {}), ...queryParams},
-            this.getSearchCriteriaContext(searchQuery),
+            criteriaContext,
         );
-        const httpBody = this.formatRequestParams(body, this.getSearchCriteriaContext(searchQuery));
+        const httpBody = this.formatRequestParams(body, criteriaContext);
 
-        return this.buildRequest(httpParams, httpBody);
+        return this.buildRequest(httpParams, httpBody, criteriaContext);
     }
 
     private fetchSelectedValues(values: XmAutocompleteControlListItem[]): Observable<XmAutocompleteControlListItem[]> {
-        const {queryParams, body} = this.config?.fetchSelectedByCriteria || {};
+        const {queryParams, body, size, resourceUrl, resourceMethod, headers} = this.config?.fetchSelectedByCriteria || {};
+        const criteriaContext = this.getSearchCriteriaContext(values);
 
-        const httpParams = this.formatRequestParams(queryParams, this.getSearchCriteriaContext(values));
-        const httpBody = this.formatRequestParams(body, this.getSearchCriteriaContext(values));
+        const httpParams = this.formatRequestParams(
+            {...(size ? {size: String(size)} : {}), ...queryParams},
+            criteriaContext,
+        );
+        const httpBody = this.formatRequestParams(body, criteriaContext);
 
-        return this.buildRequest(httpParams, httpBody).pipe(
+        const overrides = omitBy({resourceUrl, resourceMethod, headers}, isUndefined) as Partial<XmAutocompleteSearchParams>;
+
+        return this.buildRequest(httpParams, httpBody, criteriaContext, overrides).pipe(
             catchError(() => of(values)),
         );
     }
 
     private getSearchCriteriaContext(search: unknown): Record<string, unknown> {
         return {
-            search, ...this.getLocaleContext(),
+            ...this.context, ...this.getLocaleContext(), search,
         };
     }
 
@@ -312,35 +381,74 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
         };
     }
 
-    private buildRequest(httpParams: XmAutocompleteControlParams, httpBody: XmAutocompleteControlBody): Observable<XmAutocompleteControlListItem[]> {
+    private buildRequest(
+        httpParams: XmAutocompleteControlParams,
+        httpBody: XmAutocompleteControlBody,
+        criteriaContext: Record<string, unknown>,
+        overrides?: Partial<XmAutocompleteSearchParams>,
+    ): Observable<XmAutocompleteControlListItem[]> {
         this._loading.next(true);
 
-        const {resourceUrl, resourceMethod, headers} = this.config?.search || {};
+        // Wrapped in `defer()` so that any synchronous `throw` below (misconfiguration guards)
+        // becomes a proper Observable `error()` notification instead of a plain JS exception
+        // thrown at call time. Without this, the throw would happen BEFORE the caller's
+        // `.pipe(catchError(...))` is even attached, bypassing it entirely and permanently
+        // terminating the whole outer switchMap-based pipeline (remote search / selected-values
+        // fetch) for the rest of this control instance's lifetime after the first misconfigured
+        // request - not just failing that one request.
+        return defer(() => {
+            const {resourceUrl, resourceMethod, headers} = {...this.config?.search, ...overrides};
+            const interpolatedResourceUrl = resourceUrl
+                ? interpolate(resourceUrl, {entity: criteriaContext, _})
+                : resourceUrl;
 
-        if (this.repositoryController) {
-            return this.repositoryController[this.config.controller?.method || 'query'](httpParams, new HttpHeaders(headers))
-                .pipe(
+            if (this.repositoryController) {
+                if (resourceUrl) {
+                    throw new Error(
+                        'XmAutocompleteControl: "resourceUrl" (config.search.resourceUrl or the ' +
+                        '"resourceUrl" override) is not supported when a repository controller is ' +
+                        'configured (config.controller.key). Use config.controller.method or the ' +
+                        '"resourceMethod" override to select a different controller method instead.',
+                    );
+                }
+
+                if (!isEmpty(httpBody)) {
+                    throw new Error(
+                        'XmAutocompleteControl: "body" (config.search.body or ' +
+                        'fetchSelectedByCriteria.body) is not supported when a repository controller ' +
+                        'is configured (config.controller.key), since its GET-style methods cannot ' +
+                        'carry a request body. Use "queryParams" instead, or switch to plain-URL mode ' +
+                        '("resourceUrl") if a body is required.',
+                    );
+                }
+
+                const controllerMethod = overrides?.resourceMethod || this.config.controller?.method || 'query';
+
+                return this.repositoryController[controllerMethod](httpParams, new HttpHeaders(headers))
+                    .pipe(
+                        map((data) => this.mapBackendData(data)),
+                        map((data) => this.skipByKeyValue(<unknown[]>data, this.config.skipByKeyValue)),
+                        map(collection => this.normalizeValues(collection)),
+                        finalize(() => this._loading.next(false)),
+                    );
+            }
+
+            if (interpolatedResourceUrl) {
+                return this.collectionFactory.create(interpolatedResourceUrl).request(
+                    resourceMethod,
+                    httpBody,
+                    httpParams,
+                    new HttpHeaders(headers),
+                ).pipe(
                     map((data) => this.mapBackendData(data)),
+                    map((data) => this.skipByKeyValue(<unknown[]>data, this.config.skipByKeyValue)),
                     map(collection => this.normalizeValues(collection)),
                     finalize(() => this._loading.next(false)),
                 );
-        }
+            }
 
-        if (resourceUrl) {
-            return this.collectionFactory.create(resourceUrl).request(
-                resourceMethod,
-                httpBody,
-                httpParams,
-                new HttpHeaders(headers),
-            ).pipe(
-                map((data) => this.mapBackendData(data)),
-                map((data) => this.skipByKeyValue(<unknown[]>data, this.config.skipByKeyValue)),
-                map(collection => this.normalizeValues(collection)),
-                finalize(() => this._loading.next(false)),
-            );
-        }
-
-        return of([]);
+            return of([]);
+        });
     }
 
     private formatRequestParams(params: XmAutocompleteControlParams, context: unknown): XmAutocompleteControlParams {
@@ -412,7 +520,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
             return isMatch(o1, o2);
         }
 
-        return option === selection;
+        return isEqual(option?.value, selection?.value);
     };
 
     public setDisabledState(isDisabled: boolean): void {
