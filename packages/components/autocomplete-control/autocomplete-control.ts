@@ -21,6 +21,7 @@ import {
     catchError,
     combineLatest,
     debounceTime,
+    defer,
     distinctUntilChanged,
     filter,
     finalize,
@@ -266,8 +267,16 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     private filterLocally(items: XmAutocompleteControlListItem[], searchQuery: string): XmAutocompleteControlListItem[] {
         const key = this.config.localSearchKey;
 
-        if (!key || !searchQuery) {
+        if (!key) {
             return items;
+        }
+
+        if (!searchQuery) {
+            return this.config.startEmptySearch ? items : [];
+        }
+
+        if (searchQuery.length < this.config.startFromCharSearch) {
+            return [];
         }
 
         const normalizedQuery = String(searchQuery).toLowerCase();
@@ -359,7 +368,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
 
     private getSearchCriteriaContext(search: unknown): Record<string, unknown> {
         return {
-            search, ...this.getLocaleContext(), ...this.context,
+            ...this.context, ...this.getLocaleContext(), search,
         };
     }
 
@@ -380,50 +389,66 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     ): Observable<XmAutocompleteControlListItem[]> {
         this._loading.next(true);
 
-        const {resourceUrl, resourceMethod, headers} = {...this.config?.search, ...overrides};
-        const interpolatedResourceUrl = resourceUrl
-            ? interpolate(resourceUrl, {entity: criteriaContext, _})
-            : resourceUrl;
+        // Wrapped in `defer()` so that any synchronous `throw` below (misconfiguration guards)
+        // becomes a proper Observable `error()` notification instead of a plain JS exception
+        // thrown at call time. Without this, the throw would happen BEFORE the caller's
+        // `.pipe(catchError(...))` is even attached, bypassing it entirely and permanently
+        // terminating the whole outer switchMap-based pipeline (remote search / selected-values
+        // fetch) for the rest of this control instance's lifetime after the first misconfigured
+        // request - not just failing that one request.
+        return defer(() => {
+            const {resourceUrl, resourceMethod, headers} = {...this.config?.search, ...overrides};
+            const interpolatedResourceUrl = resourceUrl
+                ? interpolate(resourceUrl, {entity: criteriaContext, _})
+                : resourceUrl;
 
-        if (this.repositoryController) {
-            // A repository controller instance owns a single, fixed resource (selected via
-            // `config.controller.key`), so a `resourceUrl` override has no way to be honored here.
-            // Rather than silently ignoring it (which would hide a real misconfiguration where the
-            // caller expected `fetchSelectedByCriteria.resourceUrl`/`config.search.resourceUrl` to
-            // switch the endpoint), fail fast so the mistake is caught during development.
-            if (overrides?.resourceUrl) {
-                throw new Error(
-                    'XmAutocompleteControl: "resourceUrl" override is not supported when a repository ' +
-                    'controller is configured (config.controller.key). Use config.controller.method or the ' +
-                    '"resourceMethod" override to select a different controller method instead.',
-                );
+            if (this.repositoryController) {
+                if (resourceUrl) {
+                    throw new Error(
+                        'XmAutocompleteControl: "resourceUrl" (config.search.resourceUrl or the ' +
+                        '"resourceUrl" override) is not supported when a repository controller is ' +
+                        'configured (config.controller.key). Use config.controller.method or the ' +
+                        '"resourceMethod" override to select a different controller method instead.',
+                    );
+                }
+
+                if (!isEmpty(httpBody)) {
+                    throw new Error(
+                        'XmAutocompleteControl: "body" (config.search.body or ' +
+                        'fetchSelectedByCriteria.body) is not supported when a repository controller ' +
+                        'is configured (config.controller.key), since its GET-style methods cannot ' +
+                        'carry a request body. Use "queryParams" instead, or switch to plain-URL mode ' +
+                        '("resourceUrl") if a body is required.',
+                    );
+                }
+
+                const controllerMethod = overrides?.resourceMethod || this.config.controller?.method || 'query';
+
+                return this.repositoryController[controllerMethod](httpParams, new HttpHeaders(headers))
+                    .pipe(
+                        map((data) => this.mapBackendData(data)),
+                        map((data) => this.skipByKeyValue(<unknown[]>data, this.config.skipByKeyValue)),
+                        map(collection => this.normalizeValues(collection)),
+                        finalize(() => this._loading.next(false)),
+                    );
             }
 
-            const controllerMethod = overrides?.resourceMethod || this.config.controller?.method || 'query';
-
-            return this.repositoryController[controllerMethod](httpParams, new HttpHeaders(headers))
-                .pipe(
+            if (interpolatedResourceUrl) {
+                return this.collectionFactory.create(interpolatedResourceUrl).request(
+                    resourceMethod,
+                    httpBody,
+                    httpParams,
+                    new HttpHeaders(headers),
+                ).pipe(
                     map((data) => this.mapBackendData(data)),
+                    map((data) => this.skipByKeyValue(<unknown[]>data, this.config.skipByKeyValue)),
                     map(collection => this.normalizeValues(collection)),
                     finalize(() => this._loading.next(false)),
                 );
-        }
+            }
 
-        if (interpolatedResourceUrl) {
-            return this.collectionFactory.create(interpolatedResourceUrl).request(
-                resourceMethod,
-                httpBody,
-                httpParams,
-                new HttpHeaders(headers),
-            ).pipe(
-                map((data) => this.mapBackendData(data)),
-                map((data) => this.skipByKeyValue(<unknown[]>data, this.config.skipByKeyValue)),
-                map(collection => this.normalizeValues(collection)),
-                finalize(() => this._loading.next(false)),
-            );
-        }
-
-        return of([]);
+            return of([]);
+        });
     }
 
     private formatRequestParams(params: XmAutocompleteControlParams, context: unknown): XmAutocompleteControlParams {
