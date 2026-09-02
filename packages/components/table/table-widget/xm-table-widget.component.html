@@ -120,6 +120,7 @@
           <xm-table-expandable-row-column
             *ngIf="hasExpandableRows"
             [expandedRows]="expandedRows"
+            [rowCondition]="config.expandableRowCondition"
             (rowExpansionChanged)="onRowExpansionChanged()">
           </xm-table-expandable-row-column>
 

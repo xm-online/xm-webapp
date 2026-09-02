@@ -47,6 +47,13 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
     errorRowCondition?: string;
     titleWidget?: XmTableTitleWidgetConfig;
     expandableRow?: XmDynamicLayout;
+    /**
+     * Optional predicate deciding whether a row can be expanded.
+     * Evaluated by the `xmCondition` pipe with the row as `context`,
+     * e.g. `return !!context?.someProperty`.
+     * When omitted every row is expandable.
+     */
+    expandableRowCondition?: string;
     warningMessage?: {
         title: Translate;
         controller: {

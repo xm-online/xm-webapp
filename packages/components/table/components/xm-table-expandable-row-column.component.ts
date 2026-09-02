@@ -14,6 +14,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { XmCondition } from '@xm-ngx/pipes';
 
 export const XM_TABLE_EXPANDABLE_COLUMN_NAME = '_expandColumn';
 
@@ -21,12 +22,13 @@ export const XM_TABLE_EXPANDABLE_COLUMN_NAME = '_expandColumn';
     selector: 'xm-table-expandable-row-column',
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
-    imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule],
+    imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule, XmCondition],
     template: `
         <ng-container [matColumnDef]="columnName">
             <th *matHeaderCellDef mat-header-cell class="table-expandable-row-column"></th>
             <td *matCellDef="let row" mat-cell class="table-expandable-row-column">
-                <button mat-icon-button
+                <button *ngIf="!rowCondition || (rowCondition | xmCondition: row)"
+                        mat-icon-button
                         (click)="toggleRow(row, $event)"
                         [attr.aria-expanded]="isExpanded(row)"
                         [attr.aria-label]="isExpanded(row) ? 'Collapse row' : 'Expand row'">
@@ -45,6 +47,11 @@ export class XmTableExpandableRowColumnComponent implements OnInit, OnDestroy {
     public readonly columnName = XM_TABLE_EXPANDABLE_COLUMN_NAME;
 
     @Input() public expandedRows: Set<unknown> = new Set();
+    /**
+     * Optional predicate deciding whether a row can be expanded.
+     * Evaluated by the `xmCondition` pipe with the row as `context`.
+     */
+    @Input() public rowCondition: string;
     @Output() public rowExpansionChanged = new EventEmitter<void>();
 
     @ViewChild(CdkColumnDef, { static: true }) private readonly _columnDef: CdkColumnDef;
