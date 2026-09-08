@@ -21,6 +21,10 @@ export enum EditWidgetButtonsEventType {
 export interface EditWidgetButtonsEvent {
     event?: EditWidgetButtonsEventType;
     isEdit?: boolean;
+    /**
+     * Unique identifier of the button/form instance that triggered this event
+     */
+    instanceId?: string;
 }
 
 @Component({
@@ -41,6 +45,8 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
     @Output() public cancel: EventEmitter<void> = new EventEmitter<void>();
     @Output() public changeEvent: EventEmitter<EditWidgetButtonsEvent> = new EventEmitter<EditWidgetButtonsEvent>();
     private editStateStore = injectByKey<EditStateStoreService>('edit-state-store', {optional: true});
+    // Unique id auto-generated per component instance (isolates broadcast events)
+    private readonly instanceId: string = 'edit-btn-' + Math.random().toString(36).substr(2, 9);
 
     constructor(
         private eventManager: XmEventManager,
@@ -54,6 +60,11 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
         this.eventManager.listenTo<EditWidgetButtonsEvent>(XM_EDIT_WIDGET_BUTTONS_CHANGE_EVENT)
             .pipe(takeUntilOnDestroy(this))
             .subscribe((e) => {
+                // Ignore events coming from a different instance
+                if (e.payload.instanceId && this.instanceId !== e.payload.instanceId) {
+                    return;
+                }
+
                 this.isHidden = !this.isEdit && e.payload.isEdit;
             });
     }
@@ -116,6 +127,7 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
         const payload = {
             isEdit: this.isEdit,
             event,
+            instanceId: this.instanceId,
         };
         this.changeEvent.emit(payload);
         this.eventManager.broadcast<EditWidgetButtonsEvent>({
