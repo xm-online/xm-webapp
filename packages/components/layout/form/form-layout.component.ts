@@ -12,6 +12,7 @@ import { cloneDeep, get, set } from 'lodash';
 import { isObservable, Observable, of } from 'rxjs';
 import {debounceTime, filter, map, startWith, switchMap, withLatestFrom} from 'rxjs/operators';
 import {FormGroupFields, FormLayoutConfig} from './form-layout.model';
+import { FormLayoutDataService } from './form-layout-data.service';
 
 @Component({
     standalone: true,
@@ -31,6 +32,7 @@ import {FormGroupFields, FormLayoutConfig} from './form-layout.model';
 })
 export class FormLayoutComponent extends XmDynamicInstanceService implements OnInit, OnDestroy {
     private editStateStore = injectByKey<EditStateStoreService>('edit-state-store', {optional: true});
+    private formDataService = inject(FormLayoutDataService);
 
     private validatorProcessing = inject(ValidatorProcessingService);
     private fb = inject<FormBuilder>(FormBuilder);
@@ -45,6 +47,8 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
 
     public ngOnInit(): void {
         this.formGroup = this.buildFormGroup();
+
+        this.formDataService.registerFormGroup(this.formGroup);
 
         if (this.config.defaultEditState) {
             this.editStateStore.change(this.config.defaultEditState);
@@ -65,6 +69,7 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
             takeUntilOnDestroy(this),
             startWith(null),
         ).subscribe(() => {
+            this.formDataService.updateFormData(this.formGroup.getRawValue());
             this.markSaveButtonEnabled();
         });
 
@@ -114,6 +119,7 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
     }
 
     public ngOnDestroy(): void {
+        this.formDataService.clear();
         takeUntilOnDestroyDestroy(this);
     }
 
