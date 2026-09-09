@@ -32,16 +32,19 @@ export class FormFieldRulesService {
                     continue;
                 }
 
-                const shouldRun = rule.when
-                    ? Boolean(this.evalExpr(rule.when, {form, dataValue}))
-                    : true;
+                const whenResult = rule.when
+                    ? this.evalExpr(rule.when, {form, dataValue})
+                    : {success: true, value: true};
 
-                if (!shouldRun) {
+                if (!whenResult.success || !Boolean(whenResult.value)) {
                     continue;
                 }
 
                 for (const [property, expr] of Object.entries(rule.set ?? {})) {
-                    patch[property] = this.evalExpr(expr, {form, dataValue});
+                    const setResult = this.evalExpr(expr, {form, dataValue});
+                    if (setResult.success) {
+                        patch[property] = setResult.value;
+                    }
                 }
             }
         }
@@ -59,13 +62,13 @@ export class FormFieldRulesService {
         }
     }
 
-    private evalExpr(code: string, args: Record<string, unknown>): unknown {
+    private evalExpr(code: string, args: Record<string, unknown>): {success: boolean; value: unknown} {
         try {
             const fn = new Function(...Object.keys(args), `return (${code});`);
-            return fn(...Object.values(args));
+            return {success: true, value: fn(...Object.values(args))};
         } catch (e) {
             console.error(e);
-            return undefined;
+            return {success: false, value: undefined};
         }
     }
 }

@@ -80,9 +80,10 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
             debounceTime(200),
             filter(() => this.config.ignoreFormValidationToUpdate || this.formGroup.valid),
             withLatestFrom(this.dataController[this.config?.controller?.getDataMethod || 'get']() as Observable<object>),
-            map(([formGroupValue, data]: [Record<string, UntypedFormControl>, object]) => {
+            map(([, data]: [Record<string, UntypedFormControl>, object]) => {
+                const currentForm = this.formGroup.getRawValue();
                 this.config.fields.forEach(field => {
-                    set(data, field.property, formGroupValue[field.property]);
+                    set(data, field.property, currentForm[field.property]);
                 });
                 return data;
             }),
