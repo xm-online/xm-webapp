@@ -19,9 +19,17 @@ export type FormLayoutConfig = {
     saveData?: boolean;
 };
 
+export type FormFieldRule = {
+    /** JS-condition controlling whether the rule runs. Arguments: form, dataValue */
+    when?: JavascriptCode;
+    /** Map of "property" keys to JS value expressions. Arguments: form, dataValue */
+    set: Record<string, JavascriptCode>;
+};
+
 export type FormFieldLayoutConfig = {
     property: string,
     condition: JavascriptCode;
+    rules?: FormFieldRule[];
     defaultValue?: unknown;
     defaultDisabled?: boolean;
     validators?: ValidatorProcessingOption[];
