@@ -19,16 +19,58 @@ export type FormLayoutConfig = {
     saveData?: boolean;
 };
 
+/**
+ * @example
+ * ```json
+ * {
+ *   "property": "data.smsEnabled",
+ *   "condition": "true",
+ *   "rules": [
+ *     {
+ *       "when": "form['data.smsEnabled'] !== true",
+ *       "set": {
+ *         "data.smsTemplate": "undefined",
+ *         "data.smsTemplateId": "undefined"
+ *       }
+ *     },
+ *     {
+ *       "when": "form['data.smsEnabled'] === true",
+ *       "set": {
+ *         "data.smsTemplateId": "form['data.smsTemplate']?.id != null ? String(form['data.smsTemplate'].id) : undefined"
+ *       }
+ *     }
+ *   ]
+ * }
+ * ```
+ */
 export type FormFieldRule = {
-    /** JS-condition controlling whether the rule runs. Arguments: form, dataValue */
+    /**
+     * Optional JS-condition deciding whether this rule runs.
+     * Evaluated with `form` and `dataValue` in scope; omit to always run.
+     *
+     * @example `"form['data.smsEnabled'] === true"`
+     */
     when?: JavascriptCode;
-    /** Map of "property" keys to JS value expressions. Arguments: form, dataValue */
+    /**
+     * Map of target field `property` to a JS value expression.
+     * Each expression is evaluated with `form` and `dataValue` in scope and written into
+     * the matching form control. Use `"undefined"` to clear a value.
+     *
+     * @example
+     * ```json
+     * { "data.smsTemplateId": "String(form['data.smsTemplate']?.id)" }
+     * ```
+     */
     set: Record<string, JavascriptCode>;
 };
 
 export type FormFieldLayoutConfig = {
     property: string,
     condition: JavascriptCode;
+    /**
+     * Declarative cross-field rules applied on form value changes.
+     * See {@link FormFieldRule} for the evaluation context and examples.
+     */
     rules?: FormFieldRule[];
     defaultValue?: unknown;
     defaultDisabled?: boolean;
