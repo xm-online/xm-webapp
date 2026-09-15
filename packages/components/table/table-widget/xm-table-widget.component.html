@@ -20,9 +20,7 @@
             [attr.data-qa]="config?.dataQa"
   >
     @let isLoading = context.collection.loading || xmTable.xmTableController['loading'];
-    @let displayedColumns = hasExpandableRows
-      ? context.settings.displayedColumns.concat([expandableColumnName])
-      : context.settings.displayedColumns;
+    @let displayedColumns = getDisplayedColumns(context.settings.displayedColumns);
     @let expandableRow = config.expandableRow;
     @let filterState = xmTable.filterChange$ | async;
     @let isSelectionDisabled = evaluateFilterCondition(filterState, config.selection?.disabledFilterCondition);
@@ -121,6 +119,8 @@
             *ngIf="hasExpandableRows"
             [expandedRows]="expandedRows"
             [rowCondition]="config.expandableRowCondition"
+            [sticky]="expandableColumnSticky"
+            [stickyEnd]="expandableColumnStickyEnd"
             (rowExpansionChanged)="onRowExpansionChanged()">
           </xm-table-expandable-row-column>
 
