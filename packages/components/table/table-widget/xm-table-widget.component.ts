@@ -135,6 +135,8 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
         IXmTableCollectionController<unknown>
     >('collection', { optional: true });
     private hasSticky: boolean = false;
+    private _displayedColumnsSource: string[] = null;
+    private _displayedColumns: string[] = null;
     private zone = inject(NgZone);
     private resizeObserver: ResizeObserver;
 
@@ -153,10 +155,40 @@ export class XmTableWidget implements AfterViewInit, OnDestroy {
         return !!this._config?.expandableRow;
     }
 
+    public get expandableColumnSticky(): boolean {
+        return !!this._config?.expandableRowColumn?.sticky;
+    }
+
+    public get expandableColumnStickyEnd(): boolean {
+        return !!this._config?.expandableRowColumn?.stickyEnd;
+    }
+
+    /**
+     * Adds the expand/collapse column to the displayed columns,
+     * either at the beginning or at the end depending on the config.
+     */
+    public getDisplayedColumns(columns: string[]): string[] {
+        if (!this.hasExpandableRows) {
+            return columns;
+        }
+        if (this._displayedColumnsSource === columns && this._displayedColumns) {
+            return this._displayedColumns;
+        }
+        this._displayedColumnsSource = columns;
+        this._displayedColumns = this._config?.expandableRowColumn?.position === 'start'
+            ? [this.expandableColumnName, ...columns]
+            : [...columns, this.expandableColumnName];
+        return this._displayedColumns;
+    }
+
     @Input()
     public set config(value: XmTableWidgetConfig) {
         this._config = getConfig(value);
-        this.hasSticky = this.config.columns.some((column) => column.sticky || column.stickyEnd);
+        this.hasSticky = this.config.columns.some((column) => column.sticky || column.stickyEnd)
+            || this.expandableColumnSticky
+            || this.expandableColumnStickyEnd;
+        this._displayedColumnsSource = null;
+        this._displayedColumns = null;
         if (!this.hasExpandableRows) {
             this.expandedRows.clear();
         }

@@ -22,6 +22,12 @@ export interface XmTableQueryParamsFilterValue {
 export type XmTableQueryParamsFilter = Record<string, XmTableQueryParamsFilterValue>;
 
 
+export interface XmTableExpandableRowColumnConfig {
+    position?: 'start' | 'end';
+    sticky?: boolean;
+    stickyEnd?: boolean;
+}
+
 export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersControlRequestConfig, DataQa {
     /** Title */
     title: Translate,
@@ -54,6 +60,12 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
      * When omitted every row is expandable.
      */
     expandableRowCondition?: string;
+    /**
+     * Placement and stickiness of the expand/collapse toggle column.
+     * `position: 'start'` renders it as the first column (default `'end'`).
+     * `sticky`/`stickyEnd` pin it to the left/right edge while scrolling horizontally.
+     */
+    expandableRowColumn?: XmTableExpandableRowColumnConfig;
     warningMessage?: {
         title: Translate;
         controller: {
@@ -97,4 +109,9 @@ export const XM_TABLE_WIDGET_CONFIG_DEFAULT: XmTableWidgetConfig = {
     showFilterChips: true,
     dataQa: 'default-xm-table-data-qa',
     isMultiselect: true,
+    expandableRowColumn: {
+        position: 'end',
+        sticky: false,
+        stickyEnd: false,
+    },
 };
