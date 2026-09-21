@@ -367,10 +367,13 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     private getSearchCriteriaContext(search: unknown): Record<string, unknown> {
-        // Escape Lucene special characters to prevent syntax errors
-        const escapedSearch = this.escapeLuceneSpecialChars(String(search ?? ''));
+        // Escape Lucene special characters only for string values
+        // Preserve non-string criteria (e.g., XmAutocompleteControlListItem[] from fetchSelectedValues)
+        const processedSearch = typeof search === 'string' 
+            ? this.escapeLuceneSpecialChars(search)
+            : search;
         return {
-            ...this.context, ...this.getLocaleContext(), search: escapedSearch,
+            ...this.context, ...this.getLocaleContext(), search: processedSearch,
         };
     }
 
