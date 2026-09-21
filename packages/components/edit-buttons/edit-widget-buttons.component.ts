@@ -34,6 +34,12 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
     @Input() public isEdit: boolean = false;
     @Input() public disableSubmit: boolean = false;
     @Input() public disabled: boolean = false;
+    /**
+     * Prevents emitting EDIT_EVENT.SAVE to the global edit state store.
+     * Use when save is handled manually by parent component
+     * The (save) output is still emitted for parent to handle custom persistence logic.
+     */
+    @Input() public skipEmitSaveEvent: boolean = false;
     @Output() public isEditChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() public edit: EventEmitter<void> = new EventEmitter<void>();
     @Output() public save: EventEmitter<void> = new EventEmitter<void>();
@@ -70,7 +76,7 @@ export class EditWidgetButtonsComponent implements OnInit, OnDestroy {
 
     public onSave(event: any): void {
         event.stopPropagation();
-        if (this.editStateStore) {
+        if (this.editStateStore && !this.skipEmitSaveEvent) {
             this.editStateStore.emitEvent(EDIT_EVENT.SAVE);
         }
         this.changeIsEdit(EditWidgetButtonsEventType.SAVE);
