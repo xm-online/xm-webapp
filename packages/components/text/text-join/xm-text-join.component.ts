@@ -6,9 +6,10 @@ import {
     XmDynamicPresentation,
 } from '@xm-ngx/dynamic';
 import { JavascriptCode } from '@xm-ngx/interfaces';
-import { XmTranslateService } from '@xm-ngx/translation';
+import { Translate, XmTranslatePipe, XmTranslateService, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { dayjs } from '@xm-ngx/operators';
+import { XmTextViewModule } from '@xm-ngx/components/text';
 
 export interface XmTextJoinValueOptionsTemplateType {
     value: 'date',
@@ -23,13 +24,30 @@ export interface XmTextJoinValueOptionsTemplate extends XmTextTitleOptions {
 export interface XmTextJoinValueOptions {
     templates: XmTextJoinValueOptionsTemplate[];
     joinSymbol: string;
+    title?: Translate;
 }
 
 @Component({
     selector: 'xm-text-join',
-    template: '{{joinValue}}',
+    template: `
+        @if (config?.title) {
+        <xm-text-view-container>
+            <span xmLabel>{{ config.title | xmTranslate }}</span>
+            <span xmValue>
+                {{ joinValue }}
+            </span>
+        </xm-text-view-container>
+        } @else {
+            {{ joinValue }}
+        }
+    `,
     standalone: true,
     changeDetection: ChangeDetectionStrategy.Default,
+    imports: [
+        XmTranslationModule,
+        XmTranslatePipe,
+        XmTextViewModule,
+    ],
 })
 export class XmTextJoinComponent implements OnChanges, XmDynamicPresentation<unknown, XmTextJoinValueOptions> {
     @Input() public value: unknown;
@@ -47,7 +65,6 @@ export class XmTextJoinComponent implements OnChanges, XmDynamicPresentation<unk
     }
 
     public joinTemplates(templates: XmTextJoinValueOptionsTemplate[]): string {
-
         const fields: string[] = [];
 
         for (const item of templates) {
