@@ -9,7 +9,7 @@ import { JavascriptCode } from '@xm-ngx/interfaces';
 import { Translate, XmTranslatePipe, XmTranslateService, XmTranslationModule } from '@xm-ngx/translation';
 import * as _ from 'lodash';
 import { dayjs } from '@xm-ngx/operators';
-import { XmTextViewModule } from '@xm-ngx/components/text';
+import { XmTextViewModule } from '../text-view';
 
 export interface XmTextJoinValueOptionsTemplateType {
     value: 'date',
