@@ -369,7 +369,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     private getSearchCriteriaContext(search: unknown): Record<string, unknown> {
         // Escape Lucene special characters only for string values
         // Preserve non-string criteria (e.g., XmAutocompleteControlListItem[] from fetchSelectedValues)
-        const processedSearch = typeof search === 'string' 
+        const processedSearch = typeof search === 'string'
             ? this.escapeLuceneSpecialChars(search)
             : search;
         return {
@@ -378,8 +378,7 @@ export class XmAutocompleteControl extends NgModelWrapper<object | string> imple
     }
 
     /**
-     * Escapes Lucene special characters that can break query syntax:
-     * + - && || ! ( ) { } [ ] ^ " ~ * ? : \
+     * Escapes Lucene special characters that can break query parsing when included in search strings.
      */
     private escapeLuceneSpecialChars(input: string): string {
         return input.replace(/([+\-&&||!(){}\[\]^"~*?:\\])/g, '\\$1');
