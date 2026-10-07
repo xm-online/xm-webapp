@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, NgZone } from '@angular/core';
 
 import { AuthServerProvider } from '@xm-ngx/core/user';
+import { XmCoreConfig } from '@xm-ngx/core';
 import { SwaggerUIBundle } from 'swagger-ui-dist';
 
 interface SwaggerResource {
@@ -40,6 +41,7 @@ export class JhiDocsComponent implements AfterViewInit {
     constructor(
         private http: HttpClient,
         private auth: AuthServerProvider,
+        private coreConfig: XmCoreConfig,
         private ngZone: NgZone,
     ) {
     }
@@ -76,16 +78,27 @@ export class JhiDocsComponent implements AfterViewInit {
                 tagsSorter: 'alpha',
                 validatorUrl: null,
                 requestInterceptor: (req) => {
-                    if (prefix) {
-                        try {
-                            const url = new URL(req.url);
-                            if (!url.pathname.startsWith(prefix)) {
-                                url.pathname = prefix + url.pathname;
-                                req.url = url.toString();
+                    // swagger-ui uses its own fetch, so ProxyInterceptor never sees these
+                    // requests and SERVER_API_URL has to be prepended here
+                    const apiBase = this.coreConfig.SERVER_API_URL || '';
+                    const hasSegment = (pathname: string, segment: string): boolean =>
+                        pathname === segment || pathname.startsWith(`${segment}/`);
+                    const normalizePath = (path: string): string =>
+                        path.startsWith('/') ? path : `/${path}`;
+                    try {
+                        const url = new URL(req.url, location.origin);
+                        if (url.origin === location.origin) {
+                            const prefixPath = prefix ? normalizePath(prefix) : '';
+                            if (prefixPath && !hasSegment(url.pathname, prefixPath)) {
+                                url.pathname = prefixPath + url.pathname;
                             }
-                        } catch (e) {
-
+                            if (apiBase && !hasSegment(url.pathname, normalizePath(apiBase))) {
+                                url.pathname = normalizePath(apiBase) + url.pathname;
+                            }
+                            req.url = url.toString();
                         }
+                    } catch (e) {
+
                     }
 
                     if (authToken) {

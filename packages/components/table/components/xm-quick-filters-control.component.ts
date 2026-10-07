@@ -96,7 +96,8 @@ export class XmTableQuickFilterControl<T = FiltersControlValue> extends NgContro
         }
 
         if (this.formGroup && changes.value) {
-            this.formGroup.setValue(this.value);
+            this.formGroup.patchValue(this.value || {}, { emitEvent: false });
+            this.syncFormState();
         }
 
         if (changes.options && !changes.options.isFirstChange()) {
@@ -161,14 +162,18 @@ export class XmTableQuickFilterControl<T = FiltersControlValue> extends NgContro
                 takeUntil(this.destroy$),
             ).subscribe(() => {
                 const value = this.formGroup.getRawValue();
-                this.formValue$.next(value);
                 if (!_.isEqual(this.value, value)) {
                     this.emitValue(value);
                 }
 
-                this.validStatusChange.emit(this.formGroup.valid);
+                this.syncFormState(value);
             });
         }
+    }
+
+    private syncFormState(value: Record<string, unknown> = this.formGroup.getRawValue()): void {
+        this.formValue$.next(value);
+        this.validStatusChange.emit(this.formGroup.valid);
     }
 
     private emitValue(value: any): void {

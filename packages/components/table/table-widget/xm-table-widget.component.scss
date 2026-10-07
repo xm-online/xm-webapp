@@ -48,6 +48,10 @@
     background: none;
   }
 
+  .mat-mdc-paginator[hidden] {
+    display: none;
+  }
+
   .xm-table-wrapper {
     overflow: hidden;
   }

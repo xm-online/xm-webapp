@@ -3,12 +3,10 @@ import { XmFilterQueryParams } from '../../collections/i-xm-table-collection-con
 import { QueryParams, QueryParamsPageable } from '@xm-ngx/repositories';
 import * as _ from 'lodash';
 import { format } from '@xm-ngx/operators';
-import {
-    XmEntityRepositoryConfig
-} from '../elastic/xm-elastic-search-repository.service';
+import { XmEntityRepositoryConfig } from '../elastic/xm-elastic-search-repository.service';
 
 @Injectable(
-    {providedIn: 'root'}
+    {providedIn: 'root'},
 )
 export class XmRepositoryRequestBuilder {
     protected config: XmEntityRepositoryConfig;
@@ -26,12 +24,12 @@ export class XmRepositoryRequestBuilder {
         const filtersToRequest = this.config.format ?
             _.pickBy(
                 format<Record<string, any>>(this.config.format?.query, filterParams),
-                v => v !== null && v !== undefined && v !== ''
+                v => v !== null && v !== undefined && v !== '',
             ) : filterParams;
 
         return {
             request: _.merge(params, filtersToRequest),
-            query: filtersToRequest
+            query: filtersToRequest,
         };
     }
 }

@@ -12,6 +12,8 @@ import { cloneDeep, get, set } from 'lodash';
 import { isObservable, Observable, of } from 'rxjs';
 import {debounceTime, filter, map, startWith, switchMap, withLatestFrom} from 'rxjs/operators';
 import {FormGroupFields, FormLayoutConfig} from './form-layout.model';
+import { FormLayoutDataService } from './form-layout-data.service';
+import { FormFieldRulesService } from './form-field-rules.service';
 
 @Component({
     standalone: true,
@@ -31,6 +33,8 @@ import {FormGroupFields, FormLayoutConfig} from './form-layout.model';
 })
 export class FormLayoutComponent extends XmDynamicInstanceService implements OnInit, OnDestroy {
     private editStateStore = injectByKey<EditStateStoreService>('edit-state-store', {optional: true});
+    private formDataService = inject(FormLayoutDataService);
+    private formFieldRules = inject(FormFieldRulesService);
 
     private validatorProcessing = inject(ValidatorProcessingService);
     private fb = inject<FormBuilder>(FormBuilder);
@@ -45,6 +49,8 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
 
     public ngOnInit(): void {
         this.formGroup = this.buildFormGroup();
+
+        this.formDataService.registerFormGroup(this.formGroup);
 
         if (this.config.defaultEditState) {
             this.editStateStore.change(this.config.defaultEditState);
@@ -65,6 +71,8 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
             takeUntilOnDestroy(this),
             startWith(null),
         ).subscribe(() => {
+            this.formFieldRules.apply(this.formGroup, this.config.fields, this.dataValue);
+            this.formDataService.updateFormData(this.formGroup.getRawValue());
             this.markSaveButtonEnabled();
         });
 
@@ -72,9 +80,10 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
             debounceTime(200),
             filter(() => this.config.ignoreFormValidationToUpdate || this.formGroup.valid),
             withLatestFrom(this.dataController[this.config?.controller?.getDataMethod || 'get']() as Observable<object>),
-            map(([formGroupValue, data]: [Record<string, UntypedFormControl>, object]) => {
+            map(([, data]: [Record<string, UntypedFormControl>, object]) => {
+                const currentForm = this.formGroup.getRawValue();
                 this.config.fields.forEach(field => {
-                    set(data, field.property, formGroupValue[field.property]);
+                    set(data, field.property, currentForm[field.property]);
                 });
                 return data;
             }),
@@ -114,6 +123,7 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
     }
 
     public ngOnDestroy(): void {
+        this.formDataService.clear();
         takeUntilOnDestroyDestroy(this);
     }
 

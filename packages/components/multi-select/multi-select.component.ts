@@ -1,6 +1,6 @@
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule, OnInit, Type, ViewChild } from '@angular/core';
+import { Component, Input, NgModule, OnInit, Type, ViewChild, computed, signal } from '@angular/core';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -60,9 +60,9 @@ type XmMultiSelectItemOrString = XmMultiSelectItem | string;
                     </ng-container>
 
                     <ng-template #someSelected>
-                        {{ (selectedLength ? selectedValues[0] : '') | translate }}
-                        <span *ngIf="selectedLength > 1" class="small">
-          (+{{ selectedLength - 1 }} {{ (selectedLength === 2 ? 'xm-enum.other' : 'xm-enum.others')  | translate }}
+                        {{ (selectedLength() ? selectedItemTitle() : '') | translate }}
+                        <span *ngIf="selectedLength() > 1" class="small">
+          (+{{ selectedLength() - 1 }} {{ (selectedLength() === 2 ? 'xm-enum.other' : 'xm-enum.others')  | translate }}
                             )
         </span>
                     </ng-template>
@@ -77,9 +77,9 @@ type XmMultiSelectItemOrString = XmMultiSelectItem | string;
                      (click)="toggleAll()">
 
                     <mat-pseudo-checkbox
-                            class="mat-option-pseudo-checkbox"
-                            [disabled]="disabled"
-                            [state]="allItemsSelected() ? 'checked' : 'unchecked'"></mat-pseudo-checkbox>
+                        class="mat-option-pseudo-checkbox"
+                        [disabled]="disabled"
+                        [state]="allItemsSelected() ? 'checked' : 'unchecked'"></mat-pseudo-checkbox>
 
                     <span class="mat-option-text">{{ 'xm-enum.all' | translate }}</span>
                 </div>
@@ -95,7 +95,7 @@ type XmMultiSelectItemOrString = XmMultiSelectItem | string;
 
             <mat-hint [hint]="config?.hint"></mat-hint>
         </mat-form-field>
-        <mat-error *ngIf="required && selectedLength === 0 && control.touched">
+        <mat-error *ngIf="required && selectedLength() === 0 && control.touched">
             {{ 'entity.validation.required' | translate }}
         </mat-error>
     `,
@@ -104,7 +104,13 @@ type XmMultiSelectItemOrString = XmMultiSelectItem | string;
 })
 export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> implements OnInit {
     @ViewChild(MatSelect, {static: false}) public matSelect: MatSelect;
-    public items: XmMultiSelectItem[] = [];
+
+    private readonly _items = signal<XmMultiSelectItem[]>([]);
+    private readonly _selectedValues = signal<string[]>([]);
+
+    public get items(): XmMultiSelectItem[] {
+        return this._items();
+    }
 
     private _config: XmMultiSelectConfigOptional;
 
@@ -135,12 +141,15 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
     }
 
     public get selectedValues(): string[] {
-        return this.control.value;
+        return this._selectedValues();
     }
 
-    public get selectedLength(): number {
-        return this.selectedValues?.length;
-    }
+    public readonly selectedLength = computed(() => this._selectedValues()?.length ?? 0);
+
+    public readonly selectedItemTitle = computed(() => {
+        const firstValue = this._selectedValues()?.[0];
+        return this._items().find(item => item.valueKey === firstValue)?.titleKey ?? firstValue ?? '';
+    });
 
     @Input()
     public selected(value: XmMultiSelectItemOrString[]): void {
@@ -151,9 +160,14 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
         this._syncControl();
     }
 
-    public allItemsSelected(): boolean {
-        return this.items?.length === this.value?.length;
+    public override change(value: string[]): void {
+        super.change(value);
+        this._selectedValues.set(value ?? []);
     }
+
+    public readonly allItemsSelected = computed(() =>
+        this._items()?.length === this._selectedValues()?.length
+    );
 
     public toggleAll(): void {
         this.allItemsSelected()
@@ -166,7 +180,7 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
             return;
         }
 
-        this.change(this.config.enum);
+        this.change(this.items.map(item => item.valueKey));
     }
 
     public deselectAll(): void {
@@ -180,6 +194,7 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
     public writeValue(value: string[]): void {
         value = this._toModel(value);
         super.writeValue(value);
+        this._selectedValues?.set(this.control.value ?? []);
     }
 
     public deepCompare(obj1: any, obj2: any): boolean {
@@ -193,12 +208,11 @@ export class XmMultiSelectControlComponent extends NgFormAccessor<string[]> impl
 
         this.disabled = coerceBooleanProperty(this.config?.disabled);
         this.required = coerceBooleanProperty(this.config?.required);
+        this._items.set(this._toView(this.config.enum));
 
         if (this.config.defaultSelectedAll) {
             this.selectAll();
         }
-
-        this.items = this._toView(this.config.enum);
     }
 
     private _toView(value: XmMultiSelectItemOrString[]): XmMultiSelectItem[] {

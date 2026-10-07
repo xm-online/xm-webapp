@@ -28,6 +28,7 @@ export interface XmAutocompleteControlConfig {
     fetchSelectedByCriteria: XmAutocompleteFetchParams;
     multiple: boolean;
     startEmptySearch?: boolean;
+    localSearchKey?: string;
     extractByKey?: string;
     compareMap: XmFormatTemplateRecursive;
     itemMapper: XmAutocompleteControlMapper;
@@ -39,6 +40,7 @@ export interface XmAutocompleteControlConfig {
     height: number;
     searchPlaceholder?: Translate;
     notFoundSearchPlaceholder?: Translate;
+    textWidth?: string;
     deselectText?: Translate;
     startFromCharSearch?: number;
     errors?: XmControlErrorsTranslates;
@@ -59,11 +61,16 @@ export interface XmAutocompleteSearchParams {
     queryParams: XmAutocompleteControlParams;
     body: XmAutocompleteControlBody;
     headers: Record<string, string>;
+    size?: number;
 }
 
 export interface XmAutocompleteFetchParams {
     body: XmAutocompleteControlParams;
     queryParams: XmAutocompleteControlParams;
+    resourceUrl?: string;
+    resourceMethod?: string;
+    headers?: Record<string, string>;
+    size?: number;
 }
 
 export const AUTOCOMPLETE_CONTROL_DEFAULT_CONFIG: XmAutocompleteControlConfig = {

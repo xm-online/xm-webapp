@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Injector, Input, OnDestroy, Optional, Self, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Injector, Input, OnDestroy, OnInit, Optional, Self, ViewEncapsulation } from '@angular/core';
 import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmDynamicControl, XmDynamicInstanceService } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/interfaces';
@@ -22,6 +22,7 @@ export interface XmEnumControlOptions extends XmEnumViewOptions, DataQa {
     required?: boolean;
     disabled?: boolean;
     multiple?: boolean;
+    defaultValue?: XmEnumValue | null;
     /** @deprecated use {@link items} instead */
     enum?: XmEnumControlOptionsItem[];
     items: XmEnumControlOptionsItem[];
@@ -48,6 +49,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
     required: false,
     disabled: false,
     multiple: false,
+    defaultValue: null,
     enum: [],
     items: [],
     showClearButton: false,
@@ -115,7 +117,7 @@ export const XM_ENUM_CONTROL_OPTIONS_DEFAULT: XmEnumControlOptions = {
 })
 export class XmEnumControl
     extends NgFormAccessor<XmEnumValue>
-    implements XmDynamicControl<XmEnumValue, XmEnumControlOptions>, OnDestroy {
+    implements XmDynamicControl<XmEnumValue, XmEnumControlOptions>, OnInit, OnDestroy {
     public itemsList: XmEnumControlOptionsItem[];
     public itemsMap: { [value: string]: XmEnumControlOptionsItem };
     private _config: XmEnumControlOptions = clone(XM_ENUM_CONTROL_OPTIONS_DEFAULT);
@@ -136,9 +138,25 @@ export class XmEnumControl
         }
         this.itemsList = this._config.items || this._config.enum;
         this.setItems();
+        this.applyDefaultValue();
 
         if (value?.enum) {
             console.warn('"enum" is deprecated use "items" instead!');
+        }
+    }
+
+    public ngOnInit(): void {
+        super.ngOnInit();
+        this.applyDefaultValue();
+    }
+
+    private applyDefaultValue(): void {
+        if (this.config.defaultValue === undefined || this.config.defaultValue === null) {
+            return;
+        }
+
+        if (this.value === undefined || this.value === null) {
+            this.value = this.config.defaultValue;
         }
     }
 

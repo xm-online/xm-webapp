@@ -36,6 +36,7 @@ export class ChipsFilterBtnComponent implements OnInit {
     @Input() public showClearBtn: boolean = true;
     @Input() public showIcon: boolean = true;
     @Input() public showValue: boolean = true;
+    @Input() public skipValueTextTranslation: boolean = false;
     @Output() public valueCleared: EventEmitter<void> = new EventEmitter<void>();
     @Output() public valueToggle: EventEmitter<void> = new EventEmitter<void>();
     public isChecked: boolean = false;
@@ -81,5 +82,9 @@ export class ChipsFilterBtnComponent implements OnInit {
 
     public isArray<T>(value: T): boolean {
         return Array.isArray(value);
+    }
+
+    public isString(value: unknown): boolean {
+        return typeof value === 'string';
     }
 }

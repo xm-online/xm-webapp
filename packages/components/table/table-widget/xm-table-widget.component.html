@@ -15,14 +15,12 @@
             class="overflow-hidden no-horizontal-paddings"
             [ngClass]="{
               'mb-3': config.isCardMarginBottom,
-              'pb-4': xmTable.config?.pageableAndSortable?.hidePagination && !config.isTitleHidden,
+              'pb-4': xmTable.config?.pageableAndSortable?.hidePagination && !config.isTitleHidden && !config.hidePaginationSpacer,
             }"
             [attr.data-qa]="config?.dataQa"
   >
     @let isLoading = context.collection.loading || xmTable.xmTableController['loading'];
-    @let displayedColumns = hasExpandableRows
-      ? context.settings.displayedColumns.concat([expandableColumnName])
-      : context.settings.displayedColumns;
+    @let displayedColumns = getDisplayedColumns(context.settings.displayedColumns);
     @let expandableRow = config.expandableRow;
     @let filterState = xmTable.filterChange$ | async;
     @let isSelectionDisabled = evaluateFilterCondition(filterState, config.selection?.disabledFilterCondition);
@@ -71,6 +69,10 @@
       <xm-table-selection-header [defaultCollectionController]="collectionController"
                                  [config]="config.selection"></xm-table-selection-header>
 
+      @if (config.warningMessage) {
+        <xm-table-warning-message [config]="config.warningMessage"></xm-table-warning-message>
+      }
+
       <div class="xm-table-overflow-wrap" [style]="config.tableWrapperStyle">
         <table
           #table
@@ -116,6 +118,9 @@
           <xm-table-expandable-row-column
             *ngIf="hasExpandableRows"
             [expandedRows]="expandedRows"
+            [rowCondition]="config.expandableRowCondition"
+            [sticky]="expandableColumnSticky"
+            [stickyEnd]="expandableColumnStickyEnd"
             (rowExpansionChanged)="onRowExpansionChanged()">
           </xm-table-expandable-row-column>
 
