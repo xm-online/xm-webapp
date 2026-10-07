@@ -75,8 +75,8 @@
               <mat-chip *ngIf="tl.startDate">{{tl.startDate | date:'dd/MM/yy HH:mm'}}</mat-chip>
               <mat-chip *ngIf="tl.browser">{{tl.browser}}</mat-chip>
               <mat-chip *ngIf="tl.opSystem">{{tl.opSystem}}</mat-chip>
-              <mat-chip *ngIf="tl.requestHeaders['x-forwarded-for']">
-                {{tl.requestHeaders['x-forwarded-for']}}
+              <mat-chip *ngIf="tl.requestHeaders?.['x-forwarded-for']">
+                {{tl.requestHeaders?.['x-forwarded-for']}}
               </mat-chip>
             </mat-chip-listbox>
 
