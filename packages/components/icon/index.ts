@@ -1,1 +1,1 @@
-export { XmIconComponent } from './xm-icon.component';
+export { XmIconComponent, XmIconOptions } from './xm-icon.component';

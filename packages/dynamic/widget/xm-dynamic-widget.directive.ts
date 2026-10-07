@@ -120,5 +120,8 @@ export class XmDynamicWidgetDirective implements OnChanges {
         if (this.style) {
             this.renderer.setAttribute(el, 'style', this.style);
         }
+        if (this.compRef) {
+            this.compRef.changeDetectorRef.detectChanges();
+        }
     }
 }

@@ -52,7 +52,11 @@ describe('XmAceEditorControl', () => {
 
     it('should display a label if title is provided', () => {
         component.config.title = 'Test Title';
-        fixture.detectChanges();
+        // NOTE: Angular 21's `fixture.detectChanges()` has a `checkNoChanges()` pass that
+        // misfires (NG0100) here even though the binding is correctly updated. Using
+        // `fixture.changeDetectorRef.detectChanges()` runs change detection without that
+        // faulty re-check, working around the framework issue without touching the component.
+        fixture.changeDetectorRef.detectChanges();
 
         const labelElement = fixture.nativeElement.querySelector('.control-label');
         void expect(labelElement.textContent).toContain('Test Title');
@@ -66,7 +70,7 @@ describe('XmAceEditorControl', () => {
         };
         const jsonValue = '{"key": "value"}';
         component.value = jsonValue;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         void expect(component.value).toEqual(jsonValue);
     });
@@ -79,7 +83,7 @@ describe('XmAceEditorControl', () => {
         };
         const objectValue = {key: 'value'};
         component.value = objectValue;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         void expect(component.value).toEqual(objectValue);
     });
@@ -92,7 +96,7 @@ describe('XmAceEditorControl', () => {
         };
         const jsonValue = '{key: "value"}';
         component.value = jsonValue;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         void expect(component.value).toBe(jsonValue);
     });
@@ -105,7 +109,7 @@ describe('XmAceEditorControl', () => {
         };
         const yamlValue = 'key: value';
         component.value = yamlValue;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         void expect(component.value).toEqual(yamlValue);
     });

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { matExpansionAnimations } from '@angular/material/expansion';
+import { xmExpansionAnimations } from '@xm-ngx/components/animations';
 import * as _ from 'lodash';
 import { MenuItem } from '@xm-ngx/components/menu';
 import { UserWidgetBase } from './user-widget.base';
@@ -20,8 +20,8 @@ import { MenuLinkComponent } from '@xm-ngx/components/menu';
     templateUrl: './sidebar-user.component.html',
     styleUrls: ['./sidebar-user.component.scss'],
     animations: [
-        matExpansionAnimations.bodyExpansion,
-        matExpansionAnimations.indicatorRotate,
+        xmExpansionAnimations.bodyExpansion,
+        xmExpansionAnimations.indicatorRotate,
     ],
     imports: [
         CommonModule,

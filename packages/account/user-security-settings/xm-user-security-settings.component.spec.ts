@@ -18,7 +18,7 @@ describe('XmUserSecuritySettingsComponent', () => {
             providers: [
                 { provide: Principal, useClass: MockPrincipalService },
                 { provide: AccountService, useValue: null },
-                { provide: XmPermissionService, useValue: MockPermissionService },
+                { provide: XmPermissionService, useClass: MockPermissionService },
             ],
             imports: [XmUserSecuritySettingsComponent, XmTranslationTestingModule, HttpClientTestingModule],
             schemas: [NO_ERRORS_SCHEMA],

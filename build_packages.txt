@@ -1,0 +1,42 @@
+npm warn Unknown project config "unsafe-perm". This will stop working in the next major version of npm.
+
+> xm-webapp@9.0.112 build:packages
+> node ./scripts/build-packages_copy-dist-package.js && npm install --ignore-scripts && node ./scripts/build-packages.js && npm i --ignore-scripts
+
+
+A critical error occurred: [Error: EACCES: permission denied, rmdir '/Users/otrokhymenko/WebstormProjects/REPO/xm-webapp/lib/account'] {
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'rmdir',
+  path: '/Users/otrokhymenko/WebstormProjects/REPO/xm-webapp/lib/account'
+}
+npm warn Unknown env config "unsafe-perm". This will stop working in the next major version of npm.
+npm warn Unknown project config "unsafe-perm". This will stop working in the next major version of npm.
+npm error code EACCES
+npm error syscall rename
+npm error path /Users/otrokhymenko/WebstormProjects/REPO/xm-webapp/node_modules/add-stream
+npm error dest /Users/otrokhymenko/WebstormProjects/REPO/xm-webapp/node_modules/.add-stream-ldBcm2QD
+npm error errno -13
+npm error Error: EACCES: permission denied, rename '/Users/otrokhymenko/WebstormProjects/REPO/xm-webapp/node_modules/add-stream' -> '/Users/otrokhymenko/WebstormProjects/REPO/xm-webapp/node_modules/.add-stream-ldBcm2QD'
+npm error     at async Object.rename (node:internal/fs/promises:784:10)
+npm error     at async moveFile (/usr/local/lib/node_modules/npm/node_modules/@npmcli/fs/lib/move-file.js:30:5)
+npm error     at async Promise.allSettled (index 0)
+npm error     at async [reifyPackages] (/usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:337:11)
+npm error     at async Arborist.reify (/usr/local/lib/node_modules/npm/node_modules/@npmcli/arborist/lib/arborist/reify.js:142:5)
+npm error     at async Install.exec (/usr/local/lib/node_modules/npm/lib/commands/install.js:149:5)
+npm error     at async Npm.exec (/usr/local/lib/node_modules/npm/lib/npm.js:208:9)
+npm error     at async module.exports (/usr/local/lib/node_modules/npm/lib/cli/entry.js:67:5) {
+npm error   errno: -13,
+npm error   code: 'EACCES',
+npm error   syscall: 'rename',
+npm error   path: '/Users/otrokhymenko/WebstormProjects/REPO/xm-webapp/node_modules/add-stream',
+npm error   dest: '/Users/otrokhymenko/WebstormProjects/REPO/xm-webapp/node_modules/.add-stream-ldBcm2QD'
+npm error }
+npm error
+npm error The operation was rejected by your operating system.
+npm error It is likely you do not have the permissions to access this file as the current user
+npm error
+npm error If you believe this might be a permissions issue, please double-check the
+npm error permissions of the file and its containing directories, or try running
+npm error the command again as root/Administrator.
+npm error A complete log of this run can be found in: /Users/otrokhymenko/.npm/_logs/2026-07-21T08_24_59_209Z-debug-0.log

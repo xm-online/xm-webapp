@@ -7,7 +7,7 @@ import { XmDynamicControllerInjectorFactoryService } from '@xm-ngx/dynamic';
 import { Spec, XmEntitySpecWrapperService } from '@xm-ngx/entity';
 import { XmLoggerService } from '@xm-ngx/logger';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { BehaviorSubject, combineLatest, from, of, merge } from 'rxjs';
+import { BehaviorSubject, combineLatest, from, merge, of } from 'rxjs';
 import { map, mapTo, startWith, switchMap, tap } from 'rxjs/operators';
 import { DashboardBase } from './dashboard-base';
 import { PageTitleService } from './page-title.service';
@@ -33,7 +33,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
         this.session.isActive().pipe(startWith(false)),
         this.loggingOut$,
     ]).pipe(
-        map(([active, loggingOut]) => active && !loggingOut)
+        map(([active, loggingOut]) => active && !loggingOut),
     );
     protected dynamicControllerInjectorFactory = inject(XmDynamicControllerInjectorFactoryService);
     private componentInjector = inject(Injector);
@@ -54,7 +54,10 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
     }
 
     public ngOnInit(): void {
-        this.xmEntitySpecWrapperService.spec().then((spec) => this.spec = spec);
+        this.xmEntitySpecWrapperService.spec().then((spec) => {
+            this.spec = spec;
+            this.cdf.markForCheck();
+        });
         this.observeSessionEvents();
         this.route.params
             .pipe(takeUntilOnDestroy(this))
@@ -83,6 +86,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                         } else {
                             this.injector = this.componentInjector;
                         }
+                        this.cdf.markForCheck();
                         resolve(page);
                     }));
                 }),
@@ -97,6 +101,7 @@ export class DashboardComponent extends DashboardBase implements OnInit, OnDestr
                         return this.dashboardStore.getByParentSlug(this.dashboard.config.slug, true).pipe(
                             tap((childrenDashboards) => {
                                 this.childrenDashboards = childrenDashboards;
+                                this.cdf.markForCheck();
                             }),
                             mapTo(page),
                         );

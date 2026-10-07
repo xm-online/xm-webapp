@@ -24,7 +24,7 @@ export class PasteDirective<T> {
 
     private copyPasteService: CopyPasteDialogService = inject(CopyPasteDialogService);
 
-    @HostListener('click', ['$event.target'])
+    @HostListener('click')
     public async onClick(): Promise<void> {
         await this.onPasteFromClipboard();
     }

@@ -1,4 +1,4 @@
-import { XmDynamicControllerDeclaration } from '@xm-ngx/dynamic/presentation/xm-dynamic-presentation-base.directive';
+import { XmDynamicControllerDeclaration } from '@xm-ngx/dynamic';
 import { XmConfig } from '@xm-ngx/interfaces';
 import { PermissionCheckStrategy } from '@xm-ngx/core/permission';
 

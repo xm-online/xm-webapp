@@ -45,4 +45,8 @@ $custom-dialog-border-radius: 20px;
   .mat-mdc-dialog-container {
     border-radius: $custom-dialog-border-radius;
   }
+
+  .mat-mdc-dialog-surface {
+    border-radius: $custom-dialog-border-radius;
+  }
 }

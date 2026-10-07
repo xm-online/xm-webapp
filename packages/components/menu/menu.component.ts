@@ -1,6 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     ElementRef,
     inject,
@@ -13,7 +14,7 @@ import {
     ViewChild,
     WritableSignal,
 } from '@angular/core';
-import { matExpansionAnimations } from '@angular/material/expansion';
+import { xmExpansionAnimations } from '@xm-ngx/components/animations';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { DashboardStore } from '@xm-ngx/core/dashboard';
 import { XmEntitySpecWrapperService } from '@xm-ngx/core/entity';
@@ -69,8 +70,8 @@ export type ISideBarConfig = {
     selector: 'xm-menu',
     templateUrl: './menu.component.html',
     animations: [
-        matExpansionAnimations.bodyExpansion,
-        matExpansionAnimations.indicatorRotate,
+        xmExpansionAnimations.bodyExpansion,
+        xmExpansionAnimations.indicatorRotate,
         showHideSubCategoriesDesktop,
         showHideSubCategoriesMobile,
         hideCategories,
@@ -94,6 +95,7 @@ export type ISideBarConfig = {
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
+    private cdr = inject(ChangeDetectorRef);
     private _config: MenuOptions;
     private previousActiveNode: MenuItem;
     public themeButtonConfig: WritableSignal<SwitchThemeOptions> = signal(null);
@@ -191,13 +193,16 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
             map(([dashboards, applications, defaultMenu]) => {
                 const mainMenu = _.orderBy([...dashboards, ...applications], ['position'], 'asc');
                 const menu: MenuItem[] = this.menuService.mapMenuCategories([...mainMenu, ...defaultMenu]);
-                this.categories = this.menuService.getUniqMenuCategories(menu);
-                this.menuByCategories = this.menuService.getGroupedMenuCategories(menu);
-                if (this.isOnlyOtherCategory) {
-                    this.menuService.setHoveredCategory(this.menuService.otherCategory);
-                    return menu;
-                }
-                this.menuService.setMenuCategories(this.categories);
+                
+                this.ngZone.run(() => {
+                    this.categories = this.menuService.getUniqMenuCategories(menu);
+                    this.menuByCategories = this.menuService.getGroupedMenuCategories(menu);
+                    if (this.isOnlyOtherCategory) {
+                        this.menuService.setHoveredCategory(this.menuService.otherCategory);
+                    } else {
+                        this.menuService.setMenuCategories(this.categories);
+                    }
+                });
                 return menu;
             }),
             takeUntilOnDestroy(this),
@@ -257,6 +262,8 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
             this.selectedCategory = this.menuService.setCategoryOnRouteChange(activeNode, subCategories);
             this.setIsActiveRoute(activeNode);
             this.unfoldParentNode(activeNode);
+            // Fix angular 21 signal propagation
+            this.menuService.setHoveredCategory(this.selectedCategory, false);
         });
     }
 
@@ -304,6 +311,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                     if (!hoveredCategory) {
                         return from(this.menuService.sidenav.close());
                     }
+                    // Angular 21 fix: make setCategory evaluation strict and less delayed
                     const isSetCategory: boolean = !this.isMobileScreen ? (!this.menuService.sidenav.opened || this.hoveredCategory?.name?.en.toLowerCase() !== hoveredCategoryName) : true;
                     if (isSetCategory && this.menuByCategories) {
                         return this.setStateWhenCategoryChanged(hoveredCategoryName, category);
@@ -328,6 +336,8 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!isOneLevelCategory) {
             this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.HIDE;
             this.hoveredCategory = hoveredCategory;
+            this.cdr.detectChanges(); // force Angular 21 to apply HIDE state
+            
             const next$: Observable<MatDrawerToggleResult | number> =
                 !this.menuService.sidenav.opened && isOpenMenu ? from(this.menuService.sidenav.open()) : timer(0);
             return next$.pipe(
@@ -335,6 +345,7 @@ export class MenuComponent implements OnInit, AfterViewInit, OnDestroy {
                 tap(() => {
                     this.showSubCategoriesState = MenuSubcategoriesAnimationStateEnum.SHOW;
                     this.menuService.setMobileMenuState({showCategories: false, category: hoveredCategory});
+                    this.cdr.detectChanges(); // force Angular 21 to apply SHOW state
                 }),
             );
         }

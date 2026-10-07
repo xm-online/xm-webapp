@@ -84,14 +84,25 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
         this._enableInitialFocus = value;
     }
 
+    // Guards against re-entrant `textChanged` emissions: `ace`'s `change` event fires
+    // synchronously from `editor.setValue()` below, which would otherwise emit
+    // `textChanged` back out and mutate the bound `_value` mid change-detection cycle,
+    // causing NG0100 (ExpressionChangedAfterItHasBeenCheckedError).
+    private _isProgrammaticUpdate = false;
+
     @Input() set text(text: string) {
         if (!text || text === 'null') {
             text = '';
         }
 
         if (this._autoUpdateContent === true && !_.isEqual(text, this.editor.getValue())) {
-            this.editor.setValue(text);
-            this.editor.clearSelection();
+            this._isProgrammaticUpdate = true;
+            try {
+                this.editor.setValue(text);
+                this.editor.clearSelection();
+            } finally {
+                this._isProgrammaticUpdate = false;
+            }
 
             // text updated while typing, so we focus cursor on editor only once
             if (this._enableInitialFocus) {
@@ -150,7 +161,7 @@ export class XmAceEditorDirective<O = unknown> implements OnDestroy {
     private updateValue(): void {
         const newVal = this.editor.getValue();
 
-        if (this.oldText != null) {
+        if (this.oldText != null && !this._isProgrammaticUpdate) {
             this.textChanged.emit(newVal);
         }
 

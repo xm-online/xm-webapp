@@ -3,7 +3,7 @@ import {
     KeyFilterController,
     XmKeyFilterConfig,
     XmKeyFilterValue, 
-} from '../../../components/key-filter/key-filter.model';
+} from '../key-filter.model';
 import { has } from 'lodash';
 
 @Injectable()

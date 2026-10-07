@@ -31,12 +31,12 @@
 
     <th *matHeaderCellDef scope="col" class="text-end" mat-header-cell>
       @if (dashboardId) {
-        <button (click)="onPaste()"
+        <button type="button" (click)="onPaste()"
                 [matTooltip]="TRS.paste | translate"
                 mat-icon-button>
           <mat-icon>content_paste</mat-icon>
         </button>
-        <button (click)="onAdd()"
+        <button type="button" (click)="onAdd()"
                 color="primary"
                 [matTooltip]="TRS.addWidget | translate"
                 mat-icon-button>
@@ -47,7 +47,7 @@
 
     <td *matCellDef="let row" class="text-end" mat-cell>
 
-      <button (click)="onEdit(row); $event.stopPropagation()" mat-icon-button>
+      <button type="button" (click)="onEdit(row); $event.stopPropagation()" mat-icon-button>
         <mat-icon>edit</mat-icon>
       </button>
 
@@ -67,7 +67,7 @@
 
   <h6>{{ TRS.empty | translate }}</h6>
 
-  <button (click)="onAdd()" color="primary" mat-button>
+  <button type="button" (click)="onAdd()" color="primary" mat-button>
     <mat-icon>add</mat-icon>
     {{ TRS.addWidget | translate }}
   </button>

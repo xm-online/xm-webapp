@@ -5,7 +5,7 @@ import { take } from 'rxjs/operators';
 import { DashboardStore } from '../dashboard-store.service';
 import { DashboardWidget } from '../models/dashboard-widget.model';
 import { AppStore } from '@xm-ngx/ngrx-store';
-import { AppStoreSource } from '@xm-ngx/ngrx-store/src/models/app-store.model';
+import { AppStoreSource } from '@xm-ngx/ngrx-store';
 
 export interface Page<C = unknown, L = unknown> {
     id?: number;

@@ -22,7 +22,7 @@ export class CopyDirective<T> {
 
     private copyPasteService: CopyPasteDialogService = inject(CopyPasteDialogService);
 
-    @HostListener('click', ['$event.target'])
+    @HostListener('click')
     public onClick(): void {
         this.onCopyToClipboard();
     }

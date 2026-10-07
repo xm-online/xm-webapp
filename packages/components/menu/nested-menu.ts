@@ -22,7 +22,7 @@ export function buildMenuTree(dashboards: Dashboard[], checkCondition?: typeof C
                 categoryKey,
                 category,
                 dataQa,
-            } = {},
+            } = {} as any,
         }) => {
             if (hidden) {
                 if (!checkCondition || checkCondition(hidden.toString(), conditionArgs)) {

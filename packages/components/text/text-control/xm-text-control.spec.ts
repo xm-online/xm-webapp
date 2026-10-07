@@ -87,17 +87,21 @@ describe('XmTextControl', () => {
     });
 
     it('value should be changed from input', () => {
+        // Create a fresh fixture with config.id already set to avoid NG0100
+        const freshFixture = TestBed.createComponent<XmTextControl>(XmTextControl);
+        const freshComponent = freshFixture.componentInstance;
+        freshComponent.config = { id: 'id', title: 'Test' };
+        freshFixture.detectChanges();
+
         const value = 'value5';
-        component.config.id = 'id';
-        fixture.detectChanges();
-        const input: HTMLInputElement = document.getElementById(component.config.id) as HTMLInputElement;
+        const input: HTMLInputElement = document.getElementById(freshComponent.config.id) as HTMLInputElement;
         input.value = value;
         input.dispatchEvent(new Event('input'));
-        fixture.detectChanges();
+        freshFixture.detectChanges();
 
         expect(input.value).toBe(value);
-        expect(component.control.value).toBe(value);
-        expect(component.value).toBe(value);
+        expect(freshComponent.control.value).toBe(value);
+        expect(freshComponent.value).toBe(value);
     });
 
     it('should set formControl as newControl when applyTrimForValue equal true', () => {
