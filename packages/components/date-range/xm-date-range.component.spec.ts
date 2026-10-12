@@ -23,7 +23,7 @@ describe('GIVEN XmDateRangeComponent', () => {
             ],
             providers: [
                 DatePipe,
-                { provide: XmAuthenticationService, useValue: MockXmAuthenticationService },
+                { provide: XmAuthenticationService, useClass: MockXmAuthenticationService },
                 { provide: XmDatePipe, useValue: xmDatePipe },
             ],
         }).compileComponents();
@@ -34,7 +34,7 @@ describe('GIVEN XmDateRangeComponent', () => {
         component = fixture.componentInstance;
         const mockValue = { from: new Date(), to: new Date() };
 
-        component.value = mockValue;
+        fixture.componentRef.setInput('value', mockValue);
         fixture.detectChanges();
     });
 
@@ -52,8 +52,8 @@ describe('GIVEN XmDateRangeComponent', () => {
             separator: ' to ',
         };
 
-        component.value = {from: testStartDate, to: testEndDate};
-        component.config = config;
+        fixture.componentRef.setInput('value', {from: testStartDate, to: testEndDate});
+        fixture.componentRef.setInput('config', config);
         fixture.detectChanges();
 
         xmDatePipe.transform.and.returnValue('2023-07-28 12:34:56');
@@ -75,8 +75,8 @@ describe('GIVEN XmDateRangeComponent', () => {
             separator: ' to ',
         };
 
-        component.value = {from: testStartDate, to: testEndDate};
-        component.config = config;
+        fixture.componentRef.setInput('value', {from: testStartDate, to: testEndDate});
+        fixture.componentRef.setInput('config', config);
         fixture.detectChanges();
 
         xmDatePipe.transform.and.returnValue('2023-07-28 12:34:56');
@@ -98,8 +98,8 @@ describe('GIVEN XmDateRangeComponent', () => {
             separator: ' to ',
         };
 
-        component.value = {from: testStartDate, to: testEndDate};
-        component.config = config;
+        fixture.componentRef.setInput('value', {from: testStartDate, to: testEndDate});
+        fixture.componentRef.setInput('config', config);
         fixture.detectChanges();
 
         xmDatePipe.transform.and.returnValue('2023-07-28 12:34:56');

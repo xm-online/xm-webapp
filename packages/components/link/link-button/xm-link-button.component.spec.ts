@@ -21,7 +21,7 @@ describe('XmLinkButtonComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             providers: [
-                { provide: XmPermissionService, useValue: MockPermissionService },
+                { provide: XmPermissionService, useClass: MockPermissionService },
                 { provide: XmAuthenticationConfig, useValue: {} },
                 { provide: XmAuthenticationStoreService, useValue: {} },
                 { provide: AuthRefreshTokenService, useValue: {} },

@@ -4,8 +4,8 @@
     "build": "ng-packagr -p . -c ../../tsconfig.ngc.json"
   },
   "dependencies": {
-    "@ngrx/signals": "19.2.0",
-    "@angular-architects/ngrx-toolkit": "19.1.0",
-    "@ngrx/operators": "19.2.1"
+    "@ngrx/signals": "21.1.1",
+    "@angular-architects/ngrx-toolkit": "21.0.1",
+    "@ngrx/operators": "21.1.1"
   }
 }

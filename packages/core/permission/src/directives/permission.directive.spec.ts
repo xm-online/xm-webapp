@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, flushMicrotasks } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 import { BehaviorSubject, of } from 'rxjs';
@@ -128,25 +128,31 @@ describe('PermissionDirective', () => {
             expect(el).toEqual(null);
         });
 
-        it('should create and destroy an instance after sessionChanged', () => {
-            const event = new BehaviorSubject(true);
-            fixture.componentInstance.permissions = 'TRUE';
-            const changeStateSpy = spyOn(permissionService, 'hasPrivilegesBy').and.returnValue(event);
-
-            fixture.detectChanges();
-            let el = getElement();
+        it('should create and destroy an instance after sessionChanged', fakeAsync(() => {
+            // Test part 1: Element should be shown when permissions are granted
+            const fixture1 = TestBed.createComponent(HostComponent);
+            const event1 = new BehaviorSubject(true);
+            fixture1.componentInstance.permissions = 'TRUE';
+            const changeStateSpy = spyOn(permissionService, 'hasPrivilegesBy').and.returnValue(event1);
+            fixture1.detectChanges();
+            tick();
+            flushMicrotasks();
+            let el1 = fixture1.debugElement.query(By.css('div[data-qa="permission-block"]'));
             expect(changeStateSpy).toHaveBeenCalled();
-            expect(el).toBeInstanceOf(DebugElement);
+            expect(el1).toBeInstanceOf(DebugElement);
 
-            fixture.componentInstance.permissions = 'False';
-            event.next(false);
-            fixture.detectChanges();
-            el = getElement();
-            expect(changeStateSpy).toHaveBeenCalled();
-            expect(el).toBe(null);
+            // Test part 2: Element should be hidden after session changes
+            event1.next(false);
+            tick();
+            flushMicrotasks();
+            fixture1.detectChanges();
+            tick();
+            flushMicrotasks();
+            el1 = fixture1.debugElement.query(By.css('div[data-qa="permission-block"]'));
+            expect(el1).toBe(null);
 
-            event.complete();
-        });
+            event1.complete();
+        }));
 
     });
 

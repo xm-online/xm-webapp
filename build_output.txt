@@ -1,0 +1,70 @@
+npm warn Unknown project config "unsafe-perm". This will stop working in the next major version of npm.
+
+> xm-webapp@9.0.112 build:packages
+> node ./scripts/build-packages_copy-dist-package.js && npm install --ignore-scripts && node ./scripts/build-packages.js && npm i --ignore-scripts
+
+
+A critical error occurred: [Error: EACCES: permission denied, rmdir '/Users/otrokhymenko/WebstormProjects/REPO/xm-webapp/lib/account'] {
+  errno: -13,
+  code: 'EACCES',
+  syscall: 'rmdir',
+  path: '/Users/otrokhymenko/WebstormProjects/REPO/xm-webapp/lib/account'
+}
+npm warn Unknown env config "unsafe-perm". This will stop working in the next major version of npm.
+npm warn Unknown project config "unsafe-perm". This will stop working in the next major version of npm.
+
+added 228 packages, and audited 3362 packages in 10s
+
+480 packages are looking for funding
+  run `npm fund` for details
+
+117 vulnerabilities (1 low, 46 moderate, 61 high, 9 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues possible (including breaking changes), run:
+  npm audit fix --force
+
+Some issues need review, and may require choosing
+a different dependency.
+
+Run `npm audit` for details.
+npm warn Unknown env config "unsafe-perm". This will stop working in the next major version of npm.
+
+> @xm-ngx/cli@0.0.1 build
+> ng-packagr -p . -c ../../tsconfig.ngc.json
+
+Building Angular Package
+
+------------------------------------------------------------------------------
+Building entry point '@xm-ngx/cli'
+------------------------------------------------------------------------------
+- Compiling with Angular sources in full compilation mode.
+✔ Compiling with Angular sources in full compilation mode.
+✖ 
+EACCES: permission denied, open '/Users/otrokhymenko/WebstormProjects/REPO/xm-webapp/lib/cli/index.d.ts'
+node:child_process:958
+    throw err;
+    ^
+
+Error: Command failed: (cd ./packages/cli && npm run build && cd ../../)
+    at genericNodeError (node:internal/errors:983:15)
+    at wrappedFn (node:internal/errors:537:14)
+    at checkExecSyncError (node:child_process:883:11)
+    at execSync (node:child_process:955:15)
+    at Object.<anonymous> (/Users/otrokhymenko/WebstormProjects/REPO/xm-webapp/scripts/build-packages.js:4:1)
+    at Module._compile (node:internal/modules/cjs/loader:1730:14)
+    at Object..js (node:internal/modules/cjs/loader:1895:10)
+    at Module.load (node:internal/modules/cjs/loader:1465:32)
+    at Function._load (node:internal/modules/cjs/loader:1282:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14) {
+  status: 1,
+  signal: null,
+  output: [ null, null, null ],
+  pid: 48584,
+  stdout: null,
+  stderr: null
+}
+
+Node.js v22.17.1

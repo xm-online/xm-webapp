@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, InputSignal, Signal } from '@angular/core';
-import { XmSkeletonConfig, XmSkeletonStyles } from '@xm-ngx/dynamic/src/interfaces/xm-dynamic-layout';
+import { XmSkeletonConfig, XmSkeletonStyles } from '@xm-ngx/dynamic';
 import { XmUiConfigService } from '@xm-ngx/core/config';
 import { toSignal } from '@angular/core/rxjs-interop';
 
