@@ -57,6 +57,7 @@ import {
 } from '../components/xm-table-expandable-row-column.component';
 import { ConditionDirective } from '@xm-ngx/components/condition';
 import { XmTableWarningMessage } from '../components/messages/xm-table-warning-message';
+import { XmTableExpandedRowDirective } from '../directives/xm-table-expanded-row.directive';
 
 function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
     const config = defaultsDeep(
@@ -108,7 +109,8 @@ function getConfig(value: Partial<XmTableWidgetConfig>): XmTableWidgetConfig {
         RefreshBtnComponent,
         XmTableExpandableRowColumnComponent,
         XmDynamicModule,
-        XmTableWarningMessage
+        XmTableWarningMessage,
+        XmTableExpandedRowDirective,
     ],
     providers: [
         ...XM_TABLE_CONTROLLERS,

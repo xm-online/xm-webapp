@@ -4,4 +4,5 @@ export {
     XmDynamicCell,
     XmDynamicCellDirective,
     XmDynamicCellModule,
+    XM_DYNAMIC_TABLE_EXPANDED_ROW,
 } from './xm-dynamic-cell.directive';

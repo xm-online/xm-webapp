@@ -133,6 +133,7 @@
                 <ng-container
                   *ngIf="isRowExpanded(row) && expandableRow"
                   xmDynamicPresentation
+                  [xmTableExpandedRow]="row"
                   [selector]="expandableRow.selector"
                   [config]="expandableRow.config || expandableRow.options"
                   [options]="expandableRow.options"
