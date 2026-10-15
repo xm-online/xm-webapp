@@ -7,7 +7,7 @@ export interface IWithField {
 }
 
 export function escapeQuotes(str: string): string {
-    return (str + '').replace(/[\\"']/g, '\\$&')
+    return (str + '').replace(/[\\"'!]/g, '\\$&')
         .replace(/[ ]/g, '\\ ')
         .replace(/\(/g, '\\(')
         .replace(/\)/g, '\\)')
@@ -29,7 +29,12 @@ export const booleanElastic = (v: string | boolean | null, o: IWithField): strin
     return `(NOT ${o.field}: true)`;
 };
 
-export const containsElastic = (v: string, o: IWithField): string => `${o.field}: *${escapeQuotes(v.toString().trim())}*`;
+export const containsElastic = (v: string, o: IWithField): string => {
+    const value = v.toString().trim();
+    const variants = Array.from(new Set([value, value.toUpperCase(), value.toLowerCase()]));
+    const parts = variants.map((variant) => `${o.field}: "${escapeQuotes(variant)}"`);
+    return `(${parts.join(' OR ')})`;
+};
 
 export const multiSelectElastic = (v: string[], o: IWithField): string => {
     if (v.length === 0) {
