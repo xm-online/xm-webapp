@@ -132,13 +132,23 @@
     <span class="chips-text">
         <span>{{ title | xmTranslate }}</span>
         <ng-container *ngIf="showValue">
-            <span
-                *ngIf="value || valueText"
-                class="value-txt"
-                [style.max-width]="textWidth ? textWidth : ''"
-            >
-                : {{ skipValueTextTranslation && isString(valueText || value) ? (valueText || value) : ((valueText || value) | xmTranslate) }}
-            </span>
+            <ng-container *ngIf="value || valueText">
+                <ng-container
+                    *ngIf="
+                        (skipValueTextTranslation && isString(valueText || value)
+                            ? valueText || value
+                            : (valueText || value | xmTranslate)) as displayValue
+                    "
+                >
+                    <span
+                        class="value-txt"
+                        [style.max-width]="textWidth ? textWidth : ''"
+                        [matTooltip]="displayValue"
+                    >
+                        : {{ displayValue }}
+                    </span>
+                </ng-container>
+            </ng-container>
         </ng-container>
     </span>
 </ng-template>
