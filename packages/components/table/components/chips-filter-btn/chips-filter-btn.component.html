@@ -111,15 +111,15 @@
 }
 
 <ng-template #iconTemplate let-isChecked="isChecked" let-customIcon="customIcon">
-    <ng-container *ngIf="showIcon">
-        <mat-icon class="small-icon start-icon" *ngIf="customIcon">{{ customIcon }}</mat-icon>
-        <mat-icon
-            class="small-icon start-icon"
-            *ngIf="!customIcon"
-            [ngClass]="{ hidden: !isChecked }"
-            >check</mat-icon
-        >
-    </ng-container>
+    @if (showIcon) {
+        @if (customIcon) {
+            <mat-icon class="small-icon start-icon">{{ customIcon }}</mat-icon>
+        } @else {
+            <mat-icon class="small-icon start-icon" [ngClass]="{ hidden: !isChecked }"
+                >check</mat-icon
+            >
+        }
+    }
 </ng-template>
 
 <ng-template
@@ -131,27 +131,30 @@
 >
     <span class="chips-text">
         <span>{{ title | xmTranslate }}</span>
-        <ng-container *ngIf="showValue">
-            <span
-                *ngIf="value || valueText"
-                class="value-txt"
-                [style.max-width]="textWidth ? textWidth : ''"
-            >
-                : {{ skipValueTextTranslation && isString(valueText || value) ? (valueText || value) : ((valueText || value) | xmTranslate) }}
-            </span>
-        </ng-container>
+        @if (showValue && (value || valueText)) {
+            @let displayValue =
+                skipValueTextTranslation && isString(valueText || value)
+                    ? valueText || value
+                    : (valueText || value | xmTranslate);
+
+            @if (displayValue) {
+                <span
+                    class="value-txt"
+                    [style.max-width]="textWidth ? textWidth : ''"
+                    [matTooltip]="displayValue"
+                >
+                    : {{ displayValue }}
+                </span>
+            }
+        }
     </span>
 </ng-template>
 
 <ng-template #iconActionTemplate let-value="value" let-valueText="valueText" let-arrow="arrow">
-    <mat-icon class="arrow-icon" *ngIf="alwaysShowArrow || (!value && !valueText && arrow)"
-        >arrow_drop_down</mat-icon
-    >
-    <mat-icon
-        class="clear-icon small-icon"
-        *ngIf="showClearBtn && (value || valueText)"
-        (click)="clear($event)"
-    >
-        clear
-    </mat-icon>
+    @if (alwaysShowArrow || (!value && !valueText && arrow)) {
+        <mat-icon class="arrow-icon">arrow_drop_down</mat-icon>
+    }
+    @if (showClearBtn && (value || valueText)) {
+        <mat-icon class="clear-icon small-icon" (click)="clear($event)"> clear </mat-icon>
+    }
 </ng-template>
