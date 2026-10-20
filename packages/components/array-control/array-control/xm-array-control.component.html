@@ -19,8 +19,8 @@
       (matChipInputTokenEnd)="add($event)">
   </mat-chip-grid>
 
-  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="select($event)">
-    <mat-option *ngFor="let item of filteredItems | async" [value]="item.value">
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="select($event)" (closed)="selectingOption = false">
+    <mat-option *ngFor="let item of filteredItems | async" [value]="item.value" (mousedown)="selectingOption = true">
       {{item.view}}
     </mat-option>
   </mat-autocomplete>
