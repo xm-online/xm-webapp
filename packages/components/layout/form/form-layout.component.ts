@@ -9,8 +9,8 @@ import {DashboardStore} from '@xm-ngx/core/dashboard';
 import { injectByKey, XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicInstanceService, XmDynamicModule } from '@xm-ngx/dynamic';
 import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
 import { cloneDeep, get, set } from 'lodash';
-import { isObservable, Observable, of } from 'rxjs';
-import {debounceTime, filter, map, startWith, switchMap, take, withLatestFrom} from 'rxjs/operators';
+import { firstValueFrom, isObservable, Observable, of } from 'rxjs';
+import {debounceTime, filter, map, startWith, switchMap, withLatestFrom} from 'rxjs/operators';
 import {FormGroupFields, FormLayoutConfig} from './form-layout.model';
 import { FormLayoutDataService } from './form-layout-data.service';
 import { FormFieldRulesService } from './form-field-rules.service';
@@ -183,13 +183,14 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
     }
 
     /**
-     * Synchronously pushes the form state into the data controller.
+     * Pushes the form state into the data controller. Synchronous update methods are applied
+     * immediately; for observable ones the returned promise resolves after their first emission.
      *
      * The regular sync is debounced, so an action performed right after the last edit
      * (e.g. a chip committed on blur while clicking a submit button) would read
      * an entity which does not contain that edit yet.
      */
-    private flushFormToController(): void {
+    private async flushFormToController(): Promise<void> {
         if (!this.formGroup || !this.latestData) {
             return;
         }
@@ -198,7 +199,7 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
         const updateData = this.dataController[this.config?.controller?.updateDataMethod || 'update'](entity);
 
         if (isObservable(updateData)) {
-            updateData.pipe(take(1)).subscribe();
+            await firstValueFrom(updateData, {defaultValue: undefined});
         }
     }
 
