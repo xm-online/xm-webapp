@@ -28,7 +28,6 @@ import {
     startWith,
     Subscription,
     take,
-    tap,
     timer,
 } from 'rxjs';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
@@ -129,9 +128,7 @@ export class MenuCategoriesComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     private assignSidenavObservers(): void {
-        this.categories$ = this.menuService.menuCategories.pipe(
-            tap(() => this.cdr.markForCheck())
-        );
+        this.categories$ = this.menuService.menuCategories;
         this.isCategoriesHidden$ = this.menuService.isCategoriesHidden$;
         this.brandLogo$ = this.menuService.getMenuConfig('logo');
     }

@@ -1,11 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-
-const indicatorRotate = trigger('indicatorRotate', [
-    state('collapsed, void', style({ transform: 'rotate(0deg)' })),
-    state('expanded', style({ transform: 'rotate(180deg)' })),
-    transition('expanded <=> collapsed, void => collapsed', animate('225ms cubic-bezier(0.4,0.0,0.2,1)')),
-]);
+import { xmExpansionAnimations } from '@xm-ngx/components/animations';
 
 @Component({
     selector: 'xm-expansion-indicator',
@@ -17,7 +11,7 @@ const indicatorRotate = trigger('indicatorRotate', [
         </button>
     `,
     animations: [
-        indicatorRotate,
+        xmExpansionAnimations.indicatorRotate,
     ],
     standalone: false,
 })

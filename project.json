@@ -16,7 +16,7 @@
       "options": {
         "outputPath": {
           "base": "dist",
-          "browser": ""
+          "browser": "."
         },
         "index": "src/index.html",
         "browser": "src/main.ts",
@@ -253,19 +253,6 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint"
-    },
-    "e2e": {
-      "executor": "@nx/cypress:e2e",
-      "options": {
-        "cypressConfig": "cypress.config.ts",
-        "testingType": "e2e",
-        "devServerTarget": "xm-webapp:serve"
-      },
-      "configurations": {
-        "production": {
-          "devServerTarget": "xm-webapp:serve:production"
-        }
-      }
     },
     "storybook": {
       "executor": "@storybook/angular:start-storybook",

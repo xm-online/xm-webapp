@@ -158,9 +158,6 @@ export class XmDynamicControlDirective<V, C>
         this.updateOptions();
         this.updateConfig();
         this.updateDisable();
-        if (this.compRef) {
-            this.compRef.changeDetectorRef.detectChanges();
-        }
     }
 
     protected updateDisable(): void {

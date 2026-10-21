@@ -109,9 +109,6 @@ export class XmDynamicPresentationBase<V, C> implements XmDynamicPresentation<V,
         this.updateValue();
         this.updateOptions();
         this.updateConfig();
-        if (this.compRef) {
-            this.compRef.changeDetectorRef.detectChanges();
-        }
     }
 
     protected updateValue(): void {

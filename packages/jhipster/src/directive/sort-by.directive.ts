@@ -35,12 +35,11 @@ export class JhiSortByDirective implements AfterContentInit {
     public sortAscIcon: IconDefinition;
     public sortDescIcon: IconDefinition;
 
-    private jhiSort = inject(JhiSortDirective, { host: true, optional: true });
+    private jhiSort = inject(JhiSortDirective, { host: true });
+    private configService = inject(JhiConfigService);
 
-    constructor(
-        configService: JhiConfigService
-    ) {
-        const config = configService.getConfig();
+    constructor() {
+        const config = this.configService.getConfig();
         this.sortIcon = config.sortIcon;
         this.sortAscIcon = config.sortAscIcon;
         this.sortDescIcon = config.sortDescIcon;

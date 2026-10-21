@@ -40,9 +40,6 @@ export class JhiTranslateDirective implements OnChanges, OnInit, OnDestroy {
     private el = inject(ElementRef);
     private translateService = inject(TranslateService, { optional: true });
 
-    constructor() {
-    }
-
     public ngOnInit(): void {
         const enabled = this.configService.getConfig().i18nEnabled;
         if (enabled) {

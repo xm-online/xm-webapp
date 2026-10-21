@@ -46,12 +46,7 @@ describe('NgFormAccessorUI', () => {
             fixture.detectChanges();
             const child = fixture.componentInstance.child;
             container.testValue = value;
-            // NOTE: `fixture.detectChanges()`'s built-in `checkNoChanges()` pass misfires
-            // with NG0100 in this Angular version even though the binding updates
-            // correctly. Using `fixture.changeDetectorRef.detectChanges()` runs change
-            // detection without that faulty re-check, working around the framework issue
-            // without touching the component.
-            fixture.changeDetectorRef.detectChanges();
+            fixture.detectChanges();
 
             expect(child.value).toBe(value);
         });
@@ -67,11 +62,11 @@ describe('NgFormAccessorUI', () => {
             const spy = spyOn(child.valueChange, 'emit');
 
             container.testValue = value;
-            fixture.changeDetectorRef.detectChanges();
+            fixture.detectChanges();
             expect(child.value).toBe(value);
 
             container.testValue = newValue;
-            fixture.changeDetectorRef.detectChanges();
+            fixture.detectChanges();
             expect(child.value).toBe(newValue);
             expect(spy).not.toHaveBeenCalled();
         });
@@ -86,7 +81,7 @@ describe('NgFormAccessorUI', () => {
             fixture.detectChanges();
             container.testValue = value;
             const child = fixture.componentInstance.child;
-            fixture.changeDetectorRef.detectChanges();
+            fixture.detectChanges();
             tick();
             expect(child.value).toBe(value);
         }));
@@ -103,12 +98,12 @@ describe('NgFormAccessorUI', () => {
             const spy = spyOn(child.valueChange, 'emit');
 
             container.testValue = value;
-            fixture.changeDetectorRef.detectChanges();
+            fixture.detectChanges();
             tick();
             expect(child.value).toBe(value);
 
             container.testValue = newValue;
-            fixture.changeDetectorRef.detectChanges();
+            fixture.detectChanges();
             tick();
             expect(child.value).toBe(newValue);
             expect(spy).not.toHaveBeenCalled();
