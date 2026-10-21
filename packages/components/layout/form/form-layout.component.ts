@@ -195,6 +195,10 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
             return;
         }
 
+        if (!this.config.ignoreFormValidationToUpdate && !this.formGroup.valid) {
+            return;
+        }
+
         const entity = this.applyFormToData(this.latestData);
         const updateData = this.dataController[this.config?.controller?.updateDataMethod || 'update'](entity);
 

@@ -2,8 +2,8 @@ import { inject, Injectable, Injector, OnDestroy } from '@angular/core';
 import { XmDynamicInstanceService } from '@xm-ngx/dynamic';
 import { XmConfig } from '@xm-ngx/interfaces';
 import { UUID } from 'angular2-uuid';
-import { cloneDeep, get, isEqual, isFunction, set } from 'lodash';
-import { filter, isObservable, Observable, of, Subject, switchMap, take, tap } from 'rxjs';
+import { cloneDeep, get, isEqual, isFunction, omit, set } from 'lodash';
+import { catchError, defaultIfEmpty, filter, isObservable, Observable, of, Subject, switchMap, take, tap } from 'rxjs';
 import { XmTableEntityController } from '../controllers/entity/xm-table-entity-controller.service';
 import { AXmTableLocalPageableCollectionController } from './a-xm-table-local-pageable-collection-controller.service';
 import { IXmTableCollectionController, XmFilterQueryParams } from './i-xm-table-collection-controller';
@@ -256,10 +256,47 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
             take(1),
             tap((freshEntity) => {
                 if (freshEntity) {
-                    this.entity = freshEntity as object;
+                    this.entity = this.reconcileFreshEntity(freshEntity as object);
                 }
             }),
+            // Fall back to the local entity so add()/remove() still proceed.
+            defaultIfEmpty(null),
+            catchError((error: unknown) => {
+                console.warn('table-array-collection-controller: refetch before save failed, using local entity', error);
+                return of(null);
+            }),
         );
+    }
+
+    /**
+     * Gives keyless fresh rows the same generated `key` their local counterparts got in the
+     * `entity$()` flow (matched by content), so `save()` can match removed/current rows by
+     * identity. Unmatched keyless rows get a new key, like `entity$()` does.
+     */
+    private reconcileFreshEntity(freshEntity: object): object {
+        if (!this.config?.path) {
+            return freshEntity;
+        }
+
+        const localItems = (get(this.entity, this.config.path) || []) as XmTableArrayCollectionItem[];
+        const usedKeys = new Set<string>();
+        const freshItems = (get(freshEntity, this.config.path) || []) as XmTableArrayCollectionItem[];
+
+        const reconciled = freshItems.map((item) => {
+            if (item?.uuidKeyOnCloned || item?.['key'] || item?.id) {
+                return item;
+            }
+            const match = localItems.find((local) => {
+                const key = local?.['key'];
+                return key && !usedKeys.has(key) && isEqual(omit(local, 'key'), item);
+            });
+            const key = match?.['key'] || UUID.UUID();
+            usedKeys.add(key);
+            return {...item, key};
+        });
+
+        set(freshEntity, this.config.path, reconciled);
+        return freshEntity;
     }
 
     public edit(item: T, newItem: T): void {
