@@ -10,7 +10,7 @@ import { injectByKey, XM_DYNAMIC_COMPONENT_CONFIG, XmDynamicInstanceService, XmD
 import {takeUntilOnDestroy, takeUntilOnDestroyDestroy} from '@xm-ngx/operators';
 import { cloneDeep, get, set } from 'lodash';
 import { isObservable, Observable, of } from 'rxjs';
-import {debounceTime, filter, map, startWith, switchMap, withLatestFrom} from 'rxjs/operators';
+import {debounceTime, filter, map, startWith, switchMap, take, withLatestFrom} from 'rxjs/operators';
 import {FormGroupFields, FormLayoutConfig} from './form-layout.model';
 import { FormLayoutDataService } from './form-layout-data.service';
 import { FormFieldRulesService } from './form-field-rules.service';
@@ -45,12 +45,16 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
 
     public dataValue: unknown;
 
+    /** The entity instance owned by the data controller, used as the base for form writes. */
+    private latestData: object;
+
     private dataController = this.getControllerByKey(this.config?.controller?.key || 'data');
 
     public ngOnInit(): void {
         this.formGroup = this.buildFormGroup();
 
         this.formDataService.registerFormGroup(this.formGroup);
+        this.formDataService.registerFlush(() => this.flushFormToController());
 
         if (this.config.defaultEditState) {
             this.editStateStore.change(this.config.defaultEditState);
@@ -59,6 +63,7 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
         this.dataController[this.config?.controller?.getDataMethod || 'get']().pipe(
             takeUntilOnDestroy(this),
             map(data => {
+                this.latestData = data as object;
                 this.dataValue = cloneDeep(data);
                 return this.buildRecordFromData(data);
             }),
@@ -72,7 +77,11 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
             startWith(null),
         ).subscribe(() => {
             this.formFieldRules.apply(this.formGroup, this.config.fields, this.dataValue);
-            this.formDataService.updateFormData(this.formGroup.getRawValue());
+
+            const rawValue = this.formGroup.getRawValue();
+
+            this.syncDataValueFromForm(rawValue);
+            this.formDataService.updateFormData(rawValue);
             this.markSaveButtonEnabled();
         });
 
@@ -80,13 +89,7 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
             debounceTime(200),
             filter(() => this.config.ignoreFormValidationToUpdate || this.formGroup.valid),
             withLatestFrom(this.dataController[this.config?.controller?.getDataMethod || 'get']() as Observable<object>),
-            map(([, data]: [Record<string, UntypedFormControl>, object]) => {
-                const currentForm = this.formGroup.getRawValue();
-                this.config.fields.forEach(field => {
-                    set(data, field.property, currentForm[field.property]);
-                });
-                return data;
-            }),
+            map(([, data]: [Record<string, UntypedFormControl>, object]) => this.applyFormToData(data)),
             switchMap((entity) => {
                 const updateData = this.dataController[this.config?.controller?.updateDataMethod || 'update'](entity);
 
@@ -161,6 +164,63 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
             }, {});
 
         return this.fb.group(controls);
+    }
+
+    /**
+     * Writes the current form values into the entity owned by the data controller.
+     * Mutates and returns `data` to keep the fields which are not a part of this form.
+     */
+    private applyFormToData(data: object): object {
+        const currentForm = this.formGroup.getRawValue();
+
+        this.config.fields.forEach((field) => {
+            if (field?.property) {
+                set(data, field.property, currentForm[field.property]);
+            }
+        });
+
+        return data;
+    }
+
+    /**
+     * Synchronously pushes the form state into the data controller.
+     *
+     * The regular sync is debounced, so an action performed right after the last edit
+     * (e.g. a chip committed on blur while clicking a submit button) would read
+     * an entity which does not contain that edit yet.
+     */
+    private flushFormToController(): void {
+        if (!this.formGroup || !this.latestData) {
+            return;
+        }
+
+        const entity = this.applyFormToData(this.latestData);
+        const updateData = this.dataController[this.config?.controller?.updateDataMethod || 'update'](entity);
+
+        if (isObservable(updateData)) {
+            updateData.pipe(take(1)).subscribe();
+        }
+    }
+
+    /**
+     * Keeps `dataValue` in sync with the current form state.
+     *
+     * Field `condition` expressions are evaluated against `dataValue`, which is otherwise
+     * refreshed only when the data controller emits. Without this sync a condition that
+     * depends on another field (e.g. `dataValue.data.categoryGroup`) is never re-evaluated
+     * after the user edits that field, so the dependent fields stay hidden and their values
+     * are not filled in before the entity is created.
+     */
+    private syncDataValueFromForm(rawValue: Record<string, unknown>): void {
+        const next = cloneDeep(this.dataValue ?? {}) as object;
+
+        this.config.fields.forEach((field) => {
+            if (field?.property) {
+                set(next, field.property, rawValue[field.property]);
+            }
+        });
+
+        this.dataValue = next;
     }
 
     private buildRecordFromData(data: unknown): Record<string, unknown> {

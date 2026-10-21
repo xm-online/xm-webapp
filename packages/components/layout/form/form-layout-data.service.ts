@@ -9,6 +9,7 @@ import { UntypedFormGroup } from '@angular/forms';
 export class FormLayoutDataService {
     private formGroupSubject$ = new BehaviorSubject<UntypedFormGroup | null>(null);
     private formDataSubject$ = new BehaviorSubject<Record<string, any> | null>(null);
+    private flushFn: (() => void) | null = null;
 
     /**
      * Observable that emits form group
@@ -53,10 +54,30 @@ export class FormLayoutDataService {
     }
 
     /**
+     * Registers a callback which synchronously pushes the pending form state
+     * into the data controller, bypassing the debounced auto-sync.
+     */
+    public registerFlush(flush: () => void): void {
+        this.flushFn = flush;
+    }
+
+    /**
+     * Pushes the current form state into the data controller right away.
+     *
+     * The form is synced with the controller on a debounce, so an action triggered
+     * immediately after the last edit (e.g. a blur-commit followed by a submit click)
+     * would otherwise read a stale entity.
+     */
+    public flush(): void {
+        this.flushFn?.();
+    }
+
+    /**
      * Clear form data (when form is destroyed)
      */
     public clear(): void {
         this.formGroupSubject$.next(null);
         this.formDataSubject$.next(null);
+        this.flushFn = null;
     }
 }

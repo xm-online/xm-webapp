@@ -32,6 +32,13 @@ export interface XmTableArrayCollectionControllerConfig extends XmTableEntity {
         }
     }
     saveWithType?: boolean;
+    /**
+     * When true, re-fetches the entity from the backend (via the bound entity controller's
+     * `getFresh$()`, if present) right after the user confirms removal, and uses it as the
+     * base for the subsequent `save()` instead of the last value pushed through `entity$()`.
+     * Mirrors `EntityDataWidgetComponent.onSave()`'s `refetchBeforeSave` behavior.
+     */
+    refetchBeforeSave?: boolean;
 }
 
 export type SaveType = 'ADD' | 'EDIT' | 'REMOVE';
@@ -124,7 +131,12 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
             item[uuidKeyName] = UUID.UUID();
         }
 
-        super.add(item);
+        // Opt-in refetch (see `XmTableArrayCollectionControllerConfig.refetchBeforeSave`). When
+        // disabled, `getFreshEntity$()` returns `of(null)`, which emits synchronously, so `add()`
+        // keeps its previous synchronous behavior.
+        this.getFreshEntity$().subscribe(() => {
+            super.add(item);
+        });
     }
 
     public save(type?: SaveType): void {
@@ -215,10 +227,39 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
         this.alert.delete(options).pipe(
             take(1),
             filter((i) => i.value),
+            switchMap(() => this.getFreshEntity$()),
         ).subscribe(() => {
             this.removedItems.push(item);
             super.remove(item);
         });
+    }
+
+    /**
+     * Opt-in refetch (see `XmTableArrayCollectionControllerConfig.refetchBeforeSave`): pulls the
+     * freshest entity from the bound entity controller and stores it on `this.entity`, so the
+     * following `save()` builds the updated `path` array on top of up-to-date data instead of a
+     * possibly stale value captured by the persistent `entity$()` subscription.
+     */
+    private getFreshEntity$(): Observable<unknown> {
+        if (!this.config?.refetchBeforeSave) {
+            return of(null);
+        }
+
+        const controller = this.getEntityController() as Record<string, () => Observable<unknown>>;
+        const getFresh = controller?.['getFresh$'];
+
+        if (!isFunction(getFresh)) {
+            return of(null);
+        }
+
+        return getFresh.call(controller).pipe(
+            take(1),
+            tap((freshEntity) => {
+                if (freshEntity) {
+                    this.entity = freshEntity as object;
+                }
+            }),
+        );
     }
 
     public edit(item: T, newItem: T): void {
