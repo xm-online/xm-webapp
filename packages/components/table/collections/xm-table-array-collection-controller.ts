@@ -3,7 +3,7 @@ import { XmDynamicInstanceService } from '@xm-ngx/dynamic';
 import { XmConfig } from '@xm-ngx/interfaces';
 import { UUID } from 'angular2-uuid';
 import { cloneDeep, get, isEqual, isFunction, omit, set } from 'lodash';
-import { catchError, defaultIfEmpty, filter, isObservable, Observable, of, Subject, switchMap, take, tap } from 'rxjs';
+import { catchError, defaultIfEmpty, filter, isObservable, map, Observable, of, Subject, switchMap, take, tap } from 'rxjs';
 import { XmTableEntityController } from '../controllers/entity/xm-table-entity-controller.service';
 import { AXmTableLocalPageableCollectionController } from './a-xm-table-local-pageable-collection-controller.service';
 import { IXmTableCollectionController, XmFilterQueryParams } from './i-xm-table-collection-controller';
@@ -62,12 +62,16 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
 
     private syncRequest = new Subject<XmFilterQueryParams>();
     private removedItems: Array<T> = [];
+    private _lastRequest: XmFilterQueryParams;
+    /** Keys generated in `applyEntity()` for keyless rows (local-only identities). */
+    private generatedKeys = new Set<string>();
 
     constructor() {
         super();
 
         this.syncRequest.asObservable().pipe(
             switchMap((requestData: XmFilterQueryParams) => {
+                this._lastRequest = requestData;
                 const controller = this.getEntityController() as Record<string, () => Observable<unknown[]>>;
                 const controllerMethod = this.config?.entityController?.method || 'entity$';
 
@@ -88,34 +92,39 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
                 }
 
                 return controllerSubscribe.pipe(
-                    tap((value) => {
-                        this.entity = value;
-
-                        const items = this.config?.path ? get(value, this.config.path, []) as T[] : value as T[];
-                        const itemsWithUniqKey = items?.map(item => {
-                            if (item['uuidKeyOnCloned'] || item['key'] || item['id']) {
-                                return item;
-                            }
-                            return {
-                                ...item,
-                                key: UUID.UUID(),
-                            } as T;
-                        });
-                        set(this.entity, this.config.path, itemsWithUniqKey);
-
-                        const rawItems = this.config?.buildItemAsNestedKey?.length > 0
-                            ? [
-                                {
-                                    [this.config?.buildItemAsNestedKey]: itemsWithUniqKey,
-                                } as T,
-                            ]
-                            : itemsWithUniqKey;
-                        this.changeByItems(rawItems, requestData);
-                    }),
+                    tap((value) => this.applyEntity(value, requestData)),
                 );
             }),
             takeUntilOnDestroy(this),
         ).subscribe();
+    }
+
+    private applyEntity(value: object, requestData: XmFilterQueryParams): void {
+        this.entity = value;
+        this.generatedKeys.clear();
+
+        const items = this.config?.path ? get(value, this.config.path, []) as T[] : value as T[];
+        const itemsWithUniqKey = items?.map(item => {
+            if (item['uuidKeyOnCloned'] || item['key'] || item['id']) {
+                return item;
+            }
+            const key = UUID.UUID();
+            this.generatedKeys.add(key);
+            return {
+                ...item,
+                key,
+            } as T;
+        });
+        set(this.entity, this.config.path, itemsWithUniqKey);
+
+        const rawItems = this.config?.buildItemAsNestedKey?.length > 0
+            ? [
+                {
+                    [this.config?.buildItemAsNestedKey]: itemsWithUniqKey,
+                } as T,
+            ]
+            : itemsWithUniqKey;
+        this.changeByItems(rawItems, requestData);
     }
 
     public async load(request: XmFilterQueryParams): Promise<void> {
@@ -134,7 +143,7 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
         // Opt-in refetch (see `XmTableArrayCollectionControllerConfig.refetchBeforeSave`). When
         // disabled, `getFreshEntity$()` returns `of(null)`, which emits synchronously, so `add()`
         // keeps its previous synchronous behavior.
-        this.getFreshEntity$().subscribe(() => {
+        this.getFreshEntity$().pipe(filter(Boolean)).subscribe(() => {
             super.add(item);
         });
     }
@@ -228,6 +237,7 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
             take(1),
             filter((i) => i.value),
             switchMap(() => this.getFreshEntity$()),
+            filter(Boolean),
         ).subscribe(() => {
             this.removedItems.push(item);
             super.remove(item);
@@ -239,47 +249,67 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
      * freshest entity from the bound entity controller and stores it on `this.entity`, so the
      * following `save()` builds the updated `path` array on top of up-to-date data instead of a
      * possibly stale value captured by the persistent `entity$()` subscription.
+     *
+     * Emits `true` when the caller may proceed. Emits `false` on an identity conflict (see
+     * `reconcileFreshEntity()`): the table is then re-synced with the fresh data and the user is
+     * asked to retry, instead of saving with ambiguous row identities.
      */
-    private getFreshEntity$(): Observable<unknown> {
+    private getFreshEntity$(): Observable<boolean> {
         if (!this.config?.refetchBeforeSave) {
-            return of(null);
+            return of(true);
         }
 
         const controller = this.getEntityController() as Record<string, () => Observable<unknown>>;
         const getFresh = controller?.['getFresh$'];
 
         if (!isFunction(getFresh)) {
-            return of(null);
+            return of(true);
         }
 
         return getFresh.call(controller).pipe(
             take(1),
-            tap((freshEntity) => {
-                if (freshEntity) {
-                    this.entity = this.reconcileFreshEntity(freshEntity as object);
+            map((freshEntity) => {
+                if (!freshEntity) {
+                    return true;
                 }
+                const {entity, conflict, generatedKeys} = this.reconcileFreshEntity(freshEntity as object);
+                if (conflict) {
+                    this.removedItems = [];
+                    this.applyEntity(freshEntity as object, this._lastRequest);
+                    this.toaster.create({type: 'warning', text: 'error.concurrencyFailure'}).subscribe();
+                    return false;
+                }
+                this.entity = entity;
+                if (generatedKeys) {
+                    this.generatedKeys = generatedKeys;
+                }
+                return true;
             }),
             // Fall back to the local entity so add()/remove() still proceed.
-            defaultIfEmpty(null),
+            defaultIfEmpty(true),
             catchError((error: unknown) => {
                 console.warn('table-array-collection-controller: refetch before save failed, using local entity', error);
-                return of(null);
+                return of(true);
             }),
         );
     }
 
     /**
-     * Gives keyless fresh rows the same generated `key` their local counterparts got in the
-     * `entity$()` flow (matched by content), so `save()` can match removed/current rows by
-     * identity. Unmatched keyless rows get a new key, like `entity$()` does.
+     * Gives keyless fresh rows the same generated `key` their local counterparts got in
+     * `applyEntity()` (matched by content), so `save()` can match removed/current rows by identity.
+     *
+     * Keyless rows have no server-side identity, so a row whose content changed on the backend
+     * cannot be matched. If a locally keyed row is left unmatched while a fresh keyless row is
+     * unmatched too, the identities are ambiguous and a `conflict` is reported.
      */
-    private reconcileFreshEntity(freshEntity: object): object {
+    private reconcileFreshEntity(freshEntity: object): {entity: object; conflict: boolean; generatedKeys?: Set<string>} {
         if (!this.config?.path) {
-            return freshEntity;
+            return {entity: freshEntity, conflict: false};
         }
 
         const localItems = (get(this.entity, this.config.path) || []) as XmTableArrayCollectionItem[];
         const usedKeys = new Set<string>();
+        let hasUnmatchedFresh = false;
         const freshItems = (get(freshEntity, this.config.path) || []) as XmTableArrayCollectionItem[];
 
         const reconciled = freshItems.map((item) => {
@@ -290,13 +320,25 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
                 const key = local?.['key'];
                 return key && !usedKeys.has(key) && isEqual(omit(local, 'key'), item);
             });
+            if (!match) {
+                hasUnmatchedFresh = true;
+            }
             const key = match?.['key'] || UUID.UUID();
             usedKeys.add(key);
             return {...item, key};
         });
 
+        const hasUnmatchedLocal = localItems.some((local) => {
+            const key = local?.['key'];
+            return this.generatedKeys.has(key) && !usedKeys.has(key);
+        });
+
+        if (hasUnmatchedFresh && hasUnmatchedLocal) {
+            return {entity: freshEntity, conflict: true};
+        }
+
         set(freshEntity, this.config.path, reconciled);
-        return freshEntity;
+        return {entity: freshEntity, conflict: false, generatedKeys: usedKeys};
     }
 
     public edit(item: T, newItem: T): void {
