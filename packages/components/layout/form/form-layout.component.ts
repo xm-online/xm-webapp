@@ -76,6 +76,8 @@ export class FormLayoutComponent extends XmDynamicInstanceService implements OnI
             takeUntilOnDestroy(this),
             startWith(null),
         ).subscribe(() => {
+            // Sync first so rules see the latest edit, then again to pick up values the rules patched.
+            this.syncDataValueFromForm(this.formGroup.getRawValue());
             this.formFieldRules.apply(this.formGroup, this.config.fields, this.dataValue);
 
             const rawValue = this.formGroup.getRawValue();
