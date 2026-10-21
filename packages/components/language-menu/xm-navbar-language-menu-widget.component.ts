@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { XmSessionService } from '@xm-ngx/core';
 import { XmUIConfig, XmUiConfigService } from '@xm-ngx/core/config';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
-import { LanguageModule, LanguageService, Locale, XmTranslationModule } from '@xm-ngx/translation';
+import { LanguageModule, LanguageService, Locale, TitleService, XmTranslationModule } from '@xm-ngx/translation';
 import { from, map, Observable, tap } from 'rxjs';
 import { XmDynamicWidget } from '@xm-ngx/dynamic';
 import { CommonModule } from '@angular/common';
@@ -12,7 +12,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { AccountService, Principal, XmUser } from '@xm-ngx/core/user';
 import { TranslateService } from '@ngx-translate/core';
-import { TitleService } from 'lib/translation';
 
 export interface XmLanguageUiConfig extends XmUIConfig {
     exts: string[];
