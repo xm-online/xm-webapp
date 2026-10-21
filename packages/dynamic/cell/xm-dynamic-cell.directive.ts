@@ -1,4 +1,4 @@
-/* eslint-disable @angular-eslint/no-conflicting-lifecycle */
+
 import {
     Directive,
     DoCheck,
@@ -21,6 +21,7 @@ import { XmDynamicLayoutNode } from '../src/interfaces';
 
 export const XM_DYNAMIC_TABLE_ROW = new InjectionToken<unknown>('XM_DYNAMIC_TABLE_ROW');
 export const XM_DYNAMIC_TABLE_CELL = new InjectionToken<unknown>('XM_DYNAMIC_TABLE_CELL');
+export const XM_DYNAMIC_TABLE_EXPANDED_ROW = new InjectionToken<unknown>('XM_DYNAMIC_TABLE_EXPANDED_ROW');
 
 /**
  * XmDynamicCellDirective cell configuration

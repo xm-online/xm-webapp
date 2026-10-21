@@ -1,4 +1,6 @@
 .chips-btn {
+  display: inline-flex;
+  max-width: 100%;
   border: 1px solid #808080;
   background: transparent !important;
   border-radius: 8px;
@@ -33,6 +35,7 @@
     font-size: 20px;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 
     &.hidden {
       width: 0;
@@ -43,6 +46,7 @@
 
   .chips-text {
     display: inline-flex;
+    min-width: 0;
     padding: 0 8px;
   }
 
@@ -50,6 +54,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-width: 0;
+    width: 100%;
   }
 
   .value-txt {
@@ -59,5 +65,12 @@
     text-overflow: ellipsis;
     font-weight: 500;
     max-width: 120px;
+    min-width: 0;
+    flex-shrink: 1;
+  }
+
+  .arrow-icon,
+  .clear-icon {
+    flex-shrink: 0;
   }
 }
