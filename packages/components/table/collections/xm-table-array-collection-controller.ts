@@ -3,7 +3,7 @@ import { XmDynamicInstanceService } from '@xm-ngx/dynamic';
 import { XmConfig } from '@xm-ngx/interfaces';
 import { UUID } from 'angular2-uuid';
 import { cloneDeep, get, isEqual, isFunction, omit, set } from 'lodash';
-import { catchError, defaultIfEmpty, filter, isObservable, map, Observable, of, Subject, switchMap, take, tap } from 'rxjs';
+import { catchError, defaultIfEmpty, filter, finalize, isObservable, map, Observable, of, Subject, switchMap, take, tap } from 'rxjs';
 import { XmTableEntityController } from '../controllers/entity/xm-table-entity-controller.service';
 import { AXmTableLocalPageableCollectionController } from './a-xm-table-local-pageable-collection-controller.service';
 import { IXmTableCollectionController, XmFilterQueryParams } from './i-xm-table-collection-controller';
@@ -65,6 +65,9 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
     private _lastRequest: XmFilterQueryParams;
     /** Keys generated in `applyEntity()` for keyless rows (local-only identities). */
     private generatedKeys = new Set<string>();
+    /** `add()` calls still waiting for the refetch; `save()` is deferred until they finish. */
+    private pendingAdds = 0;
+    private queuedSave: {type?: SaveType} | null = null;
 
     constructor() {
         super();
@@ -143,12 +146,32 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
         // Opt-in refetch (see `XmTableArrayCollectionControllerConfig.refetchBeforeSave`). When
         // disabled, `getFreshEntity$()` returns `of(null)`, which emits synchronously, so `add()`
         // keeps its previous synchronous behavior.
-        this.getFreshEntity$().pipe(filter(Boolean)).subscribe(() => {
+        this.pendingAdds++;
+        let added = false;
+        this.getFreshEntity$().pipe(
+            filter(Boolean),
+            finalize(() => {
+                this.pendingAdds--;
+                const queued = this.queuedSave;
+                if (this.pendingAdds === 0 && queued) {
+                    this.queuedSave = null;
+                    if (added) {
+                        this.save(queued.type);
+                    }
+                }
+            }),
+        ).subscribe(() => {
+            added = true;
             super.add(item);
         });
     }
 
     public save(type?: SaveType): void {
+        // e.g. clone action calls `add()` and `save()` back to back
+        if (this.pendingAdds > 0) {
+            this.queuedSave = {type};
+            return;
+        }
         if (!this.config?.path) {
             console.warn('table-array-collection-controller: add "path" property to config');
             return;
