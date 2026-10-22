@@ -343,7 +343,7 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
 
     public edit(item: T, newItem: T): void {
         super.edit(item, newItem);
-        this.save('EDIT');
+        this.getFreshEntity$().pipe(filter(Boolean)).subscribe(() => this.save('EDIT'));
     }
 
     public ngOnDestroy(): void {
