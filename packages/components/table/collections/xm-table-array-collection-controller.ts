@@ -67,7 +67,9 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
     private generatedKeys = new Set<string>();
     /** `add()` calls still waiting for the refetch; `save()` is deferred until they finish. */
     private pendingAdds = 0;
-    private queuedSave: {type?: SaveType} | null = null;
+    private queuedSaves: Array<{type?: SaveType}> = [];
+    /** Whether any deferred `add()` actually appended its row. */
+    private hasCompletedAdd = false;
 
     constructor() {
         super();
@@ -147,21 +149,16 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
         // disabled, `getFreshEntity$()` returns `of(null)`, which emits synchronously, so `add()`
         // keeps its previous synchronous behavior.
         this.pendingAdds++;
-        let added = false;
         this.getFreshEntity$().pipe(
             filter(Boolean),
             finalize(() => {
                 this.pendingAdds--;
-                const queued = this.queuedSave;
-                if (this.pendingAdds === 0 && queued) {
-                    this.queuedSave = null;
-                    if (added) {
-                        this.save(queued.type);
-                    }
+                if (this.pendingAdds === 0) {
+                    this.flushQueuedSaves();
                 }
             }),
         ).subscribe(() => {
-            added = true;
+            this.hasCompletedAdd = true;
             super.add(item);
         });
     }
@@ -169,7 +166,7 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
     public save(type?: SaveType): void {
         // e.g. clone action calls `add()` and `save()` back to back
         if (this.pendingAdds > 0) {
-            this.queuedSave = {type};
+            this.queuedSaves.push({type});
             return;
         }
         if (!this.config?.path) {
@@ -209,6 +206,23 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
         return this.items.some(current => isEqual(current, item) || this.isEqualByKeys(current, item as XmTableArrayCollectionItem));
     }
 
+    /**
+     * Replays every `save()` deferred while an `add()` was refetching, in call order, so a later
+     * save type (e.g. `EDIT`) does not discard an earlier one and the added row is persisted too.
+     * Implicit/`ADD` saves are dropped when no deferred `add()` completed (conflict), because the
+     * table was already re-synced with the fresh entity.
+     */
+    private flushQueuedSaves(): void {
+        const queued = this.queuedSaves;
+        const hasCompletedAdd = this.hasCompletedAdd;
+        this.queuedSaves = [];
+        this.hasCompletedAdd = false;
+
+        queued
+            .filter(({type}) => hasCompletedAdd || (type && type !== 'ADD'))
+            .forEach(({type}) => this.save(type));
+    }
+
     public getItemsOn(type: SaveType, itemsFromEntity: T[]): T[] {
         switch (type) {
             case 'ADD':
@@ -223,7 +237,10 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
     }
 
     private getItemsOnAdd(itemsFromEntity: T[]): T[] {
-        const newItems = this.items.filter(item => !itemsFromEntity.some(entity => isEqual(item, entity)));
+        const newItems = this.items.filter(item => !itemsFromEntity.some(entity => {
+            return isEqual(item, entity)
+                || this.isEqualByKeys(item as XmTableArrayCollectionItem, entity as XmTableArrayCollectionItem);
+        }));
         return [...itemsFromEntity, ...newItems];
     }
 
