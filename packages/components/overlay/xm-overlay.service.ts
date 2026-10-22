@@ -1,5 +1,5 @@
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
-import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
+import { ComponentPortal } from '@angular/cdk/portal';
 import { Injectable, Injector, TemplateRef, Type } from '@angular/core';
 import { CustomOverlayRef } from './custom-overlay-ref';
 import { XmOverlayComponent } from './xm-overlay-component/xm-overlay.component';
@@ -36,8 +36,11 @@ export class XmOverlayService {
     }
 
     private static createInjector(ref, inj: Injector) {
-        const injectorTokens = new WeakMap();
-        injectorTokens.set(CustomOverlayRef, ref);
-        return new PortalInjector(inj, injectorTokens);
+        return Injector.create({
+            parent: inj,
+            providers: [
+                { provide: CustomOverlayRef, useValue: ref }
+            ]
+        });
     }
 }

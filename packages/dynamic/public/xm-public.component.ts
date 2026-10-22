@@ -52,6 +52,7 @@ export class XmPublicComponent implements OnInit, OnDestroy {
             map((r) => {
                 if (!r) {
                     this.router.navigateByUrl('/not-found');
+                    return null;
                 }
                 return r.layout;
             }),

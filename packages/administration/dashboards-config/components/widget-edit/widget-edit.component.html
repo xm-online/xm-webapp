@@ -4,7 +4,7 @@
 
   <div class="d-flex justify-content-between block-sidebar-right-header">
 
-    <button (click)="backToOrganisation()"
+    <button type="button" (click)="backToOrganisation()"
             [matTooltip]="TRS.back | translate"
             color="primary"
             mat-icon-button>
@@ -15,7 +15,7 @@
     <h4 *ngIf="editType === EditType.Edit" class="pt-2 ps-3">{{ TRS.editWidget | translate }}</h4>
 
     <div class="d-flex flex-grow-1 ps-3 header-controls">
-      <button (click)="onAdd()"
+      <button type="button" (click)="onAdd()"
               *ngIf="editType === EditType.Create"
               [disabled]="!form.valid || disabled || !valid"
               color="primary"
@@ -24,7 +24,7 @@
         {{ TRS.create | translate }}
       </button>
 
-      <button (click)="onSave()"
+      <button type="button" (click)="onSave()"
               *ngIf="editType === EditType.Edit"
               [disabled]="!form.valid || disabled || !valid"
               [matTooltip]="(TRS.save | translate) + ' Ctrl+S'"
@@ -35,7 +35,7 @@
       <xm-configuration-history [historyEvents]="historyEvents"
                                 [config]="{itemType: 'widget', itemName: value?.name, changesType: 'config'}"></xm-configuration-history>
 
-      <button (click)="onDelete()"
+      <button type="button" (click)="onDelete()"
               *ngIf="editType === EditType.Edit"
               [disabled]="!form.valid  || disabled || !valid"
               [matTooltip]="TRS.delete | translate: { value: value.name }"
@@ -44,7 +44,7 @@
       </button>
 
       <div class="ms-auto">
-        <button
+        <button type="button"
           *ngIf="editType === EditType.Edit"
           [disabled]="disabled || !valid"
           [matTooltip]="TRS.copyClipboard | translate"
@@ -56,7 +56,7 @@
           <mat-icon>content_copy</mat-icon>
         </button>
 
-        <button
+        <button type="button"
           *ngIf="editType === EditType.Create"
           [disabled]="disabled"
           [matTooltip]="TRS.paste | translate"
@@ -69,7 +69,7 @@
           <mat-icon>content_paste</mat-icon>
         </button>
 
-        <button (click)="onCancel()"
+        <button type="button" (click)="onCancel()"
                 [matTooltip]="TRS.cancel | translate"
                 class="ms-auto"
                 mat-icon-button>

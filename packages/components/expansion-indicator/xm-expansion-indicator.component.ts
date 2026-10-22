@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { matExpansionAnimations } from '@angular/material/expansion';
+import { xmExpansionAnimations } from '@xm-ngx/components/animations';
 
 @Component({
     selector: 'xm-expansion-indicator',
@@ -11,7 +11,7 @@ import { matExpansionAnimations } from '@angular/material/expansion';
         </button>
     `,
     animations: [
-        matExpansionAnimations.indicatorRotate,
+        xmExpansionAnimations.indicatorRotate,
     ],
     standalone: false,
 })

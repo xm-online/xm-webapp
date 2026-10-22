@@ -1,4 +1,4 @@
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { waitForAsync, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
@@ -36,6 +36,7 @@ describe('Entity detail dialog Component', () => {
                 NoopAnimationsModule,
                 MatInputModule,
                 NgxWebstorageModule.forRoot(),
+                HttpClientTestingModule,
             ],
             declarations: [
                 EntityDetailDialogComponent,
@@ -48,8 +49,6 @@ describe('Entity detail dialog Component', () => {
                 {provide: XmEntityService, useValue: {}},
                 I18nJsfPipe,
                 I18nNamePipe,
-                HttpClient,
-                HttpHandler,
                 JhiDateUtils,
                 XmEventManager,
                 Principal,

@@ -150,6 +150,7 @@ export default [{
       style: 'camelCase',
       type: 'attribute',
     }],
+    '@angular-eslint/prefer-inject': 'warn',
     '@typescript-eslint/no-unsafe-assignment': 'warn',
     '@typescript-eslint/no-redundant-type-constituents': 'warn',
     '@typescript-eslint/restrict-template-expressions': 'warn',

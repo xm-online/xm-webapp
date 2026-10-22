@@ -16,7 +16,7 @@
       "options": {
         "outputPath": {
           "base": "dist",
-          "browser": ""
+          "browser": "."
         },
         "index": "src/index.html",
         "browser": "src/main.ts",
@@ -164,7 +164,8 @@
       "options": {
         "buildTarget": "xm-webapp:build:development",
         "proxyConfig": "proxy.conf.js",
-        "host": "0.0.0.0"
+        "host": "0.0.0.0",
+        "prebundle": false
       },
       "configurations": {
         "development": {
@@ -202,19 +203,6 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint"
-    },
-    "e2e": {
-      "executor": "@nx/cypress:e2e",
-      "options": {
-        "cypressConfig": "cypress.config.ts",
-        "testingType": "e2e",
-        "devServerTarget": "xm-webapp:serve"
-      },
-      "configurations": {
-        "production": {
-          "devServerTarget": "xm-webapp:serve:production"
-        }
-      }
     },
     "storybook": {
       "executor": "@storybook/angular:start-storybook",
