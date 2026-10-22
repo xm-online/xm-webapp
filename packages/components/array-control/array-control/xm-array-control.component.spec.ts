@@ -56,4 +56,26 @@ describe('XmArrayControlComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    describe('blur and option selection', () => {
+        const tokenEnd = (value: string) => ({ input: { value } as HTMLInputElement, value } as any);
+
+        beforeEach(() => {
+            component.config = { ...component.config, autocomplete: ['abcdef'] };
+        });
+
+        it('should not add the partial input when an option is being selected', () => {
+            component.selectingOption = true;
+            component.add(tokenEnd('abc'));
+            component.select({ option: { value: 'abcdef' } } as any);
+
+            expect(component.selectedItems).toEqual(['abcdef']);
+        });
+
+        it('should add the input on blur outside option selection', () => {
+            component.add(tokenEnd('abc'));
+
+            expect(component.selectedItems).toEqual(['abc']);
+        });
+    });
 });
