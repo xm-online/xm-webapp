@@ -183,7 +183,7 @@ export class XmTableArrayCollectionController<T = XmTableArrayCollectionItem>
     }
 
     protected isCurrentItem(item: unknown): boolean {
-        return this.items.some(removedItem => isEqual(removedItem, item));
+        return this.items.some(current => isEqual(current, item) || this.isEqualByKeys(current, item as XmTableArrayCollectionItem));
     }
 
     public getItemsOn(type: SaveType, itemsFromEntity: T[]): T[] {
