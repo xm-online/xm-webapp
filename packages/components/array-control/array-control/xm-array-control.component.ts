@@ -95,6 +95,9 @@ export class XmArrayControl extends NgControlAccessor<string[]> implements OnIni
 
     public presetAutocomplete: XmArrayItem[] = [];
 
+    /** True while an autocomplete option is being picked, so a blur must not add the partial input as a tag. */
+    public selectingOption = false;
+
     @ViewChild('input') public input: ElementRef<HTMLInputElement>;
     @ViewChild('auto') public matAutocomplete: MatAutocomplete;
 
@@ -190,14 +193,15 @@ export class XmArrayControl extends NgControlAccessor<string[]> implements OnIni
     }
 
     public add(event: MatChipInputEvent): void {
-        if (this.config.onlySuggestSelect) {
+        if (this.config.onlySuggestSelect || this.selectingOption) {
             return;
         }
 
         const input = event.input;
         const value = (event.value ?? '').trim();
+        const isNewItem = Boolean(value) && !this.selectedItems.includes(value);
 
-        if (value && !this.selectedItems.includes(value)) {
+        if (isNewItem) {
             this.selectedItems = [
                 ...(this.selectedItems ?? []),
                 value,
@@ -209,7 +213,12 @@ export class XmArrayControl extends NgControlAccessor<string[]> implements OnIni
         }
 
         this.searchControl.setValue(null);
-        this.change(this.selectedItems);
+
+        // `addOnBlur` makes this handler fire on every blur, so emit only on a real change
+        // to avoid flooding the parent form with identical values.
+        if (isNewItem) {
+            this.change(this.selectedItems);
+        }
     }
 
     public remove(item: string): void {
@@ -224,6 +233,7 @@ export class XmArrayControl extends NgControlAccessor<string[]> implements OnIni
     }
 
     public select(event: MatAutocompleteSelectedEvent): void {
+        this.selectingOption = false;
         this.selectedItems = [...this.selectedItems, event.option.value];
         this.input.nativeElement.value = '';
         this.searchControl.setValue(null);
