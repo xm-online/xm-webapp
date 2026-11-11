@@ -24,6 +24,7 @@ export * from './components/xm-table-selection-column.component';
 export * from './components/xm-table-loading.component';
 export * from './components/xm-table-expandable-row-column.component';
 export * from './components/export-button/xm-table-export-button.component';
+export * from './components/messages/xm-table-warning-message.model';
 
 export * from './configs/xm-table-config-root.service';
 
