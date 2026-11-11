@@ -1,4 +1,5 @@
 import { Translate } from '@xm-ngx/translation';
+import { XmTableWarningMessageConfig } from '../components/messages/xm-table-warning-message.model';
 import { PageableAndSortable } from '@xm-ngx/repositories';
 import { XM_TABLE_CONFIG_DEFAULT, XmTableConfig } from '../directives/xm-table.model';
 import { XmDynamicLayout, XmDynamicPresentationLayout } from '@xm-ngx/dynamic';
@@ -66,13 +67,7 @@ export interface XmTableWidgetConfig extends XmTableConfig, XmTableFiltersContro
      * `sticky`/`stickyEnd` pin it to the left/right edge while scrolling horizontally.
      */
     expandableRowColumn?: XmTableExpandableRowColumnConfig;
-    warningMessage?: {
-        title: Translate;
-        controller: {
-            key: string;
-            method: string;
-        };
-    };
+    warningMessage?: XmTableWarningMessageConfig;
 }
 
 export interface XmTableSelectionConfig {
