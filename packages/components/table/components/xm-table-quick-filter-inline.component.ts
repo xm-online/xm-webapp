@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { XmTableFilterController } from '../controllers/filters/xm-table-filter-controller.service';
@@ -8,7 +8,7 @@ import { XmTranslatePipe } from '@xm-ngx/translation';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { xmExpansionAnimations } from '@xm-ngx/components/animations';
-import { NgClass, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import _ from 'lodash';
 import { XmEmptyPipe } from '@xm-ngx/pipes';
 import { XmTableQuickFilterControlsComponent } from '../components/xm-table-quick-filter-controls.component';
@@ -39,7 +39,9 @@ import { XmTableInlineFilterFormLayoutItem } from './xm-table-filter-chips.compo
                         [request]="value"
                         (requestChange)="requestChange($event)"
                         #formContainer
-                        [ngClass]="{'xm-filters-control-hidden': filterExpand}">
+                        class="quick-filters-control"
+                        [class.quick-filters-control-minimized]="!filterExpand"
+                        [style.max-height.px]="filterExpand ? null : firstRowHeight">
                     </xm-quick-filters-control-request>
 
                     @if (!config?.hideResetButton && hasActiveFilters) {
@@ -54,8 +56,13 @@ import { XmTableInlineFilterFormLayoutItem } from './xm-table-filter-chips.compo
         </div>
     `,
     styles: [`
-        .xm-filters-control-hidden {
-            visibility: visible !important;
+        .quick-filters-control {
+            display: block;
+            min-width: 0;
+        }
+
+        .quick-filters-control-minimized {
+            overflow: hidden;
         }
 
         .filter-holder {
@@ -91,7 +98,6 @@ import { XmTableInlineFilterFormLayoutItem } from './xm-table-filter-chips.compo
         XmEmptyPipe,
         NgIf,
         MatIconModule,
-        NgClass,
         XmTableQuickFilterControlsComponent,
         XmTranslatePipe,
         XmEmptyPipe,
@@ -108,23 +114,17 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
     public value: FiltersControlValue;
 
     public filterExpand: boolean = true;
+    public firstRowHeight = 42;
     private cacheFilters: FiltersControlValue;
     private DELAY = 400;
     private request$: Subject<FiltersControlValue> = new Subject<FiltersControlValue>();
 
     private tableFilterController: XmTableFilterController = inject(XmTableFilterController);
-    public isFilterVisible: boolean = false;
-
+    private host = inject<ElementRef<HTMLElement>>(ElementRef);
     public ngOnInit(): void {
-        this.filterExpand = !this.config.isOnlyExpand;
         if (this.config?.hideDefaultFilters) {
             this.tableFilterController.toggleFilterVisibility(false);
         }
-        this.tableFilterController.filterVisibility$
-            .pipe(takeUntilOnDestroy(this))
-            .subscribe(
-                isVisible => this.isFilterVisible = isVisible
-            );
 
         this.setValueOnChangeFilter();
         this.submitOnChangeFilter();
@@ -178,8 +178,15 @@ export class XmTableQuickFilterInlineComponent implements OnInit, OnDestroy {
     }
 
     public toggleFilters(): void {
-        const currentVisibility = !this.isFilterVisible;
-        this.tableFilterController.toggleFilterVisibility(currentVisibility);
+        if (this.filterExpand) {
+            this.firstRowHeight = this.measureFirstRowHeight();
+        }
+        this.filterExpand = !this.filterExpand;
+    }
+
+    private measureFirstRowHeight(): number {
+        const first = this.host.nativeElement.querySelector<HTMLElement>('.quick-form-layout > *');
+        return first?.offsetHeight ?? 42;
     }
 
     protected checkActiveFilters(): void {
