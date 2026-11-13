@@ -33,15 +33,15 @@ import { XmTableInlineFilterFormLayoutItem } from './xm-table-filter-chips.compo
             </span>
 
             <ng-container *ngIf="!(config?.quickFilters | xmEmpty)">
-                <div class="quick-filter-holder">
+                <div class="quick-filter-holder"
+                     [class.quick-filters-control-minimized]="!filterExpand"
+                     [style.max-height.px]="filterExpand ? null : firstRowHeight">
                     <xm-quick-filters-control-request
-                        [options]="config"
-                        [request]="value"
-                        (requestChange)="requestChange($event)"
-                        #formContainer
-                        class="quick-filters-control"
-                        [class.quick-filters-control-minimized]="!filterExpand"
-                        [style.max-height.px]="filterExpand ? null : firstRowHeight">
+                            [options]="config"
+                            [request]="value"
+                            (requestChange)="requestChange($event)"
+                            #formContainer
+                            class="quick-filters-control">
                     </xm-quick-filters-control-request>
 
                     @if (!config?.hideResetButton && hasActiveFilters) {
@@ -56,42 +56,44 @@ import { XmTableInlineFilterFormLayoutItem } from './xm-table-filter-chips.compo
         </div>
     `,
     styles: [`
-        .quick-filters-control {
-            display: block;
-            min-width: 0;
+      .quick-filters-control,
+      .quick-filters-control ::ng-deep .quick-filter-control,
+      .quick-filters-control ::ng-deep .quick-form-layout {
+        display: contents;
+      }
+
+      .quick-filters-control-minimized {
+        overflow: hidden;
+      }
+
+      .filter-holder {
+        overflow: hidden;
+      }
+
+      .quick-filter-block {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        &.is-only-expand {
+          padding: 0 12px;
         }
+      }
 
-        .quick-filters-control-minimized {
-            overflow: hidden;
+      .quick-filter-holder {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .xm-filters-btn {
+        align-self: flex-start;
+
+        .filter-btn {
+          padding: 0;
+          --mdc-icon-button-state-layer-size: 36px;
         }
-
-        .filter-holder {
-            overflow: hidden;
-        }
-
-        .quick-filter-block {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-
-            &.is-only-expand {
-                padding: 0 12px;
-            }
-        }
-
-        .quick-filter-holder {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .xm-filters-btn {
-            align-self: flex-start;
-
-            .filter-btn {
-                padding: 0;
-                --mdc-icon-button-state-layer-size: 36px;
-            }
-        }
+      }
     `],
     imports: [
         MatButtonModule,
