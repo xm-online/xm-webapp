@@ -2,16 +2,27 @@
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
+    const diagnosticFramework = function (emitter) {
+        emitter.on('run_complete', async function (browsers, results) {
+            if (!config.autoWatch) {
+                const exitCode = results.failed > 0 ? 1 : 0;
+                setTimeout(() => process.exit(exitCode), 2000);
+            }
+        });
+    };
+    diagnosticFramework.$inject = ['emitter'];
+
     config.set({
         execArgv: ['--max_old_space_size=8096'],
         basePath: '',
-        frameworks: ['jasmine', '@angular-devkit/build-angular'],
+        frameworks: ['jasmine', '@angular-devkit/build-angular', 'diagnostic-framework'],
         plugins: [
             require('karma-jasmine'),
             require('karma-chrome-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-coverage'),
-            require('@angular-devkit/build-angular/plugins/karma')
+            require('@angular-devkit/build-angular/plugins/karma'),
+            {'framework:diagnostic-framework': ['factory', diagnosticFramework]}
         ],
         client: {
             clearContext: false, // leave Jasmine Spec Runner output visible in browser
@@ -20,7 +31,7 @@ module.exports = function (config) {
             suppressAll: true, // removes the duplicated traces
         },
         coverageReporter: {
-            dir: require('path').join(__dirname, '/coverage/'),
+            dir: require('path').join(__dirname, 'coverage'),
             subdir: '.',
             reporters: [
                 {type: 'lcov'},
