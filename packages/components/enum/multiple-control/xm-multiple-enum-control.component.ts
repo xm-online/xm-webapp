@@ -23,6 +23,7 @@ import { XmDynamicControl, XmDynamicInstanceService } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/interfaces';
 import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
 import { LanguageService, XmTranslationModule } from '@xm-ngx/translation';
+import { TranslateService } from '@ngx-translate/core';
 import { clone, cloneDeep, defaults, forEach, keyBy } from 'lodash';
 import { isObservable, Observable } from 'rxjs';
 import { XmEnumControlOptionsItem } from '../control/xm-enum-control.component';
@@ -131,12 +132,13 @@ export class XmMultipleEnumControl
     public dynamicInjector = inject(Injector);
     private dynamicInstanceService = inject(XmDynamicInstanceService);
     private languageService = inject(LanguageService);
+    private translateService = inject(TranslateService);
 
     constructor(@Optional() @Self() public ngControl: NgControl) {
         super(ngControl);
         this.languageService.locale$
             .pipe(takeUntilOnDestroy(this))
-            .subscribe(() => this.sortItems());
+            .subscribe((locale) => this.sortItems(locale));
     }
 
     private _config: XmMultipleEnumControlOptions = clone(XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
@@ -220,12 +222,13 @@ export class XmMultipleEnumControl
         this.sortItems();
     }
 
-    private sortItems(): void {
+    private sortItems(locale?: string | null): void {
         if (!this.config.sortByTitle || !this.itemsList?.length) {
             return;
         }
 
-        const collator = new Intl.Collator(this.languageService.locale, {
+        const currentLocale = locale ?? this.languageService.locale;
+        const collator = new Intl.Collator(currentLocale, {
             numeric: true,
             sensitivity: 'base',
         });
@@ -234,18 +237,29 @@ export class XmMultipleEnumControl
             .map((item, index) => ({
                 item,
                 index,
-                title: this.getTitle(item),
+                title: this.getTitle(item, currentLocale),
             }))
             .sort((left, right) => collator.compare(left.title, right.title) || left.index - right.index)
             .map(({ item }) => item);
     }
 
-    private getTitle(item: XmEnumControlOptionsItem): string {
+    private getTitle(item: XmEnumControlOptionsItem, locale: string): string {
         const {title} = item;
         if (typeof title === 'string') {
-            return title;
+            return this.translateService.instant(title) ?? '';
         }
-        return title?.[this.languageService.locale] ?? '';
+        if (!title) {
+            return '';
+        }
+        // Mirrors the translate pipe: trKey, then locale, default locale, first available value
+        const map = title as Record<string, string>;
+        if (map.trKey) {
+            return this.translateService.instant(map.trKey) ?? '';
+        }
+        return map[locale]
+            || map[this.languageService.getDefaultLocale()]
+            || map[Object.keys(map)[0]]
+            || '';
     }
 
 }

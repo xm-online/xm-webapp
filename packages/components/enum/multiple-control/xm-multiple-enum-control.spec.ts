@@ -1,4 +1,6 @@
 import { CommonModule } from '@angular/common';
+import { EventEmitter } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,19 +15,20 @@ import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 import { XmDynamicInstanceService } from '@xm-ngx/dynamic';
 import { LanguageService } from '@xm-ngx/translation';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 describe('XmMultipleEnumControlComponent', () => {
     let component: XmMultipleEnumControl;
     let fixture: ComponentFixture<XmMultipleEnumControl>;
     let localeSubject: BehaviorSubject<string>;
-    let languageService: { locale: string; locale$: Observable<string> };
+    let languageService: { locale: string; locale$: Observable<string>; getDefaultLocale: () => string };
 
     beforeEach(waitForAsync(() => {
         localeSubject = new BehaviorSubject('en');
         languageService = {
             locale: 'en',
             locale$: localeSubject.asObservable(),
+            getDefaultLocale: () => 'en',
         };
 
         TestBed.configureTestingModule({
@@ -33,6 +36,7 @@ describe('XmMultipleEnumControlComponent', () => {
             providers: [
                 { provide: XmPermissionService, useClass: MockPermissionService },
                 { provide: LanguageService, useValue: languageService },
+                { provide: TranslateService, useValue: { instant: (key: string) => key, get: (key: string) => of(key), onLangChange: new EventEmitter(), onTranslationChange: new EventEmitter(), onDefaultLangChange: new EventEmitter() } },
                 {
                     provide: XmDynamicInstanceService, useValue: {
                         getControllerByKey: () => null,
@@ -159,5 +163,20 @@ describe('XmMultipleEnumControlComponent', () => {
         localeSubject.next('uk');
 
         expect(component.itemsList.map(item => item.value)).toEqual(['second', 'first']);
+    });
+
+    it('sorts by the default-locale fallback when the current locale title is missing', () => {
+        component.config = {
+            dataQa: '',
+            sortByTitle: true,
+            items: [
+                { value: 'b', title: { en: 'Bravo' } },
+                { value: 'a', title: { en: 'Alpha' } },
+            ],
+        };
+        languageService.locale = 'uk';
+        localeSubject.next('uk');
+
+        expect(component.itemsList.map(item => item.value)).toEqual(['a', 'b']);
     });
 });
