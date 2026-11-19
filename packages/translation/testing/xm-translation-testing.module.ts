@@ -24,6 +24,7 @@ export class MockLanguageService {
     public languages = [];
     public getDefaultLocale: () => 'en';
     public locale: string = 'en';
+    public locale$: Observable<string> = of('en');
     public languages$: (i: string) => Observable<string[]> = () => of([]);
 }
 

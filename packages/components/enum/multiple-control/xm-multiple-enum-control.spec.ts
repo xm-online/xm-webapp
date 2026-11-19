@@ -11,17 +11,28 @@ import { XM_VALIDATOR_PROCESSING_CONTROL_ERRORS_TRANSLATES } from '@xm-ngx/compo
 import { XmPermissionModule, XmPermissionService } from '@xm-ngx/core/permission';
 import { MockPermissionService } from '@xm-ngx/core/permission/testing';
 import { XmDynamicInstanceService } from '@xm-ngx/dynamic';
+import { LanguageService } from '@xm-ngx/translation';
 import { XmTranslationTestingModule } from '@xm-ngx/translation/testing';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 describe('XmMultipleEnumControlComponent', () => {
     let component: XmMultipleEnumControl;
     let fixture: ComponentFixture<XmMultipleEnumControl>;
+    let localeSubject: BehaviorSubject<string>;
+    let languageService: { locale: string; locale$: Observable<string> };
 
     beforeEach(waitForAsync(() => {
+        localeSubject = new BehaviorSubject('en');
+        languageService = {
+            locale: 'en',
+            locale$: localeSubject.asObservable(),
+        };
+
         TestBed.configureTestingModule({
             declarations: [],
             providers: [
                 { provide: XmPermissionService, useClass: MockPermissionService },
+                { provide: LanguageService, useValue: languageService },
                 {
                     provide: XmDynamicInstanceService, useValue: {
                         getControllerByKey: () => null,
@@ -106,5 +117,47 @@ describe('XmMultipleEnumControlComponent', () => {
         fixture.detectChanges();
         expect(component.value).toEqual([1, 2, 3]);
         expect(component.itemsMap[String(value[0])].value).toEqual(value[0]);
+    });
+
+    it('keeps the configured order by default', () => {
+        component.config = {
+            dataQa: '',
+            items: [
+                { value: 'b', title: 'Bravo' },
+                { value: 'a', title: 'Alpha' },
+            ],
+        };
+
+        expect(component.itemsList.map(item => item.value)).toEqual(['b', 'a']);
+    });
+
+    it('sorts items by title of the current locale when enabled', () => {
+        component.config = {
+            dataQa: '',
+            sortByTitle: true,
+            items: [
+                { value: 'b', title: { en: 'Bravo', uk: 'Бета' } },
+                { value: 'a', title: { en: 'Alpha', uk: 'Альфа' } },
+            ],
+        };
+
+        expect(component.itemsList.map(item => item.value)).toEqual(['a', 'b']);
+    });
+
+    it('resorts items when the locale changes', () => {
+        component.config = {
+            dataQa: '',
+            sortByTitle: true,
+            items: [
+                { value: 'first', title: { en: 'Alpha', uk: 'Яблуко' } },
+                { value: 'second', title: { en: 'Zulu', uk: 'Абрикос' } },
+            ],
+        };
+        expect(component.itemsList.map(item => item.value)).toEqual(['first', 'second']);
+
+        languageService.locale = 'uk';
+        localeSubject.next('uk');
+
+        expect(component.itemsList.map(item => item.value)).toEqual(['second', 'first']);
     });
 });

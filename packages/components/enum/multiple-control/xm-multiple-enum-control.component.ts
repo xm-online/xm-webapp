@@ -5,6 +5,7 @@ import {
     inject,
     Injector,
     Input,
+    OnDestroy,
     Optional,
     Self,
     ViewEncapsulation,
@@ -20,8 +21,8 @@ import { NgFormAccessor } from '@xm-ngx/components/ng-accessor';
 import { XmPermissionModule } from '@xm-ngx/core/permission';
 import { XmDynamicControl, XmDynamicInstanceService } from '@xm-ngx/dynamic';
 import { DataQa } from '@xm-ngx/interfaces';
-import { takeUntilOnDestroy } from '@xm-ngx/operators';
-import { XmTranslationModule } from '@xm-ngx/translation';
+import { takeUntilOnDestroy, takeUntilOnDestroyDestroy } from '@xm-ngx/operators';
+import { LanguageService, XmTranslationModule } from '@xm-ngx/translation';
 import { clone, cloneDeep, defaults, forEach, keyBy } from 'lodash';
 import { isObservable, Observable } from 'rxjs';
 import { XmEnumControlOptionsItem } from '../control/xm-enum-control.component';
@@ -33,6 +34,7 @@ export interface XmMultipleEnumControlOptions extends XmEnumViewOptions, DataQa 
     required?: boolean;
     initValue?: boolean[] | string[] | number[];
     items: XmEnumControlOptionsItem[];
+    sortByTitle?: boolean;
     hint?: HintText;
     itemsController?: {
         key: string;
@@ -45,6 +47,7 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
     title: '',
     dataQa: 'multiple-enum-control',
     required: false,
+    sortByTitle: false,
     items: [],
 };
 
@@ -122,14 +125,18 @@ export const XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT: XmMultipleEnumControlOpti
 })
 export class XmMultipleEnumControl
     extends NgFormAccessor<XmEnumValue[] | undefined>
-    implements XmDynamicControl<XmEnumValue[] | undefined, XmMultipleEnumControlOptions> {
+    implements XmDynamicControl<XmEnumValue[] | undefined, XmMultipleEnumControlOptions>, OnDestroy {
     public itemsList: XmEnumControlOptionsItem[];
     public itemsMap: { [value: string]: XmEnumControlOptionsItem };
     public dynamicInjector = inject(Injector);
     private dynamicInstanceService = inject(XmDynamicInstanceService);
+    private languageService = inject(LanguageService);
 
     constructor(@Optional() @Self() public ngControl: NgControl) {
         super(ngControl);
+        this.languageService.locale$
+            .pipe(takeUntilOnDestroy(this))
+            .subscribe(() => this.sortItems());
     }
 
     private _config: XmMultipleEnumControlOptions = clone(XM_MULTIPLE_ENUM_CONTROL_OPTIONS_DEFAULT);
@@ -169,6 +176,11 @@ export class XmMultipleEnumControl
         this.control.patchValue(null);
     }
 
+    public ngOnDestroy(): void {
+        takeUntilOnDestroyDestroy(this);
+        super.ngOnDestroy();
+    }
+
     private setInitValue(): void {
         const {initValue} = this.config;
 
@@ -205,6 +217,35 @@ export class XmMultipleEnumControl
             }
         });
         this.itemsMap = keyBy(this.itemsList, 'value');
+        this.sortItems();
+    }
+
+    private sortItems(): void {
+        if (!this.config.sortByTitle || !this.itemsList?.length) {
+            return;
+        }
+
+        const collator = new Intl.Collator(this.languageService.locale, {
+            numeric: true,
+            sensitivity: 'base',
+        });
+
+        this.itemsList = this.itemsList
+            .map((item, index) => ({
+                item,
+                index,
+                title: this.getTitle(item),
+            }))
+            .sort((left, right) => collator.compare(left.title, right.title) || left.index - right.index)
+            .map(({ item }) => item);
+    }
+
+    private getTitle(item: XmEnumControlOptionsItem): string {
+        const {title} = item;
+        if (typeof title === 'string') {
+            return title;
+        }
+        return title?.[this.languageService.locale] ?? '';
     }
 
 }
