@@ -23,6 +23,28 @@
       },
       "defaultConfiguration": "production"
     },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "test.ts",
+        "karmaConfig": "karma.conf.js",
+        "polyfills": "src/polyfills.ts",
+        "tsConfig": "tsconfig.spec.json",
+        "include": [
+          "packages/components/**/*.spec.ts"
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            ".",
+            "src/styles",
+            "node_modules"
+          ]
+        },
+        "scripts": [],
+        "styles": [],
+        "assets": []
+      }
+    },
     "lint": {
       "executor": "@nx/eslint:lint"
     }
