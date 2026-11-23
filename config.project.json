@@ -208,6 +208,15 @@
             "node_modules"
           ]
         }
+      },
+      "configurations": {
+        "ci": {
+          "watch": false,
+          "browsers": "ChromeHeadlessNoSandbox",
+          "codeCoverage": true,
+          "sourceMap": false,
+          "progress": false
+        }
       }
     },
     "lint": {
