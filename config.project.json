@@ -198,7 +198,16 @@
         "tsConfig": "tsconfig.spec.json",
         "scripts": [],
         "styles": [],
-        "assets": []
+        "assets": [],
+        "inlineStyleLanguage": "scss",
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            ".",
+            "src/styles",
+            "src/app/ext",
+            "node_modules"
+          ]
+        }
       }
     },
     "lint": {
